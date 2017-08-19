@@ -31,7 +31,7 @@ var score = GameScore()
 score.score = 200
 
 score.save() { _ in
-    var query = GameScore.query("score" > 100)
+    var query = GameScore.query("score" > 100, "createdAt" < Date().addingTimeInterval(-300))
     query.limit(2).find() { (scores) in
         print(scores)
     }

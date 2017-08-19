@@ -32,9 +32,11 @@ public struct QueryConstraint: Encodable {
 
     public func encode(to encoder: Encoder) throws {
         if let value = value as? Date {
-            return try value.encode(to: encoder)
+            // Special case for date... Not sure why encoder don't like
+            try value.parseRepresentation.encode(to: encoder)
+        } else {
+            try value.encode(to: encoder)
         }
-        try value.encode(to: encoder)
     }
 }
 

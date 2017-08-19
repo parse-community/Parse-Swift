@@ -1,7 +1,11 @@
 import Foundation
 
-private var currentUser: Any?
-private var currentSessionToken: String?
+
+
+internal struct CurrentUserInfo {
+    static var currentUser: Any?
+    static var currentSessionToken: String?
+}
 
 public protocol UserType: ObjectType {
     var username: String? { get set }
@@ -11,12 +15,20 @@ public protocol UserType: ObjectType {
 
 public extension UserType {
     var sessionToken: String? {
-        if let currentUser = currentUser as? Self,
+        if let currentUser = CurrentUserInfo.currentUser as? Self,
             currentUser.objectId != nil && self.objectId != nil &&
             currentUser.objectId == self.objectId {
-            return currentSessionToken
+            return CurrentUserInfo.currentSessionToken
         }
         return nil
+    }
+
+    var className: String {
+        return Self.className
+    }
+
+    static var className: String {
+        return "_User"
     }
 }
 
@@ -24,7 +36,7 @@ public extension UserType {
     public typealias UserTypeCallback = (Result<Self>)->()
 
     static var current: Self? {
-        return currentUser as? Self
+        return CurrentUserInfo.currentUser as? Self
     }
 
     static func login(username: String, password: String, callback: UserTypeCallback? = nil) -> Cancellable {
@@ -37,22 +49,20 @@ public extension UserType {
 
     static func logout(callback: ((Result<()>)->())?) {
         _ = RESTCommand<NoBody, Void>(method: .POST, path: "/users/logout", body: nil, mapper: { (data) -> Void in
-            currentUser = nil
-            currentSessionToken = nil
+            CurrentUserInfo.currentUser = nil
+            CurrentUserInfo.currentSessionToken = nil
         }).execute(callback)
     }
 
     func signup(callback: UserTypeCallback? = nil) -> Cancellable {
         return RESTCommand(method: .POST, path: "/users", body: self, mapper: { (data) -> Self in
             let response = try getDecoder().decode(SignupResponse.self, from: data)
-            print(response)
             var user = try getDecoder().decode(Self.self, from: data)
-            print(user)
             user.updatedAt = response.updatedAt
 
             // Set the current user
-            currentUser = user
-            currentSessionToken = response.sessionToken
+            CurrentUserInfo.currentUser = user
+            CurrentUserInfo.currentSessionToken = response.sessionToken
             return user
         }).execute(callback)
     }
@@ -66,7 +76,7 @@ private extension UserType {
         ]
         return RESTCommand<NoBody, Self>(method: .GET, path: "/login", params: params, mapper: { (data) -> Self in
             let r = try getDecoder().decode(Self.self, from: data)
-            currentUser = r
+            CurrentUserInfo.currentUser = r
             return r
         }).execute(callback)
     }
@@ -81,8 +91,8 @@ private extension UserType {
             user.updatedAt = response.updatedAt
 
             // Set the current user
-            currentUser = user
-            currentSessionToken = response.sessionToken
+            CurrentUserInfo.currentUser = user
+            CurrentUserInfo.currentSessionToken = response.sessionToken
             return user
         })
     }

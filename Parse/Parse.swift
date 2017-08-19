@@ -42,7 +42,7 @@ extension String {
 func stringFromHttpParameters<T>(_ params: [String: T]) -> String where T: Encodable {
     return params.flatMap { (key, value) -> String? in
         let percentEscapedKey = key.addingPercentEncodingForURLQueryValue()!
-        if let percentEscapedValue = try? getEncoder().encode(value) {
+        if let percentEscapedValue = try? getJSONEncoder().encode(value) {
             return "\(percentEscapedKey)=\(percentEscapedValue)"
         }
         return nil

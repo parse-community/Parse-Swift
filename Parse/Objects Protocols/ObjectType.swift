@@ -10,6 +10,13 @@ import Foundation
 
 public struct NoBody: Codable {}
 
+internal protocol CommonEncoder {
+    func encode<T : Encodable>(_ value: T) throws -> Data
+}
+
+extension ParseEncoder: CommonEncoder {}
+extension JSONEncoder: CommonEncoder {}
+
 public protocol Saving: Codable {
     func save(callback: ((Result<Self>) -> ())?) -> Cancellable
 }
@@ -27,6 +34,12 @@ public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible {
     var ACL: ACL? { get set }
 }
 
+internal extension ObjectType {
+    internal func getEncoder() -> CommonEncoder {
+        return getParseEncoder()
+    }
+}
+
 extension ObjectType {
     // Parse ClassName inference
     public static var className: String {
@@ -40,7 +53,7 @@ extension ObjectType {
 
 extension ObjectType {
     public var debugDescription: String {
-        guard let descriptionData = try? JSONEncoder().encode(self),
+        guard let descriptionData = try? getJSONEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
                 return "\(className) ()"
         }
@@ -129,12 +142,28 @@ let dateFormatter: DateFormatter = {
     return dateFormatter
 }()
 
+let parseDateEncodingStrategy: ParseEncoder.DateEncodingStrategy = .custom({ (date, enc) in
+    var container = enc.container(keyedBy: DateEncodingKeys.self)
+    try container.encode("Date", forKey: .__type)
+    let dateString = dateFormatter.string(from: date)
+    try container.encode(dateString, forKey: .iso)
+})
+
 let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .custom({ (date, enc) in
     var container = enc.container(keyedBy: DateEncodingKeys.self)
     try container.encode("Date", forKey: .__type)
     let dateString = dateFormatter.string(from: date)
     try container.encode(dateString, forKey: .iso)
 })
+
+internal extension Date {
+    internal func parseFormatted() -> String {
+        return dateFormatter.string(from: self)
+    }
+    internal var parseRepresentation: [String: String] {
+        return ["__type": "Date", "iso": parseFormatted()]
+    }
+}
 
 let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .custom({ (dec) -> Date in
     do {
@@ -150,9 +179,24 @@ let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .custom({ (dec) -> 
     throw NSError(domain: "", code: -1, userInfo: nil)
 })
 
-func getEncoder() -> JSONEncoder {
+func getJSONEncoder() -> JSONEncoder {
     let encoder = JSONEncoder()
     encoder.dateEncodingStrategy = dateEncodingStrategy
+    return encoder
+}
+
+private let forbiddenKeys = ["createdAt", "updatedAt", "objectId", "className"]
+
+func getParseEncoder() -> ParseEncoder {
+    let encoder = ParseEncoder()
+    encoder.dateEncodingStrategy = parseDateEncodingStrategy
+    encoder.shouldEncodeKey = { (key, path) -> Bool in
+        if path.count == 0 // top level
+            && forbiddenKeys.index(of: key) != nil {
+            return false
+        }
+        return true
+    }
     return encoder
 }
 
@@ -179,7 +223,6 @@ public extension ObjectType {
     }
 
     public func fetch(callback: ((Result<Self>) -> ())? = nil) -> Cancellable? {
-        print("FETCHING!")
         do {
             return try fetchCommand().execute(callback)
         } catch let e {

@@ -15,9 +15,9 @@ var str = "Hello, playground"
 
 struct User: Parse.UserType {
     //: Those are required for Object
-    public var objectId: String?
-    public var createdAt: Date?
-    public var updatedAt: Date?
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
     var ACL: ACL?
 
     var username: String?
@@ -28,10 +28,13 @@ struct User: Parse.UserType {
 }
 
 var user = User()
-user.username = "YO Mamads!dsadsddsadasd"
+user.username = "YO Mamads!bdasdsa"
 user.password = "mama!"
 user.signup() { (result) in
     guard case .success(var user) = result else {
+        if case .error(var error) = result {
+            print("ERROR! \(error)")
+        }
         assert(false)
         return
     }
@@ -45,6 +48,7 @@ user.signup() { (result) in
             assert(false)
             return
         }
+        print(user)
         print("OK!")
     }
 }

@@ -16,10 +16,10 @@ Parse.initialize(applicationId: "applicationId",
 
 struct GameScore: Parse.ObjectType {
     //: Those are required for Object
-    public var objectId: String?
-    public var createdAt: Date?
-    public var updatedAt: Date?
-    public var ACL: ACL?
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ACL?
 
     //: Your own properties
     var score: Int
@@ -41,12 +41,15 @@ score.save() { (result) in
     assert(gameScore.createdAt != nil)
     assert(gameScore.updatedAt != nil)
     assert(gameScore.score == 10)
+    var originalGameScore = gameScore
     gameScore.score = 200
     gameScore.save() { (result) in
         guard case .success(var gameScore) = result else {
             assert(false)
             return
         }
+        assert(originalGameScore.score == 10) // original object is unchanged
+        assert(originalGameScore.objectId == gameScore.objectId) // response has proper values
     }
 }
 

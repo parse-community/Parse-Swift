@@ -25,6 +25,10 @@ public struct API {
             headers["X-Parse-Master-Key"] = masterKey
         }
 
+        if let token = CurrentUserInfo.currentSessionToken {
+            headers["X-Parse-Session-Token"] = token
+        }
+
         return headers
     }
 

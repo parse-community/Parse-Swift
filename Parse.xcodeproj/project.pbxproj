@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4A2D8C811F48B3A900EE1FCC /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
 		4A82B7F41F254CCE0063D731 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F01F254B820063D731 /* File.swift */; };
 		4A82B7F51F254CCE0063D731 /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7ED1F254B820063D731 /* GeoPoint.swift */; };
 		4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
@@ -58,6 +59,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoder.swift; sourceTree = "<group>"; };
 		4A82B7EC1F254B820063D731 /* ObjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectType.swift; sourceTree = "<group>"; };
 		4A82B7ED1F254B820063D731 /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
 		4A82B7EE1F254B820063D731 /* Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
@@ -169,6 +171,7 @@
 				4AC397761F4895A200DEA9D3 /* Objects Protocols */,
 				4A82B7FD1F25691B0063D731 /* Types */,
 				4A82B7F21F254B820063D731 /* Result.swift */,
+				4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */,
 				4A99A46A1F2650E200D72A59 /* Mutations */,
 				4AC397771F4895C000DEA9D3 /* REST */,
 				4AB8B4F71F254AE10070F682 /* Parse.h */,
@@ -369,6 +372,7 @@
 				4AEBA54F1F265A0D00628B17 /* UserType.swift in Sources */,
 				4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */,
 				4AC397701F48778900DEA9D3 /* ACL.swift in Sources */,
+				4A2D8C811F48B3A900EE1FCC /* ParseEncoder.swift in Sources */,
 				4A99A46E1F26512100D72A59 /* IncrementOperation.swift in Sources */,
 				4A82B8011F256B330063D731 /* ObjectType+Query.swift in Sources */,
 				4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */,

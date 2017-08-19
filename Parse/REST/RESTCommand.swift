@@ -34,7 +34,7 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
     }
 
     public func execute(_ cb: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
-        let data = try? getEncoder().encode(body)
+        let data = try? getJSONEncoder().encode(body)
         let params = self.params?.getQueryItems()
         task = API.request(method: method, path: path, params: params, body: data, useMasterKey: _useMasterKey, callback: { (result) in
             self.runContinuations(result.map(self.mapper), cb)
@@ -75,6 +75,17 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
 
     enum CodingKeys: String, CodingKey {
         case method, body, path
+    }
+}
+
+internal extension RESTCommand where T: ObjectType {
+    internal func execute(_ cb: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
+        let data = try? body?.getEncoder().encode(body)
+        let params = self.params?.getQueryItems()
+        task = API.request(method: method, path: path, params: params, body: data!, useMasterKey: _useMasterKey, callback: { (result) in
+            self.runContinuations(result.map(self.mapper), cb)
+        })
+        return self
     }
 }
 
