@@ -13,10 +13,11 @@ Parse.initialize(applicationId: "applicationId",
                  masterKey: "masterKey",
                  serverURL: URL(string: "http://localhost:1337/1")!)
 
-struct GameScore: ParseObjectType {
+struct GameScore: Parse.ObjectType {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
+    var ACL: ACL?
 
     var score: Int?
 }

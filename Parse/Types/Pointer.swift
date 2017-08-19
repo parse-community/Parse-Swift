@@ -1,13 +1,13 @@
 import Foundation
 
-private func getObjectId<T: ParseObjectType>(target: T) -> String {
+private func getObjectId<T: ObjectType>(target: T) -> String {
     guard let objectId = target.objectId else {
         fatalError("Cannot set a pointer to an unsaved object")
     }
     return objectId
 }
 
-public struct Pointer<T: ParseObjectType>: Codable {
+public struct Pointer<T: ObjectType>: Codable {
     private let __type: String = "Pointer"
     public var objectId: String
     public var className: String

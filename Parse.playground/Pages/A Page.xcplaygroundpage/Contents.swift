@@ -88,5 +88,9 @@ query.first()
 otherQuery.count().success({ (val) in
     print("\(val)")
 }).execute()
+
+
+
+
 //print(try query.queryString())
 // try query.queryString()

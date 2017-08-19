@@ -58,7 +58,7 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
     return QueryConstraint(key: key, value: value, op: .equals)
 }
 
-private struct InQuery<T>: Encodable where T: ParseObjectType {
+private struct InQuery<T>: Encodable where T: ObjectType {
     let query: Query<T>
     var className: String {
         return T.className
@@ -100,7 +100,7 @@ internal struct QueryWhere: Encodable {
     }
 }
 
-public struct Query<T>: Encodable where T: ParseObjectType {
+public struct Query<T>: Encodable where T: ObjectType {
     // interpolate as GET
     private let _method: String = "GET"
     private var _limit: Int = 100

@@ -10,7 +10,7 @@
 		4A82B7F41F254CCE0063D731 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F01F254B820063D731 /* File.swift */; };
 		4A82B7F51F254CCE0063D731 /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7ED1F254B820063D731 /* GeoPoint.swift */; };
 		4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
-		4A82B7F71F254CCE0063D731 /* ParseObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EC1F254B820063D731 /* ParseObjectType.swift */; };
+		4A82B7F71F254CCE0063D731 /* ObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EC1F254B820063D731 /* ObjectType.swift */; };
 		4A82B7F81F254CCE0063D731 /* Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F11F254B820063D731 /* Pointer.swift */; };
 		4A82B7F91F254CCE0063D731 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F21F254B820063D731 /* Result.swift */; };
 		4A82B7FC1F255B5F0063D731 /* RESTCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FB1F255B5F0063D731 /* RESTCommand.swift */; };
@@ -22,13 +22,14 @@
 		4AB8B4FE1F254AE10070F682 /* Parse.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AB8B4F41F254AE10070F682 /* Parse.framework */; };
 		4AB8B5031F254AE10070F682 /* ParseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB8B5021F254AE10070F682 /* ParseTests.swift */; };
 		4AB8B5051F254AE10070F682 /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		4AC397701F48778900DEA9D3 /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC3976F1F48778900DEA9D3 /* ACL.swift */; };
 		4AEBA5491F26519B00628B17 /* AddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA5481F26519B00628B17 /* AddOperation.swift */; };
 		4AEBA54B1F2651D900628B17 /* RemoveOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54A1F2651D900628B17 /* RemoveOperation.swift */; };
 		4AEBA54D1F26523800628B17 /* DeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54C1F26523800628B17 /* DeleteOperation.swift */; };
-		4AEBA54F1F265A0D00628B17 /* ParseUserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54E1F265A0D00628B17 /* ParseUserType.swift */; };
+		4AEBA54F1F265A0D00628B17 /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54E1F265A0D00628B17 /* UserType.swift */; };
 		4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
-		4AFDA72B1F26DAE1002AE4FC /* ParseObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EC1F254B820063D731 /* ParseObjectType.swift */; };
-		4AFDA72C1F26DAE1002AE4FC /* ParseUserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54E1F265A0D00628B17 /* ParseUserType.swift */; };
+		4AFDA72B1F26DAE1002AE4FC /* ObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EC1F254B820063D731 /* ObjectType.swift */; };
+		4AFDA72C1F26DAE1002AE4FC /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54E1F265A0D00628B17 /* UserType.swift */; };
 		4AFDA72D1F26DAE1002AE4FC /* ParseMutationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */; };
 		4AFDA72E1F26DAE1002AE4FC /* AddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA5481F26519B00628B17 /* AddOperation.swift */; };
 		4AFDA72F1F26DAE1002AE4FC /* RemoveOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54A1F2651D900628B17 /* RemoveOperation.swift */; };
@@ -55,7 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		4A82B7EC1F254B820063D731 /* ParseObjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObjectType.swift; sourceTree = "<group>"; };
+		4A82B7EC1F254B820063D731 /* ObjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectType.swift; sourceTree = "<group>"; };
 		4A82B7ED1F254B820063D731 /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
 		4A82B7EE1F254B820063D731 /* Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
 		4A82B7F01F254B820063D731 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -73,10 +74,12 @@
 		4AB8B4FD1F254AE10070F682 /* ParseTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParseTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AB8B5021F254AE10070F682 /* ParseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTests.swift; sourceTree = "<group>"; };
 		4AB8B5041F254AE10070F682 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4AC3976F1F48778900DEA9D3 /* ACL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACL.swift; sourceTree = "<group>"; };
+		4ACFC2E21F3CA21F0046F3A3 /* Parse.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Parse.playground; sourceTree = "<group>"; };
 		4AEBA5481F26519B00628B17 /* AddOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOperation.swift; sourceTree = "<group>"; };
 		4AEBA54A1F2651D900628B17 /* RemoveOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveOperation.swift; sourceTree = "<group>"; };
 		4AEBA54C1F26523800628B17 /* DeleteOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteOperation.swift; sourceTree = "<group>"; };
-		4AEBA54E1F265A0D00628B17 /* ParseUserType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseUserType.swift; sourceTree = "<group>"; };
+		4AEBA54E1F265A0D00628B17 /* UserType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserType.swift; sourceTree = "<group>"; };
 		4AFDA7121F26D9A5002AE4FC /* Parse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Parse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AFDA7151F26D9A5002AE4FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -110,8 +113,9 @@
 		4A82B7FD1F25691B0063D731 /* Types */ = {
 			isa = PBXGroup;
 			children = (
-				4A82B7EC1F254B820063D731 /* ParseObjectType.swift */,
-				4AEBA54E1F265A0D00628B17 /* ParseUserType.swift */,
+				4A82B7EC1F254B820063D731 /* ObjectType.swift */,
+				4AC3976F1F48778900DEA9D3 /* ACL.swift */,
+				4AEBA54E1F265A0D00628B17 /* UserType.swift */,
 				4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */,
 				4A82B7F01F254B820063D731 /* File.swift */,
 				4A82B7ED1F254B820063D731 /* GeoPoint.swift */,
@@ -141,6 +145,7 @@
 				4AB8B5011F254AE10070F682 /* ParseTests */,
 				4AFDA7131F26D9A5002AE4FC /* Parse-macOS */,
 				4AB8B4F51F254AE10070F682 /* Products */,
+				4ACFC2E21F3CA21F0046F3A3 /* Parse.playground */,
 			);
 			sourceTree = "<group>";
 		};
@@ -273,12 +278,15 @@
 				TargetAttributes = {
 					4AB8B4F31F254AE10070F682 = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 0900;
 					};
 					4AB8B4FC1F254AE10070F682 = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 0900;
 					};
 					4AFDA7111F26D9A5002AE4FC = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 0900;
 					};
 				};
 			};
@@ -331,11 +339,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A82B7FC1F255B5F0063D731 /* RESTCommand.swift in Sources */,
-				4A82B7F71F254CCE0063D731 /* ParseObjectType.swift in Sources */,
+				4A82B7F71F254CCE0063D731 /* ObjectType.swift in Sources */,
 				4A82B7F51F254CCE0063D731 /* GeoPoint.swift in Sources */,
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
-				4AEBA54F1F265A0D00628B17 /* ParseUserType.swift in Sources */,
+				4AEBA54F1F265A0D00628B17 /* UserType.swift in Sources */,
 				4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */,
+				4AC397701F48778900DEA9D3 /* ACL.swift in Sources */,
 				4A99A46E1F26512100D72A59 /* IncrementOperation.swift in Sources */,
 				4A82B8011F256B330063D731 /* Object+Query.swift in Sources */,
 				4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */,
@@ -361,7 +370,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AFDA72B1F26DAE1002AE4FC /* ParseObjectType.swift in Sources */,
+				4AFDA72B1F26DAE1002AE4FC /* ObjectType.swift in Sources */,
 				4AFDA7301F26DAE1002AE4FC /* DeleteOperation.swift in Sources */,
 				4AFDA7361F26DAE1002AE4FC /* Object+Query.swift in Sources */,
 				4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */,
@@ -374,7 +383,7 @@
 				4AFDA7331F26DAE1002AE4FC /* File.swift in Sources */,
 				4AFDA7321F26DAE1002AE4FC /* IncrementOperation.swift in Sources */,
 				4AFDA72D1F26DAE1002AE4FC /* ParseMutationContainer.swift in Sources */,
-				4AFDA72C1F26DAE1002AE4FC /* ParseUserType.swift in Sources */,
+				4AFDA72C1F26DAE1002AE4FC /* UserType.swift in Sources */,
 				4AFDA72F1F26DAE1002AE4FC /* RemoveOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,6 +454,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -497,6 +507,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.0;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -513,10 +524,12 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Parse/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.Parse;
 				PRODUCT_NAME = Parse;
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -532,10 +545,12 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = Parse/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.Parse;
 				PRODUCT_NAME = Parse;
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -549,6 +564,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -562,6 +578,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -585,6 +602,7 @@
 				PRODUCT_NAME = Parse;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -607,6 +625,7 @@
 				PRODUCT_NAME = Parse;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_SWIFT3_OBJC_INFERENCE = On;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

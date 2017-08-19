@@ -14,11 +14,12 @@ Parse.initialize(applicationId: "applicationId",
                  serverURL: URL(string: "http://localhost:1337/1")!)
 
 
-struct GameScore: ParseObjectType {
+struct GameScore: Parse.ObjectType {
     //: Those are required for Object
     public var objectId: String?
     public var createdAt: Date?
     public var updatedAt: Date?
+    public var ACL: ACL?
 
     //: Your own properties
     let score: Int
@@ -39,7 +40,6 @@ try score.save().success { (gameScore) in
 }.error { (err) in
     print(err)
 }.execute()
-
 
 let score2 = GameScore(score: 3)
 try GameScore.saveAll(score, score2).success { (results) in

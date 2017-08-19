@@ -15,11 +15,25 @@ public enum Result<T> {
         }
     }
 
-    func map<U>(_ mapper: (T) throws -> U) -> Result<U> {
+    func map<U>(_ transform: (T) throws -> U) -> Result<U> {
         switch self {
         case .success(let success):
             do {
-                return .success(try mapper(success))
+                return .success(try transform(success))
+            } catch let e {
+                return .error(e)
+            }
+        case .error(let error):
+            return .error(error)
+        default: return .unknown
+        }
+    }
+
+    public func flatMap<U>(_ transform: (T) throws -> Result<U>) rethrows -> Result<U> {
+        switch self {
+        case .success(let success):
+            do {
+                return try transform(success)
             } catch let e {
                 return .error(e)
             }

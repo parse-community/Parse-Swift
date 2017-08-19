@@ -1,27 +1,38 @@
 import Foundation
 
+internal extension Dictionary where Key == String, Value == String? {
+    func getQueryItems() -> [URLQueryItem] {
+        return map { (key, value) -> URLQueryItem in
+            return URLQueryItem(name: key, value: value)
+        }
+    }
+}
+
 public class RESTCommand<T, U>: Encodable where T: Encodable {
     typealias ReturnType = U
     let method: API.Method
     let path: String
     let body: T?
     let mapper: ((Data) throws -> U)
+    let params: [String: String?]?
 
     var task: URLSessionDataTask?
     private var _useMasterKey: Bool = false
     private var _onSuccess: ((U)->())?
     private var _onError: ((Error)->())?
 
-    init(method: API.Method, path: String, body: T? = nil, mapper: @escaping ((Data) throws -> U)) {
+    init(method: API.Method, path: String, params: [String: String?]? = nil, body: T? = nil, mapper: @escaping ((Data) throws -> U)) {
         self.method = method
         self.path = path
         self.body = body
         self.mapper = mapper
+        self.params = params
     }
 
     public func execute(_ cb: ((Result<U>) -> Void)? = nil) throws -> RESTCommand<T, U> {
-        let data = try getEncoder().encode(body)
-        task = API.request(method: method, path: path, body: data, useMasterKey: _useMasterKey, callback: { (result) in
+        let data = try? getEncoder().encode(body)
+        let params = self.params?.getQueryItems()
+        task = API.request(method: method, path: path, params: params, body: data, useMasterKey: _useMasterKey, callback: { (result) in
             self.runContinuations(result.map(self.mapper), cb)
         })
         return self
@@ -63,11 +74,11 @@ public class RESTCommand<T, U>: Encodable where T: Encodable {
     }
 }
 
-typealias ParseObjectBatchCommand<T> = BatchCommand<T, T> where T: ParseObjectType
+typealias ParseObjectBatchCommand<T> = BatchCommand<T, T> where T: ObjectType
 typealias ParseObjectBatchResponse<T> = [(T, ParseError?)]
-typealias RESTBatchCommandType<T> = RESTCommand<ParseObjectBatchCommand<T>, ParseObjectBatchResponse<T>> where T: ParseObjectType
+typealias RESTBatchCommandType<T> = RESTCommand<ParseObjectBatchCommand<T>, ParseObjectBatchResponse<T>> where T: ObjectType
 
-public class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ParseObjectType {
+public class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ObjectType {
     typealias ParseObjectCommand = RESTCommand<T, T>
     typealias ParseObjectBatchCommand = BatchCommand<T, T>
 
@@ -99,7 +110,7 @@ public class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ParseObjectTy
 
 internal extension RESTCommand {
     // MARK: Saving
-    internal static func save<T>(_ object: T) -> RESTCommand<T, T> where T: ParseObjectType {
+    internal static func save<T>(_ object: T) -> RESTCommand<T, T> where T: ObjectType {
         if object.isSaved {
             return updateCommand(object)
         }
@@ -107,14 +118,14 @@ internal extension RESTCommand {
     }
 
     // MARK: Saving - private
-    private static func createCommand<T>(_ object: T) -> RESTCommand<T, T> where T: ParseObjectType {
+    private static func createCommand<T>(_ object: T) -> RESTCommand<T, T> where T: ObjectType {
         return RESTCommand<T, T>(method: .POST, path: object.remotePath, body: object, mapper: { (data) -> T in
             return try getDecoder().decode(SaveResponse.self, from: data)
                 .apply(object)
         })
     }
 
-    private static func updateCommand<T>(_ object: T) -> RESTCommand<T, T> where T: ParseObjectType {
+    private static func updateCommand<T>(_ object: T) -> RESTCommand<T, T> where T: ObjectType {
         return RESTCommand<T, T>(method: .PUT, path: object.remotePath, body: object, mapper: { (data: Data) -> T in
             return try getDecoder().decode(UpdateResponse.self, from: data)
                 .apply(object)
@@ -122,7 +133,7 @@ internal extension RESTCommand {
     }
 
     // MARK: Fetching
-    internal static func fetch<T>(_ object: T) throws -> RESTCommand<T, T> where T: ParseObjectType {
+    internal static func fetch<T>(_ object: T) throws -> RESTCommand<T, T> where T: ObjectType {
         guard object.isSaved else {
             throw ParseError(code: -1, error: "Cannot Fetch an object without id")
         }

@@ -13,7 +13,43 @@ public func initialize(applicationId: String, clientKey: String? = nil, masterKe
     _serverURL = serverURL
 }
 
+extension String {
+
+    /// Percent escapes values to be added to a URL query as specified in RFC 3986
+    ///
+    /// This percent-escapes all characters besides the alphanumeric character set and "-", ".", "_", and "~".
+    ///
+    /// http://www.ietf.org/rfc/rfc3986.txt
+    ///
+    /// :returns: Returns percent-escaped string.
+
+    func addingPercentEncodingForURLQueryValue() -> String? {
+        let allowedCharacters = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._~")
+
+        return self.addingPercentEncoding(withAllowedCharacters: allowedCharacters)
+    }
+
+}
+
+/// Build string representation of HTTP parameter dictionary of keys and objects
+///
+/// This percent escapes in compliance with RFC 3986
+///
+/// http://www.ietf.org/rfc/rfc3986.txt
+///
+/// :returns: String representation in the form of key1=value1&key2=value2 where the keys and values are percent escaped
+func stringFromHttpParameters<T>(_ params: [String: T]) -> String where T: Encodable {
+    return params.flatMap { (key, value) -> String? in
+        let percentEscapedKey = key.addingPercentEncodingForURLQueryValue()!
+        if let percentEscapedValue = try? getEncoder().encode(value) {
+            return "\(percentEscapedKey)=\(percentEscapedValue)"
+        }
+        return nil
+    }.joined(separator: "&")
+}
+
 public struct API {
+
     public enum Method: String, Encodable {
         case GET, POST, PUT, DELETE
     }
@@ -34,16 +70,31 @@ public struct API {
 
     public typealias Response = (Result<Data>)->()
 
-    public static func request(method: Method, path: String, body: Data? = nil, useMasterKey: Bool = false, callback: Response? = nil) -> URLSessionDataTask {
-        print(path)
+    public static func request(method: Method,
+                               path: String,
+                               params: [URLQueryItem]? = nil,
+                               body: Data? = nil,
+                               useMasterKey: Bool = false,
+                               callback: Response? = nil) -> URLSessionDataTask {
+
         let headers = getHeaders(useMasterKey: useMasterKey)
-        var urlRequest = URLRequest(url: _serverURL.appendingPathComponent(path))
+        let url = _serverURL.appendingPathComponent(path)
+
+        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+        components.queryItems = params
+
+        var urlRequest = URLRequest(url: components.url!)
         urlRequest.allHTTPHeaderFields = headers
         if let body = body {
             urlRequest.httpBody = body
         }
+        print(url)
+        print(urlRequest.url!.query)
         urlRequest.httpMethod = method.rawValue
         let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+            if let data = data {
+                print(String(data: data, encoding: .utf8))
+            }
             callback?(Result(data, error))
         }
         task.resume()

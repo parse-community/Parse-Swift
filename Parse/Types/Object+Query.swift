@@ -8,7 +8,7 @@
 
 import Foundation
 
-public extension ParseObjectType {
+public extension ObjectType {
     public static func find() -> RESTCommand<Query<Self>, [Self]> {
         return query().find()
     }

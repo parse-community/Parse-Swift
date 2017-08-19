@@ -18,27 +18,38 @@ public protocol Fetching: Codable {
     func fetch() throws -> RESTCommand<Self, Self>
 }
 
-public protocol ParseObjectType: Fetching, Saving {
+public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible {
     static var className: String { get }
     var objectId: String? { get set }
     var createdAt: Date? { get set }
     var updatedAt: Date? { get set }
+    var ACL: ACL? { get set }
 }
 
-extension ParseObjectType {
+extension ObjectType {
     public var className: String {
         return Self.className
     }
 }
 
-public extension ParseObjectType {
+extension ObjectType {
+    public var debugDescription: String {
+        guard let descriptionData = try? JSONEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+                return "\(className) ()"
+        }
+        return "\(className) (\(descriptionString))"
+    }
+}
+
+public extension ObjectType {
     static var className: String {
         let t = "\(type(of: self))"
         return t.components(separatedBy: ".").first! // strip .Type
     }
 }
 
-public extension ParseObjectType {
+public extension ObjectType {
     func toPointer() -> Pointer<Self> {
         return Pointer(self)
     }
@@ -51,7 +62,7 @@ public struct SaveResponse: Decodable {
         return createdAt
     }
 
-    func apply<T>(_ object: T) -> T where T: ParseObjectType {
+    func apply<T>(_ object: T) -> T where T: ObjectType {
         var object = object
         object.objectId = objectId
         object.createdAt = createdAt
@@ -63,7 +74,7 @@ public struct SaveResponse: Decodable {
 struct UpdateResponse: Decodable {
     var updatedAt: Date
 
-    func apply<T>(_ object: T) -> T where T: ParseObjectType {
+    func apply<T>(_ object: T) -> T where T: ObjectType {
         var object = object
         object.updatedAt = updatedAt
         return object
@@ -93,7 +104,7 @@ struct SaveOrUpdateResponse: Decodable {
         return UpdateResponse(updatedAt: updatedAt)
     }
 
-    func apply<T>(_ object: T) -> T where T: ParseObjectType {
+    func apply<T>(_ object: T) -> T where T: ObjectType {
         if isCreate {
             return asSaveResponse().apply(object)
         } else {
@@ -146,13 +157,22 @@ func getEncoder() -> JSONEncoder {
     return encoder
 }
 
+extension JSONEncoder {
+    func encodeAsString<T>(_ value: T) throws -> String where T: Encodable {
+        guard let string = String(data: try encode(value), encoding: .utf8) else {
+            throw ParseError(code: -1, error: "Unable to encode object...")
+        }
+        return string
+    }
+}
+
 func getDecoder() -> JSONDecoder {
     let encoder = JSONDecoder()
     encoder.dateDecodingStrategy = dateDecodingStrategy
     return encoder
 }
 
-public extension ParseObjectType {
+public extension ObjectType {
     public func save() -> RESTCommand<Self, Self> {
         return RESTCommand<Self, Self>.save(self)
     }
@@ -162,7 +182,7 @@ public extension ParseObjectType {
     }
 }
 
-extension ParseObjectType {
+extension ObjectType {
     var remotePath: String {
         if let objectId = objectId {
             return "/classes/\(className)/\(objectId)"
@@ -175,24 +195,24 @@ extension ParseObjectType {
     }
 }
 
-public struct FindResult<T>: Decodable where T: ParseObjectType {
+public struct FindResult<T>: Decodable where T: ObjectType {
     let results: [T]
     let count: Int?
 }
 
-public extension ParseObjectType {
+public extension ObjectType {
     var mutationContainer: ParseMutationContainer<Self> {
         return ParseMutationContainer(target: self)
     }
 }
 
-public extension ParseObjectType {
+public extension ObjectType {
     public static func saveAll(_ objects: Self...) -> RESTBatchCommand<Self> {
         return RESTBatchCommand(commands: objects.map { $0.save() })
     }
 }
 
-extension Sequence where Element: ParseObjectType {
+extension Sequence where Element: ObjectType {
     public func saveAll() -> RESTBatchCommand<Element> {
         return RESTBatchCommand(commands: map { $0.save() })
     }
