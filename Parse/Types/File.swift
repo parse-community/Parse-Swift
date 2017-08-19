@@ -1,7 +1,6 @@
 import Foundation
 
 public struct File: Saving, Fetching {
-
     private let __type: String = "File"
     public var data: Data?
     public var url: URL?
@@ -11,7 +10,7 @@ public struct File: Saving, Fetching {
         self.url = url
     }
 
-    public func save() -> RESTCommand<File, File> {
+    public func save(callback: ((Result<File>) -> ())? = nil) -> Cancellable {
         // upload file
         // store in server
         // callback with the data
@@ -33,7 +32,7 @@ public struct File: Saving, Fetching {
         }
     }
 
-    public func fetch() -> RESTCommand<File, File> {
+    public func fetch(callback: ((Result<File>) -> ())? = nil) -> Cancellable? {
         fatalError()
     }
 

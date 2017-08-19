@@ -11,11 +11,12 @@ import Foundation
 public struct NoBody: Codable {}
 
 public protocol Saving: Codable {
-    func save() -> RESTCommand<Self, Self>
+    func save(callback: ((Result<Self>) -> ())?) -> Cancellable
 }
 
 public protocol Fetching: Codable {
-    func fetch() throws -> RESTCommand<Self, Self>
+    associatedtype T
+    func fetch(callback: ((Result<T>) -> ())?) -> Cancellable?
 }
 
 public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible {
@@ -27,6 +28,11 @@ public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible {
 }
 
 extension ObjectType {
+    // Parse ClassName inference
+    public static var className: String {
+        let t = "\(type(of: self))"
+        return t.components(separatedBy: ".").first! // strip .Type
+    }
     public var className: String {
         return Self.className
     }
@@ -39,13 +45,6 @@ extension ObjectType {
                 return "\(className) ()"
         }
         return "\(className) (\(descriptionString))"
-    }
-}
-
-public extension ObjectType {
-    static var className: String {
-        let t = "\(type(of: self))"
-        return t.components(separatedBy: ".").first! // strip .Type
     }
 }
 
@@ -173,11 +172,27 @@ func getDecoder() -> JSONDecoder {
 }
 
 public extension ObjectType {
-    public func save() -> RESTCommand<Self, Self> {
+    typealias ObjectCallback = (Result<Self>) -> ()
+
+    public func save(callback: ((Result<Self>) -> ())? = nil) -> Cancellable {
+        return saveCommand().execute(callback)
+    }
+
+    public func fetch(callback: ((Result<Self>) -> ())? = nil) -> Cancellable? {
+        print("FETCHING!")
+        do {
+            return try fetchCommand().execute(callback)
+        } catch let e {
+            callback?(.error(e))
+        }
+        return nil
+    }
+
+    internal func saveCommand() -> RESTCommand<Self, Self> {
         return RESTCommand<Self, Self>.save(self)
     }
 
-    public func fetch() throws -> RESTCommand<Self, Self> {
+    internal func fetchCommand() throws -> RESTCommand<Self, Self> {
         return try RESTCommand<Self, Self>.fetch(self)
     }
 }
@@ -206,14 +221,20 @@ public extension ObjectType {
     }
 }
 
+public typealias BatchResultCallback<T> = (Result<[(T, ParseError?)]>) -> () where T: ObjectType
 public extension ObjectType {
-    public static func saveAll(_ objects: Self...) -> RESTBatchCommand<Self> {
-        return RESTBatchCommand(commands: objects.map { $0.save() })
+    public static func saveAll(_ objects: Self..., callback: BatchResultCallback<Self>?) -> Cancellable {
+        return objects.saveAll(callback: callback)
     }
 }
 
 extension Sequence where Element: ObjectType {
-    public func saveAll() -> RESTBatchCommand<Element> {
-        return RESTBatchCommand(commands: map { $0.save() })
+
+    public func saveAll(callback: BatchResultCallback<Element>?) -> Cancellable {
+        return RESTBatchCommand(commands: map { $0.saveCommand() }).execute(callback)
+    }
+
+    private func saveAllCommand() -> RESTBatchCommand<Element> {
+        return RESTBatchCommand(commands: map { $0.saveCommand() })
     }
 }

@@ -23,6 +23,30 @@ struct User: Parse.UserType {
     var username: String?
     var email: String?
     var password: String?
+
+    var customKey: String?
+}
+
+var user = User()
+user.username = "YO Mamads!dsadsddsadasd"
+user.password = "mama!"
+user.signup() { (result) in
+    guard case .success(var user) = result else {
+        assert(false)
+        return
+    }
+    print(user.sessionToken)
+    user.customKey = "YAY!"
+    user.save() { (result) in
+        guard case .success(var user) = result else {
+            if case .error(var error) = result {
+                print("ERROR! \(error)")
+            }
+            assert(false)
+            return
+        }
+        print("OK!")
+    }
 }
 
 //do {

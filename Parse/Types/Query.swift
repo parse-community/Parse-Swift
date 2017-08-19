@@ -105,11 +105,12 @@ public struct Query<T>: Encodable where T: ObjectType {
     private let _method: String = "GET"
     private var _limit: Int = 100
     private var _skip: Int = 0
-    fileprivate var _where = QueryWhere()
     private var _keys: [String]?
     private var _include: [String]?
     private var _order: [Order]?
     private var _count: Bool?
+
+    fileprivate var _where = QueryWhere()
 
     public enum Order: Encodable {
         case ascending(String)
@@ -149,29 +150,6 @@ public struct Query<T>: Encodable where T: ObjectType {
         _skip = value
         return self
     }
-    
-    public func find() -> RESTCommand<Query<T>, [T]> {
-        return RESTCommand(method: .POST, path: "/classes/\(T.className)", body: self) {
-            try getDecoder().decode(FindResult<T>.self, from: $0).results
-        }
-    }
-
-    public func first() -> RESTCommand<Query<T>, T?> {
-        var query = self
-        query._limit = 1
-        return RESTCommand(method: .POST, path: "/classes/\(T.className)", body: query) {
-            try getDecoder().decode(FindResult<T>.self, from: $0).results.first
-        }
-    }
-
-    public func count() -> RESTCommand<Query<T>, Int> {
-        var query = self
-        query._limit = 1
-        query._count = true
-        return RESTCommand(method: .POST, path: "/classes/\(T.className)", body: query) {
-            try getDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
-        }
-    }
 
     var className: String {
         return T.className
@@ -189,8 +167,45 @@ public struct Query<T>: Encodable where T: ObjectType {
         case _keys = "keys"
         case _order = "order"
     }
+}
 
+public extension Query {
+    public func find(callback: ((Result<[T]>) -> Void)?) -> Cancellable {
+        return findCommand().execute(callback)
+    }
 
+    public func first(callback: ((Result<T?>) -> Void)?) -> Cancellable {
+        return firstCommand().execute(callback)
+    }
+
+    public func count(callback: ((Result<Int>) -> Void)?) -> Cancellable {
+        return countCommand().execute(callback)
+    }
+}
+
+private extension Query {
+    private func findCommand() -> RESTCommand<Query<T>, [T]> {
+        return RESTCommand(method: .POST, path: "/classes/\(T.className)", body: self) {
+            try getDecoder().decode(FindResult<T>.self, from: $0).results
+        }
+    }
+
+    private func firstCommand() -> RESTCommand<Query<T>, T?> {
+        var query = self
+        query._limit = 1
+        return RESTCommand(method: .POST, path: "/classes/\(T.className)", body: query) {
+            try getDecoder().decode(FindResult<T>.self, from: $0).results.first
+        }
+    }
+
+    private func countCommand() -> RESTCommand<Query<T>, Int> {
+        var query = self
+        query._limit = 1
+        query._count = true
+        return RESTCommand(method: .POST, path: "/classes/\(T.className)", body: query) {
+            try getDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
+        }
+    }
 }
 
 enum RawCodingKey: CodingKey {

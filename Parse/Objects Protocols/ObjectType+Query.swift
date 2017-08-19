@@ -9,8 +9,8 @@
 import Foundation
 
 public extension ObjectType {
-    public static func find() -> RESTCommand<Query<Self>, [Self]> {
-        return query().find()
+    public static func find(callback: ((Result<[Self]>) -> Void)?) -> Cancellable {
+        return query().find(callback: callback)
     }
 
     public static func query() -> Query<Self> {

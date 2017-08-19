@@ -7,7 +7,7 @@ private func getObjectId<T: ObjectType>(target: T) -> String {
     return objectId
 }
 
-public struct Pointer<T: ObjectType>: Codable {
+public struct Pointer<T: ObjectType>: Fetching, Codable {
     private let __type: String = "Pointer"
     public var objectId: String
     public var className: String
@@ -28,9 +28,9 @@ public struct Pointer<T: ObjectType>: Codable {
 }
 
 extension Pointer {
-    public func fetch() -> RESTCommand<NoBody, T> {
-        return RESTCommand(method: .GET, path: "/classes/\(className)/\(objectId)", mapper: { (data) -> T in
+    public func fetch(callback: ((Result<T>) -> Void)?) -> Cancellable? {
+        return RESTCommand<NoBody, T>(method: .GET, path: "/classes/\(className)/\(objectId)", mapper: { (data) -> T in
             return try getDecoder().decode(T.self, from: data)
-        })
+        }).execute(callback)
     }
 }

@@ -28,28 +28,15 @@ func printString<T>(_ codable: T) where T: Encodable {
 }
 
 var score = GameScore()
-score.score = 30
+score.score = 200
 
-printString(GameScore.find())
-printString(score.save())
-//GameScore.find()
-//    .success { (scores) in
-//        assert(scores.count > 0)
-//        PlaygroundPage.current.finishExecution()
-//    }.execute()
-
-try score.save().execute()
-
-var query = GameScore.query("score" > 100)
-
-let command = query.limit(2).find()
-
-try query.limit(2).find()
-    .success { (scores) in
+score.save() { _ in
+    var query = GameScore.query("score" > 100)
+    query.limit(2).find() { (scores) in
         print(scores)
     }
-    .error({ (err) in
-        print(err)
-    })
-    .execute()
+}
+
+
+
 //: [Next](@next)

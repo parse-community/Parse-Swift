@@ -117,9 +117,6 @@
 		4A82B7FD1F25691B0063D731 /* Types */ = {
 			isa = PBXGroup;
 			children = (
-				4A82B7EC1F254B820063D731 /* ObjectType.swift */,
-				4A82B8001F256B330063D731 /* ObjectType+Query.swift */,
-				4AEBA54E1F265A0D00628B17 /* UserType.swift */,
 				4AC3976F1F48778900DEA9D3 /* ACL.swift */,
 				4A82B7F01F254B820063D731 /* File.swift */,
 				4A82B7ED1F254B820063D731 /* GeoPoint.swift */,
@@ -169,11 +166,11 @@
 			children = (
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
 				4AC397731F488FF900DEA9D3 /* API.swift */,
+				4AC397761F4895A200DEA9D3 /* Objects Protocols */,
 				4A82B7FD1F25691B0063D731 /* Types */,
 				4A82B7F21F254B820063D731 /* Result.swift */,
 				4A99A46A1F2650E200D72A59 /* Mutations */,
-				4A82B7FB1F255B5F0063D731 /* RESTCommand.swift */,
-				4AC397711F488F9E00DEA9D3 /* RESTBatchCommand.swift */,
+				4AC397771F4895C000DEA9D3 /* REST */,
 				4AB8B4F71F254AE10070F682 /* Parse.h */,
 				4AB8B4F81F254AE10070F682 /* Info.plist */,
 			);
@@ -187,6 +184,25 @@
 				4AB8B5041F254AE10070F682 /* Info.plist */,
 			);
 			path = ParseTests;
+			sourceTree = "<group>";
+		};
+		4AC397761F4895A200DEA9D3 /* Objects Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				4A82B7EC1F254B820063D731 /* ObjectType.swift */,
+				4A82B8001F256B330063D731 /* ObjectType+Query.swift */,
+				4AEBA54E1F265A0D00628B17 /* UserType.swift */,
+			);
+			path = "Objects Protocols";
+			sourceTree = "<group>";
+		};
+		4AC397771F4895C000DEA9D3 /* REST */ = {
+			isa = PBXGroup;
+			children = (
+				4A82B7FB1F255B5F0063D731 /* RESTCommand.swift */,
+				4AC397711F488F9E00DEA9D3 /* RESTBatchCommand.swift */,
+			);
+			path = REST;
 			sourceTree = "<group>";
 		};
 		4AFDA7131F26D9A5002AE4FC /* Parse-macOS */ = {

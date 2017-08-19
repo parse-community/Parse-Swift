@@ -22,7 +22,7 @@ struct GameScore: Parse.ObjectType {
     public var ACL: ACL?
 
     //: Your own properties
-    let score: Int
+    var score: Int
 
     //: a custom initializer
     init(score: Int) {
@@ -32,26 +32,46 @@ struct GameScore: Parse.ObjectType {
 
 let score = GameScore(score: 10)
 
-try score.save().success { (gameScore) in
+score.save() { (result) in
+    guard case .success(var gameScore) = result else {
+        assert(false)
+        return
+    }
     assert(gameScore.objectId != nil)
     assert(gameScore.createdAt != nil)
     assert(gameScore.updatedAt != nil)
     assert(gameScore.score == 10)
-}.error { (err) in
-    print(err)
-}.execute()
+    gameScore.score = 200
+    gameScore.save() { (result) in
+        guard case .success(var gameScore) = result else {
+            assert(false)
+            return
+        }
+    }
+}
 
 let score2 = GameScore(score: 3)
-try GameScore.saveAll(score, score2).success { (results) in
-    results.forEach({ (result) in
-        let (obj, error) = result
+GameScore.saveAll(score, score2) { (result) in
+    guard case .success(let results) = result else {
+        assert(false)
+        return
+    }
+    results.forEach { (result) in
+        let (_, error) = result
         assert(error == nil, "error should be nil")
-    })
-}.execute()
+    }
+}
 
 // Also works as extension of sequence
-try [score, score2].saveAll().success { (results) in
-    print(results)
-}.execute()
+[score, score2].saveAll() { (result) in
+    guard case .success(let results) = result else {
+        assert(false)
+        return
+    }
+    results.forEach { (result) in
+        let (_, error) = result
+        assert(error == nil, "error should be nil")
+    }
+}
 
 //: [Next](@next)

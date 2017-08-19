@@ -8,7 +8,11 @@ internal extension Dictionary where Key == String, Value == String? {
     }
 }
 
-public class RESTCommand<T, U>: Encodable where T: Encodable {
+public protocol Cancellable {
+    func cancel()
+}
+
+internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
     typealias ReturnType = U
     let method: API.Method
     let path: String
@@ -21,7 +25,7 @@ public class RESTCommand<T, U>: Encodable where T: Encodable {
     private var _onSuccess: ((U)->())?
     private var _onError: ((Error)->())?
 
-    init(method: API.Method, path: String, params: [String: String?]? = nil, body: T? = nil, mapper: @escaping ((Data) throws -> U)) {
+    init(method: API.Method, path: String, params: [String: String]? = nil, body: T? = nil, mapper: @escaping ((Data) throws -> U)) {
         self.method = method
         self.path = path
         self.body = body
@@ -29,7 +33,7 @@ public class RESTCommand<T, U>: Encodable where T: Encodable {
         self.params = params
     }
 
-    public func execute(_ cb: ((Result<U>) -> Void)? = nil) throws -> RESTCommand<T, U> {
+    public func execute(_ cb: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
         let data = try? getEncoder().encode(body)
         let params = self.params?.getQueryItems()
         task = API.request(method: method, path: path, params: params, body: data, useMasterKey: _useMasterKey, callback: { (result) in
