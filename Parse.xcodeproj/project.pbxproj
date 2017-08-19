@@ -15,7 +15,7 @@
 		4A82B7F91F254CCE0063D731 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F21F254B820063D731 /* Result.swift */; };
 		4A82B7FC1F255B5F0063D731 /* RESTCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FB1F255B5F0063D731 /* RESTCommand.swift */; };
 		4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FE1F256A8F0063D731 /* Query.swift */; };
-		4A82B8011F256B330063D731 /* Object+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B8001F256B330063D731 /* Object+Query.swift */; };
+		4A82B8011F256B330063D731 /* ObjectType+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B8001F256B330063D731 /* ObjectType+Query.swift */; };
 		4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */; };
 		4A99A46C1F2650FF00D72A59 /* AddUniqueOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A46B1F2650FF00D72A59 /* AddUniqueOperation.swift */; };
 		4A99A46E1F26512100D72A59 /* IncrementOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A46D1F26512100D72A59 /* IncrementOperation.swift */; };
@@ -23,6 +23,8 @@
 		4AB8B5031F254AE10070F682 /* ParseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AB8B5021F254AE10070F682 /* ParseTests.swift */; };
 		4AB8B5051F254AE10070F682 /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4AC397701F48778900DEA9D3 /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC3976F1F48778900DEA9D3 /* ACL.swift */; };
+		4AC397721F488F9E00DEA9D3 /* RESTBatchCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC397711F488F9E00DEA9D3 /* RESTBatchCommand.swift */; };
+		4AC397741F488FF900DEA9D3 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC397731F488FF900DEA9D3 /* API.swift */; };
 		4AEBA5491F26519B00628B17 /* AddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA5481F26519B00628B17 /* AddOperation.swift */; };
 		4AEBA54B1F2651D900628B17 /* RemoveOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54A1F2651D900628B17 /* RemoveOperation.swift */; };
 		4AEBA54D1F26523800628B17 /* DeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54C1F26523800628B17 /* DeleteOperation.swift */; };
@@ -39,7 +41,7 @@
 		4AFDA7331F26DAE1002AE4FC /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F01F254B820063D731 /* File.swift */; };
 		4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F11F254B820063D731 /* Pointer.swift */; };
 		4AFDA7351F26DAE1002AE4FC /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FE1F256A8F0063D731 /* Query.swift */; };
-		4AFDA7361F26DAE1002AE4FC /* Object+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B8001F256B330063D731 /* Object+Query.swift */; };
+		4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B8001F256B330063D731 /* ObjectType+Query.swift */; };
 		4AFDA7371F26DAE1002AE4FC /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F21F254B820063D731 /* Result.swift */; };
 		4AFDA7381F26DAF4002AE4FC /* RESTCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FB1F255B5F0063D731 /* RESTCommand.swift */; };
 		4AFDA7391F26DAF8002AE4FC /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -64,7 +66,7 @@
 		4A82B7F21F254B820063D731 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		4A82B7FB1F255B5F0063D731 /* RESTCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RESTCommand.swift; sourceTree = "<group>"; };
 		4A82B7FE1F256A8F0063D731 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
-		4A82B8001F256B330063D731 /* Object+Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Object+Query.swift"; sourceTree = "<group>"; };
+		4A82B8001F256B330063D731 /* ObjectType+Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectType+Query.swift"; sourceTree = "<group>"; };
 		4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseMutationContainer.swift; sourceTree = "<group>"; };
 		4A99A46B1F2650FF00D72A59 /* AddUniqueOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUniqueOperation.swift; sourceTree = "<group>"; };
 		4A99A46D1F26512100D72A59 /* IncrementOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncrementOperation.swift; sourceTree = "<group>"; };
@@ -75,6 +77,8 @@
 		4AB8B5021F254AE10070F682 /* ParseTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTests.swift; sourceTree = "<group>"; };
 		4AB8B5041F254AE10070F682 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4AC3976F1F48778900DEA9D3 /* ACL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACL.swift; sourceTree = "<group>"; };
+		4AC397711F488F9E00DEA9D3 /* RESTBatchCommand.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RESTBatchCommand.swift; sourceTree = "<group>"; };
+		4AC397731F488FF900DEA9D3 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		4ACFC2E21F3CA21F0046F3A3 /* Parse.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = Parse.playground; sourceTree = "<group>"; };
 		4AEBA5481F26519B00628B17 /* AddOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddOperation.swift; sourceTree = "<group>"; };
 		4AEBA54A1F2651D900628B17 /* RemoveOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveOperation.swift; sourceTree = "<group>"; };
@@ -114,27 +118,28 @@
 			isa = PBXGroup;
 			children = (
 				4A82B7EC1F254B820063D731 /* ObjectType.swift */,
-				4AC3976F1F48778900DEA9D3 /* ACL.swift */,
+				4A82B8001F256B330063D731 /* ObjectType+Query.swift */,
 				4AEBA54E1F265A0D00628B17 /* UserType.swift */,
-				4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */,
+				4AC3976F1F48778900DEA9D3 /* ACL.swift */,
 				4A82B7F01F254B820063D731 /* File.swift */,
 				4A82B7ED1F254B820063D731 /* GeoPoint.swift */,
 				4A82B7F11F254B820063D731 /* Pointer.swift */,
 				4A82B7FE1F256A8F0063D731 /* Query.swift */,
-				4A82B8001F256B330063D731 /* Object+Query.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
 		};
-		4A99A46A1F2650E200D72A59 /* MutationOperations */ = {
+		4A99A46A1F2650E200D72A59 /* Mutations */ = {
 			isa = PBXGroup;
 			children = (
+				4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */,
 				4AEBA5481F26519B00628B17 /* AddOperation.swift */,
 				4AEBA54A1F2651D900628B17 /* RemoveOperation.swift */,
 				4AEBA54C1F26523800628B17 /* DeleteOperation.swift */,
 				4A99A46B1F2650FF00D72A59 /* AddUniqueOperation.swift */,
 				4A99A46D1F26512100D72A59 /* IncrementOperation.swift */,
 			);
+			name = Mutations;
 			path = MutationOperations;
 			sourceTree = "<group>";
 		};
@@ -163,10 +168,12 @@
 			isa = PBXGroup;
 			children = (
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
+				4AC397731F488FF900DEA9D3 /* API.swift */,
 				4A82B7FD1F25691B0063D731 /* Types */,
 				4A82B7F21F254B820063D731 /* Result.swift */,
-				4A99A46A1F2650E200D72A59 /* MutationOperations */,
+				4A99A46A1F2650E200D72A59 /* Mutations */,
 				4A82B7FB1F255B5F0063D731 /* RESTCommand.swift */,
+				4AC397711F488F9E00DEA9D3 /* RESTBatchCommand.swift */,
 				4AB8B4F71F254AE10070F682 /* Parse.h */,
 				4AB8B4F81F254AE10070F682 /* Info.plist */,
 			);
@@ -339,6 +346,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A82B7FC1F255B5F0063D731 /* RESTCommand.swift in Sources */,
+				4AC397741F488FF900DEA9D3 /* API.swift in Sources */,
 				4A82B7F71F254CCE0063D731 /* ObjectType.swift in Sources */,
 				4A82B7F51F254CCE0063D731 /* GeoPoint.swift in Sources */,
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
@@ -346,10 +354,11 @@
 				4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */,
 				4AC397701F48778900DEA9D3 /* ACL.swift in Sources */,
 				4A99A46E1F26512100D72A59 /* IncrementOperation.swift in Sources */,
-				4A82B8011F256B330063D731 /* Object+Query.swift in Sources */,
+				4A82B8011F256B330063D731 /* ObjectType+Query.swift in Sources */,
 				4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */,
 				4A82B7F91F254CCE0063D731 /* Result.swift in Sources */,
 				4A82B7F41F254CCE0063D731 /* File.swift in Sources */,
+				4AC397721F488F9E00DEA9D3 /* RESTBatchCommand.swift in Sources */,
 				4AEBA54D1F26523800628B17 /* DeleteOperation.swift in Sources */,
 				4A82B7F81F254CCE0063D731 /* Pointer.swift in Sources */,
 				4AEBA5491F26519B00628B17 /* AddOperation.swift in Sources */,
@@ -372,7 +381,7 @@
 			files = (
 				4AFDA72B1F26DAE1002AE4FC /* ObjectType.swift in Sources */,
 				4AFDA7301F26DAE1002AE4FC /* DeleteOperation.swift in Sources */,
-				4AFDA7361F26DAE1002AE4FC /* Object+Query.swift in Sources */,
+				4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */,
 				4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */,
 				4AFDA7371F26DAE1002AE4FC /* Result.swift in Sources */,
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
