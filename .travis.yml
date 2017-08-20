@@ -1,0 +1,8 @@
+osx_image: xcode9
+post_install: brew update && brew install swiftlint
+jobs:
+  include:
+    - stage: macOS
+      script: xcodebuild -target "ParseSwift (macOS)"| xcpretty
+    - stage: iOS
+      script: xcodebuild -target "ParseSwift (iOS)"| xcpretty
