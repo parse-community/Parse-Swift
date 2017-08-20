@@ -4,6 +4,6 @@ post_install: brew update && brew install swiftlint xcpretty
 jobs:
   include:
     - stage: macOS
-      script: set -o pipefail && xcodebuild -target "ParseSwift (macOS)" | xcpretty
+      script: set -o pipefail && xcodebuild -target "ParseSwift (macOS)" 
     - stage: iOS
-      script: set -o pipefail && xcodebuild -target "ParseSwift (iOS)" | xcpretty
+      script: set -o pipefail && xcodebuild -target "ParseSwift (iOS)" 
