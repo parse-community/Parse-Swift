@@ -121,6 +121,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A5EE45F1F49E9E000D3CAE3 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4AB8B4F61F254AE10070F682 /* ParseSwift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		4A5EE4601F49EA0600D3CAE3 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				4AB8B5011F254AE10070F682 /* ParseSwiftTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		4A65114E1F48E3CE005237DF /* ParseSwift-iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,8 +174,8 @@
 		4AB8B4EA1F254AE10070F682 = {
 			isa = PBXGroup;
 			children = (
-				4AB8B4F61F254AE10070F682 /* ParseSwift */,
-				4AB8B5011F254AE10070F682 /* ParseSwiftTests */,
+				4A5EE4601F49EA0600D3CAE3 /* Tests */,
+				4A5EE45F1F49E9E000D3CAE3 /* Sources */,
 				4A65114E1F48E3CE005237DF /* ParseSwift-iOS */,
 				4AFDA7131F26D9A5002AE4FC /* ParseSwift-macOS */,
 				4AB8B4F51F254AE10070F682 /* Products */,
@@ -607,7 +623,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -628,7 +644,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -680,7 +696,7 @@
 				PRODUCT_NAME = ParseSwift;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -703,7 +719,7 @@
 				PRODUCT_NAME = ParseSwift;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

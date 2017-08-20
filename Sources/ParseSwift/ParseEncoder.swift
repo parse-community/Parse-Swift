@@ -180,7 +180,7 @@ internal class _JSONEncoder : Encoder {
     internal let options: ParseEncoder._Options
 
     /// The path to the current point in encoding.
-    public var codingPath: [CodingKey?]
+    public var codingPath: [CodingKey]
 
     /// Contextual user-provided information for use during encoding.
     public var userInfo: [CodingUserInfoKey : Any] {
@@ -190,7 +190,7 @@ internal class _JSONEncoder : Encoder {
     // MARK: - Initialization
 
     /// Initializes `self` with the given top-level encoder options.
-    fileprivate init(options: ParseEncoder._Options, codingPath: [CodingKey?] = []) {
+    fileprivate init(options: ParseEncoder._Options, codingPath: [CodingKey] = []) {
         self.options = options
         self.storage = _JSONEncodingStorage()
         self.codingPath = codingPath
@@ -306,12 +306,12 @@ fileprivate struct _JSONKeyedEncodingContainer<K : CodingKey> : KeyedEncodingCon
     private let container: NSMutableDictionary
 
     /// The path of coding keys taken to get to this point in encoding.
-    private(set) public var codingPath: [CodingKey?]
+    private(set) public var codingPath: [CodingKey]
 
     // MARK: - Initialization
 
     /// Initializes `self` with the given references.
-    fileprivate init(referencing encoder: _JSONEncoder, codingPath: [CodingKey?], wrapping container: NSMutableDictionary) {
+    fileprivate init(referencing encoder: _JSONEncoder, codingPath: [CodingKey], wrapping container: NSMutableDictionary) {
         self.encoder = encoder
         self.codingPath = codingPath
         self.container = container
@@ -403,7 +403,7 @@ fileprivate struct _JSONUnkeyedEncodingContainer : UnkeyedEncodingContainer {
     private let container: NSMutableArray
 
     /// The path of coding keys taken to get to this point in encoding.
-    private(set) public var codingPath: [CodingKey?]
+    private(set) public var codingPath: [CodingKey]
 
     /// The number of elements encoded into the container.
     public var count: Int {
@@ -413,7 +413,7 @@ fileprivate struct _JSONUnkeyedEncodingContainer : UnkeyedEncodingContainer {
     // MARK: - Initialization
 
     /// Initializes `self` with the given references.
-    fileprivate init(referencing encoder: _JSONEncoder, codingPath: [CodingKey?], wrapping container: NSMutableArray) {
+    fileprivate init(referencing encoder: _JSONEncoder, codingPath: [CodingKey], wrapping container: NSMutableArray) {
         self.encoder = encoder
         self.codingPath = codingPath
         self.container = container
@@ -838,7 +838,7 @@ fileprivate extension EncodingError {
     /// - parameter value: The value that was invalid to encode.
     /// - parameter path: The path of `CodingKey`s taken to encode this value.
     /// - returns: An `EncodingError` with the appropriate path and debug description.
-    fileprivate static func _invalidFloatingPointValue<T : FloatingPoint>(_ value: T, at codingPath: [CodingKey?]) -> EncodingError {
+    fileprivate static func _invalidFloatingPointValue<T : FloatingPoint>(_ value: T, at codingPath: [CodingKey]) -> EncodingError {
         let valueDescription: String
         if value == T.infinity {
             valueDescription = "\(T.self).infinity"
@@ -854,7 +854,7 @@ fileprivate extension EncodingError {
 }
 
 extension DecodingError {
-    static func _typeMismatch(at: [CodingKey?], expectation: Any.Type, reality: Any) -> DecodingError {
+    static func _typeMismatch(at: [CodingKey], expectation: Any.Type, reality: Any) -> DecodingError {
         return DecodingError.typeMismatch(expectation, Context(codingPath: at, debugDescription: "\(reality)"))
     }
 }
