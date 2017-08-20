@@ -162,7 +162,7 @@ public struct Query<T>: Encodable where T: ObjectType {
 
     enum CodingKeys: String, CodingKey {
         case `where`
-        case method
+        case method = "_method"
         case limit
         case skip
         case count

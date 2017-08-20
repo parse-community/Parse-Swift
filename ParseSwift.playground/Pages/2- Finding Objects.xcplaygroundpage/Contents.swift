@@ -19,11 +19,6 @@ struct GameScore: ParseSwift.ObjectType {
     var score: Int?
 }
 
-func printString<T>(_ codable: T) where T: Encodable {
-    let str = String(data: try? JSONEncoder().encode(codable), encoding: .utf8)!
-    print(str)
-}
-
 var score = GameScore()
 score.score = 200
 

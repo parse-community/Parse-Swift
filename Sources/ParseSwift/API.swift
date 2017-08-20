@@ -28,9 +28,9 @@ public struct API {
             case .batch:
                 return "/batch"
             case .objects(let className):
-                return "/\(className)"
+                return "/classes/\(className)"
             case .object(let className, let objectId):
-                return "/\(className)/\(objectId)"
+                return "/classes/\(className)/\(objectId)"
             case .login:
                 return "/login"
             case .signup:
