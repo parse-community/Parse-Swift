@@ -1,5 +1,6 @@
 osx_image: xcode9
-post_install: brew update && brew install swiftlint
+language: objective-c
+post_install: brew update && brew install swiftlint xcpretty
 jobs:
   include:
     - stage: macOS
