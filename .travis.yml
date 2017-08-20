@@ -9,9 +9,12 @@ script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
 jobs:
   include:
     - stage: package managers
+      env: Swift Pacakge Manager
       script: swift build
     - stage: package managers
+      env: Cocoapods
       script: pod lib lint
     - stage: package managers
+      env: Carthage
       script: carthage build --no-skip-current
 
