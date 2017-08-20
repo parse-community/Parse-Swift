@@ -6,4 +6,12 @@ env:
   - TARGET="ParseSwift (macOS)" 
   - TARGET="ParseSwift (iOS)" 
 script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
+jobs:
+  include:
+    - stage: package managers
+      script: swift build
+    - stage: package managers
+      script: pod lib lint
+    - stage: package managers
+      script: carthage build --no-skip-current
 
