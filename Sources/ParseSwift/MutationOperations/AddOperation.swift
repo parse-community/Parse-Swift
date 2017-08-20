@@ -9,6 +9,6 @@
 import Foundation
 
 internal struct AddOperation<T>: Encodable where T: Encodable {
-    let __op: String = "Add"
+    let __op: String = "Add" // swiftlint:disable:this identifier_name
     let objects: [T]
 }

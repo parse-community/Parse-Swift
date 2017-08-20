@@ -7,7 +7,7 @@ let package = Package(
     products: [
         .library(
             name: "ParseSwift",
-            targets: ["ParseSwift"]),
+            targets: ["ParseSwift"])
     ],
     targets: [
         .target(
@@ -15,6 +15,6 @@ let package = Package(
             dependencies: []),
         .testTarget(
             name: "ParseSwiftTests",
-            dependencies: ["ParseSwift"]),
+            dependencies: ["ParseSwift"])
     ]
 )

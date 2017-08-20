@@ -27,13 +27,11 @@ func printString<T>(_ codable: T) where T: Encodable {
 var score = GameScore()
 score.score = 200
 
-score.save() { _ in
+score.save { _ in
     var query = GameScore.query("score" > 100, "createdAt" < Date().addingTimeInterval(-300))
-    query.limit(2).find() { (scores) in
+    query.limit(2).find { (scores) in
         print(scores)
     }
 }
-
-
 
 //: [Next](@next)

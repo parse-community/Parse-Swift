@@ -29,7 +29,7 @@ public class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ObjectType {
 
     init(commands: [ParseObjectCommand]) {
         let commands = commands.flatMap { (command) -> RESTCommand<T, T>? in
-            let path = _mountPath + command.path.urlComponent
+            let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
             }

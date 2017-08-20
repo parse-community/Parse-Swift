@@ -10,7 +10,6 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 
 initializeParse()
 
-
 struct GameScore: ParseSwift.ObjectType {
     //: Those are required for Object
     var objectId: String?
@@ -29,7 +28,7 @@ struct GameScore: ParseSwift.ObjectType {
 
 let score = GameScore(score: 10)
 
-score.save() { (result) in
+score.save { (result) in
     guard case .success(var gameScore) = result else {
         assert(false)
         return
@@ -40,7 +39,7 @@ score.save() { (result) in
     assert(gameScore.score == 10)
     var originalGameScore = gameScore
     gameScore.score = 200
-    gameScore.save() { (result) in
+    gameScore.save { (result) in
         guard case .success(var gameScore) = result else {
             assert(false)
             return
@@ -63,7 +62,7 @@ GameScore.saveAll(score, score2) { (result) in
 }
 
 // Also works as extension of sequence
-[score, score2].saveAll() { (result) in
+[score, score2].saveAll { (result) in
     guard case .success(let results) = result else {
         assert(false)
         return

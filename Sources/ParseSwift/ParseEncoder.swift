@@ -26,6 +26,9 @@ import Foundation
 // swiftlint:disable return_arrow_whitespace
 // swiftlint:disable trailing_semicolon
 // swiftlint:disable file_length
+// swiftlint:disable private_over_fileprivate
+// swiftlint:disable type_name
+// swiftlint:disable identifier_name
 
 open class ParseEncoder {
     // MARK: Options

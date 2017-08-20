@@ -9,5 +9,5 @@
 import Foundation
 
 internal struct DeleteOperation: Encodable {
-    let __op: String = "Delete"
+    let __op: String = "Delete" // swiftlint:disable:this identifier_name
 }

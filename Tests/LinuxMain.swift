@@ -1,6 +1,6 @@
 import XCTest
-@testable import Parse_SwiftTests
+@testable import ParseSwiftTests
 
 XCTMain([
-    testCase(Parse_SwiftTests.allTests),
+    testCase(Parse_SwiftTests.allTests)
 ])
