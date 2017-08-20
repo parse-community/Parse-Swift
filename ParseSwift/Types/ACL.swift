@@ -84,14 +84,24 @@ public struct ACL: Decodable, Encodable {
 
     private mutating func set(_ key: String, access: Access, value: Bool) {
         // initialized the backing dictionary if needed
-        if __acl == nil {
+        if __acl == nil && value { // do not create if value is false (no-op)
             __acl = [:]
         }
         // initialize the scope dictionary
-        if __acl?[key] == nil {
+        if __acl?[key] == nil && value { // do not create if value is false (no-op)
             __acl?[key] = [:]
         }
-        __acl?[key]?[access] = value
+        if value {
+            __acl?[key]?[access] = value
+        } else {
+            __acl?[key]?.removeValue(forKey: access)
+            if __acl?[key]?.isEmpty == true {
+                __acl?.removeValue(forKey: key)
+            }
+            if __acl?.isEmpty == true {
+                __acl = nil // cleanup
+            }
+        }
     }
 }
 

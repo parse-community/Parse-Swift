@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4AB8B4F31F254AE10070F682"
-               BuildableName = "Parse.framework"
-               BlueprintName = "Parse (iOS)"
-               ReferencedContainer = "container:Parse.xcodeproj">
+               BuildableName = "ParseSwift.framework"
+               BlueprintName = "ParseSwift (iOS)"
+               ReferencedContainer = "container:ParseSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -34,9 +34,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4AB8B4FC1F254AE10070F682"
-               BuildableName = "ParseTests.xctest"
-               BlueprintName = "ParseTests"
-               ReferencedContainer = "container:Parse.xcodeproj">
+               BuildableName = "ParseSwiftTests.xctest"
+               BlueprintName = "ParseSwiftTests"
+               ReferencedContainer = "container:ParseSwift.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -44,9 +44,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4AB8B4F31F254AE10070F682"
-            BuildableName = "Parse.framework"
-            BlueprintName = "Parse (iOS)"
-            ReferencedContainer = "container:Parse.xcodeproj">
+            BuildableName = "ParseSwift.framework"
+            BlueprintName = "ParseSwift (iOS)"
+            ReferencedContainer = "container:ParseSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -67,9 +67,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4AB8B4F31F254AE10070F682"
-            BuildableName = "Parse.framework"
-            BlueprintName = "Parse (iOS)"
-            ReferencedContainer = "container:Parse.xcodeproj">
+            BuildableName = "ParseSwift.framework"
+            BlueprintName = "ParseSwift (iOS)"
+            ReferencedContainer = "container:ParseSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -85,9 +85,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4AB8B4F31F254AE10070F682"
-            BuildableName = "Parse.framework"
-            BlueprintName = "Parse (iOS)"
-            ReferencedContainer = "container:Parse.xcodeproj">
+            BuildableName = "ParseSwift.framework"
+            BlueprintName = "ParseSwift (iOS)"
+            ReferencedContainer = "container:ParseSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -26,7 +26,7 @@ public protocol Fetching: Codable {
     func fetch(callback: ((Result<T>) -> ())?) -> Cancellable?
 }
 
-public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible {
+public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible, Equatable {
     static var className: String { get }
     var objectId: String? { get set }
     var createdAt: Date? { get set }
@@ -38,6 +38,17 @@ internal extension ObjectType {
     internal func getEncoder() -> CommonEncoder {
         return getParseEncoder()
     }
+}
+
+public func ==<T>(lhs: T?, rhs: T?) -> Bool where T: ObjectType {
+    guard let lhs = lhs, let rhs = rhs else { return false }
+    print("HEWRE")
+    return lhs == rhs
+}
+
+public func ==<T>(lhs: T, rhs: T) -> Bool where T: ObjectType {
+    print("HERE!")
+    return lhs.className == rhs.className && rhs.objectId == lhs.objectId
 }
 
 extension ObjectType {

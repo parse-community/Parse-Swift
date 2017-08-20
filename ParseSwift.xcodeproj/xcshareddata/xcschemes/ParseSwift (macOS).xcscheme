@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "4AFDA7111F26D9A5002AE4FC"
-               BuildableName = "Parse.framework"
-               BlueprintName = "Parse (macOS)"
-               ReferencedContainer = "container:Parse.xcodeproj">
+               BuildableName = "ParseSwift.framework"
+               BlueprintName = "ParseSwift (macOS)"
+               ReferencedContainer = "container:ParseSwift.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -48,9 +48,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4AFDA7111F26D9A5002AE4FC"
-            BuildableName = "Parse.framework"
-            BlueprintName = "Parse (macOS)"
-            ReferencedContainer = "container:Parse.xcodeproj">
+            BuildableName = "ParseSwift.framework"
+            BlueprintName = "ParseSwift (macOS)"
+            ReferencedContainer = "container:ParseSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -66,9 +66,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4AFDA7111F26D9A5002AE4FC"
-            BuildableName = "Parse.framework"
-            BlueprintName = "Parse (macOS)"
-            ReferencedContainer = "container:Parse.xcodeproj">
+            BuildableName = "ParseSwift.framework"
+            BlueprintName = "ParseSwift (macOS)"
+            ReferencedContainer = "container:ParseSwift.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </ProfileAction>

@@ -2,18 +2,15 @@
 
 import PlaygroundSupport
 import Foundation
-import Parse
+import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 
 //: start parse-server with
 //: npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
 
-Parse.initialize(applicationId: "applicationId",
-                 clientKey: "clientKey",
-                 masterKey: "masterKey",
-                 serverURL: URL(string: "http://localhost:1337/1")!)
+initializeParse()
 
-struct GameScore: Parse.ObjectType {
+struct GameScore: ParseSwift.ObjectType {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?

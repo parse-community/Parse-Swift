@@ -56,7 +56,7 @@ public extension UserType {
 
     func signup(callback: UserTypeCallback? = nil) -> Cancellable {
         return RESTCommand(method: .POST, path: "/users", body: self, mapper: { (data) -> Self in
-            let response = try getDecoder().decode(SignupResponse.self, from: data)
+            let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try getDecoder().decode(Self.self, from: data)
             user.updatedAt = response.updatedAt
 
@@ -75,16 +75,18 @@ private extension UserType {
             "password": password
         ]
         return RESTCommand<NoBody, Self>(method: .GET, path: "/login", params: params, mapper: { (data) -> Self in
-            let r = try getDecoder().decode(Self.self, from: data)
-            CurrentUserInfo.currentUser = r
-            return r
+            let user = try getDecoder().decode(Self.self, from: data)
+            let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
+            CurrentUserInfo.currentUser = user
+            CurrentUserInfo.currentSessionToken = response.sessionToken
+            return user
         }).execute(callback)
     }
 
     private static func signupCommand(username: String, password: String) -> RESTCommand<SignupBody, Self> {
         let body = SignupBody(username: username, password: password)
         return RESTCommand(method: .POST, path: "/users", body: body, mapper: { (data) -> Self in
-            let response = try getDecoder().decode(SignupResponse.self, from: data)
+            let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try getDecoder().decode(Self.self, from: data)
             user.username = username
             user.password = password
@@ -103,7 +105,7 @@ public struct SignupBody: Codable {
     let password: String
 }
 
-private struct SignupResponse: Codable {
+private struct LoginSignupResponse: Codable {
     let createdAt: Date
     let objectId: String
     let sessionToken: String

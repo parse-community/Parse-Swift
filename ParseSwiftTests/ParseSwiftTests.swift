@@ -7,7 +7,7 @@
 //
 
 import XCTest
-@testable import Parse
+@testable import ParseSwift
 
 class ParseTests: XCTestCase {
     

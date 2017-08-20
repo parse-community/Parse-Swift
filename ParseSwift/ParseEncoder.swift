@@ -18,6 +18,7 @@
 /// `JSONEncoder` facilitates the encoding of `Encodable` values into JSON.
 /// `ParseEncoder` facilitates the encoding of `ObjectType` values into JSON.
 /// All Credit to Apple, this is a simple encoder with capability of skipping keys at runtime.
+import Foundation
 
 open class ParseEncoder {
     // MARK: Options
