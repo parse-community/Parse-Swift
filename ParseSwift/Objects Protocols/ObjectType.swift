@@ -11,7 +11,7 @@ import Foundation
 public struct NoBody: Codable {}
 
 internal protocol CommonEncoder {
-    func encode<T : Encodable>(_ value: T) throws -> Data
+    func encode<T: Encodable>(_ value: T) throws -> Data
 }
 
 extension ParseEncoder: CommonEncoder {}
@@ -40,12 +40,12 @@ internal extension ObjectType {
     }
 }
 
-public func ==<T>(lhs: T?, rhs: T?) -> Bool where T: ObjectType {
+public func == <T>(lhs: T?, rhs: T?) -> Bool where T: ObjectType {
     guard let lhs = lhs, let rhs = rhs else { return false }
     return lhs == rhs
 }
 
-public func ==<T>(lhs: T, rhs: T) -> Bool where T: ObjectType {
+public func == <T>(lhs: T, rhs: T) -> Bool where T: ObjectType {
     return lhs.className == rhs.className && rhs.objectId == lhs.objectId
 }
 
@@ -275,7 +275,8 @@ public extension ObjectType {
 
 public typealias BatchResultCallback<T> = (Result<[(T, ParseError?)]>) -> () where T: ObjectType
 public extension ObjectType {
-    public static func saveAll(_ objects: Self..., callback: BatchResultCallback<Self>?) -> Cancellable {
+    public static func saveAll(_ objects: Self...,
+                               callback: BatchResultCallback<Self>?) -> Cancellable {
         return objects.saveAll(callback: callback)
     }
 }

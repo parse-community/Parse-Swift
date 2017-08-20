@@ -57,7 +57,7 @@ extension Result where T == Data {
             do {
                 return .success(try mapper(data))
             } catch let e {
-                do  { // try default error mapper :)
+                do { // try default error mapper :)
                     return .error(try getDecoder().decode(ParseError.self, from: data))
                 } catch {}
                 return .error(e)

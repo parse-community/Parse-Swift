@@ -25,7 +25,11 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
     private var _onSuccess: ((U)->())?
     private var _onError: ((Error)->())?
 
-    init(method: API.Method, path: API.Endpoint, params: [String: String]? = nil, body: T? = nil, mapper: @escaping ((Data) throws -> U)) {
+    init(method: API.Method,
+         path: API.Endpoint,
+         params: [String: String]? = nil,
+         body: T? = nil,
+         mapper: @escaping ((Data) throws -> U)) {
         self.method = method
         self.path = path
         self.body = body
@@ -36,9 +40,13 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
     public func execute(_ cb: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
         let data = try? getJSONEncoder().encode(body)
         let params = self.params?.getQueryItems()
-        task = API.request(method: method, path: path, params: params, body: data, useMasterKey: _useMasterKey, callback: { (result) in
+        task = API.request(method: method,
+                           path: path,
+                           params: params,
+                           body: data,
+                           useMasterKey: _useMasterKey) { (result) in
             self.runContinuations(result.map(self.mapper), cb)
-        })
+        }
         return self
     }
 
@@ -82,9 +90,13 @@ internal extension RESTCommand where T: ObjectType {
     internal func execute(_ cb: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
         let data = try? body?.getEncoder().encode(body)
         let params = self.params?.getQueryItems()
-        task = API.request(method: method, path: path, params: params, body: data!, useMasterKey: _useMasterKey, callback: { (result) in
+        task = API.request(method: method,
+                           path: path,
+                           params: params,
+                           body: data!,
+                           useMasterKey: _useMasterKey) { (result) in
             self.runContinuations(result.map(self.mapper), cb)
-        })
+        }
         return self
     }
 }
@@ -100,17 +112,19 @@ internal extension RESTCommand {
 
     // MARK: Saving - private
     private static func createCommand<T>(_ object: T) -> RESTCommand<T, T> where T: ObjectType {
-        return RESTCommand<T, T>(method: .POST, path: object.remotePath, body: object, mapper: { (data) -> T in
-            return try getDecoder().decode(SaveResponse.self, from: data)
-                .apply(object)
-        })
+        return RESTCommand<T, T>(method: .POST,
+                                 path: object.remotePath,
+                                 body: object) { (data) -> T in
+            try getDecoder().decode(SaveResponse.self, from: data).apply(object)
+        }
     }
 
     private static func updateCommand<T>(_ object: T) -> RESTCommand<T, T> where T: ObjectType {
-        return RESTCommand<T, T>(method: .PUT, path: object.remotePath, body: object, mapper: { (data: Data) -> T in
-            return try getDecoder().decode(UpdateResponse.self, from: data)
-                .apply(object)
-        })
+        return RESTCommand<T, T>(method: .PUT,
+                                 path: object.remotePath,
+                                 body: object) { (data: Data) -> T in
+            try getDecoder().decode(UpdateResponse.self, from: data).apply(object)
+        }
     }
 
     // MARK: Fetching
@@ -118,8 +132,9 @@ internal extension RESTCommand {
         guard object.isSaved else {
             throw ParseError(code: -1, error: "Cannot Fetch an object without id")
         }
-        return RESTCommand<T, T>(method: .GET, path: object.remotePath, body: nil, mapper: { (data) -> T in
-            return try getDecoder().decode(T.self, from: data)
-        })
+        return RESTCommand<T, T>(method: .GET,
+                                 path: object.remotePath) { (data) -> T in
+            try getDecoder().decode(T.self, from: data)
+        }
     }
 }

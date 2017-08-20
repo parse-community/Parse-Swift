@@ -44,7 +44,7 @@ public func > <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     return QueryConstraint(key: key, value: value, op: .greaterThan)
 }
 
-public func >= <T>(key: String, value: T) -> QueryConstraint where T: Encodable  {
+public func >= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     return QueryConstraint(key: key, value: value, op: .greaterThanOrEqualTo)
 }
 
@@ -52,11 +52,11 @@ public func < <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     return QueryConstraint(key: key, value: value, op: .lessThan)
 }
 
-public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable  {
+public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     return QueryConstraint(key: key, value: value, op: .lessThanOrEqualTo)
 }
 
-public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable  {
+public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     return QueryConstraint(key: key, value: value, op: .equals)
 }
 
@@ -77,7 +77,7 @@ private struct InQuery<T>: Encodable where T: ObjectType {
     }
 }
 
-public func == <T>(key: String, value: Query<T>) -> QueryConstraint  {
+public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
     return QueryConstraint(key: key, value: InQuery(query: value), op: .inQuery)
 }
 
@@ -94,7 +94,8 @@ internal struct QueryWhere: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RawCodingKey.self)
         try _constraints.forEach { (key, value) in
-            var c = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self, forKey: .key(key))
+            var c = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
+                                              forKey: .key(key))
             try value.forEach { (constraint) in
                 try constraint.encode(to: c.superEncoder(forKey: constraint.op))
             }
@@ -228,4 +229,3 @@ enum RawCodingKey: CodingKey {
         fatalError()
     }
 }
-

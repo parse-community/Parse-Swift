@@ -25,14 +25,16 @@ public struct ParseMutationContainer<T>: Encodable where T: ObjectType {
         operations[key] = AddUniqueOperation(objects: objects)
     }
 
-    public mutating func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]>), objects: [V]) where V: Encodable, V: Hashable {
+    public mutating func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]>),
+                                      objects: [V]) where V: Encodable, V: Hashable {
         operations[key.0] = AddUniqueOperation(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
         target[keyPath: key.1] = Array(Set<V>(values))
     }
 
-    public mutating func addUnique<V>(_ key: (String, WritableKeyPath<T, Optional<[V]>>), objects: [V]) where V: Encodable, V: Hashable {
+    public mutating func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]?>),
+                                      objects: [V]) where V: Encodable, V: Hashable {
         operations[key.0] = AddUniqueOperation(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
@@ -43,14 +45,16 @@ public struct ParseMutationContainer<T>: Encodable where T: ObjectType {
         operations[key] = AddOperation(objects: objects)
     }
 
-    public mutating func add<V>(_ key: (String, WritableKeyPath<T, [V]>), objects: [V]) where V: Encodable {
+    public mutating func add<V>(_ key: (String, WritableKeyPath<T, [V]>),
+                                objects: [V]) where V: Encodable {
         operations[key.0] = AddOperation(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
         target[keyPath: key.1] = values
     }
 
-    public mutating func add<V>(_ key: (String, WritableKeyPath<T, Optional<[V]>>), objects: [V]) where V: Encodable {
+    public mutating func add<V>(_ key: (String, WritableKeyPath<T, [V]?>),
+                                objects: [V]) where V: Encodable {
         operations[key.0] = AddOperation(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
@@ -61,7 +65,8 @@ public struct ParseMutationContainer<T>: Encodable where T: ObjectType {
         operations[key] = RemoveOperation(objects: objects)
     }
 
-    public mutating func remove<V>(_ key: (String, WritableKeyPath<T, [V]>), objects: [V]) where V: Encodable, V: Hashable {
+    public mutating func remove<V>(_ key: (String, WritableKeyPath<T, [V]>),
+                                   objects: [V]) where V: Encodable, V: Hashable {
         operations[key.0] = RemoveOperation(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values)
@@ -71,7 +76,8 @@ public struct ParseMutationContainer<T>: Encodable where T: ObjectType {
         target[keyPath: key.1] = Array(set)
     }
 
-    public mutating func remove<V>(_ key: (String, WritableKeyPath<T, Optional<[V]>>), objects: [V]) where V: Encodable, V: Hashable {
+    public mutating func remove<V>(_ key: (String, WritableKeyPath<T, [V]?>),
+                                   objects: [V]) where V: Encodable, V: Hashable {
         operations[key.0] = RemoveOperation(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values ?? [])
@@ -85,7 +91,7 @@ public struct ParseMutationContainer<T>: Encodable where T: ObjectType {
         operations[key] = DeleteOperation()
     }
 
-    public mutating func unset<V>(_ key: (String, WritableKeyPath<T, Optional<V>>)) where V: Encodable {
+    public mutating func unset<V>(_ key: (String, WritableKeyPath<T, V?>)) where V: Encodable {
         operations[key.0] = DeleteOperation()
         target[keyPath: key.1] = nil
     }

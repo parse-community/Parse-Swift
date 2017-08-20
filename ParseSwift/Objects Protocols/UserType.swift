@@ -35,11 +35,15 @@ public extension UserType {
         return CurrentUserInfo.currentUser as? Self
     }
 
-    static func login(username: String, password: String, callback: UserTypeCallback? = nil) -> Cancellable {
+    static func login(username: String,
+                      password: String,
+                      callback: UserTypeCallback? = nil) -> Cancellable {
         return loginCommand(username: username, password: password).execute(callback)
     }
 
-    static func signup(username: String, password: String, callback: UserTypeCallback? = nil) -> Cancellable {
+    static func signup(username: String,
+                       password: String,
+                       callback: UserTypeCallback? = nil) -> Cancellable {
         return signupCommand(username: username, password: password).execute(callback)
     }
 
@@ -53,12 +57,15 @@ public extension UserType {
 }
 
 private extension UserType {
-    private static func loginCommand(username: String, password: String) -> RESTCommand<NoBody, Self> {
+    private static func loginCommand(username: String,
+                                     password: String) -> RESTCommand<NoBody, Self> {
         let params = [
             "username": username,
             "password": password
         ]
-        return RESTCommand<NoBody, Self>(method: .GET, path: .login, params: params) { (data) -> Self in
+        return RESTCommand<NoBody, Self>(method: .GET,
+                                         path: .login,
+                                         params: params) { (data) -> Self in
             let user = try getDecoder().decode(Self.self, from: data)
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             CurrentUserInfo.currentUser = user
@@ -67,7 +74,8 @@ private extension UserType {
         }
     }
 
-    private static func signupCommand(username: String, password: String) -> RESTCommand<SignupBody, Self> {
+    private static func signupCommand(username: String,
+                                      password: String) -> RESTCommand<SignupBody, Self> {
         let body = SignupBody(username: username, password: password)
         return RESTCommand(method: .POST, path: .signup, body: body) { (data) -> Self in
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)

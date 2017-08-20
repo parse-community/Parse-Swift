@@ -20,7 +20,7 @@ struct GameScore: ParseSwift.ObjectType {
 }
 
 func printString<T>(_ codable: T) where T: Encodable {
-    let str = String(data: try! JSONEncoder().encode(codable), encoding: .utf8)!
+    let str = String(data: try? JSONEncoder().encode(codable), encoding: .utf8)!
     print(str)
 }
 

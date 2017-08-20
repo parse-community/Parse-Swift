@@ -12,4 +12,3 @@ internal struct IncrementOperation: Encodable {
     let __op: String = "Increment"
     let amount: Int
 }
-

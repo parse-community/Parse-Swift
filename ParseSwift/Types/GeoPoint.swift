@@ -13,4 +13,3 @@ public struct GeoPoint: Codable {
         self.longitude = longitude
     }
 }
-

@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		4A2D8C811F48B3A900EE1FCC /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
-		4A65114C1F48E39A005237DF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4AB8B4F81F254AE10070F682 /* Info.plist */; };
-		4A65114D1F48E39D005237DF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4AFDA7151F26D9A5002AE4FC /* Info.plist */; };
 		4A65114F1F48E3F3005237DF /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
 		4A6511501F48E400005237DF /* RESTBatchCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC397711F488F9E00DEA9D3 /* RESTBatchCommand.swift */; };
 		4A6511511F48E406005237DF /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC3976F1F48778900DEA9D3 /* ACL.swift */; };
@@ -261,6 +259,7 @@
 				4AB8B4F01F254AE10070F682 /* Frameworks */,
 				4AB8B4F11F254AE10070F682 /* Headers */,
 				4AB8B4F21F254AE10070F682 /* Resources */,
+				4A6511551F49D544005237DF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -297,6 +296,7 @@
 				4AFDA70E1F26D9A5002AE4FC /* Frameworks */,
 				4AFDA70F1F26D9A5002AE4FC /* Headers */,
 				4AFDA7101F26D9A5002AE4FC /* Resources */,
+				4A6511541F49D53C005237DF /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -355,7 +355,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A65114C1F48E39A005237DF /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -370,11 +369,39 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4A65114D1F48E39D005237DF /* Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		4A6511541F49D53C005237DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+		4A6511551F49D544005237DF /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		4AB8B4EF1F254AE10070F682 /* Sources */ = {

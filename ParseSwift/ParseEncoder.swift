@@ -1,4 +1,3 @@
-
 //===----------------------------------------------------------------------===//
 //
 // This source file is part of the Swift.org open source project
@@ -17,8 +16,16 @@
 
 /// `JSONEncoder` facilitates the encoding of `Encodable` values into JSON.
 /// `ParseEncoder` facilitates the encoding of `ObjectType` values into JSON.
+
 /// All Credit to Apple, this is a simple encoder with capability of skipping keys at runtime.
 import Foundation
+
+// swiftlint:disable colon
+// swiftlint:disable force_cast
+// swiftlint:disable line_length
+// swiftlint:disable return_arrow_whitespace
+// swiftlint:disable trailing_semicolon
+// swiftlint:disable file_length
 
 open class ParseEncoder {
     // MARK: Options
