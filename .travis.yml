@@ -5,5 +5,5 @@ env:
   matrix:
   - TARGET="ParseSwift (macOS)" 
   - TARGET="ParseSwift (iOS)" 
-script: set -o pipefail && xcodebuild -target "$TARGET"
+script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
 
