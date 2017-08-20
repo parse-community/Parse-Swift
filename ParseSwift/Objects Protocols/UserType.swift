@@ -23,10 +23,6 @@ public extension UserType {
         return nil
     }
 
-    var className: String {
-        return Self.className
-    }
-
     static var className: String {
         return "_User"
     }
@@ -48,55 +44,63 @@ public extension UserType {
     }
 
     static func logout(callback: ((Result<()>)->())?) {
-        _ = RESTCommand<NoBody, Void>(method: .POST, path: .logout, body: nil, mapper: { (data) -> Void in
-            CurrentUserInfo.currentUser = nil
-            CurrentUserInfo.currentSessionToken = nil
-        }).execute(callback)
+        _ = logoutCommand().execute(callback)
     }
 
     func signup(callback: UserTypeCallback? = nil) -> Cancellable {
-        return RESTCommand(method: .POST, path: .signup, body: self, mapper: { (data) -> Self in
-            let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
-            var user = try getDecoder().decode(Self.self, from: data)
-            user.updatedAt = response.updatedAt
-
-            // Set the current user
-            CurrentUserInfo.currentUser = user
-            CurrentUserInfo.currentSessionToken = response.sessionToken
-            return user
-        }).execute(callback)
+        return signupCommand().execute(callback)
     }
 }
 
 private extension UserType {
-    private static func loginCommand(username: String, password: String, callback: UserTypeCallback? = nil) -> RESTCommand<NoBody, Self> {
+    private static func loginCommand(username: String, password: String) -> RESTCommand<NoBody, Self> {
         let params = [
             "username": username,
             "password": password
         ]
-        return RESTCommand<NoBody, Self>(method: .GET, path: .login, params: params, mapper: { (data) -> Self in
+        return RESTCommand<NoBody, Self>(method: .GET, path: .login, params: params) { (data) -> Self in
             let user = try getDecoder().decode(Self.self, from: data)
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             CurrentUserInfo.currentUser = user
             CurrentUserInfo.currentSessionToken = response.sessionToken
             return user
-        }).execute(callback)
+        }
     }
 
     private static func signupCommand(username: String, password: String) -> RESTCommand<SignupBody, Self> {
         let body = SignupBody(username: username, password: password)
-        return RESTCommand(method: .POST, path: .signup, body: body, mapper: { (data) -> Self in
+        return RESTCommand(method: .POST, path: .signup, body: body) { (data) -> Self in
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try getDecoder().decode(Self.self, from: data)
             user.username = username
             user.password = password
-            user.updatedAt = response.updatedAt
+            user.updatedAt = response.updatedAt ?? response.createdAt
 
             // Set the current user
             CurrentUserInfo.currentUser = user
             CurrentUserInfo.currentSessionToken = response.sessionToken
             return user
-        })
+        }
+    }
+
+    private func signupCommand() -> RESTCommand<Self, Self> {
+        var user = self
+        return RESTCommand(method: .POST, path: .signup, body: user) { (data) -> Self in
+            let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
+            user.updatedAt = response.updatedAt ?? response.createdAt
+            user.createdAt = response.createdAt
+            // Set the current user
+            CurrentUserInfo.currentUser = user
+            CurrentUserInfo.currentSessionToken = response.sessionToken
+            return user
+        }
+    }
+
+    private static func logoutCommand() -> RESTCommand<NoBody, Void> {
+       return RESTCommand(method: .POST, path: .logout) { (data) -> Void in
+            CurrentUserInfo.currentUser = nil
+            CurrentUserInfo.currentSessionToken = nil
+       }
     }
 }
 
@@ -109,7 +113,5 @@ private struct LoginSignupResponse: Codable {
     let createdAt: Date
     let objectId: String
     let sessionToken: String
-    var updatedAt: Date {
-        return createdAt
-    }
+    var updatedAt: Date?
 }

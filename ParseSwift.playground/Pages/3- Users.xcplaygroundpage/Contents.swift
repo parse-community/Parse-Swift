@@ -46,15 +46,10 @@ struct User: ParseSwift.UserType {
 //    }
 //}
 
-//do {
-//    try User.signup(username: "hello", password: "world").execute().success({ (user) in
-//        print(user)
-//    }).error({ (err) in
-//        print(err)
-//    })
-//} catch let e {
-//    print(e)
-//}
+User.signup(username: "hello10", password: "world") { (response) in
+    guard case .success(var user) = response else { return }
+    print(user)
+}
 
 User.login(username: "hello", password: "world") { (response) in
     guard case .success(var user) = response else { return }

@@ -42,12 +42,10 @@ internal extension ObjectType {
 
 public func ==<T>(lhs: T?, rhs: T?) -> Bool where T: ObjectType {
     guard let lhs = lhs, let rhs = rhs else { return false }
-    print("HEWRE")
     return lhs == rhs
 }
 
 public func ==<T>(lhs: T, rhs: T) -> Bool where T: ObjectType {
-    print("HERE!")
     return lhs.className == rhs.className && rhs.objectId == lhs.objectId
 }
 
@@ -283,7 +281,6 @@ public extension ObjectType {
 }
 
 extension Sequence where Element: ObjectType {
-
     public func saveAll(callback: BatchResultCallback<Element>?) -> Cancellable {
         return RESTBatchCommand(commands: map { $0.saveCommand() }).execute(callback)
     }
