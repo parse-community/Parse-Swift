@@ -1,7 +1,7 @@
 import Foundation
 
 public struct GeoPoint: Codable {
-    private let __type: String = "GeoPoint"
+    private let __type: String = "GeoPoint" // swiftlint:disable:this identifier_name
     public let latitude: Double
     public let longitude: Double
     public init(latitude: Double, longitude: Double) {

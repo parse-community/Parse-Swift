@@ -18,12 +18,12 @@ extension ParseEncoder: CommonEncoder {}
 extension JSONEncoder: CommonEncoder {}
 
 public protocol Saving: Codable {
-    func save(callback: ((Result<Self>) -> ())?) -> Cancellable
+    func save(callback: ((Result<Self>) -> Void)?) -> Cancellable
 }
 
 public protocol Fetching: Codable {
-    associatedtype T
-    func fetch(callback: ((Result<T>) -> ())?) -> Cancellable?
+    associatedtype FetchingType
+    func fetch(callback: ((Result<FetchingType>) -> Void)?) -> Cancellable?
 }
 
 public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible, Equatable {
@@ -141,7 +141,7 @@ public struct ParseError: Error, Decodable {
 
 enum DateEncodingKeys: String, CodingKey {
     case iso
-    case __type
+    case type = "__type"
 }
 
 let dateFormatter: DateFormatter = {
@@ -153,14 +153,14 @@ let dateFormatter: DateFormatter = {
 
 let parseDateEncodingStrategy: ParseEncoder.DateEncodingStrategy = .custom({ (date, enc) in
     var container = enc.container(keyedBy: DateEncodingKeys.self)
-    try container.encode("Date", forKey: .__type)
+    try container.encode("Date", forKey: .type)
     let dateString = dateFormatter.string(from: date)
     try container.encode(dateString, forKey: .iso)
 })
 
 let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .custom({ (date, enc) in
     var container = enc.container(keyedBy: DateEncodingKeys.self)
-    try container.encode("Date", forKey: .__type)
+    try container.encode("Date", forKey: .type)
     let dateString = dateFormatter.string(from: date)
     try container.encode(dateString, forKey: .iso)
 })
@@ -225,13 +225,13 @@ func getDecoder() -> JSONDecoder {
 }
 
 public extension ObjectType {
-    typealias ObjectCallback = (Result<Self>) -> ()
+    typealias ObjectCallback = (Result<Self>) -> Void
 
-    public func save(callback: ((Result<Self>) -> ())? = nil) -> Cancellable {
+    public func save(callback: ((Result<Self>) -> Void)? = nil) -> Cancellable {
         return saveCommand().execute(callback)
     }
 
-    public func fetch(callback: ((Result<Self>) -> ())? = nil) -> Cancellable? {
+    public func fetch(callback: ((Result<Self>) -> Void)? = nil) -> Cancellable? {
         do {
             return try fetchCommand().execute(callback)
         } catch let e {
@@ -273,7 +273,7 @@ public extension ObjectType {
     }
 }
 
-public typealias BatchResultCallback<T> = (Result<[(T, ParseError?)]>) -> () where T: ObjectType
+public typealias BatchResultCallback<T> = (Result<[(T, ParseError?)]>) -> Void where T: ObjectType
 public extension ObjectType {
     public static func saveAll(_ objects: Self...,
                                callback: BatchResultCallback<Self>?) -> Cancellable {

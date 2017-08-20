@@ -57,11 +57,11 @@ User.login(username: "hello", password: "world") { (response) in
     acl?.publicRead = false
     acl?.publicWrite = true
     user.ACL = acl
-    user.save() { response in
+    user.save { response in
         switch response {
-        case .success(let _):
+        case .success:
             assert(true)
-        case .error(let _):
+        case .error:
             assert(false)
         default: break
         }

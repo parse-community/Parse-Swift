@@ -22,8 +22,8 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
 
     var task: URLSessionDataTask?
     private var _useMasterKey: Bool = false
-    private var _onSuccess: ((U)->())?
-    private var _onError: ((Error)->())?
+    private var _onSuccess: ((U) -> Void)?
+    private var _onError: ((Error) -> Void)?
 
     init(method: API.Method,
          path: API.Endpoint,
@@ -37,7 +37,7 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
         self.params = params
     }
 
-    public func execute(_ cb: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
+    public func execute(_ callback: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
         let data = try? getJSONEncoder().encode(body)
         let params = self.params?.getQueryItems()
         task = API.request(method: method,
@@ -45,7 +45,7 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
                            params: params,
                            body: data,
                            useMasterKey: _useMasterKey) { (result) in
-            self.runContinuations(result.map(self.mapper), cb)
+            self.runContinuations(result.map(self.mapper), callback)
         }
         return self
     }
@@ -55,12 +55,12 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
         task = nil
     }
 
-    public func success(_ onSuccess: @escaping (U) -> ()) -> RESTCommand<T, U> {
+    public func success(_ onSuccess: @escaping (U) -> Void) -> RESTCommand<T, U> {
         _onSuccess = onSuccess
         return self
     }
 
-    public func error(_ onError: @escaping (Error) -> ()) -> RESTCommand<T, U> {
+    public func error(_ onError: @escaping (Error) -> Void) -> RESTCommand<T, U> {
         _onError = onError
         return self
     }
@@ -70,7 +70,7 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
         return self
     }
 
-    private func runContinuations(_ result: Result<U>, _ cb: ((Result<U>) -> Void)?) {
+    private func runContinuations(_ result: Result<U>, _ callback: ((Result<U>) -> Void)?) {
         switch result {
         case .success(let obj):
             _onSuccess?(obj)
@@ -78,7 +78,7 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
             _onError?(err)
         default: break
         }
-        cb?(result)
+        callback?(result)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -87,7 +87,7 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
 }
 
 internal extension RESTCommand where T: ObjectType {
-    internal func execute(_ cb: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
+    internal func execute(_ callback: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
         let data = try? body?.getEncoder().encode(body)
         let params = self.params?.getQueryItems()
         task = API.request(method: method,
@@ -95,7 +95,7 @@ internal extension RESTCommand where T: ObjectType {
                            params: params,
                            body: data!,
                            useMasterKey: _useMasterKey) { (result) in
-            self.runContinuations(result.map(self.mapper), cb)
+            self.runContinuations(result.map(self.mapper), callback)
         }
         return self
     }

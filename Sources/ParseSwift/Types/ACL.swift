@@ -10,7 +10,7 @@ import Foundation
 
 public struct ACL: Decodable, Encodable {
     private static let publicScope = "*"
-    private var __acl: [String: [Access: Bool]]? = nil
+    private var acl: [String: [Access: Bool]]?
 
     // Enum for accesses
     public enum Access: String, Codable, CodingKey {
@@ -48,7 +48,7 @@ public struct ACL: Decodable, Encodable {
     }
 
     public func get(_ key: String, access: Access) -> Bool {
-        guard let acl = __acl else { // no acl, all open!
+        guard let acl = acl else { // no acl, all open!
             return true
         }
         return acl[key]?[access] ?? false
@@ -84,22 +84,22 @@ public struct ACL: Decodable, Encodable {
 
     private mutating func set(_ key: String, access: Access, value: Bool) {
         // initialized the backing dictionary if needed
-        if __acl == nil && value { // do not create if value is false (no-op)
-            __acl = [:]
+        if acl == nil && value { // do not create if value is false (no-op)
+            acl = [:]
         }
         // initialize the scope dictionary
-        if __acl?[key] == nil && value { // do not create if value is false (no-op)
-            __acl?[key] = [:]
+        if acl?[key] == nil && value { // do not create if value is false (no-op)
+            acl?[key] = [:]
         }
         if value {
-            __acl?[key]?[access] = value
+            acl?[key]?[access] = value
         } else {
-            __acl?[key]?.removeValue(forKey: access)
-            if __acl?[key]?.isEmpty == true {
-                __acl?.removeValue(forKey: key)
+            acl?[key]?.removeValue(forKey: access)
+            if acl?[key]?.isEmpty == true {
+                acl?.removeValue(forKey: key)
             }
-            if __acl?.isEmpty == true {
-                __acl = nil // cleanup
+            if acl?.isEmpty == true {
+                acl = nil // cleanup
             }
         }
     }
@@ -128,7 +128,7 @@ extension ACL {
     }
 
     public func encode(to encoder: Encoder) throws {
-        guard let acl = __acl else { return } // only encode if __acl is present
+        guard let acl = acl else { return } // only encode if acl is present
         var container = encoder.container(keyedBy: RawCodingKey.self)
         try acl.forEach { pair in
             let (scope, values) = pair

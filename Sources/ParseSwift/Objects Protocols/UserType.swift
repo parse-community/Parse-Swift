@@ -1,7 +1,5 @@
 import Foundation
 
-
-
 internal struct CurrentUserInfo {
     static var currentUser: Any?
     static var currentSessionToken: String?
@@ -29,7 +27,7 @@ public extension UserType {
 }
 
 public extension UserType {
-    public typealias UserTypeCallback = (Result<Self>)->()
+    public typealias UserTypeCallback = (Result<Self>) -> Void
 
     static var current: Self? {
         return CurrentUserInfo.currentUser as? Self
@@ -47,7 +45,7 @@ public extension UserType {
         return signupCommand(username: username, password: password).execute(callback)
     }
 
-    static func logout(callback: ((Result<()>)->())?) {
+    static func logout(callback: ((Result<()>) -> Void)?) {
         _ = logoutCommand().execute(callback)
     }
 
@@ -105,7 +103,7 @@ private extension UserType {
     }
 
     private static func logoutCommand() -> RESTCommand<NoBody, Void> {
-       return RESTCommand(method: .POST, path: .logout) { (data) -> Void in
+       return RESTCommand(method: .POST, path: .logout) { (_) -> Void in
             CurrentUserInfo.currentUser = nil
             CurrentUserInfo.currentSessionToken = nil
        }

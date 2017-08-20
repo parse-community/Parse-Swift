@@ -28,9 +28,9 @@ public struct API {
             case .batch:
                 return "/batch"
             case .objects(let className):
-                return "/\(className)"
+                return "/classes/\(className)"
             case .object(let className, let objectId):
-                return "/\(className)/\(objectId)"
+                return "/classes/\(className)/\(objectId)"
             case .login:
                 return "/login"
             case .signup:
@@ -49,13 +49,13 @@ public struct API {
     }
 
     private static func getHeaders(useMasterKey: Bool = false) -> [String: String] {
-        var headers: [String: String] = ["X-Parse-Application-Id": _applicationId,
+        var headers: [String: String] = ["X-Parse-Application-Id": ParseConfiguration.applicationId,
                                          "Content-Type": "application/json"]
-        if let clientKey = _clientKey {
+        if let clientKey = ParseConfiguration.clientKey {
             headers["X-Parse-Client-Key"] = clientKey
         }
         if useMasterKey,
-            let masterKey = _masterKey {
+            let masterKey = ParseConfiguration.masterKey {
             headers["X-Parse-Master-Key"] = masterKey
         }
 
@@ -66,17 +66,17 @@ public struct API {
         return headers
     }
 
-    public typealias Response = (Result<Data>)->()
+    public typealias Response = (Result<Data>) -> Void
 
     internal static func request(method: Method,
-                               path: Endpoint,
-                               params: [URLQueryItem]? = nil,
-                               body: Data? = nil,
-                               useMasterKey: Bool = false,
-                               callback: Response? = nil) -> URLSessionDataTask {
+                                 path: Endpoint,
+                                 params: [URLQueryItem]? = nil,
+                                 body: Data? = nil,
+                                 useMasterKey: Bool = false,
+                                 callback: Response? = nil) -> URLSessionDataTask {
 
         let headers = getHeaders(useMasterKey: useMasterKey)
-        let url = _serverURL.appendingPathComponent(path.urlComponent)
+        let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
 
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         components.queryItems = params
@@ -87,7 +87,7 @@ public struct API {
             urlRequest.httpBody = body
         }
         urlRequest.httpMethod = method.rawValue
-        let task = URLSession.shared.dataTask(with: urlRequest) { (data, response, error) in
+        let task = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
             callback?(Result(data, error))
         }
         task.resume()

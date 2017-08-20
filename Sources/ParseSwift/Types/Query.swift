@@ -28,7 +28,7 @@ public struct QueryConstraint: Encodable {
 
     var key: String
     var value: Encodable
-    var op: Comparator
+    var comparator: Comparator
 
     public func encode(to encoder: Encoder) throws {
         if let value = value as? Date {
@@ -41,23 +41,23 @@ public struct QueryConstraint: Encodable {
 }
 
 public func > <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, op: .greaterThan)
+    return QueryConstraint(key: key, value: value, comparator: .greaterThan)
 }
 
 public func >= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, op: .greaterThanOrEqualTo)
+    return QueryConstraint(key: key, value: value, comparator: .greaterThanOrEqualTo)
 }
 
 public func < <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, op: .lessThan)
+    return QueryConstraint(key: key, value: value, comparator: .lessThan)
 }
 
 public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, op: .lessThanOrEqualTo)
+    return QueryConstraint(key: key, value: value, comparator: .lessThanOrEqualTo)
 }
 
 public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, op: .equals)
+    return QueryConstraint(key: key, value: value, comparator: .equals)
 }
 
 private struct InQuery<T>: Encodable where T: ObjectType {
@@ -69,7 +69,7 @@ private struct InQuery<T>: Encodable where T: ObjectType {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(className, forKey: .className)
-        try container.encode(query._where, forKey: .where)
+        try container.encode(query.where, forKey: .where)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -78,7 +78,7 @@ private struct InQuery<T>: Encodable where T: ObjectType {
 }
 
 public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
-    return QueryConstraint(key: key, value: InQuery(query: value), op: .inQuery)
+    return QueryConstraint(key: key, value: InQuery(query: value), comparator: .inQuery)
 }
 
 internal struct QueryWhere: Encodable {
@@ -97,7 +97,7 @@ internal struct QueryWhere: Encodable {
             var c = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
                                               forKey: .key(key))
             try value.forEach { (constraint) in
-                try constraint.encode(to: c.superEncoder(forKey: constraint.op))
+                try constraint.encode(to: c.superEncoder(forKey: constraint.comparator))
             }
         }
     }
@@ -105,15 +105,15 @@ internal struct QueryWhere: Encodable {
 
 public struct Query<T>: Encodable where T: ObjectType {
     // interpolate as GET
-    private let _method: String = "GET"
-    private var _limit: Int = 100
-    private var _skip: Int = 0
-    private var _keys: [String]?
-    private var _include: [String]?
-    private var _order: [Order]?
-    private var _count: Bool?
+    private let method: String = "GET"
+    private var limit: Int = 100
+    private var skip: Int = 0
+    private var keys: [String]?
+    private var include: [String]?
+    private var order: [Order]?
+    private var count: Bool?
 
-    fileprivate var _where = QueryWhere()
+    fileprivate var `where` = QueryWhere()
 
     public enum Order: Encodable {
         case ascending(String)
@@ -130,27 +130,26 @@ public struct Query<T>: Encodable where T: ObjectType {
         }
     }
 
-
     public init(_ constraints: QueryConstraint...) {
         self.init(constraints)
     }
 
     public init(_ constraints: [QueryConstraint]) {
-        constraints.forEach({ self._where.add($0) })
+        constraints.forEach({ self.where.add($0) })
     }
 
     public mutating func `where`(_ constraints: QueryConstraint...) -> Query<T> {
-        constraints.forEach({ self._where.add($0) })
+        constraints.forEach({ self.where.add($0) })
         return self
     }
 
     public mutating func limit(_ value: Int) -> Query<T> {
-        _limit = value
+        self.limit = value
         return self
     }
 
     public mutating func skip(_ value: Int) -> Query<T> {
-        _skip = value
+        self.skip = value
         return self
     }
 
@@ -162,13 +161,13 @@ public struct Query<T>: Encodable where T: ObjectType {
     }
 
     enum CodingKeys: String, CodingKey {
-        case _where = "where"
-        case _method
-        case _limit = "limit"
-        case _skip = "skip"
-        case _count = "count"
-        case _keys = "keys"
-        case _order = "order"
+        case `where`
+        case method = "_method"
+        case limit
+        case skip
+        case count
+        case keys
+        case order
     }
 }
 
@@ -195,7 +194,7 @@ private extension Query {
 
     private func firstCommand() -> RESTCommand<Query<T>, T?> {
         var query = self
-        query._limit = 1
+        query.limit = 1
         return RESTCommand(method: .POST, path: .objects(className: T.className), body: query) {
             try getDecoder().decode(FindResult<T>.self, from: $0).results.first
         }
@@ -203,8 +202,8 @@ private extension Query {
 
     private func countCommand() -> RESTCommand<Query<T>, Int> {
         var query = self
-        query._limit = 1
-        query._count = true
+        query.limit = 1
+        query.count = true
         return RESTCommand(method: .POST, path: .objects(className: T.className), body: query) {
             try getDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
         }

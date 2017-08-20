@@ -64,6 +64,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A1120BF1F49FC3300E32D94 /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
 		4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoder.swift; sourceTree = "<group>"; };
 		4A82B7EC1F254B820063D731 /* ObjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectType.swift; sourceTree = "<group>"; };
 		4A82B7ED1F254B820063D731 /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
@@ -121,6 +122,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A5EE45F1F49E9E000D3CAE3 /* Sources */ = {
+			isa = PBXGroup;
+			children = (
+				4AB8B4F61F254AE10070F682 /* ParseSwift */,
+			);
+			path = Sources;
+			sourceTree = "<group>";
+		};
+		4A5EE4601F49EA0600D3CAE3 /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				4A1120BF1F49FC3300E32D94 /* LinuxMain.swift */,
+				4AB8B5011F254AE10070F682 /* ParseSwiftTests */,
+			);
+			path = Tests;
+			sourceTree = "<group>";
+		};
 		4A65114E1F48E3CE005237DF /* ParseSwift-iOS */ = {
 			isa = PBXGroup;
 			children = (
@@ -158,8 +176,8 @@
 		4AB8B4EA1F254AE10070F682 = {
 			isa = PBXGroup;
 			children = (
-				4AB8B4F61F254AE10070F682 /* ParseSwift */,
-				4AB8B5011F254AE10070F682 /* ParseSwiftTests */,
+				4A5EE4601F49EA0600D3CAE3 /* Tests */,
+				4A5EE45F1F49E9E000D3CAE3 /* Sources */,
 				4A65114E1F48E3CE005237DF /* ParseSwift-iOS */,
 				4AFDA7131F26D9A5002AE4FC /* ParseSwift-macOS */,
 				4AB8B4F51F254AE10070F682 /* Products */,
@@ -259,7 +277,7 @@
 				4AB8B4F01F254AE10070F682 /* Frameworks */,
 				4AB8B4F11F254AE10070F682 /* Headers */,
 				4AB8B4F21F254AE10070F682 /* Resources */,
-				4A6511551F49D544005237DF /* ShellScript */,
+				4A6511551F49D544005237DF /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -296,7 +314,7 @@
 				4AFDA70E1F26D9A5002AE4FC /* Frameworks */,
 				4AFDA70F1F26D9A5002AE4FC /* Headers */,
 				4AFDA7101F26D9A5002AE4FC /* Resources */,
-				4A6511541F49D53C005237DF /* ShellScript */,
+				4A6511541F49D53C005237DF /* SwiftLint */,
 			);
 			buildRules = (
 			);
@@ -375,26 +393,28 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		4A6511541F49D53C005237DF /* ShellScript */ = {
+		4A6511541F49D53C005237DF /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"wa rning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
 		};
-		4A6511551F49D544005237DF /* ShellScript */ = {
+		4A6511551F49D544005237DF /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = SwiftLint;
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -607,7 +627,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -628,7 +648,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -680,7 +700,7 @@
 				PRODUCT_NAME = ParseSwift;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Debug;
@@ -703,7 +723,7 @@
 				PRODUCT_NAME = ParseSwift;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_SWIFT3_OBJC_INFERENCE = On;
+				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 4.0;
 			};
 			name = Release;

@@ -8,7 +8,7 @@ private func getObjectId<T: ObjectType>(target: T) -> String {
 }
 
 public struct Pointer<T: ObjectType>: Fetching, Codable {
-    private let __type: String = "Pointer"
+    private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
     public var objectId: String
     public var className: String
 
@@ -23,7 +23,7 @@ public struct Pointer<T: ObjectType>: Fetching, Codable {
     }
 
     private enum CodingKeys: String, CodingKey {
-        case __type, objectId, className
+        case __type, objectId, className // swiftlint:disable:this identifier_name
     }
 }
 
