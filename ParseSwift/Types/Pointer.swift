@@ -29,7 +29,7 @@ public struct Pointer<T: ObjectType>: Fetching, Codable {
 
 extension Pointer {
     public func fetch(callback: ((Result<T>) -> Void)?) -> Cancellable? {
-        return RESTCommand<NoBody, T>(method: .GET, path: "/classes/\(className)/\(objectId)", mapper: { (data) -> T in
+        return RESTCommand<NoBody, T>(method: .GET, path: .object(className: className, objectId: objectId), mapper: { (data) -> T in
             return try getDecoder().decode(T.self, from: data)
         }).execute(callback)
     }

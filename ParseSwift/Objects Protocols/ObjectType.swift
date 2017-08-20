@@ -252,11 +252,11 @@ public extension ObjectType {
 }
 
 extension ObjectType {
-    var remotePath: String {
+    var remotePath: API.Endpoint {
         if let objectId = objectId {
-            return "/classes/\(className)/\(objectId)"
+            return .object(className: className, objectId: objectId)
         }
-        return "/classes/\(className)"
+        return .objects(className: className)
     }
 
     var isSaved: Bool {

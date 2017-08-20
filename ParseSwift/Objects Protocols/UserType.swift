@@ -48,14 +48,14 @@ public extension UserType {
     }
 
     static func logout(callback: ((Result<()>)->())?) {
-        _ = RESTCommand<NoBody, Void>(method: .POST, path: "/users/logout", body: nil, mapper: { (data) -> Void in
+        _ = RESTCommand<NoBody, Void>(method: .POST, path: .logout, body: nil, mapper: { (data) -> Void in
             CurrentUserInfo.currentUser = nil
             CurrentUserInfo.currentSessionToken = nil
         }).execute(callback)
     }
 
     func signup(callback: UserTypeCallback? = nil) -> Cancellable {
-        return RESTCommand(method: .POST, path: "/users", body: self, mapper: { (data) -> Self in
+        return RESTCommand(method: .POST, path: .signup, body: self, mapper: { (data) -> Self in
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try getDecoder().decode(Self.self, from: data)
             user.updatedAt = response.updatedAt
@@ -74,7 +74,7 @@ private extension UserType {
             "username": username,
             "password": password
         ]
-        return RESTCommand<NoBody, Self>(method: .GET, path: "/login", params: params, mapper: { (data) -> Self in
+        return RESTCommand<NoBody, Self>(method: .GET, path: .login, params: params, mapper: { (data) -> Self in
             let user = try getDecoder().decode(Self.self, from: data)
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             CurrentUserInfo.currentUser = user
@@ -85,7 +85,7 @@ private extension UserType {
 
     private static func signupCommand(username: String, password: String) -> RESTCommand<SignupBody, Self> {
         let body = SignupBody(username: username, password: password)
-        return RESTCommand(method: .POST, path: "/users", body: body, mapper: { (data) -> Self in
+        return RESTCommand(method: .POST, path: .signup, body: body, mapper: { (data) -> Self in
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try getDecoder().decode(Self.self, from: data)
             user.username = username

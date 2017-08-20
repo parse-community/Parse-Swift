@@ -187,7 +187,7 @@ public extension Query {
 
 private extension Query {
     private func findCommand() -> RESTCommand<Query<T>, [T]> {
-        return RESTCommand(method: .POST, path: "/classes/\(T.className)", body: self) {
+        return RESTCommand(method: .POST, path: .objects(className: T.className), body: self) {
             try getDecoder().decode(FindResult<T>.self, from: $0).results
         }
     }
@@ -195,7 +195,7 @@ private extension Query {
     private func firstCommand() -> RESTCommand<Query<T>, T?> {
         var query = self
         query._limit = 1
-        return RESTCommand(method: .POST, path: "/classes/\(T.className)", body: query) {
+        return RESTCommand(method: .POST, path: .objects(className: T.className), body: query) {
             try getDecoder().decode(FindResult<T>.self, from: $0).results.first
         }
     }
@@ -204,7 +204,7 @@ private extension Query {
         var query = self
         query._limit = 1
         query._count = true
-        return RESTCommand(method: .POST, path: "/classes/\(T.className)", body: query) {
+        return RESTCommand(method: .POST, path: .objects(className: T.className), body: query) {
             try getDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
         }
     }

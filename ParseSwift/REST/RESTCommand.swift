@@ -15,7 +15,7 @@ public protocol Cancellable {
 internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
     typealias ReturnType = U
     let method: API.Method
-    let path: String
+    let path: API.Endpoint
     let body: T?
     let mapper: ((Data) throws -> U)
     let params: [String: String?]?
@@ -25,7 +25,7 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
     private var _onSuccess: ((U)->())?
     private var _onError: ((Error)->())?
 
-    init(method: API.Method, path: String, params: [String: String]? = nil, body: T? = nil, mapper: @escaping ((Data) throws -> U)) {
+    init(method: API.Method, path: API.Endpoint, params: [String: String]? = nil, body: T? = nil, mapper: @escaping ((Data) throws -> U)) {
         self.method = method
         self.path = path
         self.body = body

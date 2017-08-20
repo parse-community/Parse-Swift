@@ -27,11 +27,11 @@ public class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ObjectType {
 
     init(commands: [ParseObjectCommand]) {
         let commands = commands.flatMap { (command) -> RESTCommand<T, T>? in
-            let path = _mountPath + command.path
+            let path = _mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
             }
-            return RESTCommand<T, T>(method: command.method, path: path, body: body, mapper: command.mapper)
+            return RESTCommand<T, T>(method: command.method, path: .any(path), body: body, mapper: command.mapper)
         }
         let bodies = commands.flatMap { (command) -> T? in
             return command.body
@@ -47,6 +47,6 @@ public class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ObjectType {
                 }
             })
         }
-        super.init(method: .POST, path: "/batch", body: BatchCommand(requests: commands), mapper: mapper)
+        super.init(method: .POST, path: .batch, body: BatchCommand(requests: commands), mapper: mapper)
     }
 }

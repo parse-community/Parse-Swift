@@ -14,6 +14,40 @@ public struct API {
         case GET, POST, PUT, DELETE
     }
 
+    public enum Endpoint: Encodable {
+        case batch
+        case objects(className: String)
+        case object(className: String, objectId: String)
+        case login
+        case signup
+        case logout
+        case any(String)
+
+        var urlComponent: String {
+            switch self {
+            case .batch:
+                return "/batch"
+            case .objects(let className):
+                return "/\(className)"
+            case .object(let className, let objectId):
+                return "/\(className)/\(objectId)"
+            case .login:
+                return "/login"
+            case .signup:
+                return "/users"
+            case .logout:
+                return "/users/logout"
+            case .any(let path):
+                return path
+            }
+        }
+
+        public func encode(to encoder: Encoder) throws {
+            var container = encoder.singleValueContainer()
+            try container.encode(urlComponent)
+        }
+    }
+
     private static func getHeaders(useMasterKey: Bool = false) -> [String: String] {
         var headers: [String: String] = ["X-Parse-Application-Id": _applicationId,
                                          "Content-Type": "application/json"]
@@ -34,15 +68,15 @@ public struct API {
 
     public typealias Response = (Result<Data>)->()
 
-    public static func request(method: Method,
-                               path: String,
+    internal static func request(method: Method,
+                               path: Endpoint,
                                params: [URLQueryItem]? = nil,
                                body: Data? = nil,
                                useMasterKey: Bool = false,
                                callback: Response? = nil) -> URLSessionDataTask {
 
         let headers = getHeaders(useMasterKey: useMasterKey)
-        let url = _serverURL.appendingPathComponent(path)
+        let url = _serverURL.appendingPathComponent(path.urlComponent)
 
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
         components.queryItems = params
@@ -58,25 +92,5 @@ public struct API {
         }
         task.resume()
         return task
-    }
-
-    public static func get(path: String, callback: Response? = nil) -> URLSessionDataTask {
-        return request(method: .GET, path: path, callback: callback)
-    }
-
-    public static func post(path: String, body: Data?, callback: Response? = nil) -> URLSessionDataTask {
-        return request(method: .POST, path: path, body: body, callback: callback)
-    }
-
-    public static func put(path: String, body: Data?, callback: Response? = nil) -> URLSessionDataTask {
-        return request(method: .PUT, path: path, body: body, callback: callback)
-    }
-
-    public static func get(className: String, objectId: String, callback: Response? = nil) -> URLSessionDataTask {
-        return get(path: "/classes/\(className)/\(objectId)", callback: callback)
-    }
-
-    public static func get(className: String, callback: Response? = nil) -> URLSessionDataTask {
-        return get(path: "/classes/\(className)", callback: callback)
     }
 }
