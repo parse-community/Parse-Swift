@@ -18,12 +18,13 @@ extension ParseEncoder: CommonEncoder {}
 extension JSONEncoder: CommonEncoder {}
 
 public protocol Saving: Codable {
-    func save(callback: ((Result<Self>) -> Void)?) -> Cancellable
+    associatedtype SavingType
+    func save(callback: @escaping ((Result<SavingType>) -> Void)) -> Cancellable
 }
 
 public protocol Fetching: Codable {
     associatedtype FetchingType
-    func fetch(callback: ((Result<FetchingType>) -> Void)?) -> Cancellable?
+    func fetch(callback: @escaping ((Result<FetchingType>) -> Void)) -> Cancellable?
 }
 
 public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible, Equatable {
@@ -38,15 +39,6 @@ internal extension ObjectType {
     internal func getEncoder() -> CommonEncoder {
         return getParseEncoder()
     }
-}
-
-public func == <T>(lhs: T?, rhs: T?) -> Bool where T: ObjectType {
-    guard let lhs = lhs, let rhs = rhs else { return false }
-    return lhs == rhs
-}
-
-public func == <T>(lhs: T, rhs: T) -> Bool where T: ObjectType {
-    return lhs.className == rhs.className && rhs.objectId == lhs.objectId
 }
 
 extension ObjectType {
@@ -73,64 +65,6 @@ extension ObjectType {
 public extension ObjectType {
     func toPointer() -> Pointer<Self> {
         return Pointer(self)
-    }
-}
-
-public struct SaveResponse: Decodable {
-    var objectId: String
-    var createdAt: Date
-    var updatedAt: Date {
-        return createdAt
-    }
-
-    func apply<T>(_ object: T) -> T where T: ObjectType {
-        var object = object
-        object.objectId = objectId
-        object.createdAt = createdAt
-        object.updatedAt = updatedAt
-        return object
-    }
-}
-
-struct UpdateResponse: Decodable {
-    var updatedAt: Date
-
-    func apply<T>(_ object: T) -> T where T: ObjectType {
-        var object = object
-        object.updatedAt = updatedAt
-        return object
-    }
-}
-
-struct SaveOrUpdateResponse: Decodable {
-    var objectId: String?
-    var createdAt: Date?
-    var updatedAt: Date?
-
-    var isCreate: Bool {
-        return objectId != nil && createdAt != nil
-    }
-
-    func asSaveResponse() -> SaveResponse {
-        guard let objectId = objectId, let createdAt = createdAt else {
-            fatalError("Cannot create a SaveResponse without objectId")
-        }
-        return SaveResponse(objectId: objectId, createdAt: createdAt)
-    }
-
-    func asUpdateResponse() -> UpdateResponse {
-        guard let updatedAt = updatedAt else {
-            fatalError("Cannot create an UpdateResponse without updatedAt")
-        }
-        return UpdateResponse(updatedAt: updatedAt)
-    }
-
-    func apply<T>(_ object: T) -> T where T: ObjectType {
-        if isCreate {
-            return asSaveResponse().apply(object)
-        } else {
-            return asUpdateResponse().apply(object)
-        }
     }
 }
 
@@ -227,15 +161,15 @@ func getDecoder() -> JSONDecoder {
 public extension ObjectType {
     typealias ObjectCallback = (Result<Self>) -> Void
 
-    public func save(callback: ((Result<Self>) -> Void)? = nil) -> Cancellable {
+    public func save(callback: @escaping ((Result<Self>) -> Void)) -> Cancellable {
         return saveCommand().execute(callback)
     }
 
-    public func fetch(callback: ((Result<Self>) -> Void)? = nil) -> Cancellable? {
+    public func fetch(callback: @escaping ((Result<Self>) -> Void)) -> Cancellable? {
         do {
             return try fetchCommand().execute(callback)
         } catch let e {
-            callback?(.error(e))
+            callback(.error(e))
         }
         return nil
     }
@@ -250,7 +184,7 @@ public extension ObjectType {
 }
 
 extension ObjectType {
-    var remotePath: API.Endpoint {
+    var endpoint: API.Endpoint {
         if let objectId = objectId {
             return .object(className: className, objectId: objectId)
         }
@@ -270,23 +204,5 @@ public struct FindResult<T>: Decodable where T: ObjectType {
 public extension ObjectType {
     var mutationContainer: ParseMutationContainer<Self> {
         return ParseMutationContainer(target: self)
-    }
-}
-
-public typealias BatchResultCallback<T> = (Result<[(T, ParseError?)]>) -> Void where T: ObjectType
-public extension ObjectType {
-    public static func saveAll(_ objects: Self...,
-                               callback: BatchResultCallback<Self>?) -> Cancellable {
-        return objects.saveAll(callback: callback)
-    }
-}
-
-extension Sequence where Element: ObjectType {
-    public func saveAll(callback: BatchResultCallback<Element>?) -> Cancellable {
-        return RESTBatchCommand(commands: map { $0.saveCommand() }).execute(callback)
-    }
-
-    private func saveAllCommand() -> RESTBatchCommand<Element> {
-        return RESTBatchCommand(commands: map { $0.saveCommand() })
     }
 }

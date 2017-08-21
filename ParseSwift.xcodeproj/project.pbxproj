@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		4A2D8C811F48B3A900EE1FCC /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
+		4A2F14911F4A41B900A7A7EF /* Synchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14901F4A41B900A7A7EF /* Synchronous.swift */; };
+		4A2F14921F4A434100A7A7EF /* Synchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14901F4A41B900A7A7EF /* Synchronous.swift */; };
+		4A2F14941F4A5E1E00A7A7EF /* ObjectType+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14931F4A5E1E00A7A7EF /* ObjectType+Equatable.swift */; };
+		4A2F14961F4A5F2900A7A7EF /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14951F4A5F2900A7A7EF /* Responses.swift */; };
+		4A2F14981F4A5F6900A7A7EF /* ObjectType+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14971F4A5F6900A7A7EF /* ObjectType+Batch.swift */; };
+		4A2F14991F4A5FB500A7A7EF /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14951F4A5F2900A7A7EF /* Responses.swift */; };
+		4A2F149A1F4A5FBA00A7A7EF /* ObjectType+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14931F4A5E1E00A7A7EF /* ObjectType+Equatable.swift */; };
+		4A2F149B1F4A5FBA00A7A7EF /* ObjectType+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14971F4A5F6900A7A7EF /* ObjectType+Batch.swift */; };
 		4A65114F1F48E3F3005237DF /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
 		4A6511501F48E400005237DF /* RESTBatchCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC397711F488F9E00DEA9D3 /* RESTBatchCommand.swift */; };
 		4A6511511F48E406005237DF /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC3976F1F48778900DEA9D3 /* ACL.swift */; };
@@ -66,6 +74,10 @@
 /* Begin PBXFileReference section */
 		4A1120BF1F49FC3300E32D94 /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
 		4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoder.swift; sourceTree = "<group>"; };
+		4A2F14901F4A41B900A7A7EF /* Synchronous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Synchronous.swift; sourceTree = "<group>"; };
+		4A2F14931F4A5E1E00A7A7EF /* ObjectType+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectType+Equatable.swift"; sourceTree = "<group>"; };
+		4A2F14951F4A5F2900A7A7EF /* Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
+		4A2F14971F4A5F6900A7A7EF /* ObjectType+Batch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectType+Batch.swift"; sourceTree = "<group>"; };
 		4A82B7EC1F254B820063D731 /* ObjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectType.swift; sourceTree = "<group>"; };
 		4A82B7ED1F254B820063D731 /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
 		4A82B7EE1F254B820063D731 /* Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
@@ -122,6 +134,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4A2F149C1F4A604900A7A7EF /* Encoder */ = {
+			isa = PBXGroup;
+			children = (
+				4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */,
+			);
+			path = Encoder;
+			sourceTree = "<group>";
+		};
 		4A5EE45F1F49E9E000D3CAE3 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,8 +196,8 @@
 		4AB8B4EA1F254AE10070F682 = {
 			isa = PBXGroup;
 			children = (
-				4A5EE4601F49EA0600D3CAE3 /* Tests */,
 				4A5EE45F1F49E9E000D3CAE3 /* Sources */,
+				4A5EE4601F49EA0600D3CAE3 /* Tests */,
 				4A65114E1F48E3CE005237DF /* ParseSwift-iOS */,
 				4AFDA7131F26D9A5002AE4FC /* ParseSwift-macOS */,
 				4AB8B4F51F254AE10070F682 /* Products */,
@@ -200,10 +220,11 @@
 			children = (
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
 				4AC397731F488FF900DEA9D3 /* API.swift */,
+				4A2F14901F4A41B900A7A7EF /* Synchronous.swift */,
 				4AC397761F4895A200DEA9D3 /* Objects Protocols */,
 				4A82B7FD1F25691B0063D731 /* Types */,
 				4A82B7F21F254B820063D731 /* Result.swift */,
-				4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */,
+				4A2F149C1F4A604900A7A7EF /* Encoder */,
 				4A99A46A1F2650E200D72A59 /* Mutations */,
 				4AC397771F4895C000DEA9D3 /* REST */,
 				4AB8B4F71F254AE10070F682 /* Parse.h */,
@@ -225,6 +246,8 @@
 			children = (
 				4A82B7EC1F254B820063D731 /* ObjectType.swift */,
 				4A82B8001F256B330063D731 /* ObjectType+Query.swift */,
+				4A2F14931F4A5E1E00A7A7EF /* ObjectType+Equatable.swift */,
+				4A2F14971F4A5F6900A7A7EF /* ObjectType+Batch.swift */,
 				4AEBA54E1F265A0D00628B17 /* UserType.swift */,
 			);
 			path = "Objects Protocols";
@@ -235,6 +258,7 @@
 			children = (
 				4A82B7FB1F255B5F0063D731 /* RESTCommand.swift */,
 				4AC397711F488F9E00DEA9D3 /* RESTBatchCommand.swift */,
+				4A2F14951F4A5F2900A7A7EF /* Responses.swift */,
 			);
 			path = REST;
 			sourceTree = "<group>";
@@ -428,6 +452,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A2F14961F4A5F2900A7A7EF /* Responses.swift in Sources */,
 				4A82B7FC1F255B5F0063D731 /* RESTCommand.swift in Sources */,
 				4AC397741F488FF900DEA9D3 /* API.swift in Sources */,
 				4A82B7F71F254CCE0063D731 /* ObjectType.swift in Sources */,
@@ -437,11 +462,14 @@
 				4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */,
 				4AC397701F48778900DEA9D3 /* ACL.swift in Sources */,
 				4A2D8C811F48B3A900EE1FCC /* ParseEncoder.swift in Sources */,
+				4A2F14911F4A41B900A7A7EF /* Synchronous.swift in Sources */,
 				4A99A46E1F26512100D72A59 /* IncrementOperation.swift in Sources */,
 				4A82B8011F256B330063D731 /* ObjectType+Query.swift in Sources */,
 				4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */,
 				4A82B7F91F254CCE0063D731 /* Result.swift in Sources */,
+				4A2F14981F4A5F6900A7A7EF /* ObjectType+Batch.swift in Sources */,
 				4A82B7F41F254CCE0063D731 /* File.swift in Sources */,
+				4A2F14941F4A5E1E00A7A7EF /* ObjectType+Equatable.swift in Sources */,
 				4AC397721F488F9E00DEA9D3 /* RESTBatchCommand.swift in Sources */,
 				4AEBA54D1F26523800628B17 /* DeleteOperation.swift in Sources */,
 				4A82B7F81F254CCE0063D731 /* Pointer.swift in Sources */,
@@ -472,9 +500,13 @@
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
 				4AFDA7351F26DAE1002AE4FC /* Query.swift in Sources */,
 				4AFDA7381F26DAF4002AE4FC /* RESTCommand.swift in Sources */,
+				4A2F14921F4A434100A7A7EF /* Synchronous.swift in Sources */,
+				4A2F14991F4A5FB500A7A7EF /* Responses.swift in Sources */,
+				4A2F149A1F4A5FBA00A7A7EF /* ObjectType+Equatable.swift in Sources */,
 				4A65114F1F48E3F3005237DF /* ParseEncoder.swift in Sources */,
 				4AFDA72E1F26DAE1002AE4FC /* AddOperation.swift in Sources */,
 				4AFDA7311F26DAE1002AE4FC /* AddUniqueOperation.swift in Sources */,
+				4A2F149B1F4A5FBA00A7A7EF /* ObjectType+Batch.swift in Sources */,
 				4A6511521F48E406005237DF /* GeoPoint.swift in Sources */,
 				4AFDA7331F26DAE1002AE4FC /* File.swift in Sources */,
 				4A6511531F48E410005237DF /* API.swift in Sources */,

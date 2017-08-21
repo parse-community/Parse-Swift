@@ -12,7 +12,10 @@ public protocol Cancellable {
     func cancel()
 }
 
+private let commandQueue = DispatchQueue(label: "com.parse.ParseSwift.restCommandQueue")
+
 internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
+    internal struct Empty: Encodable {}
     typealias ReturnType = U
     let method: API.Method
     let path: API.Endpoint
@@ -21,6 +24,7 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
     let params: [String: String?]?
 
     var task: URLSessionDataTask?
+
     private var _useMasterKey: Bool = false
     private var _onSuccess: ((U) -> Void)?
     private var _onError: ((Error) -> Void)?
@@ -45,7 +49,7 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
                            params: params,
                            body: data,
                            useMasterKey: _useMasterKey) { (result) in
-            self.runContinuations(result.map(self.mapper), callback)
+            callback?(result.map(self.mapper))
         }
         return self
     }
@@ -55,30 +59,9 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
         task = nil
     }
 
-    public func success(_ onSuccess: @escaping (U) -> Void) -> RESTCommand<T, U> {
-        _onSuccess = onSuccess
-        return self
-    }
-
-    public func error(_ onError: @escaping (Error) -> Void) -> RESTCommand<T, U> {
-        _onError = onError
-        return self
-    }
-
     public func useMasterKey() -> RESTCommand<T, U> {
         _useMasterKey = true
         return self
-    }
-
-    private func runContinuations(_ result: Result<U>, _ callback: ((Result<U>) -> Void)?) {
-        switch result {
-        case .success(let obj):
-            _onSuccess?(obj)
-        case .error(let err):
-            _onError?(err)
-        default: break
-        }
-        callback?(result)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -95,7 +78,7 @@ internal extension RESTCommand where T: ObjectType {
                            params: params,
                            body: data!,
                            useMasterKey: _useMasterKey) { (result) in
-            self.runContinuations(result.map(self.mapper), callback)
+            callback?(result.map(self.mapper))
         }
         return self
     }
@@ -113,7 +96,7 @@ internal extension RESTCommand {
     // MARK: Saving - private
     private static func createCommand<T>(_ object: T) -> RESTCommand<T, T> where T: ObjectType {
         return RESTCommand<T, T>(method: .POST,
-                                 path: object.remotePath,
+                                 path: object.endpoint,
                                  body: object) { (data) -> T in
             try getDecoder().decode(SaveResponse.self, from: data).apply(object)
         }
@@ -121,7 +104,7 @@ internal extension RESTCommand {
 
     private static func updateCommand<T>(_ object: T) -> RESTCommand<T, T> where T: ObjectType {
         return RESTCommand<T, T>(method: .PUT,
-                                 path: object.remotePath,
+                                 path: object.endpoint,
                                  body: object) { (data: Data) -> T in
             try getDecoder().decode(UpdateResponse.self, from: data).apply(object)
         }
@@ -133,7 +116,7 @@ internal extension RESTCommand {
             throw ParseError(code: -1, error: "Cannot Fetch an object without id")
         }
         return RESTCommand<T, T>(method: .GET,
-                                 path: object.remotePath) { (data) -> T in
+                                 path: object.endpoint) { (data) -> T in
             try getDecoder().decode(T.self, from: data)
         }
     }

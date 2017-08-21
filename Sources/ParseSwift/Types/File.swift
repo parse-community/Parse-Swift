@@ -1,6 +1,7 @@
 import Foundation
 
 public struct File: Saving, Fetching {
+
     private let __type: String = "File" // swiftlint:disable:this identifier_name
     public var data: Data?
     public var url: URL?
@@ -10,7 +11,7 @@ public struct File: Saving, Fetching {
         self.url = url
     }
 
-    public func save(callback: ((Result<File>) -> Void)? = nil) -> Cancellable {
+    public func save(callback: @escaping ((Result<File>) -> Void)) -> Cancellable {
         // upload file
         // store in server
         // callback with the data
@@ -32,7 +33,7 @@ public struct File: Saving, Fetching {
         }
     }
 
-    public func fetch(callback: ((Result<File>) -> Void)? = nil) -> Cancellable? {
+    public func fetch(callback: @escaping ((Result<File>) -> Void)) -> Cancellable? {
         fatalError()
     }
 

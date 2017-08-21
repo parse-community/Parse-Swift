@@ -23,6 +23,38 @@ public struct BatchResponseItem<T>: Decodable where T: Decodable {
     let error: ParseError?
 }
 
+struct SaveOrUpdateResponse: Decodable {
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+
+    var isCreate: Bool {
+        return objectId != nil && createdAt != nil
+    }
+
+    func asSaveResponse() -> SaveResponse {
+        guard let objectId = objectId, let createdAt = createdAt else {
+            fatalError("Cannot create a SaveResponse without objectId")
+        }
+        return SaveResponse(objectId: objectId, createdAt: createdAt)
+    }
+
+    func asUpdateResponse() -> UpdateResponse {
+        guard let updatedAt = updatedAt else {
+            fatalError("Cannot create an UpdateResponse without updatedAt")
+        }
+        return UpdateResponse(updatedAt: updatedAt)
+    }
+
+    func apply<T>(_ object: T) -> T where T: ObjectType {
+        if isCreate {
+            return asSaveResponse().apply(object)
+        } else {
+            return asUpdateResponse().apply(object)
+        }
+    }
+}
+
 public class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ObjectType {
     typealias ParseObjectCommand = RESTCommand<T, T>
     typealias ParseObjectBatchCommand = BatchCommand<T, T>

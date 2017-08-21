@@ -7,6 +7,12 @@
 //
 
 import Foundation
+public protocol Querying {
+    associatedtype ResultType
+    func find(callback: @escaping ((Result<[ResultType]>) -> Void)) -> Cancellable
+    func first(callback: @escaping ((Result<ResultType?>) -> Void)) -> Cancellable
+    func count(callback: @escaping ((Result<Int>) -> Void)) -> Cancellable
+}
 
 public struct QueryConstraint: Encodable {
     public enum Comparator: String, CodingKey {
@@ -111,7 +117,7 @@ public struct Query<T>: Encodable where T: ObjectType {
     private var keys: [String]?
     private var include: [String]?
     private var order: [Order]?
-    private var count: Bool?
+    private var isCount: Bool?
 
     fileprivate var `where` = QueryWhere()
 
@@ -156,8 +162,13 @@ public struct Query<T>: Encodable where T: ObjectType {
     var className: String {
         return T.className
     }
+
     static var className: String {
         return T.className
+    }
+
+    var endpoint: API.Endpoint {
+        return .objects(className: className)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -165,46 +176,48 @@ public struct Query<T>: Encodable where T: ObjectType {
         case method = "_method"
         case limit
         case skip
-        case count
+        case isCount = "count"
         case keys
         case order
     }
 }
 
-public extension Query {
-    public func find(callback: ((Result<[T]>) -> Void)?) -> Cancellable {
+extension Query: Querying {
+    public typealias ResultType = T
+
+    public func find(callback: @escaping ((Result<[ResultType]>) -> Void)) -> Cancellable {
         return findCommand().execute(callback)
     }
 
-    public func first(callback: ((Result<T?>) -> Void)?) -> Cancellable {
+    public func first(callback: @escaping ((Result<ResultType?>) -> Void)) -> Cancellable {
         return firstCommand().execute(callback)
     }
 
-    public func count(callback: ((Result<Int>) -> Void)?) -> Cancellable {
+    public func count(callback: @escaping ((Result<Int>) -> Void)) -> Cancellable {
         return countCommand().execute(callback)
     }
 }
 
 private extension Query {
-    private func findCommand() -> RESTCommand<Query<T>, [T]> {
-        return RESTCommand(method: .POST, path: .objects(className: T.className), body: self) {
+    private func findCommand() -> RESTCommand<Query<ResultType>, [ResultType]> {
+        return RESTCommand(method: .POST, path: endpoint, body: self) {
             try getDecoder().decode(FindResult<T>.self, from: $0).results
         }
     }
 
-    private func firstCommand() -> RESTCommand<Query<T>, T?> {
+    private func firstCommand() -> RESTCommand<Query<ResultType>, ResultType?> {
         var query = self
         query.limit = 1
-        return RESTCommand(method: .POST, path: .objects(className: T.className), body: query) {
+        return RESTCommand(method: .POST, path: endpoint, body: query) {
             try getDecoder().decode(FindResult<T>.self, from: $0).results.first
         }
     }
 
-    private func countCommand() -> RESTCommand<Query<T>, Int> {
+    private func countCommand() -> RESTCommand<Query<ResultType>, Int> {
         var query = self
         query.limit = 1
-        query.count = true
-        return RESTCommand(method: .POST, path: .objects(className: T.className), body: query) {
+        query.isCount = true
+        return RESTCommand(method: .POST, path: endpoint, body: query) {
             try getDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
         }
     }

@@ -8,6 +8,8 @@ private func getObjectId<T: ObjectType>(target: T) -> String {
 }
 
 public struct Pointer<T: ObjectType>: Fetching, Codable {
+    public typealias FetchingType = T
+
     private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
     public var objectId: String
     public var className: String
@@ -28,7 +30,7 @@ public struct Pointer<T: ObjectType>: Fetching, Codable {
 }
 
 extension Pointer {
-    public func fetch(callback: ((Result<T>) -> Void)?) -> Cancellable? {
+    public func fetch(callback: @escaping ((Result<T>) -> Void)) -> Cancellable? {
         let path = API.Endpoint.object(className: className, objectId: objectId)
         return RESTCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
