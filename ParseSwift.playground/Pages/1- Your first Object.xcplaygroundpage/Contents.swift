@@ -32,10 +32,10 @@ func printCWD() {
     let resources = jsonPath.deletingPathExtension().deletingLastPathComponent()
     print(resources.absoluteString)
     let process = Process()
-    process.launchPath = "/Users/florent/.nvm/versions/node/v7.4.0/bin/npm"
+    process.launchPath = "~/.nvm/versions/node/v7.4.0/bin/npm"
     // process.currentDirectoryPath = resources.absoluteString
     process.environment = [
-        "PATH": "/Users/florent/.nvm/versions/node/v7.4.0/bin",
+        "PATH": "~/.nvm/versions/node/v7.4.0/bin",
         "VERBOSE": "1"
     ]
     process.arguments = ["install", "parse-server", "mongodb-runner"]
@@ -56,10 +56,10 @@ public func startParse(applicationId: String,
 //    let arguments =  ["--appId", applicationId, "--masterKey", masterKey, "--mountPath", mountPath]
 //    let process = Process()
 //    process.environment = [
-//        "PATH": "/Users/florent/.nvm/versions/node/v7.4.0/bin",
+//        "PATH": "~/.nvm/versions/node/v7.4.0/bin",
 //        "VERBOSE": "1"
 //    ]
-//    process.launchPath = "/Users/florent/src/Parse/parse-server/bin/parse-server"
+//    process.launchPath = "~/src/Parse/parse-server/bin/parse-server"
 //    process.arguments = arguments
 //    process.terminationHandler = { process in
 //        print("Terminated...")
