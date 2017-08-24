@@ -90,3 +90,22 @@ public extension Query {
         return Synchronous(object: self)
     }
 }
+
+// Temporary, just for demo
+public extension ObjectType {
+    public static func saveAllSync(_ objects: Self...) throws -> [(Self, ParseError?)] {
+        return try await { done in
+            _ = objects.saveAll(callback: done)
+        }
+    }
+}
+
+public extension Sequence where Element: ObjectType {
+    public func saveAllSync() throws -> [(Element, ParseError?)] {
+        return try await { done in
+            _ = self.saveAll(callback: done)
+        }
+    }
+}
+
+
