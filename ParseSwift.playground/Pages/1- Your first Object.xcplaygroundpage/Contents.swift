@@ -43,13 +43,13 @@ assert(score.objectId == changedScore.objectId)
 
 // TODO: Add support for sync saveAll
 let score2 = GameScore(score: 3)
-let results = try? GameScore.saveAllSync(score, score2) else { fatalError() }
+guard let results = try? GameScore.saveAllSync(score, score2) else { fatalError() }
 results.forEach { (result) in
     let (_, error) = result
     assert(error == nil, "error should be nil")
 }
 
-let otherResults = [score, score2].saveAllSync() else { fatalError() }
+guard let otherResults = try? [score, score2].saveAllSync() else { fatalError() }
 otherResults.forEach { (result) in
     let (_, error) = result
     assert(error == nil, "error should be nil")

@@ -107,5 +107,3 @@ public extension Sequence where Element: ObjectType {
         }
     }
 }
-
-
