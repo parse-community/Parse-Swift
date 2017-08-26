@@ -36,21 +36,21 @@ public extension UserType {
     static func login(username: String,
                       password: String,
                       callback: UserTypeCallback? = nil) -> Cancellable {
-        return loginCommand(username: username, password: password).execute(callback)
+        return loginCommand(username: username, password: password).execute(options: [], callback)
     }
 
     static func signup(username: String,
                        password: String,
                        callback: UserTypeCallback? = nil) -> Cancellable {
-        return signupCommand(username: username, password: password).execute(callback)
+        return signupCommand(username: username, password: password).execute(options: [], callback)
     }
 
     static func logout(callback: ((Result<()>) -> Void)?) {
-        _ = logoutCommand().execute(callback)
+        _ = logoutCommand().execute(options: [], callback)
     }
 
     func signup(callback: UserTypeCallback? = nil) -> Cancellable {
-        return signupCommand().execute(callback)
+        return signupCommand().execute(options: [], callback)
     }
 }
 

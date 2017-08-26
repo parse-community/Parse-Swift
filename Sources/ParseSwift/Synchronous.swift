@@ -32,36 +32,36 @@ public struct Synchronous<T> {
     let object: T
 }
 
-extension Synchronous where T: Fetching {
-    public func fetch() throws -> T.FetchingType {
+extension Synchronous where T: Saving {
+    public func save(options: API.Option = []) throws -> T.SavingType {
         return try await { done in
-            _ = object.fetch(callback: done)
+            _ = object.save(options: options, callback: done)
         }
     }
 }
 
-extension Synchronous where T: Saving {
-    public func save() throws -> T.SavingType {
+extension Synchronous where T: Fetching {
+    public func fetch(options: API.Option = []) throws -> T.FetchingType {
         return try await { done in
-            _ = object.save(callback: done)
+            _ = object.fetch(options: options, callback: done)
         }
     }
 }
 
 extension Synchronous where T: Querying {
-    public func find() throws -> [T.ResultType] {
+    public func find(options: API.Option = []) throws -> [T.ResultType] {
         return try await { done in
-            _ = object.find(callback: done)
+            _ = object.find(options: options, callback: done)
         }
     }
-    public func first() throws -> T.ResultType? {
+    public func first(options: API.Option = []) throws -> T.ResultType? {
         return try await { done in
-            _ = object.first(callback: done)
+            _ = object.first(options: options, callback: done)
         }
     }
-    public func count() throws -> Int {
+    public func count(options: API.Option = []) throws -> Int {
         return try await { done in
-            _ = object.count(callback: done)
+            _ = object.count(options: options, callback: done)
         }
     }
 }
@@ -93,17 +93,17 @@ public extension Query {
 
 // Temporary, just for demo
 public extension ObjectType {
-    public static func saveAllSync(_ objects: Self...) throws -> [(Self, ParseError?)] {
+    public static func saveAllSync(options: API.Option = [], _ objects: Self...) throws -> [(Self, ParseError?)] {
         return try await { done in
-            _ = objects.saveAll(callback: done)
+            _ = objects.saveAll(options: options, callback: done)
         }
     }
 }
 
 public extension Sequence where Element: ObjectType {
-    public func saveAllSync() throws -> [(Element, ParseError?)] {
+    public func saveAllSync(options: API.Option = []) throws -> [(Element, ParseError?)] {
         return try await { done in
-            _ = self.saveAll(callback: done)
+            _ = self.saveAll(options: options, callback: done)
         }
     }
 }

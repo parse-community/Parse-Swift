@@ -17,8 +17,8 @@ public extension ObjectType {
 }
 
 extension Sequence where Element: ObjectType {
-    public func saveAll(callback: BatchResultCallback<Element>?) -> Cancellable {
-        return RESTBatchCommand(commands: map { $0.saveCommand() }).execute(callback)
+    public func saveAll(options: API.Option = [], callback: BatchResultCallback<Element>?) -> Cancellable {
+        return RESTBatchCommand(commands: map { $0.saveCommand() }).execute(options: options, callback)
     }
 
     private func saveAllCommand() -> RESTBatchCommand<Element> {

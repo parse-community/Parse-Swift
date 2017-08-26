@@ -10,21 +10,28 @@ import Foundation
 
 public struct NoBody: Codable {}
 
-internal protocol CommonEncoder {
-    func encode<T: Encodable>(_ value: T) throws -> Data
-}
-
-extension ParseEncoder: CommonEncoder {}
-extension JSONEncoder: CommonEncoder {}
-
 public protocol Saving: Codable {
     associatedtype SavingType
+    func save(options: API.Option, callback: @escaping ((Result<SavingType>) -> Void)) -> Cancellable
     func save(callback: @escaping ((Result<SavingType>) -> Void)) -> Cancellable
+}
+
+extension Saving {
+    public func save(callback: @escaping ((Result<SavingType>) -> Void)) -> Cancellable {
+        return save(options: [], callback: callback)
+    }
 }
 
 public protocol Fetching: Codable {
     associatedtype FetchingType
+    func fetch(options: API.Option, callback: @escaping ((Result<FetchingType>) -> Void)) -> Cancellable?
     func fetch(callback: @escaping ((Result<FetchingType>) -> Void)) -> Cancellable?
+}
+
+extension Fetching {
+    public func fetch(callback: @escaping ((Result<FetchingType>) -> Void)) -> Cancellable? {
+        return fetch(options: [], callback: callback)
+    }
 }
 
 public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible, Equatable {
@@ -36,7 +43,7 @@ public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible, Equa
 }
 
 internal extension ObjectType {
-    internal func getEncoder() -> CommonEncoder {
+    internal func getEncoder() -> ParseEncoder {
         return getParseEncoder()
     }
 }
@@ -161,13 +168,13 @@ func getDecoder() -> JSONDecoder {
 public extension ObjectType {
     typealias ObjectCallback = (Result<Self>) -> Void
 
-    public func save(callback: @escaping ((Result<Self>) -> Void)) -> Cancellable {
-        return saveCommand().execute(callback)
+    public func save(options: API.Option, callback: @escaping ((Result<Self>) -> Void)) -> Cancellable {
+        return saveCommand().execute(options: options, callback)
     }
 
-    public func fetch(callback: @escaping ((Result<Self>) -> Void)) -> Cancellable? {
+    public func fetch(options: API.Option, callback: @escaping ((Result<Self>) -> Void)) -> Cancellable? {
         do {
-            return try fetchCommand().execute(callback)
+            return try fetchCommand().execute(options: options, callback)
         } catch let e {
             callback(.error(e))
         }

@@ -25,10 +25,6 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
 
     var task: URLSessionDataTask?
 
-    private var _useMasterKey: Bool = false
-    private var _onSuccess: ((U) -> Void)?
-    private var _onError: ((Error) -> Void)?
-
     init(method: API.Method,
          path: API.Endpoint,
          params: [String: String]? = nil,
@@ -41,14 +37,14 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
         self.params = params
     }
 
-    public func execute(_ callback: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
+    public func execute(options: API.Option, _ callback: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
         let data = try? getJSONEncoder().encode(body)
         let params = self.params?.getQueryItems()
         task = API.request(method: method,
                            path: path,
                            params: params,
                            body: data,
-                           useMasterKey: _useMasterKey) { (result) in
+                           options: options) { (result) in
             callback?(result.map(self.mapper))
         }
         return self
@@ -59,25 +55,20 @@ internal class RESTCommand<T, U>: Cancellable, Encodable where T: Encodable {
         task = nil
     }
 
-    public func useMasterKey() -> RESTCommand<T, U> {
-        _useMasterKey = true
-        return self
-    }
-
     enum CodingKeys: String, CodingKey {
         case method, body, path
     }
 }
 
 internal extension RESTCommand where T: ObjectType {
-    internal func execute(_ callback: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
+    internal func execute(options: API.Option, _ callback: ((Result<U>) -> Void)? = nil) -> RESTCommand<T, U> {
         let data = try? body?.getEncoder().encode(body)
         let params = self.params?.getQueryItems()
         task = API.request(method: method,
                            path: path,
                            params: params,
                            body: data!,
-                           useMasterKey: _useMasterKey) { (result) in
+                           options: options) { (result) in
             callback?(result.map(self.mapper))
         }
         return self

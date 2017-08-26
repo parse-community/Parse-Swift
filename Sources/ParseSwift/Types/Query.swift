@@ -9,9 +9,21 @@
 import Foundation
 public protocol Querying {
     associatedtype ResultType
-    func find(callback: @escaping ((Result<[ResultType]>) -> Void)) -> Cancellable
-    func first(callback: @escaping ((Result<ResultType?>) -> Void)) -> Cancellable
-    func count(callback: @escaping ((Result<Int>) -> Void)) -> Cancellable
+    func find(options: API.Option, callback: @escaping ((Result<[ResultType]>) -> Void)) -> Cancellable
+    func first(options: API.Option, callback: @escaping ((Result<ResultType?>) -> Void)) -> Cancellable
+    func count(options: API.Option, callback: @escaping ((Result<Int>) -> Void)) -> Cancellable
+}
+
+extension Querying {
+    func find(callback: @escaping ((Result<[ResultType]>) -> Void)) -> Cancellable {
+        return find(options: [], callback: callback)
+    }
+    func first(callback: @escaping ((Result<ResultType?>) -> Void)) -> Cancellable {
+        return first(options: [], callback: callback)
+    }
+    func count(callback: @escaping ((Result<Int>) -> Void)) -> Cancellable {
+        return count(options: [], callback: callback)
+    }
 }
 
 public struct QueryConstraint: Encodable {
@@ -185,16 +197,16 @@ public struct Query<T>: Encodable where T: ObjectType {
 extension Query: Querying {
     public typealias ResultType = T
 
-    public func find(callback: @escaping ((Result<[ResultType]>) -> Void)) -> Cancellable {
-        return findCommand().execute(callback)
+    public func find(options: API.Option, callback: @escaping ((Result<[ResultType]>) -> Void)) -> Cancellable {
+        return findCommand().execute(options: options, callback)
     }
 
-    public func first(callback: @escaping ((Result<ResultType?>) -> Void)) -> Cancellable {
-        return firstCommand().execute(callback)
+    public func first(options: API.Option, callback: @escaping ((Result<ResultType?>) -> Void)) -> Cancellable {
+        return firstCommand().execute(options: options, callback)
     }
 
-    public func count(callback: @escaping ((Result<Int>) -> Void)) -> Cancellable {
-        return countCommand().execute(callback)
+    public func count(options: API.Option, callback: @escaping ((Result<Int>) -> Void)) -> Cancellable {
+        return countCommand().execute(options: options, callback)
     }
 }
 

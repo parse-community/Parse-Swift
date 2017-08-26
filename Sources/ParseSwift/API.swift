@@ -48,6 +48,14 @@ public struct API {
         }
     }
 
+    public struct Option: OptionSet {
+        public let rawValue: UInt
+        public init(rawValue: UInt) {
+            self.rawValue = rawValue
+        }
+        static let useMasterKey = Option(rawValue: 1 << 0)
+    }
+
     private static func getHeaders(useMasterKey: Bool = false) -> [String: String] {
         var headers: [String: String] = ["X-Parse-Application-Id": ParseConfiguration.applicationId,
                                          "Content-Type": "application/json"]
@@ -72,10 +80,10 @@ public struct API {
                                  path: Endpoint,
                                  params: [URLQueryItem]? = nil,
                                  body: Data? = nil,
-                                 useMasterKey: Bool = false,
+                                 options: Option,
                                  callback: Response? = nil) -> URLSessionDataTask {
 
-        let headers = getHeaders(useMasterKey: useMasterKey)
+        let headers = getHeaders(useMasterKey: options.contains(.useMasterKey))
         let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
 
         var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
