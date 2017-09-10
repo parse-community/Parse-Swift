@@ -16,13 +16,13 @@ public protocol Querying {
 
 extension Querying {
     func find(callback: @escaping (([ResultType]?, Error?) -> Void)) -> Cancellable {
-        return find(options: [], callback: callback)
+        return find(callback: callback)
     }
     func first(callback: @escaping ((ResultType?, Error?) -> Void)) -> Cancellable {
-        return first(options: [], callback: callback)
+        return first(callback: callback)
     }
     func count(callback: @escaping ((Int?, Error?) -> Void)) -> Cancellable {
-        return count(options: [], callback: callback)
+        return count(callback: callback)
     }
 }
 
@@ -198,7 +198,7 @@ extension Query: Querying {
     public typealias ResultType = T
 
     public func find(options: API.Option, callback: @escaping ([T]?, Error?) -> Void) -> Cancellable {
-        return endpoint.makeRequest(method: .post, body: self, options: []) {(data, error) in
+        return endpoint.makeRequest(method: .post, body: self) {(data, error) in
             if let data = data {
                 do {
                     let results = try getDecoder().decode(FindResult<T>.self, from: data).results
@@ -217,7 +217,7 @@ extension Query: Querying {
     public func first(options: API.Option, callback: @escaping ((T?, Error?) -> Void)) -> Cancellable {
         var query = self
         query.limit = 1
-        return endpoint.makeRequest(method: .post, body: query, options: []) {(data, error) in
+        return endpoint.makeRequest(method: .post, body: query) {(data, error) in
             if let data = data {
                 do {
                     let result = try getDecoder().decode(FindResult<T>.self, from: data).results.first
@@ -237,7 +237,7 @@ extension Query: Querying {
         var query = self
         query.isCount = true
         query.limit = 1
-        return endpoint.makeRequest(method: .post, body: query, options: []) {(data, error) in
+        return endpoint.makeRequest(method: .post, body: query) {(data, error) in
             if let data = data {
                 do {
                     let count = try getDecoder().decode(FindResult<T>.self, from: data).count ?? 0

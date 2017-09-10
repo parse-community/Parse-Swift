@@ -32,7 +32,7 @@ public struct Pointer<T: ObjectType>: Fetching, Codable {
 extension Pointer {
     public func fetch(options: API.Option = [], callback: @escaping ((T?, Error?) -> Void)) -> Cancellable? {
         let endpoint = API.Endpoint.object(className: className, objectId: objectId)
-        return endpoint.makeRequest(method: .get, options: []) {(data, error) in
+        return endpoint.makeRequest(method: .get) {(data, error) in
             if let data = data {
                 do {
                     let object = try getDecoder().decode(T.self, from: data)

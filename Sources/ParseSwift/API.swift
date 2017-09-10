@@ -52,7 +52,7 @@ public struct API {
         func makeRequest(method: Method,
                          params: [URLQueryItem]? = nil,
                          body: Encodable? = nil,
-                         options: Option,
+                         options: Option = [],
                          callback: ((Data?, Error?) -> Void)? = nil) -> Cancellable {
 
             let bodyData = try? getJSONEncoder().encode(body)

@@ -16,6 +16,6 @@ public protocol Saving: Codable {
 
 extension Saving {
     public func save(callback: @escaping ((SavingType?, Error?) -> Void)) -> Cancellable {
-        return save(options: [], callback: callback)
+        return save(callback: callback)
     }
 }

@@ -64,7 +64,7 @@ public extension ObjectType {
     public func save(options: API.Option, callback: ((Self?, Error?) -> Void)? = nil) -> Cancellable {
         let requestMethod: API.Method = isSaved ? .put : .post
 
-        return endpoint.makeRequest(method: requestMethod, options: []) {(data, error) in
+        return endpoint.makeRequest(method: requestMethod) {(data, error) in
             if let data = data {
                 do {
                     var object: Self!
@@ -96,7 +96,7 @@ public extension ObjectType {
             return nil
         }
 
-        return endpoint.makeRequest(method: .get, options: []) {(data, error) in
+        return endpoint.makeRequest(method: .get) {(data, error) in
             if let data = data {
                 do {
                     let object = try getDecoder().decode(UpdateResponse.self, from: data).apply(self)

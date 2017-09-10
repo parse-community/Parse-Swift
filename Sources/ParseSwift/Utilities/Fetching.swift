@@ -16,6 +16,6 @@ public protocol Fetching: Codable {
 
 extension Fetching {
     public func fetch(callback: @escaping ((FetchingType?, Error?) -> Void)) -> Cancellable? {
-        return fetch(options: [], callback: callback)
+        return fetch(callback: callback)
     }
 }

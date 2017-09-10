@@ -42,7 +42,7 @@ extension UserType {
             URLQueryItem(name: $0, value: $1)
         }
 
-        return API.Endpoint.login.makeRequest(method: .get, params: params, options: []) {(data, error) in
+        return API.Endpoint.login.makeRequest(method: .get, params: params) {(data, error) in
             if let data = data {
                 do {
                     let user = try getDecoder().decode(Self.self, from: data)
@@ -62,7 +62,7 @@ extension UserType {
     }
 
     static func logOut(callback: (() -> Void)? = nil) -> Cancellable? {
-        return API.Endpoint.logout.makeRequest(method: .post, options: []) {(_, _) in
+        return API.Endpoint.logout.makeRequest(method: .post) {(_, _) in
             callback?()
         }
     }
@@ -70,7 +70,7 @@ extension UserType {
     static func signUp(username: String, password: String, callback: ((Self?, Error?) -> Void)? = nil) -> Cancellable {
         let body = SignupBody(username: username, password: password)
 
-        return API.Endpoint.signup.makeRequest(method: .post, body: body, options: []) {(data, error) in
+        return API.Endpoint.signup.makeRequest(method: .post, body: body) {(data, error) in
             if let data = data {
                 do {
                     let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
