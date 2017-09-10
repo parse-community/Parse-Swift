@@ -59,6 +59,13 @@
 		4AFDA7371F26DAE1002AE4FC /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F21F254B820063D731 /* Result.swift */; };
 		4AFDA7381F26DAF4002AE4FC /* RESTCommand.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FB1F255B5F0063D731 /* RESTCommand.swift */; };
 		4AFDA7391F26DAF8002AE4FC /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AFA0808E1F65C72600D95158 /* Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0808D1F65C72600D95158 /* Saving.swift */; };
+		AFA080901F65C73A00D95158 /* Fetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0808F1F65C73A00D95158 /* Fetching.swift */; };
+		AFA080921F65C7B900D95158 /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA080911F65C7B900D95158 /* ParseError.swift */; };
+		AFA080941F65C83000D95158 /* Date Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA080931F65C83000D95158 /* Date Formatting.swift */; };
+		AFA080971F65C88600D95158 /* NoBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA080961F65C88600D95158 /* NoBody.swift */; };
+		AFA080991F65C8D100D95158 /* Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA080981F65C8D100D95158 /* Encoding.swift */; };
+		AFA0809B1F65C94100D95158 /* Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0809A1F65C94100D95158 /* Decoding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,6 +113,13 @@
 		4AEBA54E1F265A0D00628B17 /* UserType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserType.swift; sourceTree = "<group>"; };
 		4AFDA7121F26D9A5002AE4FC /* ParseSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ParseSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AFDA7151F26D9A5002AE4FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		AFA0808D1F65C72600D95158 /* Saving.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saving.swift; sourceTree = "<group>"; };
+		AFA0808F1F65C73A00D95158 /* Fetching.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetching.swift; sourceTree = "<group>"; };
+		AFA080911F65C7B900D95158 /* ParseError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseError.swift; sourceTree = "<group>"; };
+		AFA080931F65C83000D95158 /* Date Formatting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date Formatting.swift"; sourceTree = "<group>"; };
+		AFA080961F65C88600D95158 /* NoBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBody.swift; sourceTree = "<group>"; };
+		AFA080981F65C8D100D95158 /* Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encoding.swift; sourceTree = "<group>"; };
+		AFA0809A1F65C94100D95158 /* Decoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Decoding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,8 +235,9 @@
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
 				4AC397731F488FF900DEA9D3 /* API.swift */,
 				4A2F14901F4A41B900A7A7EF /* Synchronous.swift */,
-				4AC397761F4895A200DEA9D3 /* Objects Protocols */,
+				4AC397761F4895A200DEA9D3 /* Object Protocols */,
 				4A82B7FD1F25691B0063D731 /* Types */,
+				AFA080951F65C86400D95158 /* Utilities */,
 				4A82B7F21F254B820063D731 /* Result.swift */,
 				4A2F149C1F4A604900A7A7EF /* Encoder */,
 				4A99A46A1F2650E200D72A59 /* Mutations */,
@@ -241,7 +256,7 @@
 			path = ParseSwiftTests;
 			sourceTree = "<group>";
 		};
-		4AC397761F4895A200DEA9D3 /* Objects Protocols */ = {
+		4AC397761F4895A200DEA9D3 /* Object Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				4A82B7EC1F254B820063D731 /* ObjectType.swift */,
@@ -250,7 +265,7 @@
 				4A2F14971F4A5F6900A7A7EF /* ObjectType+Batch.swift */,
 				4AEBA54E1F265A0D00628B17 /* UserType.swift */,
 			);
-			path = "Objects Protocols";
+			path = "Object Protocols";
 			sourceTree = "<group>";
 		};
 		4AC397771F4895C000DEA9D3 /* REST */ = {
@@ -269,6 +284,20 @@
 				4AFDA7151F26D9A5002AE4FC /* Info.plist */,
 			);
 			path = "ParseSwift-macOS";
+			sourceTree = "<group>";
+		};
+		AFA080951F65C86400D95158 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				AFA080931F65C83000D95158 /* Date Formatting.swift */,
+				AFA0809A1F65C94100D95158 /* Decoding.swift */,
+				AFA080981F65C8D100D95158 /* Encoding.swift */,
+				AFA0808F1F65C73A00D95158 /* Fetching.swift */,
+				AFA080961F65C88600D95158 /* NoBody.swift */,
+				AFA080911F65C7B900D95158 /* ParseError.swift */,
+				AFA0808D1F65C72600D95158 /* Saving.swift */,
+			);
+			path = Utilities;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -452,7 +481,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AFA0808E1F65C72600D95158 /* Saving.swift in Sources */,
+				AFA080941F65C83000D95158 /* Date Formatting.swift in Sources */,
 				4A2F14961F4A5F2900A7A7EF /* Responses.swift in Sources */,
+				AFA080971F65C88600D95158 /* NoBody.swift in Sources */,
 				4A82B7FC1F255B5F0063D731 /* RESTCommand.swift in Sources */,
 				4AC397741F488FF900DEA9D3 /* API.swift in Sources */,
 				4A82B7F71F254CCE0063D731 /* ObjectType.swift in Sources */,
@@ -460,6 +492,7 @@
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
 				4AEBA54F1F265A0D00628B17 /* UserType.swift in Sources */,
 				4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */,
+				AFA080901F65C73A00D95158 /* Fetching.swift in Sources */,
 				4AC397701F48778900DEA9D3 /* ACL.swift in Sources */,
 				4A2D8C811F48B3A900EE1FCC /* ParseEncoder.swift in Sources */,
 				4A2F14911F4A41B900A7A7EF /* Synchronous.swift in Sources */,
@@ -467,11 +500,14 @@
 				4A82B8011F256B330063D731 /* ObjectType+Query.swift in Sources */,
 				4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */,
 				4A82B7F91F254CCE0063D731 /* Result.swift in Sources */,
+				AFA080921F65C7B900D95158 /* ParseError.swift in Sources */,
 				4A2F14981F4A5F6900A7A7EF /* ObjectType+Batch.swift in Sources */,
 				4A82B7F41F254CCE0063D731 /* File.swift in Sources */,
 				4A2F14941F4A5E1E00A7A7EF /* ObjectType+Equatable.swift in Sources */,
+				AFA0809B1F65C94100D95158 /* Decoding.swift in Sources */,
 				4AC397721F488F9E00DEA9D3 /* RESTBatchCommand.swift in Sources */,
 				4AEBA54D1F26523800628B17 /* DeleteOperation.swift in Sources */,
+				AFA080991F65C8D100D95158 /* Encoding.swift in Sources */,
 				4A82B7F81F254CCE0063D731 /* Pointer.swift in Sources */,
 				4AEBA5491F26519B00628B17 /* AddOperation.swift in Sources */,
 				4A99A46C1F2650FF00D72A59 /* AddUniqueOperation.swift in Sources */,
