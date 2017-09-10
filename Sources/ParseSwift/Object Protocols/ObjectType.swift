@@ -82,7 +82,7 @@ public extension ObjectType {
             } else if let error = error {
                 callback?(nil, error)
             } else {
-                callback?(nil, ParseError.unknownResult())
+                fatalError()
             }
         }
     }
@@ -107,7 +107,7 @@ public extension ObjectType {
             } else if let error = error {
                 callback?(nil, error)
             } else {
-                callback?(nil, ParseError.unknownResult())
+                fatalError()
             }
         }
     }

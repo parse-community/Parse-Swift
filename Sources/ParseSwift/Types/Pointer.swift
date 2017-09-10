@@ -43,7 +43,7 @@ extension Pointer {
             } else if let error = error {
                 callback(nil, error)
             } else {
-                callback(nil, ParseError.unknownResult())
+                fatalError()
             }
         }
     }
