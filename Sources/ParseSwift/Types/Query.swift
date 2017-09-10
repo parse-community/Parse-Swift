@@ -212,7 +212,7 @@ extension Query: Querying {
 
 private extension Query {
     private func findCommand() -> RESTCommand<Query<ResultType>, [ResultType]> {
-        return RESTCommand(method: .POST, path: endpoint, body: self) {
+        return RESTCommand(method: .post, path: endpoint, body: self) {
             try getDecoder().decode(FindResult<T>.self, from: $0).results
         }
     }
@@ -220,7 +220,7 @@ private extension Query {
     private func firstCommand() -> RESTCommand<Query<ResultType>, ResultType?> {
         var query = self
         query.limit = 1
-        return RESTCommand(method: .POST, path: endpoint, body: query) {
+        return RESTCommand(method: .post, path: endpoint, body: query) {
             try getDecoder().decode(FindResult<T>.self, from: $0).results.first
         }
     }
@@ -229,7 +229,7 @@ private extension Query {
         var query = self
         query.limit = 1
         query.isCount = true
-        return RESTCommand(method: .POST, path: endpoint, body: query) {
+        return RESTCommand(method: .post, path: endpoint, body: query) {
             try getDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
         }
     }

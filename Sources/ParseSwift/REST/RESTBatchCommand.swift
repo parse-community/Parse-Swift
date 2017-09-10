@@ -84,6 +84,6 @@ public class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ObjectType {
             })
         }
         let batchCommand = BatchCommand(requests: commands)
-        super.init(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
+        super.init(method: .post, path: .batch, body: batchCommand, mapper: mapper)
     }
 }

@@ -86,7 +86,7 @@ internal extension RESTCommand {
 
     // MARK: Saving - private
     private static func createCommand<T>(_ object: T) -> RESTCommand<T, T> where T: ObjectType {
-        return RESTCommand<T, T>(method: .POST,
+        return RESTCommand<T, T>(method: .post,
                                  path: object.endpoint,
                                  body: object) { (data) -> T in
             try getDecoder().decode(SaveResponse.self, from: data).apply(object)
@@ -94,7 +94,7 @@ internal extension RESTCommand {
     }
 
     private static func updateCommand<T>(_ object: T) -> RESTCommand<T, T> where T: ObjectType {
-        return RESTCommand<T, T>(method: .PUT,
+        return RESTCommand<T, T>(method: .put,
                                  path: object.endpoint,
                                  body: object) { (data: Data) -> T in
             try getDecoder().decode(UpdateResponse.self, from: data).apply(object)
@@ -106,7 +106,7 @@ internal extension RESTCommand {
         guard object.isSaved else {
             throw ParseError(code: -1, error: "Cannot Fetch an object without id")
         }
-        return RESTCommand<T, T>(method: .GET,
+        return RESTCommand<T, T>(method: .get,
                                  path: object.endpoint) { (data) -> T in
             try getDecoder().decode(T.self, from: data)
         }

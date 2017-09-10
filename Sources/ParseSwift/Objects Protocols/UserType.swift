@@ -61,7 +61,7 @@ private extension UserType {
             "username": username,
             "password": password
         ]
-        return RESTCommand<NoBody, Self>(method: .GET,
+        return RESTCommand<NoBody, Self>(method: .get,
                                          path: .login,
                                          params: params) { (data) -> Self in
             let user = try getDecoder().decode(Self.self, from: data)
@@ -75,7 +75,7 @@ private extension UserType {
     private static func signupCommand(username: String,
                                       password: String) -> RESTCommand<SignupBody, Self> {
         let body = SignupBody(username: username, password: password)
-        return RESTCommand(method: .POST, path: .signup, body: body) { (data) -> Self in
+        return RESTCommand(method: .post, path: .signup, body: body) { (data) -> Self in
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try getDecoder().decode(Self.self, from: data)
             user.username = username
@@ -91,7 +91,7 @@ private extension UserType {
 
     private func signupCommand() -> RESTCommand<Self, Self> {
         var user = self
-        return RESTCommand(method: .POST, path: .signup, body: user) { (data) -> Self in
+        return RESTCommand(method: .post, path: .signup, body: user) { (data) -> Self in
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             user.updatedAt = response.updatedAt ?? response.createdAt
             user.createdAt = response.createdAt
@@ -103,7 +103,7 @@ private extension UserType {
     }
 
     private static func logoutCommand() -> RESTCommand<NoBody, Void> {
-       return RESTCommand(method: .POST, path: .logout) { (_) -> Void in
+       return RESTCommand(method: .post, path: .logout) { (_) -> Void in
             CurrentUserInfo.currentUser = nil
             CurrentUserInfo.currentSessionToken = nil
        }

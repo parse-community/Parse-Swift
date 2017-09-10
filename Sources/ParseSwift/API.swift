@@ -11,7 +11,10 @@ import Foundation
 public struct API {
 
     public enum Method: String, Encodable {
-        case GET, POST, PUT, DELETE
+        case get = "GET"
+        case post = "POST"
+        case put = "PUT"
+        case delete = "DELETE"
     }
 
     public enum Endpoint: Encodable {
