@@ -25,7 +25,6 @@
 		4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
 		4A82B7F71F254CCE0063D731 /* ObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EC1F254B820063D731 /* ObjectType.swift */; };
 		4A82B7F81F254CCE0063D731 /* Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F11F254B820063D731 /* Pointer.swift */; };
-		4A82B7F91F254CCE0063D731 /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F21F254B820063D731 /* Result.swift */; };
 		4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FE1F256A8F0063D731 /* Query.swift */; };
 		4A82B8011F256B330063D731 /* ObjectType+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B8001F256B330063D731 /* ObjectType+Query.swift */; };
 		4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */; };
@@ -53,7 +52,6 @@
 		4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F11F254B820063D731 /* Pointer.swift */; };
 		4AFDA7351F26DAE1002AE4FC /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FE1F256A8F0063D731 /* Query.swift */; };
 		4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B8001F256B330063D731 /* ObjectType+Query.swift */; };
-		4AFDA7371F26DAE1002AE4FC /* Result.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F21F254B820063D731 /* Result.swift */; };
 		4AFDA7391F26DAF8002AE4FC /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		AFA0808E1F65C72600D95158 /* Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0808D1F65C72600D95158 /* Saving.swift */; };
 		AFA080901F65C73A00D95158 /* Fetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0808F1F65C73A00D95158 /* Fetching.swift */; };
@@ -87,7 +85,6 @@
 		4A82B7EE1F254B820063D731 /* Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
 		4A82B7F01F254B820063D731 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		4A82B7F11F254B820063D731 /* Pointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pointer.swift; sourceTree = "<group>"; };
-		4A82B7F21F254B820063D731 /* Result.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Result.swift; sourceTree = "<group>"; };
 		4A82B7FE1F256A8F0063D731 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
 		4A82B8001F256B330063D731 /* ObjectType+Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectType+Query.swift"; sourceTree = "<group>"; };
 		4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseMutationContainer.swift; sourceTree = "<group>"; };
@@ -234,7 +231,6 @@
 				4AC397761F4895A200DEA9D3 /* Object Protocols */,
 				4A82B7FD1F25691B0063D731 /* Types */,
 				AFA080951F65C86400D95158 /* Utilities */,
-				4A82B7F21F254B820063D731 /* Result.swift */,
 				4A2F149C1F4A604900A7A7EF /* Encoder */,
 				4A99A46A1F2650E200D72A59 /* Mutations */,
 				4AC397771F4895C000DEA9D3 /* REST */,
@@ -494,7 +490,6 @@
 				4A99A46E1F26512100D72A59 /* IncrementOperation.swift in Sources */,
 				4A82B8011F256B330063D731 /* ObjectType+Query.swift in Sources */,
 				4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */,
-				4A82B7F91F254CCE0063D731 /* Result.swift in Sources */,
 				AFA080921F65C7B900D95158 /* ParseError.swift in Sources */,
 				4A2F14981F4A5F6900A7A7EF /* ObjectType+Batch.swift in Sources */,
 				4A82B7F41F254CCE0063D731 /* File.swift in Sources */,
@@ -525,7 +520,6 @@
 				4AFDA7301F26DAE1002AE4FC /* DeleteOperation.swift in Sources */,
 				4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */,
 				4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */,
-				4AFDA7371F26DAE1002AE4FC /* Result.swift in Sources */,
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
 				4AFDA7351F26DAE1002AE4FC /* Query.swift in Sources */,
 				4A2F14921F4A434100A7A7EF /* Synchronous.swift in Sources */,

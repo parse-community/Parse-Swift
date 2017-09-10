@@ -56,7 +56,7 @@ extension UserType {
             } else if let error = error {
                 callback?(nil, error)
             } else {
-                fatalError()
+                callback?(nil, ParseError.unknownResult())
             }
         }
     }
@@ -91,7 +91,7 @@ extension UserType {
             } else if let error = error {
                 callback?(nil, error)
             } else {
-                fatalError()
+                callback?(nil, ParseError.unknownResult())
             }
         }
     }

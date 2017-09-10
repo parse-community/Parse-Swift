@@ -209,7 +209,7 @@ extension Query: Querying {
             } else if let error = error {
                 callback(nil, error)
             } else {
-                fatalError()
+                callback(nil, ParseError.unknownResult())
             }
         }
     }
@@ -228,7 +228,7 @@ extension Query: Querying {
             } else if let error = error {
                 callback(nil, error)
             } else {
-                fatalError()
+                callback(nil, ParseError.unknownResult())
             }
         }
     }
@@ -248,7 +248,7 @@ extension Query: Querying {
             } else if let error = error {
                 callback(nil, error)
             } else {
-                fatalError()
+                callback(nil, ParseError.unknownResult())
             }
         }
     }

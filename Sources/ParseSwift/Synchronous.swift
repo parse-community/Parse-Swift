@@ -24,7 +24,7 @@ private func await<T>(block: (@escaping BlockCapturing<T>) -> Void) throws -> T 
     } else if let error = error {
         throw error
     } else {
-        fatalError()
+        throw ParseError.unknownResult()
     }
 }
 
