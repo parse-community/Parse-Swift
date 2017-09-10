@@ -8,22 +8,22 @@
 
 import Foundation
 
-typealias ResultCapturing<T> = (Result<T>) -> Void
+typealias BlockCapturing<T> = (T?, Error?) -> Void
 // Mark it private for now
-private func await<T>(block: (@escaping ResultCapturing<T>) -> Void) throws -> T {
+private func await<T>(block: (@escaping BlockCapturing<T>) -> Void) throws -> T {
     let sema = DispatchSemaphore(value: 0)
-    var r: Result<T>!
+    var error: Error?
+    var value: T?
     block({
-        r = $0
-        sema.signal()
+        error = $1
+        value = $0
     })
     sema.wait()
-    switch r! {
-    case .success(let value):
+    if let value = value {
         return value
-    case .error(let error):
+    } else if let error = error {
         throw error
-    default:
+    } else {
         fatalError()
     }
 }
@@ -91,7 +91,7 @@ public extension Query {
     }
 }
 
-// Temporary, just for demo
+/*// Temporary, just for demo
 public extension ObjectType {
     public static func saveAllSync(options: API.Option = [], _ objects: Self...) throws -> [(Self, ParseError?)] {
         return try await { done in
@@ -106,4 +106,4 @@ public extension Sequence where Element: ObjectType {
             _ = self.saveAll(options: options, callback: done)
         }
     }
-}
+}*/

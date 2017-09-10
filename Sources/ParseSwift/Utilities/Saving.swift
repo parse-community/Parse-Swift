@@ -10,12 +10,12 @@ import Foundation
 
 public protocol Saving: Codable {
     associatedtype SavingType
-    func save(options: API.Option, callback: @escaping ((Result<SavingType>) -> Void)) -> Cancellable
-    func save(callback: @escaping ((Result<SavingType>) -> Void)) -> Cancellable
+    func save(options: API.Option, callback: @escaping ((SavingType?, Error?) -> Void)) -> Cancellable
+    func save(callback: @escaping ((SavingType?, Error?) -> Void)) -> Cancellable
 }
 
 extension Saving {
-    public func save(callback: @escaping ((Result<SavingType>) -> Void)) -> Cancellable {
+    public func save(callback: @escaping ((SavingType?, Error?) -> Void)) -> Cancellable {
         return save(options: [], callback: callback)
     }
 }

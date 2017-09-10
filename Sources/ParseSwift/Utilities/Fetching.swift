@@ -10,12 +10,12 @@ import Foundation
 
 public protocol Fetching: Codable {
     associatedtype FetchingType
-    func fetch(options: API.Option, callback: @escaping ((Result<FetchingType>) -> Void)) -> Cancellable?
-    func fetch(callback: @escaping ((Result<FetchingType>) -> Void)) -> Cancellable?
+    func fetch(options: API.Option, callback: @escaping ((FetchingType?, Error?) -> Void)) -> Cancellable?
+    func fetch(callback: @escaping ((FetchingType?, Error?) -> Void)) -> Cancellable?
 }
 
 extension Fetching {
-    public func fetch(callback: @escaping ((Result<FetchingType>) -> Void)) -> Cancellable? {
+    public func fetch(callback: @escaping ((FetchingType?, Error?) -> Void)) -> Cancellable? {
         return fetch(options: [], callback: callback)
     }
 }

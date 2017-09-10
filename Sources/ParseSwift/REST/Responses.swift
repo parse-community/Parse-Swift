@@ -8,6 +8,13 @@
 
 import Foundation
 
+internal struct LoginSignupResponse: Codable {
+    let createdAt: Date
+    let objectId: String
+    let sessionToken: String
+    var updatedAt: Date?
+}
+
 internal struct SaveResponse: Decodable {
     var objectId: String
     var createdAt: Date

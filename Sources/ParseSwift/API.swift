@@ -9,7 +9,6 @@
 import Foundation
 
 public struct API {
-
     public enum Method: String, Encodable {
         case get = "GET"
         case post = "POST"
@@ -49,6 +48,32 @@ public struct API {
             var container = encoder.singleValueContainer()
             try container.encode(urlComponent)
         }
+
+        func makeRequest(method: Method,
+                         params: [URLQueryItem]? = nil,
+                         body: Encodable? = nil,
+                         options: Option,
+                         callback: ((Data?, Error?) -> Void)? = nil) -> Cancellable {
+
+            let bodyData = try? getJSONEncoder().encode(body)
+            let headers = getHeaders(useMasterKey: options.contains(.useMasterKey))
+            let url = ParseConfiguration.serverURL.appendingPathComponent(self.urlComponent)
+
+            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+            components.queryItems = params
+
+            var urlRequest = URLRequest(url: components.url!)
+            urlRequest.allHTTPHeaderFields = headers
+            if let bodyData = bodyData {
+                urlRequest.httpBody = bodyData
+            }
+            urlRequest.httpMethod = method.rawValue
+            let task = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
+                callback?(data, error)
+            }
+            task.resume()
+            return task
+        }
     }
 
     public struct Option: OptionSet {
@@ -75,33 +100,5 @@ public struct API {
         }
 
         return headers
-    }
-
-    public typealias Response = (Result<Data>) -> Void
-
-    internal static func request(method: Method,
-                                 path: Endpoint,
-                                 params: [URLQueryItem]? = nil,
-                                 body: Data? = nil,
-                                 options: Option,
-                                 callback: Response? = nil) -> URLSessionDataTask {
-
-        let headers = getHeaders(useMasterKey: options.contains(.useMasterKey))
-        let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
-
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        components.queryItems = params
-
-        var urlRequest = URLRequest(url: components.url!)
-        urlRequest.allHTTPHeaderFields = headers
-        if let body = body {
-            urlRequest.httpBody = body
-        }
-        urlRequest.httpMethod = method.rawValue
-        let task = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
-            callback?(Result(data, error))
-        }
-        task.resume()
-        return task
     }
 }

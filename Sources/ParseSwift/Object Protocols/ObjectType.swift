@@ -61,32 +61,56 @@ extension ObjectType {
 }
 
 public extension ObjectType {
-    internal func saveCommand() -> RESTCommand<Self, Self> {
-        return RESTCommand<Self, Self>.save(self)
-    }
+    public func save(options: API.Option, callback: ((Self?, Error?) -> Void)? = nil) -> Cancellable {
+        let requestMethod: API.Method = isSaved ? .put : .post
 
-    public func save(options: API.Option, callback: @escaping ((Result<Self>) -> Void)) -> Cancellable {
-        return saveCommand().execute(options: options, callback)
-    }
-}
+        return endpoint.makeRequest(method: requestMethod, options: []) {(data, error) in
+            if let data = data {
+                do {
+                    var object: Self!
 
-public extension ObjectType {
-    internal func fetchCommand() throws -> RESTCommand<Self, Self> {
-        return try RESTCommand<Self, Self>.fetch(self)
-    }
+                    if self.isSaved {
+                        object = try getDecoder().decode(UpdateResponse.self, from: data).apply(self)
+                    } else {
+                        object = try getDecoder().decode(SaveResponse.self, from: data).apply(self)
+                    }
 
-    public func fetch(options: API.Option, callback: @escaping ((Result<Self>) -> Void)) -> Cancellable? {
-        do {
-            return try fetchCommand().execute(options: options, callback)
-        } catch let e {
-            callback(.error(e))
+                    callback?(object, nil)
+                } catch {
+                    callback?(nil, error)
+                }
+            } else if let error = error {
+                callback?(nil, error)
+            } else {
+                fatalError()
+            }
         }
-        return nil
     }
 }
 
 public extension ObjectType {
-    typealias ObjectCallback = (Result<Self>) -> Void
+    public func fetch(options: API.Option, callback: ((Self?, Error?) -> Void)? = nil) -> Cancellable? {
+        guard isSaved else {
+            let error = ParseError(code: -1, error: "Cannot Fetch an object without id")
+            callback?(nil, error)
+            return nil
+        }
+
+        return endpoint.makeRequest(method: .get, options: []) {(data, error) in
+            if let data = data {
+                do {
+                    let object = try getDecoder().decode(UpdateResponse.self, from: data).apply(self)
+                    callback?(object, nil)
+                } catch {
+                    callback?(nil, error)
+                }
+            } else if let error = error {
+                callback?(nil, error)
+            } else {
+                fatalError()
+            }
+        }
+    }
 }
 
 public struct FindResult<T>: Decodable where T: ObjectType {

@@ -30,11 +30,21 @@ public struct Pointer<T: ObjectType>: Fetching, Codable {
 }
 
 extension Pointer {
-    public func fetch(options: API.Option = [], callback: @escaping ((Result<T>) -> Void)) -> Cancellable? {
-        let path = API.Endpoint.object(className: className, objectId: objectId)
-        return RESTCommand<NoBody, T>(method: .get,
-                                      path: path) { (data) -> T in
-            try getDecoder().decode(T.self, from: data)
-        }.execute(options: options, callback)
+    public func fetch(options: API.Option = [], callback: @escaping ((T?, Error?) -> Void)) -> Cancellable? {
+        let endpoint = API.Endpoint.object(className: className, objectId: objectId)
+        return endpoint.makeRequest(method: .get, options: []) {(data, error) in
+            if let data = data {
+                do {
+                    let object = try getDecoder().decode(T.self, from: data)
+                    callback(object, nil)
+                } catch {
+                    callback(nil, error)
+                }
+            } else if let error = error {
+                callback(nil, error)
+            } else {
+                fatalError()
+            }
+        }
     }
 }
