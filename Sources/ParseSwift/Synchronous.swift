@@ -14,11 +14,15 @@ private func await<T>(block: (@escaping BlockCapturing<T>) -> Void) throws -> T 
     let sema = DispatchSemaphore(value: 0)
     var error: Error?
     var value: T?
+
     block({
-        error = $1
         value = $0
+        error = $1
+        sema.signal()
     })
+
     sema.wait()
+
     if let value = value {
         return value
     } else if let error = error {
