@@ -53,6 +53,14 @@
 		4AFDA7351F26DAE1002AE4FC /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FE1F256A8F0063D731 /* Query.swift */; };
 		4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B8001F256B330063D731 /* ObjectType+Query.swift */; };
 		4AFDA7391F26DAF8002AE4FC /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AF10E9EC1F700E7200F38B6D /* Date Formatting.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA080931F65C83000D95158 /* Date Formatting.swift */; };
+		AF10E9ED1F700E8000F38B6D /* Decoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0809A1F65C94100D95158 /* Decoding.swift */; };
+		AF10E9EE1F700E8000F38B6D /* Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA080981F65C8D100D95158 /* Encoding.swift */; };
+		AF10E9EF1F700E8000F38B6D /* Fetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0808F1F65C73A00D95158 /* Fetching.swift */; };
+		AF10E9F01F700E8000F38B6D /* NoBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA080961F65C88600D95158 /* NoBody.swift */; };
+		AF10E9F11F700E8000F38B6D /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA080911F65C7B900D95158 /* ParseError.swift */; };
+		AF10E9F21F700E8000F38B6D /* Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0808D1F65C72600D95158 /* Saving.swift */; };
+		AF10E9F31F700E9000F38B6D /* Cancellable.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0809C1F65D16000D95158 /* Cancellable.swift */; };
 		AFA0808E1F65C72600D95158 /* Saving.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0808D1F65C72600D95158 /* Saving.swift */; };
 		AFA080901F65C73A00D95158 /* Fetching.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA0808F1F65C73A00D95158 /* Fetching.swift */; };
 		AFA080921F65C7B900D95158 /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA080911F65C7B900D95158 /* ParseError.swift */; };
@@ -516,22 +524,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AF10E9EE1F700E8000F38B6D /* Encoding.swift in Sources */,
 				4AFDA72B1F26DAE1002AE4FC /* ObjectType.swift in Sources */,
 				4AFDA7301F26DAE1002AE4FC /* DeleteOperation.swift in Sources */,
 				4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */,
 				4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */,
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
+				AF10E9F31F700E9000F38B6D /* Cancellable.swift in Sources */,
+				AF10E9F01F700E8000F38B6D /* NoBody.swift in Sources */,
 				4AFDA7351F26DAE1002AE4FC /* Query.swift in Sources */,
 				4A2F14921F4A434100A7A7EF /* Synchronous.swift in Sources */,
 				4A2F14991F4A5FB500A7A7EF /* Responses.swift in Sources */,
 				4A2F149A1F4A5FBA00A7A7EF /* ObjectType+Equatable.swift in Sources */,
+				AF10E9F21F700E8000F38B6D /* Saving.swift in Sources */,
 				4A65114F1F48E3F3005237DF /* ParseEncoder.swift in Sources */,
+				AF10E9EF1F700E8000F38B6D /* Fetching.swift in Sources */,
 				4AFDA72E1F26DAE1002AE4FC /* AddOperation.swift in Sources */,
 				4AFDA7311F26DAE1002AE4FC /* AddUniqueOperation.swift in Sources */,
 				4A2F149B1F4A5FBA00A7A7EF /* ObjectType+Batch.swift in Sources */,
+				AF10E9EC1F700E7200F38B6D /* Date Formatting.swift in Sources */,
+				AF10E9F11F700E8000F38B6D /* ParseError.swift in Sources */,
 				4A6511521F48E406005237DF /* GeoPoint.swift in Sources */,
 				4AFDA7331F26DAE1002AE4FC /* File.swift in Sources */,
 				4A6511531F48E410005237DF /* API.swift in Sources */,
+				AF10E9ED1F700E8000F38B6D /* Decoding.swift in Sources */,
 				4AFDA7321F26DAE1002AE4FC /* IncrementOperation.swift in Sources */,
 				4AFDA72D1F26DAE1002AE4FC /* ParseMutationContainer.swift in Sources */,
 				4AFDA72C1F26DAE1002AE4FC /* UserType.swift in Sources */,
