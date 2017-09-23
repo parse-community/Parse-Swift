@@ -115,9 +115,7 @@ extension ACL {
             }.flatMap { pair -> [(String, Access, Bool)] in
                 let (scope, accessValues) = pair
                 return try accessValues.allKeys.flatMap { (access) -> (String, Access, Bool)? in
-                    // swiftlint:disable line_length
                     guard let value = try accessValues.decodeIfPresent(Bool.self, forKey: access) else {
-                    // swiftlint:enable line_length
                         return nil
                     }
                     return (scope, access, value)

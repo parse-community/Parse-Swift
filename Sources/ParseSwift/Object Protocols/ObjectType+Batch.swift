@@ -8,7 +8,7 @@
 
 import Foundation
 
-public typealias BatchResultCallback<T> = (Result<[(T, ParseError?)]>) -> Void where T: ObjectType
+/*public typealias BatchResultCallback<T> = (Result<[(T, ParseError?)]>) -> Void where T: ObjectType
 public extension ObjectType {
     public static func saveAll(_ objects: Self...,
                                callback: BatchResultCallback<Self>?) -> Cancellable {
@@ -25,3 +25,4 @@ extension Sequence where Element: ObjectType {
         return RESTBatchCommand(commands: map { $0.saveCommand() })
     }
 }
+*/
