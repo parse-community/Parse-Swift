@@ -1,6 +1,6 @@
 //
 //  API.swift
-//  Parse (iOS)
+//  ParseSwift
 //
 //  Created by Florent Vilmart on 17-08-19.
 //  Copyright © 2017 Parse. All rights reserved.
@@ -10,11 +10,11 @@ import Foundation
 
 public struct API {
 
-    public enum Method: String, Encodable {
+    internal enum Method: String, Encodable {
         case GET, POST, PUT, DELETE
     }
 
-    public enum Endpoint: Encodable {
+    internal enum Endpoint: Encodable {
         case batch
         case objects(className: String)
         case object(className: String, objectId: String)
@@ -48,57 +48,60 @@ public struct API {
         }
     }
 
-    public struct Option: OptionSet {
-        public let rawValue: UInt
-        public init(rawValue: UInt) {
-            self.rawValue = rawValue
+    public typealias Options = Set<API.Option>
+
+    public enum Option: Hashable {
+        case useMasterKey
+        case sessionToken(String)
+        case installationId(String)
+
+        // use HashValue so we can use in a sets
+        public var hashValue: Int {
+            switch self {
+            case .useMasterKey:
+                return 1
+            case .sessionToken:
+                return 2
+            case .installationId:
+                return 3
+            }
         }
-        static let useMasterKey = Option(rawValue: 1 << 0)
+
+        public static func == (lhs: API.Option, rhs: API.Option) -> Bool {
+            return lhs.hashValue == rhs.hashValue
+        }
     }
 
-    private static func getHeaders(useMasterKey: Bool = false) -> [String: String] {
+    internal static func getHeaders(options: API.Options) -> [String: String] {
         var headers: [String: String] = ["X-Parse-Application-Id": ParseConfiguration.applicationId,
                                          "Content-Type": "application/json"]
         if let clientKey = ParseConfiguration.clientKey {
             headers["X-Parse-Client-Key"] = clientKey
-        }
-        if useMasterKey,
-            let masterKey = ParseConfiguration.masterKey {
-            headers["X-Parse-Master-Key"] = masterKey
         }
 
         if let token = CurrentUserInfo.currentSessionToken {
             headers["X-Parse-Session-Token"] = token
         }
 
+        options.forEach { (option) in
+            switch option {
+            case .useMasterKey:
+                headers["X-Parse-Master-Key"] = ParseConfiguration.masterKey
+            case .sessionToken(let sessionToken):
+                 headers["X-Parse-Session-Token"] = sessionToken
+            case .installationId(let installationId):
+                headers["X-Parse-Installation-Id"] = installationId
+            }
+        }
+
         return headers
     }
+}
 
-    public typealias Response = (Result<Data>) -> Void
-
-    internal static func request(method: Method,
-                                 path: Endpoint,
-                                 params: [URLQueryItem]? = nil,
-                                 body: Data? = nil,
-                                 options: Option,
-                                 callback: Response? = nil) -> URLSessionDataTask {
-
-        let headers = getHeaders(useMasterKey: options.contains(.useMasterKey))
-        let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
-
-        var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-        components.queryItems = params
-
-        var urlRequest = URLRequest(url: components.url!)
-        urlRequest.allHTTPHeaderFields = headers
-        if let body = body {
-            urlRequest.httpBody = body
+internal extension Dictionary where Key == String, Value == String? {
+    func getQueryItems() -> [URLQueryItem] {
+        return map { (key, value) -> URLQueryItem in
+            return URLQueryItem(name: key, value: value)
         }
-        urlRequest.httpMethod = method.rawValue
-        let task = URLSession.shared.dataTask(with: urlRequest) { (data, _, error) in
-            callback?(Result(data, error))
-        }
-        task.resume()
-        return task
     }
 }

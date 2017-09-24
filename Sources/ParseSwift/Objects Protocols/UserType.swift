@@ -27,41 +27,37 @@ public extension UserType {
 }
 
 public extension UserType {
-    public typealias UserTypeCallback = (Result<Self>) -> Void
-
     static var current: Self? {
         return CurrentUserInfo.currentUser as? Self
     }
 
     static func login(username: String,
-                      password: String,
-                      callback: UserTypeCallback? = nil) -> Cancellable {
-        return loginCommand(username: username, password: password).execute(options: [], callback)
+                      password: String) throws -> Self {
+        return try loginCommand(username: username, password: password).execute(options: [])
     }
 
     static func signup(username: String,
-                       password: String,
-                       callback: UserTypeCallback? = nil) -> Cancellable {
-        return signupCommand(username: username, password: password).execute(options: [], callback)
+                       password: String) throws -> Self {
+        return try signupCommand(username: username, password: password).execute(options: [])
     }
 
-    static func logout(callback: ((Result<()>) -> Void)?) {
-        _ = logoutCommand().execute(options: [], callback)
+    static func logout() throws {
+        _ = try logoutCommand().execute(options: [])
     }
 
-    func signup(callback: UserTypeCallback? = nil) -> Cancellable {
-        return signupCommand().execute(options: [], callback)
+    func signup() throws -> Self {
+        return try signupCommand().execute(options: [])
     }
 }
 
 private extension UserType {
     private static func loginCommand(username: String,
-                                     password: String) -> RESTCommand<NoBody, Self> {
+                                     password: String) -> API.Command<NoBody, Self> {
         let params = [
             "username": username,
             "password": password
         ]
-        return RESTCommand<NoBody, Self>(method: .GET,
+        return API.Command<NoBody, Self>(method: .GET,
                                          path: .login,
                                          params: params) { (data) -> Self in
             let user = try getDecoder().decode(Self.self, from: data)
@@ -73,9 +69,9 @@ private extension UserType {
     }
 
     private static func signupCommand(username: String,
-                                      password: String) -> RESTCommand<SignupBody, Self> {
+                                      password: String) -> API.Command<SignupBody, Self> {
         let body = SignupBody(username: username, password: password)
-        return RESTCommand(method: .POST, path: .signup, body: body) { (data) -> Self in
+        return API.Command(method: .POST, path: .signup, body: body) { (data) -> Self in
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try getDecoder().decode(Self.self, from: data)
             user.username = username
@@ -89,9 +85,9 @@ private extension UserType {
         }
     }
 
-    private func signupCommand() -> RESTCommand<Self, Self> {
+    private func signupCommand() -> API.Command<Self, Self> {
         var user = self
-        return RESTCommand(method: .POST, path: .signup, body: user) { (data) -> Self in
+        return API.Command(method: .POST, path: .signup, body: user) { (data) -> Self in
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
             user.updatedAt = response.updatedAt ?? response.createdAt
             user.createdAt = response.createdAt
@@ -102,8 +98,8 @@ private extension UserType {
         }
     }
 
-    private static func logoutCommand() -> RESTCommand<NoBody, Void> {
-       return RESTCommand(method: .POST, path: .logout) { (_) -> Void in
+    private static func logoutCommand() -> API.Command<NoBody, Void> {
+       return API.Command(method: .POST, path: .logout) { (_) -> Void in
             CurrentUserInfo.currentUser = nil
             CurrentUserInfo.currentSessionToken = nil
        }

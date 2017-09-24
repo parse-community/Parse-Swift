@@ -11,7 +11,7 @@ public struct File: Saving, Fetching {
         self.url = url
     }
 
-    public func save(options: API.Option, callback: @escaping ((Result<File>) -> Void)) -> Cancellable {
+    public func save(options: API.Options) -> File {
         // upload file
         // store in server
         // callback with the data
@@ -33,7 +33,7 @@ public struct File: Saving, Fetching {
         }
     }
 
-    public func fetch(options: API.Option, callback: @escaping ((Result<File>) -> Void)) -> Cancellable? {
+    public func fetch(options: API.Options) -> File {
         fatalError()
     }
 
