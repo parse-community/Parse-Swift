@@ -125,7 +125,10 @@ struct KeychainStore: SecureStorage {
     }
 
     private func removeObject(forKeyUnsafe key: String) -> Bool {
-        if #available(iOS 10.0, macOS 10.12, *) {
+        if #available(iOS 10.0,
+                      macOS 10.12,
+                      tvOS 10.0,
+                      watchOS 3.0, *) {
             dispatchPrecondition(condition: .onQueue(synchronizationQueue))
         }
         return SecItemDelete(keychainQuery(forKey: key) as CFDictionary) == errSecSuccess
