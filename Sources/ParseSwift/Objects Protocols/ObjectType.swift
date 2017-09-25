@@ -1,6 +1,6 @@
 //
 //  ParseObjectType.swift
-//  Parse
+//  ParseSwift
 //
 //  Created by Florent Vilmart on 17-07-24.
 //  Copyright © 2017 Parse. All rights reserved.
@@ -12,25 +12,25 @@ public struct NoBody: Codable {}
 
 public protocol Saving: Codable {
     associatedtype SavingType
-    func save(options: API.Option, callback: @escaping ((Result<SavingType>) -> Void)) -> Cancellable
-    func save(callback: @escaping ((Result<SavingType>) -> Void)) -> Cancellable
+    func save(options: API.Options) throws -> SavingType
+    func save() throws -> SavingType
 }
 
 extension Saving {
-    public func save(callback: @escaping ((Result<SavingType>) -> Void)) -> Cancellable {
-        return save(options: [], callback: callback)
+    public func save() throws -> SavingType {
+        return try save(options: [])
     }
 }
 
 public protocol Fetching: Codable {
     associatedtype FetchingType
-    func fetch(options: API.Option, callback: @escaping ((Result<FetchingType>) -> Void)) -> Cancellable?
-    func fetch(callback: @escaping ((Result<FetchingType>) -> Void)) -> Cancellable?
+    func fetch(options: API.Options) throws -> FetchingType
+    func fetch() throws -> FetchingType
 }
 
 extension Fetching {
-    public func fetch(callback: @escaping ((Result<FetchingType>) -> Void)) -> Cancellable? {
-        return fetch(options: [], callback: callback)
+    public func fetch() throws -> FetchingType {
+        return try fetch(options: [])
     }
 }
 
@@ -73,11 +73,6 @@ public extension ObjectType {
     func toPointer() -> Pointer<Self> {
         return Pointer(self)
     }
-}
-
-public struct ParseError: Error, Decodable {
-    let code: Int
-    let error: String
 }
 
 enum DateEncodingKeys: String, CodingKey {
@@ -153,7 +148,7 @@ func getParseEncoder() -> ParseEncoder {
 extension JSONEncoder {
     func encodeAsString<T>(_ value: T) throws -> String where T: Encodable {
         guard let string = String(data: try encode(value), encoding: .utf8) else {
-            throw ParseError(code: -1, error: "Unable to encode object...")
+            throw ParseError(code: .unknownError, message: "Unable to encode object...")
         }
         return string
     }
@@ -166,27 +161,20 @@ func getDecoder() -> JSONDecoder {
 }
 
 public extension ObjectType {
-    typealias ObjectCallback = (Result<Self>) -> Void
-
-    public func save(options: API.Option, callback: @escaping ((Result<Self>) -> Void)) -> Cancellable {
-        return saveCommand().execute(options: options, callback)
+    public func save(options: API.Options) throws -> Self {
+        return try saveCommand().execute(options: options)
     }
 
-    public func fetch(options: API.Option, callback: @escaping ((Result<Self>) -> Void)) -> Cancellable? {
-        do {
-            return try fetchCommand().execute(options: options, callback)
-        } catch let e {
-            callback(.error(e))
-        }
-        return nil
+    public func fetch(options: API.Options) throws -> Self {
+        return try fetchCommand().execute(options: options)
     }
 
-    internal func saveCommand() -> RESTCommand<Self, Self> {
-        return RESTCommand<Self, Self>.save(self)
+    internal func saveCommand() -> API.Command<Self, Self> {
+        return API.Command<Self, Self>.saveCommand(self)
     }
 
-    internal func fetchCommand() throws -> RESTCommand<Self, Self> {
-        return try RESTCommand<Self, Self>.fetch(self)
+    internal func fetchCommand() throws -> API.Command<Self, Self> {
+        return try API.Command<Self, Self>.fetchCommand(self)
     }
 }
 

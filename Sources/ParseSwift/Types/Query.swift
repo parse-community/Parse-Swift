@@ -9,20 +9,20 @@
 import Foundation
 public protocol Querying {
     associatedtype ResultType
-    func find(options: API.Option, callback: @escaping ((Result<[ResultType]>) -> Void)) -> Cancellable
-    func first(options: API.Option, callback: @escaping ((Result<ResultType?>) -> Void)) -> Cancellable
-    func count(options: API.Option, callback: @escaping ((Result<Int>) -> Void)) -> Cancellable
+    func find(options: API.Options) throws -> [ResultType]
+    func first(options: API.Options) throws -> ResultType?
+    func count(options: API.Options) throws -> Int
 }
 
 extension Querying {
-    func find(callback: @escaping ((Result<[ResultType]>) -> Void)) -> Cancellable {
-        return find(options: [], callback: callback)
+    func find() throws -> [ResultType] {
+        return try find(options: [])
     }
-    func first(callback: @escaping ((Result<ResultType?>) -> Void)) -> Cancellable {
-        return first(options: [], callback: callback)
+    func first() throws -> ResultType? {
+        return try first(options: [])
     }
-    func count(callback: @escaping ((Result<Int>) -> Void)) -> Cancellable {
-        return count(options: [], callback: callback)
+    func count() throws -> Int {
+        return try count(options: [])
     }
 }
 
@@ -195,41 +195,42 @@ public struct Query<T>: Encodable where T: ObjectType {
 }
 
 extension Query: Querying {
+
     public typealias ResultType = T
 
-    public func find(options: API.Option, callback: @escaping ((Result<[ResultType]>) -> Void)) -> Cancellable {
-        return findCommand().execute(options: options, callback)
+    public func find(options: API.Options) throws -> [ResultType] {
+        return try findCommand().execute(options: options)
     }
 
-    public func first(options: API.Option, callback: @escaping ((Result<ResultType?>) -> Void)) -> Cancellable {
-        return firstCommand().execute(options: options, callback)
+    public func first(options: API.Options) throws -> ResultType? {
+        return try firstCommand().execute(options: options)
     }
 
-    public func count(options: API.Option, callback: @escaping ((Result<Int>) -> Void)) -> Cancellable {
-        return countCommand().execute(options: options, callback)
+    public func count(options: API.Options) throws -> Int {
+        return try countCommand().execute(options: options)
     }
 }
 
 private extension Query {
-    private func findCommand() -> RESTCommand<Query<ResultType>, [ResultType]> {
-        return RESTCommand(method: .POST, path: endpoint, body: self) {
+    private func findCommand() -> API.Command<Query<ResultType>, [ResultType]> {
+        return API.Command(method: .POST, path: endpoint, body: self) {
             try getDecoder().decode(FindResult<T>.self, from: $0).results
         }
     }
 
-    private func firstCommand() -> RESTCommand<Query<ResultType>, ResultType?> {
+    private func firstCommand() -> API.Command<Query<ResultType>, ResultType?> {
         var query = self
         query.limit = 1
-        return RESTCommand(method: .POST, path: endpoint, body: query) {
+        return API.Command(method: .POST, path: endpoint, body: query) {
             try getDecoder().decode(FindResult<T>.self, from: $0).results.first
         }
     }
 
-    private func countCommand() -> RESTCommand<Query<ResultType>, Int> {
+    private func countCommand() -> API.Command<Query<ResultType>, Int> {
         var query = self
         query.limit = 1
         query.isCount = true
-        return RESTCommand(method: .POST, path: endpoint, body: query) {
+        return API.Command(method: .POST, path: endpoint, body: query) {
             try getDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
         }
     }

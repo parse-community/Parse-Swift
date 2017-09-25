@@ -9,8 +9,8 @@
 import Foundation
 
 public extension ObjectType {
-    public static func find(callback: @escaping ((Result<[Self]>) -> Void)) -> Cancellable {
-        return query().find(callback: callback)
+    public static func find() throws -> [Self] {
+        return try query().find()
     }
 
     public static func query() -> Query<Self> {

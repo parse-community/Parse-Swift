@@ -46,31 +46,23 @@ struct User: ParseSwift.UserType {
 //    }
 //}
 
-User.signup(username: "hello10", password: "world") { (response) in
-    guard case .success(var user) = response else { return }
-    print(user)
-}
-
-User.login(username: "hello", password: "world") { (response) in
-    guard case .success(var user) = response else { return }
+do {
+    let user = try User.signup(username: "hello10", password: "world")
+    var loggedIn = try User.login(username: "hello", password: "workd")
     var acl = user.ACL
     acl?.publicRead = false
     acl?.publicWrite = true
-    user.ACL = acl
-    user.save { response in
-        switch response {
-        case .success:
-            assert(true)
-        case .error:
-            assert(false)
-        default: break
-        }
-    }
+    loggedIn.ACL = acl
+    try loggedIn.save()
+} catch let e {
+    e
+    e.localizedDescription
+    fatalError("\(e.localizedDescription)")
 }
 
-var acl = ACL()
-acl.publicRead = true
-acl.setReadAccess(userId: "dsas", value: true)
-acl.setWriteAccess(userId: "dsas", value: true)
+//var acl = ACL()
+//acl.publicRead = true
+//acl.setReadAccess(userId: "dsas", value: true)
+//acl.setWriteAccess(userId: "dsas", value: true)
 
 //: [Next](@next)
