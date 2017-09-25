@@ -11,7 +11,9 @@ jobs:
   include:
     - stage: package managers
       env: Swift Pacakge Manager
-      script: swift build
+      script: 
+        - swift build
+        - swift test 
     - stage: package managers
       env: Cocoapods
       script: pod lib lint
