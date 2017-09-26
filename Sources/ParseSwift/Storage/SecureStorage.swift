@@ -10,10 +10,10 @@ import Foundation
 
 protocol SecureStorage {
     init(service: String)
-    func object(forKey: String) -> Any?
-    func set(object: Any?, forKey: String) -> Bool
+    func object<T>(forKey: String) -> T? where T: Decodable
+    func set<T>(object: T?, forKey: String) -> Bool where T: Encodable
 
-    subscript (key: String) -> Any? { get }
+    subscript <T>(key: String) -> T? where T: Codable { get }
     func removeObject(forKey: String) -> Bool
     func removeAllObjects() -> Bool
 }

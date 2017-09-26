@@ -36,21 +36,21 @@ struct KeychainStore: SecureStorage {
         return query
     }
 
-    func object(forKey key: String) -> Any? {
+    func object<T>(forKey key: String) -> T? where T: Decodable {
         guard let data = synchronizationQueue.sync(execute: { () -> Data? in
             return self.data(forKey: key)
         }) else {
             return nil
         }
-        return NSKeyedUnarchiver.unarchiveObject(with: data)
+        return NSKeyedUnarchiver.unarchiveObject(with: data) as? T
     }
 
-    func set(object: Any?, forKey key: String) -> Bool {
+    func set<T>(object: T?, forKey key: String) -> Bool where T: Encodable {
         guard let object = object else {
             return removeObject(forKey: key)
         }
         let data = NSKeyedArchiver.archivedData(withRootObject: object)
-        var query = keychainQuery(forKey: key)
+        let query = keychainQuery(forKey: key)
         let update = [
             kSecValueData as String: data
         ]
@@ -58,16 +58,15 @@ struct KeychainStore: SecureStorage {
         let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
             if self.data(forKey: key) != nil {
                 return SecItemUpdate(query as CFDictionary, update as CFDictionary)
-            } else {
-                query = query.merging(update) { (_, otherValue) -> Any in otherValue }
-                return SecItemAdd(query as CFDictionary, nil)
             }
+            let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
+            return SecItemAdd(mergedQuery as CFDictionary, nil)
         }
 
         return status == errSecSuccess
     }
 
-    subscript(key: String) -> Any? {
+    subscript<T>(key: String) -> T? where T: Codable {
         get {
             return object(forKey: key)
         }
@@ -133,5 +132,24 @@ struct KeychainStore: SecureStorage {
         }
         return SecItemDelete(keychainQuery(forKey: key) as CFDictionary) == errSecSuccess
     }
+}
 
+extension KeychainStore /* TypedSubscript */ {
+    subscript(string key: String) -> String? {
+        get {
+            return object(forKey: key)
+        }
+        set (object) {
+            _ = set(object: object, forKey: key)
+        }
+    }
+
+    subscript(bool key: String) -> Bool? {
+        get {
+            return object(forKey: key)
+        }
+        set (object) {
+            _ = set(object: object, forKey: key)
+        }
+    }
 }
