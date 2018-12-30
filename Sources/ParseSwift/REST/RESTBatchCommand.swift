@@ -55,12 +55,12 @@ struct SaveOrUpdateResponse: Decodable {
     }
 }
 
-public class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ObjectType {
+class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ObjectType {
     typealias ParseObjectCommand = RESTCommand<T, T>
     typealias ParseObjectBatchCommand = BatchCommand<T, T>
 
     init(commands: [ParseObjectCommand]) {
-        let commands = commands.flatMap { (command) -> RESTCommand<T, T>? in
+        let commands = commands.compactMap { (command) -> RESTCommand<T, T>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
@@ -68,7 +68,7 @@ public class RESTBatchCommand<T>: RESTBatchCommandType<T> where T: ObjectType {
             return RESTCommand<T, T>(method: command.method, path: .any(path),
                                      body: body, mapper: command.mapper)
         }
-        let bodies = commands.flatMap { (command) -> T? in
+        let bodies = commands.compactMap { (command) -> T? in
             return command.body
         }
         let mapper = { (data: Data) -> [(T, ParseError?)] in

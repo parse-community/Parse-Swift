@@ -20,8 +20,8 @@ public enum Result<T> {
         case .success(let success):
             do {
                 return .success(try transform(success))
-            } catch let e {
-                return .error(e)
+            } catch let error {
+                return .error(error)
             }
         case .error(let error):
             return .error(error)
@@ -34,8 +34,8 @@ public enum Result<T> {
         case .success(let success):
             do {
                 return try transform(success)
-            } catch let e {
-                return .error(e)
+            } catch let error {
+                return .error(error)
             }
         case .error(let error):
             return .error(error)
@@ -56,11 +56,11 @@ extension Result where T == Data {
         case .success(let data):
             do {
                 return .success(try mapper(data))
-            } catch let e {
+            } catch let error {
                 do { // try default error mapper :)
                     return .error(try getDecoder().decode(ParseError.self, from: data))
                 } catch {}
-                return .error(e)
+                return .error(error)
             }
         case .error(let error):
             return .error(error)

@@ -112,10 +112,10 @@ internal struct QueryWhere: Encodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RawCodingKey.self)
         try _constraints.forEach { (key, value) in
-            var c = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
+            var nestedContainer = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
                                               forKey: .key(key))
             try value.forEach { (constraint) in
-                try constraint.encode(to: c.superEncoder(forKey: constraint.comparator))
+                try constraint.encode(to: nestedContainer.superEncoder(forKey: constraint.comparator))
             }
         }
     }

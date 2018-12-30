@@ -12,13 +12,13 @@ typealias ResultCapturing<T> = (Result<T>) -> Void
 // Mark it private for now
 private func await<T>(block: (@escaping ResultCapturing<T>) -> Void) throws -> T {
     let sema = DispatchSemaphore(value: 0)
-    var r: Result<T>!
+    var result: Result<T>!
     block({
-        r = $0
+        result = $0
         sema.signal()
     })
     sema.wait()
-    switch r! {
+    switch result! {
     case .success(let value):
         return value
     case .error(let error):
