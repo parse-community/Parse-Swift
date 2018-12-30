@@ -20,7 +20,7 @@ class KeychainStoreTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        _ = testStore.removeAllObjects()
+        testStore.removeAllObjects()
     }
 
     func testSetObject() {
@@ -73,7 +73,7 @@ class KeychainStoreTests: XCTestCase {
     func testSetComplextObject() {
         let complexObject: [Any] = [["key": "value"], "string2", 1234, NSNull()]
         testStore["complexObject"] = complexObject
-        guard let retrievedObject: [Any] = testStore["complexObject"] else {
+        guard let retrievedObject: [Any] = testStore?["complexObject"] else {
             return XCTFail("Should retrieve the object")
         }
 

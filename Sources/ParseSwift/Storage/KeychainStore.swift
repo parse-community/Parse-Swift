@@ -45,7 +45,7 @@ struct KeychainStore: SecureStorage {
         return NSKeyedUnarchiver.unarchiveObject(with: data) as? T
     }
 
-    func set<T>(object: T?, forKey key: String) -> Bool where T: Encodable {
+    @discardableResult func set<T>(object: T?, forKey key: String) -> Bool where T: Encodable {
         guard let object = object else {
             return removeObject(forKey: key)
         }
@@ -71,7 +71,7 @@ struct KeychainStore: SecureStorage {
             return object(forKey: key)
         }
         set (object) {
-            _ = set(object: object, forKey: key)
+            set(object: object, forKey: key)
         }
     }
 
@@ -81,7 +81,7 @@ struct KeychainStore: SecureStorage {
         }
     }
 
-    func removeAllObjects() -> Bool {
+    @discardableResult func removeAllObjects() -> Bool {
         var query = keychainQueryTemplate as [String: Any]
         query[kSecReturnAttributes as String] = kCFBooleanTrue
         query[kSecMatchLimit as String] = kSecMatchLimitAll
@@ -140,7 +140,7 @@ extension KeychainStore /* TypedSubscript */ {
             return object(forKey: key)
         }
         set (object) {
-            _ = set(object: object, forKey: key)
+            set(object: object, forKey: key)
         }
     }
 
@@ -149,7 +149,7 @@ extension KeychainStore /* TypedSubscript */ {
             return object(forKey: key)
         }
         set (object) {
-            _ = set(object: object, forKey: key)
+            set(object: object, forKey: key)
         }
     }
 }
