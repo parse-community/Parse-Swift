@@ -55,8 +55,6 @@ do {
     loggedIn.ACL = acl
     try loggedIn.save()
 } catch let error {
-    error
-    error.localizedDescription
     fatalError("\(e.localizedDescription)")
 }
 
