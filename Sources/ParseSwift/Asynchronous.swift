@@ -16,8 +16,8 @@ private func runAsync<T>(options: API.Options,
     queue.async {
         do {
             callback(try function(options), nil)
-        } catch let e {
-            callback(nil, e)
+        } catch let error {
+            callback(nil, error)
         }
     }
 }

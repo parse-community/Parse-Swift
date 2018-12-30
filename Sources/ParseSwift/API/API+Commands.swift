@@ -111,7 +111,7 @@ extension API.Command where T: ObjectType {
     }
 
     static func batch(commands: [API.Command<T, T>]) -> RESTBatchCommandType<T> {
-        let commands = commands.flatMap { (command) -> API.Command<T, T>? in
+        let commands = commands.compactMap { (command) -> API.Command<T, T>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
@@ -119,7 +119,7 @@ extension API.Command where T: ObjectType {
             return API.Command<T, T>(method: command.method, path: .any(path),
                                      body: body, mapper: command.mapper)
         }
-        let bodies = commands.flatMap { (command) -> T? in
+        let bodies = commands.compactMap { (command) -> T? in
             return command.body
         }
         let mapper = { (data: Data) -> [(T, ParseError?)] in

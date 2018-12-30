@@ -51,8 +51,8 @@ internal extension ObjectType {
 extension ObjectType {
     // Parse ClassName inference
     public static var className: String {
-        let t = "\(type(of: self))"
-        return t.components(separatedBy: ".").first! // strip .Type
+        let classType = "\(type(of: self))"
+        return classType.components(separatedBy: ".").first! // strip .Type
     }
     public var className: String {
         return Self.className
@@ -115,7 +115,7 @@ let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .custom({ (dec) -> 
         let container = try dec.singleValueContainer()
         let decodedString = try container.decode(String.self)
         return dateFormatter.date(from: decodedString)!
-    } catch let e {
+    } catch let error {
         let container = try dec.container(keyedBy: DateEncodingKeys.self)
         if let decoded = try container.decodeIfPresent(String.self, forKey: .iso) {
             return dateFormatter.date(from: decoded)!
