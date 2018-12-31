@@ -10,7 +10,7 @@ import Foundation
 
 protocol SecureStorage {
     init(service: String)
-    func object<T>(forKey: String) -> T? where T: Decodable
+    func object<T>(forKey key: String) -> T? where T: Decodable
     @discardableResult func set<T>(object: T?, forKey: String) -> Bool where T: Encodable
 
     subscript <T>(key: String) -> T? where T: Codable { get }
