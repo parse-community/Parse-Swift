@@ -20,7 +20,7 @@ class KeychainStoreTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        testStore.removeAllObjects()
+        _ = testStore.removeAllObjects()
     }
 
     func testSetObject() {

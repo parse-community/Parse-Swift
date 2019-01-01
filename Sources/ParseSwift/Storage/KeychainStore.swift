@@ -118,7 +118,7 @@ struct KeychainStore: SecureStorage {
         }
     }
 
-    @discardableResult func removeAllObjects() -> Bool {
+    func removeAllObjects() -> Bool {
         var query = keychainQueryTemplate as [String: Any]
         query[kSecReturnAttributes as String] = kCFBooleanTrue
         query[kSecMatchLimit as String] = kSecMatchLimitAll
