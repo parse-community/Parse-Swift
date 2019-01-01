@@ -111,7 +111,7 @@ class KeychainStoreTests: XCTestCase {
 
     func testRemoveObject() {
         testStore["key1"] = "value1"
-        XCTAssertNotNil(testStore["key1"] ?? "", "The value should be set")
+        XCTAssertNotNil(testStore[string: "key1"], "The value should be set")
         _ = testStore.removeObject(forKey: "key1")
         let key1Val: String? = testStore["key1"]
         XCTAssertNil(key1Val, "There should be no value after removal")
@@ -119,7 +119,7 @@ class KeychainStoreTests: XCTestCase {
 
     func testRemoveObjectSubscript() {
         testStore["key1"] = "value1"
-        XCTAssertNotNil(testStore["key1"] ?? "", "The value should be set")
+        XCTAssertNotNil(testStore[string: "key1"], "The value should be set")
         testStore[string: "key1"] = nil
         let key1Val: String? = testStore["key1"]
         XCTAssertNil(key1Val, "There should be no value after removal")
@@ -128,8 +128,8 @@ class KeychainStoreTests: XCTestCase {
     func testRemoveAllObjects() {
         testStore["key1"] = "value1"
         testStore["key2"] = "value2"
-        XCTAssertNotNil(testStore["key1"] ?? "", "The value should be set")
-        XCTAssertNotNil(testStore["key2"] ?? "", "The value should be set")
+        XCTAssertNotNil(testStore[string: "key1"], "The value should be set")
+        XCTAssertNotNil(testStore[string: "key2"], "The value should be set")
         _ = testStore.removeAllObjects()
         let key1Val: String? = testStore["key1"]
         let key2Val: String? = testStore["key1"]
