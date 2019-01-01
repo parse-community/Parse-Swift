@@ -35,6 +35,7 @@ struct KeychainStore: SecureStorage {
         query[kSecAttrAccount as String] = key
         return query
     }
+
     func object<T>(forKey key: String) -> T? where T: Decodable {
         guard let data = synchronizationQueue.sync(execute: { () -> Data? in
             return self.data(forKey: key)
@@ -53,7 +54,7 @@ struct KeychainStore: SecureStorage {
         return NSKeyedUnarchiver.unarchiveObject(with: data) as? [T]
     }
 
-    @discardableResult func set<T>(object: T?, forKey key: String) -> Bool where T: Encodable {
+    func set<T>(object: T?, forKey key: String) -> Bool where T: Encodable {
         guard let object = object else {
             return removeObject(forKey: key)
         }
@@ -74,7 +75,7 @@ struct KeychainStore: SecureStorage {
         return status == errSecSuccess
     }
 
-    @discardableResult func set<T>(object: [T]?, forKey key: String) -> Bool {
+    func set<T>(object: [T]?, forKey key: String) -> Bool {
         guard let object = object else {
             return removeObject(forKey: key)
         }
@@ -98,7 +99,7 @@ struct KeychainStore: SecureStorage {
             return object(forKey: key)
         }
         set (object) {
-            set(object: object, forKey: key)
+            _ = set(object: object, forKey: key)
         }
     }
 
@@ -107,7 +108,7 @@ struct KeychainStore: SecureStorage {
             return object(forKey: key)
         }
         set (object) {
-            set(object: object, forKey: key)
+            _ = set(object: object, forKey: key)
         }
     }
 
@@ -176,7 +177,7 @@ extension KeychainStore /* TypedSubscript */ {
             return object(forKey: key)
         }
         set (object) {
-            set(object: object, forKey: key)
+            _ = set(object: object, forKey: key)
         }
     }
 
@@ -185,7 +186,7 @@ extension KeychainStore /* TypedSubscript */ {
             return object(forKey: key)
         }
         set (object) {
-            set(object: object, forKey: key)
+            _ = set(object: object, forKey: key)
         }
     }
 }
