@@ -35,7 +35,6 @@ struct KeychainStore: SecureStorage {
         query[kSecAttrAccount as String] = key
         return query
     }
-
     func object<T>(forKey key: String) -> T? where T: Decodable {
         guard let data = synchronizationQueue.sync(execute: { () -> Data? in
             return self.data(forKey: key)
@@ -45,14 +44,6 @@ struct KeychainStore: SecureStorage {
         return NSKeyedUnarchiver.unarchiveObject(with: data) as? T
     }
 
-    func object<T>(forKey key: String) -> [T]? {
-        guard let data = synchronizationQueue.sync(execute: { () -> Data? in
-            return self.data(forKey: key)
-        }) else {
-            return nil
-        }
-        return NSKeyedUnarchiver.unarchiveObject(with: data) as? [T]
-    }
 
     func set<T>(object: T?, forKey key: String) -> Bool where T: Encodable {
         guard let object = object else {
@@ -75,24 +66,6 @@ struct KeychainStore: SecureStorage {
         return status == errSecSuccess
     }
 
-    func set<T>(object: [T]?, forKey key: String) -> Bool {
-        guard let object = object else {
-            return removeObject(forKey: key)
-        }
-        let data = NSKeyedArchiver.archivedData(withRootObject: object)
-        let query = keychainQuery(forKey: key)
-        let update = [
-            kSecValueData as String: data
-        ]
-        let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
-            if self.data(forKey: key) != nil {
-                return SecItemUpdate(query as CFDictionary, update as CFDictionary)
-            }
-            let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
-            return SecItemAdd(mergedQuery as CFDictionary, nil)
-        }
-        return status == errSecSuccess
-    }
 
     subscript<T>(key: String) -> T? where T: Codable {
         get {
@@ -103,14 +76,6 @@ struct KeychainStore: SecureStorage {
         }
     }
 
-    subscript<T>(key: String) -> [T]? {
-        get {
-            return object(forKey: key)
-        }
-        set (object) {
-            _ = set(object: object, forKey: key)
-        }
-    }
 
     func removeObject(forKey key: String) -> Bool {
         return synchronizationQueue.sync {
