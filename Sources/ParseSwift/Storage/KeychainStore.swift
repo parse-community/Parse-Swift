@@ -7,7 +7,6 @@
 //
 
 import Foundation
-
 func getKeychainQueryTemplate(forService service: String) -> [String: String] {
     var query = [String: String]()
     if service.count > 0 {
@@ -44,7 +43,6 @@ struct KeychainStore: SecureStorage {
         return NSKeyedUnarchiver.unarchiveObject(with: data) as? T
     }
 
-
     func set<T>(object: T?, forKey key: String) -> Bool where T: Encodable {
         guard let object = object else {
             return removeObject(forKey: key)
@@ -66,7 +64,6 @@ struct KeychainStore: SecureStorage {
         return status == errSecSuccess
     }
 
-
     subscript<T>(key: String) -> T? where T: Codable {
         get {
             return object(forKey: key)
@@ -75,7 +72,6 @@ struct KeychainStore: SecureStorage {
             _ = set(object: object, forKey: key)
         }
     }
-
 
     func removeObject(forKey key: String) -> Bool {
         return synchronizationQueue.sync {
