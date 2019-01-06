@@ -16,9 +16,7 @@ jobs:
         - swift test 
     - stage: package managers
       env: Cocoapods
-      script: 
-        - pod --version
-        - pod lib lint --verbose
+      script: pod lib lint
     - stage: package managers
       env: Carthage
       script: carthage build --no-skip-current
