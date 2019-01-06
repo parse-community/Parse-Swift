@@ -10,13 +10,13 @@ import Foundation
 import XCTest
 
 @testable import ParseSwift
-struct ComplexObject<T: Codable> : Codable {
-    var dictionary: [String: String]
-    var stringData: String
-    var numberData: Int
-    var optionalData: T?
-}
 class KeychainStoreTests: XCTestCase {
+    struct ComplexObject<T: Codable> : Codable {
+        var dictionary: [String: String]
+        var stringData: String
+        var numberData: Int
+        var optionalData: T?
+    }
     var testStore: KeychainStore!
     override func setUp() {
         super.setUp()
