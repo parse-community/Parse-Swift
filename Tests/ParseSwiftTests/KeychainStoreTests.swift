@@ -71,12 +71,7 @@ class KeychainStoreTests: XCTestCase {
 
     //MARK:- Todo
 //    func testSetComplextObject() {
-//        let complexObject = ComplexObject<Int>(
-//            dictionary: ["key": "value"],
-//            stringData: "string2",
-//            numberData: 1234,
-//            optionalData: nil
-//        )
+//        let complexObject: [Any] = [["key": "value"], "string2", 1234, NSNull()]
 //        testStore["complexObject"] = complexObject
 //        guard let retrievedObject: ComplexObject<Int>? = testStore["complexObject"] else {
 //            return XCTFail("Should retrieve the object")
