@@ -70,9 +70,9 @@ class KeychainStoreTests: XCTestCase {
     }
 
     func testSetComplextObject() {
-        let complexObject: [AnyEncodable] = [["key": "value"], "string2", 1234]
+        let complexObject: [AnyCodable] = [["key": "value"], "string2", 1234, nil]
         testStore["complexObject"] = complexObject
-        guard let retrievedObject: ComplexObject<Int>? = testStore["complexObject"] else {
+        guard let retrievedObject: [AnyCodable] = testStore["complexObject"] else {
             return XCTFail("Should retrieve the object")
         }
         XCTAssertTrue(retrievedObject.count == 4)
