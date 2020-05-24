@@ -10,7 +10,7 @@ import Foundation
 
 func getKeychainQueryTemplate(forService service: String) -> [String: String] {
     var query = [String: String]()
-    if service.characters.count > 0 {
+    if service.count > 0 {
         query[kSecAttrService as String] = service
     }
     query[kSecClass as String] = kSecClassGenericPassword as String

@@ -54,22 +54,22 @@ public struct API {
         case useMasterKey
         case sessionToken(String)
         case installationId(String)
-
-        // use HashValue so we can use in a sets
-        public var hashValue: Int {
+        
+        public func hash(into hasher: inout Hasher){
             switch self {
             case .useMasterKey:
-                return 1
+                hasher.combine(1)
             case .sessionToken:
-                return 2
+                hasher.combine(2)
             case .installationId:
-                return 3
+                hasher.combine(3)
             }
         }
-
+        //Check to see if the compliler handles this
+        /*
         public static func == (lhs: API.Option, rhs: API.Option) -> Bool {
             return lhs.hashValue == rhs.hashValue
-        }
+        }*/
     }
 
     internal static func getHeaders(options: API.Options) -> [String: String] {
