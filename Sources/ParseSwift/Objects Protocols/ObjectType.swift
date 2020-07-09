@@ -137,7 +137,7 @@ func getParseEncoder() -> ParseEncoder {
     encoder.dateEncodingStrategy = parseDateEncodingStrategy
     encoder.shouldEncodeKey = { (key, path) -> Bool in
         if path.count == 0 // top level
-            && forbiddenKeys.index(of: key) != nil {
+            && forbiddenKeys.firstIndex(of: key) != nil {
             return false
         }
         return true
