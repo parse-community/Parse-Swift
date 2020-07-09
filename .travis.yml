@@ -16,7 +16,9 @@ jobs:
         - swift test 
     - stage: package managers
       env: Cocoapods
-      before_script: gem install cocoapods
+      before_script:
+        - source 'https://cdn.cocoapods.org/'
+        - gem install cocoapods
       script: pod lib lint
     - stage: package managers
       env: Carthage
