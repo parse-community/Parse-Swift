@@ -1,4 +1,4 @@
-osx_image: xcode11
+osx_image: xcode11.5
 language: swift
 stage: Build
 env:
@@ -16,9 +16,6 @@ jobs:
         - swift test 
     - stage: package managers
       env: Cocoapods
-      before_script:
-        - source 'https://cdn.cocoapods.org/'
-        - gem install cocoapods
       script: pod lib lint
     - stage: package managers
       env: Carthage
