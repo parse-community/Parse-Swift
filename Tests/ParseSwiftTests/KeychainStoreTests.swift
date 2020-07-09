@@ -31,8 +31,11 @@ class KeychainStoreTests: XCTestCase {
         let key = "yarrKey"
         let value = "yarrValue"
         testStore[key] = value
-        let storedValue: String = testStore.object(forKey: key)!
-        XCTAssertEqual(storedValue, value, "Values should be equal after get")
+        let storedValue: String? = testStore.object(forKey: key)
+        XCTAssertNotNil(storedValue, "Values should not be nil")
+        if let storedValue: String = testStore.object(forKey: key){
+            XCTAssertEqual(storedValue, value, "Values should be equal after get")
+        }
     }
 
     func testGetObjectSubscript() {
@@ -70,6 +73,8 @@ class KeychainStoreTests: XCTestCase {
         XCTAssertNil(testStore[bool: key], "Values should be equal after get")
     }
 
+    //Removed the test case below as it's currently not possible to make Any conform to Encodable. See issue/workarounds here: https://github.com/Moya/Moya/pull/1936
+    /*
     func testSetComplextObject() {
         let complexObject: [Any] = [["key": "value"], "string2", 1234, NSNull()]
         testStore["complexObject"] = complexObject
@@ -107,11 +112,11 @@ class KeychainStoreTests: XCTestCase {
             default: break
             }
         }
-    }
+    }*/
 
     func testRemoveObject() {
         testStore["key1"] = "value1"
-        XCTAssertNotNil(testStore["key1"]!, "The value should be set")
+        XCTAssertNotNil(testStore[string: "key1"], "The value should be set")
         _ = testStore.removeObject(forKey: "key1")
         let key1Val: String? = testStore["key1"]
         XCTAssertNil(key1Val, "There should be no value after removal")
@@ -119,7 +124,7 @@ class KeychainStoreTests: XCTestCase {
 
     func testRemoveObjectSubscript() {
         testStore["key1"] = "value1"
-        XCTAssertNotNil(testStore["key1"]!, "The value should be set")
+        XCTAssertNotNil(testStore[string: "key1"], "The value should be set")
         testStore[string: "key1"] = nil
         let key1Val: String? = testStore["key1"]
         XCTAssertNil(key1Val, "There should be no value after removal")
@@ -128,8 +133,8 @@ class KeychainStoreTests: XCTestCase {
     func testRemoveAllObjects() {
         testStore["key1"] = "value1"
         testStore["key2"] = "value2"
-        XCTAssertNotNil(testStore["key1"]!, "The value should be set")
-        XCTAssertNotNil(testStore["key2"]!, "The value should be set")
+        XCTAssertNotNil(testStore[string: "key1"], "The value should be set")
+        XCTAssertNotNil(testStore[string: "key2"], "The value should be set")
         _ = testStore.removeAllObjects()
         let key1Val: String? = testStore["key1"]
         let key2Val: String? = testStore["key1"]
