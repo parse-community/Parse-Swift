@@ -1,6 +1,6 @@
 osx_image: xcode11.3
 language: swift
-cache: cocoapods
+#cache: cocoapods
 stage: Build
 env:
   matrix:
@@ -18,6 +18,7 @@ jobs:
     - stage: package managers
       env: Cocoapods
     - install:
+        - gem install cocoapods
         - pod setup
       script: pod lib lint
     - stage: package managers
