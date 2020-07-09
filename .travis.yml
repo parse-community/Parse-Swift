@@ -17,9 +17,6 @@ jobs:
         - swift test 
     - stage: package managers
       env: Cocoapods
-      install:
-        - gem install cocoapods
-        - pod setup
       script: pod lib lint
     - stage: package managers
       env: Carthage
