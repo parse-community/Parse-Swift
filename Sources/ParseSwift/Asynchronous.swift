@@ -47,16 +47,16 @@ extension Querying {
 }
 
 public extension ObjectType {
-    public static func saveAll(options: API.Options = [],
-                               _ objects: Self...,
-                               callback: @escaping ([(Self, ParseError?)]?, Error?) -> Void) {
+    static func saveAll(options: API.Options = [],
+                        _ objects: Self...,
+                        callback: @escaping ([(Self, ParseError?)]?, Error?) -> Void) {
         objects.saveAll(options: options, callback: callback)
     }
 }
 
 public extension Sequence where Element: ObjectType {
-    public func saveAll(options: API.Options = [],
-                        callback: @escaping ([(Element, ParseError?)]?, Error?) -> Void) {
+    func saveAll(options: API.Options = [],
+                 callback: @escaping ([(Element, ParseError?)]?, Error?) -> Void) {
         runAsync(options: options, function: self.saveAll, callback: callback)
     }
 }

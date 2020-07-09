@@ -46,7 +46,6 @@ extension AnyDecodable: _AnyDecodable {}
 extension _AnyDecodable {
     public init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
-        
         if container.decodeNil() {
             self.init(())
         } else if let bool = try? container.decode(Bool.self) {
@@ -64,7 +63,8 @@ extension _AnyDecodable {
         } else if let dictionary = try? container.decode([String: AnyCodable].self) {
             self.init(dictionary.mapValues { $0.value })
         } else {
-            throw DecodingError.dataCorruptedError(in: container, debugDescription: "AnyCodable value cannot be decoded")
+            throw DecodingError.dataCorruptedError(in: container,
+                                                   debugDescription: "AnyCodable value cannot be decoded")
         }
     }
 }

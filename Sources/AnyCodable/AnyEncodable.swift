@@ -28,7 +28,6 @@ import Foundation
  */
 public struct AnyEncodable: Encodable {
     public let value: Any
-    
     public init<T>(_ value: T?) {
         self.value = value ?? ()
     }
@@ -39,7 +38,6 @@ protocol _AnyEncodable {
     init<T>(_ value: T?)
 }
 
-
 extension AnyEncodable: _AnyEncodable {}
 
 // MARK: - Encodable
@@ -47,7 +45,6 @@ extension AnyEncodable: _AnyEncodable {}
 extension _AnyEncodable {
     public func encode(to encoder: Encoder) throws {
         var container = encoder.singleValueContainer()
-        
         switch self.value {
         case is Void:
             try container.encodeNil()
@@ -88,7 +85,8 @@ extension _AnyEncodable {
         case let dictionary as [String: Any?]:
             try container.encode(dictionary.mapValues { AnyCodable($0) })
         default:
-            let context = EncodingError.Context(codingPath: container.codingPath, debugDescription: "AnyCodable value cannot be encoded")
+            let context = EncodingError.Context(codingPath: container.codingPath,
+                                                debugDescription: "AnyCodable value cannot be encoded")
             throw EncodingError.invalidValue(self.value, context)
         }
     }
@@ -161,7 +159,10 @@ extension AnyEncodable: CustomDebugStringConvertible {
     }
 }
 
-extension AnyEncodable: ExpressibleByNilLiteral, ExpressibleByBooleanLiteral, ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral, ExpressibleByStringLiteral, ExpressibleByArrayLiteral, ExpressibleByDictionaryLiteral {}
+extension AnyEncodable: ExpressibleByNilLiteral, ExpressibleByBooleanLiteral,
+ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral,
+ExpressibleByStringLiteral, ExpressibleByArrayLiteral,
+ExpressibleByDictionaryLiteral {}
 
 extension _AnyEncodable {
     public init(nilLiteral: ()) {
@@ -183,7 +184,6 @@ extension _AnyEncodable {
     public init(extendedGraphemeClusterLiteral value: String) {
         self.init(value)
     }
-    
     public init(stringLiteral value: String) {
         self.init(value)
     }
@@ -193,6 +193,6 @@ extension _AnyEncodable {
     }
 
     public init(dictionaryLiteral elements: (AnyHashable, Any)...) {
-        self.init(Dictionary<AnyHashable, Any>(elements, uniquingKeysWith: { (first, _) in first }))
+        self.init([AnyHashable: Any](elements, uniquingKeysWith: { (first, _) in first }))
     }
 }

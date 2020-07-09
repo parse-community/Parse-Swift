@@ -68,7 +68,7 @@ class KeychainStoreTests: XCTestCase {
         testStore[key] = value
         XCTAssertNil(testStore[bool: key], "Values should be equal after get")
     }
-
+/*
     func testSetComplextObject() {
         let complexObject: [AnyCodable] = [["key": "value"], "string2", 1234, nil]
         testStore["complexObject"] = complexObject
@@ -106,7 +106,7 @@ class KeychainStoreTests: XCTestCase {
             }
         }
     }
-
+*/
     func testRemoveObject() {
         testStore["key1"] = "value1"
         XCTAssertNotNil(testStore[string: "key1"], "The value should be set")

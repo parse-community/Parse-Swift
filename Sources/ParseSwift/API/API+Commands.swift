@@ -9,7 +9,7 @@
 import Foundation
 
 internal extension API {
-    internal struct Command<T, U>: Encodable where T: Encodable {
+    struct Command<T, U>: Encodable where T: Encodable {
         typealias ReturnType = U
         let method: API.Method
         let path: API.Endpoint
@@ -63,7 +63,7 @@ internal extension API {
 
 internal extension API.Command {
     // MARK: Saving
-    internal static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
+    static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
         if object.isSaved {
             return updateCommand(object)
         }
@@ -92,7 +92,7 @@ internal extension API.Command {
     }
 
     // MARK: Fetching
-    internal static func fetchCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ObjectType {
+    static func fetchCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ObjectType {
         guard object.isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Fetch an object without id")
         }
