@@ -23,7 +23,8 @@ class AnyDecodableTests: XCTestCase {
             XCTAssertEqual(dictionary["boolean"]?.value as? Bool, true)
             XCTAssertEqual(dictionary["integer"]?.value as? Int, 1)
             guard let doubleValue = dictionary["double"]?.value as? Double else {
-                throw ParseSwiftTestError.cantUnwrap
+                XCTFail("Should unrap data as Double")
+                return
             }
             XCTAssertEqual(doubleValue, 3.14159265358979323846, accuracy: 0.001)
             XCTAssertEqual(dictionary["string"]?.value as? String, "string")

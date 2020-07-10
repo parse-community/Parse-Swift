@@ -1,6 +1,5 @@
 osx_image: xcode11.5
 language: swift
-#cache: cocoapods
 stage: Build
 env:
   matrix:

@@ -1,10 +1,6 @@
 import XCTest
 @testable import ParseSwift
 
-enum ParseSwiftTestError: Error {
-    case cantUnwrap
-}
-
 class AnyEncodableTests: XCTestCase {
     func testJSONEncoding() {
         let dictionary: [String: AnyEncodable] = [
@@ -23,8 +19,9 @@ class AnyEncodableTests: XCTestCase {
         do {
             let json = try encoder.encode(dictionary)
             guard let encodedJSONObject =
-                try JSONSerialization.jsonObject(with: json, options: []) as? [String: AnyCodable] else {
-                throw ParseSwiftTestError.cantUnwrap
+                try JSONSerialization.jsonObject(with: json, options: []) as? NSDictionary else {
+                    XCTFail("Should encode JSON object")
+                    return
             }
             guard let expected = """
             {
@@ -40,11 +37,13 @@ class AnyEncodableTests: XCTestCase {
                 }
             }
             """.data(using: .utf8) else {
-                throw ParseSwiftTestError.cantUnwrap
+                XCTFail("Should unrap data to utf8")
+                return
             }
             guard let expectedJSONObject =
-                try JSONSerialization.jsonObject(with: expected, options: []) as? [String: AnyCodable] else {
-                throw ParseSwiftTestError.cantUnwrap
+                try JSONSerialization.jsonObject(with: expected, options: []) as? NSDictionary else {
+                XCTFail("Should unrap serialized json object")
+                return
             }
             XCTAssertEqual(encodedJSONObject, expectedJSONObject)
         } catch {

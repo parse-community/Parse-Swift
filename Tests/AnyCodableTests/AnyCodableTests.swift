@@ -23,7 +23,8 @@ class AnyCodableTests: XCTestCase {
             XCTAssertEqual(dictionary["boolean"]?.value as? Bool, true)
             XCTAssertEqual(dictionary["integer"]?.value as? Int, 1)
             guard let doubleValue = dictionary["double"]?.value as? Double else {
-                throw ParseSwiftTestError.cantUnwrap
+                XCTFail("Should unrap value as Double")
+                return
             }
             XCTAssertEqual(doubleValue, 3.14159265358979323846, accuracy: 0.001)
             XCTAssertEqual(dictionary["string"]?.value as? String, "string")
@@ -52,7 +53,8 @@ class AnyCodableTests: XCTestCase {
             let json = try encoder.encode(dictionary)
             guard let encodedJSONObject =
                 try JSONSerialization.jsonObject(with: json, options: []) as? NSDictionary else {
-                    throw ParseSwiftTestError.cantUnwrap
+                    XCTFail("Should unrap JSON serialized object")
+                    return
             }
             guard let expected = """
             {
@@ -68,11 +70,13 @@ class AnyCodableTests: XCTestCase {
                 }
             }
             """.data(using: .utf8) else {
-                throw ParseSwiftTestError.cantUnwrap
+                XCTFail("Should unrap data to utf8")
+                return
             }
             guard let expectedJSONObject =
                 try JSONSerialization.jsonObject(with: expected, options: []) as? NSDictionary else {
-                throw ParseSwiftTestError.cantUnwrap
+                XCTFail("Should unrap JSON serialized object")
+                return
             }
             XCTAssertEqual(encodedJSONObject, expectedJSONObject)
         } catch {
