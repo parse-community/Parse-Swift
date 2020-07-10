@@ -52,7 +52,7 @@ class KeychainStoreTests: XCTestCase {
         let key = "yarrKey"
         let value = 1
         testStore[key] = value
-        XCTAssertNil(testStore[string: key], "Values should be equal after get")
+        XCTAssertNil(testStore[string: key], "Values should be nil after get")
     }
 
     func testGetObjectBoolTypedSubscript() {
@@ -66,44 +66,59 @@ class KeychainStoreTests: XCTestCase {
         let key = "yarrKey"
         let value = "Yo!"
         testStore[key] = value
-        XCTAssertNil(testStore[bool: key], "Values should be equal after get")
+        XCTAssertNil(testStore[bool: key], "Values should be nil after get")
+    }
+
+    func testGetAnyCodableObject() {
+        let key = "yarrKey"
+        let value: AnyCodable = "yarrValue"
+        testStore[key] = value
+        let storedValue: AnyCodable = testStore.object(forKey: key)!
+        XCTAssertEqual(storedValue, value, "Values should be equal after get")
     }
 /*
     func testSetComplextObject() {
         let complexObject: [AnyCodable] = [["key": "value"], "string2", 1234, nil]
-        testStore["complexObject"] = complexObject
-        guard let retrievedObject: [AnyCodable] = testStore["complexObject"] else {
-            return XCTFail("Should retrieve the object")
-        }
-        XCTAssertTrue(retrievedObject.count == 4)
-        retrievedObject.enumerated().forEach { (offset, retrievedValue) in
-            let value = complexObject[offset]
-            switch offset {
-            case 0:
-                guard let dict = value as? [String: String],
-                    let retrivedDict = retrievedValue as? [String: String] else {
-                        return XCTFail("Should be both dictionaries")
-                }
-                XCTAssertTrue(dict["key"] == retrivedDict["key"])
-            case 1:
-                guard let string = value as? String,
-                    let retrievedString = retrievedValue as? String else {
-                        return XCTFail("Should be both strings")
-                }
-                XCTAssertTrue(string == retrievedString)
-            case 2:
-                guard let int = value as? Int,
-                    let retrievedInt = retrievedValue as? Int else {
-                        return XCTFail("Should be both ints")
-                }
-                XCTAssertTrue(int == retrievedInt)
-            case 3:
-                guard let retrieved = retrievedValue as? NSNull else {
-                        return XCTFail("Should be both ints")
-                }
-                XCTAssertTrue(retrieved == NSNull())
-            default: break
+        do {
+            testStore["complexObject"] = complexObject
+            guard let retrievedObject: [AnyCodable] = testStore["complexObject"] else {
+                return XCTFail("Should retrieve the object")
             }
+            XCTAssertTrue(retrievedObject.count == 4)
+            retrievedObject.enumerated().forEach { (offset, retrievedValue) in
+                let value = complexObject[offset]
+                switch offset {
+                case 0:
+                    guard value is AnyDecodable else {
+                        return
+                    }
+                    guard let dict = value as? [String: String],
+                        let retrivedDict = retrievedValue as? [String: String] else {
+                            return XCTFail("Should be both dictionaries")
+                    }
+                    XCTAssertTrue(dict == retrivedDict)
+                case 1:
+                    guard let string = value as? String,
+                        let retrievedString = retrievedValue as? String else {
+                            return XCTFail("Should be both strings")
+                    }
+                    XCTAssertTrue(string == retrievedString)
+                case 2:
+                    guard let int = value as? Int,
+                        let retrievedInt = retrievedValue as? Int else {
+                            return XCTFail("Should be both ints")
+                    }
+                    XCTAssertTrue(int == retrievedInt)
+                case 3:
+                    guard let retrieved = retrievedValue as? NSNull else {
+                            return XCTFail("Should be both ints")
+                    }
+                    XCTAssertTrue(retrieved == NSNull())
+                default: break
+                }
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
         }
     }
 */

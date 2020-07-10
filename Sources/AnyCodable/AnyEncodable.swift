@@ -25,6 +25,8 @@ import Foundation
  
      let encoder = JSONEncoder()
      let json = try! encoder.encode(dictionary)
+ 
+ Source: https://github.com/Flight-School/AnyCodable
  */
 public struct AnyEncodable: Encodable {
     public let value: Any
@@ -33,6 +35,7 @@ public struct AnyEncodable: Encodable {
     }
 }
 
+@usableFromInline
 protocol _AnyEncodable {
     var value: Any { get }
     init<T>(_ value: T?)
@@ -90,10 +93,38 @@ extension _AnyEncodable {
             throw EncodingError.invalidValue(self.value, context)
         }
     }
+    private func encode(nsnumber: NSNumber, into container: inout SingleValueEncodingContainer) throws {
+        switch CFNumberGetType(nsnumber) {
+        case .charType:
+            try container.encode(nsnumber.boolValue)
+        case .sInt8Type:
+            try container.encode(nsnumber.int8Value)
+        case .sInt16Type:
+            try container.encode(nsnumber.int16Value)
+        case .sInt32Type:
+            try container.encode(nsnumber.int32Value)
+        case .sInt64Type:
+            try container.encode(nsnumber.int64Value)
+        case .shortType:
+            try container.encode(nsnumber.uint16Value)
+        case .longType:
+            try container.encode(nsnumber.uint32Value)
+        case .longLongType:
+            try container.encode(nsnumber.uint64Value)
+        case .intType, .nsIntegerType, .cfIndexType:
+            try container.encode(nsnumber.intValue)
+        case .floatType, .float32Type:
+            try container.encode(nsnumber.floatValue)
+        case .doubleType, .float64Type, .cgFloatType:
+            try container.encode(nsnumber.doubleValue)
+        @unknown default:
+            fatalError()
+        }
+    }
 }
 
 extension AnyEncodable: Equatable {
-    public static func ==(lhs: AnyEncodable, rhs: AnyEncodable) -> Bool {
+    public static func == (lhs: AnyEncodable, rhs: AnyEncodable) -> Bool {
         switch (lhs.value, rhs.value) {
         case is (Void, Void):
             return true
@@ -159,10 +190,13 @@ extension AnyEncodable: CustomDebugStringConvertible {
     }
 }
 
-extension AnyEncodable: ExpressibleByNilLiteral, ExpressibleByBooleanLiteral,
-ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral,
-ExpressibleByStringLiteral, ExpressibleByArrayLiteral,
-ExpressibleByDictionaryLiteral {}
+extension AnyEncodable: ExpressibleByNilLiteral {}
+extension AnyEncodable: ExpressibleByBooleanLiteral {}
+extension AnyEncodable: ExpressibleByIntegerLiteral {}
+extension AnyEncodable: ExpressibleByFloatLiteral {}
+extension AnyEncodable: ExpressibleByStringLiteral {}
+extension AnyEncodable: ExpressibleByArrayLiteral {}
+extension AnyEncodable: ExpressibleByDictionaryLiteral {}
 
 extension _AnyEncodable {
     public init(nilLiteral: ()) {

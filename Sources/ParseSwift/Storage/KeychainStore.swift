@@ -34,34 +34,48 @@ struct KeychainStore: SecureStorage {
         query[kSecAttrAccount as String] = key
         return query
     }
+
     func object<T>(forKey key: String) -> T? where T: Decodable {
         guard let data = synchronizationQueue.sync(execute: { () -> Data? in
             return self.data(forKey: key)
         }) else {
             return nil
         }
-        return NSKeyedUnarchiver.unarchiveObject(with: data) as? T
+        do {
+            guard let data = NSKeyedUnarchiver.unarchiveObject(with: data) as? Data else {
+                return nil
+            }
+            let object = try JSONDecoder().decode(T.self, from: data)
+            return object
+        } catch {
+            return nil
+        }
     }
 
     func set<T>(object: T?, forKey key: String) -> Bool where T: Encodable {
         guard let object = object else {
             return removeObject(forKey: key)
         }
-        let data = NSKeyedArchiver.archivedData(withRootObject: object)
-        let query = keychainQuery(forKey: key)
-        let update = [
-            kSecValueData as String: data
-        ]
+        do {
+            let encodedObject = try JSONEncoder().encode(object)
+            let data = NSKeyedArchiver.archivedData(withRootObject: encodedObject)
+            let query = keychainQuery(forKey: key)
+            let update = [
+                kSecValueData as String: data
+            ]
 
-        let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
-            if self.data(forKey: key) != nil {
-                return SecItemUpdate(query as CFDictionary, update as CFDictionary)
+            let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
+                if self.data(forKey: key) != nil {
+                    return SecItemUpdate(query as CFDictionary, update as CFDictionary)
+                }
+                let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
+                return SecItemAdd(mergedQuery as CFDictionary, nil)
             }
-            let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
-            return SecItemAdd(mergedQuery as CFDictionary, nil)
-        }
 
-        return status == errSecSuccess
+            return status == errSecSuccess
+        } catch {
+            return false
+        }
     }
 
     subscript<T>(key: String) -> T? where T: Codable {

@@ -12,6 +12,7 @@ import Foundation
  
  - SeeAlso: `AnyEncodable`
  - SeeAlso: `AnyDecodable`
+  Source: https://github.com/Flight-School/AnyCodable
  */
 public struct AnyCodable: Codable {
     public let value: Any
@@ -23,7 +24,7 @@ public struct AnyCodable: Codable {
 extension AnyCodable: _AnyEncodable, _AnyDecodable {}
 
 extension AnyCodable: Equatable {
-    public static func ==(lhs: AnyCodable, rhs: AnyCodable) -> Bool {
+    public static func == (lhs: AnyCodable, rhs: AnyCodable) -> Bool {
         switch (lhs.value, rhs.value) {
         case is (Void, Void):
             return true
@@ -89,7 +90,10 @@ extension AnyCodable: CustomDebugStringConvertible {
     }
 }
 
-extension AnyCodable: ExpressibleByNilLiteral, ExpressibleByBooleanLiteral,
-ExpressibleByIntegerLiteral, ExpressibleByFloatLiteral,
-ExpressibleByStringLiteral, ExpressibleByArrayLiteral,
-ExpressibleByDictionaryLiteral {}
+extension AnyCodable: ExpressibleByNilLiteral {}
+extension AnyCodable: ExpressibleByBooleanLiteral {}
+extension AnyCodable: ExpressibleByIntegerLiteral {}
+extension AnyCodable: ExpressibleByFloatLiteral {}
+extension AnyCodable: ExpressibleByStringLiteral {}
+extension AnyCodable: ExpressibleByArrayLiteral {}
+extension AnyCodable: ExpressibleByDictionaryLiteral {}
