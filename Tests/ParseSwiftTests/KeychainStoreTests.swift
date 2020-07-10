@@ -30,7 +30,10 @@ class KeychainStoreTests: XCTestCase {
         let key = "yarrKey"
         let value = "yarrValue"
         testStore[key] = value
-        let storedValue: String = testStore.object(forKey: key)!
+        guard let storedValue: String = testStore.object(forKey: key) else {
+            XCTFail("Should unwrap to String")
+            return
+        }
         XCTAssertEqual(storedValue, value, "Values should be equal after get")
     }
 
@@ -38,7 +41,11 @@ class KeychainStoreTests: XCTestCase {
         let key = "yarrKey"
         let value = "yarrValue"
         testStore[key] = value
-        XCTAssertEqual(testStore[key]!, value, "Values should be equal after get")
+        guard let storedValue: String = testStore[key] else {
+            XCTFail("Should unwrap to String")
+            return
+        }
+        XCTAssertEqual(storedValue, value, "Values should be equal after get")
     }
 
     func testGetObjectStringTypedSubscript() {
@@ -73,30 +80,31 @@ class KeychainStoreTests: XCTestCase {
         let key = "yarrKey"
         let value: AnyCodable = "yarrValue"
         testStore[key] = value
-        let storedValue: AnyCodable = testStore.object(forKey: key)!
+        guard let storedValue: AnyCodable = testStore.object(forKey: key) else {
+            XCTFail("Should unwrap to AnyCodable")
+            return
+        }
         XCTAssertEqual(storedValue, value, "Values should be equal after get")
     }
 /*
     func testSetComplextObject() {
         let complexObject: [AnyCodable] = [["key": "value"], "string2", 1234, nil]
         do {
+            let encodedComplexData = try JSONEncoder().encode(complexObject)
+            let decodedComplexObject = try JSONDecoder().decode([AnyCodable].self, from: encodedComplexData)
             testStore["complexObject"] = complexObject
             guard let retrievedObject: [AnyCodable] = testStore["complexObject"] else {
                 return XCTFail("Should retrieve the object")
             }
             XCTAssertTrue(retrievedObject.count == 4)
             retrievedObject.enumerated().forEach { (offset, retrievedValue) in
-                let value = complexObject[offset]
+                let value = decodedComplexObject[offset]
                 switch offset {
                 case 0:
-                    guard value is AnyDecodable else {
-                        return
-                    }
-                    guard let dict = value as? [String: String],
-                        let retrivedDict = retrievedValue as? [String: String] else {
+                    guard let dict = value as? [String: String] else {
                             return XCTFail("Should be both dictionaries")
                     }
-                    XCTAssertTrue(dict == retrivedDict)
+                    //XCTAssertTrue(dict == retrievedValue)
                 case 1:
                     guard let string = value as? String,
                         let retrievedString = retrievedValue as? String else {
