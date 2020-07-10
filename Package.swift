@@ -12,8 +12,7 @@ let package = Package(
     targets: [
         .target(
             name: "ParseSwift",
-            dependencies: [],
-            path: "Sources"),
+            dependencies: []),
         .testTarget(
             name: "ParseSwiftTests",
             dependencies: ["ParseSwift"])
