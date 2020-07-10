@@ -24,7 +24,7 @@ public struct AnyCodable: Codable {
 extension AnyCodable: _AnyEncodable, _AnyDecodable {}
 
 extension AnyCodable: Equatable {
-    public static func == (lhs: AnyCodable, rhs: AnyCodable) -> Bool {
+    public static func == (lhs: AnyCodable, rhs: AnyCodable) -> Bool { // swiftlint:disable:this cyclomatic_complexity line_length
         switch (lhs.value, rhs.value) {
         case is (Void, Void):
             return true

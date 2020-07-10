@@ -10,7 +10,7 @@ import Foundation
 
 internal extension API {
     struct Command<T, U>: Encodable where T: Encodable {
-        typealias ReturnType = U
+        typealias ReturnType = U // swiftlint:disable:this nesting
         let method: API.Method
         let path: API.Endpoint
         let body: T?

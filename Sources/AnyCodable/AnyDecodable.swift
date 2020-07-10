@@ -30,7 +30,6 @@ import Foundation
  */
 public struct AnyDecodable: Decodable {
     public let value: Any
-    
     public init<T>(_ value: T?) {
         self.value = value ?? ()
     }
@@ -70,7 +69,7 @@ extension _AnyDecodable {
 }
 
 extension AnyDecodable: Equatable {
-    public static func ==(lhs: AnyDecodable, rhs: AnyDecodable) -> Bool {
+    public static func == (lhs: AnyDecodable, rhs: AnyDecodable) -> Bool { // swiftlint:disable:this cyclomatic_complexity line_length
         switch (lhs.value, rhs.value) {
         case is (Void, Void):
             return true

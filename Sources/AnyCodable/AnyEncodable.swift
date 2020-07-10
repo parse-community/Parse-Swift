@@ -46,7 +46,7 @@ extension AnyEncodable: _AnyEncodable {}
 // MARK: - Encodable
 
 extension _AnyEncodable {
-    public func encode(to encoder: Encoder) throws {
+    public func encode(to encoder: Encoder) throws { // swiftlint:disable:this cyclomatic_complexity function_body_length line_length
         var container = encoder.singleValueContainer()
         switch self.value {
         case is Void:
@@ -93,7 +93,7 @@ extension _AnyEncodable {
             throw EncodingError.invalidValue(self.value, context)
         }
     }
-    private func encode(nsnumber: NSNumber, into container: inout SingleValueEncodingContainer) throws {
+    private func encode(nsnumber: NSNumber, into container: inout SingleValueEncodingContainer) throws { // swiftlint:disable:this cyclomatic_complexity line_length
         switch CFNumberGetType(nsnumber) {
         case .charType:
             try container.encode(nsnumber.boolValue)
@@ -124,7 +124,7 @@ extension _AnyEncodable {
 }
 
 extension AnyEncodable: Equatable {
-    public static func == (lhs: AnyEncodable, rhs: AnyEncodable) -> Bool {
+    public static func == (lhs: AnyEncodable, rhs: AnyEncodable) -> Bool { // swiftlint:disable:this cyclomatic_complexity line_length
         switch (lhs.value, rhs.value) {
         case is (Void, Void):
             return true
