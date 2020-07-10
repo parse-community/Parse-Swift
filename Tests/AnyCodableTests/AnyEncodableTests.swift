@@ -15,8 +15,8 @@ class AnyEncodableTests: XCTestCase {
                 "c": "charlie"
             ]
         ]
-        let encoder = JSONEncoder()
         do {
+            let encoder = JSONEncoder()
             let json = try encoder.encode(dictionary)
             guard let encodedJSONObject =
                 try JSONSerialization.jsonObject(with: json, options: []) as? NSDictionary else {
@@ -47,7 +47,7 @@ class AnyEncodableTests: XCTestCase {
             }
             XCTAssertEqual(encodedJSONObject, expectedJSONObject)
         } catch {
-            XCTAssertNoThrow(try encoder.encode(dictionary), error.localizedDescription)
+            XCTFail(error.localizedDescription)
         }
     }
     static var allTests = [

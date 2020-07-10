@@ -3,7 +3,7 @@ import XCTest
 
 class AnyDecodableTests: XCTestCase {
     func testJSONDecoding() {
-        let json = """
+        guard let json = """
         {
             "boolean": true,
             "integer": 1,
@@ -16,9 +16,12 @@ class AnyDecodableTests: XCTestCase {
                 "c": "charlie"
             }
         }
-        """.data(using: .utf8)!
-        let decoder = JSONDecoder()
+        """.data(using: .utf8) else {
+            XCTFail("Should unrap data as utf8")
+            return
+        }
         do {
+            let decoder = JSONDecoder()
             let dictionary = try decoder.decode([String: AnyDecodable].self, from: json)
             XCTAssertEqual(dictionary["boolean"]?.value as? Bool, true)
             XCTAssertEqual(dictionary["integer"]?.value as? Int, 1)
@@ -32,7 +35,7 @@ class AnyDecodableTests: XCTestCase {
             XCTAssertEqual(dictionary["nested"]?.value as? [String: String],
                            ["a": "alpha", "b": "bravo", "c": "charlie"])
         } catch {
-            XCTAssertNoThrow(try decoder.decode([String: AnyDecodable].self, from: json))
+            XCTFail(error.localizedDescription)
         }
     }
     static var allTests = [
