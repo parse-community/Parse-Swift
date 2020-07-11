@@ -8,7 +8,7 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 //: start parse-server with
 //: npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
 
-initializeParse()
+//initializeParse()
 
 ParseSwift.initialize(applicationId: "applicationId",
                       clientKey: "clientKey",
