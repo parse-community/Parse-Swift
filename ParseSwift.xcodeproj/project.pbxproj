@@ -203,7 +203,6 @@
 		4A5EE4601F49EA0600D3CAE3 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				4AA8076C1F794C1C008CD551 /* ParseSwiftTests */,
 				4A1120BF1F49FC3300E32D94 /* LinuxMain.swift */,
 			);
@@ -269,6 +268,7 @@
 		4AA8076C1F794C1C008CD551 /* ParseSwiftTests */ = {
 			isa = PBXGroup;
 			children = (
+				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				4AA8076D1F794C1C008CD551 /* Info.plist */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
 				4AA8076F1F794C1C008CD551 /* ParseSwiftTests.swift */,
