@@ -42,9 +42,6 @@ struct KeychainStore: SecureStorage {
             return nil
         }
         do {
-            guard let data = NSKeyedUnarchiver.unarchiveObject(with: data) as? Data else {
-                return nil
-            }
             let object = try JSONDecoder().decode(T.self, from: data)
             return object
         } catch {
@@ -57,8 +54,7 @@ struct KeychainStore: SecureStorage {
             return removeObject(forKey: key)
         }
         do {
-            let encodedObject = try JSONEncoder().encode(object)
-            let data = NSKeyedArchiver.archivedData(withRootObject: encodedObject)
+            let data = try JSONEncoder().encode(object)
             let query = keychainQuery(forKey: key)
             let update = [
                 kSecValueData as String: data
