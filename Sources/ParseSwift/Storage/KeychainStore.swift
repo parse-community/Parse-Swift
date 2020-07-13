@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 func getKeychainQueryTemplate(forService service: String) -> [String: String] {
     var query = [String: String]()
     if service.count > 0 {
