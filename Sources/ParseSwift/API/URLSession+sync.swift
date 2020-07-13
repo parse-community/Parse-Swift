@@ -23,7 +23,7 @@ extension URLSession {
         semaphore.wait()
         guard let responseData = data else {
             guard let error = error else {
-                throw NSError(domain: "unknown", code: -1, userInfo: ["response": response!])
+                throw ParseError(code: .unknownError, message: "Unable to sync data: \(response!).")
             }
             throw error
         }

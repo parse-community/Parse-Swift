@@ -121,7 +121,7 @@ let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .custom({ (dec) -> 
             return dateFormatter.date(from: decoded)!
         }
     }
-    throw NSError(domain: "", code: -1, userInfo: nil)
+    throw ParseError(code: .unknownError, message: "unable to decode")
 })
 
 func getJSONEncoder() -> JSONEncoder {
