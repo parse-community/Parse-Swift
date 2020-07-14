@@ -10,7 +10,7 @@ import Foundation
 
 func getKeychainQueryTemplate(forService service: String) -> [String: String] {
     var query = [String: String]()
-    if service.characters.count > 0 {
+    if service.count > 0 {
         query[kSecAttrService as String] = service
     }
     query[kSecClass as String] = kSecClassGenericPassword as String
@@ -25,7 +25,7 @@ struct KeychainStore: SecureStorage {
         synchronizationQueue = DispatchQueue(label: "com.parse.keychain.\(service)",
                                              qos: .default,
                                              attributes: .concurrent,
-                                             autoreleaseFrequency:.inherit,
+                                             autoreleaseFrequency: .inherit,
                                              target: nil)
         keychainQueryTemplate = getKeychainQueryTemplate(forService: service)
     }
@@ -42,28 +42,37 @@ struct KeychainStore: SecureStorage {
         }) else {
             return nil
         }
-        return NSKeyedUnarchiver.unarchiveObject(with: data) as? T
+        do {
+            let object = try JSONDecoder().decode(T.self, from: data)
+            return object
+        } catch {
+            return nil
+        }
     }
 
     func set<T>(object: T?, forKey key: String) -> Bool where T: Encodable {
         guard let object = object else {
             return removeObject(forKey: key)
         }
-        let data = NSKeyedArchiver.archivedData(withRootObject: object)
-        let query = keychainQuery(forKey: key)
-        let update = [
-            kSecValueData as String: data
-        ]
+        do {
+            let data = try JSONEncoder().encode(object)
+            let query = keychainQuery(forKey: key)
+            let update = [
+                kSecValueData as String: data
+            ]
 
-        let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
-            if self.data(forKey: key) != nil {
-                return SecItemUpdate(query as CFDictionary, update as CFDictionary)
+            let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
+                if self.data(forKey: key) != nil {
+                    return SecItemUpdate(query as CFDictionary, update as CFDictionary)
+                }
+                let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
+                return SecItemAdd(mergedQuery as CFDictionary, nil)
             }
-            let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
-            return SecItemAdd(mergedQuery as CFDictionary, nil)
-        }
 
-        return status == errSecSuccess
+            return status == errSecSuccess
+        } catch {
+            return false
+        }
     }
 
     subscript<T>(key: String) -> T? where T: Codable {

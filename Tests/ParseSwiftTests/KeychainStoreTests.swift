@@ -10,7 +10,6 @@ import Foundation
 import XCTest
 
 @testable import ParseSwift
-
 class KeychainStoreTests: XCTestCase {
     var testStore: KeychainStore!
     override func setUp() {
@@ -31,7 +30,10 @@ class KeychainStoreTests: XCTestCase {
         let key = "yarrKey"
         let value = "yarrValue"
         testStore[key] = value
-        let storedValue: String = testStore.object(forKey: key)!
+        guard let storedValue: String = testStore.object(forKey: key) else {
+            XCTFail("Should unwrap to String")
+            return
+        }
         XCTAssertEqual(storedValue, value, "Values should be equal after get")
     }
 
@@ -39,7 +41,11 @@ class KeychainStoreTests: XCTestCase {
         let key = "yarrKey"
         let value = "yarrValue"
         testStore[key] = value
-        XCTAssertEqual(testStore[key]!, value, "Values should be equal after get")
+        guard let storedValue: String = testStore[key] else {
+            XCTFail("Should unwrap to String")
+            return
+        }
+        XCTAssertEqual(storedValue, value, "Values should be equal after get")
     }
 
     func testGetObjectStringTypedSubscript() {
@@ -53,7 +59,7 @@ class KeychainStoreTests: XCTestCase {
         let key = "yarrKey"
         let value = 1
         testStore[key] = value
-        XCTAssertNil(testStore[string: key], "Values should be equal after get")
+        XCTAssertNil(testStore[string: key], "Values should be nil after get")
     }
 
     func testGetObjectBoolTypedSubscript() {
@@ -67,43 +73,48 @@ class KeychainStoreTests: XCTestCase {
         let key = "yarrKey"
         let value = "Yo!"
         testStore[key] = value
-        XCTAssertNil(testStore[bool: key], "Values should be equal after get")
+        XCTAssertNil(testStore[bool: key], "Values should be nil after get")
+    }
+
+    func testGetAnyCodableObject() {
+        let key = "yarrKey"
+        let value: AnyCodable = "yarrValue"
+        testStore[key] = value
+        guard let storedValue: AnyCodable = testStore.object(forKey: key) else {
+            XCTFail("Should unwrap to AnyCodable")
+            return
+        }
+        XCTAssertEqual(storedValue, value, "Values should be equal after get")
     }
 
     func testSetComplextObject() {
-        let complexObject: [Any] = [["key": "value"], "string2", 1234, NSNull()]
+        let complexObject: [AnyCodable] = [["key": "value"], "string2", 1234]
         testStore["complexObject"] = complexObject
-        guard let retrievedObject: [Any] = testStore["complexObject"] else {
+        guard let retrievedObject: [AnyCodable] = testStore["complexObject"] else {
             return XCTFail("Should retrieve the object")
         }
-
-        XCTAssertTrue(retrievedObject.count == 4)
+        XCTAssertTrue(retrievedObject.count == 3)
         retrievedObject.enumerated().forEach { (offset, retrievedValue) in
-            let value = complexObject[offset]
+            let value = complexObject[offset].value
             switch offset {
             case 0:
                 guard let dict = value as? [String: String],
-                    let retrivedDict = retrievedValue as? [String: String] else {
+                    let retrievedDictionary = retrievedValue.value as? [String: String] else {
                         return XCTFail("Should be both dictionaries")
                 }
-                XCTAssertTrue(dict["key"] == retrivedDict["key"])
+                XCTAssertTrue(dict == retrievedDictionary)
             case 1:
                 guard let string = value as? String,
-                    let retrievedString = retrievedValue as? String else {
+                    let retrievedString = retrievedValue.value as? String else {
                         return XCTFail("Should be both strings")
                 }
                 XCTAssertTrue(string == retrievedString)
             case 2:
                 guard let int = value as? Int,
-                    let retrievedInt = retrievedValue as? Int else {
+                    let retrievedInt = retrievedValue.value as? Int else {
                         return XCTFail("Should be both ints")
                 }
                 XCTAssertTrue(int == retrievedInt)
-            case 3:
-                guard let retrieved = retrievedValue as? NSNull else {
-                        return XCTFail("Should be both ints")
-                }
-                XCTAssertTrue(retrieved == NSNull())
             default: break
             }
         }
@@ -111,7 +122,7 @@ class KeychainStoreTests: XCTestCase {
 
     func testRemoveObject() {
         testStore["key1"] = "value1"
-        XCTAssertNotNil(testStore["key1"]!, "The value should be set")
+        XCTAssertNotNil(testStore[string: "key1"], "The value should be set")
         _ = testStore.removeObject(forKey: "key1")
         let key1Val: String? = testStore["key1"]
         XCTAssertNil(key1Val, "There should be no value after removal")
@@ -119,7 +130,7 @@ class KeychainStoreTests: XCTestCase {
 
     func testRemoveObjectSubscript() {
         testStore["key1"] = "value1"
-        XCTAssertNotNil(testStore["key1"]!, "The value should be set")
+        XCTAssertNotNil(testStore[string: "key1"], "The value should be set")
         testStore[string: "key1"] = nil
         let key1Val: String? = testStore["key1"]
         XCTAssertNil(key1Val, "There should be no value after removal")
@@ -128,8 +139,8 @@ class KeychainStoreTests: XCTestCase {
     func testRemoveAllObjects() {
         testStore["key1"] = "value1"
         testStore["key2"] = "value2"
-        XCTAssertNotNil(testStore["key1"]!, "The value should be set")
-        XCTAssertNotNil(testStore["key2"]!, "The value should be set")
+        XCTAssertNotNil(testStore[string: "key1"], "The value should be set")
+        XCTAssertNotNil(testStore[string: "key2"], "The value should be set")
         _ = testStore.removeAllObjects()
         let key1Val: String? = testStore["key1"]
         let key2Val: String? = testStore["key1"]

@@ -43,7 +43,7 @@ public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible, Equa
 }
 
 internal extension ObjectType {
-    internal func getEncoder() -> ParseEncoder {
+    func getEncoder() -> ParseEncoder {
         return getParseEncoder()
     }
 }
@@ -51,8 +51,8 @@ internal extension ObjectType {
 extension ObjectType {
     // Parse ClassName inference
     public static var className: String {
-        let t = "\(type(of: self))"
-        return t.components(separatedBy: ".").first! // strip .Type
+        let classType = "\(type(of: self))"
+        return classType.components(separatedBy: ".").first! // strip .Type
     }
     public var className: String {
         return Self.className
@@ -102,10 +102,10 @@ let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .custom({ (date, en
 })
 
 internal extension Date {
-    internal func parseFormatted() -> String {
+    func parseFormatted() -> String {
         return dateFormatter.string(from: self)
     }
-    internal var parseRepresentation: [String: String] {
+    var parseRepresentation: [String: String] {
         return ["__type": "Date", "iso": parseFormatted()]
     }
 }
@@ -115,13 +115,13 @@ let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .custom({ (dec) -> 
         let container = try dec.singleValueContainer()
         let decodedString = try container.decode(String.self)
         return dateFormatter.date(from: decodedString)!
-    } catch let e {
+    } catch let error {
         let container = try dec.container(keyedBy: DateEncodingKeys.self)
         if let decoded = try container.decodeIfPresent(String.self, forKey: .iso) {
             return dateFormatter.date(from: decoded)!
         }
     }
-    throw NSError(domain: "", code: -1, userInfo: nil)
+    throw ParseError(code: .unknownError, message: "unable to decode")
 })
 
 func getJSONEncoder() -> JSONEncoder {
@@ -137,7 +137,7 @@ func getParseEncoder() -> ParseEncoder {
     encoder.dateEncodingStrategy = parseDateEncodingStrategy
     encoder.shouldEncodeKey = { (key, path) -> Bool in
         if path.count == 0 // top level
-            && forbiddenKeys.index(of: key) != nil {
+            && forbiddenKeys.firstIndex(of: key) != nil {
             return false
         }
         return true
@@ -161,11 +161,11 @@ func getDecoder() -> JSONDecoder {
 }
 
 public extension ObjectType {
-    public func save(options: API.Options) throws -> Self {
+    func save(options: API.Options) throws -> Self {
         return try saveCommand().execute(options: options)
     }
 
-    public func fetch(options: API.Options) throws -> Self {
+    func fetch(options: API.Options) throws -> Self {
         return try fetchCommand().execute(options: options)
     }
 
