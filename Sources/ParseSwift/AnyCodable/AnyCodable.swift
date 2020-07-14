@@ -12,7 +12,8 @@ import Foundation
  
  - SeeAlso: `AnyEncodable`
  - SeeAlso: `AnyDecodable`
-  Source: https://github.com/Flight-School/AnyCodable
+
+ Source: https://github.com/Flight-School/AnyCodable
  */
 public struct AnyCodable: Codable {
     public let value: Any
