@@ -6,7 +6,7 @@
 <h2 align="center">ParseSwift</h2>
 
 <p align="center">
-    An experimental pure Swift library that gives you access to the powerful Parse Server backend from your swift applications.
+    An experimental pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.
 </p>
 
 <p align="center">
