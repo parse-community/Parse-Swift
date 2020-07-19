@@ -70,6 +70,15 @@
 		4AFDA7351F26DAE1002AE4FC /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FE1F256A8F0063D731 /* Query.swift */; };
 		4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B8001F256B330063D731 /* ObjectType+Query.swift */; };
 		4AFDA7391F26DAF8002AE4FC /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		709075C724B9117500B95310 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C424B9117400B95310 /* AnyCodable.swift */; };
+		709075C824B9117500B95310 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C424B9117400B95310 /* AnyCodable.swift */; };
+		709075C924B9117500B95310 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C524B9117500B95310 /* AnyDecodable.swift */; };
+		709075CA24B9117500B95310 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C524B9117500B95310 /* AnyDecodable.swift */; };
+		709075CB24B9117500B95310 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C624B9117500B95310 /* AnyEncodable.swift */; };
+		709075CC24B9117500B95310 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C624B9117500B95310 /* AnyEncodable.swift */; };
+		7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */; };
+		7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */; };
+		7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -134,6 +143,12 @@
 		4AF85BDC1F783B9800665264 /* API+Commands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "API+Commands.swift"; sourceTree = "<group>"; };
 		4AFDA7121F26D9A5002AE4FC /* ParseSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ParseSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AFDA7151F26D9A5002AE4FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		709075C424B9117400B95310 /* AnyCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
+		709075C524B9117500B95310 /* AnyDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
+		709075C624B9117500B95310 /* AnyEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
+		7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodableTests.swift; sourceTree = "<group>"; };
+		7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
+		7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodableTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -253,6 +268,7 @@
 		4AA8076C1F794C1C008CD551 /* ParseSwiftTests */ = {
 			isa = PBXGroup;
 			children = (
+				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				4AA8076D1F794C1C008CD551 /* Info.plist */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
 				4AA8076F1F794C1C008CD551 /* ParseSwiftTests.swift */,
@@ -291,6 +307,7 @@
 				4A2F14901F4A41B900A7A7EF /* Asynchronous.swift */,
 				4AC397761F4895A200DEA9D3 /* Objects Protocols */,
 				4A82B7FD1F25691B0063D731 /* Types */,
+				709075CD24B9829600B95310 /* AnyCodable */,
 				4A2F149C1F4A604900A7A7EF /* Encoder */,
 				4A99A46A1F2650E200D72A59 /* Mutations */,
 				4AC397771F4895C000DEA9D3 /* API */,
@@ -330,6 +347,26 @@
 				4AFDA7151F26D9A5002AE4FC /* Info.plist */,
 			);
 			path = "ParseSwift-macOS";
+			sourceTree = "<group>";
+		};
+		709075CD24B9829600B95310 /* AnyCodable */ = {
+			isa = PBXGroup;
+			children = (
+				709075C424B9117400B95310 /* AnyCodable.swift */,
+				709075C524B9117500B95310 /* AnyDecodable.swift */,
+				709075C624B9117500B95310 /* AnyEncodable.swift */,
+			);
+			path = AnyCodable;
+			sourceTree = "<group>";
+		};
+		7FFF552A2217E729007C3B4E /* AnyCodableTests */ = {
+			isa = PBXGroup;
+			children = (
+				7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */,
+				7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */,
+				7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */,
+			);
+			path = AnyCodableTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -435,25 +472,26 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
-				LastUpgradeCheck = 0900;
+				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = Parse;
 				TargetAttributes = {
 					4AA807571F794242008CD551 = {
 						CreatedOnToolsVersion = 9.0;
+						LastSwiftMigration = 1130;
 						ProvisioningStyle = Automatic;
 					};
 					4AB8B4F31F254AE10070F682 = {
 						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1130;
 					};
 					4AB8B4FC1F254AE10070F682 = {
 						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1130;
 						TestTargetID = 4AA807571F794242008CD551;
 					};
 					4AFDA7111F26D9A5002AE4FC = {
 						CreatedOnToolsVersion = 9.0;
-						LastSwiftMigration = 0900;
+						LastSwiftMigration = 1130;
 					};
 				};
 			};
@@ -557,6 +595,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4A2F14961F4A5F2900A7A7EF /* Responses.swift in Sources */,
+				709075C724B9117500B95310 /* AnyCodable.swift in Sources */,
 				4AC397741F488FF900DEA9D3 /* API.swift in Sources */,
 				4A82B7F71F254CCE0063D731 /* ObjectType.swift in Sources */,
 				4A82B7F51F254CCE0063D731 /* GeoPoint.swift in Sources */,
@@ -571,6 +610,7 @@
 				4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */,
 				4AF85BD81F78144900665264 /* URLSession+sync.swift in Sources */,
 				4A2F14981F4A5F6900A7A7EF /* ObjectType+Batch.swift in Sources */,
+				709075CB24B9117500B95310 /* AnyEncodable.swift in Sources */,
 				4A82B7F41F254CCE0063D731 /* File.swift in Sources */,
 				4AF85BD31F78011100665264 /* ParseError.swift in Sources */,
 				4AF85BDA1F781ED000665264 /* Asynchronous.swift in Sources */,
@@ -580,6 +620,7 @@
 				4AEBA54D1F26523800628B17 /* DeleteOperation.swift in Sources */,
 				4AF85BDD1F783B9800665264 /* API+Commands.swift in Sources */,
 				4A82B7F81F254CCE0063D731 /* Pointer.swift in Sources */,
+				709075C924B9117500B95310 /* AnyDecodable.swift in Sources */,
 				4AEBA5491F26519B00628B17 /* AddOperation.swift in Sources */,
 				4A99A46C1F2650FF00D72A59 /* AddUniqueOperation.swift in Sources */,
 				4AEBA54B1F2651D900628B17 /* RemoveOperation.swift in Sources */,
@@ -590,6 +631,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */,
+				7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */,
+				7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */,
 				4AA807701F794C31008CD551 /* KeychainStoreTests.swift in Sources */,
 				4AA807711F794C33008CD551 /* ParseSwiftTests.swift in Sources */,
 			);
@@ -600,6 +644,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4AFDA72B1F26DAE1002AE4FC /* ObjectType.swift in Sources */,
+				709075C824B9117500B95310 /* AnyCodable.swift in Sources */,
 				4AFDA7301F26DAE1002AE4FC /* DeleteOperation.swift in Sources */,
 				4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */,
 				4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */,
@@ -614,6 +659,7 @@
 				4AFDA7311F26DAE1002AE4FC /* AddUniqueOperation.swift in Sources */,
 				4AF85BD91F78145C00665264 /* URLSession+sync.swift in Sources */,
 				4A2F149B1F4A5FBA00A7A7EF /* ObjectType+Batch.swift in Sources */,
+				709075CC24B9117500B95310 /* AnyEncodable.swift in Sources */,
 				4A6511521F48E406005237DF /* GeoPoint.swift in Sources */,
 				4AF85BD61F7803C100665264 /* ParseError.swift in Sources */,
 				4AF85BDB1F781ED100665264 /* Asynchronous.swift in Sources */,
@@ -623,6 +669,7 @@
 				4AFDA7321F26DAE1002AE4FC /* IncrementOperation.swift in Sources */,
 				4AF85BDE1F783BB400665264 /* API+Commands.swift in Sources */,
 				4AFDA72D1F26DAE1002AE4FC /* ParseMutationContainer.swift in Sources */,
+				709075CA24B9117500B95310 /* AnyDecodable.swift in Sources */,
 				4AFDA72C1F26DAE1002AE4FC /* UserType.swift in Sources */,
 				4A6511511F48E406005237DF /* ACL.swift in Sources */,
 				4AFDA72F1F26DAE1002AE4FC /* RemoveOperation.swift in Sources */,
@@ -673,7 +720,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.TestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -687,7 +734,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.TestHost;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -706,6 +753,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -713,6 +761,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -747,7 +796,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -767,6 +816,7 @@
 				CLANG_WARN_BOOL_CONVERSION = YES;
 				CLANG_WARN_COMMA = YES;
 				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_EMPTY_BODY = YES;
@@ -774,6 +824,7 @@
 				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
@@ -800,7 +851,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 4.2;
 				VALIDATE_PRODUCT = YES;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
@@ -823,7 +874,7 @@
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -844,7 +895,7 @@
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -857,7 +908,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestHost.app/TestHost";
 			};
@@ -871,7 +922,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwiftTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestHost.app/TestHost";
 			};
@@ -896,7 +947,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
 		};
@@ -919,7 +970,7 @@
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
-				SWIFT_VERSION = 4.0;
+				SWIFT_VERSION = 5.0;
 			};
 			name = Release;
 		};

@@ -20,7 +20,7 @@ public struct File: Saving, Fetching {
 
     public func encode(to encoder: Encoder) throws {
         if data == nil && url == nil {
-            throw NSError(domain: "cannot encode file", code: -1, userInfo: nil)
+            throw ParseError(code: .unknownError, message: "cannot encode file")
         }
         var container = encoder.container(keyedBy: CodingKeys.self)
         if let url = url {

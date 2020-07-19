@@ -114,7 +114,7 @@ extension ACL {
                     try container.nestedContainer(keyedBy: Access.self, forKey: scope))
             }.flatMap { pair -> [(String, Access, Bool)] in
                 let (scope, accessValues) = pair
-                return try accessValues.allKeys.flatMap { (access) -> (String, Access, Bool)? in
+                return try accessValues.allKeys.compactMap { (access) -> (String, Access, Bool)? in
                     guard let value = try accessValues.decodeIfPresent(Bool.self, forKey: access) else {
                         return nil
                     }

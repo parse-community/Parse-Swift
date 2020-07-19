@@ -9,8 +9,8 @@
 import Foundation
 
 internal extension API {
-    internal struct Command<T, U>: Encodable where T: Encodable {
-        typealias ReturnType = U
+    struct Command<T, U>: Encodable where T: Encodable {
+        typealias ReturnType = U // swiftlint:disable:this nesting
         let method: API.Method
         let path: API.Endpoint
         let body: T?
@@ -63,7 +63,7 @@ internal extension API {
 
 internal extension API.Command {
     // MARK: Saving
-    internal static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
+    static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
         if object.isSaved {
             return updateCommand(object)
         }
@@ -92,7 +92,7 @@ internal extension API.Command {
     }
 
     // MARK: Fetching
-    internal static func fetchCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ObjectType {
+    static func fetchCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ObjectType {
         guard object.isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Fetch an object without id")
         }
@@ -111,7 +111,7 @@ extension API.Command where T: ObjectType {
     }
 
     static func batch(commands: [API.Command<T, T>]) -> RESTBatchCommandType<T> {
-        let commands = commands.flatMap { (command) -> API.Command<T, T>? in
+        let commands = commands.compactMap { (command) -> API.Command<T, T>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
@@ -119,7 +119,7 @@ extension API.Command where T: ObjectType {
             return API.Command<T, T>(method: command.method, path: .any(path),
                                      body: body, mapper: command.mapper)
         }
-        let bodies = commands.flatMap { (command) -> T? in
+        let bodies = commands.compactMap { (command) -> T? in
             return command.body
         }
         let mapper = { (data: Data) -> [(T, ParseError?)] in

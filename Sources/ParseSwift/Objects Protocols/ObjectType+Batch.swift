@@ -9,7 +9,7 @@
 import Foundation
 
 public extension ObjectType {
-    public static func saveAll(_ objects: Self...) throws -> [(Self, ParseError?)] {
+    static func saveAll(_ objects: Self...) throws -> [(Self, ParseError?)] {
         return try objects.saveAll()
     }
 }
