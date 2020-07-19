@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct FindResult<T>: Decodable where T: ObjectType {
+public struct FindResult<T>: Decodable where T: ParseObject {
     let results: [T]
     let count: Int?
 }
@@ -65,7 +65,7 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
     return QueryConstraint(key: key, value: value, comparator: .equals)
 }
 
-private struct InQuery<T>: Encodable where T: ObjectType {
+private struct InQuery<T>: Encodable where T: ParseObject {
     let query: Query<T>
     var className: String {
         return T.className
@@ -108,7 +108,7 @@ internal struct QueryWhere: Encodable {
     }
 }
 
-public struct Query<T>: Encodable where T: ObjectType {
+public struct Query<T>: Encodable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     private var limit: Int = 100
@@ -181,7 +181,7 @@ public struct Query<T>: Encodable where T: ObjectType {
     }
 }
 
-extension Query: Querying {
+extension Query: Queryable {
 
     public typealias ResultType = T
 

@@ -15,7 +15,7 @@ internal struct SaveResponse: Decodable {
         return createdAt
     }
 
-    func apply<T>(_ object: T) -> T where T: ObjectType {
+    func apply<T>(_ object: T) -> T where T: ParseObject {
         var object = object
         object.objectId = objectId
         object.createdAt = createdAt
@@ -27,7 +27,7 @@ internal struct SaveResponse: Decodable {
 internal struct UpdateResponse: Decodable {
     var updatedAt: Date
 
-    func apply<T>(_ object: T) -> T where T: ObjectType {
+    func apply<T>(_ object: T) -> T where T: ParseObject {
         var object = object
         object.updatedAt = updatedAt
         return object

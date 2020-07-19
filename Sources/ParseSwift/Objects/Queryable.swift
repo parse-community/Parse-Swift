@@ -6,7 +6,7 @@
 //  Copyright © 2020 Parse. All rights reserved.
 //
 
-public protocol Querying {
+public protocol Queryable {
     associatedtype ResultType
 
     func find(options: API.Options) throws -> [ResultType]
@@ -14,7 +14,7 @@ public protocol Querying {
     func count(options: API.Options) throws -> Int
 }
 
-extension Querying {
+extension Queryable {
     func find() throws -> [ResultType] {
         return try find(options: [])
     }

@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal extension ObjectType {
+internal extension ParseObject {
     func getEncoder() -> ParseEncoder {
         return getParseEncoder()
     }

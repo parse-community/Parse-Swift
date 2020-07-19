@@ -6,14 +6,14 @@
 //  Copyright © 2020 Parse. All rights reserved.
 //
 
-public protocol Fetching: Codable {
+public protocol Fetchable: Codable {
     associatedtype FetchingType
 
     func fetch(options: API.Options) throws -> FetchingType
     func fetch() throws -> FetchingType
 }
 
-extension Fetching {
+extension Fetchable {
     public func fetch() throws -> FetchingType {
         return try fetch(options: [])
     }

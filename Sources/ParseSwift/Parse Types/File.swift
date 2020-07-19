@@ -1,6 +1,6 @@
 import Foundation
 
-public struct File: Saving, Fetching {
+public struct File: Saveable, Fetchable {
 
     private let __type: String = "File" // swiftlint:disable:this identifier_name
     public var data: Data?

@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible, Equatable {
+public protocol ParseObject: Fetchable, Saveable, CustomDebugStringConvertible, Equatable {
     static var className: String { get }
 
     var objectId: String? { get set }
@@ -17,7 +17,7 @@ public protocol ObjectType: Fetching, Saving, CustomDebugStringConvertible, Equa
     var ACL: ACL? { get set }
 }
 
-extension ObjectType {
+extension ParseObject {
     public static var className: String {
         let classType = "\(type(of: self))"
         return classType.components(separatedBy: ".").first! // strip .Type
@@ -28,7 +28,7 @@ extension ObjectType {
     }
 }
 
-extension ObjectType {
+extension ParseObject {
     public var debugDescription: String {
         guard let descriptionData = try? getJSONEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
@@ -39,13 +39,13 @@ extension ObjectType {
     }
 }
 
-public extension ObjectType {
+public extension ParseObject {
     func toPointer() -> Pointer<Self> {
         return Pointer(self)
     }
 }
 
-public extension ObjectType {
+public extension ParseObject {
     func save(options: API.Options) throws -> Self {
         return try saveCommand().execute(options: options)
     }
@@ -63,7 +63,7 @@ public extension ObjectType {
     }
 }
 
-public extension ObjectType {
+public extension ParseObject {
     static func find() throws -> [Self] {
         return try query().find()
     }
@@ -77,7 +77,7 @@ public extension ObjectType {
     }
 }
 
-extension ObjectType {
+extension ParseObject {
     var endpoint: API.Endpoint {
         if let objectId = objectId {
             return .object(className: className, objectId: objectId)
@@ -91,17 +91,32 @@ extension ObjectType {
     }
 }
 
-public extension ObjectType {
+public extension ParseObject {
     var mutationContainer: ParseMutationContainer<Self> {
         return ParseMutationContainer(target: self)
     }
 }
 
-public func == <T>(lhs: T?, rhs: T?) -> Bool where T: ObjectType {
+public func == <T>(lhs: T?, rhs: T?) -> Bool where T: ParseObject {
     guard let lhs = lhs, let rhs = rhs else { return false }
     return lhs == rhs
 }
 
-public func == <T>(lhs: T, rhs: T) -> Bool where T: ObjectType {
+public func == <T>(lhs: T, rhs: T) -> Bool where T: ParseObject {
     return lhs.className == rhs.className && rhs.objectId == lhs.objectId
+}
+
+public extension ParseObject {
+    static func saveAll(_ objects: Self...) throws -> [(Self, ParseError?)] {
+        return try objects.saveAll()
+    }
+}
+
+extension Sequence where Element: ParseObject {
+    public func saveAll(options: API.Options = []) throws -> [(Self.Element, ParseError?)] {
+        let commands = map { $0.saveCommand() }
+        return try API.Command<Self.Element, Self.Element>
+                .batch(commands: commands)
+                .execute(options: options)
+    }
 }

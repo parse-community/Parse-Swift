@@ -22,19 +22,19 @@ private func runAsync<T>(options: API.Options,
     }
 }
 
-extension Saving {
+extension Saveable {
     public func save(options: API.Options = [], callback: @escaping (Self.SavingType?, Error?) -> Void) {
         runAsync(options: options, function: self.save, callback: callback)
     }
 }
 
-extension Fetching {
+extension Fetchable {
     public func fetch(options: API.Options = [], callback: @escaping (Self.FetchingType?, Error?) -> Void) {
         runAsync(options: options, function: self.fetch, callback: callback)
     }
 }
 
-extension Querying {
+extension Queryable {
     public func find(options: API.Options = [], callback: @escaping ([ResultType]?, Error?) -> Void) {
         runAsync(options: options, function: self.find, callback: callback)
     }
@@ -46,7 +46,7 @@ extension Querying {
     }
 }
 
-public extension ObjectType {
+public extension ParseObject {
     static func saveAll(options: API.Options = [],
                         _ objects: Self...,
                         callback: @escaping ([(Self, ParseError?)]?, Error?) -> Void) {
@@ -54,7 +54,7 @@ public extension ObjectType {
     }
 }
 
-public extension Sequence where Element: ObjectType {
+public extension Sequence where Element: ParseObject {
     func saveAll(options: API.Options = [],
                  callback: @escaping ([(Element, ParseError?)]?, Error?) -> Void) {
         runAsync(options: options, function: self.saveAll, callback: callback)

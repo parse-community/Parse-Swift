@@ -5,13 +5,13 @@ internal struct CurrentUserInfo {
     static var currentSessionToken: String?
 }
 
-public protocol UserType: ObjectType {
+public protocol ParseUser: ParseObject {
     var username: String? { get set }
     var email: String? { get set }
     var password: String? { get set }
 }
 
-public extension UserType {
+public extension ParseUser {
     var sessionToken: String? {
         if let currentUser = CurrentUserInfo.currentUser as? Self,
             currentUser.objectId != nil && self.objectId != nil &&
@@ -27,7 +27,7 @@ public extension UserType {
     }
 }
 
-public extension UserType {
+public extension ParseUser {
     static var current: Self? {
         return CurrentUserInfo.currentUser as? Self
     }
@@ -51,7 +51,7 @@ public extension UserType {
     }
 }
 
-private extension UserType {
+private extension ParseUser {
     private static func loginCommand(username: String,
                                      password: String) -> API.Command<NoBody, Self> {
         let params = [

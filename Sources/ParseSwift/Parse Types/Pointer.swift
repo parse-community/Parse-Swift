@@ -1,13 +1,13 @@
 import Foundation
 
-private func getObjectId<T: ObjectType>(target: T) -> String {
+private func getObjectId<T: ParseObject>(target: T) -> String {
     guard let objectId = target.objectId else {
         fatalError("Cannot set a pointer to an unsaved object")
     }
     return objectId
 }
 
-public struct Pointer<T: ObjectType>: Fetching, Codable {
+public struct Pointer<T: ParseObject>: Fetchable, Codable {
     public typealias FetchingType = T
 
     private let __type: String = "Pointer" // swiftlint:disable:this identifier_name

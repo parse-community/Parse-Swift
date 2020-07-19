@@ -63,7 +63,7 @@ internal extension API {
 
 internal extension API.Command {
     // MARK: Saving
-    static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
+    static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         if object.isSaved {
             return updateCommand(object)
         }
@@ -71,7 +71,7 @@ internal extension API.Command {
     }
 
     // MARK: Saving - private
-    private static func createCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
+    private static func createCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         let mapper = { (data) -> T in
             try getDecoder().decode(SaveResponse.self, from: data).apply(object)
         }
@@ -81,7 +81,7 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    private static func updateCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
+    private static func updateCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         let mapper = { (data: Data) -> T in
             try getDecoder().decode(UpdateResponse.self, from: data).apply(object)
         }
@@ -92,7 +92,7 @@ internal extension API.Command {
     }
 
     // MARK: Fetching
-    static func fetchCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ObjectType {
+    static func fetchCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
         guard object.isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Fetch an object without id")
         }
@@ -103,7 +103,7 @@ internal extension API.Command {
     }
 }
 
-extension API.Command where T: ObjectType {
+extension API.Command where T: ParseObject {
 
     internal var data: Data? {
         guard let body = body else { return nil }
