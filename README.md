@@ -1,5 +1,5 @@
 <p align="center">
-    <img alt="Parse Platform" src="Assets/logo large.png" width="200">
+    <img alt="Parse Platform" src="logo large.png" width="200">
   </a>
 </p>
 
