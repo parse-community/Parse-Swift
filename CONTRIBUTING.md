@@ -20,3 +20,7 @@ $ cd Parse-Swift # go into the clone directory
 * All the tests should point to sources in the `lib/` folder.
 
 ## Troubleshooting
+
+### Code of Conduct
+
+This project adheres to the [Contributor Covenant Code of Conduct](https://github.com/parse-community/.github/blob/master/CODE_OF_CONDUCT.md). By participating, you are expected to honor this code.
