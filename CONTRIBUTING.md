@@ -13,13 +13,11 @@ $ git clone https://github.com/parse-community/Parse-Swift
 $ cd Parse-Swift # go into the clone directory
 ```
 
-## Good to know
+Please see [this comment](https://github.com/parse-community/Parse-Swift/pull/12#issuecomment-656918156) for details on developing with and testing the SDK.
 
-* The `lib/` folder is not commited, so never make changes in there.
-* Always make changes to files in the `src/` folder.
-* All the tests should point to sources in the `lib/` folder.
+## Evolution
 
-## Troubleshooting
+This SDK is still in it's early phases. It's not intended as a port of the Parse Objective-c SDK and has many new philosophies. Please see [this thread](https://github.com/parse-community/Parse-Swift/issues/3) for a detailed discussion about the intended evolution of this SDK.
 
 ## Code of Conduct
 
