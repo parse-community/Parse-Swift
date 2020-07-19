@@ -1,17 +1,28 @@
 import Foundation
 
+// MARK: CurrentUserInfo
 internal struct CurrentUserInfo {
     static var currentUser: Any?
     static var currentSessionToken: String?
 }
 
+// MARK: ParseUser
 public protocol ParseUser: ParseObject {
     var username: String? { get set }
     var email: String? { get set }
     var password: String? { get set }
 }
 
+// MARK: Convenience
 public extension ParseUser {
+    static var className: String {
+        return "_User"
+    }
+    
+    static var current: Self? {
+        return CurrentUserInfo.currentUser as? Self
+    }
+    
     var sessionToken: String? {
         if let currentUser = CurrentUserInfo.currentUser as? Self,
             currentUser.objectId != nil && self.objectId != nil &&
@@ -21,37 +32,15 @@ public extension ParseUser {
 
         return nil
     }
-
-    static var className: String {
-        return "_User"
-    }
 }
 
-public extension ParseUser {
-    static var current: Self? {
-        return CurrentUserInfo.currentUser as? Self
-    }
-
-    static func login(username: String,
+// MARK: Logging In
+extension ParseUser {
+    public static func login(username: String,
                       password: String) throws -> Self {
         return try loginCommand(username: username, password: password).execute(options: [])
     }
-
-    static func signup(username: String,
-                       password: String) throws -> Self {
-        return try signupCommand(username: username, password: password).execute(options: [])
-    }
-
-    static func logout() throws {
-        _ = try logoutCommand().execute(options: [])
-    }
-
-    func signup() throws -> Self {
-        return try signupCommand().execute(options: [])
-    }
-}
-
-private extension ParseUser {
+    
     private static func loginCommand(username: String,
                                      password: String) -> API.Command<NoBody, Self> {
         let params = [
@@ -68,6 +57,32 @@ private extension ParseUser {
             CurrentUserInfo.currentSessionToken = response.sessionToken
             return user
         }
+    }
+}
+
+// MARK: Logging Out
+extension ParseUser {
+    public static func logout() throws {
+        _ = try logoutCommand().execute(options: [])
+    }
+    
+    private static func logoutCommand() -> API.Command<NoBody, Void> {
+       return API.Command(method: .POST, path: .logout) { (_) -> Void in
+            CurrentUserInfo.currentUser = nil
+            CurrentUserInfo.currentSessionToken = nil
+       }
+    }
+}
+
+// MARK: Signing Up
+extension ParseUser {
+    public static func signup(username: String,
+                       password: String) throws -> Self {
+        return try signupCommand(username: username, password: password).execute(options: [])
+    }
+    
+    public func signup() throws -> Self {
+        return try signupCommand().execute(options: [])
     }
 
     private static func signupCommand(username: String,
@@ -100,23 +115,18 @@ private extension ParseUser {
             return user
         }
     }
-
-    private static func logoutCommand() -> API.Command<NoBody, Void> {
-       return API.Command(method: .POST, path: .logout) { (_) -> Void in
-            CurrentUserInfo.currentUser = nil
-            CurrentUserInfo.currentSessionToken = nil
-       }
-    }
 }
 
-public struct SignupBody: Codable {
-    let username: String
-    let password: String
-}
-
+// MARK: LoginSignupResponse
 private struct LoginSignupResponse: Codable {
     let createdAt: Date
     let objectId: String
     let sessionToken: String
     var updatedAt: Date?
+}
+
+// MARK: SignupBody
+public struct SignupBody: Codable {
+    let username: String
+    let password: String
 }
