@@ -18,6 +18,7 @@ public extension UserType {
             currentUser.objectId == self.objectId {
             return CurrentUserInfo.currentSessionToken
         }
+
         return nil
     }
 
@@ -57,6 +58,7 @@ private extension UserType {
             "username": username,
             "password": password
         ]
+
         return API.Command<NoBody, Self>(method: .GET,
                                          path: .login,
                                          params: params) { (data) -> Self in
@@ -70,6 +72,7 @@ private extension UserType {
 
     private static func signupCommand(username: String,
                                       password: String) -> API.Command<SignupBody, Self> {
+
         let body = SignupBody(username: username, password: password)
         return API.Command(method: .POST, path: .signup, body: body) { (data) -> Self in
             let response = try getDecoder().decode(LoginSignupResponse.self, from: data)

@@ -7,23 +7,10 @@
 //
 
 import Foundation
-public protocol Querying {
-    associatedtype ResultType
-    func find(options: API.Options) throws -> [ResultType]
-    func first(options: API.Options) throws -> ResultType?
-    func count(options: API.Options) throws -> Int
-}
 
-extension Querying {
-    func find() throws -> [ResultType] {
-        return try find(options: [])
-    }
-    func first() throws -> ResultType? {
-        return try first(options: [])
-    }
-    func count() throws -> Int {
-        return try count(options: [])
-    }
+public struct FindResult<T>: Decodable where T: ObjectType {
+    let results: [T]
+    let count: Int?
 }
 
 public struct QueryConstraint: Encodable {

@@ -8,12 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		4A2D8C811F48B3A900EE1FCC /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
-		4A2F14941F4A5E1E00A7A7EF /* ObjectType+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14931F4A5E1E00A7A7EF /* ObjectType+Equatable.swift */; };
 		4A2F14961F4A5F2900A7A7EF /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14951F4A5F2900A7A7EF /* Responses.swift */; };
-		4A2F14981F4A5F6900A7A7EF /* ObjectType+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14971F4A5F6900A7A7EF /* ObjectType+Batch.swift */; };
+		4A2F14981F4A5F6900A7A7EF /* ParseObject+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14971F4A5F6900A7A7EF /* ParseObject+Batch.swift */; };
 		4A2F14991F4A5FB500A7A7EF /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14951F4A5F2900A7A7EF /* Responses.swift */; };
-		4A2F149A1F4A5FBA00A7A7EF /* ObjectType+Equatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14931F4A5E1E00A7A7EF /* ObjectType+Equatable.swift */; };
-		4A2F149B1F4A5FBA00A7A7EF /* ObjectType+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14971F4A5F6900A7A7EF /* ObjectType+Batch.swift */; };
+		4A2F149B1F4A5FBA00A7A7EF /* ParseObject+Batch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14971F4A5F6900A7A7EF /* ParseObject+Batch.swift */; };
 		4A65114F1F48E3F3005237DF /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
 		4A6511501F48E400005237DF /* BatchUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC397711F488F9E00DEA9D3 /* BatchUtils.swift */; };
 		4A6511511F48E406005237DF /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC3976F1F48778900DEA9D3 /* ACL.swift */; };
@@ -25,7 +23,6 @@
 		4A82B7F71F254CCE0063D731 /* ObjectType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EC1F254B820063D731 /* ObjectType.swift */; };
 		4A82B7F81F254CCE0063D731 /* Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F11F254B820063D731 /* Pointer.swift */; };
 		4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FE1F256A8F0063D731 /* Query.swift */; };
-		4A82B8011F256B330063D731 /* ObjectType+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B8001F256B330063D731 /* ObjectType+Query.swift */; };
 		4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */; };
 		4A99A46C1F2650FF00D72A59 /* AddUniqueOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A46B1F2650FF00D72A59 /* AddUniqueOperation.swift */; };
 		4A99A46E1F26512100D72A59 /* IncrementOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A46D1F26512100D72A59 /* IncrementOperation.swift */; };
@@ -68,7 +65,6 @@
 		4AFDA7331F26DAE1002AE4FC /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F01F254B820063D731 /* File.swift */; };
 		4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F11F254B820063D731 /* Pointer.swift */; };
 		4AFDA7351F26DAE1002AE4FC /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FE1F256A8F0063D731 /* Query.swift */; };
-		4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B8001F256B330063D731 /* ObjectType+Query.swift */; };
 		4AFDA7391F26DAF8002AE4FC /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		709075C724B9117500B95310 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C424B9117400B95310 /* AnyCodable.swift */; };
 		709075C824B9117500B95310 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C424B9117400B95310 /* AnyCodable.swift */; };
@@ -79,6 +75,16 @@
 		7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */; };
 		7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */; };
 		7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */; };
+		F927E37924C3D19900F8A143 /* ParseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F927E37824C3D19900F8A143 /* ParseObject.swift */; };
+		F927E37A24C3D19900F8A143 /* ParseObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = F927E37824C3D19900F8A143 /* ParseObject.swift */; };
+		F927E37C24C3D1FD00F8A143 /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F927E37B24C3D1FD00F8A143 /* Fetchable.swift */; };
+		F927E37D24C3D1FD00F8A143 /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F927E37B24C3D1FD00F8A143 /* Fetchable.swift */; };
+		F92B578724C3F02D00A43E8D /* Saveable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B578624C3F02D00A43E8D /* Saveable.swift */; };
+		F92B578824C3F02D00A43E8D /* Saveable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B578624C3F02D00A43E8D /* Saveable.swift */; };
+		F92B578A24C3F09600A43E8D /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B578924C3F09600A43E8D /* Queryable.swift */; };
+		F92B578B24C3F09600A43E8D /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B578924C3F09600A43E8D /* Queryable.swift */; };
+		F92B578D24C3F0F300A43E8D /* NoBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B578C24C3F0F300A43E8D /* NoBody.swift */; };
+		F92B578E24C3F0F300A43E8D /* NoBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B578C24C3F0F300A43E8D /* NoBody.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -102,16 +108,14 @@
 		4A1120BF1F49FC3300E32D94 /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
 		4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoder.swift; sourceTree = "<group>"; };
 		4A2F14901F4A41B900A7A7EF /* Asynchronous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asynchronous.swift; sourceTree = "<group>"; };
-		4A2F14931F4A5E1E00A7A7EF /* ObjectType+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectType+Equatable.swift"; sourceTree = "<group>"; };
 		4A2F14951F4A5F2900A7A7EF /* Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
-		4A2F14971F4A5F6900A7A7EF /* ObjectType+Batch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectType+Batch.swift"; sourceTree = "<group>"; };
+		4A2F14971F4A5F6900A7A7EF /* ParseObject+Batch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseObject+Batch.swift"; sourceTree = "<group>"; };
 		4A82B7EC1F254B820063D731 /* ObjectType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ObjectType.swift; sourceTree = "<group>"; };
 		4A82B7ED1F254B820063D731 /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
 		4A82B7EE1F254B820063D731 /* Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
 		4A82B7F01F254B820063D731 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		4A82B7F11F254B820063D731 /* Pointer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Pointer.swift; sourceTree = "<group>"; };
 		4A82B7FE1F256A8F0063D731 /* Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
-		4A82B8001F256B330063D731 /* ObjectType+Query.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectType+Query.swift"; sourceTree = "<group>"; };
 		4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseMutationContainer.swift; sourceTree = "<group>"; };
 		4A99A46B1F2650FF00D72A59 /* AddUniqueOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddUniqueOperation.swift; sourceTree = "<group>"; };
 		4A99A46D1F26512100D72A59 /* IncrementOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncrementOperation.swift; sourceTree = "<group>"; };
@@ -149,6 +153,11 @@
 		7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodableTests.swift; sourceTree = "<group>"; };
 		7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodableTests.swift; sourceTree = "<group>"; };
+		F927E37824C3D19900F8A143 /* ParseObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObject.swift; sourceTree = "<group>"; };
+		F927E37B24C3D1FD00F8A143 /* Fetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
+		F92B578624C3F02D00A43E8D /* Saveable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saveable.swift; sourceTree = "<group>"; };
+		F92B578924C3F09600A43E8D /* Queryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queryable.swift; sourceTree = "<group>"; };
+		F92B578C24C3F0F300A43E8D /* NoBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBody.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -184,14 +193,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		4A2F149C1F4A604900A7A7EF /* Encoder */ = {
-			isa = PBXGroup;
-			children = (
-				4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */,
-			);
-			path = Encoder;
-			sourceTree = "<group>";
-		};
 		4A5EE45F1F49E9E000D3CAE3 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
@@ -217,17 +218,18 @@
 			path = "ParseSwift-iOS";
 			sourceTree = "<group>";
 		};
-		4A82B7FD1F25691B0063D731 /* Types */ = {
+		4A82B7FD1F25691B0063D731 /* Parse Types */ = {
 			isa = PBXGroup;
 			children = (
 				4AC3976F1F48778900DEA9D3 /* ACL.swift */,
 				4AF85BD21F78011100665264 /* ParseError.swift */,
 				4A82B7F01F254B820063D731 /* File.swift */,
 				4A82B7ED1F254B820063D731 /* GeoPoint.swift */,
+				F92B578C24C3F0F300A43E8D /* NoBody.swift */,
 				4A82B7F11F254B820063D731 /* Pointer.swift */,
 				4A82B7FE1F256A8F0063D731 /* Query.swift */,
 			);
-			path = Types;
+			path = "Parse Types";
 			sourceTree = "<group>";
 		};
 		4A99A46A1F2650E200D72A59 /* Mutations */ = {
@@ -305,10 +307,9 @@
 			children = (
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
 				4A2F14901F4A41B900A7A7EF /* Asynchronous.swift */,
-				4AC397761F4895A200DEA9D3 /* Objects Protocols */,
-				4A82B7FD1F25691B0063D731 /* Types */,
-				709075CD24B9829600B95310 /* AnyCodable */,
-				4A2F149C1F4A604900A7A7EF /* Encoder */,
+				4AC397761F4895A200DEA9D3 /* Objects */,
+				4A82B7FD1F25691B0063D731 /* Parse Types */,
+				709075CD24B9829600B95310 /* Coding */,
 				4A99A46A1F2650E200D72A59 /* Mutations */,
 				4AC397771F4895C000DEA9D3 /* API */,
 				4AA807491F7930D0008CD551 /* Storage */,
@@ -317,16 +318,17 @@
 			path = ParseSwift;
 			sourceTree = "<group>";
 		};
-		4AC397761F4895A200DEA9D3 /* Objects Protocols */ = {
+		4AC397761F4895A200DEA9D3 /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				4A82B7EC1F254B820063D731 /* ObjectType.swift */,
-				4A82B8001F256B330063D731 /* ObjectType+Query.swift */,
-				4A2F14931F4A5E1E00A7A7EF /* ObjectType+Equatable.swift */,
-				4A2F14971F4A5F6900A7A7EF /* ObjectType+Batch.swift */,
+				F927E37B24C3D1FD00F8A143 /* Fetchable.swift */,
+				F927E37824C3D19900F8A143 /* ParseObject.swift */,
+				4A2F14971F4A5F6900A7A7EF /* ParseObject+Batch.swift */,
+				F92B578924C3F09600A43E8D /* Queryable.swift */,
+				F92B578624C3F02D00A43E8D /* Saveable.swift */,
 				4AEBA54E1F265A0D00628B17 /* UserType.swift */,
 			);
-			path = "Objects Protocols";
+			path = Objects;
 			sourceTree = "<group>";
 		};
 		4AC397771F4895C000DEA9D3 /* API */ = {
@@ -349,14 +351,16 @@
 			path = "ParseSwift-macOS";
 			sourceTree = "<group>";
 		};
-		709075CD24B9829600B95310 /* AnyCodable */ = {
+		709075CD24B9829600B95310 /* Coding */ = {
 			isa = PBXGroup;
 			children = (
 				709075C424B9117400B95310 /* AnyCodable.swift */,
 				709075C524B9117500B95310 /* AnyDecodable.swift */,
 				709075C624B9117500B95310 /* AnyEncodable.swift */,
+				4A82B7EC1F254B820063D731 /* ObjectType.swift */,
+				4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */,
 			);
-			path = AnyCodable;
+			path = Coding;
 			sourceTree = "<group>";
 		};
 		7FFF552A2217E729007C3B4E /* AnyCodableTests */ = {
@@ -563,7 +567,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint autocorrect\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 		4A6511551F49D544005237DF /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -577,7 +581,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi";
+			shellScript = "if which swiftlint >/dev/null; then\nswiftlint autocorrect\nswiftlint\nelse\necho \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -602,21 +606,24 @@
 				4AA8074B1F7930E9008CD551 /* SecureStorage.swift in Sources */,
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
 				4AEBA54F1F265A0D00628B17 /* UserType.swift in Sources */,
+				F92B578D24C3F0F300A43E8D /* NoBody.swift in Sources */,
+				F927E37C24C3D1FD00F8A143 /* Fetchable.swift in Sources */,
 				4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */,
 				4AC397701F48778900DEA9D3 /* ACL.swift in Sources */,
 				4A2D8C811F48B3A900EE1FCC /* ParseEncoder.swift in Sources */,
 				4A99A46E1F26512100D72A59 /* IncrementOperation.swift in Sources */,
-				4A82B8011F256B330063D731 /* ObjectType+Query.swift in Sources */,
 				4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */,
 				4AF85BD81F78144900665264 /* URLSession+sync.swift in Sources */,
-				4A2F14981F4A5F6900A7A7EF /* ObjectType+Batch.swift in Sources */,
+				F927E37924C3D19900F8A143 /* ParseObject.swift in Sources */,
+				4A2F14981F4A5F6900A7A7EF /* ParseObject+Batch.swift in Sources */,
 				709075CB24B9117500B95310 /* AnyEncodable.swift in Sources */,
 				4A82B7F41F254CCE0063D731 /* File.swift in Sources */,
 				4AF85BD31F78011100665264 /* ParseError.swift in Sources */,
 				4AF85BDA1F781ED000665264 /* Asynchronous.swift in Sources */,
+				F92B578724C3F02D00A43E8D /* Saveable.swift in Sources */,
 				4AA8074E1F7931B7008CD551 /* KeychainStore.swift in Sources */,
-				4A2F14941F4A5E1E00A7A7EF /* ObjectType+Equatable.swift in Sources */,
 				4AC397721F488F9E00DEA9D3 /* BatchUtils.swift in Sources */,
+				F92B578A24C3F09600A43E8D /* Queryable.swift in Sources */,
 				4AEBA54D1F26523800628B17 /* DeleteOperation.swift in Sources */,
 				4AF85BDD1F783B9800665264 /* API+Commands.swift in Sources */,
 				4A82B7F81F254CCE0063D731 /* Pointer.swift in Sources */,
@@ -646,26 +653,29 @@
 				4AFDA72B1F26DAE1002AE4FC /* ObjectType.swift in Sources */,
 				709075C824B9117500B95310 /* AnyCodable.swift in Sources */,
 				4AFDA7301F26DAE1002AE4FC /* DeleteOperation.swift in Sources */,
-				4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */,
 				4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */,
 				4AA8074C1F7930E9008CD551 /* SecureStorage.swift in Sources */,
 				4A6511501F48E400005237DF /* BatchUtils.swift in Sources */,
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
+				F92B578E24C3F0F300A43E8D /* NoBody.swift in Sources */,
+				F927E37D24C3D1FD00F8A143 /* Fetchable.swift in Sources */,
 				4AFDA7351F26DAE1002AE4FC /* Query.swift in Sources */,
 				4A2F14991F4A5FB500A7A7EF /* Responses.swift in Sources */,
-				4A2F149A1F4A5FBA00A7A7EF /* ObjectType+Equatable.swift in Sources */,
 				4A65114F1F48E3F3005237DF /* ParseEncoder.swift in Sources */,
 				4AFDA72E1F26DAE1002AE4FC /* AddOperation.swift in Sources */,
 				4AFDA7311F26DAE1002AE4FC /* AddUniqueOperation.swift in Sources */,
 				4AF85BD91F78145C00665264 /* URLSession+sync.swift in Sources */,
-				4A2F149B1F4A5FBA00A7A7EF /* ObjectType+Batch.swift in Sources */,
+				F927E37A24C3D19900F8A143 /* ParseObject.swift in Sources */,
+				4A2F149B1F4A5FBA00A7A7EF /* ParseObject+Batch.swift in Sources */,
 				709075CC24B9117500B95310 /* AnyEncodable.swift in Sources */,
 				4A6511521F48E406005237DF /* GeoPoint.swift in Sources */,
 				4AF85BD61F7803C100665264 /* ParseError.swift in Sources */,
 				4AF85BDB1F781ED100665264 /* Asynchronous.swift in Sources */,
+				F92B578824C3F02D00A43E8D /* Saveable.swift in Sources */,
 				4AA8074F1F7931B7008CD551 /* KeychainStore.swift in Sources */,
 				4AFDA7331F26DAE1002AE4FC /* File.swift in Sources */,
 				4A6511531F48E410005237DF /* API.swift in Sources */,
+				F92B578B24C3F09600A43E8D /* Queryable.swift in Sources */,
 				4AFDA7321F26DAE1002AE4FC /* IncrementOperation.swift in Sources */,
 				4AF85BDE1F783BB400665264 /* API+Commands.swift in Sources */,
 				4AFDA72D1F26DAE1002AE4FC /* ParseMutationContainer.swift in Sources */,
