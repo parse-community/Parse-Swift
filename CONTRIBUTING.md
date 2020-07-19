@@ -13,7 +13,13 @@ $ git clone https://github.com/parse-community/Parse-Swift
 $ cd Parse-Swift # go into the clone directory
 ```
 
-Please see [this comment](https://github.com/parse-community/Parse-Swift/pull/12#issuecomment-656918156) for details on developing with and testing the SDK.
+* Please install [SwiftLint](https://github.com/realm/SwiftLint) to ensure that your PR conforms to our coding standards:
+
+```sh
+$ brew install swiftlint
+```
+
+* Please see [this comment](https://github.com/parse-community/Parse-Swift/pull/12#issuecomment-656918156) for details on developing with and testing the SDK.
 
 ## Evolution
 
