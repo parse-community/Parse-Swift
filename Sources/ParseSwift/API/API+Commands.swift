@@ -38,9 +38,9 @@ internal extension API {
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false),
                   let componentsURL = components.url else {
-                throw Error.badRequest
+                throw ParseError(code: .unknownError, message: "Invalid URL.")
             }
-
+            
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
 

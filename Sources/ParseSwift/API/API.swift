@@ -94,12 +94,6 @@ public struct API {
     }
 }
 
-extension API {
-    public enum Error: Swift.Error {
-        case badRequest
-    }
-}
-
 internal extension Dictionary where Key == String, Value == String? {
     func getQueryItems() -> [URLQueryItem] {
         return map { (key, value) -> URLQueryItem in
