@@ -79,6 +79,10 @@
 		7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */; };
 		7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */; };
 		7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */; };
+		911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB12B24C3F7720027F3C7 /* MockURLResponse.swift */; };
+		911DB12E24C4837E0027F3C7 /* APITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB12D24C4837E0027F3C7 /* APITests.swift */; };
+		911DB13324C494390027F3C7 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB13224C494390027F3C7 /* MockURLProtocol.swift */; };
+		911DB13624C4FC100027F3C7 /* Swizzle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB13524C4FC100027F3C7 /* Swizzle.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -149,6 +153,10 @@
 		7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodableTests.swift; sourceTree = "<group>"; };
 		7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodableTests.swift; sourceTree = "<group>"; };
+		911DB12B24C3F7720027F3C7 /* MockURLResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLResponse.swift; sourceTree = "<group>"; };
+		911DB12D24C4837E0027F3C7 /* APITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APITests.swift; sourceTree = "<group>"; };
+		911DB13224C494390027F3C7 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
+		911DB13524C4FC100027F3C7 /* Swizzle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Swizzle.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +280,9 @@
 				4AA8076D1F794C1C008CD551 /* Info.plist */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
 				4AA8076F1F794C1C008CD551 /* ParseSwiftTests.swift */,
+				911DB12D24C4837E0027F3C7 /* APITests.swift */,
+				911DB13424C4FBD20027F3C7 /* Other */,
+				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
 			);
 			path = ParseSwiftTests;
 			sourceTree = "<group>";
@@ -367,6 +378,23 @@
 				7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */,
 			);
 			path = AnyCodableTests;
+			sourceTree = "<group>";
+		};
+		911DB12A24C3F7260027F3C7 /* NetworkMocking */ = {
+			isa = PBXGroup;
+			children = (
+				911DB12B24C3F7720027F3C7 /* MockURLResponse.swift */,
+				911DB13224C494390027F3C7 /* MockURLProtocol.swift */,
+			);
+			path = NetworkMocking;
+			sourceTree = "<group>";
+		};
+		911DB13424C4FBD20027F3C7 /* Other */ = {
+			isa = PBXGroup;
+			children = (
+				911DB13524C4FC100027F3C7 /* Swizzle.swift */,
+			);
+			path = Other;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -631,11 +659,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				911DB13624C4FC100027F3C7 /* Swizzle.swift in Sources */,
+				911DB12E24C4837E0027F3C7 /* APITests.swift in Sources */,
+				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
 				7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */,
 				7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */,
 				7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */,
 				4AA807701F794C31008CD551 /* KeychainStoreTests.swift in Sources */,
 				4AA807711F794C33008CD551 /* ParseSwiftTests.swift in Sources */,
+				911DB13324C494390027F3C7 /* MockURLProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
