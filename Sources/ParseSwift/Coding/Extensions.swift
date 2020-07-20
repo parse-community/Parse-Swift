@@ -12,7 +12,7 @@ internal extension Date {
     func parseFormatted() -> String {
         return ParseCoding.dateFormatter.string(from: self)
     }
-    
+
     var parseRepresentation: [String: String] {
         return ["__type": "Date", "iso": parseFormatted()]
     }
@@ -24,7 +24,7 @@ extension JSONEncoder {
         guard let string = String(data: try encode(value), encoding: .utf8) else {
             throw ParseError(code: .unknownError, message: "Unable to encode object...")
         }
-        
+
         return string
     }
 }

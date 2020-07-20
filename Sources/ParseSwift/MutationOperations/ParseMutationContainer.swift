@@ -10,7 +10,7 @@ import Foundation
 
 public struct ParseMutationContainer<T>: Encodable where T: ParseObject {
     typealias ObjectType = T
-    
+
     var target: T
     private var operations = [String: Encodable]()
 

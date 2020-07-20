@@ -18,7 +18,6 @@
 		4A82B7F41F254CCE0063D731 /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F01F254B820063D731 /* File.swift */; };
 		4A82B7F51F254CCE0063D731 /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7ED1F254B820063D731 /* GeoPoint.swift */; };
 		4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
-		4A82B7F71F254CCE0063D731 /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EC1F254B820063D731 /* Miscellaneous.swift */; };
 		4A82B7F81F254CCE0063D731 /* Pointer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7F11F254B820063D731 /* Pointer.swift */; };
 		4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7FE1F256A8F0063D731 /* Query.swift */; };
 		4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */; };
@@ -52,7 +51,6 @@
 		4AF85BDD1F783B9800665264 /* API+Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF85BDC1F783B9800665264 /* API+Commands.swift */; };
 		4AF85BDE1F783BB400665264 /* API+Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF85BDC1F783B9800665264 /* API+Commands.swift */; };
 		4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
-		4AFDA72B1F26DAE1002AE4FC /* Miscellaneous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EC1F254B820063D731 /* Miscellaneous.swift */; };
 		4AFDA72C1F26DAE1002AE4FC /* ParseUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54E1F265A0D00628B17 /* ParseUser.swift */; };
 		4AFDA72D1F26DAE1002AE4FC /* ParseMutationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */; };
 		4AFDA72E1F26DAE1002AE4FC /* AddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA5481F26519B00628B17 /* AddOperation.swift */; };
@@ -83,6 +81,16 @@
 		F92B578B24C3F09600A43E8D /* Queryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B578924C3F09600A43E8D /* Queryable.swift */; };
 		F92B578D24C3F0F300A43E8D /* NoBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B578C24C3F0F300A43E8D /* NoBody.swift */; };
 		F92B578E24C3F0F300A43E8D /* NoBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92B578C24C3F0F300A43E8D /* NoBody.swift */; };
+		F980C99424C52DD900262E4F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980C99224C52DD800262E4F /* Extensions.swift */; };
+		F980C99524C52DD900262E4F /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980C99324C52DD900262E4F /* ParseCoding.swift */; };
+		F980C99624C52DE100262E4F /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980C99224C52DD800262E4F /* Extensions.swift */; };
+		F980C99724C52DE100262E4F /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980C99324C52DD900262E4F /* ParseCoding.swift */; };
+		F980C99924C52E0200262E4F /* BaseParseUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980C99824C52E0200262E4F /* BaseParseUser.swift */; };
+		F980C99C24C52E1900262E4F /* ParseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980C99A24C52E1900262E4F /* ParseStorage.swift */; };
+		F980C99D24C52E1900262E4F /* PrimitiveObjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980C99B24C52E1900262E4F /* PrimitiveObjectStore.swift */; };
+		F980C99E24C52E1D00262E4F /* PrimitiveObjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980C99B24C52E1900262E4F /* PrimitiveObjectStore.swift */; };
+		F980C99F24C52E1D00262E4F /* ParseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980C99A24C52E1900262E4F /* ParseStorage.swift */; };
+		F980C9A024C5395400262E4F /* BaseParseUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F980C99824C52E0200262E4F /* BaseParseUser.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -107,7 +115,6 @@
 		4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoder.swift; sourceTree = "<group>"; };
 		4A2F14901F4A41B900A7A7EF /* Asynchronous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asynchronous.swift; sourceTree = "<group>"; };
 		4A2F14951F4A5F2900A7A7EF /* Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
-		4A82B7EC1F254B820063D731 /* Miscellaneous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Miscellaneous.swift; sourceTree = "<group>"; };
 		4A82B7ED1F254B820063D731 /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
 		4A82B7EE1F254B820063D731 /* Parse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Parse.swift; sourceTree = "<group>"; };
 		4A82B7F01F254B820063D731 /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
@@ -155,6 +162,11 @@
 		F92B578624C3F02D00A43E8D /* Saveable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Saveable.swift; sourceTree = "<group>"; };
 		F92B578924C3F09600A43E8D /* Queryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Queryable.swift; sourceTree = "<group>"; };
 		F92B578C24C3F0F300A43E8D /* NoBody.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoBody.swift; sourceTree = "<group>"; };
+		F980C99224C52DD800262E4F /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		F980C99324C52DD900262E4F /* ParseCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCoding.swift; sourceTree = "<group>"; };
+		F980C99824C52E0200262E4F /* BaseParseUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseParseUser.swift; sourceTree = "<group>"; };
+		F980C99A24C52E1900262E4F /* ParseStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseStorage.swift; sourceTree = "<group>"; };
+		F980C99B24C52E1900262E4F /* PrimitiveObjectStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimitiveObjectStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -219,6 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				4AC3976F1F48778900DEA9D3 /* ACL.swift */,
+				F980C99824C52E0200262E4F /* BaseParseUser.swift */,
 				4AF85BD21F78011100665264 /* ParseError.swift */,
 				4A82B7F01F254B820063D731 /* File.swift */,
 				4A82B7ED1F254B820063D731 /* GeoPoint.swift */,
@@ -246,8 +259,10 @@
 		4AA807491F7930D0008CD551 /* Storage */ = {
 			isa = PBXGroup;
 			children = (
-				4AA8074A1F7930E9008CD551 /* SecureStorage.swift */,
 				4AA8074D1F7931B7008CD551 /* KeychainStore.swift */,
+				F980C99A24C52E1900262E4F /* ParseStorage.swift */,
+				F980C99B24C52E1900262E4F /* PrimitiveObjectStore.swift */,
+				4AA8074A1F7930E9008CD551 /* SecureStorage.swift */,
 			);
 			path = Storage;
 			sourceTree = "<group>";
@@ -353,7 +368,8 @@
 				709075C424B9117400B95310 /* AnyCodable.swift */,
 				709075C524B9117500B95310 /* AnyDecodable.swift */,
 				709075C624B9117500B95310 /* AnyEncodable.swift */,
-				4A82B7EC1F254B820063D731 /* Miscellaneous.swift */,
+				F980C99224C52DD800262E4F /* Extensions.swift */,
+				F980C99324C52DD900262E4F /* ParseCoding.swift */,
 				4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */,
 			);
 			path = Coding;
@@ -597,7 +613,6 @@
 				4A2F14961F4A5F2900A7A7EF /* Responses.swift in Sources */,
 				709075C724B9117500B95310 /* AnyCodable.swift in Sources */,
 				4AC397741F488FF900DEA9D3 /* API.swift in Sources */,
-				4A82B7F71F254CCE0063D731 /* Miscellaneous.swift in Sources */,
 				4A82B7F51F254CCE0063D731 /* GeoPoint.swift in Sources */,
 				4AA8074B1F7930E9008CD551 /* SecureStorage.swift in Sources */,
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
@@ -622,9 +637,14 @@
 				4AEBA54D1F26523800628B17 /* DeleteOperation.swift in Sources */,
 				4AF85BDD1F783B9800665264 /* API+Commands.swift in Sources */,
 				4A82B7F81F254CCE0063D731 /* Pointer.swift in Sources */,
+				F980C99C24C52E1900262E4F /* ParseStorage.swift in Sources */,
 				709075C924B9117500B95310 /* AnyDecodable.swift in Sources */,
+				F980C99524C52DD900262E4F /* ParseCoding.swift in Sources */,
+				F980C99D24C52E1900262E4F /* PrimitiveObjectStore.swift in Sources */,
+				F980C99924C52E0200262E4F /* BaseParseUser.swift in Sources */,
 				4AEBA5491F26519B00628B17 /* AddOperation.swift in Sources */,
 				4A99A46C1F2650FF00D72A59 /* AddUniqueOperation.swift in Sources */,
+				F980C99424C52DD900262E4F /* Extensions.swift in Sources */,
 				4AEBA54B1F2651D900628B17 /* RemoveOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -645,9 +665,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4AFDA72B1F26DAE1002AE4FC /* Miscellaneous.swift in Sources */,
+				F980C99E24C52E1D00262E4F /* PrimitiveObjectStore.swift in Sources */,
 				709075C824B9117500B95310 /* AnyCodable.swift in Sources */,
 				4AFDA7301F26DAE1002AE4FC /* DeleteOperation.swift in Sources */,
+				F980C9A024C5395400262E4F /* BaseParseUser.swift in Sources */,
 				4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */,
 				4AA8074C1F7930E9008CD551 /* SecureStorage.swift in Sources */,
 				4A6511501F48E400005237DF /* BatchUtils.swift in Sources */,
@@ -672,10 +693,13 @@
 				F92B578B24C3F09600A43E8D /* Queryable.swift in Sources */,
 				4AFDA7321F26DAE1002AE4FC /* IncrementOperation.swift in Sources */,
 				4AF85BDE1F783BB400665264 /* API+Commands.swift in Sources */,
+				F980C99F24C52E1D00262E4F /* ParseStorage.swift in Sources */,
 				4AFDA72D1F26DAE1002AE4FC /* ParseMutationContainer.swift in Sources */,
 				709075CA24B9117500B95310 /* AnyDecodable.swift in Sources */,
+				F980C99724C52DE100262E4F /* ParseCoding.swift in Sources */,
 				4AFDA72C1F26DAE1002AE4FC /* ParseUser.swift in Sources */,
 				4A6511511F48E406005237DF /* ACL.swift in Sources */,
+				F980C99624C52DE100262E4F /* Extensions.swift in Sources */,
 				4AFDA72F1F26DAE1002AE4FC /* RemoveOperation.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -14,13 +14,13 @@ internal enum ParseCoding {}
 // MARK: Coders
 extension ParseCoding {
     private static let forbiddenKeys = Set(["createdAt", "updatedAt", "objectId", "className"])
-    
+
     static func jsonEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = jsonDateEncodingStrategy
         return encoder
     }
-    
+
     static func jsonDecoder() -> JSONDecoder {
         let encoder = JSONDecoder()
         encoder.dateDecodingStrategy = jsonDateDecodingStrategy
@@ -37,7 +37,7 @@ extension ParseCoding {
             }
             return true
         }
-        
+
         return encoder
     }
 }
@@ -48,7 +48,7 @@ extension ParseCoding {
         case iso
         case type = "__type"
     }
-    
+
     static let dateFormatter: DateFormatter = {
         var dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "")
@@ -62,7 +62,7 @@ extension ParseCoding {
         let dateString = dateFormatter.string(from: date)
         try container.encode(dateString, forKey: .iso)
     })
-    
+
     static let parseDateEncodingStrategy: ParseEncoder.DateEncodingStrategy = .custom({ (date, enc) in
         var container = enc.container(keyedBy: DateEncodingKeys.self)
         try container.encode("Date", forKey: .type)
@@ -81,7 +81,7 @@ extension ParseCoding {
                 return dateFormatter.date(from: decoded)!
             }
         }
-        
+
         throw ParseError(code: .unknownError, message: "unable to decode")
     })
 }

@@ -1,9 +1,9 @@
 import Foundation
 
-// MARK: CurrentUserInfo
-internal struct CurrentUserInfo {
-    static var currentUser: Any?
-    static var currentSessionToken: String?
+// MARK: CurrentUserContainer
+struct CurrentUserContainer<T: ParseUser>: Codable {
+    var currentUser: T?
+    var sessionToken: String?
 }
 
 // MARK: ParseUser
@@ -13,34 +13,37 @@ public protocol ParseUser: ParseObject {
     var password: String? { get set }
 }
 
-// MARK: Convenience
+// MARK: Default Implementations
 public extension ParseUser {
     static var className: String {
         return "_User"
     }
-    
-    static var current: Self? {
-        return CurrentUserInfo.currentUser as? Self
-    }
-    
-    var sessionToken: String? {
-        if let currentUser = CurrentUserInfo.currentUser as? Self,
-            currentUser.objectId != nil && self.objectId != nil &&
-            currentUser.objectId == self.objectId {
-            return CurrentUserInfo.currentSessionToken
-        }
+}
 
-        return nil
+// MARK: Current User Support
+extension ParseUser {
+    static var currentUserContainer: CurrentUserContainer<Self>? {
+        get { try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) }
+        set { try? ParseStorage.shared.set(newValue, for: ParseStorage.Keys.currentUser) }
+    }
+
+    public static var current: Self? {
+        get { Self.currentUserContainer?.currentUser }
+        set { Self.currentUserContainer?.currentUser = newValue }
+    }
+
+    public var sessionToken: String? {
+        Self.currentUserContainer?.sessionToken
     }
 }
 
 // MARK: Logging In
 extension ParseUser {
     public static func login(username: String,
-                      password: String) throws -> Self {
+                             password: String) throws -> Self {
         return try loginCommand(username: username, password: password).execute(options: [])
     }
-    
+
     private static func loginCommand(username: String,
                                      password: String) -> API.Command<NoBody, Self> {
         let params = [
@@ -53,8 +56,12 @@ extension ParseUser {
                                          params: params) { (data) -> Self in
             let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
-            CurrentUserInfo.currentUser = user
-            CurrentUserInfo.currentSessionToken = response.sessionToken
+
+            Self.currentUserContainer = .init(
+                currentUser: user,
+                sessionToken: response.sessionToken
+            )
+
             return user
         }
     }
@@ -65,11 +72,10 @@ extension ParseUser {
     public static func logout() throws {
         _ = try logoutCommand().execute(options: [])
     }
-    
+
     private static func logoutCommand() -> API.Command<NoBody, Void> {
        return API.Command(method: .POST, path: .logout) { (_) -> Void in
-            CurrentUserInfo.currentUser = nil
-            CurrentUserInfo.currentSessionToken = nil
+            currentUserContainer = nil
        }
     }
 }
@@ -77,10 +83,10 @@ extension ParseUser {
 // MARK: Signing Up
 extension ParseUser {
     public static func signup(username: String,
-                       password: String) throws -> Self {
+                              password: String) throws -> Self {
         return try signupCommand(username: username, password: password).execute(options: [])
     }
-    
+
     public func signup() throws -> Self {
         return try signupCommand().execute(options: [])
     }
@@ -96,9 +102,11 @@ extension ParseUser {
             user.password = password
             user.updatedAt = response.updatedAt ?? response.createdAt
 
-            // Set the current user
-            CurrentUserInfo.currentUser = user
-            CurrentUserInfo.currentSessionToken = response.sessionToken
+            currentUserContainer = .init(
+                currentUser: user,
+                sessionToken: response.sessionToken
+            )
+
             return user
         }
     }
@@ -109,9 +117,12 @@ extension ParseUser {
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             user.updatedAt = response.updatedAt ?? response.createdAt
             user.createdAt = response.createdAt
-            // Set the current user
-            CurrentUserInfo.currentUser = user
-            CurrentUserInfo.currentSessionToken = response.sessionToken
+
+            Self.currentUserContainer = .init(
+                currentUser: user,
+                sessionToken: response.sessionToken
+            )
+
             return user
         }
     }

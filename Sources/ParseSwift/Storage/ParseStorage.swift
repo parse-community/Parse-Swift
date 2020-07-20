@@ -1,0 +1,43 @@
+//
+//  File.swift
+//  
+//
+//  Created by Pranjal Satija on 7/19/20.
+//
+
+// MARK: ParseStorage
+public struct ParseStorage {
+    public static var shared = ParseStorage()
+
+    private var backingStore: PrimitiveObjectStore!
+
+    mutating func use(_ store: PrimitiveObjectStore) {
+        self.backingStore = store
+    }
+
+    private func requireBackingStore() {
+        guard backingStore != nil else { fatalError("You can't use ParseStorage without a backing store.") }
+    }
+
+    enum Keys {
+        static let currentUser = "_currentUser"
+    }
+}
+
+// MARK: PrimitiveObjectStore
+extension ParseStorage: PrimitiveObjectStore {
+    public mutating func delete(valueFor key: String) throws {
+        requireBackingStore()
+        return try backingStore.delete(valueFor: key)
+    }
+
+    public mutating func get<T>(valueFor key: String) throws -> T? where T: Decodable {
+        requireBackingStore()
+        return try backingStore.get(valueFor: key)
+    }
+
+    public mutating func set<T>(_ object: T, for key: String) throws where T: Encodable {
+        requireBackingStore()
+        return try backingStore.set(object, for: key)
+    }
+}
