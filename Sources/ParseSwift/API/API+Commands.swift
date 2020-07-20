@@ -34,19 +34,27 @@ internal extension API {
         }
 
         public func execute(options: API.Options) throws -> U {
-            let params = self.params?.getQueryItems()
-            let headers = API.getHeaders(options: options)
             let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
 
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+            guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                  let componentsURL = components.url else {
+                throw Error.badRequest
+            }
+
+            let params = self.params?.getQueryItems()
+            let headers = API.getHeaders(options: options)
+
             components.queryItems = params
 
-            var urlRequest = URLRequest(url: components.url!)
+            var urlRequest = URLRequest(url: componentsURL)
             urlRequest.allHTTPHeaderFields = headers
+
             if let body = data {
                 urlRequest.httpBody = body
             }
+
             urlRequest.httpMethod = method.rawValue
+
             let responseData = try URLSession.shared.syncDataTask(with: urlRequest)
             do {
                 return try mapper(responseData)
