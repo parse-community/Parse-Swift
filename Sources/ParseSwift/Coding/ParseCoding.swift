@@ -17,19 +17,19 @@ extension ParseCoding {
 
     static func jsonEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = jsonDateEncodingStrategy
+        encoder.dateEncodingStrategy = dateEncodingStrategy
         return encoder
     }
 
     static func jsonDecoder() -> JSONDecoder {
         let encoder = JSONDecoder()
-        encoder.dateDecodingStrategy = jsonDateDecodingStrategy
+        encoder.dateDecodingStrategy = dateDecodingStrategy
         return encoder
     }
 
     static func parseEncoder() -> ParseEncoder {
         let encoder = ParseEncoder()
-        encoder.dateEncodingStrategy = parseDateEncodingStrategy
+        encoder.dateEncodingStrategy = dateEncodingStrategy
         encoder.shouldEncodeKey = { (key, path) -> Bool in
             if path.count == 0 // top level
                 && Self.forbiddenKeys.contains(key) {
@@ -56,21 +56,14 @@ extension ParseCoding {
         return dateFormatter
     }()
 
-    static let jsonDateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .custom({ (date, enc) in
+    static let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .custom({ (date, enc) in
         var container = enc.container(keyedBy: DateEncodingKeys.self)
         try container.encode("Date", forKey: .type)
         let dateString = dateFormatter.string(from: date)
         try container.encode(dateString, forKey: .iso)
     })
 
-    static let parseDateEncodingStrategy: ParseEncoder.DateEncodingStrategy = .custom({ (date, enc) in
-        var container = enc.container(keyedBy: DateEncodingKeys.self)
-        try container.encode("Date", forKey: .type)
-        let dateString = dateFormatter.string(from: date)
-        try container.encode(dateString, forKey: .iso)
-    })
-
-    static let jsonDateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .custom({ (dec) -> Date in
+    static let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .custom({ (dec) -> Date in
         do {
             let container = try dec.singleValueContainer()
             let decodedString = try container.decode(String.self)
