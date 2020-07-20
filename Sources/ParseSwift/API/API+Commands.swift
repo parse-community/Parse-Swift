@@ -18,7 +18,7 @@ internal extension API {
         let params: [String: String?]?
 
         internal var data: Data? {
-            return try? getJSONEncoder().encode(body)
+            return try? ParseCoding.jsonEncoder().encode(body)
         }
 
         init(method: API.Method,
@@ -51,7 +51,7 @@ internal extension API {
             do {
                 return try mapper(responseData)
             } catch _ {
-                throw try getDecoder().decode(ParseError.self, from: responseData)
+                throw try ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData)
             }
         }
 
@@ -73,7 +73,7 @@ internal extension API.Command {
     // MARK: Saving - private
     private static func createCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         let mapper = { (data) -> T in
-            try getDecoder().decode(SaveResponse.self, from: data).apply(object)
+            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(object)
         }
         return API.Command<T, T>(method: .POST,
                                  path: object.endpoint,
@@ -83,7 +83,7 @@ internal extension API.Command {
 
     private static func updateCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         let mapper = { (data: Data) -> T in
-            try getDecoder().decode(UpdateResponse.self, from: data).apply(object)
+            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(object)
         }
         return API.Command<T, T>(method: .PUT,
                                  path: object.endpoint,
@@ -98,7 +98,7 @@ internal extension API.Command {
         }
         return API.Command<T, T>(method: .GET,
                                  path: object.endpoint) { (data) -> T in
-                                    try getDecoder().decode(T.self, from: data)
+                                    try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }
     }
 }
@@ -124,7 +124,7 @@ extension API.Command where T: ParseObject {
         }
         let mapper = { (data: Data) -> [(T, ParseError?)] in
             let decodingType = [BatchResponseItem<SaveOrUpdateResponse>].self
-            let responses = try getDecoder().decode(decodingType, from: data)
+            let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
             return bodies.enumerated().map({ (object) -> (T, ParseError?) in
                 let response = responses[object.0]
                 if let success = response.success {

@@ -64,7 +64,7 @@ extension ParseObject {
 // MARK: CustomDebugStringConvertible
 extension ParseObject {
     public var debugDescription: String {
-        guard let descriptionData = try? getJSONEncoder().encode(self),
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
                 return "\(className) ()"
         }

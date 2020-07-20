@@ -34,7 +34,7 @@ extension Pointer {
         let path = API.Endpoint.object(className: className, objectId: objectId)
         return try API.Command<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
-            try getDecoder().decode(T.self, from: data)
+                    try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }.execute(options: options)
     }
 }

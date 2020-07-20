@@ -51,8 +51,8 @@ extension ParseUser {
         return API.Command<NoBody, Self>(method: .GET,
                                          path: .login,
                                          params: params) { (data) -> Self in
-            let user = try getDecoder().decode(Self.self, from: data)
-            let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
+            let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             CurrentUserInfo.currentUser = user
             CurrentUserInfo.currentSessionToken = response.sessionToken
             return user
@@ -90,8 +90,8 @@ extension ParseUser {
 
         let body = SignupBody(username: username, password: password)
         return API.Command(method: .POST, path: .signup, body: body) { (data) -> Self in
-            let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
-            var user = try getDecoder().decode(Self.self, from: data)
+            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
+            var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             user.username = username
             user.password = password
             user.updatedAt = response.updatedAt ?? response.createdAt
@@ -106,7 +106,7 @@ extension ParseUser {
     private func signupCommand() -> API.Command<Self, Self> {
         var user = self
         return API.Command(method: .POST, path: .signup, body: user) { (data) -> Self in
-            let response = try getDecoder().decode(LoginSignupResponse.self, from: data)
+            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             user.updatedAt = response.updatedAt ?? response.createdAt
             user.createdAt = response.createdAt
             // Set the current user
