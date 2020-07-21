@@ -52,10 +52,8 @@ internal extension API {
                 return try mapper(responseData)
             } catch {
                 do {
-                    let parseError = try getDecoder().decode(ParseError.self, from: responseData)
-                    throw parseError
+                    throw try getDecoder().decode(ParseError.self, from: responseData)
                 } catch {
-                    print(error)
                     throw ParseError(code: .unknownError, message: "cannot decode error")
                 }
             }

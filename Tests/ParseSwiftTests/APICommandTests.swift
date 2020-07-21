@@ -1,5 +1,5 @@
 //
-//  APITests.swift
+//  APICommandTests.swift
 //  ParseSwiftTests
 //
 //  Created by Corey Baker on 7/19/20.
@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class APITests: XCTestCase {
+class APICommandTests: XCTestCase {
 
     override func setUp() {
         super.setUp()

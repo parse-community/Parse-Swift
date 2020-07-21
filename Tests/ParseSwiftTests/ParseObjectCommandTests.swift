@@ -1,5 +1,5 @@
 //
-//  ParseObjectTests.swift
+//  ParseObjectCommandTests.swift
 //  ParseSwiftTests
 //
 //  Created by Corey Baker on 7/19/20.
@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseObjectTests: XCTestCase {
+class ParseObjectCommandTests: XCTestCase {
     /*struct User: ParseSwift.UserType {
         //: Those are required for Object
         var objectId: String?
