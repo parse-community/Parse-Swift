@@ -1,5 +1,5 @@
 //
-//  APITests.swift
+//  ParseObjectTests.swift
 //  ParseSwiftTests
 //
 //  Created by Corey Baker on 7/19/20.
@@ -10,7 +10,38 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class APITests: XCTestCase {
+class ParseObjectTests: XCTestCase {
+    /*struct User: ParseSwift.UserType {
+        //: Those are required for Object
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ACL?
+
+        // provided by User
+        var username: String?
+        var email: String?
+        var password: String?
+
+        // Your custom keys
+        var customKey: String?
+    }
+    */
+    struct GameScore: ParseSwift.ObjectType {
+        //: Those are required for Object
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ACL?
+
+        //: Your own properties
+        var score: Int
+
+        //: a custom initializer
+        init(score: Int) {
+            self.score = score
+        }
+    }
 
     override func setUp() {
         super.setUp()
@@ -49,7 +80,8 @@ class APITests: XCTestCase {
         let originalObject = "test"
         MockURLProtocol.mockRequests { response in
             do {
-                let response = try MockURLResponse(string: originalObject, statusCode: 0, delay: 0.0)
+                let encoded = try JSONEncoder().encode(originalObject)
+                let response = MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
                 return response
             } catch {
                 return nil

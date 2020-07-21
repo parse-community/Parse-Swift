@@ -28,11 +28,14 @@ struct MockURLResponse {
 
     init(string: String, statusCode: Int, delay: TimeInterval,
          headerFields: [String: String] = ["Content-Type": "application/json"]) throws {
-        guard let data = string.data(using: .utf8) else {
+
+        do {
+            let encoded = try JSONEncoder().encode(string)
+            self.init(data: encoded, statusCode: statusCode, delay: delay, headerFields: headerFields)
+            self.error = nil
+        } catch {
             throw ParseError(code: .unknownError, message: "unable to convert string to data")
         }
-        self.init(data: data, statusCode: statusCode, delay: delay, headerFields: headerFields)
-        self.error = nil
     }
 
     init(data: Data, statusCode: Int, delay: TimeInterval,

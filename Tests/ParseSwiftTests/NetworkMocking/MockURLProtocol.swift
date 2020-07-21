@@ -41,7 +41,6 @@ class MockURLProtocol: URLProtocol {
         if mocks.count == 1 {
             URLProtocol.registerClass(MockURLProtocol.self)
         }
-        //let configuration = URLSessionConfiguration.background(withIdentifier: "com.parse.ParseSwift.mock")
     }
 
     class func removeAll() {
