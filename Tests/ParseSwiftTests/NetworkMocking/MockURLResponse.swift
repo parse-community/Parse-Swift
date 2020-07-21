@@ -32,12 +32,15 @@ struct MockURLResponse {
             throw ParseError(code: .unknownError, message: "unable to convert string to data")
         }
         self.init(data: data, statusCode: statusCode, delay: delay, headerFields: headerFields)
+        self.error = nil
     }
 
-    init(data: Data, statusCode: Int, delay: TimeInterval, headerFields: [String: String]) {
+    init(data: Data, statusCode: Int, delay: TimeInterval,
+         headerFields: [String: String] = ["Content-Type": "application/json"]) {
         self.statusCode = statusCode
         self.headerFields = headerFields
         self.responseData = data
         self.delay = delay
+        self.error = nil
     }
 }

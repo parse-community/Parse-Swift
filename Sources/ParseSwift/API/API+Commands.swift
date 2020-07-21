@@ -50,8 +50,14 @@ internal extension API {
             let responseData = try URLSession.shared.syncDataTask(with: urlRequest)
             do {
                 return try mapper(responseData)
-            } catch _ {
-                throw try getDecoder().decode(ParseError.self, from: responseData)
+            } catch {
+                do {
+                    let parseError = try getDecoder().decode(ParseError.self, from: responseData)
+                    throw parseError
+                } catch {
+                    print(error)
+                    throw ParseError(code: .unknownError, message: "cannot decode error")
+                }
             }
         }
 
