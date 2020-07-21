@@ -11,22 +11,7 @@ import XCTest
 @testable import ParseSwift
 
 class ParseObjectCommandTests: XCTestCase {
-    /*struct User: ParseSwift.UserType {
-        //: Those are required for Object
-        var objectId: String?
-        var createdAt: Date?
-        var updatedAt: Date?
-        var ACL: ACL?
 
-        // provided by User
-        var username: String?
-        var email: String?
-        var password: String?
-
-        // Your custom keys
-        var customKey: String?
-    }
-    */
     struct GameScore: ParseSwift.ObjectType {
         //: Those are required for Object
         var objectId: String?
@@ -42,6 +27,13 @@ class ParseObjectCommandTests: XCTestCase {
             self.score = score
         }
     }
+
+    let parseDateEncodingStrategy: ParseEncoder.DateEncodingStrategy = .custom({ (date, enc) in
+        var container = enc.container(keyedBy: DateEncodingKeys.self)
+        try container.encode("Date", forKey: .type)
+        let dateString = dateFormatter.string(from: date)
+        try container.encode(dateString, forKey: .iso)
+    })
 
     override func setUp() {
         super.setUp()
@@ -60,27 +52,37 @@ class ParseObjectCommandTests: XCTestCase {
         MockURLProtocol.removeAll()
     }
 
-    func testConstructor() {
-        let command =
-            API.Command<NoBody, String>(method: .GET, path: .login,
-                                        params: ["test": "test"], body: NoBody(), mapper: { (data) -> String in
-                return try JSONDecoder().decode(String.self, from: data)
-        })
-        XCTAssertNotNil(command)
+    func testFetchCommand() {
+        var score = GameScore(score: 10)
+        let className = score.className
+        let objectId = "yarr"
+        score.objectId = objectId
+        do {
+            let command = try score.fetchCommand()
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+            XCTAssertEqual(command.method, API.Method.GET)
+            XCTAssertNil(command.params)
+            XCTAssertNil(command.body)
+            XCTAssertNil(command.data)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
 
-    func testConstructor2() {
-        let command = API.Command<NoBody, String>(method: .GET, path: .login, params: nil, mapper: { (data) -> String in
-                return try JSONDecoder().decode(String.self, from: data)
-        })
-        XCTAssertNotNil(command)
-    }
+    func testFetch() {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
 
-    func testExecuteCorrectly() {
-        let originalObject = "test"
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
         MockURLProtocol.mockRequests { response in
             do {
-                let encoded = try JSONEncoder().encode(originalObject)
+                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
                 let response = MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
                 return response
             } catch {
@@ -88,90 +90,78 @@ class ParseObjectCommandTests: XCTestCase {
             }
         }
         do {
-            let returnedObject =
-                try API.Command<NoBody, String>(method: .GET, path: .login, params: nil, mapper: { (data) -> String in
-                    return try JSONDecoder().decode(String.self, from: data)
-            }).execute(options: [])
-            XCTAssertEqual(originalObject, returnedObject)
+            let fetched = try score.fetch()
+            XCTAssertNotNil(fetched)
+            XCTAssertNotNil(fetched.createdAt)
+            XCTAssertNotNil(fetched.updatedAt)
+            XCTAssertNil(fetched.ACL)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
 
+        do {
+            let fetched = try score.fetch(options: [.useMasterKey])
+            XCTAssertNotNil(fetched)
+            XCTAssertNotNil(fetched.createdAt)
+            XCTAssertNotNil(fetched.updatedAt)
+            XCTAssertNil(fetched.ACL)
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
 
-    func testErrorServer() {
-        let originalError = ParseError(code: .connectionFailed, message: "no connection")
-        MockURLProtocol.mockRequests { response in
-            let response = MockURLResponse(error: originalError)
-            return response
-        }
-        do {
-            _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (data) -> NoBody in
-                    return try JSONDecoder().decode(NoBody.self, from: data)
-            }).execute(options: [])
-            //let score = GameScore(score: 10)
-            //_ = try score.save()
-            XCTFail("Should have thrown an error")
-        } catch {
-            guard let error = error as? ParseError else {
-                XCTFail("should be able unwrap final error to ParseError")
-                return
-            }
-            XCTAssertEqual(originalError.code, error.code)
-        }
+    func testSaveCommand() {
+        var score = GameScore(score: 10)
+        let className = score.className
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        let command = score.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+        XCTAssertNotNil(command.data)
     }
 
-    func testAPIError() {
-        let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
-        MockURLProtocol.mockRequests { response in
-            let response = MockURLResponse(error: originalError)
-            return response
-        }
-        do {
-            _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (_) -> NoBody in
-                throw originalError
-            }).execute(options: [])
-            XCTFail("Should have thrown an error")
-        } catch {
-            guard let error = error as? ParseError else {
-                XCTFail("should be able unwrap final error to ParseError")
-                return
-            }
-            XCTAssertEqual(originalError.code, error.code)
-        }
-    }
+    func testSave() {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
 
-    func testNotParseErrorType() {
-        let errorKey = "error"
-        let errorValue = "yarr"
-        let codeKey = "code"
-        let codeValue = 100500
-        let responseDictionary: [String: Any] = [
-            errorKey: errorValue,
-            codeKey: codeValue
-        ]
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
         MockURLProtocol.mockRequests { response in
             do {
-                let json = try JSONSerialization.data(withJSONObject: responseDictionary, options: [])
-                let response = MockURLResponse(data: json, statusCode: 400, delay: 0.0)
+                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+                let response = MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
                 return response
             } catch {
-                XCTFail(error.localizedDescription)
                 return nil
             }
         }
         do {
-            _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (_) -> NoBody in
-                    throw ParseError(code: .connectionFailed, message: "Connection failed")
-            }).execute(options: [])
-            XCTFail("Should have thrown an error")
+            let saved = try scoreOnServer.save()
+            XCTAssertNotNil(saved)
+            XCTAssertNotNil(saved.createdAt)
+            XCTAssertNotNil(saved.updatedAt)
+            XCTAssertNil(saved.ACL)
         } catch {
-            guard let error = error as? ParseError else {
-                XCTFail("should be able unwrap final error to ParseError")
-                return
-            }
-            let unknownError = ParseError(code: .unknownError, message: "")
-            XCTAssertEqual(unknownError.code, error.code)
+            XCTFail(error.localizedDescription)
+        }
+
+        do {
+            let saved = try scoreOnServer.save(options: [.useMasterKey])
+            XCTAssertNotNil(saved)
+            XCTAssertNotNil(saved.createdAt)
+            XCTAssertNotNil(saved.updatedAt)
+            XCTAssertNil(saved.ACL)
+        } catch {
+            XCTFail(error.localizedDescription)
         }
     }
 }
