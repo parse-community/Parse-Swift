@@ -16,7 +16,7 @@ struct MockURLResponse {
     var delay: TimeInterval!
     var error: ParseError?
 
-    init(error: ParseError?) {
+    init(error: ParseError) {
         self.delay = .init(0.0)
         self.error = error
         self.responseData = nil
@@ -33,7 +33,6 @@ struct MockURLResponse {
         do {
             let encoded = try JSONEncoder().encode(string)
             self.init(data: encoded, statusCode: statusCode, delay: delay, headerFields: headerFields)
-            self.error = nil
         } catch {
             throw ParseError(code: .unknownError, message: "unable to convert string to data")
         }
