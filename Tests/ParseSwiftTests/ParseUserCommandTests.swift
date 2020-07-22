@@ -108,11 +108,10 @@ class ParseUserCommandTests: XCTestCase {
         userOnServer.updatedAt = Date()
         userOnServer.ACL = nil
 
-        MockURLProtocol.mockRequests { response in
+        MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
-                let response = MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
-                return response
+                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
             } catch {
                 return nil
             }
@@ -163,11 +162,10 @@ class ParseUserCommandTests: XCTestCase {
         userOnServer.updatedAt = Date()
         userOnServer.ACL = nil
 
-        MockURLProtocol.mockRequests { response in
+        MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
-                let response = MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
-                return response
+                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
             } catch {
                 return nil
             }
@@ -196,11 +194,10 @@ class ParseUserCommandTests: XCTestCase {
     func testUserSignUp() {
         let loginResponse = LoginSignupResponse()
 
-        MockURLProtocol.mockRequests { response in
+        MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
-                let response = MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
-                return response
+                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
             } catch {
                 return nil
             }
@@ -226,11 +223,10 @@ class ParseUserCommandTests: XCTestCase {
     func testUserLogin() {
         let loginResponse = LoginSignupResponse()
 
-        MockURLProtocol.mockRequests { response in
+        MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
-                let response = MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
-                return response
+                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
             } catch {
                 return nil
             }

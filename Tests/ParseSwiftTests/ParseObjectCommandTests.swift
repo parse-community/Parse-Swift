@@ -80,11 +80,10 @@ class ParseObjectCommandTests: XCTestCase {
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        MockURLProtocol.mockRequests { response in
+        MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
-                let response = MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
-                return response
+                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
             } catch {
                 return nil
             }
@@ -135,11 +134,10 @@ class ParseObjectCommandTests: XCTestCase {
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        MockURLProtocol.mockRequests { response in
+        MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
-                let response = MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
-                return response
+                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
             } catch {
                 return nil
             }

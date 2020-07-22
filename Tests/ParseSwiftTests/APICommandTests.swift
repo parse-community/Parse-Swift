@@ -45,10 +45,9 @@ class APICommandTests: XCTestCase {
 
     func testExecuteCorrectly() {
         let originalObject = "test"
-        MockURLProtocol.mockRequests { response in
+        MockURLProtocol.mockRequests { _ in
             do {
-                let response = try MockURLResponse(string: originalObject, statusCode: 0, delay: 0.0)
-                return response
+                return try MockURLResponse(string: originalObject, statusCode: 0, delay: 0.0)
             } catch {
                 return nil
             }
@@ -75,8 +74,6 @@ class APICommandTests: XCTestCase {
             _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (data) -> NoBody in
                     return try JSONDecoder().decode(NoBody.self, from: data)
             }).execute(options: [])
-            //let score = GameScore(score: 10)
-            //_ = try score.save()
             XCTFail("Should have thrown an error")
         } catch {
             guard let error = error as? ParseError else {
@@ -89,9 +86,8 @@ class APICommandTests: XCTestCase {
 
     func testAPIError() {
         let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
-        MockURLProtocol.mockRequests { response in
-            let response = MockURLResponse(error: originalError)
-            return response
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(error: originalError)
         }
         do {
             _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (_) -> NoBody in
@@ -116,11 +112,10 @@ class APICommandTests: XCTestCase {
             errorKey: errorValue,
             codeKey: codeValue
         ]
-        MockURLProtocol.mockRequests { response in
+        MockURLProtocol.mockRequests { _ in
             do {
                 let json = try JSONSerialization.data(withJSONObject: responseDictionary, options: [])
-                let response = MockURLResponse(data: json, statusCode: 400, delay: 0.0)
-                return response
+                return MockURLResponse(data: json, statusCode: 400, delay: 0.0)
             } catch {
                 XCTFail(error.localizedDescription)
                 return nil
