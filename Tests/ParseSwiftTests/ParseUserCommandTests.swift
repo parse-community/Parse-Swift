@@ -111,7 +111,7 @@ class ParseUserCommandTests: XCTestCase {
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
-                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
             }
@@ -165,7 +165,7 @@ class ParseUserCommandTests: XCTestCase {
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
-                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
             }
@@ -197,7 +197,7 @@ class ParseUserCommandTests: XCTestCase {
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
-                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
             }
@@ -226,7 +226,7 @@ class ParseUserCommandTests: XCTestCase {
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
-                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
             }

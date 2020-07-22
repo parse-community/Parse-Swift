@@ -10,7 +10,7 @@ import Foundation
 @testable import ParseSwift
 
 struct MockURLResponse {
-    var statusCode: Int = 0
+    var statusCode: Int = 200
     var headerFields = [String: String]()
     var responseData: Data?
     var delay: TimeInterval!
@@ -20,6 +20,7 @@ struct MockURLResponse {
         self.delay = .init(0.0)
         self.error = error
         self.responseData = nil
+        self.statusCode = 400
     }
 
     init(string: String) throws {

@@ -83,7 +83,7 @@ class ParseObjectCommandTests: XCTestCase {
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
-                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
             }
@@ -137,7 +137,7 @@ class ParseObjectCommandTests: XCTestCase {
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
-                return MockURLResponse(data: encoded, statusCode: 0, delay: 0.0)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
             }

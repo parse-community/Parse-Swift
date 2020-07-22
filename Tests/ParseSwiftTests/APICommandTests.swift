@@ -47,7 +47,7 @@ class APICommandTests: XCTestCase {
         let originalObject = "test"
         MockURLProtocol.mockRequests { _ in
             do {
-                return try MockURLResponse(string: originalObject, statusCode: 0, delay: 0.0)
+                return try MockURLResponse(string: originalObject, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
             }
