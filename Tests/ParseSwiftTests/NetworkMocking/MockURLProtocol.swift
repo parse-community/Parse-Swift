@@ -104,7 +104,7 @@ class MockURLProtocol: URLProtocol {
 
         guard let url = request.url,
             let urlResponse = HTTPURLResponse(url: url, statusCode: response.statusCode,
-                                              httpVersion: "HTTP/1.1", headerFields: response.headerFields) else {
+                                              httpVersion: "HTTP/2", headerFields: response.headerFields) else {
             return
         }
 
