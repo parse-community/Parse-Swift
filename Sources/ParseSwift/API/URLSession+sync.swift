@@ -9,7 +9,7 @@
 import Foundation
 
 extension URLSession {
-    internal func syncDataTask(with request: URLRequest) throws -> Result<Data, ParseError> {
+    internal func syncDataTask(with request: URLRequest) -> Result<Data, ParseError> {
         let semaphore = DispatchSemaphore(value: 0)
         var data: Data?
         var error: Error?
