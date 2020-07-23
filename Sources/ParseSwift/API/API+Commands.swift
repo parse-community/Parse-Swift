@@ -51,7 +51,7 @@ internal extension API {
             do {
                 return try mapper(responseData)
             } catch {
-                throw ParseError(code: .unknownError, message: "cannot decode error")
+                throw ParseError(code: .unknownError, message: "cannot decode response")
             }
         }
 
