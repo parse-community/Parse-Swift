@@ -47,7 +47,7 @@ internal extension API {
                 urlRequest.httpBody = body
             }
             urlRequest.httpMethod = method.rawValue
-            let responseData = try URLSession.shared.syncDataTask(with: urlRequest)
+            let responseData = try URLSession.shared.syncDataTask(with: urlRequest).get()
             do {
                 return try mapper(responseData)
             } catch {
