@@ -114,7 +114,7 @@ class ParseObjectCommandTests: XCTestCase {
         XCTAssertNotNil(command.body)
         XCTAssertNotNil(command.data)
     }
-
+//
     func testUpdateCommand() {
         var score = GameScore(score: 10)
         let className = score.className
