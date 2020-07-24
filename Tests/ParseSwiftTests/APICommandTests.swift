@@ -29,20 +29,6 @@ class APICommandTests: XCTestCase {
         MockURLProtocol.removeAll()
     }
 
-    func testConstructors() {
-        let api =
-            API.Command<NoBody, String>(method: .GET, path: .login,
-                                        params: ["test": "test"], body: NoBody(), mapper: { (data) -> String in
-                return try JSONDecoder().decode(String.self, from: data)
-        })
-        XCTAssertNotNil(api)
-
-        let api2 = API.Command<NoBody, String>(method: .GET, path: .login, params: nil, mapper: { (data) -> String in
-                return try JSONDecoder().decode(String.self, from: data)
-        })
-        XCTAssertNotNil(api2)
-    }
-
     func testExecuteCorrectly() {
         let originalObject = "test"
         MockURLProtocol.mockRequests { _ in

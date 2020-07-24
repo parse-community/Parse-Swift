@@ -28,13 +28,6 @@ class ParseObjectCommandTests: XCTestCase {
         }
     }
 
-    let parseDateEncodingStrategy: ParseEncoder.DateEncodingStrategy = .custom({ (date, enc) in
-        var container = enc.container(keyedBy: DateEncodingKeys.self)
-        try container.encode("Date", forKey: .type)
-        let dateString = dateFormatter.string(from: date)
-        try container.encode(dateString, forKey: .iso)
-    })
-
     override func setUp() {
         super.setUp()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -110,6 +103,19 @@ class ParseObjectCommandTests: XCTestCase {
     }
 
     func testSaveCommand() {
+        let score = GameScore(score: 10)
+        let className = score.className
+
+        let command = score.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+        XCTAssertNotNil(command.data)
+    }
+
+    func testUpdateCommand() {
         var score = GameScore(score: 10)
         let className = score.className
         let objectId = "yarr"
@@ -125,11 +131,10 @@ class ParseObjectCommandTests: XCTestCase {
     }
 
     func testSave() {
-        var score = GameScore(score: 10)
-        let objectId = "yarr"
-        score.objectId = objectId
+        let score = GameScore(score: 10)
 
         var scoreOnServer = score
+        scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
@@ -143,7 +148,7 @@ class ParseObjectCommandTests: XCTestCase {
             }
         }
         do {
-            let saved = try scoreOnServer.save()
+            let saved = try score.save()
             XCTAssertNotNil(saved)
             XCTAssertNotNil(saved.createdAt)
             XCTAssertNotNil(saved.updatedAt)
@@ -153,10 +158,69 @@ class ParseObjectCommandTests: XCTestCase {
         }
 
         do {
-            let saved = try scoreOnServer.save(options: [.useMasterKey])
+            let saved = try score.save(options: [.useMasterKey])
             XCTAssertNotNil(saved)
             XCTAssertNotNil(saved.createdAt)
             XCTAssertNotNil(saved.updatedAt)
+            XCTAssertNil(saved.ACL)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testUpdate() { // swiftlint:disable:this function_body_length
+        var score = GameScore(score: 10)
+        score.objectId = "yarr"
+        score.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        score.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        score.ACL = nil
+
+        var scoreOnServer = score
+        scoreOnServer.updatedAt = Date()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            let saved = try score.save()
+            XCTAssertNotNil(saved)
+            guard let savedCreatedAt = saved.createdAt,
+                let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = score.createdAt,
+                let originalUpdatedAt = score.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertNil(saved.ACL)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        do {
+            let saved = try score.save(options: [.useMasterKey])
+            XCTAssertNotNil(saved)
+            guard let savedCreatedAt = saved.createdAt,
+                let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = score.createdAt,
+                let originalUpdatedAt = score.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
             XCTFail(error.localizedDescription)

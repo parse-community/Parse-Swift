@@ -56,13 +56,6 @@ class ParseUserCommandTests: XCTestCase {
         }
     }
 
-    let parseDateEncodingStrategy: ParseEncoder.DateEncodingStrategy = .custom({ (date, enc) in
-        var container = enc.container(keyedBy: DateEncodingKeys.self)
-        try container.encode("Date", forKey: .type)
-        let dateString = dateFormatter.string(from: date)
-        try container.encode(dateString, forKey: .iso)
-    })
-
     override func setUp() {
         super.setUp()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -138,6 +131,19 @@ class ParseUserCommandTests: XCTestCase {
     }
 
     func testSaveCommand() {
+        let user = User()
+        let className = user.className
+
+        let command = user.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+        XCTAssertNotNil(command.data)
+    }
+
+    func testUpdateCommand() {
         var user = User()
         let className = user.className
         let objectId = "yarr"
@@ -152,15 +158,16 @@ class ParseUserCommandTests: XCTestCase {
         XCTAssertNotNil(command.data)
     }
 
-    func testSave() {
+    func testUpdate() { // swiftlint:disable:this function_body_length
         var user = User()
         let objectId = "yarr"
         user.objectId = objectId
+        user.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        user.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        user.ACL = nil
 
         var userOnServer = user
-        userOnServer.createdAt = Date()
         userOnServer.updatedAt = Date()
-        userOnServer.ACL = nil
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -171,20 +178,40 @@ class ParseUserCommandTests: XCTestCase {
             }
         }
         do {
-            let saved = try userOnServer.save()
+            let saved = try user.save()
             XCTAssertNotNil(saved)
-            XCTAssertNotNil(saved.createdAt)
-            XCTAssertNotNil(saved.updatedAt)
+            guard let savedCreatedAt = saved.createdAt,
+                let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = user.createdAt,
+                let originalUpdatedAt = user.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
             XCTFail(error.localizedDescription)
         }
 
         do {
-            let saved = try userOnServer.save(options: [.useMasterKey])
+            let saved = try user.save(options: [.useMasterKey])
             XCTAssertNotNil(saved)
-            XCTAssertNotNil(saved.createdAt)
-            XCTAssertNotNil(saved.updatedAt)
+            guard let savedCreatedAt = saved.createdAt,
+                let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = user.createdAt,
+                let originalUpdatedAt = user.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
             XCTFail(error.localizedDescription)
