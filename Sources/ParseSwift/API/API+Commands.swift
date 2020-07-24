@@ -34,25 +34,25 @@ internal extension API {
         }
 
         public func execute(options: API.Options) throws -> U {
-            let params = self.params?.getQueryItems()
-            let headers = API.getHeaders(options: options)
-            let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
+            let semaphore = DispatchSemaphore(value: 0)
+            var responseData: U?
+            var parseError: ParseError?
 
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
-            components.queryItems = params
+            self.executeAsync(options: options) { (response, error) in
+                responseData = response
+                parseError = error
+                semaphore.signal()
+            }
+            semaphore.wait()
 
-            var urlRequest = URLRequest(url: components.url!)
-            urlRequest.allHTTPHeaderFields = headers
-            if let body = data {
-                urlRequest.httpBody = body
+            guard let response = responseData else {
+                guard let error = parseError else {
+                    throw ParseError(code: .unknownError, message: "error unknown")
+                }
+                throw error
             }
-            urlRequest.httpMethod = method.rawValue
-            let responseData = try URLSession.shared.syncDataTask(with: urlRequest)
-            do {
-                return try mapper(responseData)
-            } catch _ {
-                throw try getDecoder().decode(ParseError.self, from: responseData)
-            }
+
+            return response
         }
 
         public func executeAsync(options: API.Options, completion: @escaping(U?, ParseError?) -> Void) {
@@ -70,43 +70,22 @@ internal extension API {
             }
             urlRequest.httpMethod = method.rawValue
 
-            if #available(iOS 13.0, macOS 10.15, tvOS 13.0, watchOS 6.0, *) {
-                _ = URLSession.shared.asyncDataTask(with: urlRequest)
-                    .sink(receiveCompletion: { errorCompletion in
-                        if case let .failure(error) = errorCompletion {
-                            completion(nil, error)
-                        }
-                    }, receiveValue: { responseData in
+            _ = URLSession.shared.dataTask(with: urlRequest) { result in
+                switch result {
 
-                        guard let decoded = try? self.mapper(responseData) else {
-                            guard let parseError = try? getDecoder().decode(ParseError.self, from: responseData) else {
-                                completion(nil, ParseError(code: .unknownError, message: "cannot decode error"))
-                                return
-                            }
-                            completion(nil, parseError)
+                case .success(let responseData):
+                    guard let decoded = try? self.mapper(responseData) else {
+                        guard let parseError = try? getDecoder().decode(ParseError.self, from: responseData) else {
+                            completion(nil, ParseError(code: .unknownError, message: "cannot decode error"))
                             return
                         }
-                        completion(decoded, nil)
-                    })
-            } else {
-                // Fallback on earlier versions
-                _ = URLSession.shared.asyncDataTask(with: urlRequest) { result in
-                    switch result {
-
-                    case .success(let responseData):
-                        guard let decoded = try? self.mapper(responseData) else {
-                            guard let parseError = try? getDecoder().decode(ParseError.self, from: responseData) else {
-                                completion(nil, ParseError(code: .unknownError, message: "cannot decode error"))
-                                return
-                            }
-                            completion(nil, parseError)
-                            return
-                        }
-                        completion(decoded, nil)
-
-                    case .failure(let error):
-                        completion(nil, error)
+                        completion(nil, parseError)
+                        return
                     }
+                    completion(decoded, nil)
+
+                case .failure(let error):
+                    completion(nil, error)
                 }
             }
         }
