@@ -36,9 +36,19 @@ public extension UserType {
         return try loginCommand(username: username, password: password).execute(options: [])
     }
 
+    static func loginAsync(username: String,
+                           password: String, completion: @escaping (Self?, ParseError?) -> Void) {
+        return loginCommand(username: username, password: password).executeAsync(options: [], completion: completion)
+    }
+
     static func signup(username: String,
                        password: String) throws -> Self {
         return try signupCommand(username: username, password: password).execute(options: [])
+    }
+
+    static func signupAsync(username: String,
+                            password: String, completion: @escaping (Self?, ParseError?) -> Void) {
+        return signupCommand(username: username, password: password).executeAsync(options: [], completion: completion)
     }
 
     static func logout() throws {

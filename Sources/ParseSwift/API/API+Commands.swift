@@ -70,7 +70,7 @@ internal extension API {
             }
             urlRequest.httpMethod = method.rawValue
 
-            _ = URLSession.shared.dataTask(with: urlRequest) { result in
+            URLSession.shared.dataTask(with: urlRequest) { result in
                 switch result {
 
                 case .success(let responseData):
