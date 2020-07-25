@@ -176,8 +176,10 @@ public extension ObjectType {
     func fetchAsync(options: API.Options, completion: @escaping (Self?, ParseError?) -> Void) {
         do {
             try fetchCommand().executeAsync(options: options, completion: completion)
+        } catch let error as ParseError {
+            completion(nil, error)
         } catch {
-            completion(nil, nil)
+            completion(nil, ParseError(code: .unknownError, message: error.localizedDescription))
         }
     }
 
