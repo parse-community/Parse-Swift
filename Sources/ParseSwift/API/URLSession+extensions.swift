@@ -1,5 +1,5 @@
 //
-//  URLSession.swift
+//  URLSession+extensions.swift
 //  ParseSwift
 //
 //  Created by Florent Vilmart on 17-09-24.

@@ -74,8 +74,8 @@
 		709075CA24B9117500B95310 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C524B9117500B95310 /* AnyDecodable.swift */; };
 		709075CB24B9117500B95310 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C624B9117500B95310 /* AnyEncodable.swift */; };
 		709075CC24B9117500B95310 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C624B9117500B95310 /* AnyEncodable.swift */; };
-		70E5504324CA4E6000F6D8D2 /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E5504224CA4E5F00F6D8D2 /* URLSession.swift */; };
-		70E5504424CA4E6000F6D8D2 /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E5504224CA4E5F00F6D8D2 /* URLSession.swift */; };
+		70E5504324CA4E6000F6D8D2 /* URLSession+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E5504224CA4E5F00F6D8D2 /* URLSession+extensions.swift */; };
+		70E5504424CA4E6000F6D8D2 /* URLSession+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E5504224CA4E5F00F6D8D2 /* URLSession+extensions.swift */; };
 		7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */; };
 		7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */; };
 		7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */; };
@@ -145,7 +145,7 @@
 		709075C424B9117400B95310 /* AnyCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
 		709075C524B9117500B95310 /* AnyDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
 		709075C624B9117500B95310 /* AnyEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
-		70E5504224CA4E5F00F6D8D2 /* URLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
+		70E5504224CA4E5F00F6D8D2 /* URLSession+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLSession+extensions.swift"; sourceTree = "<group>"; };
 		7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodableTests.swift; sourceTree = "<group>"; };
 		7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodableTests.swift; sourceTree = "<group>"; };
 		7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodableTests.swift; sourceTree = "<group>"; };
@@ -335,7 +335,7 @@
 				4AC397731F488FF900DEA9D3 /* API.swift */,
 				4AF85BDC1F783B9800665264 /* API+Commands.swift */,
 				4AC397711F488F9E00DEA9D3 /* BatchUtils.swift */,
-				70E5504224CA4E5F00F6D8D2 /* URLSession.swift */,
+				70E5504224CA4E5F00F6D8D2 /* URLSession+extensions.swift */,
 				4A2F14951F4A5F2900A7A7EF /* Responses.swift */,
 			);
 			path = API;
@@ -598,7 +598,7 @@
 				709075C724B9117500B95310 /* AnyCodable.swift in Sources */,
 				4AC397741F488FF900DEA9D3 /* API.swift in Sources */,
 				4A82B7F71F254CCE0063D731 /* ObjectType.swift in Sources */,
-				70E5504324CA4E6000F6D8D2 /* URLSession.swift in Sources */,
+				70E5504324CA4E6000F6D8D2 /* URLSession+extensions.swift in Sources */,
 				4A82B7F51F254CCE0063D731 /* GeoPoint.swift in Sources */,
 				4AA8074B1F7930E9008CD551 /* SecureStorage.swift in Sources */,
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
@@ -647,7 +647,7 @@
 				709075C824B9117500B95310 /* AnyCodable.swift in Sources */,
 				4AFDA7301F26DAE1002AE4FC /* DeleteOperation.swift in Sources */,
 				4AFDA7361F26DAE1002AE4FC /* ObjectType+Query.swift in Sources */,
-				70E5504424CA4E6000F6D8D2 /* URLSession.swift in Sources */,
+				70E5504424CA4E6000F6D8D2 /* URLSession+extensions.swift in Sources */,
 				4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */,
 				4AA8074C1F7930E9008CD551 /* SecureStorage.swift in Sources */,
 				4A6511501F48E400005237DF /* BatchUtils.swift in Sources */,
