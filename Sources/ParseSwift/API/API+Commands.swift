@@ -34,10 +34,10 @@ internal extension API {
         }
 
         public func execute(options: API.Options) throws -> U {
-            let semaphore = DispatchSemaphore(value: 0)
             var responseData: U?
             var parseError: ParseError?
 
+            let semaphore = DispatchSemaphore(value: 0)
             self.executeAsync(options: options) { (response, error) in
                 responseData = response
                 parseError = error
@@ -60,10 +60,14 @@ internal extension API {
             let headers = API.getHeaders(options: options)
             let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
 
-            var components = URLComponents(url: url, resolvingAgainstBaseURL: false)!
+            guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                let urlComponents = components.url else {
+                completion(nil, ParseError(code: .unknownError, message: "couldn't unrwrap url components for \(url)"))
+                return
+            }
             components.queryItems = params
 
-            var urlRequest = URLRequest(url: components.url!)
+            var urlRequest = URLRequest(url: urlComponents)
             urlRequest.allHTTPHeaderFields = headers
             if let body = data {
                 urlRequest.httpBody = body
