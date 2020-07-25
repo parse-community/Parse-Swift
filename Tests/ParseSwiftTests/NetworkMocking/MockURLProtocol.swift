@@ -93,11 +93,11 @@ class MockURLProtocol: URLProtocol {
 
         if let error = response.error {
             DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + response.delay * Double(NSEC_PER_SEC)) {
-                if !self.loading {
-                    return
+
+                if self.loading {
+                    self.client?.urlProtocol(self, didFailWithError: error)
                 }
 
-                self.client?.urlProtocol(self, didFailWithError: error)
             }
             return
         }
@@ -109,6 +109,7 @@ class MockURLProtocol: URLProtocol {
         }
 
         DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + response.delay * Double(NSEC_PER_SEC)) {
+
             if !self.loading {
                 return
             }
