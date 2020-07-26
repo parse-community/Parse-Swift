@@ -2,8 +2,9 @@
 //  URLSession+extensions.swift
 //  ParseSwift
 //
-//  Created by Florent Vilmart on 17-09-24.
-//  Copyright © 2017 Parse. All rights reserved.
+//  Original file, URLSession+async.swift, created by Florent Vilmart on 17-09-24.
+//  Name change to URLSession+extensions.swift and support for sync/async by Corey Baker on 7/25/20.
+//  Copyright © 2020 Parse Community. All rights reserved.
 //
 
 import Foundation
