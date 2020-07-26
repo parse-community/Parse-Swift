@@ -1,7 +1,8 @@
 import XCTest
-@testable import ParseSwiftTests
 
-XCTMain([
-    testCase(ParseSwiftTests.allTests),
-    testCase(AnyCodableTests.allTests)
-])
+import ParseSwiftTests
+
+var tests = [XCTestCaseEntry]()
+tests += ParseSwiftTests.__allTests()
+
+XCTMain(tests)
