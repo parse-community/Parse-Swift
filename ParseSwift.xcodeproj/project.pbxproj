@@ -504,7 +504,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0900;
 				LastUpgradeCheck = 1010;
-				ORGANIZATIONNAME = Parse;
+				ORGANIZATIONNAME = "Parse Community";
 				TargetAttributes = {
 					4AA807571F794242008CD551 = {
 						CreatedOnToolsVersion = 9.0;

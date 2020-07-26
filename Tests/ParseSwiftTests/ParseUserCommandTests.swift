@@ -3,7 +3,7 @@
 //  ParseSwiftTests
 //
 //  Created by Corey Baker on 7/21/20.
-//  Copyright © 2020 Parse. All rights reserved.
+//  Copyright © 2020 Parse Community. All rights reserved.
 //
 
 import Foundation
