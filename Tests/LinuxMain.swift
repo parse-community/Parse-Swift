@@ -2,7 +2,4 @@ import XCTest
 
 import ParseSwiftTests
 
-var tests = [XCTestCaseEntry]()
-tests += ParseSwiftTests.__allTests()
-
-XCTMain(tests)
+fatalError("Running tests like this is unsupported. Run the tests again by using `swift test --enable-test-discovery`")
