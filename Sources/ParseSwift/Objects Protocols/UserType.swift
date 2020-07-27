@@ -36,8 +36,8 @@ public extension UserType {
         return try loginCommand(username: username, password: password).execute(options: [])
     }
 
-    static func loginAsync(username: String,
-                           password: String, completion: @escaping (Self?, ParseError?) -> Void) {
+    static func login(username: String,
+                      password: String, completion: @escaping (Self?, ParseError?) -> Void) {
         return loginCommand(username: username, password: password).executeAsync(options: [], completion: completion)
     }
 
@@ -46,8 +46,8 @@ public extension UserType {
         return try signupCommand(username: username, password: password).execute(options: [])
     }
 
-    static func signupAsync(username: String,
-                            password: String, completion: @escaping (Self?, ParseError?) -> Void) {
+    static func signup(username: String,
+                       password: String, completion: @escaping (Self?, ParseError?) -> Void) {
         return signupCommand(username: username, password: password).executeAsync(options: [], completion: completion)
     }
 

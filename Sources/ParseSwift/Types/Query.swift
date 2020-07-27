@@ -202,12 +202,30 @@ extension Query: Querying {
         return try findCommand().execute(options: options)
     }
 
+    public func find(options: API.Options = [], completion: @escaping ([ResultType]?, Error?) -> Void) {
+        findCommand().executeAsync(options: options, completion: completion)
+    }
+
     public func first(options: API.Options) throws -> ResultType? {
         return try firstCommand().execute(options: options)
     }
 
+    public func first(options: API.Options = [], completion: @escaping (ResultType?, Error?) -> Void) {
+        firstCommand().executeAsync(options: options) { result, error in
+            guard let result = result else {
+                completion(nil, error)
+                return
+            }
+            completion(result, error)
+        }
+    }
+
     public func count(options: API.Options) throws -> Int {
         return try countCommand().execute(options: options)
+    }
+
+    public func count(options: API.Options = [], completion: @escaping (Int?, Error?) -> Void) {
+        countCommand().executeAsync(options: options, completion: completion)
     }
 }
 

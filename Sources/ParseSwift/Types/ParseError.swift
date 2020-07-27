@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ParseError: Swift.Error, Decodable {
+public struct ParseError: Swift.Error, Codable {
     let code: Code
     let message: String
 
@@ -16,11 +16,22 @@ public struct ParseError: Swift.Error, Decodable {
         return "ParseError code=\(code) error=\(message)"
     }
 
+    enum CodingKeys: String, CodingKey {
+        case code
+        case message
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(code, forKey: .code)
+        try container.encode(message, forKey: .message)
+    }
+
     /**
     `ParseError.Code` enum contains all custom error codes that are used
          as `code` for `Error` for callbacks on all classes.
     */
-    enum Code: Int, Swift.Error, Decodable {
+    enum Code: Int, Swift.Error, Codable {
         /**
          Internal SDK Error. No information available
          */

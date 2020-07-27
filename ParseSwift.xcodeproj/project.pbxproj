@@ -50,8 +50,6 @@
 		4AEBA54F1F265A0D00628B17 /* UserType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54E1F265A0D00628B17 /* UserType.swift */; };
 		4AF85BD31F78011100665264 /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF85BD21F78011100665264 /* ParseError.swift */; };
 		4AF85BD61F7803C100665264 /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF85BD21F78011100665264 /* ParseError.swift */; };
-		4AF85BDA1F781ED000665264 /* Asynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14901F4A41B900A7A7EF /* Asynchronous.swift */; };
-		4AF85BDB1F781ED100665264 /* Asynchronous.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14901F4A41B900A7A7EF /* Asynchronous.swift */; };
 		4AF85BDD1F783B9800665264 /* API+Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF85BDC1F783B9800665264 /* API+Commands.swift */; };
 		4AF85BDE1F783BB400665264 /* API+Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AF85BDC1F783B9800665264 /* API+Commands.swift */; };
 		4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
@@ -101,7 +99,6 @@
 /* Begin PBXFileReference section */
 		4A1120BF1F49FC3300E32D94 /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
 		4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoder.swift; sourceTree = "<group>"; };
-		4A2F14901F4A41B900A7A7EF /* Asynchronous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asynchronous.swift; sourceTree = "<group>"; };
 		4A2F14931F4A5E1E00A7A7EF /* ObjectType+Equatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectType+Equatable.swift"; sourceTree = "<group>"; };
 		4A2F14951F4A5F2900A7A7EF /* Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
 		4A2F14971F4A5F6900A7A7EF /* ObjectType+Batch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ObjectType+Batch.swift"; sourceTree = "<group>"; };
@@ -304,7 +301,6 @@
 			isa = PBXGroup;
 			children = (
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
-				4A2F14901F4A41B900A7A7EF /* Asynchronous.swift */,
 				4AC397761F4895A200DEA9D3 /* Objects Protocols */,
 				4A82B7FD1F25691B0063D731 /* Types */,
 				709075CD24B9829600B95310 /* AnyCodable */,
@@ -613,7 +609,6 @@
 				709075CB24B9117500B95310 /* AnyEncodable.swift in Sources */,
 				4A82B7F41F254CCE0063D731 /* File.swift in Sources */,
 				4AF85BD31F78011100665264 /* ParseError.swift in Sources */,
-				4AF85BDA1F781ED000665264 /* Asynchronous.swift in Sources */,
 				4AA8074E1F7931B7008CD551 /* KeychainStore.swift in Sources */,
 				4A2F14941F4A5E1E00A7A7EF /* ObjectType+Equatable.swift in Sources */,
 				4AC397721F488F9E00DEA9D3 /* BatchUtils.swift in Sources */,
@@ -662,7 +657,6 @@
 				709075CC24B9117500B95310 /* AnyEncodable.swift in Sources */,
 				4A6511521F48E406005237DF /* GeoPoint.swift in Sources */,
 				4AF85BD61F7803C100665264 /* ParseError.swift in Sources */,
-				4AF85BDB1F781ED100665264 /* Asynchronous.swift in Sources */,
 				4AA8074F1F7931B7008CD551 /* KeychainStore.swift in Sources */,
 				4AFDA7331F26DAE1002AE4FC /* File.swift in Sources */,
 				4A6511531F48E410005237DF /* API.swift in Sources */,

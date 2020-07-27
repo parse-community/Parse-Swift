@@ -11,9 +11,7 @@ import Foundation
 internal struct SaveResponse: Decodable {
     var objectId: String
     var createdAt: Date
-    var updatedAt: Date {
-        return createdAt
-    }
+    var updatedAt: Date
 
     func apply<T>(_ object: T) -> T where T: ObjectType {
         var object = object
