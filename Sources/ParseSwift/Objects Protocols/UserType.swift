@@ -1,3 +1,11 @@
+//
+//  ParseUserType.swift
+//  ParseSwift
+//
+//  Created by Florent Vilmart.
+//  Copyright © 2020 Parse Community. All rights reserved.
+//
+
 import Foundation
 
 internal struct CurrentUserInfo {
