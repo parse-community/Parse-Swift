@@ -161,17 +161,28 @@ extension API.Command where T: ObjectType {
         let bodies = commands.compactMap { (command) -> T? in
             return command.body
         }
-        let mapper = { (data: Data) -> [(T, ParseError?)] in
+        let mapper = { (data: Data) -> [(T?, ParseError?)] in
             let decodingType = [BatchResponseItem<SaveOrUpdateResponse>].self
-            let responses = try getDecoder().decode(decodingType, from: data)
-            return bodies.enumerated().map({ (object) -> (T, ParseError?) in
-                let response = responses[object.0]
-                if let success = response.success {
-                    return (success.apply(object.1), nil)
-                } else {
-                    return (object.1, response.error)
+            do {
+                let responses = try getDecoder().decode(decodingType, from: data)
+                return bodies.enumerated().map({ (object) -> (T?, ParseError?) in
+                    let response = responses[object.0]
+                    if let success = response.success {
+                        return (success.apply(object.1), nil)
+                    } else {
+                        guard let parseError = response.error else {
+                            return (nil, ParseError(code: .unknownError, message: "unknown error"))
+                        }
+
+                        return (nil, parseError)
+                    }
+                })
+            } catch {
+                guard let parseError = error as? ParseError else {
+                    return [(nil, ParseError(code: .unknownError, message: "decoding error: \(error)"))]
                 }
-            })
+                return [(nil, parseError)]
+            }
         }
         let batchCommand = BatchCommand(requests: commands)
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
