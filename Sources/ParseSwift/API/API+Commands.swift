@@ -34,21 +34,21 @@ internal extension API {
         }
 
         public func execute(options: API.Options) throws -> U {
-            var response: Result<U, ParseError>?
+            var responseResult: Result<U, ParseError>?
 
             let group = DispatchGroup()
             group.enter()
             self.executeAsync(options: options, callbackQueue: nil) { result in
-                response = result
+                responseResult = result
                 group.leave()
             }
             group.wait()
 
-            guard let responseData = response else {
+            guard let response = responseResult else {
                 throw ParseError(code: .unknownError,
                                  message: "couldn't unrwrap server response")
             }
-            return try responseData.get()
+            return try response.get()
         }
 
         public func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
