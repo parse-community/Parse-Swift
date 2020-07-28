@@ -11,22 +11,40 @@ import Foundation
 
 extension URLSession {
 
-    internal func dataTask(with request: URLRequest,
+    internal func dataTask(with request: URLRequest, callbackQueue: DispatchQueue?,
                            completion: @escaping(Result<Data, ParseError>) -> Void) {
 
         dataTask(with: request) { (responseData, urlResponse, responseError) in
 
-            guard let responseData = responseData else {
-                guard let error = responseError as? ParseError else {
-                    completion(.failure(ParseError(code: .unknownError,
-                                               message: "Unable to sync data: \(String(describing: urlResponse)).")))
+            if let callbackQueue = callbackQueue {
+                guard let responseData = responseData else {
+                    guard let error = responseError as? ParseError else {
+                            callbackQueue.async {
+                                completion(.failure(ParseError(code: .unknownError,
+                                                               message: "Unable to sync: \(String(describing: urlResponse))."))) // swiftlint:disable:this line_length
+                            }
+
+                        return
+                    }
+                    callbackQueue.async { completion(.failure(error)) }
                     return
                 }
-                completion(.failure(error))
-                return
-            }
 
-            completion(.success(responseData))
+                callbackQueue.async { completion(.success(responseData)) }
+
+            } else {
+                guard let responseData = responseData else {
+                    guard let error = responseError as? ParseError else {
+                        completion(.failure(ParseError(code: .unknownError,
+                                                       message: "Unable to sync: \(String(describing: urlResponse)).")))
+                        return
+                    }
+                    completion(.failure(error))
+                    return
+                }
+
+                completion(.success(responseData))
+            }
         }.resume()
     }
 }

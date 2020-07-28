@@ -21,18 +21,19 @@ public extension ObjectType {
 }
 
 extension Sequence where Element: ObjectType {
-    public func saveAll(options: API.Options = []) throws -> [(Self.Element?, ParseError?)] {
+    public func saveAll(options: API.Options = [],
+                        callbackQueue: DispatchQueue = .main) throws -> [(Self.Element?, ParseError?)] {
         let commands = map { $0.saveCommand() }
         return try API.Command<Self.Element, Self.Element>
                 .batch(commands: commands)
                 .execute(options: options)
     }
 
-    public func saveAll(options: API.Options = [],
+    public func saveAll(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                         completion: @escaping ([(Element?, ParseError?)]?, ParseError?) -> Void) {
         let commands = map { $0.saveCommand() }
         API.Command<Self.Element, Self.Element>
                 .batch(commands: commands)
-                .executeAsync(options: options, completion: completion)
+            .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 }

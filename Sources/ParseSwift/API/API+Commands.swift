@@ -37,13 +37,14 @@ internal extension API {
             var responseData: U?
             var parseError: ParseError?
 
-            let semaphore = DispatchSemaphore(value: 0)
-            self.executeAsync(options: options) { (response, error) in
+            let group = DispatchGroup()
+            group.enter()
+            self.executeAsync(options: options, callbackQueue: nil) { (response, error) in
                 responseData = response
                 parseError = error
-                semaphore.signal()
+                group.leave()
             }
-            semaphore.wait()
+            group.wait()
 
             guard let response = responseData else {
                 guard let error = parseError else {
@@ -55,7 +56,8 @@ internal extension API {
             return response
         }
 
-        public func executeAsync(options: API.Options, completion: @escaping(U?, ParseError?) -> Void) {
+        public func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
+                                 completion: @escaping(U?, ParseError?) -> Void) {
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
             let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
@@ -74,7 +76,7 @@ internal extension API {
             }
             urlRequest.httpMethod = method.rawValue
 
-            URLSession.shared.dataTask(with: urlRequest) { result in
+            URLSession.shared.dataTask(with: urlRequest, callbackQueue: callbackQueue) { result in
                 switch result {
 
                 case .success(let responseData):
