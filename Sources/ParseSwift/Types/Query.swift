@@ -13,11 +13,11 @@ public protocol Querying {
     func first(options: API.Options) throws -> ResultType?
     func count(options: API.Options) throws -> Int
     func find(options: API.Options, callbackQueue: DispatchQueue,
-              completion: @escaping ([ResultType]?, Error?) -> Void)
+              completion: @escaping (Result<[ResultType], ParseError>) -> Void)
     func first(options: API.Options, callbackQueue: DispatchQueue,
-               completion: @escaping (ResultType?, Error?) -> Void)
+               completion: @escaping (Result<ResultType, ParseError>) -> Void)
     func count(options: API.Options, callbackQueue: DispatchQueue,
-               completion: @escaping (Int?, Error?) -> Void)
+               completion: @escaping (Result<Int, ParseError>) -> Void)
 }
 
 extension Querying {
@@ -30,13 +30,13 @@ extension Querying {
     func count() throws -> Int {
         return try count(options: [])
     }
-    func find(completion: @escaping ([ResultType]?, Error?) -> Void) {
+    func find(completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
         find(options: [], callbackQueue: .main, completion: completion)
     }
-    func first(completion: @escaping (ResultType?, Error?) -> Void) {
+    func first(completion: @escaping (Result<ResultType, ParseError>) -> Void) {
         first(options: [], callbackQueue: .main, completion: completion)
     }
-    func count(completion: @escaping (Int?, Error?) -> Void) {
+    func count(completion: @escaping (Result<Int, ParseError>) -> Void) {
         count(options: [], callbackQueue: .main, completion: completion)
     }
 }
@@ -218,7 +218,7 @@ extension Query: Querying {
     }
 
     public func find(options: API.Options, callbackQueue: DispatchQueue,
-                     completion: @escaping ([ResultType]?, Error?) -> Void) {
+                     completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
         findCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
@@ -227,13 +227,19 @@ extension Query: Querying {
     }
 
     public func first(options: API.Options, callbackQueue: DispatchQueue,
-                      completion: @escaping (ResultType?, Error?) -> Void) {
-        firstCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result, error in
-            guard let result = result else {
-                completion(nil, error)
-                return
+                      completion: @escaping (Result<ResultType, ParseError>) -> Void) {
+        firstCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
+
+            switch result {
+            case .success(let first):
+                guard let first = first else {
+                    completion(.failure(ParseError(code: .unknownError, message: "unable to unwrap data") ))
+                    return
+                }
+                completion(.success(first))
+            case .failure(let error):
+                completion(.failure(error))
             }
-            completion(result, error)
         }
     }
 
@@ -242,7 +248,7 @@ extension Query: Querying {
     }
 
     public func count(options: API.Options, callbackQueue: DispatchQueue,
-                      completion: @escaping (Int?, Error?) -> Void) {
+                      completion: @escaping (Result<Int, ParseError>) -> Void) {
         countCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 }

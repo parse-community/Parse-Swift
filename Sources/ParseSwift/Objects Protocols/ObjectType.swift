@@ -165,7 +165,8 @@ public extension ObjectType {
         return try saveCommand().execute(options: options)
     }
 
-    func save(options: API.Options, callbackQueue: DispatchQueue, completion: @escaping (Self?, ParseError?) -> Void) {
+    func save(options: API.Options, callbackQueue: DispatchQueue,
+              completion: @escaping (Result<Self, ParseError>) -> Void) {
         saveCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
@@ -173,13 +174,14 @@ public extension ObjectType {
         return try fetchCommand().execute(options: options)
     }
 
-    func fetch(options: API.Options, callbackQueue: DispatchQueue, completion: @escaping (Self?, ParseError?) -> Void) {
+    func fetch(options: API.Options, callbackQueue: DispatchQueue,
+               completion: @escaping (Result<Self, ParseError>) -> Void) {
         do {
             try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
         } catch let error as ParseError {
-            completion(nil, error)
+            completion(.failure(error))
         } catch {
-            completion(nil, ParseError(code: .unknownError, message: error.localizedDescription))
+            completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
         }
     }
 

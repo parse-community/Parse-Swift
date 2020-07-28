@@ -34,37 +34,29 @@ internal extension API {
         }
 
         public func execute(options: API.Options) throws -> U {
-            var responseData: U?
-            var parseError: ParseError?
+            var response: Result<U, ParseError>?
 
             let group = DispatchGroup()
             group.enter()
-            self.executeAsync(options: options, callbackQueue: nil) { (response, error) in
-                responseData = response
-                parseError = error
+            self.executeAsync(options: options, callbackQueue: nil) { result in
+                response = result
                 group.leave()
             }
             group.wait()
 
-            guard let response = responseData else {
-                guard let error = parseError else {
-                    throw ParseError(code: .unknownError, message: "error unknown")
-                }
-                throw error
-            }
-
-            return response
+            return try response!.get()
         }
 
         public func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
-                                 completion: @escaping(U?, ParseError?) -> Void) {
+                                 completion: @escaping(Result<U, ParseError>) -> Void) {
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
             let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false),
                 let urlComponents = components.url else {
-                completion(nil, ParseError(code: .unknownError, message: "couldn't unrwrap url components for \(url)"))
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: "couldn't unrwrap url components for \(url)")))
                 return
             }
             components.queryItems = params
@@ -82,16 +74,16 @@ internal extension API {
                 case .success(let responseData):
                     guard let decoded = try? self.mapper(responseData) else {
                         guard let parseError = try? getDecoder().decode(ParseError.self, from: responseData) else {
-                            completion(nil, ParseError(code: .unknownError, message: "cannot decode error"))
+                            completion(.failure(ParseError(code: .unknownError, message: "cannot decode error")))
                             return
                         }
-                        completion(nil, parseError)
+                        completion(.failure(parseError))
                         return
                     }
-                    completion(decoded, nil)
+                    completion(.success(decoded))
 
                 case .failure(let error):
-                    completion(nil, error)
+                    completion(.failure(error))
                 }
             }
         }
@@ -163,27 +155,27 @@ extension API.Command where T: ObjectType {
         let bodies = commands.compactMap { (command) -> T? in
             return command.body
         }
-        let mapper = { (data: Data) -> [(T?, ParseError?)] in
+        let mapper = { (data: Data) -> [Result<T, ParseError>] in
             let decodingType = [BatchResponseItem<SaveOrUpdateResponse>].self
             do {
                 let responses = try getDecoder().decode(decodingType, from: data)
-                return bodies.enumerated().map({ (object) -> (T?, ParseError?) in
+                return bodies.enumerated().map({ (object) -> (Result<T, ParseError>) in
                     let response = responses[object.0]
                     if let success = response.success {
-                        return (success.apply(object.1), nil)
+                        return .success(success.apply(object.1))
                     } else {
                         guard let parseError = response.error else {
-                            return (nil, ParseError(code: .unknownError, message: "unknown error"))
+                            return .failure(ParseError(code: .unknownError, message: "unknown error"))
                         }
 
-                        return (nil, parseError)
+                        return .failure(parseError)
                     }
                 })
             } catch {
                 guard let parseError = error as? ParseError else {
-                    return [(nil, ParseError(code: .unknownError, message: "decoding error: \(error)"))]
+                    return [(.failure(ParseError(code: .unknownError, message: "decoding error: \(error)")))]
                 }
-                return [(nil, parseError)]
+                return [(.failure(parseError))]
             }
         }
         let batchCommand = BatchCommand(requests: commands)

@@ -9,7 +9,7 @@
 import Foundation
 
 typealias ParseObjectBatchCommand<T> = BatchCommand<T, T> where T: ObjectType
-typealias ParseObjectBatchResponse<T> = [(T?, ParseError?)]
+typealias ParseObjectBatchResponse<T> = [(Result<T, ParseError>)]
 // swiftlint:disable line_length
 typealias RESTBatchCommandType<T> = API.Command<ParseObjectBatchCommand<T>, ParseObjectBatchResponse<T>> where T: ObjectType
 // swiftlint:enable line_length

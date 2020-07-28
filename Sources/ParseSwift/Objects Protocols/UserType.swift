@@ -46,7 +46,7 @@ public extension UserType {
     }
 
     static func login(username: String, password: String, callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Self?, ParseError?) -> Void) {
+                      completion: @escaping (Result<Self, ParseError>) -> Void) {
         return loginCommand(username: username, password: password)
             .executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
     }
@@ -58,7 +58,7 @@ public extension UserType {
     }
 
     static func signup(username: String, password: String, callbackQueue: DispatchQueue = .main,
-                       completion: @escaping (Self?, ParseError?) -> Void) {
+                       completion: @escaping (Result<Self, ParseError>) -> Void) {
         return signupCommand(username: username, password: password)
             .executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
     }
@@ -68,10 +68,15 @@ public extension UserType {
             .execute(options: [])
     }
 
-    static func logout(callbackQueue: DispatchQueue = .main, completion: @escaping (ParseError?) -> Void) {
+    static func logout(callbackQueue: DispatchQueue = .main, completion: @escaping (Result<Bool, ParseError>) -> Void) {
         logoutCommand()
-            .executeAsync(options: [], callbackQueue: callbackQueue) { _, error in
-            completion(error)
+            .executeAsync(options: [], callbackQueue: callbackQueue) { result in
+                switch result {
+                case .success:
+                    completion(.success(true))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
         }
     }
 
