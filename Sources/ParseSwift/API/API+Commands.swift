@@ -44,7 +44,11 @@ internal extension API {
             }
             group.wait()
 
-            return try response!.get()
+            guard let responseData = response else {
+                throw ParseError(code: .unknownError,
+                                 message: "couldn't unrwrap server response")
+            }
+            return try responseData.get()
         }
 
         public func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
