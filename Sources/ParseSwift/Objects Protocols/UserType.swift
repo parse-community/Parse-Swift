@@ -41,7 +41,8 @@ public extension UserType {
 
     static func login(username: String,
                       password: String) throws -> Self {
-        return try loginCommand(username: username, password: password).execute(options: [])
+        return try loginCommand(username: username, password: password)
+            .execute(options: [])
     }
 
     static func login(username: String, password: String, callbackQueue: DispatchQueue = .main,
@@ -52,7 +53,8 @@ public extension UserType {
 
     static func signup(username: String,
                        password: String) throws -> Self {
-        return try signupCommand(username: username, password: password).execute(options: [])
+        return try signupCommand(username: username, password: password)
+            .execute(options: [])
     }
 
     static func signup(username: String, password: String, callbackQueue: DispatchQueue = .main,
@@ -62,17 +64,20 @@ public extension UserType {
     }
 
     static func logout() throws {
-        _ = try logoutCommand().execute(options: [])
+        _ = try logoutCommand()
+            .execute(options: [])
     }
 
     static func logout(callbackQueue: DispatchQueue = .main, completion: @escaping (ParseError?) -> Void) {
-        logoutCommand().executeAsync(options: [], callbackQueue: callbackQueue) { _, error in
+        logoutCommand()
+            .executeAsync(options: [], callbackQueue: callbackQueue) { _, error in
             completion(error)
         }
     }
 
     func signup() throws -> Self {
-        return try signupCommand().execute(options: [])
+        return try signupCommand()
+            .execute(options: [])
     }
 }
 
