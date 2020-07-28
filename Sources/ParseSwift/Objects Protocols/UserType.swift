@@ -65,6 +65,12 @@ public extension UserType {
         _ = try logoutCommand().execute(options: [])
     }
 
+    static func logout(callbackQueue: DispatchQueue = .main, completion: @escaping (ParseError?) -> Void) {
+        logoutCommand().executeAsync(options: [], callbackQueue: callbackQueue) { _, error in
+            completion(error)
+        }
+    }
+
     func signup() throws -> Self {
         return try signupCommand().execute(options: [])
     }

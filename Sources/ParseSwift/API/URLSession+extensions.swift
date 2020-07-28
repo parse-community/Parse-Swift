@@ -16,23 +16,7 @@ extension URLSession {
 
         dataTask(with: request) { (responseData, urlResponse, responseError) in
 
-            if let callbackQueue = callbackQueue {
-                guard let responseData = responseData else {
-                    guard let error = responseError as? ParseError else {
-                            callbackQueue.async {
-                                completion(.failure(ParseError(code: .unknownError,
-                                                               message: "Unable to sync: \(String(describing: urlResponse))."))) // swiftlint:disable:this line_length
-                            }
-
-                        return
-                    }
-                    callbackQueue.async { completion(.failure(error)) }
-                    return
-                }
-
-                callbackQueue.async { completion(.success(responseData)) }
-
-            } else {
+            guard let callbackQueue = callbackQueue else {
                 guard let responseData = responseData else {
                     guard let error = responseError as? ParseError else {
                         completion(.failure(ParseError(code: .unknownError,
@@ -44,7 +28,24 @@ extension URLSession {
                 }
 
                 completion(.success(responseData))
+                return
             }
+
+            guard let responseData = responseData else {
+                guard let error = responseError as? ParseError else {
+                        callbackQueue.async {
+                            completion(.failure(ParseError(code: .unknownError,
+                                                           message: "Unable to sync: \(String(describing: urlResponse))."))) // swiftlint:disable:this line_length
+                        }
+
+                    return
+                }
+                callbackQueue.async { completion(.failure(error)) }
+                return
+            }
+
+            callbackQueue.async { completion(.success(responseData)) }
+
         }.resume()
     }
 }
