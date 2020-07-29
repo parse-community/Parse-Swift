@@ -3,13 +3,13 @@
 //  ParseSwift
 //
 //  Created by Florent Vilmart on 17-09-25.
-//  Copyright © 2017 Parse. All rights reserved.
+//  Copyright © 2020 Parse Community. All rights reserved.
 //
 
 import Foundation
 import XCTest
-
 @testable import ParseSwift
+
 class KeychainStoreTests: XCTestCase {
     var testStore: KeychainStore!
     override func setUp() {
