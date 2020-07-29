@@ -18,12 +18,13 @@ extension URLSession {
 
             guard let callbackQueue = callbackQueue else {
                 guard let responseData = responseData else {
-                    guard let error = responseError as? ParseError else {
+                    guard let error = responseError else {
                         completion(.failure(ParseError(code: .unknownError,
                                                        message: "Unable to sync: \(String(describing: urlResponse)).")))
                         return
                     }
-                    completion(.failure(error))
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: "Unable to sync: \(error).")))
                     return
                 }
 
@@ -32,7 +33,7 @@ extension URLSession {
             }
 
             guard let responseData = responseData else {
-                guard let error = responseError as? ParseError else {
+                guard let error = responseError else {
                         callbackQueue.async {
                             completion(.failure(ParseError(code: .unknownError,
                                                            message: "Unable to sync: \(String(describing: urlResponse))."))) // swiftlint:disable:this line_length
@@ -40,7 +41,10 @@ extension URLSession {
 
                     return
                 }
-                callbackQueue.async { completion(.failure(error)) }
+                callbackQueue.async {
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: "Unable to sync: \(error).")))
+                }
                 return
             }
 
