@@ -14,9 +14,9 @@ struct MockURLResponse {
     var headerFields = [String: String]()
     var responseData: Data?
     var delay: TimeInterval!
-    var error: ParseError?
+    var error: Error?
 
-    init(error: ParseError) {
+    init(error: Error) {
         self.delay = .init(0.0)
         self.error = error
         self.responseData = nil
