@@ -1,7 +1,5 @@
 import XCTest
-@testable import ParseSwiftTests
 
-XCTMain([
-    testCase(ParseSwiftTests.allTests),
-    testCase(AnyCodableTests.allTests)
-])
+import ParseSwiftTests
+
+fatalError("Running tests like this is unsupported. Run the tests again by using `swift test --enable-test-discovery`")

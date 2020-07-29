@@ -1,4 +1,4 @@
-osx_image: xcode11.5
+osx_image: xcode11.6
 language: swift
 stage: Build
 env:
@@ -13,7 +13,7 @@ jobs:
       env: Swift Pacakge Manager
       script: 
         - swift build
-        - swift test 
+        - swift test --enable-test-discovery 
     - stage: package managers
       env: Cocoapods
       script: pod lib lint

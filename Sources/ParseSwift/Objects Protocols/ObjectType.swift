@@ -46,6 +46,14 @@ internal extension ObjectType {
     func getEncoder() -> ParseEncoder {
         return getParseEncoder()
     }
+
+    func getTestDecoder() -> JSONDecoder {
+        return getDecoder()
+    }
+
+    func getEncoderWithoutSkippingKeys() -> ParseEncoder {
+        return getParseEncoderWithoutSkippingKeys()
+    }
 }
 
 extension ObjectType {
@@ -133,11 +141,20 @@ func getJSONEncoder() -> JSONEncoder {
 private let forbiddenKeys = ["createdAt", "updatedAt", "objectId", "className"]
 
 func getParseEncoder() -> ParseEncoder {
+    return getParseEncoder(skipKeys: true)
+}
+
+func getParseEncoderWithoutSkippingKeys() -> ParseEncoder {
+    return getParseEncoder(skipKeys: false)
+}
+
+internal func getParseEncoder(skipKeys: Bool) -> ParseEncoder {
     let encoder = ParseEncoder()
     encoder.dateEncodingStrategy = parseDateEncodingStrategy
     encoder.shouldEncodeKey = { (key, path) -> Bool in
         if path.count == 0 // top level
-            && forbiddenKeys.firstIndex(of: key) != nil {
+            && forbiddenKeys.firstIndex(of: key) != nil
+            && skipKeys {
             return false
         }
         return true
