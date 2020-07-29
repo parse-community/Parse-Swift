@@ -28,15 +28,11 @@ internal struct SaveOrUpdateResponse: Codable {
     var createdAt: Date?
     var updatedAt: Date?
 
-    var isSaved: Bool {
-        return objectId != nil && createdAt != nil
-    }
-
     func asSaveResponse() -> SaveResponse {
-        guard let objectId = objectId, let createdAt = createdAt, let updatedAt = updatedAt else {
+        guard let objectId = objectId, let createdAt = createdAt else {
             fatalError("Cannot create a SaveResponse without objectId")
         }
-        return SaveResponse(objectId: objectId, createdAt: createdAt, updatedAt: updatedAt)
+        return SaveResponse(objectId: objectId, createdAt: createdAt)
     }
 
     func asUpdateResponse() -> UpdateResponse {
@@ -46,7 +42,12 @@ internal struct SaveOrUpdateResponse: Codable {
         return UpdateResponse(updatedAt: updatedAt)
     }
 
-    func apply<T>(_ object: T) -> T where T: ObjectType {
-        return asSaveResponse().apply(object)
+    func apply<T>(_ object: T, method: API.Method) -> T where T: ObjectType {
+        switch method {
+        case .POST:
+            return asSaveResponse().apply(object)
+        default:
+            return asUpdateResponse().apply(object)
+        }
     }
 }

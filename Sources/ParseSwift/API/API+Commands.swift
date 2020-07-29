@@ -156,8 +156,11 @@ extension API.Command where T: ObjectType {
             return API.Command<T, T>(method: command.method, path: .any(path),
                                      body: body, mapper: command.mapper)
         }
-        let bodies = commands.compactMap { (command) -> T? in
-            return command.body
+        let bodies = commands.compactMap { (command) -> (T, API.Method)?  in
+            guard let body = command.body else {
+                return nil
+            }
+            return (body, command.method)
         }
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
             let decodingType = [BatchResponseItem<SaveOrUpdateResponse>].self
@@ -166,7 +169,7 @@ extension API.Command where T: ObjectType {
                 return bodies.enumerated().map({ (object) -> (Result<T, ParseError>) in
                     let response = responses[object.0]
                     if let success = response.success {
-                        return .success(success.apply(object.1))
+                        return .success(success.apply(object.1.0, method: object.1.1))
                     } else {
                         guard let parseError = response.error else {
                             return .failure(ParseError(code: .unknownError, message: "unknown error"))
