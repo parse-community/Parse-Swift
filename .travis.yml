@@ -1,25 +1,22 @@
 osx_image: xcode11.6
 language: swift
 
-xcode_workspace: Parse.xcworkspace
 jobs:
     include:
     - stage: Build
       env: iOS
+      xcode_workspace: Parse.xcworkspace
       xcode_scheme: ParseSwift (iOS)
       xcode_destination: platform=iOS Simulator,OS=13.6,name=iPhone 11 Pro Max
     - stage: Build
       env: macOS
-      xcode_scheme: ParseSwift (macOS)
-      xcode_destination: platform=MacOSX
+      xcode_target: ParseSwift (macOS)
     - stage: Build
       env: tvOS
-      xcode_scheme: ParseSwift (tvOS)
-      xcode_destination: platform=AppleTV Simulator,OS=13.4,name=Apple TV
+      xcode_target: ParseSwift (tvOS)
     - stage: Build
       env: watchOS
-      xcode_scheme: ParseSwift (watchOS)
-      xcode_destination: platform=watchOS Simulator,OS=6.2,name=Apple Watch Series 5 - 44mm
+      xcode_target: ParseSwift (watchOS)
     - stage: Package Managers
       env: Swift Pacakge Manager
       script: 
