@@ -15,7 +15,6 @@ jobs:
   include:
     - stage: Package Managers
       env: Swift Pacakge Manager
-      install: bundle install
       script: 
         - swift build
         - swift test --enable-code-coverage --enable-test-discovery
