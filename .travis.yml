@@ -20,9 +20,6 @@ jobs:
       env: watchOS
       xcode_scheme: ParseSwift (watchOS)
       xcode_destination: platform=watchOS Simulator,OS=6.2,name=Apple Watch Series 5 - 44mm
-
-jobs:
-  include:
     - stage: Package Managers
       env: Swift Pacakge Manager
       script: 
