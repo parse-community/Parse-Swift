@@ -128,7 +128,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
-    func testSaveAllErrorIncorrectServerResponse() { // swiftlint:disable:this function_body_length
+    func testSaveAllErrorIncorrectServerResponse() {
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
 
@@ -157,21 +157,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             let saved = try [score, score2].saveAll()
 
             XCTAssertEqual(saved.count, 2)
-            switch saved[0] {
-
-            case .success(_): // swiftlint:disable:this empty_enum_arguments
-                XCTFail("Should have produced error")
-            case .failure(let error):
-                print("Should have an error \(error)")
-            }
-
-            switch saved[1] {
-
-            case .success(_): // swiftlint:disable:this empty_enum_arguments
-                XCTFail("Should have produced error")
-            case .failure(let error):
-                print("Should have an error \(error)")
-            }
+            XCTAssertThrowsError(try saved[0].get())
+            XCTAssertThrowsError(try saved[1].get())
 
         } catch {
             XCTFail(error.localizedDescription)
@@ -181,21 +168,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             let saved = try [score, score2].saveAll(options: [.useMasterKey])
 
             XCTAssertEqual(saved.count, 2)
-            switch saved[0] {
-
-            case .success(_): // swiftlint:disable:this empty_enum_arguments
-                XCTFail("Should have produced error")
-            case .failure(let error):
-                print("Should have an error \(error)")
-            }
-
-            switch saved[1] {
-
-            case .success(_): // swiftlint:disable:this empty_enum_arguments
-                XCTFail("Should have produced error")
-            case .failure(let error):
-                print("Should have an error \(error)")
-            }
+            XCTAssertThrowsError(try saved[0].get())
+            XCTAssertThrowsError(try saved[1].get())
 
         } catch {
             XCTFail(error.localizedDescription)
