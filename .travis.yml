@@ -17,7 +17,7 @@ jobs:
       env: Swift Pacakge Manager
       script: 
         - swift build
-        - swift test --enable-code-coverage --enable-test-discovery
+        - swift test --enable-code-coverage
       after_success:
         - xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
         - bash <(curl https://codecov.io/bash) 
