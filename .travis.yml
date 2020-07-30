@@ -9,14 +9,14 @@ jobs:
       xcode_scheme: ParseSwift (iOS)
       xcode_destination: platform=iOS Simulator,OS=13.6,name=iPhone 11 Pro Max
     - stage: Build
-      env: macOS
-      xcode_target: ParseSwift (macOS)
+      env: TARGET="ParseSwift (macOS)"
+      script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
     - stage: Build
-      env: tvOS
-      xcode_target: ParseSwift (tvOS)
+      env: TARGET="ParseSwift (tvOS)"
+      script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
     - stage: Build
-      env: watchOS
-      xcode_target: ParseSwift (watchOS)
+      env: TARGET="ParseSwift (watchOS)"
+      script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
     - stage: Package Managers
       env: Swift Pacakge Manager
       script: 
