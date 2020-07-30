@@ -20,14 +20,11 @@ jobs:
       after_script:
         - xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
         - bash <(curl https://codecov.io/bash) 
+        - ./Scripts/jazzy.sh
     - stage: Package Managers
       env: Cocoapods
       script: pod lib lint
     - stage: Package Managers
       env: Carthage
       script: carthage build --no-skip-current
-    - stage: Release
-      env: Deployment
-      script:
-      - ./Scripts/jazzy.sh
 
