@@ -5,11 +5,15 @@ language: swift
 stage: Build
 env:
   matrix:
-  - TARGET="ParseSwift (iOS)"
-  - TARGET="ParseSwift (macOS)" 
-  - TARGET="ParseSwift (tvOS)"
-  - TARGET="ParseSwift (watchOS)" 
-script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
+    include:
+    - xcode_scheme: ParseSwift (iOS)
+      xcode_destination: platform=iOS Simulator,OS=13.6,name=iPhone 11 Pro Max
+    - xcode_scheme: ParseSwift (macOS)
+      xcode_destination: platform=MacOSX
+    - xcode_scheme: ParseSwift (tvOS)
+      xcode_destination: platform=AppleTV Simulator,OS=13.4,name=Apple TV
+    - xcode_scheme: ParseSwift (watchOS)
+      xcode_destination: platform=watchOS Simulator,OS=6.2,name=Apple Watch Series 5 - 44mm
 
 jobs:
   include:
