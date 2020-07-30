@@ -14,6 +14,7 @@ jobs:
   include:
     - stage: Package Managers
       env: Swift Pacakge Manager
+      install: gem install jazzy
       script: 
         - swift build
         - swift test --enable-code-coverage --enable-test-discovery
