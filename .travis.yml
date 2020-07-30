@@ -1,7 +1,7 @@
-os: osx
 osx_image: xcode11.6
 language: swift
 
+xcode_workspace: Parse.xcworkspace
 jobs:
     include:
     - stage: Build
