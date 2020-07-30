@@ -1,5 +1,6 @@
 osx_image: xcode11.6
 language: swift
+
 stage: Build
 env:
   matrix:
@@ -11,7 +12,7 @@ script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
 
 jobs:
   include:
-    - stage: package managers
+    - stage: Package Managers
       env: Swift Pacakge Manager
       script: 
         - swift build
@@ -19,10 +20,14 @@ jobs:
       after_script:
         - xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
         - bash <(curl https://codecov.io/bash) 
-    - stage: package managers
+    - stage: Package Managers
       env: Cocoapods
       script: pod lib lint
-    - stage: package managers
+    - stage: Package Managers
       env: Carthage
       script: carthage build --no-skip-current
+    - stage: Release
+      env: Deployment
+      script:
+      - ./Scripts/jazzy.sh
 
