@@ -14,13 +14,14 @@ jobs:
   include:
     - stage: Package Managers
       env: Swift Pacakge Manager
-      install: gem install jazzy
+      install: bundle install
       script: 
         - swift build
         - swift test --enable-code-coverage --enable-test-discovery
-      after_script:
+      after_success:
         - xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
         - bash <(curl https://codecov.io/bash) 
+        - gem install jazzy
         - ./Scripts/jazzy.sh
     - stage: Package Managers
       env: Cocoapods
