@@ -1,48 +1,32 @@
+os: osx
+osx_image: xcode11.6
+language: swift
+
+stage: Build
+env:
+  matrix:
+  - TARGET="ParseSwift (iOS)"
+  - TARGET="ParseSwift (macOS)" 
+  - TARGET="ParseSwift (tvOS)"
+  - TARGET="ParseSwift (watchOS)" 
+script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
+
 jobs:
   include:
-    - os: linux
-      dist: bionic
-      sudo: required
-      stage: Build
-      env: Linux
-      before_install:
-        - wget https://swift.org/builds/swift-5.2-release/ubuntu1804/swift-5.2-RELEASE/swift-5.2-RELEASE-ubuntu18.04.tar.gz
-        - tar xzf swift-5.2-RELEASE-ubuntu18.04.tar.gz
-        - export PATH="${PWD}/swift-5.2-RELEASE-ubuntu18.04/usr/bin:$PATH"
-      script:
-        - export PATH="${PWD}/swift-5.2-RELEASE-ubuntu18.04/usr/bin:$PATH 
+    - stage: Package Managers
+      env: Swift Pacakge Manager
+      install: bundle install
+      script: 
         - swift build
-        - swift test --enable-test-discovery
-    - os: osx
-      osx_image: xcode11.6
-      language: swift
-      stage: Build
-      env:
-        matrix:
-        - TARGET="ParseSwift (iOS)"
-        - TARGET="ParseSwift (macOS)"
-        - TARGET="ParseSwift (tvOS)"
-        - TARGET="ParseSwift (watchOS)"
-      script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
-
-      jobs:
-        include:
-          - stage: Package Managers
-            env: Swift Pacakge Manager
-            install: bundle install
-            script:
-              - swift build
-              - swift test --enable-code-coverage
-            after_success:
-              - xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
-              - bash <(curl https://codecov.io/bash)
-              - gem install jazzy
-              - ./Scripts/jazzy.sh
-          - stage: Package Managers
-            env: Cocoapods
-            script: pod lib lint
-          - stage: Package Managers
-            env: Carthage
-            script: carthage build --no-skip-current
-    
-
+        - swift test --enable-code-coverage --enable-test-discovery
+      after_success:
+        - xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
+        - bash <(curl https://codecov.io/bash) 
+        - gem install jazzy
+        - ./Scripts/jazzy.sh
+    - stage: Package Managers
+      env: Cocoapods
+      script: pod lib lint
+    - stage: Package Managers
+      env: Carthage
+      script: carthage build --no-skip-current
