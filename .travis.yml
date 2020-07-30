@@ -3,8 +3,10 @@ language: swift
 stage: Build
 env:
   matrix:
+  - TARGET="ParseSwift (iOS)"
   - TARGET="ParseSwift (macOS)" 
-  - TARGET="ParseSwift (iOS)" 
+  - TARGET="ParseSwift (tvOS)"
+  - TARGET="ParseSwift (watchOS)" 
 script: set -o pipefail && xcodebuild -target "$TARGET" | xcpretty
 
 jobs:
@@ -13,7 +15,9 @@ jobs:
       env: Swift Pacakge Manager
       script: 
         - swift build
-        - swift test --enable-test-discovery 
+        - swift test --enable-test-discovery
+        - xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
+        - bash <(curl https://codecov.io/bash) 
     - stage: package managers
       env: Cocoapods
       script: pod lib lint
