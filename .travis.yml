@@ -2,17 +2,23 @@ os: osx
 osx_image: xcode11.6
 language: swift
 
-stage: Build
-env:
-  matrix:
+jobs:
     include:
-    - xcode_scheme: ParseSwift (iOS)
+    - stage: Build
+      env: iOS
+      xcode_scheme: ParseSwift (iOS)
       xcode_destination: platform=iOS Simulator,OS=13.6,name=iPhone 11 Pro Max
-    - xcode_scheme: ParseSwift (macOS)
+    - stage: Build
+      env: macOS
+      xcode_scheme: ParseSwift (macOS)
       xcode_destination: platform=MacOSX
-    - xcode_scheme: ParseSwift (tvOS)
+    - stage: Build
+      env: tvOS
+      xcode_scheme: ParseSwift (tvOS)
       xcode_destination: platform=AppleTV Simulator,OS=13.4,name=Apple TV
-    - xcode_scheme: ParseSwift (watchOS)
+    - stage: Build
+      env: watchOS
+      xcode_scheme: ParseSwift (watchOS)
       xcode_destination: platform=watchOS Simulator,OS=6.2,name=Apple Watch Series 5 - 44mm
 
 jobs:
