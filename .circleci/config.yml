@@ -84,7 +84,8 @@ jobs:
           name: "Install bundler"
           command: |
             sudo gem install bundler
-            bundler install --path vendor/bundle
+            bundle config set path 'vendor/bundle'
+            bundle install
       - save_cache:
           key: gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
           paths:
