@@ -54,42 +54,12 @@ jobs:
       - run: bash <(curl https://codecov.io/bash)
       - store_test_results:
           path: build/reports
-  cocoapods:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: *prepare
-      - run: pod lib lint
-      - store_test_results:
-          path: build/reports
   carthage:
     <<: *defaults
     steps:
       - checkout
       - run: *prepare
       - run: carthage build --no-skip-current
-      - store_test_results:
-          path: build/reports
-  docs:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: *prepare
-      - restore_cache:
-          keys:
-            - gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-            - gem-cache-v1-{{ arch }}-{{ .Branch }}
-            - gem-cache-v1
-      - run:
-          name: "Install bundler"
-          command: |
-            sudo gem install bundler
-            bundler install --path vendor/bundle
-      - save_cache:
-          key: gem-cache-v1-{{ arch }}-{{ .Branch }}-{{ checksum "Gemfile.lock" }}
-          paths:
-            - vendor/bundle
-      - run: ./Scripts/jazzy.sh
       - store_test_results:
           path: build/reports
 
@@ -103,12 +73,6 @@ workflows:
       - spm-build-test:
           requires:
             ios-build-test
-      - cocoapods:
-          requires:
-            spm-build-test
       - carthage:
-          requires:
-            spm-build-test
-      - docs:
           requires:
             spm-build-test

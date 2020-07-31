@@ -6,21 +6,10 @@ cache:
 
 jobs:
     include:
-    - stage: Package Managers
-      env: Swift Pacakge Manager
-      script: 
-        - swift build
-        - swift test --enable-code-coverage
-      after_success:
-        - xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
-        - bash <(curl https://codecov.io/bash) 
-    - stage: Package Managers
+    - stage: Deployment
       env: Cocoapods
       script: pod lib lint
-    - stage: Package Managers
-      env: Carthage
-      script: carthage build --no-skip-current
-    - stage: Package Managers
+    - stage: Deployment
       env: Docs
       script:
         - gem install jazzy -v 0.13.5
