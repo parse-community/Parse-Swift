@@ -100,15 +100,15 @@ workflows:
       - macos-build
       - tvos-build
       - watchos-build
-      - spm-build-test
+      - spm-build-test:
           requires:
             ios-build-test
-      - cocoapods
+      - cocoapods:
           requires:
             spm-build-test
-      - carthage
+      - carthage:
           requires:
             spm-build-test
-      - docs
+      - docs:
           requires:
             spm-build-test
