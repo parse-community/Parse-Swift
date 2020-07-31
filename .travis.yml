@@ -32,6 +32,7 @@ jobs:
       env: Carthage
       script: carthage build --no-skip-current
     - stage: Package Managers
+      env: Docs
       script:
         - gem install jazzy
         - ./Scripts/jazzy.sh
@@ -43,4 +44,3 @@ jobs:
           local_dir: docs/
           on:
             all_branches: true
-            tags: true
