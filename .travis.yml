@@ -25,11 +25,22 @@ jobs:
       after_success:
         - xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
         - bash <(curl https://codecov.io/bash) 
-        - gem install jazzy
-        - ./Scripts/jazzy.sh
     - stage: Package Managers
       env: Cocoapods
       script: pod lib lint
     - stage: Package Managers
       env: Carthage
       script: carthage build --no-skip-current
+    - stage: Package Managers
+      script:
+        - gem install jazzy
+        - ./Scripts/jazzy.sh
+      deploy:
+        - provider: pages
+          skip_cleanup: true
+          token:
+            secure: ""
+          local_dir: docs/
+          on:
+            all_branches: true
+            tags: true
