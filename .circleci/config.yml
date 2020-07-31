@@ -5,28 +5,49 @@ defaults: &defaults
       xcode: 11.6.0
     shell: /bin/bash --login -eo pipefail
 
+aliases:
+- &prepare
+  |
+    HOMEBREW_NO_AUTO_UPDATE=1 brew install swiftlint
+
 jobs:
-  ios:
+  ios-build-test:
     <<: *defaults
     steps:
       - checkout
+      - run: *prepare
       - run: xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,OS\=13.6,name\=iPhone\ 11\ Pro\ Max build test | xcpretty
       - store_test_results:
           path: build/reports
+  macos-build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *prepare
+      - run: xcodebuild -target ParseSwift\ \(macOS\) | xcpretty
+      - store_test_results:
+          path: build/reports
+  tvos-build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *prepare
+      - run: xcodebuild -target ParseSwift\ \(tvOS\) | xcpretty
+      - store_test_results:
+          path: build/reports
+  watchos-build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: *prepare
+      - run: xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
+      - store_test_results:
+          path: build/reports
           
-swiftlint:
-  docker:
-    - image: dantoml/swiftlint:latest
-  steps:
-    - checkout
-    - run: swiftlint lint --reporter junit | tee result.xml
-    - store_artifacts:
-        path: result.xml
-    - store_test_results:
-        path: result.xml
-
 workflows:
   build-test-lint:
     jobs:
-      - swiftlint
-      - ios
+      - ios-build-test
+      - macos-build
+      - tvos-build
+      - watchos-build
