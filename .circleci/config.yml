@@ -70,9 +70,5 @@ workflows:
       - macos-build
       - tvos-build
       - watchos-build
-      - spm-build-test:
-          requires:
-            ios-build-test
-      - carthage:
-          requires:
-            spm-build-test
+      - spm-build-test
+      - carthage
