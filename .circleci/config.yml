@@ -101,12 +101,6 @@ workflows:
       - tvos-build
       - watchos-build
       - spm-build-test
-      - cocoapods:
-          requires:
-            ios-build-test
-      - carthage:
-          requires:
-            ios-build-test
-      - docs:
-          requires:
-            ios-build-test
+      - cocoapods
+      - carthage
+      - docs
