@@ -8,6 +8,7 @@ jazzy \
   --module-version ${ver} \
   --theme fullwidth \
   --skip-undocumented \
+  --output ./docs/api \
   --module ParseSwift \
   --swift-build-tool spm \
   --build-tool-arguments -Xswiftc,-swift-version,-Xswiftc,5
