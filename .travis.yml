@@ -1,5 +1,6 @@
+os: osx
 osx_image: xcode11.6
-language: swift
+language: objective-c
 cache:
   - jazzy
 
@@ -40,6 +41,7 @@ jobs:
         - ./Scripts/jazzy.sh
       deploy:
         - provider: pages
+          strategy: api
           skip_cleanup: true
           token:
             secure: bW1tnO9sz1ehtyK4IbcjEUzDg7WvpMxd6wBz1BDxNi0IA4Qlv7KEd3+7gDL6xeNLue6OyVmCrLRoGpLQZmab21/FsX3lx87IV4xUJrg6wmruyUBtPWrTaHMTRHBsJFONsY0ADAn/MxXyVJyoK38gfnAUT6Q5WdfkTcn3jbB0sAqPjbd8JNJpfw4cAsxJjFL4Y4NDYIS8FWw/3uaEyX6JlNi6WOuomt3JKld91ioGH1gyAPoSDMufJPAm63jCGp/ichs4e/xLZ2XOziqgHZ6ujie9cTEf7cPk+xzzr1kuLFRMF9TPjO3Tf9MARK/vDoAMlR4a1h2q7wc6ok6FXGT37/01L7sX6JPzMBM8M5GJJpCaDIHj0PNG5QaN291kS7Vi7flLC8+ZkCddcPKh89m2uh7/FLNi3xh9RTazG0nq/Fztm3LlKzBRenF7aO9DCoOC2PFhg5vGuQk8N7SvK1A2kygjSJcj8gRqB3D0XnrcoNkXDiNjjgC01vhKOoHroTT0/Ds+KP0k6n9C/Hra0L5my7w0qnIkMffp6DW/VxMp3k+ZEJ4ZhVwCZ3pXJyon92tiqBweR0c0BjRpwyggJqIWxOeDJAM7v1Q6MoI1dO1sFQz7fDLh1VhcJpG4d7sg6J6mykotMDEd5re6VWwlpWf3ts7kYwldblq6SWr2Jk4yfL0=
