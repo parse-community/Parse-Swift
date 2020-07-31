@@ -36,7 +36,7 @@ jobs:
     - stage: Package Managers
       env: Docs
       script:
-        - gem install jazzy
+        - gem install jazzy -v 0.13.5
         - ./Scripts/jazzy.sh
       deploy:
         - provider: pages
