@@ -1,4 +1,4 @@
-version: 2.1
+version: 2
 
 defaults: &defaults
     macos:
@@ -72,7 +72,7 @@ jobs:
           path: build/reports
 
 workflows:
-  version: 2.1
+  version: 2
   build-test-lint:
     jobs:
       - macos-build
