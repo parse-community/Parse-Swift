@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 
 defaults: &defaults
     macos:
@@ -72,19 +72,19 @@ jobs:
           path: build/reports
 
 workflows:
-  version: 2
+  version: 2.1
   build-test-lint:
     jobs:
       - macos-build
       - tvos-build
       - watchos-build
       - ios-build-test
-      - spm-build-test
+      - spm-build-test:
           requires:
             - ios-build-test
-      - cocoapods
+      - cocoapods:
           requires:
             - spm-build-test
-      - carthage
+      - carthage:
           requires:
             - spm-build-test
