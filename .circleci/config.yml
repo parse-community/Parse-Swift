@@ -54,12 +54,12 @@ jobs:
       - run: bash <(curl https://codecov.io/bash)
       - store_test_results:
           path: build/reports
-  cocoapods:
+  carthage:
     <<: *defaults
     steps:
       - checkout
       - run: *prepare
-      - run: pod lib lint
+      - run: carthage build --no-skip-current
       - store_test_results:
           path: build/reports
 
@@ -80,6 +80,6 @@ workflows:
       - spm-build-test:
           requires:
             - ios-build-test
-      - cocoapods:
+      - carthage:
           requires:
             - spm-build-test
