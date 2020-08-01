@@ -1,0 +1,9 @@
+coverage:
+  status:
+    patch: true
+    changes: false
+    project:
+      default:
+        target: 50
+comment:
+  require_changes: true
