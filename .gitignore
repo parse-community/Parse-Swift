@@ -6,7 +6,7 @@
 build/
 DerivedData/
 .swiftpm
-info.lcov
+docs/
 
 ## Various settings
 *.pbxuser
@@ -40,7 +40,6 @@ playground.xcworkspace
 # Packages/
 # Package.pins
 .build/
-docs/
 
 # CocoaPods
 #

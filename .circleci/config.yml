@@ -54,14 +54,6 @@ jobs:
       - run: bash <(curl https://codecov.io/bash)
       - store_test_results:
           path: build/reports
-  carthage:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: *prepare
-      - run: carthage build --no-skip-current
-      - store_test_results:
-          path: build/reports
 
 workflows:
   version: 2.1
@@ -80,6 +72,3 @@ workflows:
       - spm-build-test:
           requires:
             - ios-build-test
-      - carthage:
-          requires:
-            - spm-build-test
