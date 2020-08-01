@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "912C9BD724D3011F009947C3"
-               BuildableName = "ParseSwift__tvOS_.framework"
+               BuildableName = "ParseSwift.framework"
                BlueprintName = "ParseSwift (tvOS)"
                ReferencedContainer = "container:ParseSwift.xcodeproj">
             </BuildableReference>
@@ -51,7 +51,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "912C9BD724D3011F009947C3"
-            BuildableName = "ParseSwift__tvOS_.framework"
+            BuildableName = "ParseSwift.framework"
             BlueprintName = "ParseSwift (tvOS)"
             ReferencedContainer = "container:ParseSwift.xcodeproj">
          </BuildableReference>
