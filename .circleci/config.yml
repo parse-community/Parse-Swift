@@ -24,7 +24,7 @@ jobs:
     steps:
       - checkout
       - run: *prepare
-      - run: xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination 'platform=macOS' ONLY_ACTIVE_ARCH=NO build test | xcpretty
+      - run: xcodebuild -target ParseSwift\ \(macOS\) | xcpretty
       - store_test_results:
           path: build/reports
   tvos-build:
@@ -32,7 +32,7 @@ jobs:
     steps:
       - checkout
       - run: *prepare
-      - run: xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination 'platform=tvOS Simulator,OS=13.4,name=Apple TV' ONLY_ACTIVE_ARCH=NO build test | xcpretty
+      - run: xcodebuild -target ParseSwift\ \(tvOS\) | xcpretty
       - store_test_results:
           path: build/reports
   watchos-build:
@@ -40,7 +40,7 @@ jobs:
     steps:
       - checkout
       - run: *prepare
-      - run: xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(watchOS\) -destination 'platform=watchOS Simulator,OS=6.2.1,name=Apple Watch Series 5 - 44mm' ONLY_ACTIVE_ARCH=NO build test | xcpretty
+      - run: xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
       - store_test_results:
           path: build/reports
   spm-build-test:
