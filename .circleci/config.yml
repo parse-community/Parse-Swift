@@ -75,10 +75,16 @@ workflows:
   version: 2.1
   build-test-lint:
     jobs:
-      - macos-build
-      - tvos-build
-      - watchos-build
       - ios-build-test
+      - macos-build
+          requires:
+            - ios-build-test
+      - tvos-build
+          requires:
+            - ios-build-test
+      - watchos-build
+          requires:
+            - ios-build-test
       - spm-build-test:
           requires:
             - ios-build-test
