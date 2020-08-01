@@ -54,14 +54,6 @@ jobs:
       - run: bash <(curl https://codecov.io/bash)
       - store_test_results:
           path: build/reports
-  cocoapods:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: *prepare
-      - run: pod lib lint
-      - store_test_results:
-          path: build/reports
   carthage:
     <<: *defaults
     steps:
@@ -88,9 +80,6 @@ workflows:
       - spm-build-test:
           requires:
             - ios-build-test
-      - cocoapods:
-          requires:
-            - spm-build-test
       - carthage:
           requires:
             - spm-build-test

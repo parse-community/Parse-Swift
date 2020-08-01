@@ -7,6 +7,9 @@ cache:
 jobs:
     include:
     - stage: Deployment
+      env: Cocoapods
+      script: pod lib lint
+    - stage: Deployment
       env: Docs
       script:
         - gem install jazzy -v 0.13.5
