@@ -7,8 +7,8 @@ cache:
 jobs:
     include:
     - stage: Deployment
-      env: Cocoapods
-      script: pod lib lint
+      env: Carthage
+      script: carthage build --no-skip-current
     - stage: Deployment
       env: Docs
       script:
