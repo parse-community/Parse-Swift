@@ -76,13 +76,13 @@ workflows:
   build-test-lint:
     jobs:
       - ios-build-test
-      - macos-build
+      - macos-build:
           requires:
             - ios-build-test
-      - tvos-build
+      - tvos-build:
           requires:
             - ios-build-test
-      - watchos-build
+      - watchos-build:
           requires:
             - ios-build-test
       - spm-build-test:
