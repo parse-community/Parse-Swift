@@ -13,9 +13,8 @@ jobs:
         - ./Scripts/jazzy.sh
       deploy:
         - provider: pages
-          local_dir: docs
           strategy: api
-          edge: true
+          skip_cleanup: true
           token:
             secure: qgW5RfY0wfegdZ3qNZ/33XxwTRTol9GuX8g1nQkXGUm6gbrAXKjpWdg72jmBDGCZU4RZxzGJP/REtf+tCtJ8e1iEQIpJd/qcbFcb1r99if2ZZJB4IzNDsSafLhJF23lCJRoVRnNVgOxDfT6R1wywAWM7J9SogEvQwd2Ghw9uS98DAV6pm4zZlp+obOU1NYz4bvxkzKiunbOJeEJ450psvDOnZRMmAbunaopnG/tzYtA/NWGFCjARNmhD6N/3LeCegK1KLiOVF1J2Hob0MLom6NW5arvvFVYBTq2dEYNmgpO0A0Gabhr/S7OkXhNWkVBjsNfnRL3OmcPmTDpC9iLoES7zWfd6jHrrUv7wiLrmFoEdOaRrv0fELUaKsHITIjJDWZ7GD57fxHBmcu7pnajEUT0N0s8wXA0Cor5xYLiBrDJLdcV0TaREWpG6gB+XI7+YtkKryTySEv5Lnoq6XqGd4lM5P8IRfjyvLqUzdOjCpUeTcs44u5HVoXK5S+BfR8BXmoc1sz6Z0+gkJfB6twA4SBOlD2wwblwj7MvN9/2nFd8HHPTUuETvkHX15udAuS0R9a3Wu2ENQrWmA5xsdk2+2Jhqdnq3j+ZE8gyuXmwqLbP08q3qnqvOS+/lcy3A9/73Y1ad5XPHhuw6tNg6RCTI7x8mToIl6a8EU0AcVnp0EME=
           local_dir: docs/
