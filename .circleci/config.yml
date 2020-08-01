@@ -72,12 +72,19 @@ jobs:
           path: build/reports
 
 workflows:
+  version: 2.1
   build-test-lint:
     jobs:
-      - ios-build-test
       - macos-build
       - tvos-build
       - watchos-build
+      - ios-build-test
       - spm-build-test
+          requires:
+            - ios-build-test
       - cocoapods
+          requires:
+            - spm-build-test
       - carthage
+          requires:
+            - spm-build-test
