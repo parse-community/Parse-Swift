@@ -1,5 +1,5 @@
 ver=`/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" ParseSwift-iOS/Info.plist`
-jazzy \
+bundle exec jazzy \
   --clean \
   --author "Parse Community" \
   --author_url http://parseplatform.org \
