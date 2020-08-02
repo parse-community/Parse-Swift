@@ -17,6 +17,7 @@ jobs:
       run: swift build -v
     - name: Run tests
       run: swift test --enable-code-coverage -v
-    - name: Codecov
+    - name: Prepare Codecov Files
       run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
+    - name: Codecov
       run: bash <(curl https://codecov.io/bash)
