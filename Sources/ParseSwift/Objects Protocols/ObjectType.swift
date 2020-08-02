@@ -182,7 +182,7 @@ public extension ObjectType {
         return try saveCommand().execute(options: options)
     }
 
-    func save(options: API.Options, callbackQueue: DispatchQueue,
+    func save(options: API.Options, callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<Self, ParseError>) -> Void) {
         saveCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
@@ -191,7 +191,7 @@ public extension ObjectType {
         return try fetchCommand().execute(options: options)
     }
 
-    func fetch(options: API.Options, callbackQueue: DispatchQueue,
+    func fetch(options: API.Options, callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<Self, ParseError>) -> Void) {
         do {
             try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
