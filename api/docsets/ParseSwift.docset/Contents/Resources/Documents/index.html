@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ParseSwift  Reference</title>
+    <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="js/jquery.min.js" defer></script>
+    <script src="js/jazzy.js" defer></script>
+    
+    <script src="js/lunr.min.js" defer></script>
+    <script src="js/typeahead.jquery.js" defer></script>
+    <script src="js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+
+    <a title="ParseSwift  Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="index.html">
+          ParseSwift 1.0 Docs
+        </a>
+         (40% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/parse-community/Parse-Swift">
+            <img class="header-icon" src="img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="dash-feed://http%3A%2F%2Fparseplatform.org%2FParse-Swift%2Fapi%2Fdocsets%2FParseSwift.xml">
+            <img class="header-icon" src="img/dash.png"/>
+            Install in Dash
+          </a>
+        </p>
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="index.html">ParseSwift Reference</a>
+      <img class="carat" src="img/carat.png" />
+      ParseSwift  Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AnyCodable.html">AnyCodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AnyDecodable.html">AnyDecodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/AnyEncodable.html">AnyEncodable</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            
+            <p align="center">
+  <a href="https://parseplatform.org"><img alt="Parse Platform" src="logo large.png" width="200"></a>
+</p>
+
+<h2 align="center">ParseSwift</h2>
+
+<p align="center">
+    An experimental pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.
+</p>
+
+<p align="center">
+    <a href="https://twitter.com/intent/follow?screen_name=parseplatform"><img alt="Follow on Twitter" src="https://img.shields.io/twitter/follow/parseplatform?style=social&label=Follow"></a>
+    <a href=" https://github.com/parse-community/Parse-Swift/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-lightgrey.svg"></a>
+    <a href="#backers"><img alt="Backers on Open Collective" src="https://opencollective.com/parse-server/backers/badge.svg" /></a>
+  <a href="#sponsors"><img alt="Sponsors on Open Collective" src="https://opencollective.com/parse-server/sponsors/badge.svg" /></a>
+</p>
+
+<p align="center">
+    <a href="https://github.com/parse-community/Parse-Swift"><img alt="Dependencies" src="https://img.shields.io/badge/dependencies-0-yellowgreen.svg"></a>
+    <a href="https://travis-ci.org/parse-community/Parse-Swift/branches"><img alt="Build status" src="https://img.shields.io/travis/parse-community/Parse-Swift/master.svg"></a>
+    <a href="https://community.parseplatform.org/"><img alt="Join the conversation" src="https://img.shields.io/discourse/https/community.parseplatform.org/topics.svg"></a>
+</p>
+
+<p><br></p>
+
+<p>For more information about the Parse Platform and its features, see the public <a href="http://docs.parseplatform.org/ios/guide/">documentation</a>.</p>
+<h2 id='installation' class='heading'>Installation</h2>
+
+<p>As there are currently no releases of the ParseSwift SDK you will need to specify either a branch or a specific commit with your chosen package manager. The <code>master</code> branch may be unstable and there may be breaking changes.</p>
+<h3 id='a-href-https-swift-org-package-manager-swift-package-manager-a' class='heading'><a href="https://swift.org/package-manager/">Swift Package Manager</a></h3>
+
+<p>You can use The Swift Package Manager to install ParseSwift by adding the following description to your <code>Package.swift</code> file:</p>
+<pre class="highlight swift"><code><span class="c1">// swift-tools-version:5.0</span>
+<span class="kd">import</span> <span class="kt">PackageDescription</span>
+
+<span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
+    <span class="nv">name</span><span class="p">:</span> <span class="s">"YOUR_PROJECT_NAME"</span><span class="p">,</span>
+    <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
+        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/parse-community/Parse-Swift.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">branch</span><span class="p">(</span><span class="s">"master"</span><span class="p">)</span><span class="s">"),
+    ]
+)
+</span></code></pre>
+
+<p>Then run <code>swift build</code>.</p>
+<h3 id='a-href-https-cocoapods-org-cocoapods-a' class='heading'><a href="https://cocoapods.org">CocoaPods</a></h3>
+
+<p>Add the following line to your Podfile:</p>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'ParseSwift'</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">'https://github.com/parse-community/Parse-Swift'</span><span class="p">,</span> <span class="ss">:branch</span> <span class="o">=&gt;</span> <span class="s1">'master'</span>
+</code></pre>
+
+<p>Run <code>pod install</code>, and you should now have the latest version from the master branch. Please be aware that as this SDK is still in development there may be issues with master.</p>
+<h3 id='a-href-https-github-com-carthage-carthage-carthage-a' class='heading'><a href="https://github.com/carthage/carthage">Carthage</a></h3>
+
+<p>Add the following line to your Cartfile:</p>
+<pre class="highlight plaintext"><code>github "parse-community/Parse-Swift" "master"
+</code></pre>
+
+<p>Run <code>carthage update</code>, and you should now have the latest version of ParseSwift SDK in your Carthage folder.</p>
+<h2 id='ios-usage-guide' class='heading'>iOS Usage Guide</h2>
+
+<p>After installing ParseSwift, to use it first <code>import ParseSwift</code> in your AppDelegate.swift and then add the following code in your <code>application:didFinishLaunchingWithOptions:</code> method:</p>
+<pre class="highlight swift"><code><span class="kt">ParseSwift</span><span class="o">.</span><span class="nf">initialize</span><span class="p">(</span><span class="nv">applicationId</span><span class="p">:</span> <span class="s">"xxxxxxxxxx"</span><span class="p">,</span> <span class="nv">clientKey</span><span class="p">:</span> <span class="s">"xxxxxxxxxx"</span><span class="p">,</span> <span class="nv">serverURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://example.com"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+</code></pre>
+
+<p>Please chechout the <a href="https://github.com/parse-community/Parse-Swift/tree/master/ParseSwift.playground">Swift Playground</a> for more usage information.</p>
+
+          </div>
+        </section>
+
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-08-02)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>
