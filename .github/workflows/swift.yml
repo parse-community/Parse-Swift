@@ -1,0 +1,109 @@
+name: Swift
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build-test-ios:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,OS\=13.6,name\=iPhone\ 11\ Pro\ Max build test | xcpretty
+
+  build-macos:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: xcodebuild -target ParseSwift\ \(macOS\) | xcpretty
+
+  build-tvos:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: xcodebuild -target ParseSwift\ \(tvOS\) | xcpretty
+      
+  build-watchos:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
+
+  build-test-swift:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: swift build -v
+    - name: Run tests
+      run: swift test --enable-code-coverage -v
+    - name: Prepare Codecov Files
+      run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
+    - name: Codecov
+      run: bash <(curl https://codecov.io/bash)
+      
+  deploy_docs:
+    
+    needs: build-test-swift
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      
+      - name: Cache Gems
+        id: cache-gems
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-
+      
+      - name: Install Bundle
+        run: |
+          bundle config path vendor/bundle
+          bundle install
+      
+      - name: Create Jazzy Docs
+        run: ./Scripts/jazzy.sh
+
+      - name: Deploy Jazzy Docs
+        if: github.ref == 'refs/heads/master'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          publish_dir: ./docs
+
+  cocoapods:
+    needs: [build-test-swift]
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: CocoaPods
+        run: pod lib lint
+ 
+  carthage:
+
+   needs: build-test-swift
+   runs-on: macos-latest
+
+   steps:
+     - uses: actions/checkout@v2
+     - name: Carthage 
+       run: carthage build --no-skip-current
