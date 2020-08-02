@@ -43,25 +43,6 @@ jobs:
       - run: xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
       - store_test_results:
           path: build/reports
-  spm-build-test:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: *prepare
-      - run: swift build
-      - run: swift test --enable-code-coverage
-      - run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
-      - run: bash <(curl https://codecov.io/bash)
-      - store_test_results:
-          path: build/reports
-  carthage:
-    <<: *defaults
-    steps:
-      - checkout
-      - run: *prepare
-      - run: carthage build --no-skip-current
-      - store_test_results:
-          path: build/reports
 
 workflows:
   version: 2.1
@@ -77,9 +58,3 @@ workflows:
       - watchos-build:
           requires:
             - ios-build-test
-      - spm-build-test:
-          requires:
-            - ios-build-test
-      - carthage:
-          requires:
-            - spm-build-test

@@ -1,0 +1,54 @@
+name: Swift
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: swift build -v
+    - name: Run tests
+      run: swift test --enable-code-coverage -v
+    - name: Prepare Codecov Files
+      run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
+    - name: Codecov
+      run: bash <(curl https://codecov.io/bash)
+      
+  deploy_docs:
+    
+    needs: build
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish Jazzy Docs
+        uses: Steven0351/publish-jazzy-docs@v1.1.2
+        with:
+          personal_access_token: ${{ secrets.ACCESS_TOKEN }}
+          args: "--clean --author Parse Community --author_url http://parseplatform.org --github_url https://github.com/parse-community/Parse-Swift --root-url http://parseplatform.org/Parse-Swift/api/ --module-version ${ver} --theme fullwidth --skip-undocumented --output ./docs/api --module ParseSwift --swift-build-tool spm --build-tool-arguments -Xswiftc,-swift-version,-Xswiftc,5"
+  
+  cocoapods:
+    needs: [build]
+    runs-on: macos-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: CocoaPods
+        run: pod lib lint
+ 
+  carthage:
+
+   needs: build
+   runs-on: macos-latest
+
+   steps:
+     - uses: actions/checkout@v2
+     - name: Carthage 
+       run: carthage build --no-skip-current -v
