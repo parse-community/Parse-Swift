@@ -8,7 +8,7 @@ on:
 
 jobs:
   build:
-
+    
     runs-on: macos-latest
 
     steps:
@@ -21,3 +21,13 @@ jobs:
       run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
     - name: Codecov
       run: bash <(curl https://codecov.io/bash)
+      
+  release:
+
+   needs: build  
+   runs-on: macos-latest
+
+   steps:
+     - uses: actions/checkout@v2
+     - name: Carthage 
+       run: carthage build --no-skip-current
