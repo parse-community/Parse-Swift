@@ -82,8 +82,8 @@ jobs:
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
 
-      if: github.ref == 'refs/heads/master'
       - name: Deploy Jazzy Docs
+        if: github.ref == 'refs/heads/master'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
