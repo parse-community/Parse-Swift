@@ -28,12 +28,31 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Publish Jazzy Docs
-        uses: Steven0351/publish-jazzy-docs@v1.1.2
+      
+      - name: Cache gems
+        id: cache-gems
+        uses: actions/cache@v2
         with:
-          personal_access_token: ${{ secrets.ACCESS_TOKEN }}
-          args: "--clean --author Parse Community --author_url http://parseplatform.org --github_url https://github.com/parse-community/Parse-Swift --root-url http://parseplatform.org/Parse-Swift/api/ --module-version ${ver} --theme fullwidth --skip-undocumented --output ./docs/api --module ParseSwift --swift-build-tool spm --build-tool-arguments -Xswiftc,-swift-version,-Xswiftc,5"
-  
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-
+      
+      - name: Install Bundle
+        if: steps.cache-gems.outputs.cache-hit != 'true'
+        run: |
+          bundle config path vendor/bundle
+          bundle install
+      
+      - name: Create Jazzy Docs
+        run: ./Scripts/jazzy.sh
+
+      - name: Deploy Jazzy Docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./docs
+
   cocoapods:
     needs: [build]
     runs-on: macos-latest
