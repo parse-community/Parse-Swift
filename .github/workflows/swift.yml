@@ -7,7 +7,43 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-test-ios:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,OS\=13.6,name\=iPhone\ 11\ Pro\ Max build test | xcpretty
+
+  build-macos:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: xcodebuild -target ParseSwift\ \(macOS\) | xcpretty
+
+  build-tvos:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: xcodebuild -target ParseSwift\ \(tvOS\) | xcpretty
+      
+  build-watchos:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
+
+  build-test-swift:
     
     runs-on: macos-latest
 
@@ -24,7 +60,7 @@ jobs:
       
   deploy_docs:
     
-    needs: build
+    needs: build-test-swift
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -54,7 +90,7 @@ jobs:
           publish_dir: ./docs
 
   cocoapods:
-    needs: [build]
+    needs: [build-test-swift]
     runs-on: macos-latest
     
     steps:
@@ -64,7 +100,7 @@ jobs:
  
   carthage:
 
-   needs: build
+   needs: build-test-swift
    runs-on: macos-latest
 
    steps:
