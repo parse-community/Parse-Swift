@@ -43,7 +43,7 @@ jobs:
     - name: Build
       run: xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
 
-  swift-test-swift:
+  build-test-swift:
     
     runs-on: macos-latest
 
@@ -60,7 +60,7 @@ jobs:
       
   deploy_docs:
     
-    needs: swift-test-swift
+    needs: build-test-swift
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -90,7 +90,7 @@ jobs:
           publish_dir: ./docs
 
   cocoapods:
-    needs: [swift-test-swift]
+    needs: [build-test-swift]
     runs-on: macos-latest
     
     steps:
@@ -100,7 +100,7 @@ jobs:
  
   carthage:
 
-   needs: swift-test-swift
+   needs: build-test-swift
    runs-on: macos-latest
 
    steps:
