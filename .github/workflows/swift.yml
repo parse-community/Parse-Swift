@@ -40,8 +40,8 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-      - name: CocoaPods Action
-        uses: ty0x2333/cocoapods-action@0.2.0
+      - name: CocoaPods
+        run: pod lib lint
  
   carthage:
 
@@ -51,4 +51,4 @@ jobs:
    steps:
      - uses: actions/checkout@v2
      - name: Carthage 
-       run: carthage build --no-skip-current
+       run: carthage build --no-skip-current -v
