@@ -71,12 +71,7 @@ public extension UserType {
     static func logout(callbackQueue: DispatchQueue = .main, completion: @escaping (Result<Bool, ParseError>) -> Void) {
         logoutCommand()
             .executeAsync(options: [], callbackQueue: callbackQueue) { result in
-                switch result {
-                case .success:
-                    completion(.success(true))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+                completion(result.map { true })
         }
     }
 

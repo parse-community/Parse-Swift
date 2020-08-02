@@ -223,9 +223,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         XCTFail("Should unwrap dates")
                         return
                 }
-                /*Date's are not exactly as their original because the URLMocking doesn't use the same dateEncoding
-                 strategy, so we only compare the day*/
-                XCTAssertTrue(Calendar.current.isDate(savedCreatedAt, equalTo: originalCreatedAt, toGranularity: .day))
+
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(first.ACL)
 
@@ -247,10 +246,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         XCTFail("Should unwrap dates")
                         return
                 }
-                /*Date's are not exactly as their original because the URLMocking doesn't use the same dateEncoding
-                 strategy, so we only compare the day*/
-                XCTAssertTrue(Calendar.current.isDate(savedCreatedAt2,
-                                                      equalTo: originalCreatedAt2, toGranularity: .day))
+
+                XCTAssertEqual(savedCreatedAt2, originalCreatedAt2)
                 XCTAssertGreaterThan(savedUpdatedAt2, originalUpdatedAt2)
                 XCTAssertNil(second.ACL)
 
@@ -279,9 +276,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         XCTFail("Should unwrap dates")
                         return
                 }
-                /*Date's are not exactly as their original because the URLMocking doesn't use the same dateEncoding
-                 strategy, so we only compare the day*/
-                XCTAssertTrue(Calendar.current.isDate(savedCreatedAt, equalTo: originalCreatedAt, toGranularity: .day))
+
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(first.ACL)
             case .failure(let error):
@@ -546,10 +542,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                             XCTFail("Should unwrap dates")
                             return
                     }
-                    /*Date's are not exactly as their original because the URLMocking doesn't use the same dateEncoding
-                     strategy, so we only compare the day*/
-                    XCTAssertTrue(Calendar.current.isDate(savedCreatedAt,
-                                                          equalTo: originalCreatedAt, toGranularity: .day))
+
+                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                     XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                     XCTAssertNil(first.ACL)
                 case .failure(let error):
@@ -569,10 +563,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                             XCTFail("Should unwrap dates")
                             return
                     }
-                    /*Date's are not exactly as their original because the URLMocking doesn't use the same dateEncoding
-                     strategy, so we only compare the day*/
-                    XCTAssertTrue(Calendar.current.isDate(savedCreatedAt2,
-                                                          equalTo: originalCreatedAt2, toGranularity: .day))
+
+                    XCTAssertEqual(savedCreatedAt2, originalCreatedAt2)
                     XCTAssertGreaterThan(savedUpdatedAt2,
                                          originalUpdatedAt2)
                     XCTAssertNil(second.ACL)
@@ -612,10 +604,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                             XCTFail("Should unwrap dates")
                             return
                     }
-                    /*Date's are not exactly as their original because the URLMocking doesn't use the same dateEncoding
-                     strategy, so we only compare the day*/
-                    XCTAssertTrue(Calendar.current.isDate(savedCreatedAt,
-                                                          equalTo: originalCreatedAt, toGranularity: .day))
+
+                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                     XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                     XCTAssertNil(first.ACL)
                 case .failure(let error):
@@ -635,10 +625,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                             XCTFail("Should unwrap dates")
                             return
                     }
-                    /*Date's are not exactly as their original because the URLMocking doesn't use the same dateEncoding
-                     strategy, so we only compare the day*/
-                    XCTAssertTrue(Calendar.current.isDate(savedCreatedAt2,
-                                                          equalTo: originalCreatedAt2, toGranularity: .day))
+
+                    XCTAssertEqual(savedCreatedAt2, originalCreatedAt2)
                     XCTAssertGreaterThan(savedUpdatedAt2,
                                          originalUpdatedAt2)
                     XCTAssertNil(second.ACL)

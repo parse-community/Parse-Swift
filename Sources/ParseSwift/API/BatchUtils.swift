@@ -46,8 +46,10 @@ internal struct SaveOrUpdateResponse: Codable {
         switch method {
         case .POST:
             return asSaveResponse().apply(object)
-        default:
+        case .PUT:
             return asUpdateResponse().apply(object)
+        default:
+            fatalError("There is no configured way to apply for method: \(method)")
         }
     }
 }

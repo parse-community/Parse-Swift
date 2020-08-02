@@ -136,7 +136,7 @@ internal extension API.Command {
         }
         return API.Command<T, T>(method: .GET,
                                  path: object.endpoint) { (data) -> T in
-                                    try getDecoder().decode(T.self, from: data)
+                                    try getDecoder().decode(SaveResponse.self, from: data).apply(object)
         }
     }
 }
@@ -157,20 +157,20 @@ extension API.Command where T: ObjectType {
             return API.Command<T, T>(method: command.method, path: .any(path),
                                      body: body, mapper: command.mapper)
         }
-        let bodies = commands.compactMap { (command) -> (T, API.Method)?  in
+        let bodies = commands.compactMap { (command) -> (body: T, command: API.Method)?  in
             guard let body = command.body else {
                 return nil
             }
-            return (body, command.method)
+            return (body: body, command: command.method)
         }
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
             let decodingType = [BatchResponseItem<SaveOrUpdateResponse>].self
             do {
                 let responses = try getDecoder().decode(decodingType, from: data)
                 return bodies.enumerated().map({ (object) -> (Result<T, ParseError>) in
-                    let response = responses[object.0]
+                    let response = responses[object.offset]
                     if let success = response.success {
-                        return .success(success.apply(object.1.0, method: object.1.1))
+                        return .success(success.apply(object.element.body, method: object.element.command))
                     } else {
                         guard let parseError = response.error else {
                             return .failure(ParseError(code: .unknownError, message: "unknown error"))
