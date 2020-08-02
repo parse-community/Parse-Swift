@@ -51,4 +51,4 @@ jobs:
    steps:
      - uses: actions/checkout@v2
      - name: Carthage 
-       run: carthage build --no-skip-current -v
+       run: carthage build --no-skip-current
