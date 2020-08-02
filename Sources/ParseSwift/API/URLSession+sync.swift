@@ -9,7 +9,7 @@
 import Foundation
 
 extension URLSession {
-    internal func syncDataTask(with request: URLRequest) throws -> Data {
+    internal func syncDataTask(with request: URLRequest) -> Result<Data, ParseError> {
         let semaphore = DispatchSemaphore(value: 0)
         var data: Data?
         var error: Error?
@@ -22,12 +22,13 @@ extension URLSession {
             }.resume()
         semaphore.wait()
         guard let responseData = data else {
-            guard let error = error else {
-                throw ParseError(code: .unknownError, message: "Unable to sync data: \(response!).")
+            guard let error = error as? ParseError else {
+                return .failure(ParseError(code: .unknownError,
+                                           message: "Unable to sync data: \(String(describing: response))."))
             }
-            throw error
+            return .failure(error)
         }
-        return responseData
+        return .success(responseData)
     }
 
 }

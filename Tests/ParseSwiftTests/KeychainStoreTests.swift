@@ -8,8 +8,8 @@
 
 import Foundation
 import XCTest
-
 @testable import ParseSwift
+
 class KeychainStoreTests: XCTestCase {
     var testStore: KeychainStore!
     override func setUp() {
