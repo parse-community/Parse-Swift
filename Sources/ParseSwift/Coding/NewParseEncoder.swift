@@ -49,8 +49,7 @@ internal struct _NewParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEnc
     }
 
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
-        let encoder = _NewParseEncoder(codingPath: codingPath + [key], dictionary: dictionary)
-        try value.encode(to: encoder)
+        dictionary[key.stringValue] = value
     }
 
     mutating func nestedContainer<NestedKey>(
@@ -128,7 +127,7 @@ internal struct _NewParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContain
     }
 
     mutating func encode<T>(_ value: T) throws where T: Encodable {
-        let encoder = _NewParseEncoder(codingPath: [], dictionary: NSMutableDictionary())
+        let encoder = _NewParseEncoder(codingPath: codingPath, dictionary: NSMutableDictionary())
         try value.encode(to: encoder)
 
         array.add(encoder.dictionary)
@@ -141,7 +140,7 @@ internal struct _NewParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContain
         array.add(dictionary)
 
         let container = _NewParseEncoderKeyedEncodingContainer<NestedKey>(
-            codingPath: [],
+            codingPath: codingPath,
             dictionary: dictionary
         )
 
@@ -152,7 +151,7 @@ internal struct _NewParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContain
         let dictionary = NSMutableDictionary()
         array.add(dictionary)
 
-        return _NewParseEncoderUnkeyedEncodingContainer(codingPath: [], dictionary: dictionary)
+        return _NewParseEncoderUnkeyedEncodingContainer(codingPath: codingPath, dictionary: dictionary)
     }
 
     mutating func superEncoder() -> Encoder {
