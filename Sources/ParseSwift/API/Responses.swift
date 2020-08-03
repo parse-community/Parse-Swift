@@ -33,3 +33,15 @@ internal struct UpdateResponse: Decodable {
         return object
     }
 }
+
+internal struct FetchResponse: Decodable {
+    var createdAt: Date
+    var updatedAt: Date
+
+    func apply<T>(_ object: T) -> T where T: ObjectType {
+        var object = object
+        object.createdAt = createdAt
+        object.updatedAt = updatedAt
+        return object
+    }
+}

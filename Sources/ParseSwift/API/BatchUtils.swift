@@ -42,12 +42,21 @@ internal struct SaveOrUpdateResponse: Codable {
         return UpdateResponse(updatedAt: updatedAt)
     }
 
+    func asFetchResponse() -> FetchResponse {
+        guard let createdAt = createdAt, let updatedAt = updatedAt else {
+            fatalError("Cannot create a SaveResponse without objectId")
+        }
+        return FetchResponse(createdAt: createdAt, updatedAt: updatedAt)
+    }
+
     func apply<T>(_ object: T, method: API.Method) -> T where T: ObjectType {
         switch method {
         case .POST:
             return asSaveResponse().apply(object)
         case .PUT:
             return asUpdateResponse().apply(object)
+        case .GET:
+            return asFetchResponse().apply(object)
         default:
             fatalError("There is no configured way to apply for method: \(method)")
         }

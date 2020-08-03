@@ -91,7 +91,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
-    func testFetch() {
+    func testFetch() { // swiftlint:disable:this function_body_length
         var user = User()
         let objectId = "yarr"
         user.objectId = objectId
@@ -100,20 +100,34 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         userOnServer.createdAt = Date()
         userOnServer.updatedAt = Date()
         userOnServer.ACL = nil
-
-        MockURLProtocol.mockRequests { _ in
-            do {
-                let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            } catch {
-                return nil
-            }
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
         }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
         do {
             let fetched = try user.fetch()
-            XCTAssertNotNil(fetched)
-            XCTAssertNotNil(fetched.createdAt)
-            XCTAssertNotNil(fetched.updatedAt)
+            XCTAssertEqual(fetched, userOnServer)
+            guard let fetchedCreatedAt = fetched.createdAt,
+                let fetchedUpdatedAt = fetched.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = userOnServer.createdAt,
+                let originalUpdatedAt = userOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(fetched.ACL)
         } catch {
             XCTFail(error.localizedDescription)
@@ -121,9 +135,20 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         do {
             let fetched = try user.fetch(options: [.useMasterKey])
-            XCTAssertNotNil(fetched)
-            XCTAssertNotNil(fetched.createdAt)
-            XCTAssertNotNil(fetched.updatedAt)
+            XCTAssertEqual(fetched, userOnServer)
+            guard let fetchedCreatedAt = fetched.createdAt,
+                let fetchedUpdatedAt = fetched.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = userOnServer.createdAt,
+                let originalUpdatedAt = userOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+            XCTAssertNil(fetched.ACL)
             XCTAssertNil(fetched.ACL)
         } catch {
             XCTFail(error.localizedDescription)
@@ -139,8 +164,19 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch result {
 
             case .success(let fetched):
-                XCTAssertNotNil(fetched.createdAt)
-                XCTAssertNotNil(fetched.updatedAt)
+                XCTAssertEqual(fetched, userOnServer)
+                guard let fetchedCreatedAt = fetched.createdAt,
+                    let fetchedUpdatedAt = fetched.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                guard let originalCreatedAt = userOnServer.createdAt,
+                    let originalUpdatedAt = userOnServer.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(fetched.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -149,14 +185,25 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         let expectation2 = XCTestExpectation(description: "Fetch user2")
-        user.fetch(options: [.useMasterKey], callbackQueue: .global(qos: .background)) { result in
+        user.fetch(options: [.sessionToken("")], callbackQueue: .global(qos: .background)) { result in
             expectation2.fulfill()
 
             switch result {
 
             case .success(let fetched):
-                XCTAssertNotNil(fetched.createdAt)
-                XCTAssertNotNil(fetched.updatedAt)
+                XCTAssertEqual(fetched, userOnServer)
+                guard let fetchedCreatedAt = fetched.createdAt,
+                    let fetchedUpdatedAt = fetched.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                guard let originalCreatedAt = userOnServer.createdAt,
+                    let originalUpdatedAt = userOnServer.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(fetched.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -174,14 +221,17 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         userOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         userOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         userOnServer.ACL = nil
-
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
         MockURLProtocol.mockRequests { _ in
-            do {
-                let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            } catch {
-                return nil
-            }
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
         DispatchQueue.concurrentPerform(iterations: 100) {_ in
@@ -228,13 +278,17 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         var userOnServer = user
         userOnServer.updatedAt = Date()
 
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
         MockURLProtocol.mockRequests { _ in
-            do {
-                let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            } catch {
-                return nil
-            }
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         do {
             let saved = try user.save()
@@ -341,14 +395,17 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var userOnServer = user
         userOnServer.updatedAt = Date()
-
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
         MockURLProtocol.mockRequests { _ in
-            do {
-                let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            } catch {
-                return nil
-            }
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
         DispatchQueue.concurrentPerform(iterations: 100) {_ in
@@ -366,14 +423,17 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var userOnServer = user
         userOnServer.updatedAt = Date()
-
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
         MockURLProtocol.mockRequests { _ in
-            do {
-                let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            } catch {
-                return nil
-            }
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
         self.updateAsync(user: user, userOnServer: userOnServer, callbackQueue: .main)

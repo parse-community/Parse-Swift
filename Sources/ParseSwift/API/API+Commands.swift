@@ -136,7 +136,7 @@ internal extension API.Command {
         }
         return API.Command<T, T>(method: .GET,
                                  path: object.endpoint) { (data) -> T in
-                                    try getDecoder().decode(SaveResponse.self, from: data).apply(object)
+                                    try getDecoder().decode(FetchResponse.self, from: data).apply(object)
         }
     }
 }
