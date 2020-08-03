@@ -9,7 +9,7 @@
 import Foundation
 
 // MARK: ParseObject
-public protocol ParseObject: Fetchable, Saveable, CustomDebugStringConvertible, Equatable {
+public protocol ParseObject: Fetchable, Saveable, CustomDebugStringConvertible {
     static var className: String { get }
 
     var objectId: String? { get set }
@@ -27,6 +27,10 @@ extension ParseObject {
 
     public var className: String {
         return Self.className
+    }
+
+    public func hasSameObjectId<T: ParseObject>(as other: T) -> Bool {
+        return other.className == className && other.objectId == objectId && objectId != nil
     }
 }
 
@@ -71,16 +75,6 @@ extension ParseObject {
 
         return "\(className) (\(descriptionString))"
     }
-}
-
-// MARK: Equatable
-public func == <T>(lhs: T?, rhs: T?) -> Bool where T: ParseObject {
-    guard let lhs = lhs, let rhs = rhs else { return false }
-    return lhs == rhs
-}
-
-public func == <T>(lhs: T, rhs: T) -> Bool where T: ParseObject {
-    return lhs.className == rhs.className && rhs.objectId == lhs.objectId
 }
 
 // MARK: Fetchable
