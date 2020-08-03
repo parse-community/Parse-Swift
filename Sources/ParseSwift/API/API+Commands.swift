@@ -73,18 +73,11 @@ internal extension API {
             }
             urlRequest.httpMethod = method.rawValue
 
-            URLSession.shared.dataTask(with: urlRequest, callbackQueue: callbackQueue) { result in
+            URLSession.shared.dataTask(with: urlRequest, callbackQueue: callbackQueue, mapper: mapper) { result in
                 switch result {
 
-                case .success(let responseData):
-                    guard let decoded = try? self.mapper(responseData) else {
-                        guard let parseError = try? getDecoder().decode(ParseError.self, from: responseData) else {
-                            completion(.failure(ParseError(code: .unknownError, message: "cannot decode error")))
-                            return
-                        }
-                        completion(.failure(parseError))
-                        return
-                    }
+                case .success(let decoded):
+
                     completion(.success(decoded))
 
                 case .failure(let error):
@@ -164,7 +157,7 @@ extension API.Command where T: ObjectType {
             return (body: body, command: command.method)
         }
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
-            let decodingType = [BatchResponseItem<SaveOrUpdateResponse>].self
+            let decodingType = [BatchResponseItem<WriteResponse>].self
             do {
                 let responses = try getDecoder().decode(decodingType, from: data)
                 return bodies.enumerated().map({ (object) -> (Result<T, ParseError>) in

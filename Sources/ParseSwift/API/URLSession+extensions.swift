@@ -11,13 +11,21 @@ import Foundation
 
 extension URLSession {
 
-    internal func dataTask(with request: URLRequest, callbackQueue: DispatchQueue?,
-                           completion: @escaping(Result<Data, ParseError>) -> Void) {
-
+    internal func dataTask<U>(
+        with request: URLRequest,
+        callbackQueue: DispatchQueue?,
+        mapper: @escaping (Data) throws -> U,
+        completion: @escaping(Result<U, ParseError>) -> Void
+    ) {
         func makeResult(responseData: Data?, urlResponse: URLResponse?,
-                        responseError: Error?) -> Result<Data, ParseError> {
+                        responseError: Error?) -> Result<U, ParseError> {
             if let responseData = responseData {
-                return .success(responseData)
+                do {
+                    return try .success(mapper(responseData))
+                } catch {
+                    let parseError = try? getDecoder().decode(ParseError.self, from: responseData)
+                    return .failure(parseError ?? ParseError(code: .unknownError, message: "cannot decode error"))
+                }
             } else if let responseError = responseError {
                 return .failure(ParseError(code: .unknownError, message: "Unable to sync: \(responseError)"))
             } else {
