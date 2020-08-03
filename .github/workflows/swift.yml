@@ -19,7 +19,7 @@ jobs:
     - name: Build-Test
       run: xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,OS\=13.6,name\=iPhone\ 11\ Pro\ Max build test | xcpretty
       env: 
-        DEVELOPER_DIR: ${ CI_XCODE_VER }
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
  
   swift-macos:
     
@@ -30,7 +30,7 @@ jobs:
     - name: Build
       run: xcodebuild -target ParseSwift\ \(macOS\) | xcpretty
       env: 
-        DEVELOPER_DIR: ${ CI_XCODE_VER }
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
 
   swift-tvos:
     
@@ -41,7 +41,7 @@ jobs:
     - name: Build
       run: xcodebuild -target ParseSwift\ \(tvOS\) | xcpretty
       env: 
-        DEVELOPER_DIR: ${ CI_XCODE_VER }
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
       
   swift-watchos:
     
@@ -52,7 +52,7 @@ jobs:
     - name: Build
       run: xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
       env: 
-        DEVELOPER_DIR: ${ CI_XCODE_VER }
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
 
   build-test-swift:
     
@@ -62,11 +62,11 @@ jobs:
     - name: Build
       run: swift build -v
       env:
-        DEVELOPER_DIR: ${ CI_XCODE_VER }
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Test
       run: swift test --enable-code-coverage -v
       env:
-        DEVELOPER_DIR: ${ CI_XCODE_VER }
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Prepare codecov
       run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
     - name: Send codecov
@@ -96,7 +96,7 @@ jobs:
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
         env: 
-          DEVELOPER_DIR: ${ CI_XCODE_VER }
+          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
 
       - name: Deploy Jazzy Docs
         if: github.ref == 'refs/heads/master'
