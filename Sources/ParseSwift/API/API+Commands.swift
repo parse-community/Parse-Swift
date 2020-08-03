@@ -40,7 +40,7 @@ internal extension API {
                   let componentsURL = components.url else {
                 throw ParseError(code: .unknownError, message: "Invalid URL.")
             }
-            
+
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
 
@@ -59,16 +59,10 @@ internal extension API {
                 return try mapper(responseData)
             } catch {
                 do {
-                    throw try getDecoder().decode(ParseError.self, from: responseData)
+                    throw try ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData)
                 } catch {
                     throw ParseError(code: .unknownError, message: "cannot decode response: \(error)")
                 }
-
-            let responseData = try URLSession.shared.syncDataTask(with: urlRequest)
-            do {
-                return try mapper(responseData)
-            } catch _ {
-                throw try ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData)
             }
         }
 

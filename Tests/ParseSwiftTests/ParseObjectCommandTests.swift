@@ -12,7 +12,7 @@ import XCTest
 
 class ParseObjectCommandTests: XCTestCase {
 
-    struct GameScore: ParseSwift.ObjectType {
+    struct GameScore: ParseObject {
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -75,7 +75,7 @@ class ParseObjectCommandTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -141,7 +141,7 @@ class ParseObjectCommandTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -180,7 +180,7 @@ class ParseObjectCommandTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil

@@ -12,7 +12,7 @@ import XCTest
 
 class ParseUserCommandTests: XCTestCase {
 
-    struct User: ParseSwift.UserType {
+    struct User: ParseUser {
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -28,7 +28,7 @@ class ParseUserCommandTests: XCTestCase {
         var customKey: String?
     }
 
-    struct LoginSignupResponse: ParseSwift.UserType {
+    struct LoginSignupResponse: ParseUser {
         var objectId: String?
         var createdAt: Date?
         var sessionToken: String
@@ -103,7 +103,7 @@ class ParseUserCommandTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+                let encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -171,7 +171,7 @@ class ParseUserCommandTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+                let encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -223,7 +223,7 @@ class ParseUserCommandTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -252,7 +252,7 @@ class ParseUserCommandTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil

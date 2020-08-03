@@ -27,14 +27,15 @@ extension ParseCoding {
         return encoder
     }
 
-    static func parseEncoder() -> ParseEncoder {
+    static func parseEncoder(skipKeys: Bool = true) -> ParseEncoder {
         let encoder = ParseEncoder()
         encoder.dateEncodingStrategy = dateEncodingStrategy
         encoder.shouldEncodeKey = { (key, path) -> Bool in
-            if path.count == 0 // top level
+            if skipKeys && path.count == 0 // top level
                 && Self.forbiddenKeys.contains(key) {
                 return false
             }
+
             return true
         }
 

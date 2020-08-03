@@ -15,8 +15,12 @@ public struct ParseStorage {
         self.backingStore = store
     }
 
-    private func requireBackingStore() {
-        guard backingStore != nil else { fatalError("You can't use ParseStorage without a backing store.") }
+    private mutating func requireBackingStore() {
+        guard backingStore != nil else {
+            print("You can't use ParseStorage without a backing store. An in-memory store is being used as a fallback.")
+            backingStore = CodableInMemoryPrimitiveObjectStore()
+            return
+        }
     }
 
     enum Keys {
