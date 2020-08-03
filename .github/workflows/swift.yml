@@ -62,11 +62,11 @@ jobs:
     - name: Build
       run: swift build -v
       env:
-          DEVELOPER_DIR: ${ CI_XCODE_VER }
+        DEVELOPER_DIR: ${ CI_XCODE_VER }
     - name: Test
       run: swift test --enable-code-coverage -v
       env:
-          DEVELOPER_DIR: ${ CI_XCODE_VER }
+        DEVELOPER_DIR: ${ CI_XCODE_VER }
     - name: Prepare codecov
       run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
     - name: Send codecov
