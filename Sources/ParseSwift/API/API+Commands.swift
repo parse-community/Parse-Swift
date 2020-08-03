@@ -104,7 +104,7 @@ internal extension API.Command {
     // MARK: Saving - private
     private static func createCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
         let mapper = { (data) -> T in
-            try getDecoder().decode(SaveResponse.self, from: data).apply(object)
+            try getDecoder().decode(SaveResponse.self, from: data).apply(to: object)
         }
         return API.Command<T, T>(method: .POST,
                                  path: object.endpoint,
@@ -114,7 +114,7 @@ internal extension API.Command {
 
     private static func updateCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
         let mapper = { (data: Data) -> T in
-            try getDecoder().decode(UpdateResponse.self, from: data).apply(object)
+            try getDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
         }
         return API.Command<T, T>(method: .PUT,
                                  path: object.endpoint,
@@ -129,7 +129,7 @@ internal extension API.Command {
         }
         return API.Command<T, T>(method: .GET,
                                  path: object.endpoint) { (data) -> T in
-                                    try getDecoder().decode(FetchResponse.self, from: data).apply(object)
+                                    try getDecoder().decode(FetchResponse.self, from: data).apply(to: object)
         }
     }
 }
@@ -163,7 +163,7 @@ extension API.Command where T: ObjectType {
                 return bodies.enumerated().map({ (object) -> (Result<T, ParseError>) in
                     let response = responses[object.offset]
                     if let success = response.success {
-                        return .success(success.apply(object.element.body, method: object.element.command))
+                        return .success(success.apply(to: object.element.body, method: object.element.command))
                     } else {
                         guard let parseError = response.error else {
                             return .failure(ParseError(code: .unknownError, message: "unknown error"))

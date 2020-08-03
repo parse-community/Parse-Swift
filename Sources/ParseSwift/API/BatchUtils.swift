@@ -49,14 +49,14 @@ internal struct WriteResponse: Codable {
         return FetchResponse(createdAt: createdAt, updatedAt: updatedAt)
     }
 
-    func apply<T>(_ object: T, method: API.Method) -> T where T: ObjectType {
+    func apply<T>(to object: T, method: API.Method) -> T where T: ObjectType {
         switch method {
         case .POST:
-            return asSaveResponse().apply(object)
+            return asSaveResponse().apply(to: object)
         case .PUT:
-            return asUpdateResponse().apply(object)
+            return asUpdateResponse().apply(to: object)
         case .GET:
-            return asFetchResponse().apply(object)
+            return asFetchResponse().apply(to: object)
         default:
             fatalError("There is no configured way to apply for method: \(method)")
         }
