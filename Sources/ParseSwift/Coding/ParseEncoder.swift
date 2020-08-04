@@ -39,6 +39,11 @@ public struct ParseEncoder {
         let dictionary = try encodeToDictionary(value)
         return try jsonEncoder.encode(AnyCodable(dictionary, dateEncodingStrategy: dateEncodingStrategy!))
     }
+
+    func encode<T: Encodable>(_ array: [T]) throws -> Data {
+        let dictionaries = try array.map { try encodeToDictionary($0) }
+        return try jsonEncoder.encode(AnyCodable(dictionaries, dateEncodingStrategy: dateEncodingStrategy!))
+    }
 }
 
 // MARK: _ParseEncoder
@@ -170,7 +175,7 @@ internal struct _ParseEncoderSingleValueEncodingContainer: SingleValueEncodingCo
     }
 
     var key: String {
-        codingPath.last?.stringValue ?? "_"
+        codingPath.last?.stringValue ?? "<root>"
     }
 
     mutating func encodeNil() throws {
@@ -202,7 +207,7 @@ internal struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer 
     }
 
     var key: String {
-        codingPath.last?.stringValue ?? "_"
+        codingPath.last?.stringValue ?? "<root>"
     }
 
     init(codingPath: [CodingKey], dictionary: NSMutableDictionary, skippingKeys: Set<String>) {
