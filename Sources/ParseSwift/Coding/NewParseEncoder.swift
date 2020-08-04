@@ -39,17 +39,17 @@ internal struct _NewParseEncoder: Encoder {
         _NewParseEncoderUnkeyedEncodingContainer(codingPath: codingPath, dictionary: dictionary)
     }
 
-    static func encode<T: Encodable>(_ value: T, to dictionary: NSMutableDictionary, for key: String) throws {
+    static func encode<T: Encodable>(_ value: T, with codingPath: [CodingKey]) throws -> Any {
         switch value {
         case is Bool, is Int, is Int8, is Int16, is Int32, is Int64, is UInt, is UInt8, is UInt16, is UInt32, is UInt64,
              is Float, is Double, is String:
-            dictionary[key] = value
+            return value
         default:
-            let innerDictionary = NSMutableDictionary()
-            dictionary[key] = innerDictionary
-
-            let encoder = _NewParseEncoder(codingPath: [], dictionary: innerDictionary)
+            let dictionary = NSMutableDictionary()
+            let encoder = _NewParseEncoder(codingPath: codingPath, dictionary: dictionary)
             try value.encode(to: encoder)
+
+            return codingPath.last.map { dictionary[$0.stringValue] ?? dictionary } ?? dictionary
         }
     }
 }
@@ -63,7 +63,7 @@ internal struct _NewParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEnc
     }
 
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
-        try _NewParseEncoder.encode(value, to: dictionary, for: key.stringValue)
+        dictionary[key.stringValue] = try _NewParseEncoder.encode(value, with: codingPath + [key])
     }
 
     mutating func nestedContainer<NestedKey>(
@@ -104,7 +104,7 @@ internal struct _NewParseEncoderSingleValueEncodingContainer: SingleValueEncodin
     }
 
     mutating func encode<T>(_ value: T) throws where T: Encodable {
-        try _NewParseEncoder.encode(value, to: dictionary, for: key)
+        dictionary[key] = try _NewParseEncoder.encode(value, with: codingPath)
     }
 }
 
@@ -141,7 +141,8 @@ internal struct _NewParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContain
     }
 
     mutating func encode<T>(_ value: T) throws where T: Encodable {
-        try _NewParseEncoder.encode(value, to: dictionary, for: key)
+        let encoded = try _NewParseEncoder.encode(value, with: codingPath)
+        array.add(encoded)
     }
 
     mutating func nestedContainer<NestedKey>(

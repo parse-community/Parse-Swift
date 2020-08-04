@@ -12,10 +12,19 @@ import XCTest
 @testable import ParseSwift
 
 class NewParseEncoderTests: XCTestCase {
+    struct NestedComplex: Codable {
+        let str: String
+        let int: Int
+        let arr: [Int]
+        let nestedArr: [[Int]]
+    }
+
     struct Complex: Codable {
         let str: String
         let int: Int
         let arr: [Int]
+        let nestedArr: [[Int]]
+        let nestedComplex: NestedComplex
     }
 
     struct GameScore: ParseObject {
@@ -31,7 +40,11 @@ class NewParseEncoderTests: XCTestCase {
         let score = GameScore(ACL: nil, createdAt: nil, objectId: "test", updatedAt: nil, score: 5, complex: Complex(
             str: "yeeee",
             int: 50,
-            arr: [1, 2, 3]
+            arr: [1, 2, 3],
+            nestedArr: [[1], [2], [3]],
+            nestedComplex: NestedComplex(
+                str: "yooooo", int: 60, arr: [4, 5, 6], nestedArr: [[4], [5], [6]]
+            )
         ))
 
         do {
