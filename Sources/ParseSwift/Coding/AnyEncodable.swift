@@ -65,10 +65,16 @@ extension _AnyEncodable {
 
         var container = encoder.singleValueContainer()
         switch self.value {
-        case is Void:
-            try container.encodeNil()
-        case let bool as Bool:
-            try container.encode(bool)
+        case let dictionary as [String: Any?]:
+            try container.encode(dictionary.mapValues { AnyCodable($0, dateEncodingStrategy: dateEncodingStrategy) })
+        case let array as [Any?]:
+            try container.encode(array.map { AnyCodable($0, dateEncodingStrategy: dateEncodingStrategy) })
+        case let url as URL:
+            try container.encode(url)
+        case let string as String:
+            try container.encode(string)
+        case let date as Date:
+            try container.encode(date)
         case let int as Int:
             try container.encode(int)
         case let int8 as Int8:
@@ -93,16 +99,10 @@ extension _AnyEncodable {
             try container.encode(float)
         case let double as Double:
             try container.encode(double)
-        case let string as String:
-            try container.encode(string)
-        case let date as Date:
-            try container.encode(date)
-        case let url as URL:
-            try container.encode(url)
-        case let array as [Any?]:
-            try container.encode(array.map { AnyCodable($0, dateEncodingStrategy: dateEncodingStrategy) })
-        case let dictionary as [String: Any?]:
-            try container.encode(dictionary.mapValues { AnyCodable($0, dateEncodingStrategy: dateEncodingStrategy) })
+        case let bool as Bool:
+            try container.encode(bool)
+        case is Void:
+            try container.encodeNil()
         default:
             let context = EncodingError.Context(codingPath: container.codingPath,
                                                 debugDescription: "AnyCodable value cannot be encoded")
