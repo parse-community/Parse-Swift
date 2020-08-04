@@ -10,9 +10,9 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseUserCommandTests: XCTestCase {
+class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct User: ParseUser {
+    struct User: ParseSwift.UserType {
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -28,7 +28,7 @@ class ParseUserCommandTests: XCTestCase {
         var customKey: String?
     }
 
-    struct LoginSignupResponse: ParseUser {
+    struct LoginSignupResponse: ParseSwift.UserType {
         var objectId: String?
         var createdAt: Date?
         var sessionToken: String
@@ -91,7 +91,7 @@ class ParseUserCommandTests: XCTestCase {
         }
     }
 
-    func testFetch() {
+    func testFetch() { // swiftlint:disable:this function_body_length
         var user = User()
         let objectId = "yarr"
         user.objectId = objectId
@@ -100,20 +100,34 @@ class ParseUserCommandTests: XCTestCase {
         userOnServer.createdAt = Date()
         userOnServer.updatedAt = Date()
         userOnServer.ACL = nil
-
-        MockURLProtocol.mockRequests { _ in
-            do {
-                let encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            } catch {
-                return nil
-            }
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
         }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
         do {
             let fetched = try user.fetch()
-            XCTAssertNotNil(fetched)
-            XCTAssertNotNil(fetched.createdAt)
-            XCTAssertNotNil(fetched.updatedAt)
+            XCTAssertEqual(fetched, userOnServer)
+            guard let fetchedCreatedAt = fetched.createdAt,
+                let fetchedUpdatedAt = fetched.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = userOnServer.createdAt,
+                let originalUpdatedAt = userOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(fetched.ACL)
         } catch {
             XCTFail(error.localizedDescription)
@@ -121,12 +135,107 @@ class ParseUserCommandTests: XCTestCase {
 
         do {
             let fetched = try user.fetch(options: [.useMasterKey])
-            XCTAssertNotNil(fetched)
-            XCTAssertNotNil(fetched.createdAt)
-            XCTAssertNotNil(fetched.updatedAt)
+            XCTAssertEqual(fetched, userOnServer)
+            guard let fetchedCreatedAt = fetched.createdAt,
+                let fetchedUpdatedAt = fetched.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = userOnServer.createdAt,
+                let originalUpdatedAt = userOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+            XCTAssertNil(fetched.ACL)
             XCTAssertNil(fetched.ACL)
         } catch {
             XCTFail(error.localizedDescription)
+        }
+    }
+
+    func fetchAsync(user: User, userOnServer: User) {
+
+        let expectation1 = XCTestExpectation(description: "Fetch user1")
+        user.fetch(options: [], callbackQueue: .global(qos: .background)) { result in
+            expectation1.fulfill()
+
+            switch result {
+
+            case .success(let fetched):
+                XCTAssertEqual(fetched, userOnServer)
+                guard let fetchedCreatedAt = fetched.createdAt,
+                    let fetchedUpdatedAt = fetched.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                guard let originalCreatedAt = userOnServer.createdAt,
+                    let originalUpdatedAt = userOnServer.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(fetched.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
+        }
+
+        let expectation2 = XCTestExpectation(description: "Fetch user2")
+        user.fetch(options: [.sessionToken("")], callbackQueue: .global(qos: .background)) { result in
+            expectation2.fulfill()
+
+            switch result {
+
+            case .success(let fetched):
+                XCTAssertEqual(fetched, userOnServer)
+                guard let fetchedCreatedAt = fetched.createdAt,
+                    let fetchedUpdatedAt = fetched.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                guard let originalCreatedAt = userOnServer.createdAt,
+                    let originalUpdatedAt = userOnServer.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(fetched.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        }
+        wait(for: [expectation1, expectation2], timeout: 10.0)
+    }
+
+    func testThreadSafeFetchAsync() {
+        var user = User()
+        let objectId = "yarr"
+        user.objectId = objectId
+
+        var userOnServer = user
+        userOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        userOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        userOnServer.ACL = nil
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+            self.fetchAsync(user: user, userOnServer: userOnServer)
         }
     }
 
@@ -169,17 +278,20 @@ class ParseUserCommandTests: XCTestCase {
         var userOnServer = user
         userOnServer.updatedAt = Date()
 
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
         MockURLProtocol.mockRequests { _ in
-            do {
-                let encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            } catch {
-                return nil
-            }
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         do {
             let saved = try user.save()
-            XCTAssertNotNil(saved)
             guard let savedCreatedAt = saved.createdAt,
                 let savedUpdatedAt = saved.updatedAt else {
                     XCTFail("Should unwrap dates")
@@ -199,7 +311,6 @@ class ParseUserCommandTests: XCTestCase {
 
         do {
             let saved = try user.save(options: [.useMasterKey])
-            XCTAssertNotNil(saved)
             guard let savedCreatedAt = saved.createdAt,
                 let savedUpdatedAt = saved.updatedAt else {
                     XCTFail("Should unwrap dates")
@@ -218,12 +329,122 @@ class ParseUserCommandTests: XCTestCase {
         }
     }
 
+    func updateAsync(user: User, userOnServer: User, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Update user1")
+        user.save(options: [], callbackQueue: callbackQueue) { result in
+            expectation1.fulfill()
+
+            switch result {
+
+            case .success(let saved):
+                guard let savedCreatedAt = saved.createdAt,
+                    let savedUpdatedAt = saved.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                guard let originalCreatedAt = user.createdAt,
+                    let originalUpdatedAt = user.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(saved.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
+        }
+
+        let expectation2 = XCTestExpectation(description: "Update user2")
+        user.save(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
+            expectation2.fulfill()
+
+            switch result {
+
+            case .success(let saved):
+                guard let savedCreatedAt = saved.createdAt,
+                    let savedUpdatedAt = saved.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                guard let originalCreatedAt = user.createdAt,
+                    let originalUpdatedAt = user.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(saved.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
+        }
+        wait(for: [expectation1, expectation2], timeout: 10.0)
+    }
+
+    func testThreadSafeUpdateAsync() {
+        var user = User()
+        let objectId = "yarr"
+        user.objectId = objectId
+        user.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        user.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        user.ACL = nil
+
+        var userOnServer = user
+        userOnServer.updatedAt = Date()
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+            self.updateAsync(user: user, userOnServer: userOnServer, callbackQueue: .global(qos: .background))
+        }
+    }
+
+    func testUpdateAsyncMainQueue() {
+        var user = User()
+        let objectId = "yarr"
+        user.objectId = objectId
+        user.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        user.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        user.ACL = nil
+
+        var userOnServer = user
+        userOnServer.updatedAt = Date()
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        self.updateAsync(user: user, userOnServer: userOnServer, callbackQueue: .main)
+    }
+
     func testUserSignUp() {
         let loginResponse = LoginSignupResponse()
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -247,12 +468,71 @@ class ParseUserCommandTests: XCTestCase {
         }
     }
 
+    func signUpAsync(loginResponse: LoginSignupResponse, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Signup user1")
+        User.signup(username: loginResponse.username!, password: loginResponse.password!,
+                    callbackQueue: callbackQueue) { result in
+            expectation1.fulfill()
+
+            switch result {
+
+            case .success(let signedUp):
+                XCTAssertNotNil(signedUp.createdAt)
+                XCTAssertNotNil(signedUp.updatedAt)
+                XCTAssertNotNil(signedUp.email)
+                XCTAssertNotNil(signedUp.username)
+                XCTAssertNotNil(signedUp.password)
+                XCTAssertNotNil(signedUp.objectId)
+                XCTAssertNotNil(signedUp.sessionToken)
+                XCTAssertNotNil(signedUp.customKey)
+                XCTAssertNil(signedUp.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testThreadSafeSignUpAsync() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+            self.signUpAsync(loginResponse: loginResponse, callbackQueue: .global(qos: .background))
+        }
+    }
+
+    func testSignUpAsyncMainQueue() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.signUpAsync(loginResponse: loginResponse, callbackQueue: .main)
+    }
+
     func testUserLogin() {
         let loginResponse = LoginSignupResponse()
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -275,4 +555,130 @@ class ParseUserCommandTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
-}
+
+    func userLoginAsync(loginResponse: LoginSignupResponse, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Login user")
+        User.login(username: loginResponse.username!, password: loginResponse.password!,
+                   callbackQueue: callbackQueue) { result in
+            expectation1.fulfill()
+
+            switch result {
+
+            case .success(let loggedIn):
+                XCTAssertNotNil(loggedIn.createdAt)
+                XCTAssertNotNil(loggedIn.updatedAt)
+                XCTAssertNotNil(loggedIn.email)
+                XCTAssertNotNil(loggedIn.username)
+                XCTAssertNotNil(loggedIn.password)
+                XCTAssertNotNil(loggedIn.objectId)
+                XCTAssertNotNil(loggedIn.sessionToken)
+                XCTAssertNotNil(loggedIn.customKey)
+                XCTAssertNil(loggedIn.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testThreadSafeLoginAsync() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+            self.userLoginAsync(loginResponse: loginResponse, callbackQueue: .global(qos: .background))
+        }
+    }
+
+    func testLoginAsyncMainQueue() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.userLoginAsync(loginResponse: loginResponse, callbackQueue: .main)
+    }
+
+    func testUserLogout() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            try User.logout()
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func logoutAsync(callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        User.logout(callbackQueue: callbackQueue) { result in
+            expectation1.fulfill()
+
+            switch result {
+
+            case .success(let success):
+                XCTAssertTrue(success)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testThreadSafeLogoutAsync() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+            self.logoutAsync(callbackQueue: .global(qos: .background))
+        }
+    }
+
+    func testLogoutAsyncMainQueue() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.logoutAsync(callbackQueue: .main)
+    }
+} // swiftlint:disable:this file_length

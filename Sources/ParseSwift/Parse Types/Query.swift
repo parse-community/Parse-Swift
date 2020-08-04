@@ -3,14 +3,42 @@
 //  Parse
 //
 //  Created by Florent Vilmart on 17-07-23.
-//  Copyright © 2017 Parse. All rights reserved.
+//  Copyright © 2020 Parse Community. All rights reserved.
 //
 
 import Foundation
+public protocol Querying {
+    associatedtype ResultType
+    func find(options: API.Options) throws -> [ResultType]
+    func first(options: API.Options) throws -> ResultType?
+    func count(options: API.Options) throws -> Int
+    func find(options: API.Options, callbackQueue: DispatchQueue,
+              completion: @escaping (Result<[ResultType], ParseError>) -> Void)
+    func first(options: API.Options, callbackQueue: DispatchQueue,
+               completion: @escaping (Result<ResultType, ParseError>) -> Void)
+    func count(options: API.Options, callbackQueue: DispatchQueue,
+               completion: @escaping (Result<Int, ParseError>) -> Void)
+}
 
-public struct FindResult<T>: Decodable where T: ParseObject {
-    let results: [T]
-    let count: Int?
+extension Querying {
+    func find() throws -> [ResultType] {
+        return try find(options: [])
+    }
+    func first() throws -> ResultType? {
+        return try first(options: [])
+    }
+    func count() throws -> Int {
+        return try count(options: [])
+    }
+    func find(completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
+        find(options: [], callbackQueue: .main, completion: completion)
+    }
+    func first(completion: @escaping (Result<ResultType, ParseError>) -> Void) {
+        first(options: [], callbackQueue: .main, completion: completion)
+    }
+    func count(completion: @escaping (Result<Int, ParseError>) -> Void) {
+        count(options: [], callbackQueue: .main, completion: completion)
+    }
 }
 
 public struct QueryConstraint: Encodable {
@@ -65,7 +93,7 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
     return QueryConstraint(key: key, value: value, comparator: .equals)
 }
 
-private struct InQuery<T>: Encodable where T: ParseObject {
+private struct InQuery<T>: Encodable where T: ObjectType {
     let query: Query<T>
     var className: String {
         return T.className
@@ -108,7 +136,7 @@ internal struct QueryWhere: Encodable {
     }
 }
 
-public struct Query<T>: Encodable where T: ParseObject {
+public struct Query<T>: Encodable where T: ObjectType {
     // interpolate as GET
     private let method: String = "GET"
     private var limit: Int = 100
@@ -181,7 +209,7 @@ public struct Query<T>: Encodable where T: ParseObject {
     }
 }
 
-extension Query: Queryable {
+extension Query: Querying {
 
     public typealias ResultType = T
 
@@ -189,19 +217,46 @@ extension Query: Queryable {
         return try findCommand().execute(options: options)
     }
 
+    public func find(options: API.Options, callbackQueue: DispatchQueue,
+                     completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
+        findCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+    }
+
     public func first(options: API.Options) throws -> ResultType? {
         return try firstCommand().execute(options: options)
     }
 
+    public func first(options: API.Options, callbackQueue: DispatchQueue,
+                      completion: @escaping (Result<ResultType, ParseError>) -> Void) {
+        firstCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
+
+            switch result {
+            case .success(let first):
+                guard let first = first else {
+                    completion(.failure(ParseError(code: .unknownError, message: "unable to unwrap data") ))
+                    return
+                }
+                completion(.success(first))
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+    }
+
     public func count(options: API.Options) throws -> Int {
         return try countCommand().execute(options: options)
+    }
+
+    public func count(options: API.Options, callbackQueue: DispatchQueue,
+                      completion: @escaping (Result<Int, ParseError>) -> Void) {
+        countCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 }
 
 private extension Query {
     private func findCommand() -> API.Command<Query<ResultType>, [ResultType]> {
         return API.Command(method: .POST, path: endpoint, body: self) {
-            try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).results
+            try getDecoder().decode(FindResult<T>.self, from: $0).results
         }
     }
 
@@ -209,7 +264,7 @@ private extension Query {
         var query = self
         query.limit = 1
         return API.Command(method: .POST, path: endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).results.first
+            try getDecoder().decode(FindResult<T>.self, from: $0).results.first
         }
     }
 
@@ -218,7 +273,7 @@ private extension Query {
         query.limit = 1
         query.isCount = true
         return API.Command(method: .POST, path: endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
+            try getDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
         }
     }
 }
