@@ -1,5 +1,5 @@
 //
-//  ParseObjectType.swift
+//  ParseParseObject.swift
 //  ParseSwift
 //
 //  Created by Florent Vilmart on 17-07-24.

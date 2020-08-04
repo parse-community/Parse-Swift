@@ -12,7 +12,7 @@ import XCTest
 
 class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct GameScore: ParseSwift.ObjectType {
+    struct GameScore: ParseSwift.ParseObject {
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -74,7 +74,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -87,7 +87,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         }
         do {
             let fetched = try score.fetch(options: [])
-            XCTAssertEqual(fetched, scoreOnServer)
+            XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
             guard let fetchedCreatedAt = fetched.createdAt,
                 let fetchedUpdatedAt = fetched.updatedAt else {
                     XCTFail("Should unwrap dates")
@@ -107,7 +107,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
 
         do {
             let fetched = try score.fetch(options: [.useMasterKey])
-            XCTAssertEqual(fetched, scoreOnServer)
+            XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
             guard let fetchedCreatedAt = fetched.createdAt,
                 let fetchedUpdatedAt = fetched.updatedAt else {
                     XCTFail("Should unwrap dates")
@@ -134,7 +134,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
 
             switch result {
             case .success(let fetched):
-                XCTAssertEqual(fetched, scoreOnServer)
+                XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -159,7 +159,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
             expectation2.fulfill()
             switch result {
             case .success(let fetched):
-                XCTAssertEqual(fetched, scoreOnServer)
+                XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -192,7 +192,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
 
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -220,7 +220,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -273,7 +273,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
 
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -286,7 +286,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         }
         do {
             let saved = try score.save()
-            XCTAssertEqual(saved, scoreOnServer)
+            XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
             guard let savedCreatedAt = saved.createdAt,
                 let savedUpdatedAt = saved.updatedAt else {
                     XCTFail("Should unwrap dates")
@@ -306,7 +306,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
 
         do {
             let saved = try score.save(options: [.useMasterKey])
-            XCTAssertEqual(saved, scoreOnServer)
+            XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
             guard let savedCreatedAt = saved.createdAt,
                 let savedUpdatedAt = saved.updatedAt else {
                     XCTFail("Should unwrap dates")
@@ -337,7 +337,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
 
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -397,7 +397,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
             switch result {
 
             case .success(let saved):
-                XCTAssertEqual(saved, scoreOnServer)
+                XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
                 guard let savedCreatedAt = saved.createdAt,
                     let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -424,7 +424,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
             switch result {
 
             case .success(let saved):
-                XCTAssertEqual(saved, scoreOnServer)
+                XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
                 guard let savedCreatedAt = saved.createdAt,
                     let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -455,7 +455,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -481,7 +481,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -562,7 +562,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         scoreOnServer.updatedAt = Date()
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -589,7 +589,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         scoreOnServer.updatedAt = Date()
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
         } catch {

@@ -35,18 +35,23 @@ extension ParseObject {
 }
 
 // MARK: Batch Support
-public extension ParseObject {
-    static func saveAll(_ objects: Self...) throws -> [(Self, ParseError?)] {
-        return try objects.saveAll()
-    }
-}
-
-extension Sequence where Element: ParseObject {
-    public func saveAll(options: API.Options = []) throws -> [(Self.Element, ParseError?)] {
+public extension Sequence where Element: ParseObject {
+    func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         let commands = map { $0.saveCommand() }
         return try API.Command<Self.Element, Self.Element>
                 .batch(commands: commands)
                 .execute(options: options)
+    }
+
+    func saveAll(
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
+    ) {
+        let commands = map { $0.saveCommand() }
+        API.Command<Self.Element, Self.Element>
+                .batch(commands: commands)
+                .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 }
 
@@ -83,6 +88,20 @@ extension ParseObject {
         return try fetchCommand().execute(options: options)
     }
 
+    public func fetch(
+        options: API.Options,
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<Self, ParseError>) -> Void
+    ) {
+         do {
+             try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+         } catch let error as ParseError {
+             completion(.failure(error))
+         } catch {
+             completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+         }
+     }
+
     internal func fetchCommand() throws -> API.Command<Self, Self> {
         return try API.Command<Self, Self>.fetchCommand(self)
     }
@@ -114,6 +133,14 @@ public extension ParseObject {
 extension ParseObject {
     public func save(options: API.Options) throws -> Self {
         return try saveCommand().execute(options: options)
+    }
+
+    func save(
+        options: API.Options,
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<Self, ParseError>) -> Void
+    ) {
+        saveCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
     internal func saveCommand() -> API.Command<Self, Self> {

@@ -34,4 +34,8 @@ internal extension ParseObject {
     func getEncoder(skipKeys: Bool = true) -> ParseEncoder {
         return ParseCoding.parseEncoder(skipKeys: skipKeys)
     }
+
+    func getTestDecoder() -> JSONDecoder {
+        ParseCoding.jsonDecoder()
+    }
 }

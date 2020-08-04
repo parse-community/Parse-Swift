@@ -19,7 +19,7 @@ internal extension API {
         let params: [String: String?]?
 
         internal var data: Data? {
-            return try? getJSONEncoder().encode(body)
+            return try? ParseCoding.jsonEncoder().encode(body)
         }
 
         init(method: API.Method,
@@ -94,7 +94,7 @@ internal extension API {
 
 internal extension API.Command {
     // MARK: Saving
-    static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
+    static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         if object.isSaved {
             return updateCommand(object)
         }
@@ -102,9 +102,9 @@ internal extension API.Command {
     }
 
     // MARK: Saving - private
-    private static func createCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
+    private static func createCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         let mapper = { (data) -> T in
-            try getDecoder().decode(SaveResponse.self, from: data).apply(to: object)
+            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
         }
         return API.Command<T, T>(method: .POST,
                                  path: object.endpoint,
@@ -112,9 +112,9 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    private static func updateCommand<T>(_ object: T) -> API.Command<T, T> where T: ObjectType {
+    private static func updateCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         let mapper = { (data: Data) -> T in
-            try getDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
+            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
         }
         return API.Command<T, T>(method: .PUT,
                                  path: object.endpoint,
@@ -123,18 +123,21 @@ internal extension API.Command {
     }
 
     // MARK: Fetching
-    static func fetchCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ObjectType {
+    static func fetchCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
         guard object.isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Fetch an object without id")
         }
-        return API.Command<T, T>(method: .GET,
-                                 path: object.endpoint) { (data) -> T in
-                                    try getDecoder().decode(FetchResponse.self, from: data).apply(to: object)
+
+        return API.Command<T, T>(
+            method: .GET,
+            path: object.endpoint
+        ) { (data) -> T in
+            try ParseCoding.jsonDecoder().decode(FetchResponse.self, from: data).apply(to: object)
         }
     }
 }
 
-extension API.Command where T: ObjectType {
+extension API.Command where T: ParseObject {
 
     internal var data: Data? {
         guard let body = body else { return nil }
@@ -159,7 +162,7 @@ extension API.Command where T: ObjectType {
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
             let decodingType = [BatchResponseItem<WriteResponse>].self
             do {
-                let responses = try getDecoder().decode(decodingType, from: data)
+                let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
                 return bodies.enumerated().map({ (object) -> (Result<T, ParseError>) in
                     let response = responses[object.offset]
                     if let success = response.success {

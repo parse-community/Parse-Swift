@@ -44,6 +44,16 @@ extension ParseUser {
         return try loginCommand(username: username, password: password).execute(options: [])
     }
 
+    public static func login(
+        username: String,
+        password: String,
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<Self, ParseError>) -> Void
+    ) {
+        return loginCommand(username: username, password: password)
+            .executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
+    }
+
     private static func loginCommand(username: String,
                                      password: String) -> API.Command<NoBody, Self> {
         let params = [
@@ -73,6 +83,12 @@ extension ParseUser {
         _ = try logoutCommand().execute(options: [])
     }
 
+    static func logout(callbackQueue: DispatchQueue = .main, completion: @escaping (Result<Bool, ParseError>) -> Void) {
+        logoutCommand().executeAsync(options: [], callbackQueue: callbackQueue) { result in
+            completion(result.map { true })
+        }
+    }
+
     private static func logoutCommand() -> API.Command<NoBody, Void> {
        return API.Command(method: .POST, path: .logout) { (_) -> Void in
             currentUserContainer = nil
@@ -89,6 +105,16 @@ extension ParseUser {
 
     public func signup() throws -> Self {
         return try signupCommand().execute(options: [])
+    }
+
+    public static func signup(
+        username: String,
+        password: String,
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<Self, ParseError>) -> Void
+    ) {
+        return signupCommand(username: username, password: password)
+            .executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
     }
 
     private static func signupCommand(username: String,

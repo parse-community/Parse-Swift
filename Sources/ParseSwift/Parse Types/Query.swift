@@ -93,7 +93,7 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
     return QueryConstraint(key: key, value: value, comparator: .equals)
 }
 
-private struct InQuery<T>: Encodable where T: ObjectType {
+private struct InQuery<T>: Encodable where T: ParseObject {
     let query: Query<T>
     var className: String {
         return T.className
@@ -136,7 +136,7 @@ internal struct QueryWhere: Encodable {
     }
 }
 
-public struct Query<T>: Encodable where T: ObjectType {
+public struct Query<T>: Encodable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     private var limit: Int = 100
@@ -256,7 +256,7 @@ extension Query: Querying {
 private extension Query {
     private func findCommand() -> API.Command<Query<ResultType>, [ResultType]> {
         return API.Command(method: .POST, path: endpoint, body: self) {
-            try getDecoder().decode(FindResult<T>.self, from: $0).results
+            try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).results
         }
     }
 
@@ -264,7 +264,7 @@ private extension Query {
         var query = self
         query.limit = 1
         return API.Command(method: .POST, path: endpoint, body: query) {
-            try getDecoder().decode(FindResult<T>.self, from: $0).results.first
+            try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).results.first
         }
     }
 
@@ -273,7 +273,7 @@ private extension Query {
         query.limit = 1
         query.isCount = true
         return API.Command(method: .POST, path: endpoint, body: query) {
-            try getDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
+            try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
         }
     }
 }
