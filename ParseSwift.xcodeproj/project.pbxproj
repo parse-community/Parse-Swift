@@ -7,10 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4A2D8C811F48B3A900EE1FCC /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
 		4A2F14961F4A5F2900A7A7EF /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14951F4A5F2900A7A7EF /* Responses.swift */; };
 		4A2F14991F4A5FB500A7A7EF /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14951F4A5F2900A7A7EF /* Responses.swift */; };
-		4A65114F1F48E3F3005237DF /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
 		4A6511501F48E400005237DF /* BatchUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC397711F488F9E00DEA9D3 /* BatchUtils.swift */; };
 		4A6511511F48E406005237DF /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AC3976F1F48778900DEA9D3 /* ACL.swift */; };
 		4A6511521F48E406005237DF /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7ED1F254B820063D731 /* GeoPoint.swift */; };
@@ -92,7 +90,6 @@
 		912C9BEC24D302B0009947C3 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C424B9117400B95310 /* AnyCodable.swift */; };
 		912C9BED24D302B0009947C3 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C524B9117500B95310 /* AnyDecodable.swift */; };
 		912C9BEE24D302B0009947C3 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C624B9117500B95310 /* AnyEncodable.swift */; };
-		912C9BEF24D302B0009947C3 /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
 		912C9BF024D302B0009947C3 /* ParseMutationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */; };
 		912C9BF124D302B0009947C3 /* AddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA5481F26519B00628B17 /* AddOperation.swift */; };
 		912C9BF224D302B0009947C3 /* RemoveOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54A1F2651D900628B17 /* RemoveOperation.swift */; };
@@ -121,7 +118,6 @@
 		912C9C0924D302B2009947C3 /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C424B9117400B95310 /* AnyCodable.swift */; };
 		912C9C0A24D302B2009947C3 /* AnyDecodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C524B9117500B95310 /* AnyDecodable.swift */; };
 		912C9C0B24D302B2009947C3 /* AnyEncodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709075C624B9117500B95310 /* AnyEncodable.swift */; };
-		912C9C0C24D302B2009947C3 /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */; };
 		912C9C0D24D302B2009947C3 /* ParseMutationContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A99A4681F2650CA00D72A59 /* ParseMutationContainer.swift */; };
 		912C9C0E24D302B2009947C3 /* AddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA5481F26519B00628B17 /* AddOperation.swift */; };
 		912C9C0F24D302B2009947C3 /* RemoveOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEBA54A1F2651D900628B17 /* RemoveOperation.swift */; };
@@ -151,8 +147,7 @@
 		F9D7986124D7A93700BEE62E /* NoBody.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D7985824D7A93000BEE62E /* NoBody.swift */; };
 		F9D7986424D7A95800BEE62E /* ParseStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D7986224D7A95700BEE62E /* ParseStorage.swift */; };
 		F9D7986524D7A95800BEE62E /* PrimitiveObjectStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D7986324D7A95800BEE62E /* PrimitiveObjectStore.swift */; };
-		F9FCA9A724D8A6AB004EBF16 /* NewParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FCA9A624D8A6AB004EBF16 /* NewParseEncoder.swift */; };
-		F9FCA9A924D8ADEE004EBF16 /* NewParseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FCA9A824D8ADEE004EBF16 /* NewParseEncoderTests.swift */; };
+		F9FCA9A724D8A6AB004EBF16 /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FCA9A624D8A6AB004EBF16 /* ParseEncoder.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -174,7 +169,6 @@
 
 /* Begin PBXFileReference section */
 		4A1120BF1F49FC3300E32D94 /* LinuxMain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LinuxMain.swift; sourceTree = "<group>"; };
-		4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoder.swift; sourceTree = "<group>"; };
 		4A2F14901F4A41B900A7A7EF /* Asynchronous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Asynchronous.swift; sourceTree = "<group>"; };
 		4A2F14951F4A5F2900A7A7EF /* Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
 		4A82B7ED1F254B820063D731 /* GeoPoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
@@ -239,8 +233,7 @@
 		F9D7985924D7A93000BEE62E /* BaseParseUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseParseUser.swift; sourceTree = "<group>"; };
 		F9D7986224D7A95700BEE62E /* ParseStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseStorage.swift; sourceTree = "<group>"; };
 		F9D7986324D7A95800BEE62E /* PrimitiveObjectStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PrimitiveObjectStore.swift; sourceTree = "<group>"; };
-		F9FCA9A624D8A6AB004EBF16 /* NewParseEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewParseEncoder.swift; sourceTree = "<group>"; };
-		F9FCA9A824D8ADEE004EBF16 /* NewParseEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewParseEncoderTests.swift; sourceTree = "<group>"; };
+		F9FCA9A624D8A6AB004EBF16 /* ParseEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseEncoder.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -373,7 +366,6 @@
 				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				4AA8076D1F794C1C008CD551 /* Info.plist */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
-				F9FCA9A824D8ADEE004EBF16 /* NewParseEncoderTests.swift */,
 				911DB13524C4FC100027F3C7 /* ParseObjectCommandTests.swift */,
 				70E5503D24C7A54C00F6D8D2 /* ParseUserCommandTests.swift */,
 				911DB12D24C4837E0027F3C7 /* APICommandTests.swift */,
@@ -465,9 +457,8 @@
 				709075C524B9117500B95310 /* AnyDecodable.swift */,
 				709075C624B9117500B95310 /* AnyEncodable.swift */,
 				F9D7984C24D7A8F100BEE62E /* Extensions.swift */,
-				F9FCA9A624D8A6AB004EBF16 /* NewParseEncoder.swift */,
+				F9FCA9A624D8A6AB004EBF16 /* ParseEncoder.swift */,
 				F9D7984D24D7A8F100BEE62E /* ParseCoding.swift */,
-				4A2D8C801F48B3A900EE1FCC /* ParseEncoder.swift */,
 			);
 			path = Coding;
 			sourceTree = "<group>";
@@ -820,12 +811,11 @@
 				4AEBA54F1F265A0D00628B17 /* ParseUser.swift in Sources */,
 				4A99A4691F2650CA00D72A59 /* ParseMutationContainer.swift in Sources */,
 				4AC397701F48778900DEA9D3 /* ACL.swift in Sources */,
-				4A2D8C811F48B3A900EE1FCC /* ParseEncoder.swift in Sources */,
 				4A99A46E1F26512100D72A59 /* IncrementOperation.swift in Sources */,
 				4A82B7FF1F256A8F0063D731 /* Query.swift in Sources */,
 				4AF85BD81F78144900665264 /* URLSession+sync.swift in Sources */,
 				709075CB24B9117500B95310 /* AnyEncodable.swift in Sources */,
-				F9FCA9A724D8A6AB004EBF16 /* NewParseEncoder.swift in Sources */,
+				F9FCA9A724D8A6AB004EBF16 /* ParseEncoder.swift in Sources */,
 				4A82B7F41F254CCE0063D731 /* File.swift in Sources */,
 				F9D7985424D7A91300BEE62E /* Fetchable.swift in Sources */,
 				4AF85BD31F78011100665264 /* ParseError.swift in Sources */,
@@ -859,7 +849,6 @@
 				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
 				7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */,
 				7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */,
-				F9FCA9A924D8ADEE004EBF16 /* NewParseEncoderTests.swift in Sources */,
 				7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */,
 				4AA807701F794C31008CD551 /* KeychainStoreTests.swift in Sources */,
 				70E5503E24C7A54C00F6D8D2 /* ParseUserCommandTests.swift in Sources */,
@@ -880,7 +869,6 @@
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
 				4AFDA7351F26DAE1002AE4FC /* Query.swift in Sources */,
 				4A2F14991F4A5FB500A7A7EF /* Responses.swift in Sources */,
-				4A65114F1F48E3F3005237DF /* ParseEncoder.swift in Sources */,
 				4AFDA72E1F26DAE1002AE4FC /* AddOperation.swift in Sources */,
 				4AFDA7311F26DAE1002AE4FC /* AddUniqueOperation.swift in Sources */,
 				4AF85BD91F78145C00665264 /* URLSession+sync.swift in Sources */,
@@ -924,7 +912,6 @@
 				912C9C1524D302B2009947C3 /* BatchUtils.swift in Sources */,
 				912C9C0F24D302B2009947C3 /* RemoveOperation.swift in Sources */,
 				912C9C1424D302B2009947C3 /* API+Commands.swift in Sources */,
-				912C9C0C24D302B2009947C3 /* ParseEncoder.swift in Sources */,
 				912C9C0624D302B2009947C3 /* GeoPoint.swift in Sources */,
 				912C9C0024D302B2009947C3 /* (null) in Sources */,
 				912C9C1324D302B2009947C3 /* API.swift in Sources */,
@@ -962,7 +949,6 @@
 				912C9BF824D302B0009947C3 /* BatchUtils.swift in Sources */,
 				912C9BF224D302B0009947C3 /* RemoveOperation.swift in Sources */,
 				912C9BF724D302B0009947C3 /* API+Commands.swift in Sources */,
-				912C9BEF24D302B0009947C3 /* ParseEncoder.swift in Sources */,
 				912C9BE924D302B0009947C3 /* GeoPoint.swift in Sources */,
 				912C9BE324D302B0009947C3 /* (null) in Sources */,
 				912C9BF624D302B0009947C3 /* API.swift in Sources */,

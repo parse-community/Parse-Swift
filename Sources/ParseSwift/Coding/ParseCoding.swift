@@ -28,17 +28,8 @@ extension ParseCoding {
     }
 
     static func parseEncoder(skipKeys: Bool = true) -> ParseEncoder {
-        let encoder = ParseEncoder()
-        encoder.dateEncodingStrategy = dateEncodingStrategy
-        encoder.shouldEncodeKey = { (key, path) -> Bool in
-            if skipKeys && path.count == 0 // top level
-                && Self.forbiddenKeys.contains(key) {
-                return false
-            }
-
-            return true
-        }
-
+        let encoder = ParseEncoder(skippingKeys: skipKeys ? forbiddenKeys : [])
+        encoder.jsonEncoder.dateEncodingStrategy = dateEncodingStrategy
         return encoder
     }
 }
