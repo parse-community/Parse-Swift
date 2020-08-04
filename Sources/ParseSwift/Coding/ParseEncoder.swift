@@ -11,6 +11,7 @@
 
 import Foundation
 
+// MARK: ParseEncoder
 public struct ParseEncoder {
     let dateEncodingStrategy: AnyCodable.DateEncodingStrategy?
     let jsonEncoder: JSONEncoder
@@ -40,6 +41,7 @@ public struct ParseEncoder {
     }
 }
 
+// MARK: _ParseEncoder
 internal struct _ParseEncoder: Encoder {
     let codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
@@ -97,6 +99,7 @@ internal struct _ParseEncoder: Encoder {
     }
 }
 
+// MARK: _ParseEncoderKeyedEncodingContainer
 internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodingContainerProtocol {
     let codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
@@ -154,6 +157,7 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
     }
 }
 
+// MARK: _ParseEncoderSingleValueEncodingContainer
 internal struct _ParseEncoderSingleValueEncodingContainer: SingleValueEncodingContainer {
     let codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
@@ -178,6 +182,7 @@ internal struct _ParseEncoderSingleValueEncodingContainer: SingleValueEncodingCo
     }
 }
 
+// MARK: _ParseEncoderUnkeyedEncodingContainer
 internal struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     let codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
