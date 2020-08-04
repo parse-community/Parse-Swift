@@ -131,6 +131,9 @@
 		912C9C1724D302B2009947C3 /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2F14951F4A5F2900A7A7EF /* Responses.swift */; };
 		912C9C1824D302B2009947C3 /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8074A1F7930E9008CD551 /* SecureStorage.swift */; };
 		912C9C1924D302B2009947C3 /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8074D1F7931B7008CD551 /* KeychainStore.swift */; };
+		F9BB236524D9ACAC00634157 /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FCA9A624D8A6AB004EBF16 /* ParseEncoder.swift */; };
+		F9BB236624D9ACAC00634157 /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FCA9A624D8A6AB004EBF16 /* ParseEncoder.swift */; };
+		F9BB236724D9ACAD00634157 /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9FCA9A624D8A6AB004EBF16 /* ParseEncoder.swift */; };
 		F9D7984E24D7A8F100BEE62E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D7984C24D7A8F100BEE62E /* Extensions.swift */; };
 		F9D7984F24D7A8F100BEE62E /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D7984D24D7A8F100BEE62E /* ParseCoding.swift */; };
 		F9D7985424D7A91300BEE62E /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F9D7985024D7A91300BEE62E /* Fetchable.swift */; };
@@ -864,6 +867,7 @@
 				4AFDA7301F26DAE1002AE4FC /* DeleteOperation.swift in Sources */,
 				4AFDA7341F26DAE1002AE4FC /* Pointer.swift in Sources */,
 				F9D7985D24D7A93700BEE62E /* BaseParseUser.swift in Sources */,
+				F9BB236524D9ACAC00634157 /* ParseEncoder.swift in Sources */,
 				4AA8074C1F7930E9008CD551 /* SecureStorage.swift in Sources */,
 				4A6511501F48E400005237DF /* BatchUtils.swift in Sources */,
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
@@ -920,6 +924,7 @@
 				912C9C0524D302B2009947C3 /* File.swift in Sources */,
 				912C9C0A24D302B2009947C3 /* AnyDecodable.swift in Sources */,
 				912C9C1224D302B2009947C3 /* IncrementOperation.swift in Sources */,
+				F9BB236724D9ACAD00634157 /* ParseEncoder.swift in Sources */,
 				912C9BFD24D302B2009947C3 /* Parse.swift in Sources */,
 				F9D7985C24D7A93700BEE62E /* BaseParseUser.swift in Sources */,
 				912C9C0D24D302B2009947C3 /* ParseMutationContainer.swift in Sources */,
@@ -957,6 +962,7 @@
 				912C9BE824D302B0009947C3 /* File.swift in Sources */,
 				912C9BED24D302B0009947C3 /* AnyDecodable.swift in Sources */,
 				912C9BF524D302B0009947C3 /* IncrementOperation.swift in Sources */,
+				F9BB236624D9ACAC00634157 /* ParseEncoder.swift in Sources */,
 				912C9BE024D302B0009947C3 /* Parse.swift in Sources */,
 				F9D7985E24D7A93700BEE62E /* BaseParseUser.swift in Sources */,
 				912C9BF024D302B0009947C3 /* ParseMutationContainer.swift in Sources */,

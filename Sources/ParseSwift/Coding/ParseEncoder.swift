@@ -12,16 +12,22 @@
 import Foundation
 
 public struct ParseEncoder {
+    let dateEncodingStrategy: AnyCodable.DateEncodingStrategy?
     let jsonEncoder: JSONEncoder
     let skippedKeys: Set<String>
 
-    init(jsonEncoder: JSONEncoder = JSONEncoder(), skippingKeys: Set<String> = []) {
+    init(
+        dateEncodingStrategy: AnyCodable.DateEncodingStrategy? = nil,
+        jsonEncoder: JSONEncoder = JSONEncoder(),
+        skippingKeys: Set<String> = []
+    ) {
+        self.dateEncodingStrategy = dateEncodingStrategy
         self.jsonEncoder = jsonEncoder
         self.skippedKeys = skippingKeys
     }
 
     func encodeToDictionary<T: Encodable>(_ value: T) throws -> [AnyHashable: Any] {
-        let encoder = _NewParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
         try value.encode(to: encoder)
 
         // swiftlint:disable:next force_cast
@@ -30,11 +36,11 @@ public struct ParseEncoder {
 
     func encode<T: Encodable>(_ value: T) throws -> Data {
         let dictionary = try encodeToDictionary(value)
-        return try jsonEncoder.encode(AnyCodable(dictionary))
+        return try jsonEncoder.encode(AnyCodable(dictionary, dateEncodingStrategy: dateEncodingStrategy!))
     }
 }
 
-internal struct _NewParseEncoder: Encoder {
+internal struct _ParseEncoder: Encoder {
     let codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
     let skippedKeys: Set<String>
@@ -47,7 +53,7 @@ internal struct _NewParseEncoder: Encoder {
     }
 
     func container<Key>(keyedBy type: Key.Type) -> KeyedEncodingContainer<Key> where Key: CodingKey {
-        let container = _NewParseEncoderKeyedEncodingContainer<Key>(
+        let container = _ParseEncoderKeyedEncodingContainer<Key>(
             codingPath: codingPath,
             dictionary: dictionary,
             skippingKeys: skippedKeys
@@ -57,7 +63,7 @@ internal struct _NewParseEncoder: Encoder {
     }
 
     func singleValueContainer() -> SingleValueEncodingContainer {
-        _NewParseEncoderSingleValueEncodingContainer(
+        _ParseEncoderSingleValueEncodingContainer(
             codingPath: codingPath,
             dictionary: dictionary,
             skippingKeys: skippedKeys
@@ -65,7 +71,7 @@ internal struct _NewParseEncoder: Encoder {
     }
 
     func unkeyedContainer() -> UnkeyedEncodingContainer {
-        _NewParseEncoderUnkeyedEncodingContainer(
+        _ParseEncoderUnkeyedEncodingContainer(
             codingPath: codingPath,
             dictionary: dictionary,
             skippingKeys: skippedKeys
@@ -79,11 +85,11 @@ internal struct _NewParseEncoder: Encoder {
     ) throws -> Any {
         switch value {
         case is Bool, is Int, is Int8, is Int16, is Int32, is Int64, is UInt, is UInt8, is UInt16, is UInt32, is UInt64,
-             is Float, is Double, is String:
+             is Float, is Double, is String, is Date:
             return value
         default:
             let dictionary = NSMutableDictionary()
-            let encoder = _NewParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
+            let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
             try value.encode(to: encoder)
 
             return codingPath.last.map { dictionary[$0.stringValue] ?? dictionary } ?? dictionary
@@ -91,7 +97,7 @@ internal struct _NewParseEncoder: Encoder {
     }
 }
 
-internal struct _NewParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodingContainerProtocol {
+internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodingContainerProtocol {
     let codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
     let skippedKeys: Set<String>
@@ -111,7 +117,7 @@ internal struct _NewParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEnc
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
         if skippedKeys.contains(key.stringValue) { return }
 
-        dictionary[key.stringValue] = try _NewParseEncoder.encode(
+        dictionary[key.stringValue] = try _ParseEncoder.encode(
             value,
             with: codingPath + [key],
             skippingKeys: skippedKeys
@@ -122,7 +128,7 @@ internal struct _NewParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEnc
         keyedBy keyType: NestedKey.Type,
         forKey key: Key
     ) -> KeyedEncodingContainer<NestedKey> where NestedKey: CodingKey {
-        let container = _NewParseEncoderKeyedEncodingContainer<NestedKey>(
+        let container = _ParseEncoderKeyedEncodingContainer<NestedKey>(
             codingPath: codingPath + [key],
             dictionary: dictionary,
             skippingKeys: skippedKeys
@@ -132,7 +138,7 @@ internal struct _NewParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEnc
     }
 
     mutating func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
-        _NewParseEncoderUnkeyedEncodingContainer(
+        _ParseEncoderUnkeyedEncodingContainer(
             codingPath: codingPath + [key],
             dictionary: dictionary,
             skippingKeys: skippedKeys
@@ -148,7 +154,7 @@ internal struct _NewParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEnc
     }
 }
 
-internal struct _NewParseEncoderSingleValueEncodingContainer: SingleValueEncodingContainer {
+internal struct _ParseEncoderSingleValueEncodingContainer: SingleValueEncodingContainer {
     let codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
     let skippedKeys: Set<String>
@@ -168,11 +174,11 @@ internal struct _NewParseEncoderSingleValueEncodingContainer: SingleValueEncodin
     }
 
     mutating func encode<T>(_ value: T) throws where T: Encodable {
-        dictionary[key] = try _NewParseEncoder.encode(value, with: codingPath, skippingKeys: skippedKeys)
+        dictionary[key] = try _ParseEncoder.encode(value, with: codingPath, skippingKeys: skippedKeys)
     }
 }
 
-internal struct _NewParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer {
+internal struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     let codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
     let skippedKeys: Set<String>
@@ -207,7 +213,7 @@ internal struct _NewParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContain
     }
 
     mutating func encode<T>(_ value: T) throws where T: Encodable {
-        let encoded = try _NewParseEncoder.encode(value, with: codingPath, skippingKeys: skippedKeys)
+        let encoded = try _ParseEncoder.encode(value, with: codingPath, skippingKeys: skippedKeys)
         array.add(encoded)
     }
 
@@ -217,7 +223,7 @@ internal struct _NewParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContain
         let dictionary = NSMutableDictionary()
         array.add(dictionary)
 
-        let container = _NewParseEncoderKeyedEncodingContainer<NestedKey>(
+        let container = _ParseEncoderKeyedEncodingContainer<NestedKey>(
             codingPath: codingPath,
             dictionary: dictionary,
             skippingKeys: skippedKeys
@@ -230,7 +236,7 @@ internal struct _NewParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContain
         let dictionary = NSMutableDictionary()
         array.add(dictionary)
 
-        return _NewParseEncoderUnkeyedEncodingContainer(
+        return _ParseEncoderUnkeyedEncodingContainer(
             codingPath: codingPath,
             dictionary: dictionary,
             skippingKeys: skippedKeys

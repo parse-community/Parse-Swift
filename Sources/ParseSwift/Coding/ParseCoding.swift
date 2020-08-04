@@ -17,7 +17,7 @@ extension ParseCoding {
 
     static func jsonEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = dateEncodingStrategy
+        encoder.dateEncodingStrategy = jsonDateEncodingStrategy
         return encoder
     }
 
@@ -28,9 +28,10 @@ extension ParseCoding {
     }
 
     static func parseEncoder(skipKeys: Bool = true) -> ParseEncoder {
-        let encoder = ParseEncoder(skippingKeys: skipKeys ? forbiddenKeys : [])
-        encoder.jsonEncoder.dateEncodingStrategy = dateEncodingStrategy
-        return encoder
+        ParseEncoder(
+            dateEncodingStrategy: parseDateEncodingStrategy,
+            skippingKeys: skipKeys ? forbiddenKeys : []
+        )
     }
 }
 
@@ -48,12 +49,14 @@ extension ParseCoding {
         return dateFormatter
     }()
 
-    static let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .custom({ (date, enc) in
+    static let jsonDateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .custom(parseDateEncodingStrategy)
+
+    static let parseDateEncodingStrategy: AnyCodable.DateEncodingStrategy = { (date, enc) in
         var container = enc.container(keyedBy: DateEncodingKeys.self)
         try container.encode("Date", forKey: .type)
         let dateString = dateFormatter.string(from: date)
         try container.encode(dateString, forKey: .iso)
-    })
+    }
 
     static let dateDecodingStrategy: JSONDecoder.DateDecodingStrategy = .custom({ (dec) -> Date in
         do {

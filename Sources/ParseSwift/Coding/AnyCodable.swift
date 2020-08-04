@@ -16,8 +16,18 @@ import Foundation
  Source: https://github.com/Flight-School/AnyCodable
  */
 public struct AnyCodable: Codable {
+    public typealias DateEncodingStrategy = (Date, Encoder) throws -> Void
+
+    public let dateEncodingStrategy: DateEncodingStrategy?
     public let value: Any
+
     public init<T>(_ value: T?) {
+        self.dateEncodingStrategy = nil
+        self.value = value ?? ()
+    }
+
+    public init<T>(_ value: T?, dateEncodingStrategy: DateEncodingStrategy?) {
+        self.dateEncodingStrategy = dateEncodingStrategy
         self.value = value ?? ()
     }
 }
