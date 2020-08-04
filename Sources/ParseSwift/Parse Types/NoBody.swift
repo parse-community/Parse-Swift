@@ -2,7 +2,7 @@
 //  NoBody.swift
 //  ParseSwift
 //
-//  Created by Pranjal Satija on 7/18/20.
+//  Created by Florent Vilmart on 17-07-24.
 //  Copyright © 2020 Parse. All rights reserved.
 //
 
