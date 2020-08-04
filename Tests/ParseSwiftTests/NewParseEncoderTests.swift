@@ -48,7 +48,7 @@ class NewParseEncoderTests: XCTestCase {
         ))
 
         do {
-            let encoded = try NewParseEncoder().encode(score)
+            let encoded = try NewParseEncoder(skippingKeys: ["objectId", "ACL", "complex"]).encode(score)
             print(encoded)
         } catch {
             XCTFail(error.localizedDescription)
