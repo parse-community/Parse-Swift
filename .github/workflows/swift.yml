@@ -1,4 +1,4 @@
-name: Swift
+name: build
 
 on:
   push:
@@ -6,56 +6,72 @@ on:
   pull_request:
     branches: [ master ]
 
+env:
+  CI_XCODE_VER: '/Applications/Xcode_11.6.app/Contents/Developer'
+
 jobs:
-  build-test-ios:
+  swift-test-ios:
+    
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build-Test
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 11\ Pro\ Max build test | xcpretty
+      env: 
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
+ 
+  swift-macos:
     
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,OS\=13.6,name\=iPhone\ 11\ Pro\ Max build test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(macOS\) | xcpretty
+      env: 
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
 
-  build-macos:
+  swift-tvos:
     
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: xcodebuild -target ParseSwift\ \(macOS\) | xcpretty
-
-  build-tvos:
-    
-    runs-on: macos-latest
-
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: xcodebuild -target ParseSwift\ \(tvOS\) | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(tvOS\) | xcpretty
+      env: 
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
       
-  build-watchos:
+  swift-watchos:
     
     runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
+      env: 
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
 
   build-test-swift:
     
     runs-on: macos-latest
-
     steps:
     - uses: actions/checkout@v2
     - name: Build
       run: swift build -v
-    - name: Run tests
+      env:
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
+    - name: Test
       run: swift test --enable-code-coverage -v
-    - name: Prepare Codecov Files
+      env:
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
+    - name: Prepare codecov
       run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
-    - name: Codecov
+      env: 
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}      
+    - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
       
   deploy_docs:
@@ -81,6 +97,8 @@ jobs:
       
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
+        env: 
+          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
 
       - name: Deploy Jazzy Docs
         if: github.ref == 'refs/heads/master'
@@ -97,7 +115,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: CocoaPods
         run: pod lib lint
- 
+        env: 
+          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }} 
   carthage:
 
    needs: build-test-swift
@@ -107,3 +126,5 @@ jobs:
      - uses: actions/checkout@v2
      - name: Carthage 
        run: carthage build --no-skip-current
+       env: 
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }} 

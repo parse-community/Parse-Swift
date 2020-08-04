@@ -3,7 +3,7 @@
 //  ParseSwift
 //
 //  Created by Florent Vilmart on 17-07-24.
-//  Copyright © 2017 Parse. All rights reserved.
+//  Copyright © 2020 Parse Community. All rights reserved.
 //
 
 import Foundation
@@ -182,8 +182,24 @@ public extension ObjectType {
         return try saveCommand().execute(options: options)
     }
 
+    func save(options: API.Options, callbackQueue: DispatchQueue = .main,
+              completion: @escaping (Result<Self, ParseError>) -> Void) {
+        saveCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+    }
+
     func fetch(options: API.Options) throws -> Self {
         return try fetchCommand().execute(options: options)
+    }
+
+    func fetch(options: API.Options, callbackQueue: DispatchQueue = .main,
+               completion: @escaping (Result<Self, ParseError>) -> Void) {
+        do {
+            try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+        } catch let error as ParseError {
+            completion(.failure(error))
+        } catch {
+            completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+        }
     }
 
     internal func saveCommand() -> API.Command<Self, Self> {
@@ -208,7 +224,7 @@ extension ObjectType {
     }
 }
 
-public struct FindResult<T>: Decodable where T: ObjectType {
+internal struct FindResult<T>: Codable where T: ObjectType {
     let results: [T]
     let count: Int?
 }

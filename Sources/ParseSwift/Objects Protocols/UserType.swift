@@ -1,3 +1,11 @@
+//
+//  ParseUserType.swift
+//  ParseSwift
+//
+//  Created by Florent Vilmart.
+//  Copyright © 2020 Parse Community. All rights reserved.
+//
+
 import Foundation
 
 internal struct CurrentUserInfo {
@@ -33,20 +41,43 @@ public extension UserType {
 
     static func login(username: String,
                       password: String) throws -> Self {
-        return try loginCommand(username: username, password: password).execute(options: [])
+        return try loginCommand(username: username, password: password)
+            .execute(options: [])
+    }
+
+    static func login(username: String, password: String, callbackQueue: DispatchQueue = .main,
+                      completion: @escaping (Result<Self, ParseError>) -> Void) {
+        return loginCommand(username: username, password: password)
+            .executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
     }
 
     static func signup(username: String,
                        password: String) throws -> Self {
-        return try signupCommand(username: username, password: password).execute(options: [])
+        return try signupCommand(username: username, password: password)
+            .execute(options: [])
+    }
+
+    static func signup(username: String, password: String, callbackQueue: DispatchQueue = .main,
+                       completion: @escaping (Result<Self, ParseError>) -> Void) {
+        return signupCommand(username: username, password: password)
+            .executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
     }
 
     static func logout() throws {
-        _ = try logoutCommand().execute(options: [])
+        _ = try logoutCommand()
+            .execute(options: [])
+    }
+
+    static func logout(callbackQueue: DispatchQueue = .main, completion: @escaping (Result<Bool, ParseError>) -> Void) {
+        logoutCommand()
+            .executeAsync(options: [], callbackQueue: callbackQueue) { result in
+                completion(result.map { true })
+        }
     }
 
     func signup() throws -> Self {
-        return try signupCommand().execute(options: [])
+        return try signupCommand()
+            .execute(options: [])
     }
 }
 

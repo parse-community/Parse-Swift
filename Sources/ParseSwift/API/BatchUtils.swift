@@ -3,34 +3,30 @@
 //  ParseSwift
 //
 //  Created by Florent Vilmart on 17-08-19.
-//  Copyright © 2017 Parse. All rights reserved.
+//  Copyright © 2020 Parse Community. All rights reserved.
 //
 
 import Foundation
 
 typealias ParseObjectBatchCommand<T> = BatchCommand<T, T> where T: ObjectType
-typealias ParseObjectBatchResponse<T> = [(T, ParseError?)]
+typealias ParseObjectBatchResponse<T> = [(Result<T, ParseError>)]
 // swiftlint:disable line_length
 typealias RESTBatchCommandType<T> = API.Command<ParseObjectBatchCommand<T>, ParseObjectBatchResponse<T>> where T: ObjectType
 // swiftlint:enable line_length
 
-public struct BatchCommand<T, U>: Encodable where T: Encodable {
+internal struct BatchCommand<T, U>: Encodable where T: Encodable {
     let requests: [API.Command<T, U>]
 }
 
-public struct BatchResponseItem<T>: Decodable where T: Decodable {
+internal struct BatchResponseItem<T>: Codable where T: Codable {
     let success: T?
     let error: ParseError?
 }
 
-struct SaveOrUpdateResponse: Decodable {
+internal struct WriteResponse: Codable {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-
-    var isCreate: Bool {
-        return objectId != nil && createdAt != nil
-    }
 
     func asSaveResponse() -> SaveResponse {
         guard let objectId = objectId, let createdAt = createdAt else {
@@ -46,11 +42,23 @@ struct SaveOrUpdateResponse: Decodable {
         return UpdateResponse(updatedAt: updatedAt)
     }
 
-    func apply<T>(_ object: T) -> T where T: ObjectType {
-        if isCreate {
-            return asSaveResponse().apply(object)
-        } else {
-            return asUpdateResponse().apply(object)
+    func asFetchResponse() -> FetchResponse {
+        guard let createdAt = createdAt, let updatedAt = updatedAt else {
+            fatalError("Cannot create a SaveResponse without objectId")
+        }
+        return FetchResponse(createdAt: createdAt, updatedAt: updatedAt)
+    }
+
+    func apply<T>(to object: T, method: API.Method) -> T where T: ObjectType {
+        switch method {
+        case .POST:
+            return asSaveResponse().apply(to: object)
+        case .PUT:
+            return asUpdateResponse().apply(to: object)
+        case .GET:
+            return asFetchResponse().apply(to: object)
+        default:
+            fatalError("There is no configured way to apply for method: \(method)")
         }
     }
 }

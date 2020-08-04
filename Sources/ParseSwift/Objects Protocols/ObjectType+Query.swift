@@ -3,7 +3,7 @@
 //  Parse
 //
 //  Created by Florent Vilmart on 17-07-23.
-//  Copyright © 2017 Parse. All rights reserved.
+//  Copyright © 2020 Parse Community. All rights reserved.
 //
 
 import Foundation
