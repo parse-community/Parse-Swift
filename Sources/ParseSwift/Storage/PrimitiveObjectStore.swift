@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  PrimitiveObjectStore.swift
 //  
 //
 //  Created by Pranjal Satija on 7/19/20.
@@ -44,7 +44,7 @@ extension KeychainStore: PrimitiveObjectStore {
     }
 
     func get<T>(valueFor key: String) throws -> T? where T: Decodable {
-        return object(forKey: key)
+        object(forKey: key)
     }
 
     func set<T>(_ object: T, for key: String) throws where T: Encodable {

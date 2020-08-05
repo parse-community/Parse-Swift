@@ -1,5 +1,5 @@
 //
-//  File.swift
+//  ParseStorage.swift
 //  
 //
 //  Created by Pranjal Satija on 7/19/20.
@@ -18,7 +18,6 @@ public struct ParseStorage {
     private mutating func requireBackingStore() {
         guard backingStore != nil else {
             print("You can't use ParseStorage without a backing store. An in-memory store is being used as a fallback.")
-            backingStore = CodableInMemoryPrimitiveObjectStore()
             return
         }
     }

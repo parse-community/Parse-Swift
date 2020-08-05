@@ -12,7 +12,7 @@
 import Foundation
 
 // MARK: ParseEncoder
-public struct ParseEncoder {
+internal struct ParseEncoder {
     let dateEncodingStrategy: AnyCodable.DateEncodingStrategy?
     let jsonEncoder: JSONEncoder
     let skippedKeys: Set<String>
@@ -37,12 +37,12 @@ public struct ParseEncoder {
 
     func encode<T: Encodable>(_ value: T) throws -> Data {
         let dictionary = try encodeToDictionary(value)
-        return try jsonEncoder.encode(AnyCodable(dictionary, dateEncodingStrategy: dateEncodingStrategy!))
+        return try jsonEncoder.encode(AnyCodable(dictionary, dateEncodingStrategy: dateEncodingStrategy))
     }
 
     func encode<T: Encodable>(_ array: [T]) throws -> Data {
         let dictionaries = try array.map { try encodeToDictionary($0) }
-        return try jsonEncoder.encode(AnyCodable(dictionaries, dateEncodingStrategy: dateEncodingStrategy!))
+        return try jsonEncoder.encode(AnyCodable(dictionaries, dateEncodingStrategy: dateEncodingStrategy))
     }
 }
 
@@ -154,11 +154,11 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
     }
 
     mutating func superEncoder() -> Encoder {
-        fatalError()
+        fatalError("You can't encode supertypes yet.")
     }
 
     mutating func superEncoder(forKey key: Key) -> Encoder {
-        fatalError()
+        fatalError("You can't encode supertypes yet.")
     }
 }
 
@@ -195,8 +195,11 @@ internal struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer 
 
     var array: NSMutableArray {
         get {
-            // swiftlint:disable:next force_cast
-            dictionary[key] as! NSMutableArray
+            guard let array = dictionary[key] as? NSMutableArray else {
+                fatalError("There's no array available for unkeyed encoding.")
+            }
+
+            return array
         }
 
         set { dictionary[key] = newValue }
