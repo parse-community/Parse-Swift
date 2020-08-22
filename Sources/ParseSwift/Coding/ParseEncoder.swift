@@ -31,6 +31,7 @@ internal struct ParseEncoder {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
         try value.encode(to: encoder)
 
+        // The encoder always uses an `NSDictionary` with string keys.
         // swiftlint:disable:next force_cast
         return encoder.dictionary as! [AnyHashable: Any]
     }
@@ -257,6 +258,6 @@ internal struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer 
     }
 
     mutating func superEncoder() -> Encoder {
-        fatalError()
+        fatalError("You can't encode supertypes yet.")
     }
 }
