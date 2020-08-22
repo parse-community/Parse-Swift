@@ -49,7 +49,7 @@ public struct ACL: Decodable, Encodable {
 
     public func get(_ key: String, access: Access) -> Bool {
         guard let acl = acl else { // no acl, all open!
-            return true
+            return false
         }
         return acl[key]?[access] ?? false
     }
@@ -76,6 +76,14 @@ public struct ACL: Decodable, Encodable {
 
     public func getWriteAccess(roleName: String) -> Bool {
         return get(toRole(roleName: roleName), access: .write)
+    }
+
+    public mutating func setReadAccess(roleName: String, value: Bool) {
+        set(toRole(roleName: roleName), access: .read, value: value)
+    }
+
+    public mutating func setWriteAccess(roleName: String, value: Bool) {
+        set(toRole(roleName: roleName), access: .write, value: value)
     }
 
     private func toRole(roleName: String) -> String {
