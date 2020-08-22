@@ -209,7 +209,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 XCTFail(error.localizedDescription)
             }
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 30.0)
     }
 
     func testThreadSafeFetchAsync() {
@@ -382,7 +382,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
 
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 30.0)
     }
 
     func testThreadSafeUpdateAsync() {
@@ -492,7 +492,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
 
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 30.0)
     }
 
     func testThreadSafeSignUpAsync() {
@@ -580,7 +580,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
 
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 30.0)
     }
 
     func testThreadSafeLoginAsync() {
@@ -647,7 +647,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 XCTFail(error.localizedDescription)
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 30.0)
     }
 
     func testThreadSafeLogoutAsync() {

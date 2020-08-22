@@ -104,7 +104,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
 
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 30.0)
     }
 
     func testThreadSafeFindAsync() {
@@ -194,7 +194,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail(error.localizedDescription)
             }
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 30.0)
     }
 
     func testThreadSafeFirstAsync() {
@@ -281,7 +281,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
 
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 30.0)
     }
 
     func testThreadSafeCountAsync() {
