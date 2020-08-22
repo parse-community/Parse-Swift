@@ -8,10 +8,13 @@ internal struct ParseConfiguration {
     static var mountPath: String!
 }
 
-public func initialize(applicationId: String,
-                       clientKey: String? = nil,
-                       masterKey: String? = nil,
-                       serverURL: URL) {
+public func initialize(
+    applicationId: String,
+    clientKey: String? = nil,
+    masterKey: String? = nil,
+    serverURL: URL,
+    primitiveObjectStore: PrimitiveObjectStore? = nil
+) {
     ParseConfiguration.applicationId = applicationId
     ParseConfiguration.clientKey = clientKey
     ParseConfiguration.masterKey = masterKey
@@ -19,4 +22,6 @@ public func initialize(applicationId: String,
     ParseConfiguration.mountPath = "/" + serverURL.pathComponents
                                             .filter { $0 != "/" }
                                             .joined(separator: "/")
+
+    ParseStorage.shared.use(primitiveObjectStore ?? CodableInMemoryPrimitiveObjectStore())
 }

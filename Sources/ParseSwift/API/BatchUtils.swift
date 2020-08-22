@@ -8,10 +8,10 @@
 
 import Foundation
 
-typealias ParseObjectBatchCommand<T> = BatchCommand<T, T> where T: ObjectType
+typealias ParseObjectBatchCommand<T> = BatchCommand<T, T> where T: ParseObject
 typealias ParseObjectBatchResponse<T> = [(Result<T, ParseError>)]
 // swiftlint:disable line_length
-typealias RESTBatchCommandType<T> = API.Command<ParseObjectBatchCommand<T>, ParseObjectBatchResponse<T>> where T: ObjectType
+typealias RESTBatchCommandType<T> = API.Command<ParseObjectBatchCommand<T>, ParseObjectBatchResponse<T>> where T: ParseObject
 // swiftlint:enable line_length
 
 internal struct BatchCommand<T, U>: Encodable where T: Encodable {
@@ -49,7 +49,7 @@ internal struct WriteResponse: Codable {
         return FetchResponse(createdAt: createdAt, updatedAt: updatedAt)
     }
 
-    func apply<T>(to object: T, method: API.Method) -> T where T: ObjectType {
+    func apply<T>(to object: T, method: API.Method) -> T where T: ParseObject {
         switch method {
         case .POST:
             return asSaveResponse().apply(to: object)

@@ -23,7 +23,7 @@ extension URLSession {
                 do {
                     return try .success(mapper(responseData))
                 } catch {
-                    let parseError = try? getDecoder().decode(ParseError.self, from: responseData)
+                    let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData)
                     return .failure(parseError ?? ParseError(code: .unknownError, message: "cannot decode error"))
                 }
             } else if let responseError = responseError {

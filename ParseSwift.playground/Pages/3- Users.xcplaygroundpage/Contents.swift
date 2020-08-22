@@ -7,7 +7,7 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 import ParseSwift
 initializeParse()
 
-struct User: ParseSwift.UserType {
+struct User: ParseUser {
     //: Those are required for Object
     var objectId: String?
     var createdAt: Date?

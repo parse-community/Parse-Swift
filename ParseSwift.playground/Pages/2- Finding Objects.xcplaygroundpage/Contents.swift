@@ -10,7 +10,7 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 
 initializeParse()
 
-struct GameScore: ParseSwift.ObjectType {
+struct GameScore: ParseObject {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?

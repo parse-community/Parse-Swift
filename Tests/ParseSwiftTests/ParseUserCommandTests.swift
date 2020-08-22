@@ -12,7 +12,7 @@ import XCTest
 
 class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct User: ParseSwift.UserType {
+    struct User: ParseUser {
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -28,7 +28,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         var customKey: String?
     }
 
-    struct LoginSignupResponse: ParseSwift.UserType {
+    struct LoginSignupResponse: ParseUser {
         var objectId: String?
         var createdAt: Date?
         var sessionToken: String
@@ -102,7 +102,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         userOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
         } catch {
@@ -115,7 +115,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         do {
             let fetched = try user.fetch()
-            XCTAssertEqual(fetched, userOnServer)
+            XCTAssert(fetched.hasSameObjectId(as: userOnServer))
             guard let fetchedCreatedAt = fetched.createdAt,
                 let fetchedUpdatedAt = fetched.updatedAt else {
                     XCTFail("Should unwrap dates")
@@ -135,7 +135,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         do {
             let fetched = try user.fetch(options: [.useMasterKey])
-            XCTAssertEqual(fetched, userOnServer)
+            XCTAssert(fetched.hasSameObjectId(as: userOnServer))
             guard let fetchedCreatedAt = fetched.createdAt,
                 let fetchedUpdatedAt = fetched.updatedAt else {
                     XCTFail("Should unwrap dates")
@@ -164,7 +164,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch result {
 
             case .success(let fetched):
-                XCTAssertEqual(fetched, userOnServer)
+                XCTAssert(fetched.hasSameObjectId(as: userOnServer))
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -191,7 +191,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch result {
 
             case .success(let fetched):
-                XCTAssertEqual(fetched, userOnServer)
+                XCTAssert(fetched.hasSameObjectId(as: userOnServer))
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -223,7 +223,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         userOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
         } catch {
@@ -280,7 +280,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
         } catch {
@@ -397,7 +397,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         userOnServer.updatedAt = Date()
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
         } catch {
@@ -425,7 +425,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         userOnServer.updatedAt = Date()
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoderWithoutSkippingKeys().encode(userOnServer)
+            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
         } catch {
@@ -444,7 +444,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -500,7 +500,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -517,7 +517,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -532,7 +532,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -588,7 +588,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -605,7 +605,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -620,7 +620,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -655,7 +655,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -672,7 +672,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoderWithoutSkippingKeys().encode(loginResponse)
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil

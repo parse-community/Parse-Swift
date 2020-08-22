@@ -1,13 +1,13 @@
 import Foundation
 
-private func getObjectId<T: ObjectType>(target: T) -> String {
+private func getObjectId<T: ParseObject>(target: T) -> String {
     guard let objectId = target.objectId else {
         fatalError("Cannot set a pointer to an unsaved object")
     }
     return objectId
 }
 
-public struct Pointer<T: ObjectType>: Fetching, Codable {
+public struct Pointer<T: ParseObject>: Fetchable, Codable {
     public typealias FetchingType = T
 
     private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
@@ -34,7 +34,7 @@ extension Pointer {
         let path = API.Endpoint.object(className: className, objectId: objectId)
         return try API.Command<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
-            try getDecoder().decode(T.self, from: data)
+                    try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }.execute(options: options)
     }
 }

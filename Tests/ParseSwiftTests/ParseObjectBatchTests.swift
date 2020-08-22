@@ -12,7 +12,7 @@ import XCTest
 
 class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct GameScore: ParseSwift.ObjectType {
+    struct GameScore: ParseObject {
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -65,11 +65,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(response)
+           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer2)
+           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -87,7 +87,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch saved[0] {
 
             case .success(let first):
-                XCTAssertEqual(first, scoreOnServer)
+                XCTAssert(first.hasSameObjectId(as: scoreOnServer))
                 guard let savedCreatedAt = first.createdAt,
                     let savedUpdatedAt = first.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -108,7 +108,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch saved[1] {
 
             case .success(let second):
-                XCTAssertEqual(second, scoreOnServer2)
+                XCTAssert(second.hasSameObjectId(as: scoreOnServer2))
                 guard let savedCreatedAt = second.createdAt,
                     let savedUpdatedAt = second.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -136,7 +136,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch saved[0] {
 
             case .success(let first):
-                XCTAssertEqual(first, scoreOnServer)
+                XCTAssert(first.hasSameObjectId(as: scoreOnServer))
                 guard let savedCreatedAt = first.createdAt,
                     let savedUpdatedAt = first.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -157,7 +157,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch saved[1] {
 
             case .success(let second):
-                XCTAssertEqual(second, scoreOnServer2)
+                XCTAssert(second.hasSameObjectId(as: scoreOnServer2))
                 guard let savedCreatedAt = second.createdAt,
                     let savedUpdatedAt = second.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -197,7 +197,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode([scoreOnServer, scoreOnServer2])
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode([scoreOnServer, scoreOnServer2])
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -249,11 +249,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(response)
+           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer2)
+           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -391,7 +391,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode([scoreOnServer, scoreOnServer2])
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode([scoreOnServer, scoreOnServer2])
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -441,11 +441,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(response)
+           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer2)
+           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -463,7 +463,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch saved[0] {
 
             case .success(let first):
-                XCTAssertEqual(first, scoreOnServer)
+                XCTAssert(first.hasSameObjectId(as: scoreOnServer))
                 guard let savedCreatedAt = first.createdAt,
                     let savedUpdatedAt = first.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -558,7 +558,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                 switch firstObject {
 
                 case .success(let first):
-                    XCTAssertEqual(first, scoreOnServer)
+                    XCTAssert(first.hasSameObjectId(as: scoreOnServer))
                     guard let savedCreatedAt = first.createdAt,
                         let savedUpdatedAt = first.updatedAt else {
                             XCTFail("Should unwrap dates")
@@ -580,7 +580,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                 switch secondObject {
 
                 case .success(let second):
-                    XCTAssertEqual(second, scoreOnServer2)
+                    XCTAssert(second.hasSameObjectId(as: scoreOnServer2))
                     guard let savedCreatedAt = second.createdAt,
                         let savedUpdatedAt = second.updatedAt else {
                             XCTFail("Should unwrap dates")
@@ -688,11 +688,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(response)
+           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer2)
+           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -729,11 +729,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(response)
+           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer2)
+           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -901,11 +901,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(response)
+           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer2)
+           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -944,11 +944,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(response)
+           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer)
+           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(scoreOnServer2)
+           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {

@@ -12,7 +12,7 @@ import XCTest
 
 class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct GameScore: ParseSwift.ObjectType {
+    struct GameScore: ParseObject {
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -64,7 +64,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -78,7 +78,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail("Should unwrap first object found")
                 return
             }
-            XCTAssertEqual(score, scoreOnServer)
+            XCTAssert(score.hasSameObjectId(as: scoreOnServer))
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -98,7 +98,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                     XCTFail("Should unwrap score count")
                     return
                 }
-                XCTAssertEqual(score, scoreOnServer)
+                XCTAssert(score.hasSameObjectId(as: scoreOnServer))
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -117,7 +117,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -139,7 +139,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -158,7 +158,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -172,7 +172,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail("Should unwrap first object found")
                 return
             }
-            XCTAssertEqual(score, scoreOnServer)
+            XCTAssert(score.hasSameObjectId(as: scoreOnServer))
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -188,7 +188,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let score):
-                XCTAssertEqual(score, scoreOnServer)
+                XCTAssert(score.hasSameObjectId(as: scoreOnServer))
 
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -207,7 +207,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -229,7 +229,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -248,7 +248,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -294,7 +294,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -316,7 +316,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoderWithoutSkippingKeys().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil

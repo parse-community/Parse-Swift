@@ -75,7 +75,7 @@ public struct API {
             headers["X-Parse-Client-Key"] = clientKey
         }
 
-        if let token = CurrentUserInfo.currentSessionToken {
+        if let token = BaseParseUser.currentUserContainer?.sessionToken {
             headers["X-Parse-Session-Token"] = token
         }
 
