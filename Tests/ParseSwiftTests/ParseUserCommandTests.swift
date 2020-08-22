@@ -234,7 +234,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 50) {_ in
             self.fetchAsync(user: user, userOnServer: userOnServer)
         }
     }
@@ -408,7 +408,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 50) {_ in
             self.updateAsync(user: user, userOnServer: userOnServer, callbackQueue: .global(qos: .background))
         }
     }
@@ -507,7 +507,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 50) {_ in
             self.signUpAsync(loginResponse: loginResponse, callbackQueue: .global(qos: .background))
         }
     }
@@ -595,7 +595,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 50) {_ in
             self.userLoginAsync(loginResponse: loginResponse, callbackQueue: .global(qos: .background))
         }
     }
@@ -662,7 +662,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 50) {_ in
             self.logoutAsync(callbackQueue: .global(qos: .background))
         }
     }

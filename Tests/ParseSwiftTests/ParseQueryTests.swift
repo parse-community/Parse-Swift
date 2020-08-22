@@ -124,7 +124,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 50) {_ in
             findAsync(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
@@ -214,7 +214,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 50) {_ in
             firstAsync(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
@@ -301,7 +301,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 50) {_ in
             countAsync(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }

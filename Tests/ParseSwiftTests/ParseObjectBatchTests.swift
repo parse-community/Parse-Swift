@@ -703,7 +703,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 50) {_ in
             self.saveAllAsync(scores: [score, score2], scoresOnServer: [scoreOnServer, scoreOnServer2],
                               callbackQueue: .global(qos: .background))
         }
@@ -916,7 +916,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 50) {_ in
             self.updateAllAsync(scores: [score, score2], callbackQueue: .global(qos: .background))
         }
     }
