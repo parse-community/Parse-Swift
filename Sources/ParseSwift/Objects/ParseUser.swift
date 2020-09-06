@@ -23,8 +23,8 @@ public extension ParseUser {
 // MARK: Current User Support
 extension ParseUser {
     static var currentUserContainer: CurrentUserContainer<Self>? {
-        get { try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) }
-        set { try? ParseStorage.shared.set(newValue, for: ParseStorage.Keys.currentUser) }
+        get { try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) }
+        set { try? KeychainStore.shared.set(newValue, for: ParseStorage.Keys.currentUser) }
     }
 
     public static var current: Self? {
@@ -71,7 +71,6 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
-
             return user
         }
     }
@@ -128,11 +127,10 @@ extension ParseUser {
             user.password = password
             user.updatedAt = response.updatedAt ?? response.createdAt
 
-            currentUserContainer = .init(
+            Self.currentUserContainer = .init(
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
-
             return user
         }
     }
@@ -148,7 +146,6 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
-
             return user
         }
     }

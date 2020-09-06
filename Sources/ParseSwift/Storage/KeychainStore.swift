@@ -21,6 +21,9 @@ func getKeychainQueryTemplate(forService service: String) -> [String: String] {
 struct KeychainStore: SecureStorage {
     private let synchronizationQueue: DispatchQueue
     private let keychainQueryTemplate: [String: String]
+
+    public static var shared = KeychainStore(service: "com.parse.sdk")
+
     init(service: String) {
         synchronizationQueue = DispatchQueue(label: "com.parse.keychain.\(service)",
                                              qos: .default,

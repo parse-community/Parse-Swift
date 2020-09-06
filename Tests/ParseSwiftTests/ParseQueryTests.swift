@@ -89,20 +89,20 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         let expectation = XCTestExpectation(description: "Count object1")
         query.find(options: [], callbackQueue: callbackQueue) { result in
-            expectation.fulfill()
 
             switch result {
 
             case .success(let found):
                 guard let score = found.first else {
                     XCTFail("Should unwrap score count")
+                    expectation.fulfill()
                     return
                 }
                 XCTAssert(score.hasSameObjectId(as: scoreOnServer))
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 30.0)
     }
@@ -124,7 +124,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 50) {_ in
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
             findAsync(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
@@ -183,7 +183,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         let expectation = XCTestExpectation(description: "Count object1")
         query.first(options: [], callbackQueue: callbackQueue) { result in
-            expectation.fulfill()
 
             switch result {
 
@@ -193,6 +192,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 30.0)
     }
@@ -214,7 +214,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 50) {_ in
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
             firstAsync(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
@@ -270,7 +270,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         let expectation = XCTestExpectation(description: "Count object1")
         query.count(options: [], callbackQueue: callbackQueue) { result in
-            expectation.fulfill()
 
             switch result {
 
@@ -279,7 +278,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 30.0)
     }
@@ -301,7 +300,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 50) {_ in
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
             countAsync(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }

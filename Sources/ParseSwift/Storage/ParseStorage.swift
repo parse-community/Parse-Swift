@@ -24,6 +24,8 @@ public struct ParseStorage {
 
     enum Keys {
         static let currentUser = "_currentUser"
+        static let currentInstallation = "_currentInstallation"
+        static let defaultACL = "_defaultACL"
     }
 }
 

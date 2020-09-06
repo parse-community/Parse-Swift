@@ -71,6 +71,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
+        _ = KeychainStore.shared.removeAllObjects()
     }
 
     func testFetchCommand() {
@@ -155,11 +156,11 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
+    // swiftlint:disable:next function_body_length
     func fetchAsync(user: User, userOnServer: User) {
 
         let expectation1 = XCTestExpectation(description: "Fetch user1")
         user.fetch(options: [], callbackQueue: .global(qos: .background)) { result in
-            expectation1.fulfill()
 
             switch result {
 
@@ -168,11 +169,13 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
                         return
                 }
                 guard let originalCreatedAt = userOnServer.createdAt,
                     let originalUpdatedAt = userOnServer.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
                         return
                 }
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
@@ -181,12 +184,11 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation1.fulfill()
         }
 
         let expectation2 = XCTestExpectation(description: "Fetch user2")
         user.fetch(options: [.sessionToken("")], callbackQueue: .global(qos: .background)) { result in
-            expectation2.fulfill()
 
             switch result {
 
@@ -195,11 +197,13 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
                         return
                 }
                 guard let originalCreatedAt = userOnServer.createdAt,
                     let originalUpdatedAt = userOnServer.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
                         return
                 }
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
@@ -208,6 +212,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 30.0)
     }
@@ -234,7 +239,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        DispatchQueue.concurrentPerform(iterations: 50) {_ in
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
             self.fetchAsync(user: user, userOnServer: userOnServer)
         }
     }
@@ -329,11 +334,11 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
+    // swiftlint:disable:next function_body_length
     func updateAsync(user: User, userOnServer: User, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update user1")
         user.save(options: [], callbackQueue: callbackQueue) { result in
-            expectation1.fulfill()
 
             switch result {
 
@@ -341,11 +346,13 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 guard let savedCreatedAt = saved.createdAt,
                     let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
                         return
                 }
                 guard let originalCreatedAt = user.createdAt,
                     let originalUpdatedAt = user.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
                         return
                 }
                 XCTAssertEqual(savedCreatedAt, originalCreatedAt)
@@ -354,12 +361,11 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation1.fulfill()
         }
 
         let expectation2 = XCTestExpectation(description: "Update user2")
         user.save(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
-            expectation2.fulfill()
 
             switch result {
 
@@ -367,11 +373,13 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 guard let savedCreatedAt = saved.createdAt,
                     let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
                         return
                 }
                 guard let originalCreatedAt = user.createdAt,
                     let originalUpdatedAt = user.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
                         return
                 }
                 XCTAssertEqual(savedCreatedAt, originalCreatedAt)
@@ -380,7 +388,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 30.0)
     }
@@ -408,7 +416,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        DispatchQueue.concurrentPerform(iterations: 50) {_ in
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
             self.updateAsync(user: user, userOnServer: userOnServer, callbackQueue: .global(qos: .background))
         }
     }
@@ -463,6 +471,21 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNotNil(signedUp.customKey)
             XCTAssertNil(signedUp.ACL)
 
+            guard let userFromKeychain: CurrentUserContainer<BaseParseUser> =
+                try KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+                    XCTFail("Couldn't get CurrentUser from Keychain")
+                return
+            }
+
+            XCTAssertNotNil(userFromKeychain.currentUser?.createdAt)
+            XCTAssertNotNil(userFromKeychain.currentUser?.updatedAt)
+            XCTAssertNotNil(userFromKeychain.currentUser?.email)
+            XCTAssertNotNil(userFromKeychain.currentUser?.username)
+            XCTAssertNotNil(userFromKeychain.currentUser?.password)
+            XCTAssertNotNil(userFromKeychain.currentUser?.objectId)
+            XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.currentUser?.ACL)
+
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -473,8 +496,6 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         let expectation1 = XCTestExpectation(description: "Signup user1")
         User.signup(username: loginResponse.username!, password: loginResponse.password!,
                     callbackQueue: callbackQueue) { result in
-            expectation1.fulfill()
-
             switch result {
 
             case .success(let signedUp):
@@ -487,10 +508,26 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 XCTAssertNotNil(signedUp.sessionToken)
                 XCTAssertNotNil(signedUp.customKey)
                 XCTAssertNil(signedUp.ACL)
+
+                guard let userFromKeychain: CurrentUserContainer<BaseParseUser> =
+                    try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+                        XCTFail("Couldn't get CurrentUser from Keychain")
+                        expectation1.fulfill()
+                    return
+                }
+
+                XCTAssertNotNil(userFromKeychain.currentUser?.createdAt)
+                XCTAssertNotNil(userFromKeychain.currentUser?.updatedAt)
+                XCTAssertNotNil(userFromKeychain.currentUser?.email)
+                XCTAssertNotNil(userFromKeychain.currentUser?.username)
+                XCTAssertNotNil(userFromKeychain.currentUser?.password)
+                XCTAssertNotNil(userFromKeychain.currentUser?.objectId)
+                XCTAssertNotNil(userFromKeychain.sessionToken)
+                XCTAssertNil(userFromKeychain.currentUser?.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 30.0)
     }
@@ -507,7 +544,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 50) {_ in
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
             self.signUpAsync(loginResponse: loginResponse, callbackQueue: .global(qos: .background))
         }
     }
@@ -551,6 +588,21 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNotNil(loggedIn.customKey)
             XCTAssertNil(loggedIn.ACL)
 
+            guard let userFromKeychain: CurrentUserContainer<BaseParseUser> =
+                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+                    XCTFail("Couldn't get CurrentUser from Keychain")
+                return
+            }
+
+            XCTAssertNotNil(userFromKeychain.currentUser?.createdAt)
+            XCTAssertNotNil(userFromKeychain.currentUser?.updatedAt)
+            XCTAssertNotNil(userFromKeychain.currentUser?.email)
+            XCTAssertNotNil(userFromKeychain.currentUser?.username)
+            XCTAssertNotNil(userFromKeychain.currentUser?.password)
+            XCTAssertNotNil(userFromKeychain.currentUser?.objectId)
+            XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.currentUser?.ACL)
+
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -561,7 +613,6 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         let expectation1 = XCTestExpectation(description: "Login user")
         User.login(username: loginResponse.username!, password: loginResponse.password!,
                    callbackQueue: callbackQueue) { result in
-            expectation1.fulfill()
 
             switch result {
 
@@ -575,10 +626,26 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 XCTAssertNotNil(loggedIn.sessionToken)
                 XCTAssertNotNil(loggedIn.customKey)
                 XCTAssertNil(loggedIn.ACL)
+
+                guard let userFromKeychain: CurrentUserContainer<BaseParseUser> =
+                    try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+                        XCTFail("Couldn't get CurrentUser from Keychain")
+                        expectation1.fulfill()
+                    return
+                }
+
+                XCTAssertNotNil(userFromKeychain.currentUser?.createdAt)
+                XCTAssertNotNil(userFromKeychain.currentUser?.updatedAt)
+                XCTAssertNotNil(userFromKeychain.currentUser?.email)
+                XCTAssertNotNil(userFromKeychain.currentUser?.username)
+                XCTAssertNotNil(userFromKeychain.currentUser?.password)
+                XCTAssertNotNil(userFromKeychain.currentUser?.objectId)
+                XCTAssertNotNil(userFromKeychain.sessionToken)
+                XCTAssertNil(userFromKeychain.currentUser?.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 30.0)
     }
@@ -595,7 +662,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 50) {_ in
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
             self.userLoginAsync(loginResponse: loginResponse, callbackQueue: .global(qos: .background))
         }
     }
@@ -628,6 +695,13 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         do {
             try User.logout()
+            try KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
+            if let userFromKeychain: CurrentUserContainer<BaseParseUser> =
+                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) {
+                    XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+                return
+            }
+
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -637,15 +711,27 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
         User.logout(callbackQueue: callbackQueue) { result in
-            expectation1.fulfill()
 
             switch result {
 
             case .success(let success):
                 XCTAssertTrue(success)
+                do {
+                    try KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
+                } catch {
+                    XCTFail("Couldn't delete the user from the Keychain")
+                    expectation1.fulfill()
+                    return
+                }
+                if let userFromKeychain: CurrentUserContainer<BaseParseUser> =
+                    try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) {
+                        XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+                    return
+                }
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 30.0)
     }
@@ -662,7 +748,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 50) {_ in
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
             self.logoutAsync(callbackQueue: .global(qos: .background))
         }
     }

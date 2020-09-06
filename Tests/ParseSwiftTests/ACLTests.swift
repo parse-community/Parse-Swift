@@ -14,10 +14,19 @@ class ACLTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url)
     }
 
     override func tearDown() {
         super.tearDown()
+        _ = KeychainStore.shared.removeAllObjects()
     }
 
     struct User: ParseUser {
@@ -34,6 +43,34 @@ class ACLTests: XCTestCase {
 
         // Your custom keys
         var customKey: String?
+    }
+
+    struct LoginSignupResponse: ParseUser {
+        var objectId: String?
+        var createdAt: Date?
+        var sessionToken: String
+        var updatedAt: Date?
+        var ACL: ACL?
+
+        // provided by User
+        var username: String?
+        var email: String?
+        var password: String?
+
+        // Your custom keys
+        var customKey: String?
+
+        init() {
+            self.createdAt = Date()
+            self.updatedAt = Date()
+            self.objectId = "yarr"
+            self.ACL = nil
+            self.customKey = "blah"
+            self.sessionToken = "myToken"
+            self.username = "hello10"
+            self.password = "world"
+            self.email = "hello@parse.com"
+        }
     }
 
     func testPublicAccess() {
@@ -106,5 +143,46 @@ class ACLTests: XCTestCase {
             XCTAssertNil(encoded)
         }
 
+    }
+
+    func testDefaultACLNoUser() {
+        var newACL = ACL()
+        newACL.setReadAccess(userId: "someUserID", value: true)
+        do {
+            _ = try ACL.defaultACL()
+            XCTFail("Should have thrown error because no user has been")
+        } catch {
+            return
+        }
+    }
+
+    func testDefaultACL() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        do {
+            _ = try User.signup(username: "testUser", password: "password")
+        } catch {
+            XCTFail("Couldn't signUp user: \(error.localizedDescription)")
+        }
+        var newACL = ACL()
+        newACL.setReadAccess(userId: "someUserID", value: true)
+        do {
+            var publicACL = try ACL.defaultACL()
+            XCTAssertNotEqual(newACL, publicACL)
+            try ACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
+            publicACL = try ACL.defaultACL()
+            XCTAssertEqual(newACL, publicACL)
+        } catch {
+            XCTFail("Should have set new ACL. Error \(error.localizedDescription)")
+        }
     }
 }

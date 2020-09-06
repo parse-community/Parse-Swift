@@ -149,20 +149,20 @@ class KeychainStoreTests: XCTestCase {
     }
 
     func testThreadSafeSet() {
-        DispatchQueue.concurrentPerform(iterations: 50) { _ in
+        DispatchQueue.concurrentPerform(iterations: 100) { _ in
             XCTAssertTrue(testStore.set(object: "yarr", forKey: "pirate"), "Should set value")
         }
     }
 
     func testThreadSafeRemoveObject() {
-        DispatchQueue.concurrentPerform(iterations: 50) { (index) in
+        DispatchQueue.concurrentPerform(iterations: 100) { (index) in
             XCTAssertTrue(testStore.set(object: "yarr", forKey: "\(index)"), "Should set value")
             XCTAssertTrue(testStore.removeObject(forKey: "\(index)"), "Should set value")
         }
     }
 
     func testThreadSafeRemoveAllObjects() {
-        DispatchQueue.concurrentPerform(iterations: 50) { (_) in
+        DispatchQueue.concurrentPerform(iterations: 100) { (_) in
             XCTAssertTrue(testStore.set(object: "yarr", forKey: "pirate1"), "Should set value")
             XCTAssertTrue(testStore.set(object: "yarr", forKey: "pirate2"), "Should set value")
             XCTAssertTrue(testStore.removeAllObjects(), "Should set value")

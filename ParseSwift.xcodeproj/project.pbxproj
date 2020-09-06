@@ -411,6 +411,7 @@
 				F97B45C324D9C6F200F4A88B /* Objects */,
 				F97B45BA24D9C6F200F4A88B /* Parse Types */,
 				F97B45CB24D9C6F200F4A88B /* Storage */,
+				7021B37B24F3478E004CA1D1 /* Internal */,
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
 				4AB8B4F71F254AE10070F682 /* Parse.h */,
 			);
@@ -423,6 +424,13 @@
 				4AFDA7151F26D9A5002AE4FC /* Info.plist */,
 			);
 			path = "ParseSwift-macOS";
+			sourceTree = "<group>";
+		};
+		7021B37B24F3478E004CA1D1 /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Internal;
 			sourceTree = "<group>";
 		};
 		7FFF552A2217E729007C3B4E /* AnyCodableTests */ = {
@@ -1229,7 +1237,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "ParseSwift-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
@@ -1250,7 +1258,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = "ParseSwift-iOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;

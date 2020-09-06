@@ -543,7 +543,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         scores.saveAll(options: [], callbackQueue: callbackQueue) { result in
-            expectation1.fulfill()
 
             switch result {
 
@@ -551,8 +550,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                 XCTAssertEqual(saved.count, 2)
                 guard let firstObject = saved.first,
                     let secondObject = saved.last else {
-                    XCTFail("Should unwrap")
-                    return
+                        XCTFail("Should unwrap")
+                        expectation1.fulfill()
+                        return
                 }
 
                 switch firstObject {
@@ -562,11 +562,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     guard let savedCreatedAt = first.createdAt,
                         let savedUpdatedAt = first.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
                             return
                     }
                     guard let originalCreatedAt = scoreOnServer.createdAt,
                         let originalUpdatedAt = scoreOnServer.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
                             return
                     }
                     XCTAssertEqual(savedCreatedAt, originalCreatedAt)
@@ -584,11 +586,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     guard let savedCreatedAt = second.createdAt,
                         let savedUpdatedAt = second.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
                             return
                     }
                     guard let originalCreatedAt = scoreOnServer2.createdAt,
                         let originalUpdatedAt = scoreOnServer2.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
                             return
                     }
                     XCTAssertEqual(savedCreatedAt, originalCreatedAt)
@@ -602,12 +606,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation1.fulfill()
         }
 
         let expectation2 = XCTestExpectation(description: "Save object2")
         scores.saveAll(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
-            expectation2.fulfill()
 
             switch result {
 
@@ -616,8 +619,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
                 guard let firstObject = saved.first,
                     let secondObject = saved.last else {
-                    XCTFail("Should unwrap")
-                    return
+                        XCTFail("Should unwrap")
+                        expectation2.fulfill()
+                        return
                 }
 
                 switch firstObject {
@@ -626,11 +630,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     guard let savedCreatedAt = first.createdAt,
                         let savedUpdatedAt = first.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation2.fulfill()
                             return
                     }
                     guard let originalCreatedAt = scoreOnServer.createdAt,
                         let originalUpdatedAt = scoreOnServer.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation2.fulfill()
                             return
                     }
                     XCTAssertEqual(savedCreatedAt, originalCreatedAt)
@@ -646,11 +652,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     guard let savedCreatedAt = second.createdAt,
                         let savedUpdatedAt = second.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation2.fulfill()
                             return
                     }
                     guard let originalCreatedAt = scoreOnServer2.createdAt,
                         let originalUpdatedAt = scoreOnServer2.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation2.fulfill()
                             return
                     }
                     XCTAssertEqual(savedCreatedAt, originalCreatedAt)
@@ -663,7 +671,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 30.0)
     }
@@ -703,7 +711,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        DispatchQueue.concurrentPerform(iterations: 50) {_ in
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
             self.saveAllAsync(scores: [score, score2], scoresOnServer: [scoreOnServer, scoreOnServer2],
                               callbackQueue: .global(qos: .background))
         }
@@ -755,14 +763,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let expectation1 = XCTestExpectation(description: "Update object1")
 
         scores.saveAll(options: [], callbackQueue: callbackQueue) { result in
-            expectation1.fulfill()
 
             switch result {
 
             case .success(let saved):
                 guard let firstObject = saved.first,
                     let secondObject = saved.last else {
-                    XCTFail("Should unwrap")
+                        XCTFail("Should unwrap")
+                        expectation1.fulfill()
                     return
                 }
 
@@ -772,11 +780,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     guard let savedCreatedAt = first.createdAt,
                         let savedUpdatedAt = first.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
                             return
                     }
                     guard let originalCreatedAt = scores.first?.createdAt,
                         let originalUpdatedAt = scores.first?.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
                             return
                     }
 
@@ -793,11 +803,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     guard let savedCreatedAt2 = second.createdAt,
                         let savedUpdatedAt2 = second.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
                             return
                     }
                     guard let originalCreatedAt2 = scores.last?.createdAt,
                         let originalUpdatedAt2 = scores.last?.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
                             return
                     }
 
@@ -812,19 +824,19 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation1.fulfill()
         }
 
         let expectation2 = XCTestExpectation(description: "Update object2")
         scores.saveAll(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
-            expectation2.fulfill()
 
             switch result {
 
             case .success(let saved):
                 guard let firstObject = saved.first,
                     let secondObject = saved.last else {
-                    XCTFail("Should unwrap")
+                        expectation2.fulfill()
+                        XCTFail("Should unwrap")
                     return
                 }
 
@@ -834,11 +846,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     guard let savedCreatedAt = first.createdAt,
                         let savedUpdatedAt = first.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation2.fulfill()
                             return
                     }
                     guard let originalCreatedAt = scores.first?.createdAt,
                         let originalUpdatedAt = scores.first?.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation2.fulfill()
                             return
                     }
 
@@ -855,11 +869,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     guard let savedCreatedAt2 = second.createdAt,
                         let savedUpdatedAt2 = second.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation2.fulfill()
                             return
                     }
                     guard let originalCreatedAt2 = scores.last?.createdAt,
                         let originalUpdatedAt2 = scores.last?.updatedAt else {
                             XCTFail("Should unwrap dates")
+                            expectation2.fulfill()
                             return
                     }
 
@@ -874,6 +890,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 30.0)
     }
@@ -916,7 +933,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        DispatchQueue.concurrentPerform(iterations: 50) {_ in
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
             self.updateAllAsync(scores: [score, score2], callbackQueue: .global(qos: .background))
         }
     }

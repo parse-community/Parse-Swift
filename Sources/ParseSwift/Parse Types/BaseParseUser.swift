@@ -1,5 +1,5 @@
 //
-//  File 2.swift
+//  BaseParseUser.swift
 //  
 //
 //  Created by Pranjal Satija on 7/19/20.

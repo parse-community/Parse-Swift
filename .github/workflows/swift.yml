@@ -20,7 +20,9 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 11\ Pro\ Max build test | xcpretty
       env: 
         DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
- 
+    - name: Send codecov
+      run: bash <(curl https://codecov.io/bash)
+
   swift-macos:
     
     runs-on: macos-latest
@@ -31,7 +33,7 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(macOS\) | xcpretty
       env: 
         DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
-
+ 
   swift-tvos:
     
     runs-on: macos-latest
@@ -42,7 +44,9 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(tvOS\) | xcpretty
       env: 
         DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
-      
+    - name: Send codecov
+      run: bash <(curl https://codecov.io/bash)
+
   swift-watchos:
     
     runs-on: macos-latest
@@ -53,6 +57,8 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
       env: 
         DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
+    - name: Send codecov
+      run: bash <(curl https://codecov.io/bash)
 
   build-test-swift:
     
