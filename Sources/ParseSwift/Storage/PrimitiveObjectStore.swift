@@ -40,7 +40,9 @@ struct CodableInMemoryPrimitiveObjectStore: PrimitiveObjectStore {
 // MARK: KeychainStore + PrimitiveObjectStore
 extension KeychainStore: PrimitiveObjectStore {
     func delete(valueFor key: String) throws {
-        _ = removeObject(forKey: key)
+        if !removeObject(forKey: key) {
+            throw ParseError(code: .objectNotFound, message: "Object for key \"\(key)\" not found in Keychain")
+        }
     }
 
     func get<T>(valueFor key: String) throws -> T? where T: Decodable {
@@ -48,6 +50,9 @@ extension KeychainStore: PrimitiveObjectStore {
     }
 
     func set<T>(_ object: T, for key: String) throws where T: Encodable {
-        _ = set(object: object, forKey: key)
+        if !set(object: object, forKey: key) {
+            throw ParseError(code: .unknownError,
+                             message: "Couldn't save object: \(object) key \"\(key)\" in Keychain")
+        }
     }
 }

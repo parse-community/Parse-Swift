@@ -158,11 +158,7 @@ extension ACL {
         let aclController
             = DefaultACLController(defaultACL: acl, lastCurrentUser: user, useCurrentUser: withAccessForCurrentUser)
 
-        do {
-            try KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
-        } catch {
-            throw error
-        }
+        try? KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
     }
 
     private static func setDefaultAccess(_ userObjectId: String) throws {

@@ -154,6 +154,13 @@ class ACLTests: XCTestCase {
         } catch {
             return
         }
+
+        do {
+            _ = try ACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
+            XCTFail("Should have thrown error because no user has been")
+        } catch {
+            return
+        }
     }
 
     func testDefaultACL() {
@@ -180,6 +187,41 @@ class ACLTests: XCTestCase {
             XCTAssertNotEqual(newACL, publicACL)
             try ACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
             publicACL = try ACL.defaultACL()
+            XCTAssertEqual(newACL, publicACL)
+        } catch {
+            XCTFail("Should have set new ACL. Error \(error.localizedDescription)")
+        }
+    }
+
+    func testDefaultACLDontUseCurrentUser() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            _ = try User.signup(username: "testUser", password: "password")
+        } catch {
+            XCTFail("Couldn't signUp user: \(error.localizedDescription)")
+        }
+        var newACL = ACL()
+        newACL.setReadAccess(userId: "someUserID", value: true)
+        do {
+            try ACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
+            guard var aclController: DefaultACLController =
+                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL) else {
+                    XCTFail("Should have found new ACLController.")
+                return
+            }
+
+            aclController.useCurrentUser = false
+            try KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
+            let publicACL = try ACL.defaultACL()
             XCTAssertEqual(newACL, publicACL)
         } catch {
             XCTFail("Should have set new ACL. Error \(error.localizedDescription)")

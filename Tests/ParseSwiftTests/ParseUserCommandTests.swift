@@ -719,7 +719,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 do {
                     try KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
                 } catch {
-                    XCTFail("Couldn't delete the user from the Keychain")
+                    XCTFail("Couldn't delete the user from the Keychain. \(error)")
                     expectation1.fulfill()
                     return
                 }
@@ -735,23 +735,6 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 10.0)
-    }
-
-    func testThreadSafeLogoutAsync() {
-        let loginResponse = LoginSignupResponse()
-
-        MockURLProtocol.mockRequests { _ in
-            do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            } catch {
-                return nil
-            }
-        }
-
-        DispatchQueue.concurrentPerform(iterations: 20) {_ in
-            self.logoutAsync(callbackQueue: .global(qos: .background))
-        }
     }
 
     func testLogoutAsyncMainQueue() {
