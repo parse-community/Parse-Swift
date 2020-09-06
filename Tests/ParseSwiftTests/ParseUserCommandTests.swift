@@ -717,7 +717,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                     return
                 }
                 if let userFromKeychain = BaseParseUser.current {
-                        XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+                    XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
                     expectation1.fulfill()
                     return
                 }

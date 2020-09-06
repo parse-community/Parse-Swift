@@ -8,13 +8,35 @@
 
 import Foundation
 
-// MARK: ParseObject
+/**
+ The `ParseObject` class is a local representation of data persisted to the Parse cloud.
+ This is the main class that is used to interact with objects in your app.
+*/
 public protocol ParseObject: Fetchable, Saveable, CustomDebugStringConvertible {
+    /**
+    The class name of the object.
+    */
     static var className: String { get }
 
+    /**
+    The id of the object.
+    */
     var objectId: String? { get set }
+
+    /**
+    When the object was created.
+    */
+
     var createdAt: Date? { get set }
+
+    /**
+    When the object was last updated.
+    */
     var updatedAt: Date? { get set }
+
+    /**
+    The ACL for this object.
+    */
     var ACL: ACL? { get set }
 }
 
@@ -36,6 +58,15 @@ extension ParseObject {
 
 // MARK: Batch Support
 public extension Sequence where Element: ParseObject {
+
+    /**
+     Saves a collection of objects *synchronously* all at once and sets an error if necessary.
+    
+     @param objects The array of objects to save.
+     @param error Pointer to an `ParseError` that will be set if necessary.
+     
+     @return Returns whether the save succeeded.
+    */
     func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         let commands = map { $0.saveCommand() }
         return try API.Command<Self.Element, Self.Element>
@@ -43,6 +74,13 @@ public extension Sequence where Element: ParseObject {
                 .execute(options: options)
     }
 
+    /**
+     Saves a collection of objects all at once `asynchronously` and executes the block when done.
+    
+     @param objects The array of objects to save.
+     @param block The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+    */
     func saveAll(
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
@@ -84,10 +122,22 @@ extension ParseObject {
 
 // MARK: Fetchable
 extension ParseObject {
+
+    /**
+     *Synchronously* fetches the ParseObject with the current data from the server and sets an error if it occurs.
+    
+     @param error Pointer to an `ParseError` that will be set if necessary.
+    */
     public func fetch(options: API.Options) throws -> Self {
         return try fetchCommand().execute(options: options)
     }
 
+    /**
+     Fetches the `ParseObject` *asynchronously* and executes the given callback block.
+    
+     @param block The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+    */
     public func fetch(
         options: API.Options,
         callbackQueue: DispatchQueue = .main,
@@ -131,11 +181,25 @@ public extension ParseObject {
 
 // MARK: Saveable
 extension ParseObject {
+
+    /**
+     *Synchronously* saves the `ParseObject` and sets an error if it occurs.
+     
+     @param error Pointer to an `ParseError` that will be set if necessary.
+    
+     @return Returns whether the save succeeded.
+    */
     public func save(options: API.Options) throws -> Self {
         return try saveCommand().execute(options: options)
     }
 
-    func save(
+    /**
+     Saves the `ParseObject` *asynchronously* and executes the given callback block.
+     @param block The block to execute.
+    
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+    */
+    public func save(
         options: API.Options,
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void

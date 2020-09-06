@@ -8,6 +8,12 @@
 
 import Foundation
 
+/**
+ The `ACL` class is used to control which users can access or modify a particular object.
+ Each `ParseObject` can have its own `ACL`. You can grant read and write permissions separately to specific users,
+ to groups of users that belong to roles, or you can grant permissions to "the public" so that,
+ for example, any user could read a particular object but only a particular set of users could write to that object.
+*/
 public struct ACL: Codable, Equatable {
     private static let publicScope = "*"
     private var acl: [String: [Access: Bool]]?
@@ -29,6 +35,9 @@ public struct ACL: Codable, Equatable {
 
     public init() {}
 
+    /**
+     Controls whether the public is allowed to read this object.
+    */
     public var publicRead: Bool {
         get {
             return get(ACL.publicScope, access: .read)
@@ -38,6 +47,9 @@ public struct ACL: Codable, Equatable {
         }
     }
 
+    /**
+     Controls whether the public is allowed to write this object.
+    */
     public var publicWrite: Bool {
         get {
             return get(ACL.publicScope, access: .write)
@@ -54,34 +66,91 @@ public struct ACL: Codable, Equatable {
         return acl[key]?[access] ?? false
     }
 
+    /**
+     Gets whether the given user id is *explicitly* allowed to read this object.
+     Even if this returns `NO`, the user may still be able to access it if `publicReadAccess` returns `YES`
+     or if the user belongs to a role that has access.
+    
+     @param userId The `ParseObject.objectId` of the user for which to retrive access.
+     @return `YES` if the user with this `objectId` has *explicit* read access, otherwise `NO`.
+    */
     public func getReadAccess(userId: String) -> Bool {
         return get(userId, access: .read)
     }
 
+    /**
+     Gets whether the given user id is *explicitly* allowed to write this object.
+     Even if this returns NO, the user may still be able to write it if `publicWriteAccess` returns `YES`
+     or if the user belongs to a role that has access.
+    
+     @param userId The `ParseObject.objectId` of the user for which to retrive access.
+    
+     @return `YES` if the user with this `ParseObject.objectId` has *explicit* write access, otherwise `NO`.
+    */
     public func getWriteAccess(userId: String) -> Bool {
         return get(userId, access: .write)
     }
 
+    /**
+     Set whether the given user id is allowed to read this object.
+    
+     @param allowed Whether the given user can write this object.
+     @param userId The `ParseObject.objectId` of the user to assign access.
+    */
     public mutating func setReadAccess(userId: String, value: Bool) {
         set(userId, access: .read, value: value)
     }
 
+    /**
+     Set whether the given user id is allowed to write this object.
+     
+     @param allowed Whether the given user can read this object.
+     @param userId The `ParseObject.objectId` of the user to assign access.
+    */
     public mutating func setWriteAccess(userId: String, value: Bool) {
         set(userId, access: .write, value: value)
     }
 
+    /**
+     Get whether users belonging to the role with the given name are allowed to read this object.
+     Even if this returns `NO`, the role may still be able to read it if a parent role has read access.
+    
+     @param name The name of the role.
+    
+     @return `YES` if the role has read access, otherwise `NO`.
+    */
     public func getReadAccess(roleName: String) -> Bool {
         return get(toRole(roleName: roleName), access: .read)
     }
 
+    /**
+     Get whether users belonging to the role with the given name are allowed to write this object.
+     Even if this returns `NO`, the role may still be able to write it if a parent role has write access.
+    
+     @param name The name of the role.
+    
+     @return `YES` if the role has read access, otherwise `NO`.
+    */
     public func getWriteAccess(roleName: String) -> Bool {
         return get(toRole(roleName: roleName), access: .write)
     }
 
+    /**
+     Set whether users belonging to the role with the given name are allowed to read this object.
+    
+     @param allowed Whether the given role can read this object.
+     @param name The name of the role.
+    */
     public mutating func setReadAccess(roleName: String, value: Bool) {
         set(toRole(roleName: roleName), access: .read, value: value)
     }
 
+    /**
+     Set whether users belonging to the role with the given name are allowed to write this object.
+    
+     @param allowed Whether the given role can write this object.
+     @param name The name of the role.
+    */
     public mutating func setWriteAccess(roleName: String, value: Bool) {
         set(toRole(roleName: roleName), access: .write, value: value)
     }
@@ -115,6 +184,11 @@ public struct ACL: Codable, Equatable {
 
 // Default ACL
 extension ACL {
+    /**
+     Get the default ACL from the Keychain.
+     
+     @return Returns the default ACL.
+    */
     public static func defaultACL() throws -> Self {
 
         let currentUser = BaseParseUser.current
@@ -150,6 +224,18 @@ extension ACL {
         }
     }
 
+    /**
+     Sets a default ACL that will be applied to all instances of `ParseObject` when they are created.
+    
+     @param acl The ACL to use as a template for all instance of `ParseObject`
+     created after this method has been called.
+     This value will be copied and used as a template for the creation of new ACLs, so changes to the
+     instance after this method has been called will not be reflected in new instance of `ParseObject`.
+     @param currentUserAccess - If `YES`, the `ParseACL` that is applied to newly-created instance of `ParseObject` will
+     provide read and write access to the `ParseUser.+currentUser` at the time of creation.
+     - If `NO`, the provided `acl` will be used without modification.
+     - If `acl` is `nil`, this value is ignored.
+    */
     public static func setDefaultACL(_ acl: ACL, withAccessForCurrentUser: Bool) throws {
 
         let currentUser = BaseParseUser.current

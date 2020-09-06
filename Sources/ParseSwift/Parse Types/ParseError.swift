@@ -119,7 +119,7 @@ public struct ParseError: Swift.Error, Codable {
          */
         case invalidFileName = 122
         /**
-         Invalid ACL. An ACL with an invalid format was saved. This should not happen if you use `PFACL`.
+         Invalid ACL. An ACL with an invalid format was saved. This should not happen if you use `ParseACL`.
          */
         case invalidACL = 123
         /**

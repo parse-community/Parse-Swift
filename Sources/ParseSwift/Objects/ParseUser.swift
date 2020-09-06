@@ -1,15 +1,27 @@
 import Foundation
 
-// MARK: CurrentUserContainer
-struct CurrentUserContainer<T: ParseUser>: Codable {
-    var currentUser: T?
-    var sessionToken: String?
-}
-
-// MARK: ParseUser
+/**
+ The `ParseUser` class is a local representation of a user persisted to the Parse Data.
+ This class is a subclass of a `ParseObject`, and retains the same functionality of a `ParseObject`,
+ but also extends it with various user specific methods, like authentication, signing up, and validation uniqueness.
+*/
 public protocol ParseUser: ParseObject {
+    /**
+    The username for the `ParseUser`.
+    */
     var username: String? { get set }
+
+    /**
+    The email for the `ParseUser`.
+    */
     var email: String? { get set }
+
+    /**!
+     The password for the `ParseUser`.
+     
+     This will not be filled in from the server with the password.
+     It is only meant to be set.
+    */
     var password: String? { get set }
 }
 
@@ -20,6 +32,12 @@ public extension ParseUser {
     }
 }
 
+// MARK: CurrentUserContainer
+struct CurrentUserContainer<T: ParseUser>: Codable {
+    var currentUser: T?
+    var sessionToken: String?
+}
+
 // MARK: Current User Support
 extension ParseUser {
     static var currentUserContainer: CurrentUserContainer<Self>? {
@@ -27,11 +45,21 @@ extension ParseUser {
         set { try? KeychainStore.shared.set(newValue, for: ParseStorage.Keys.currentUser) }
     }
 
+    /**
+     Gets the currently logged in user from disk and returns an instance of it.
+     
+     @return Returns a `ParseUser` that is the currently logged in user. If there is none, returns `nil`.
+    */
     public static var current: Self? {
         get { Self.currentUserContainer?.currentUser }
         set { Self.currentUserContainer?.currentUser = newValue }
     }
 
+    /**
+     The session token for the `ParseUser`.
+     
+     This is set by the server upon successful authentication.
+    */
     public var sessionToken: String? {
         Self.currentUserContainer?.sessionToken
     }
@@ -39,12 +67,35 @@ extension ParseUser {
 
 // MARK: Logging In
 extension ParseUser {
+
+    /**
+     Makes a *synchronous* request to login a user with specified credentials.
+    
+     Returns an instance of the successfully logged in `ParseUser`.
+     This also caches the user locally so that calls to `+currentUser` will use the latest logged in user.
+    
+     @param username The username of the user.
+     @param password The password of the user.
+     @param error The error object to set on error.
+    
+     - Throws: an instance of the `ParseUser` on success.
+     If login failed for either wrong password or wrong username, returns `nil`.
+    */
     public static func login(username: String,
                              password: String) throws -> Self {
         return try loginCommand(username: username, password: password).execute(options: [])
     }
 
-    public static func login(
+    /**
+     Makes an *asynchronous* request to log in a user with specified credentials.
+     Returns an instance of the successfully logged in `ParseUser`.
+    
+     This also caches the user locally so that calls to `+currentUser` will use the latest logged in user.
+     @param username The username of the user.
+     @param password The password of the user.
+     @param block The block to execute.
+     It should have the following argument signature: `^(ParseUser *user, ParseError *error)`.
+    */    public static func login(
         username: String,
         password: String,
         callbackQueue: DispatchQueue = .main,
@@ -78,11 +129,25 @@ extension ParseUser {
 
 // MARK: Logging Out
 extension ParseUser {
+
+    /**
+    *Synchronously* logs out the currently logged in user on disk.
+    */
     public static func logout() throws {
         _ = try logoutCommand().execute(options: [])
     }
 
-    static func logout(callbackQueue: DispatchQueue = .main, completion: @escaping (Result<Bool, ParseError>) -> Void) {
+    /**
+     *Asynchronously* logs out the currently logged in user.
+     
+     This will also remove the session from disk, log out of linked services
+     and all future calls to `+currentUser` will return `nil`. This is preferrable to using `-logOut`,
+     unless your code is already running from a background thread.
+    
+     @param block A block that will be called when logging out completes or fails.
+    */
+    public static func logout(callbackQueue: DispatchQueue = .main,
+                              completion: @escaping (Result<Bool, ParseError>) -> Void) {
         logoutCommand().executeAsync(options: [], callbackQueue: callbackQueue) { result in
             completion(result.map { true })
         }
@@ -102,8 +167,35 @@ extension ParseUser {
         return try signupCommand(username: username, password: password).execute(options: [])
     }
 
+    /**
+     Signs up the user *synchronously*.
+    
+     This will also enforce that the username isn't already taken.
+    
+     @warning Make sure that password and username are set before calling this method.
+    
+     @param error Error object to set on error.
+    
+     @return Returns whether the sign up was successful.
+    */
+
     public func signup() throws -> Self {
         return try signupCommand().execute(options: [])
+    }
+
+    /**
+     Signs up the user *asynchronously*.
+     
+     This will also enforce that the username isn't already taken.
+    
+     @warning Make sure that password and username are set before calling this method.
+    
+     @param block The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+    */
+    public func signup(callbackQueue: DispatchQueue = .main,
+                       completion: @escaping (Result<Self, ParseError>) -> Void) {
+        return signupCommand().executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
     }
 
     public static func signup(
@@ -160,7 +252,7 @@ private struct LoginSignupResponse: Codable {
 }
 
 // MARK: SignupBody
-public struct SignupBody: Codable {
+private struct SignupBody: Codable {
     let username: String
     let password: String
 }
