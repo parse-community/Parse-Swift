@@ -214,7 +214,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 30.0)
+        wait(for: [expectation1, expectation2], timeout: 10.0)
     }
 
     func testThreadSafeFetchAsync() {
@@ -390,7 +390,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 30.0)
+        wait(for: [expectation1, expectation2], timeout: 10.0)
     }
 
     func testThreadSafeUpdateAsync() {
@@ -529,7 +529,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 30.0)
+        wait(for: [expectation1], timeout: 10.0)
     }
 
     func testThreadSafeSignUpAsync() {
@@ -647,7 +647,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 30.0)
+        wait(for: [expectation1], timeout: 10.0)
     }
 
     func testThreadSafeLoginAsync() {
@@ -726,6 +726,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 if let userFromKeychain: CurrentUserContainer<BaseParseUser> =
                     try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) {
                         XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+                    expectation1.fulfill()
                     return
                 }
             case .failure(let error):
@@ -733,7 +734,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 30.0)
+        wait(for: [expectation1], timeout: 10.0)
     }
 
     func testThreadSafeLogoutAsync() {
@@ -748,7 +749,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
         }
 
-        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+        DispatchQueue.concurrentPerform(iterations: 20) {_ in
             self.logoutAsync(callbackQueue: .global(qos: .background))
         }
     }

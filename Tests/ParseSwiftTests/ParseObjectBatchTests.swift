@@ -673,7 +673,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 30.0)
+        wait(for: [expectation1, expectation2], timeout: 10.0)
     }
 
     func testThreadSafeSaveAllAsync() {
@@ -892,7 +892,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 30.0)
+        wait(for: [expectation1, expectation2], timeout: 10.0)
     }
 
     func testThreadSafeUpdateAllAsync() {

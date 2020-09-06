@@ -22,7 +22,7 @@ struct KeychainStore: SecureStorage {
     private let synchronizationQueue: DispatchQueue
     private let keychainQueryTemplate: [String: String]
 
-    public static var shared = KeychainStore(service: "com.parse.sdk")
+    public static var shared = KeychainStore(service: "shared")
 
     init(service: String) {
         synchronizationQueue = DispatchQueue(label: "com.parse.keychain.\(service)",
