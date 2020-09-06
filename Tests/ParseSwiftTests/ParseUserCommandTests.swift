@@ -471,20 +471,19 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNotNil(signedUp.customKey)
             XCTAssertNil(signedUp.ACL)
 
-            guard let userFromKeychain: CurrentUserContainer<BaseParseUser> =
-                try KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
-                    XCTFail("Couldn't get CurrentUser from Keychain")
+            guard let userFromKeychain = BaseParseUser.current else {
+                XCTFail("Couldn't get CurrentUser from Keychain")
                 return
             }
 
-            XCTAssertNotNil(userFromKeychain.currentUser?.createdAt)
-            XCTAssertNotNil(userFromKeychain.currentUser?.updatedAt)
-            XCTAssertNotNil(userFromKeychain.currentUser?.email)
-            XCTAssertNotNil(userFromKeychain.currentUser?.username)
-            XCTAssertNotNil(userFromKeychain.currentUser?.password)
-            XCTAssertNotNil(userFromKeychain.currentUser?.objectId)
+            XCTAssertNotNil(userFromKeychain.createdAt)
+            XCTAssertNotNil(userFromKeychain.updatedAt)
+            XCTAssertNotNil(userFromKeychain.email)
+            XCTAssertNotNil(userFromKeychain.username)
+            XCTAssertNotNil(userFromKeychain.password)
+            XCTAssertNotNil(userFromKeychain.objectId)
             XCTAssertNotNil(userFromKeychain.sessionToken)
-            XCTAssertNil(userFromKeychain.currentUser?.ACL)
+            XCTAssertNil(userFromKeychain.ACL)
 
         } catch {
             XCTFail(error.localizedDescription)
@@ -509,21 +508,19 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 XCTAssertNotNil(signedUp.customKey)
                 XCTAssertNil(signedUp.ACL)
 
-                guard let userFromKeychain: CurrentUserContainer<BaseParseUser> =
-                    try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
-                        XCTFail("Couldn't get CurrentUser from Keychain")
-                        expectation1.fulfill()
+                guard let userFromKeychain = BaseParseUser.current else {
+                    XCTFail("Couldn't get CurrentUser from Keychain")
                     return
                 }
 
-                XCTAssertNotNil(userFromKeychain.currentUser?.createdAt)
-                XCTAssertNotNil(userFromKeychain.currentUser?.updatedAt)
-                XCTAssertNotNil(userFromKeychain.currentUser?.email)
-                XCTAssertNotNil(userFromKeychain.currentUser?.username)
-                XCTAssertNotNil(userFromKeychain.currentUser?.password)
-                XCTAssertNotNil(userFromKeychain.currentUser?.objectId)
+                XCTAssertNotNil(userFromKeychain.createdAt)
+                XCTAssertNotNil(userFromKeychain.updatedAt)
+                XCTAssertNotNil(userFromKeychain.email)
+                XCTAssertNotNil(userFromKeychain.username)
+                XCTAssertNotNil(userFromKeychain.password)
+                XCTAssertNotNil(userFromKeychain.objectId)
                 XCTAssertNotNil(userFromKeychain.sessionToken)
-                XCTAssertNil(userFromKeychain.currentUser?.ACL)
+                XCTAssertNil(userFromKeychain.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -588,20 +585,19 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNotNil(loggedIn.customKey)
             XCTAssertNil(loggedIn.ACL)
 
-            guard let userFromKeychain: CurrentUserContainer<BaseParseUser> =
-                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
-                    XCTFail("Couldn't get CurrentUser from Keychain")
+            guard let userFromKeychain = BaseParseUser.current else {
+                XCTFail("Couldn't get CurrentUser from Keychain")
                 return
             }
 
-            XCTAssertNotNil(userFromKeychain.currentUser?.createdAt)
-            XCTAssertNotNil(userFromKeychain.currentUser?.updatedAt)
-            XCTAssertNotNil(userFromKeychain.currentUser?.email)
-            XCTAssertNotNil(userFromKeychain.currentUser?.username)
-            XCTAssertNotNil(userFromKeychain.currentUser?.password)
-            XCTAssertNotNil(userFromKeychain.currentUser?.objectId)
+            XCTAssertNotNil(userFromKeychain.createdAt)
+            XCTAssertNotNil(userFromKeychain.updatedAt)
+            XCTAssertNotNil(userFromKeychain.email)
+            XCTAssertNotNil(userFromKeychain.username)
+            XCTAssertNotNil(userFromKeychain.password)
+            XCTAssertNotNil(userFromKeychain.objectId)
             XCTAssertNotNil(userFromKeychain.sessionToken)
-            XCTAssertNil(userFromKeychain.currentUser?.ACL)
+            XCTAssertNil(userFromKeychain.ACL)
 
         } catch {
             XCTFail(error.localizedDescription)
@@ -627,21 +623,19 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 XCTAssertNotNil(loggedIn.customKey)
                 XCTAssertNil(loggedIn.ACL)
 
-                guard let userFromKeychain: CurrentUserContainer<BaseParseUser> =
-                    try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
-                        XCTFail("Couldn't get CurrentUser from Keychain")
-                        expectation1.fulfill()
+                guard let userFromKeychain = BaseParseUser.current else {
+                    XCTFail("Couldn't get CurrentUser from Keychain")
                     return
                 }
 
-                XCTAssertNotNil(userFromKeychain.currentUser?.createdAt)
-                XCTAssertNotNil(userFromKeychain.currentUser?.updatedAt)
-                XCTAssertNotNil(userFromKeychain.currentUser?.email)
-                XCTAssertNotNil(userFromKeychain.currentUser?.username)
-                XCTAssertNotNil(userFromKeychain.currentUser?.password)
-                XCTAssertNotNil(userFromKeychain.currentUser?.objectId)
+                XCTAssertNotNil(userFromKeychain.createdAt)
+                XCTAssertNotNil(userFromKeychain.updatedAt)
+                XCTAssertNotNil(userFromKeychain.email)
+                XCTAssertNotNil(userFromKeychain.username)
+                XCTAssertNotNil(userFromKeychain.password)
+                XCTAssertNotNil(userFromKeychain.objectId)
                 XCTAssertNotNil(userFromKeychain.sessionToken)
-                XCTAssertNil(userFromKeychain.currentUser?.ACL)
+                XCTAssertNil(userFromKeychain.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -696,9 +690,8 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         do {
             try User.logout()
             try KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
-            if let userFromKeychain: CurrentUserContainer<BaseParseUser> =
-                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) {
-                    XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+            if let userFromKeychain = BaseParseUser.current {
+                XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
                 return
             }
 
@@ -723,8 +716,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                     expectation1.fulfill()
                     return
                 }
-                if let userFromKeychain: CurrentUserContainer<BaseParseUser> =
-                    try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) {
+                if let userFromKeychain = BaseParseUser.current {
                         XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
                     expectation1.fulfill()
                     return

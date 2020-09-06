@@ -117,13 +117,8 @@ public struct ACL: Codable, Equatable {
 extension ACL {
     public static func defaultACL() throws -> Self {
 
-        guard let currentUser: CurrentUserContainer<BaseParseUser> =
-            try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
-            let userObjectId = currentUser.currentUser?.objectId else {
-                throw ParseError(code: .objectNotFound, message: "Couldn't retreive currentUser from Keychain")
-        }
-
-        var aclController: DefaultACLController? =
+        let currentUser = BaseParseUser.current
+        var aclController: DefaultACL? =
             try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL)
 
         if aclController != nil {
@@ -131,37 +126,43 @@ extension ACL {
                 return aclController!.defaultACL
             }
         } else {
-            aclController = DefaultACLController(defaultACL: ACL(),
-                                                 lastCurrentUser: currentUser.currentUser, useCurrentUser: true)
+            aclController = DefaultACL(defaultACL: ACL(),
+                                                 lastCurrentUser: currentUser, useCurrentUser: true)
         }
 
         do {
-            if let lastCurrentUserObjectId = aclController!.lastCurrentUser?.objectId {
-                if userObjectId != lastCurrentUserObjectId {
-                    try setDefaultAccess(userObjectId)
-                }
-            } else {
+            guard let userObjectId = currentUser?.objectId else {
+                return aclController!.defaultACL
+            }
+
+            guard let lastCurrentUserObjectId = aclController!.lastCurrentUser?.objectId else {
+                try setDefaultAccess(userObjectId)
+                return aclController!.defaultACL
+            }
+
+            if userObjectId != lastCurrentUserObjectId {
                 try setDefaultAccess(userObjectId)
             }
             return aclController!.defaultACL
+
         } catch {
             throw error
         }
     }
 
     public static func setDefaultACL(_ acl: ACL, withAccessForCurrentUser: Bool) throws {
-        guard let currentUser: CurrentUserContainer<BaseParseUser> =
-            try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
-            let user = currentUser.currentUser else {
-                throw ParseError(code: .objectNotFound, message: "Couldn't retrieve currentUseer from Keychain")
-        }
+
+        let currentUser = BaseParseUser.current
         let aclController
-            = DefaultACLController(defaultACL: acl, lastCurrentUser: user, useCurrentUser: withAccessForCurrentUser)
+            = DefaultACL(defaultACL: acl, lastCurrentUser: currentUser, useCurrentUser: withAccessForCurrentUser)
 
         try? KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
     }
 
-    private static func setDefaultAccess(_ userObjectId: String) throws {
+    private static func setDefaultAccess(_ userObjectId: String?) throws {
+        guard let userObjectId = userObjectId else {
+            return
+        }
         var acl = ACL()
         acl.setReadAccess(userId: userObjectId, value: true)
         acl.setWriteAccess(userId: userObjectId, value: true)
@@ -219,7 +220,7 @@ extension ACL: CustomDebugStringConvertible {
     }
 }
 
-struct DefaultACLController: Codable {
+struct DefaultACL: Codable {
     var defaultACL: ACL
     var lastCurrentUser: BaseParseUser?
     var useCurrentUser: Bool

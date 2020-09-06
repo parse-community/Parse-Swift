@@ -147,17 +147,25 @@ class ACLTests: XCTestCase {
 
     func testDefaultACLNoUser() {
         var newACL = ACL()
-        newACL.setReadAccess(userId: "someUserID", value: true)
+        let userId = "someUserID"
+        newACL.setReadAccess(userId: userId, value: true)
         do {
-            _ = try ACL.defaultACL()
-            XCTFail("Should have thrown error because no user has been")
+            let defaultACL = try ACL.defaultACL()
+            XCTAssertNotEqual(newACL, defaultACL)
+            try ACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
+            if defaultACL.getReadAccess(userId: userId) {
+                XCTFail("Shouldn't have set read access because there's no current user")
+            }
         } catch {
             return
         }
 
         do {
-            _ = try ACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
-            XCTFail("Should have thrown error because no user has been")
+            try ACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
+            let defaultACL = try ACL.defaultACL()
+            if !defaultACL.getReadAccess(userId: userId) {
+                XCTFail("Should have set defaultACL with read access even though there's no current user")
+            }
         } catch {
             return
         }
@@ -213,7 +221,7 @@ class ACLTests: XCTestCase {
         newACL.setReadAccess(userId: "someUserID", value: true)
         do {
             try ACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
-            guard var aclController: DefaultACLController =
+            guard var aclController: DefaultACL =
                 try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL) else {
                     XCTFail("Should have found new ACLController.")
                 return
