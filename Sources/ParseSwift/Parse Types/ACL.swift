@@ -68,11 +68,11 @@ public struct ACL: Codable, Equatable {
 
     /**
      Gets whether the given user id is *explicitly* allowed to read this object.
-     Even if this returns `NO`, the user may still be able to access it if `publicReadAccess` returns `YES`
+     Even if this returns `false`, the user may still be able to access it if `publicReadAccess` returns `true`
      or if the user belongs to a role that has access.
     
-     @param userId The `ParseObject.objectId` of the user for which to retrive access.
-     @return `YES` if the user with this `objectId` has *explicit* read access, otherwise `NO`.
+     - parameter userId The `ParseObject.objectId` of the user for which to retrive access.
+     - returns: `true` if the user with this `objectId` has *explicit* read access, otherwise `false`.
     */
     public func getReadAccess(userId: String) -> Bool {
         return get(userId, access: .read)
@@ -80,12 +80,12 @@ public struct ACL: Codable, Equatable {
 
     /**
      Gets whether the given user id is *explicitly* allowed to write this object.
-     Even if this returns NO, the user may still be able to write it if `publicWriteAccess` returns `YES`
+     Even if this returns false, the user may still be able to write it if `publicWriteAccess` returns `true`
      or if the user belongs to a role that has access.
     
-     @param userId The `ParseObject.objectId` of the user for which to retrive access.
+     - parameter userId The `ParseObject.objectId` of the user for which to retrive access.
     
-     @return `YES` if the user with this `ParseObject.objectId` has *explicit* write access, otherwise `NO`.
+     - returns: `true` if the user with this `ParseObject.objectId` has *explicit* write access, otherwise `false`.
     */
     public func getWriteAccess(userId: String) -> Bool {
         return get(userId, access: .write)
@@ -94,8 +94,8 @@ public struct ACL: Codable, Equatable {
     /**
      Set whether the given user id is allowed to read this object.
     
-     @param allowed Whether the given user can write this object.
-     @param userId The `ParseObject.objectId` of the user to assign access.
+     - parameter allowed Whether the given user can write this object.
+     - parameter userId The `ParseObject.objectId` of the user to assign access.
     */
     public mutating func setReadAccess(userId: String, value: Bool) {
         set(userId, access: .read, value: value)
@@ -104,8 +104,8 @@ public struct ACL: Codable, Equatable {
     /**
      Set whether the given user id is allowed to write this object.
      
-     @param allowed Whether the given user can read this object.
-     @param userId The `ParseObject.objectId` of the user to assign access.
+     - parameter allowed Whether the given user can read this object.
+     - parameter userId The `ParseObject.objectId` of the user to assign access.
     */
     public mutating func setWriteAccess(userId: String, value: Bool) {
         set(userId, access: .write, value: value)
@@ -113,11 +113,11 @@ public struct ACL: Codable, Equatable {
 
     /**
      Get whether users belonging to the role with the given name are allowed to read this object.
-     Even if this returns `NO`, the role may still be able to read it if a parent role has read access.
+     Even if this returns `false`, the role may still be able to read it if a parent role has read access.
     
-     @param name The name of the role.
+     - parameter name The name of the role.
     
-     @return `YES` if the role has read access, otherwise `NO`.
+     - returns: `true` if the role has read access, otherwise `false`.
     */
     public func getReadAccess(roleName: String) -> Bool {
         return get(toRole(roleName: roleName), access: .read)
@@ -125,11 +125,11 @@ public struct ACL: Codable, Equatable {
 
     /**
      Get whether users belonging to the role with the given name are allowed to write this object.
-     Even if this returns `NO`, the role may still be able to write it if a parent role has write access.
+     Even if this returns `false`, the role may still be able to write it if a parent role has write access.
     
-     @param name The name of the role.
+     - parameter name The name of the role.
     
-     @return `YES` if the role has read access, otherwise `NO`.
+     - returns: `true` if the role has read access, otherwise `false`.
     */
     public func getWriteAccess(roleName: String) -> Bool {
         return get(toRole(roleName: roleName), access: .write)
@@ -138,8 +138,8 @@ public struct ACL: Codable, Equatable {
     /**
      Set whether users belonging to the role with the given name are allowed to read this object.
     
-     @param allowed Whether the given role can read this object.
-     @param name The name of the role.
+     - parameter allowed Whether the given role can read this object.
+     - parameter name The name of the role.
     */
     public mutating func setReadAccess(roleName: String, value: Bool) {
         set(toRole(roleName: roleName), access: .read, value: value)
@@ -148,8 +148,8 @@ public struct ACL: Codable, Equatable {
     /**
      Set whether users belonging to the role with the given name are allowed to write this object.
     
-     @param allowed Whether the given role can write this object.
-     @param name The name of the role.
+     - parameter allowed Whether the given role can write this object.
+     - parameter name The name of the role.
     */
     public mutating func setWriteAccess(roleName: String, value: Bool) {
         set(toRole(roleName: roleName), access: .write, value: value)
@@ -187,7 +187,7 @@ extension ACL {
     /**
      Get the default ACL from the Keychain.
      
-     @return Returns the default ACL.
+     - returns: Returns the default ACL.
     */
     public static func defaultACL() throws -> Self {
 
@@ -227,13 +227,14 @@ extension ACL {
     /**
      Sets a default ACL that will be applied to all instances of `ParseObject` when they are created.
     
-     @param acl The ACL to use as a template for all instance of `ParseObject`
+     - parameter acl The ACL to use as a template for all instance of `ParseObject`
      created after this method has been called.
      This value will be copied and used as a template for the creation of new ACLs, so changes to the
      instance after this method has been called will not be reflected in new instance of `ParseObject`.
-     @param currentUserAccess - If `YES`, the `ParseACL` that is applied to newly-created instance of `ParseObject` will
+     - parameter currentUserAccess - If `true`, the `ParseACL` that is applied to
+     newly-created instance of `ParseObject` will
      provide read and write access to the `ParseUser.+currentUser` at the time of creation.
-     - If `NO`, the provided `acl` will be used without modification.
+     - If `false`, the provided `acl` will be used without modification.
      - If `acl` is `nil`, this value is ignored.
     */
     public static func setDefaultACL(_ acl: ACL, withAccessForCurrentUser: Bool) throws {

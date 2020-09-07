@@ -48,7 +48,7 @@ extension ParseUser {
     /**
      Gets the currently logged in user from disk and returns an instance of it.
      
-     @return Returns a `ParseUser` that is the currently logged in user. If there is none, returns `nil`.
+     - returns: Returns a `ParseUser` that is the currently logged in user. If there is none, returns `nil`.
     */
     public static var current: Self? {
         get { Self.currentUserContainer?.currentUser }
@@ -74,11 +74,11 @@ extension ParseUser {
      Returns an instance of the successfully logged in `ParseUser`.
      This also caches the user locally so that calls to `+currentUser` will use the latest logged in user.
     
-     @param username The username of the user.
-     @param password The password of the user.
-     @param error The error object to set on error.
+     - parameter username The username of the user.
+     - parameter password The password of the user.
+     - parameter error The error object to set on error.
     
-     - Throws: an instance of the `ParseUser` on success.
+     - throws: an instance of the `ParseUser` on success.
      If login failed for either wrong password or wrong username, returns `nil`.
     */
     public static func login(username: String,
@@ -91,9 +91,9 @@ extension ParseUser {
      Returns an instance of the successfully logged in `ParseUser`.
     
      This also caches the user locally so that calls to `+currentUser` will use the latest logged in user.
-     @param username The username of the user.
-     @param password The password of the user.
-     @param block The block to execute.
+     - parameter username The username of the user.
+     - parameter password The password of the user.
+     - parameter completion: The block to execute.
      It should have the following argument signature: `^(ParseUser *user, ParseError *error)`.
     */    public static func login(
         username: String,
@@ -144,7 +144,7 @@ extension ParseUser {
      and all future calls to `+currentUser` will return `nil`. This is preferrable to using `-logOut`,
      unless your code is already running from a background thread.
     
-     @param block A block that will be called when logging out completes or fails.
+     - parameter completion: A block that will be called when logging out completes or fails.
     */
     public static func logout(callbackQueue: DispatchQueue = .main,
                               completion: @escaping (Result<Bool, ParseError>) -> Void) {
@@ -174,9 +174,9 @@ extension ParseUser {
     
      @warning Make sure that password and username are set before calling this method.
     
-     @param error Error object to set on error.
+     - parameter error Error object to set on error.
     
-     @return Returns whether the sign up was successful.
+     - returns: Returns whether the sign up was successful.
     */
 
     public func signup() throws -> Self {
@@ -190,7 +190,7 @@ extension ParseUser {
     
      @warning Make sure that password and username are set before calling this method.
     
-     @param block The block to execute.
+     - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     public func signup(callbackQueue: DispatchQueue = .main,

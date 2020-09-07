@@ -4,7 +4,7 @@ import PackageDescription
 
 let package = Package(
     name: "ParseSwift",
-    platforms: [.iOS(.v9), .macOS(.v10_12), .tvOS(.v9), .watchOS(.v3)],
+    platforms: [.iOS(.v11), .macOS(.v10_13), .tvOS(.v11), .watchOS(.v4)],
     products: [
         .library(
             name: "ParseSwift",

@@ -79,6 +79,10 @@ public struct API {
             headers["X-Parse-Session-Token"] = token
         }
 
+        if let installationId = BaseParseInstallation.currentInstallationContainer?.installationId {
+            headers["X-Parse-Installation-Id"] = installationId
+        }
+
         options.forEach { (option) in
             switch option {
             case .useMasterKey:
