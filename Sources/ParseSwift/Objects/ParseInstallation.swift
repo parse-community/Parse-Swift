@@ -156,15 +156,16 @@ extension ParseInstallation {
 
     mutating func updateBadgeFromDevice() {
         let applicationBadge: Int!
-        #if canImport(UIKit)
-            applicationBadge = UIApplication.shared.applicationIconBadgeNumber
-        #elseif os(watchOS)
-            applicationBadge = 0
+
+        #if canImport(UIKit) && !os(watchOS)
+        applicationBadge = UIApplication.shared.applicationIconBadgeNumber
+        #elseif canImport(AppKit)
+        guard let currentApplicationBadge = NSApplication.shared.dockTile.badgeLabel else {
+            return
+        }
+        applicationBadge = Int(currentApplicationBadge)
         #else
-            guard let currentApplicationBadge = NSApplication.shared.dockTile.badgeLabel else {
-                return
-            }
-            applicationBadge = Int(currentApplicationBadge)
+        applicationBadge = 0
         #endif
 
         if badge != applicationBadge {
