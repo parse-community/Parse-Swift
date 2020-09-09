@@ -721,6 +721,23 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1], timeout: 10.0)
     }
 
+    func testThreadSafeLogoutAsync() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+            self.logoutAsync(callbackQueue: .global(qos: .background))
+        }
+    }
+
     func testLogoutAsyncMainQueue() {
         let loginResponse = LoginSignupResponse()
 

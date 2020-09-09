@@ -25,7 +25,4 @@ public func initialize(
 
     ParseStorage.shared.use(primitiveObjectStore ?? CodableInMemoryPrimitiveObjectStore())
     _ = BaseParseInstallation()
-    //if BaseParseInstallation.current == nil {
-        //BaseParseInstallation.current = BaseParseInstallation()
-    //}
 }
