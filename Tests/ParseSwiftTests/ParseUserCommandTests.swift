@@ -105,7 +105,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         do {
             encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -230,7 +230,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         do {
             encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -287,7 +287,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         do {
             encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -407,7 +407,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         do {
             encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -435,7 +435,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         do {
             encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try userOnServer.getTestDecoder().decode(User.self, from: encoded)
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -751,5 +751,15 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         self.logoutAsync(callbackQueue: .main)
+    }
+
+    func testUserCustomValuesNotSavedToKeychain() {
+        User.current?.customKey = "Changed"
+        User.saveCurrentContainerToKeychain()
+        guard let keychainUser: CurrentUserContainer<User>
+            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+            return
+        }
+        XCTAssertNil(keychainUser.currentUser?.customKey)
     }
 } // swiftlint:disable:this file_length

@@ -77,7 +77,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -200,7 +200,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -228,7 +228,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -281,7 +281,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -345,7 +345,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -467,7 +467,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -493,7 +493,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -578,7 +578,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -605,7 +605,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return

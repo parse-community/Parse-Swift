@@ -33,6 +33,7 @@ class ParseInstallationTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ACL?
+        var customKey: String?
     }
 
     override func setUp() {
@@ -68,6 +69,26 @@ class ParseInstallationTests: XCTestCase {
 
         XCTAssertEqual(installationIdFromCurrent, installationIdFromCurrent.lowercased())
         XCTAssertEqual(installationIdFromContainer, installationIdFromCurrent)
+    }
+
+    func testInstallationMutableValuesCanBeChangedInMemory() {
+        guard let originalInstallation = Installation.current else {
+            XCTFail("All of these Installation values should have unwraped")
+            return
+        }
+
+        Installation.current?.customKey = "Changed"
+        XCTAssertNotEqual(originalInstallation.customKey, Installation.current?.customKey)
+    }
+
+    func testInstallationCustomValuesNotSavedToKeychain() {
+        Installation.current?.customKey = "Changed"
+        Installation.saveCurrentContainerToKeychain()
+        guard let keychainInstallation: CurrentInstallationContainer<Installation>
+            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+            return
+        }
+        XCTAssertNil(keychainInstallation.currentInstallation?.customKey)
     }
 
     func testInstallationImmutableFieldsCannotBeChangedInMemory() {
@@ -133,12 +154,7 @@ class ParseInstallationTests: XCTestCase {
         Installation.current?.parseVersion = "changed"
         Installation.current?.localeIdentifier = "changed"
 
-        do {
-            try KeychainStore.shared.set(Installation.currentInstallationContainer,
-                                         for: ParseStorage.Keys.currentInstallation)
-        } catch {
-            XCTFail("Should save latest Installation to Keychain")
-        }
+        Installation.saveCurrentContainerToKeychain()
 
         guard let keychainInstallation: CurrentInstallationContainer<Installation>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {

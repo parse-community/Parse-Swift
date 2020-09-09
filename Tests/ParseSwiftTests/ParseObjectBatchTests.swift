@@ -68,9 +68,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
            let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
-           scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
            let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
-           scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
+           scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
@@ -252,9 +252,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
            let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
-           scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
            let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
-           scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
+           scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
@@ -444,9 +444,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
            let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
-           scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
            let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
-           scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
+           scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
@@ -699,9 +699,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
            let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
-           scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
            let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
-           scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
+           scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
@@ -740,9 +740,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
            let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
-           scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
            let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
-           scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
+           scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
@@ -921,9 +921,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
            let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
-           scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
            let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
-           scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
+           scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
@@ -964,9 +964,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
            //Get dates in correct format from ParseDecoding strategy
            let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
-           scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded1)
+           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
            let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
-           scoreOnServer2 = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded2)
+           scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")

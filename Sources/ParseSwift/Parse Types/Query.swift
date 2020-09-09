@@ -7,6 +7,7 @@
 //
 
 import Foundation
+
 public protocol Querying {
     associatedtype ResultType
     func find(options: API.Options) throws -> [ResultType]
@@ -41,6 +42,10 @@ extension Querying {
     }
 }
 
+/**
+  All available query constraints.
+
+*/
 public struct QueryConstraint: Encodable {
     public enum Comparator: String, CodingKey {
         case lessThan = "$lt"
@@ -124,7 +129,7 @@ internal struct QueryWhere: Encodable {
     }
 
     // This only encodes the where...
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RawCodingKey.self)
         try _constraints.forEach { (key, value) in
             var nestedContainer = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
@@ -136,6 +141,9 @@ internal struct QueryWhere: Encodable {
     }
 }
 
+/**
+The `ParseQuery` protocol defines a query that is used to query for `ParseObject`s.
+*/
 public struct Query<T>: Encodable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
@@ -149,7 +157,19 @@ public struct Query<T>: Encodable where T: ParseObject {
     fileprivate var `where` = QueryWhere()
 
     public enum Order: Encodable {
+        /**
+          Sort the results in *ascending* order with the given key.
+          
+          - parameter value: The key to order by.
+        */
         case ascending(String)
+        /**
+          Additionally sort in *ascending* order by the given key.
+          
+          The previous keys provided will precedence over this key.
+          
+          - parameter value: The key to order by.
+        */
         case descending(String)
 
         public func encode(to encoder: Encoder) throws {
@@ -176,11 +196,20 @@ public struct Query<T>: Encodable where T: ParseObject {
         return self
     }
 
+    /**
+      A limit on the number of objects to return. The default limit is `100`, with a
+      maximum of 1000 results being returned at a time.
+      
+      - warning: If you are calling `findObjects` with `limit = 1`, you may find it easier to use `getFirst` instead.
+    */
     public mutating func limit(_ value: Int) -> Query<T> {
         self.limit = value
         return self
     }
 
+    /**
+      The number of objects to skip before returning any.
+    */
     public mutating func skip(_ value: Int) -> Query<T> {
         self.skip = value
         return self
@@ -213,19 +242,113 @@ extension Query: Querying {
 
     public typealias ResultType = T
 
-    public func find(options: API.Options) throws -> [ResultType] {
-        return try findCommand().execute(options: options)
+    internal func updateKeychainIfNeeded(_ results: [ResultType]) throws {
+        guard let currentUserObjectId = BaseParseUser.current?.objectId,
+            let currentInstallationObjectId = BaseParseInstallation.current?.objectId else {
+            return
+        }
+
+        var foundCurrentUserObjects = results.filter {
+            if $0.className == BaseParseUser.className && $0.objectId == currentUserObjectId {
+                return true
+            } else {
+                return false
+            }
+        }
+        foundCurrentUserObjects = try foundCurrentUserObjects.sorted(by: {
+            if $0.updatedAt == nil || $1.updatedAt == nil {
+                throw ParseError(code: .unknownError,
+                                 message: "Objects from the server should always have an 'updatedAt'")
+            }
+            return $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
+        })
+        if let foundCurrentUser = foundCurrentUserObjects.first {
+            let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(foundCurrentUser)
+            let updatedCurrentUser = try ParseCoding.jsonDecoder().decode(BaseParseUser.self, from: encoded)
+            BaseParseUser.current = updatedCurrentUser
+            BaseParseUser.saveCurrentContainerToKeychain()
+        }
+
+        var foundCurrentInstallationObjects = results.filter {
+            if $0.className == BaseParseInstallation.className && $0.objectId == currentInstallationObjectId {
+                return true
+            } else {
+                return false
+            }
+        }
+        foundCurrentInstallationObjects = try foundCurrentInstallationObjects.sorted(by: {
+            if $0.updatedAt == nil || $1.updatedAt == nil {
+                throw ParseError(code: .unknownError,
+                                 message: "Objects from the server should always have an 'updatedAt'")
+            }
+            return $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
+        })
+        if let foundCurrentInstallation = foundCurrentInstallationObjects.first {
+            let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(foundCurrentInstallation)
+            let updatedCurrentInstallation =
+                try ParseCoding.jsonDecoder().decode(BaseParseInstallation.self, from: encoded)
+            BaseParseInstallation.current = updatedCurrentInstallation
+            BaseParseInstallation.saveCurrentContainerToKeychain()
+        }
     }
 
+    /**
+      Finds objects *synchronously* based on the constructed query and sets an error if there was one.
+    
+      - parameter error: Pointer to an `ParseError` that will be set if necessary.
+    
+      - returns: Returns an array of `ParseObject` objects that were found.
+    */
+    public func find(options: API.Options) throws -> [ResultType] {
+        let foundResults = try findCommand().execute(options: options)
+        try? self.updateKeychainIfNeeded(foundResults)
+        return foundResults
+    }
+
+    /**
+      Finds objects *asynchronously* and calls the given block with the results.
+    
+      - parameter block: The block to execute.
+      
+      It should have the following argument signature: `^(NSArray *objects, ParseError *error)`
+    */
     public func find(options: API.Options, callbackQueue: DispatchQueue,
                      completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
-        findCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+        findCommand().executeAsync(options: options, callbackQueue: callbackQueue) { results in
+            if case .success(let foundResults) = results {
+                try? self.updateKeychainIfNeeded(foundResults)
+            }
+            completion(results)
+        }
     }
 
+    /**
+      Gets an object *synchronously* based on the constructed query and sets an error if any occurred.
+   
+      - warning: This method mutates the query. It will reset the limit to `1`.
+    
+      - parameter error: Pointer to an `ParseError` that will be set if necessary.
+    
+      - returns: Returns a `ParseObject`, or `nil` if none was found.
+    */
     public func first(options: API.Options) throws -> ResultType? {
-        return try firstCommand().execute(options: options)
+        let result = try firstCommand().execute(options: options)
+        if let foundResult = result {
+            try? self.updateKeychainIfNeeded([foundResult])
+        }
+        return result
     }
 
+    /**
+      Gets an object *asynchronously* and calls the given block with the result.
+      
+      - warning: This method mutates the query. It will reset the limit to `1`.
+    
+      - parameter block: The block to execute.
+      It should have the following argument signature: `^(ParseObject *object, ParseError *error)`.
+      `result` will be `nil` if `error` is set OR no object was found matching the query.
+      `error` will be `nil` if `result` is set OR if the query succeeded, but found no results.
+    */
     public func first(options: API.Options, callbackQueue: DispatchQueue,
                       completion: @escaping (Result<ResultType, ParseError>) -> Void) {
         firstCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
@@ -236,6 +359,7 @@ extension Query: Querying {
                     completion(.failure(ParseError(code: .unknownError, message: "unable to unwrap data") ))
                     return
                 }
+                try? self.updateKeychainIfNeeded([first])
                 completion(.success(first))
             case .failure(let error):
                 completion(.failure(error))
@@ -243,10 +367,22 @@ extension Query: Querying {
         }
     }
 
+    /**
+      Counts objects *synchronously* based on the constructed query and sets an error if there was one.
+      
+      - parameter error Pointer to an `ParseError` that will be set if necessary.
+      
+      - returns: Returns the number of `ParseObject` objects that match the query, or `-1` if there is an error.
+    */
     public func count(options: API.Options) throws -> Int {
         return try countCommand().execute(options: options)
     }
 
+    /**
+      Counts objects *asynchronously* and calls the given block with the counts.
+      - parameter block: The block to execute.
+      It should have the following argument signature: `^(int count, ParseError *error)`
+    */
     public func count(options: API.Options, callbackQueue: DispatchQueue,
                       completion: @escaping (Result<Int, ParseError>) -> Void) {
         countCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
@@ -295,4 +431,4 @@ enum RawCodingKey: CodingKey {
     init?(intValue: Int) {
         fatalError()
     }
-}
+} // swiftlint:disable:this file_length

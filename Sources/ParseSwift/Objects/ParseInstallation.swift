@@ -125,6 +125,15 @@ extension ParseInstallation {
         Self.currentInstallationContainer.currentInstallation?.updateAutomaticInfo()
     }
 
+    internal static func saveCurrentContainerToKeychain() {
+        //Only save the BaseParseInstallation to keep Keychain footprint finite
+        guard let currentInstallationInMemory: CurrentInstallationContainer<BaseParseInstallation>
+            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+            return
+        }
+        try? KeychainStore.shared.set(currentInstallationInMemory, for: ParseStorage.Keys.currentInstallation)
+    }
+
     /**
      Gets the current installation from disk and returns an instance of it.
      
@@ -139,15 +148,6 @@ extension ParseInstallation {
             Self.currentInstallationContainer.currentInstallation = newValue
             Self.updateInternalFieldsCorrectly()
         }
-    }
-
-    /**
-     The session token for the `ParseInstallation`.
-     
-     This is set by the device when Parse is first initialized
-    */
-    public var installationId: String? {
-        Self.currentInstallationContainer.installationId
     }
 }
 
@@ -200,7 +200,7 @@ extension ParseInstallation {
         if badge != applicationBadge {
             badge = applicationBadge
             //Since this changes, update the Keychain whenever it changes
-            try? KeychainStore.shared.set(Self.currentInstallationContainer, for: ParseStorage.Keys.currentInstallation)
+            Self.saveCurrentContainerToKeychain()
         }
     }
 

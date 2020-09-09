@@ -16,7 +16,7 @@ public protocol ParseUser: ParseObject {
     */
     var email: String? { get set }
 
-    /**!
+    /**
      The password for the `ParseUser`.
      
      This will not be filled in from the server with the password.
@@ -52,7 +52,8 @@ extension ParseUser {
     }
 
     internal static func saveCurrentContainerToKeychain() {
-        guard let currentUserInMemory: CurrentUserContainer<Self>
+        //Only save the BaseParseUser to keep Keychain footprint finite
+        guard let currentUserInMemory: CurrentUserContainer<BaseParseUser>
             = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
             return
         }
@@ -88,9 +89,9 @@ extension ParseUser {
      Returns an instance of the successfully logged in `ParseUser`.
      This also caches the user locally so that calls to `+currentUser` will use the latest logged in user.
     
-     - parameter username The username of the user.
-     - parameter password The password of the user.
-     - parameter error The error object to set on error.
+     - parameter username: The username of the user.
+     - parameter password: The password of the user.
+     - parameter error: The error object to set on error.
     
      - throws: an instance of the `ParseUser` on success.
      If login failed for either wrong password or wrong username, returns `nil`.
@@ -105,8 +106,8 @@ extension ParseUser {
      Returns an instance of the successfully logged in `ParseUser`.
     
      This also caches the user locally so that calls to `+currentUser` will use the latest logged in user.
-     - parameter username The username of the user.
-     - parameter password The password of the user.
+     - parameter username: The username of the user.
+     - parameter password: The password of the user.
      - parameter completion: The block to execute.
      It should have the following argument signature: `^(ParseUser *user, ParseError *error)`.
     */    public static func login(
@@ -188,9 +189,9 @@ extension ParseUser {
     
      This will also enforce that the username isn't already taken.
     
-     @warning Make sure that password and username are set before calling this method.
+     - warning: Make sure that password and username are set before calling this method.
     
-     - parameter error Error object to set on error.
+     - parameter error: Error object to set on error.
     
      - returns: Returns whether the sign up was successful.
     */
@@ -204,7 +205,7 @@ extension ParseUser {
      
      This will also enforce that the username isn't already taken.
     
-     @warning Make sure that password and username are set before calling this method.
+     - warning: Make sure that password and username are set before calling this method.
     
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
