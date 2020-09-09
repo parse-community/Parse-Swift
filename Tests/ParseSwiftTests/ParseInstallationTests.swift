@@ -140,15 +140,19 @@ class ParseInstallationTests: XCTestCase {
             XCTFail("Should save latest Installation to Keychain")
         }
 
-        XCTAssertEqual(originalInstallationId, Installation.current?.installationId)
-        XCTAssertEqual(originalDeviceType, Installation.current?.deviceType)
-        XCTAssertEqual(originalBadge, Installation.current?.badge)
-        XCTAssertEqual(originalTimeZone, Installation.current?.timeZone)
-        XCTAssertEqual(originalAppName, Installation.current?.appName)
-        XCTAssertEqual(originalAppIdentifier, Installation.current?.appIdentifier)
-        XCTAssertEqual(originalAppVersion, Installation.current?.appVersion)
-        XCTAssertEqual(originalParseVersion, Installation.current?.parseVersion)
-        XCTAssertEqual(originalLocaleIdentifier, Installation.current?.localeIdentifier)
+        guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
+            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+            return
+        }
+        XCTAssertEqual(originalInstallationId, keychainInstallation.currentInstallation?.installationId)
+        XCTAssertEqual(originalDeviceType, keychainInstallation.currentInstallation?.deviceType)
+        XCTAssertEqual(originalBadge, keychainInstallation.currentInstallation?.badge)
+        XCTAssertEqual(originalTimeZone, keychainInstallation.currentInstallation?.timeZone)
+        XCTAssertEqual(originalAppName, keychainInstallation.currentInstallation?.appName)
+        XCTAssertEqual(originalAppIdentifier, keychainInstallation.currentInstallation?.appIdentifier)
+        XCTAssertEqual(originalAppVersion, keychainInstallation.currentInstallation?.appVersion)
+        XCTAssertEqual(originalParseVersion, keychainInstallation.currentInstallation?.parseVersion)
+        XCTAssertEqual(originalLocaleIdentifier, keychainInstallation.currentInstallation?.localeIdentifier)
     }
 
     func testInstallationHasApplicationBadge() {
