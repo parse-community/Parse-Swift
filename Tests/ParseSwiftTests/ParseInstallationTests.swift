@@ -140,7 +140,7 @@ class ParseInstallationTests: XCTestCase {
             XCTFail("Should save latest Installation to Keychain")
         }
 
-        guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
+        guard let keychainInstallation: CurrentInstallationContainer<Installation>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
             return
         }

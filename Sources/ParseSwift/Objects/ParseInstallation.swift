@@ -199,6 +199,8 @@ extension ParseInstallation {
 
         if badge != applicationBadge {
             badge = applicationBadge
+            //Since this changes, update the Keychain whenever it changes
+            try? KeychainStore.shared.set(Self.currentInstallationContainer, for: ParseStorage.Keys.currentInstallation)
         }
     }
 
