@@ -10,7 +10,12 @@ import Foundation
 
 let kParseVersion = "0.0.1"
 
-//Append this string using an internal method if a protocol requires `set`,
-//but you want to detect if only an internal method made the change.
-//the string will be stripped before sending to the parseServer
-let kParseInternalModificationSuffix = "_ModifiedByParseInternalMethod"
+#if os(iOS)
+let kPFDeviceType = "ios"
+#elseif os(macOS)
+let kPFDeviceType = "osx"
+#elseif os(tvOS)
+let kPFDeviceType = "tvos"
+#elseif os(watchOS)
+let kParseDeviceType = "applewatch"
+#endif

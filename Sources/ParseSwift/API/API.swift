@@ -79,7 +79,7 @@ public struct API {
             headers["X-Parse-Session-Token"] = token
         }
 
-        if let installationId = BaseParseInstallation.currentInstallationContainer?.installationId {
+        if let installationId = BaseParseInstallation.currentInstallationContainer.installationId {
             headers["X-Parse-Installation-Id"] = installationId
         }
 

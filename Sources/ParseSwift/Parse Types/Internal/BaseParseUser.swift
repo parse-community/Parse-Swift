@@ -8,8 +8,7 @@
 import Foundation
 
 /// Used internally to form a concrete type representing `ParseUser`.
-/// `ParseUser` itself has associatedtype requirements, so it's often awkard to use it directly.
-struct BaseParseUser: ParseUser {
+internal struct BaseParseUser: ParseUser {
     var username: String?
     var email: String?
     var password: String?

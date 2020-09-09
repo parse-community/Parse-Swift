@@ -41,8 +41,22 @@ struct CurrentUserContainer<T: ParseUser>: Codable {
 // MARK: Current User Support
 extension ParseUser {
     static var currentUserContainer: CurrentUserContainer<Self>? {
-        get { try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) }
-        set { try? KeychainStore.shared.set(newValue, for: ParseStorage.Keys.currentUser) }
+        get {
+            guard let currentUserInMemory: CurrentUserContainer<Self>
+                = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+                return try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser)
+            }
+            return currentUserInMemory
+        }
+        set { try? ParseStorage.shared.set(newValue, for: ParseStorage.Keys.currentUser) }
+    }
+
+    internal static func saveCurrentContainerToKeychain() {
+        guard let currentUserInMemory: CurrentUserContainer<Self>
+            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+            return
+        }
+        try? KeychainStore.shared.set(currentUserInMemory, for: ParseStorage.Keys.currentUser)
     }
 
     /**
@@ -122,6 +136,7 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
+            Self.saveCurrentContainerToKeychain()
             return user
         }
     }
@@ -156,6 +171,7 @@ extension ParseUser {
     private static func logoutCommand() -> API.Command<NoBody, Void> {
        return API.Command(method: .POST, path: .logout) { (_) -> Void in
             currentUserContainer = nil
+            try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
        }
     }
 }
@@ -223,6 +239,7 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
+            Self.saveCurrentContainerToKeychain()
             return user
         }
     }
@@ -238,6 +255,7 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
+            Self.saveCurrentContainerToKeychain()
             return user
         }
     }

@@ -89,52 +89,72 @@ struct CurrentInstallationContainer<T: ParseInstallation>: Codable {
 
 // MARK: Current Installation Support
 extension ParseInstallation {
-    static var currentInstallationContainer: CurrentInstallationContainer<Self>? {
-        get { try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) }
+    static var currentInstallationContainer: CurrentInstallationContainer<Self> {
+        get {
+            guard let installationInMemory: CurrentInstallationContainer<Self> =
+                try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                    guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
+                        try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
+                         else {
+                            var newInstallation = CurrentInstallationContainer<Self>()
+                            let newInstallationId = UUID().uuidString.lowercased()
+                            newInstallation.installationId = newInstallationId
+                            newInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
+                            newInstallation.currentInstallation?.updateAutomaticInfo()
+                            try? KeychainStore.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
+                            try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
+                        return newInstallation
+                    }
+                    return installationFromKeyChain
+            }
+            return installationInMemory
+        }
         set {
-            guard var newInstallation = newValue else {
-                return
-            }
-            if newInstallation.installationId == nil {
-                let newInstallationId = UUID().uuidString.lowercased()
-                newInstallation.installationId = newInstallationId
-                newInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
-            } else {
-                if newInstallation.currentInstallation?.installationId != newInstallation.installationId! {
-                    //If the user made changes, set back to the original
-                    newInstallation.currentInstallation?.installationId = newInstallation.installationId!
-                }
-            }
-            //Always pull automatic info to ensure user made no changes
-            newInstallation.currentInstallation?.updateAutomaticInfo()
+            try? ParseStorage.shared.set(newValue, for: ParseStorage.Keys.currentInstallation)
+        }
+    }
 
-            try? KeychainStore.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
+    internal static func updateInternalFieldsCorrectly() {
+        if Self.currentInstallationContainer.currentInstallation?.installationId !=
+            Self.currentInstallationContainer.installationId! {
+            //If the user made changes, set back to the original
+            Self.currentInstallationContainer.currentInstallation?.installationId =
+                Self.currentInstallationContainer.installationId!
+        }
+        //Always pull automatic info to ensure user made no changes to immutable values
+        Self.currentInstallationContainer.currentInstallation?.updateAutomaticInfo()
+    }
+
+    /**
+     Gets the current installation from disk and returns an instance of it.
+     
+     - returns: Returns a `ParseInstallation` that is the current device. If there is none, returns `nil`.
+    */
+    public static var current: Self? {
+        get {
+            Self.currentInstallationContainer.currentInstallation?.updateBadgeFromDevice()
+            return Self.currentInstallationContainer.currentInstallation
+        }
+        set {
+            Self.currentInstallationContainer.currentInstallation = newValue
+            Self.updateInternalFieldsCorrectly()
         }
     }
 
     /**
-     Gets the currently logged in user from disk and returns an instance of it.
+     The session token for the `ParseInstallation`.
      
-     - returns: Returns a `ParseUser` that is the currently logged in user. If there is none, returns `nil`.
-    */
-    public static var current: Self? {
-        get { Self.currentInstallationContainer?.currentInstallation }
-        set { Self.currentInstallationContainer?.currentInstallation = newValue }
-    }
-
-    /**
-     The session token for the `ParseUser`.
-     
-     This is set by the server upon successful authentication.
+     This is set by the device when Parse is first initialized
     */
     public var installationId: String? {
-        Self.currentInstallationContainer?.installationId
+        Self.currentInstallationContainer.installationId
     }
 }
 
 // MARK: Automatic Info
 extension ParseInstallation {
     mutating func updateAutomaticInfo() {
+        updateDeviceTypeFromDevice()
         updateTimeZoneFromDevice()
         updateBadgeFromDevice()
         updateVersionInfoFromDevice()
@@ -144,6 +164,13 @@ extension ParseInstallation {
     mutating func createInstallationId(newId: String) {
         if installationId == nil {
             installationId = newId
+        }
+    }
+
+    mutating func updateDeviceTypeFromDevice() {
+        let currentDeviceTyppe = kParseVersion
+        if deviceType != currentDeviceTyppe {
+            deviceType = currentDeviceTyppe
         }
     }
 
@@ -161,6 +188,8 @@ extension ParseInstallation {
         applicationBadge = UIApplication.shared.applicationIconBadgeNumber
         #elseif canImport(AppKit)
         guard let currentApplicationBadge = NSApplication.shared.dockTile.badgeLabel else {
+            //If badgeLabel not set, assume it's 0
+            applicationBadge = 0
             return
         }
         applicationBadge = Int(currentApplicationBadge)

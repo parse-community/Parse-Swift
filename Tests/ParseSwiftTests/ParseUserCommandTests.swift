@@ -689,7 +689,6 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         do {
             try User.logout()
-            try KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
             if let userFromKeychain = BaseParseUser.current {
                 XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
                 return
@@ -709,13 +708,6 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             case .success(let success):
                 XCTAssertTrue(success)
-                do {
-                    try KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
-                } catch {
-                    XCTFail("Couldn't delete the user from the Keychain. \(error)")
-                    expectation1.fulfill()
-                    return
-                }
                 if let userFromKeychain = BaseParseUser.current {
                     XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
                     expectation1.fulfill()

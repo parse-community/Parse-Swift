@@ -377,6 +377,7 @@
 			isa = PBXGroup;
 			children = (
 				4AA8076D1F794C1C008CD551 /* Info.plist */,
+				9194657724F16E330070296B /* ACLTests.swift */,
 				911DB12D24C4837E0027F3C7 /* APICommandTests.swift */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
 				F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */,
@@ -385,7 +386,6 @@
 				911DB13524C4FC100027F3C7 /* ParseObjectCommandTests.swift */,
 				70C7DC1F24D20F180050419B /* ParseQueryTests.swift */,
 				70C7DC1D24D20E530050419B /* ParseUserCommandTests.swift */,
-				9194657724F16E330070296B /* ACLTests.swift */,
 				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
 			);
@@ -444,6 +444,27 @@
 			path = "ParseSwift-macOS";
 			sourceTree = "<group>";
 		};
+		70110D5D250849B30091CC1D /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */,
+				70110D562506CE890091CC1D /* BaseParseInstallation.swift */,
+				F97B466824D9C8C600F4A88B /* FindResult.swift */,
+				F97B45C224D9C6F200F4A88B /* NoBody.swift */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		70110D5E25084AF80091CC1D /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				F97B45C524D9C6F200F4A88B /* Fetchable.swift */,
+				F97B45C824D9C6F200F4A88B /* Queryable.swift */,
+				F97B45C724D9C6F200F4A88B /* Saveable.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
 		7FFF552A2217E729007C3B4E /* AnyCodableTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -497,16 +518,13 @@
 		F97B45BA24D9C6F200F4A88B /* Parse Types */ = {
 			isa = PBXGroup;
 			children = (
-				F97B45BB24D9C6F200F4A88B /* Query.swift */,
-				F97B45BC24D9C6F200F4A88B /* GeoPoint.swift */,
-				F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */,
-				70110D562506CE890091CC1D /* BaseParseInstallation.swift */,
-				F97B466824D9C8C600F4A88B /* FindResult.swift */,
-				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
-				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
 				F97B45C024D9C6F200F4A88B /* ACL.swift */,
 				F97B45C124D9C6F200F4A88B /* File.swift */,
-				F97B45C224D9C6F200F4A88B /* NoBody.swift */,
+				F97B45BC24D9C6F200F4A88B /* GeoPoint.swift */,
+				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
+				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
+				F97B45BB24D9C6F200F4A88B /* Query.swift */,
+				70110D5D250849B30091CC1D /* Internal */,
 			);
 			path = "Parse Types";
 			sourceTree = "<group>";
@@ -514,12 +532,10 @@
 		F97B45C324D9C6F200F4A88B /* Objects */ = {
 			isa = PBXGroup;
 			children = (
-				F97B45C424D9C6F200F4A88B /* ParseUser.swift */,
 				70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */,
-				F97B45C524D9C6F200F4A88B /* Fetchable.swift */,
 				F97B45C624D9C6F200F4A88B /* ParseObject.swift */,
-				F97B45C724D9C6F200F4A88B /* Saveable.swift */,
-				F97B45C824D9C6F200F4A88B /* Queryable.swift */,
+				F97B45C424D9C6F200F4A88B /* ParseUser.swift */,
+				70110D5E25084AF80091CC1D /* Protocols */,
 			);
 			path = Objects;
 			sourceTree = "<group>";

@@ -8,7 +8,7 @@
 
 import Foundation
 
-struct BaseParseInstallation: ParseInstallation {
+internal struct BaseParseInstallation: ParseInstallation {
     var deviceType: String?
     var installationId: String?
     var deviceToken: String?
@@ -24,4 +24,9 @@ struct BaseParseInstallation: ParseInstallation {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ACL?
+
+    init() {
+        //Force installation in keychain to be created if it hasnt already
+        Self.current = self
+    }
 }
