@@ -10,6 +10,7 @@ import Foundation
 // MARK: PrimitiveObjectStore
 public protocol PrimitiveObjectStore {
     mutating func delete(valueFor key: String) throws
+    mutating func deleteAll() throws
     mutating func get<T: Decodable>(valueFor key: String) throws -> T?
     mutating func set<T: Encodable>(_ object: T, for key: String) throws
 }
@@ -26,6 +27,10 @@ struct CodableInMemoryPrimitiveObjectStore: PrimitiveObjectStore {
         storage[key] = nil
     }
 
+    mutating func deleteAll() throws {
+        storage.removeAll()
+    }
+
     mutating func get<T>(valueFor key: String) throws -> T? where T: Decodable {
         guard let data = storage[key] else { return nil }
         return try decoder.decode(T.self, from: data)
@@ -39,9 +44,16 @@ struct CodableInMemoryPrimitiveObjectStore: PrimitiveObjectStore {
 
 // MARK: KeychainStore + PrimitiveObjectStore
 extension KeychainStore: PrimitiveObjectStore {
+
     func delete(valueFor key: String) throws {
         if !removeObject(forKey: key) {
             throw ParseError(code: .objectNotFound, message: "Object for key \"\(key)\" not found in Keychain")
+        }
+    }
+
+    func deleteAll() throws {
+        if !removeAllObjects() {
+            throw ParseError(code: .objectNotFound, message: "Couldn't delete all objects in Keychain")
         }
     }
 

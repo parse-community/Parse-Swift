@@ -242,56 +242,6 @@ extension Query: Querying {
 
     public typealias ResultType = T
 
-    internal func updateKeychainIfNeeded(_ results: [ResultType]) throws {
-        guard let currentUserObjectId = BaseParseUser.current?.objectId,
-            let currentInstallationObjectId = BaseParseInstallation.current?.objectId else {
-            return
-        }
-
-        var foundCurrentUserObjects = results.filter {
-            if $0.className == BaseParseUser.className && $0.objectId == currentUserObjectId {
-                return true
-            } else {
-                return false
-            }
-        }
-        foundCurrentUserObjects = try foundCurrentUserObjects.sorted(by: {
-            if $0.updatedAt == nil || $1.updatedAt == nil {
-                throw ParseError(code: .unknownError,
-                                 message: "Objects from the server should always have an 'updatedAt'")
-            }
-            return $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
-        })
-        if let foundCurrentUser = foundCurrentUserObjects.first {
-            let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(foundCurrentUser)
-            let updatedCurrentUser = try ParseCoding.jsonDecoder().decode(BaseParseUser.self, from: encoded)
-            BaseParseUser.current = updatedCurrentUser
-            BaseParseUser.saveCurrentContainerToKeychain()
-        }
-
-        var foundCurrentInstallationObjects = results.filter {
-            if $0.className == BaseParseInstallation.className && $0.objectId == currentInstallationObjectId {
-                return true
-            } else {
-                return false
-            }
-        }
-        foundCurrentInstallationObjects = try foundCurrentInstallationObjects.sorted(by: {
-            if $0.updatedAt == nil || $1.updatedAt == nil {
-                throw ParseError(code: .unknownError,
-                                 message: "Objects from the server should always have an 'updatedAt'")
-            }
-            return $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
-        })
-        if let foundCurrentInstallation = foundCurrentInstallationObjects.first {
-            let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(foundCurrentInstallation)
-            let updatedCurrentInstallation =
-                try ParseCoding.jsonDecoder().decode(BaseParseInstallation.self, from: encoded)
-            BaseParseInstallation.current = updatedCurrentInstallation
-            BaseParseInstallation.saveCurrentContainerToKeychain()
-        }
-    }
-
     /**
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
     
@@ -301,7 +251,7 @@ extension Query: Querying {
     */
     public func find(options: API.Options) throws -> [ResultType] {
         let foundResults = try findCommand().execute(options: options)
-        try? self.updateKeychainIfNeeded(foundResults)
+        try? ResultType.updateKeychainIfNeeded(foundResults)
         return foundResults
     }
 
@@ -316,7 +266,7 @@ extension Query: Querying {
                      completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
         findCommand().executeAsync(options: options, callbackQueue: callbackQueue) { results in
             if case .success(let foundResults) = results {
-                try? self.updateKeychainIfNeeded(foundResults)
+                try? ResultType.updateKeychainIfNeeded(foundResults)
             }
             completion(results)
         }
@@ -334,7 +284,7 @@ extension Query: Querying {
     public func first(options: API.Options) throws -> ResultType? {
         let result = try firstCommand().execute(options: options)
         if let foundResult = result {
-            try? self.updateKeychainIfNeeded([foundResult])
+            try? ResultType.updateKeychainIfNeeded([foundResult])
         }
         return result
     }
@@ -359,7 +309,7 @@ extension Query: Querying {
                     completion(.failure(ParseError(code: .unknownError, message: "unable to unwrap data") ))
                     return
                 }
-                try? self.updateKeychainIfNeeded([first])
+                try? ResultType.updateKeychainIfNeeded([first])
                 completion(.success(first))
             case .failure(let error):
                 completion(.failure(error))
@@ -431,4 +381,4 @@ enum RawCodingKey: CodingKey {
     init?(intValue: Int) {
         fatalError()
     }
-} // swiftlint:disable:this file_length
+}

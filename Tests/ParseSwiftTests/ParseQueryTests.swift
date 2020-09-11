@@ -43,6 +43,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
+        try? KeychainStore.shared.deleteAll()
+        try? ParseStorage.shared.deleteAll()
     }
 
     func testConstructors() {

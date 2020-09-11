@@ -122,6 +122,44 @@ extension ParseObject {
 
 // MARK: Fetchable
 extension ParseObject {
+    internal static func updateKeychainIfNeeded(_ results: [Self], saving: Bool = false) throws {
+        guard let currentUser = BaseParseUser.current else {
+            return
+        }
+
+        var foundCurrentUserObjects = results.filter { $0.hasSameObjectId(as: currentUser) }
+        foundCurrentUserObjects = try foundCurrentUserObjects.sorted(by: {
+            if $0.updatedAt == nil || $1.updatedAt == nil {
+                throw ParseError(code: .unknownError,
+                                 message: "Objects from the server should always have an 'updatedAt'")
+            }
+            return $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
+        })
+        if let foundCurrentUser = foundCurrentUserObjects.first {
+            let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(foundCurrentUser)
+            let updatedCurrentUser = try ParseCoding.jsonDecoder().decode(BaseParseUser.self, from: encoded)
+            BaseParseUser.current = updatedCurrentUser
+            BaseParseUser.saveCurrentContainerToKeychain()
+        } else if results.first?.className == BaseParseInstallation.className {
+            guard let currentInstallation = BaseParseInstallation.current else {
+                return
+            }
+            var saveInstallation: Self?
+            let foundCurrentInstallationObjects = results.filter { $0.hasSameObjectId(as: currentInstallation) }
+            if let foundCurrentInstallation = foundCurrentInstallationObjects.first {
+                saveInstallation = foundCurrentInstallation
+            } else {
+                saveInstallation = results.first
+            }
+            if saveInstallation != nil {
+                let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(saveInstallation!)
+                let updatedCurrentInstallation =
+                    try ParseCoding.jsonDecoder().decode(BaseParseInstallation.self, from: encoded)
+                BaseParseInstallation.current = updatedCurrentInstallation
+                BaseParseInstallation.saveCurrentContainerToKeychain()
+            }
+        }
+    }
 
     /**
      *Synchronously* fetches the ParseObject with the current data from the server and sets an error if it occurs.
@@ -129,7 +167,9 @@ extension ParseObject {
      - parameter error: Pointer to an `ParseError` that will be set if necessary.
     */
     public func fetch(options: API.Options) throws -> Self {
-        return try fetchCommand().execute(options: options)
+        let result: Self = try fetchCommand().execute(options: options)
+        try? Self.updateKeychainIfNeeded([result])
+        return result
     }
 
     /**
@@ -144,7 +184,12 @@ extension ParseObject {
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
          do {
-             try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+            try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
+                if case .success(let foundResult) = result {
+                    try? Self.updateKeychainIfNeeded([foundResult])
+                }
+                completion(result)
+            }
          } catch let error as ParseError {
              completion(.failure(error))
          } catch {
@@ -190,7 +235,13 @@ extension ParseObject {
      - returns: Returns whether the save succeeded.
     */
     public func save(options: API.Options) throws -> Self {
-        return try saveCommand().execute(options: options)
+        let result: Self = try saveCommand().execute(options: options)
+        try? Self.updateKeychainIfNeeded([result], saving: true)
+        return result
+    }
+
+    public func save() throws -> Self {
+        return try save(options: [])
     }
 
     /**
@@ -204,7 +255,12 @@ extension ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        saveCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+        saveCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
+            if case .success(let foundResults) = result {
+                try? Self.updateKeychainIfNeeded([foundResults], saving: true)
+            }
+            completion(result)
+        }
     }
 
     internal func saveCommand() -> API.Command<Self, Self> {

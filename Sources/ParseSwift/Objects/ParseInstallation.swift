@@ -30,6 +30,8 @@ import AppKit
  
  `ParseInstallation` objects which have a valid `deviceToken` and are saved to
  the Parse cloud can be used to target push notifications.
+ 
+   - warning: Only use ParseInstallation on the main thread as it uses UIApplication for `badge`
 */
 public protocol ParseInstallation: ParseObject {
 

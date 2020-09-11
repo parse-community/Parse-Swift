@@ -12,9 +12,3 @@ public protocol Saveable: Codable {
     func save(options: API.Options) throws -> SavingType
     func save() throws -> SavingType
 }
-
-extension Saveable {
-    public func save() throws -> SavingType {
-        return try save(options: [])
-    }
-}
