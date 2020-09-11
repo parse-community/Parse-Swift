@@ -119,9 +119,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         } catch {
             XCTFail("Should login")
         }
-        
     }
-    
+
     func testNewInstallationIdentifierIsLowercase() {
         let expectation1 = XCTestExpectation(description: "Update installation1")
         DispatchQueue.main.async {

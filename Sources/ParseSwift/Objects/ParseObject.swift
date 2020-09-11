@@ -41,15 +41,28 @@ public protocol ParseObject: Fetchable, Saveable, CustomDebugStringConvertible {
 
 // MARK: Default Implementations
 extension ParseObject {
+    /**
+    The class name of the object.
+    */
     public static var className: String {
         let classType = "\(type(of: self))"
         return classType.components(separatedBy: ".").first! // strip .Type
     }
 
+    /**
+    The class name of the object.
+    */
     public var className: String {
         return Self.className
     }
 
+    /**
+     Determines if a object has the same objectId
+    
+     - parameter as: object to compare
+     
+     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccesfull.
+    */
     public func hasSameObjectId<T: ParseObject>(as other: T) -> Bool {
         return other.className == className && other.objectId == objectId && objectId != nil
     }
@@ -59,10 +72,9 @@ extension ParseObject {
 public extension Sequence where Element: ParseObject {
 
     /**
-     Saves a collection of objects *synchronously* all at once and sets an error if necessary.
+     Saves a collection of objects *synchronously* all at once and throws an error if necessary.
     
      - parameter options: objects The array of objects to save.
-     - parameter error: Pointer to an `ParseError` that will be set if necessary.
      
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if unsuccesfull.
      - throws:`ParseError`
@@ -238,10 +250,6 @@ extension ParseObject {
         let result: Self = try saveCommand().execute(options: options)
         try? Self.updateKeychainIfNeeded([result], saving: true)
         return result
-    }
-
-    public func save() throws -> Self {
-        return try save(options: [])
     }
 
     /**
