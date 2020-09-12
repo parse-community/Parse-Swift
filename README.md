@@ -36,7 +36,7 @@ As there are currently no releases of the ParseSwift SDK you will need to specif
 You can use The Swift Package Manager to install ParseSwift by adding the following description to your `Package.swift` file:
 
 ```swift
-// swift-tools-version:5.0
+// swift-tools-version:5.1
 import PackageDescription
 
 let package = Package(
