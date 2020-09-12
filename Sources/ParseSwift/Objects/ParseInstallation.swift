@@ -16,21 +16,21 @@ import AppKit
 
 /**
  Objects that conform to the `ParseInstallation` protocol have a local representation of an
- installation persisted to the Parse cloud. This protocol inheritts from the
- `ParseObject protocol, and retains the same functionality of a ParseObject, but also extends
+ installation persisted to the Parse cloud. This protocol inherits from the
+ `ParseObject` protocol, and retains the same functionality of a `ParseObject`, but also extends
  it with installation-specific fields and related immutability and validity
  checks.
- 
+
  A valid `ParseInstallation` can only be instantiated via
  `+current` because the required identifier fields
  are readonly. The `timeZone` and `badge` fields are also readonly properties which
  are automatically updated to match the device's time zone and application badge
  when the `ParseInstallation` is saved, thus these fields might not reflect the
  latest device state if the installation has not recently been saved.
- 
+
  `ParseInstallation` objects which have a valid `deviceToken` and are saved to
  the Parse cloud can be used to target push notifications.
- 
+
  - warning: Only use `ParseInstallation` objects on the main thread as they
    require UIApplication for `badge`
 */
@@ -139,7 +139,7 @@ extension ParseInstallation {
 
     /**
      Gets/Sets properties of the current installation in the Keychain.
-     
+
      - returns: Returns a `ParseInstallation` that is the current device. If there is none, returns `nil`.
     */
     public static var current: Self? {
@@ -215,7 +215,7 @@ extension ParseInstallation {
         #if TARGET_OS_MACCATALYST
         // If using an Xcode new enough to know about Mac Catalyst:
         // Mac Catalyst Apps use a prefix to the bundle ID. This should not be transmitted
-        // to the parse backend. Catalyst apps should look like iOS apps otherwise
+        // to Parse Server. Catalyst apps should look like iOS apps otherwise
         // push and other services don't work properly.
         if let currentAppIdentifier = appInfo[String(kCFBundleIdentifierKey)] as? String {
             let macCatalystBundleIdPrefix = "maccatalyst."
@@ -251,12 +251,12 @@ extension ParseInstallation {
 
     /**
      Save localeIdentifier in the following format: [language code]-[COUNTRY CODE].
-     
+
      The language codes are two-letter lowercase ISO language codes (such as "en") as defined by
      <a href="http://en.wikipedia.org/wiki/ISO_639-1">ISO 639-1</a>.
      The country codes are two-letter uppercase ISO country codes (such as "US") as defined by
      <a href="http://en.wikipedia.org/wiki/ISO_3166-1_alpha-3">ISO 3166-1</a>.
-    
+
      Many iOS locale identifiers don't contain the country code -> inconsistencies with Android/Windows Phone.
     */
     mutating func updateLocaleIdentifierFromDevice() {

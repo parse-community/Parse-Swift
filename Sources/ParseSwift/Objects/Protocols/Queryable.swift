@@ -24,10 +24,10 @@ protocol Queryable {
 extension Queryable {
     /**
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
-    
+
       - throws: An error of type `ParseError`.
-    
-      - returns: Returns an array of `ParseObject` objects that were found.
+
+      - returns: Returns an array of `ParseObject`s that were found.
     */
     func find() throws -> [ResultType] {
         return try find(options: [])
@@ -35,11 +35,11 @@ extension Queryable {
 
     /**
        Gets an object *synchronously* based on the constructed query and sets an error if any occurred.
-    
+
        - warning: This method mutates the query. It will reset the limit to `1`.
-     
+
        - throws: An error of type `ParseError`.
-     
+
        - returns: Returns a `ParseObject`, or `nil` if none was found.
      */
     func first() throws -> ResultType? {
@@ -48,10 +48,10 @@ extension Queryable {
 
     /**
       Counts objects *synchronously* based on the constructed query and sets an error if there was one.
-      
+
       - throws: An error of type `ParseError`.
-      
-      - returns: Returns the number of `ParseObject` objects that match the query, or `-1` if there is an error.
+
+      - returns: Returns the number of `ParseObject`s that match the query, or `-1` if there is an error.
     */
     func count() throws -> Int {
         return try count(options: [])
@@ -59,9 +59,8 @@ extension Queryable {
 
     /**
       Finds objects *asynchronously* and calls the given block with the results.
-    
-      - parameter callbackQueue: The queue to return to after completion.  Default
-     value of .main.
+
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ResultType], ParseError>)`
     */
@@ -71,11 +70,10 @@ extension Queryable {
 
     /**
       Gets an object *asynchronously* and calls the given block with the result.
-      
+
       - warning: This method mutates the query. It will reset the limit to `1`.
-    
-      - parameter callbackQueue: The queue to return to after completion.  Default
-      value of .main.
+
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `^(ParseObject *object, ParseError *error)`.
       `result` will be `nil` if `error` is set OR no object was found matching the query.
@@ -87,9 +85,8 @@ extension Queryable {
 
     /**
       Counts objects *asynchronously* and calls the given block with the counts.
-     
-      - parameter callbackQueue: The queue to return to after completion.  Default
-      value of .main.
+
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `^(int count, ParseError *error)`
     */

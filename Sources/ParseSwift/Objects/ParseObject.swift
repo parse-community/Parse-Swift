@@ -57,11 +57,11 @@ extension ParseObject {
     }
 
     /**
-     Determines if a object has the same objectId
-    
+     Determines if an object has the same objectId
+
      - parameter as: object to compare
-     
-     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccesfull.
+
+     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
     */
     public func hasSameObjectId<T: ParseObject>(as other: T) -> Bool {
         return other.className == className && other.objectId == objectId && objectId != nil
@@ -73,11 +73,11 @@ public extension Sequence where Element: ParseObject {
 
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
-    
+
      - parameter options: A set of options used to save objects. Defaults to an empty set.
-     
-     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if failure.
-     - throws:`ParseError`
+
+     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
+     - throws: `ParseError`
     */
     func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         let commands = map { $0.saveCommand() }
@@ -88,10 +88,9 @@ public extension Sequence where Element: ParseObject {
 
     /**
      Saves a collection of objects all at once *asynchronously* and executes the completion block when done.
-    
+
      - parameter options: A set of options used to save objects. Defaults to an empty set.
-     - parameter callbackQueue: The queue to return to after completion.  Default
-     value of .main.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
     */
@@ -177,7 +176,7 @@ extension ParseObject {
 
     /**
      Fetches the ParseObject *synchronously* with the current data from the server and sets an error if it occurs.
-    
+
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
     */
@@ -189,7 +188,7 @@ extension ParseObject {
 
     /**
      Fetches the `ParseObject` *asynchronously* and executes the given callback block.
-    
+
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion.  Default
      value of .main.
@@ -247,10 +246,10 @@ extension ParseObject {
 
     /**
      Saves the `ParseObject` *synchronously* and thows an error if there's an issue.
-     
+
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - throws: A Error of type `ParseError`.
-    
+
      - returns: Returns saved  `ParseObject`.
     */
     public func save(options: API.Options = []) throws -> Self {
@@ -261,10 +260,9 @@ extension ParseObject {
 
     /**
      Saves the `ParseObject` *asynchronously* and executes the given callback block.
-     
+
      - parameter options: A set of options used to save objects. Defaults to an empty set.
-     - parameter callbackQueue: The queue to return to after completion.  Default
-      value of .main.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */

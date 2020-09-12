@@ -26,7 +26,7 @@ internal struct BaseParseInstallation: ParseInstallation {
     var ACL: ACL?
 
     init() {
-        //Force installation in keychain to be created if it hasnt already
+        //Force installation in keychain to be created if it hasn't already
         Self.current = self
     }
 }

@@ -10,7 +10,6 @@ import Foundation
 
 /**
   All available query constraints.
-
 */
 public struct QueryConstraint: Encodable {
     public enum Comparator: String, CodingKey {
@@ -108,7 +107,7 @@ internal struct QueryWhere: Encodable {
 }
 
 /**
-The `ParseQuery` sturct defines a query that is used to query for `ParseObject`s.
+The `ParseQuery` struct defines a query that is used to query for `ParseObject`s.
 */
 public struct Query<T>: Encodable where T: ParseObject {
     // interpolate as GET
@@ -123,9 +122,8 @@ public struct Query<T>: Encodable where T: ParseObject {
     fileprivate var `where` = QueryWhere()
 
     /**
-      An enum that determins the ortder to sort the results.
-      based on a given key.
-      
+      An enum that determines the order to sort the results based on a given key.
+
       - parameter key: The key to order by.
     */
     public enum Order: Encodable {
@@ -159,7 +157,7 @@ public struct Query<T>: Encodable where T: ParseObject {
     /**
       A limit on the number of objects to return. The default limit is `100`, with a
       maximum of 1000 results being returned at a time.
-      
+
       - note: If you are calling `findObjects` with `limit = 1`, you may find it easier to use `first` instead.
     */
     public mutating func limit(_ value: Int) -> Query<T> {
@@ -210,11 +208,11 @@ extension Query: Queryable {
 
     /**
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
-    
+
       - parameter options: A set of options used to save objects.
       - throws: An error of type `ParseError`.
-    
-      - returns: Returns an array of `ParseObject` objects that were found.
+
+      - returns: Returns an array of `ParseObject`s that were found.
     */
     public func find(options: API.Options) throws -> [ResultType] {
         let foundResults = try findCommand().execute(options: options)
@@ -224,10 +222,9 @@ extension Query: Queryable {
 
     /**
       Finds objects *asynchronously* and calls the given block with the results.
-    
+
       - parameter options: A set of options used to save objects.
-      - parameter callbackQueue: The queue to return to after completion.  Default
-     value of .main.
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ResultType], ParseError>)`
     */
@@ -243,12 +240,12 @@ extension Query: Queryable {
 
     /**
       Gets an object *synchronously* based on the constructed query and sets an error if any occurred.
-   
+
       - warning: This method mutates the query. It will reset the limit to `1`.
-    
+
       - parameter options: A set of options used to save objects.
       - throws: An error of type `ParseError`.
-    
+
       - returns: Returns a `ParseObject`, or `nil` if none was found.
     */
     public func first(options: API.Options) throws -> ResultType? {
@@ -261,12 +258,11 @@ extension Query: Queryable {
 
     /**
       Gets an object *asynchronously* and calls the given block with the result.
-      
+
       - warning: This method mutates the query. It will reset the limit to `1`.
-    
+
       - parameter options: A set of options used to save objects.
-      - parameter callbackQueue: The queue to return to after completion.  Default
-      value of .main.
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `^(ParseObject *object, ParseError *error)`.
       `result` will be `nil` if `error` is set OR no object was found matching the query.
@@ -292,11 +288,11 @@ extension Query: Queryable {
 
     /**
       Counts objects *synchronously* based on the constructed query and sets an error if there was one.
-      
+
       - parameter options: A set of options used to save objects.
       - throws: An error of type `ParseError`.
-      
-      - returns: Returns the number of `ParseObject` objects that match the query, or `-1` if there is an error.
+
+      - returns: Returns the number of `ParseObject`s that match the query, or `-1` if there is an error.
     */
     public func count(options: API.Options) throws -> Int {
         return try countCommand().execute(options: options)
@@ -304,10 +300,9 @@ extension Query: Queryable {
 
     /**
       Counts objects *asynchronously* and calls the given block with the counts.
-     
+
       - parameter options: A set of options used to save objects.
-      - parameter callbackQueue: The queue to return to after completion.  Default
-      value of .main.
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `^(int count, ParseError *error)`
     */
