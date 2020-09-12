@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://parseplatform.org"><img alt="Parse Platform" src="logo large.png" width="200"></a>
+  <a href="https://parseplatform.org"><img alt="Parse Platform" src="https://github.com/parse-community/Parse-Swift/blob/main/logo%20large.png" width="200"></a>
 </p>
 
 <h2 align="center">ParseSwift</h2>
