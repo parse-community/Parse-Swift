@@ -9,10 +9,11 @@
 import Foundation
 
 /**
- Objects that conform to the `ACL` protocol are used to control which users can access or modify a particular `ParseObject`.
- Each `ParseObject` can have its own `ACL`. You can grant read and write permissions separately to specific users,
- to groups of users that belong to roles, or you can grant permissions to "the public" so that,
- for example, any user could read a particular object but only a particular set of users could write to that object.
+ Objects that conform to the `ACL` protocol are used to control which users can access or modify a particular
+ `ParseObject`. Each `ParseObject` can have its own `ACL`. You can grant read and write permissions
+ separately to specific users, to groups of users that belong to roles, or you can grant permissions to
+ "the public" so that, for example, any user could read a particular object but only a particular set of users
+ could write to that object.
 */
 public struct ACL: Codable, Equatable {
     private static let publicScope = "*"
@@ -65,7 +66,8 @@ public struct ACL: Codable, Equatable {
      Returns true if a particular key has a specific access level.
      - parameter key: The `ParseObject.objectId` of the user for which to retrive access.
      - parameter access: the type of access.
-     - returns: `true` if the user with this `key` has *explicit* access, otherwise `false`.
+     - returns: `true` if the user with this `key
+     ` has *explicit* access, otherwise `false`.
     */
     public func get(_ key: String, access: Access) -> Bool {
         guard let acl = acl else { // no acl, all open!

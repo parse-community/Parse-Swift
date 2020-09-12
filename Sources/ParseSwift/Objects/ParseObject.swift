@@ -74,7 +74,7 @@ public extension Sequence where Element: ParseObject {
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
     
-     - parameter options: A set of options used to save objects.
+     - parameter options: A set of options used to save objects. Defaults to an empty set.
      
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if failure.
      - throws:`ParseError`
@@ -89,7 +89,7 @@ public extension Sequence where Element: ParseObject {
     /**
      Saves a collection of objects all at once *asynchronously* and executes the completion block when done.
     
-     - parameter objects: The array of objects to save.
+     - parameter options: A set of options used to save objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion.  Default
      value of .main.
      - parameter completion: The block to execute.
@@ -176,12 +176,12 @@ extension ParseObject {
     }
 
     /**
-     *Synchronously* fetches the ParseObject with the current data from the server and sets an error if it occurs.
+     Fetches the ParseObject *synchronously* with the current data from the server and sets an error if it occurs.
     
-     - parameter options: A set of options used to save objects.
+     - parameter options: A set of options used to save objects. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
     */
-    public func fetch(options: API.Options) throws -> Self {
+    public func fetch(options: API.Options = []) throws -> Self {
         let result: Self = try fetchCommand().execute(options: options)
         try? Self.updateKeychainIfNeeded([result])
         return result
@@ -190,14 +190,14 @@ extension ParseObject {
     /**
      Fetches the `ParseObject` *asynchronously* and executes the given callback block.
     
-     - parameter options: A set of options used to save objects.
+     - parameter options: A set of options used to save objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion.  Default
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     public func fetch(
-        options: API.Options,
+        options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
@@ -246,14 +246,14 @@ public extension ParseObject {
 extension ParseObject {
 
     /**
-     *Synchronously* saves the `ParseObject` and thows an error if there's an issue.
+     Saves the `ParseObject` *synchronously* and thows an error if there's an issue.
      
-     - parameter options: A set of options used to save objects.
+     - parameter options: A set of options used to save objects. Defaults to an empty set.
      - throws: A Error of type `ParseError`.
     
      - returns: Returns saved  `ParseObject`.
     */
-    public func save(options: API.Options) throws -> Self {
+    public func save(options: API.Options = []) throws -> Self {
         let result: Self = try saveCommand().execute(options: options)
         try? Self.updateKeychainIfNeeded([result], saving: true)
         return result
@@ -262,14 +262,14 @@ extension ParseObject {
     /**
      Saves the `ParseObject` *asynchronously* and executes the given callback block.
      
-     - parameter options: A set of options used to save objects.
+     - parameter options: A set of options used to save objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion.  Default
       value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     public func save(
-        options: API.Options,
+        options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
