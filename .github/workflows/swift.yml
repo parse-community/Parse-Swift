@@ -2,9 +2,9 @@ name: build
 
 on:
   push:
-    branches: [ master ]
+    branches: [ main ]
   pull_request:
-    branches: [ master ]
+    branches: [ main ]
 
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.6.app/Contents/Developer'
@@ -107,7 +107,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
 
       - name: Deploy Jazzy Docs
-        if: github.ref == 'refs/heads/master'
+        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
