@@ -27,4 +27,4 @@ This SDK is still in it's early phases. It's not intended as a port of the Parse
 
 ## Code of Conduct
 
-This project adheres to the [Contributor Covenant Code of Conduct](https://github.com/parse-community/.github/blob/master/CODE_OF_CONDUCT.md). By participating, you are expected to honor this code.
+This project adheres to the [Contributor Covenant Code of Conduct](https://github.com/parse-community/.github/blob/main/CODE_OF_CONDUCT.md). By participating, you are expected to honor this code.
