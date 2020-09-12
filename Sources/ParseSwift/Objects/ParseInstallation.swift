@@ -15,14 +15,14 @@ import AppKit
 #endif
 
 /**
- A Parse Framework Installation Object that is a local representation of an
- installation persisted to the Parse cloud. This class is a subclass of a
- `ParseObject`, and retains the same functionality of a ParseObject, but also extends
+ Objects that conform to the `ParseInstallation` protocol have a local representation of an
+ installation persisted to the Parse cloud. This protocol inheritts from the
+ `ParseObject protocol, and retains the same functionality of a ParseObject, but also extends
  it with installation-specific fields and related immutability and validity
  checks.
  
  A valid `ParseInstallation` can only be instantiated via
- `+currentInstallation` because the required identifier fields
+ `+current` because the required identifier fields
  are readonly. The `timeZone` and `badge` fields are also readonly properties which
  are automatically updated to match the device's time zone and application badge
  when the `ParseInstallation` is saved, thus these fields might not reflect the
@@ -31,7 +31,8 @@ import AppKit
  `ParseInstallation` objects which have a valid `deviceToken` and are saved to
  the Parse cloud can be used to target push notifications.
  
-   - warning: Only use ParseInstallation on the main thread as it uses UIApplication for `badge`
+ - warning: Only use `ParseInstallation` objects on the main thread as they
+   require UIApplication for `badge`
 */
 public protocol ParseInstallation: ParseObject {
 
@@ -137,7 +138,7 @@ extension ParseInstallation {
     }
 
     /**
-     Gets the current installation from disk and returns an instance of it.
+     Gets/Sets properties of the current installation in the Keychain.
      
      - returns: Returns a `ParseInstallation` that is the current device. If there is none, returns `nil`.
     */

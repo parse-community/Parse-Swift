@@ -9,8 +9,8 @@
 import Foundation
 
 /**
- The `ParseObject` class is a local representation of data persisted to the Parse cloud.
- This is the main class that is used to interact with objects in your app.
+ Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse cloud.
+ This is the main protocol that is used to interact with objects in your app.
 */
 public protocol ParseObject: Fetchable, Saveable, CustomDebugStringConvertible {
     /**
@@ -74,9 +74,9 @@ public extension Sequence where Element: ParseObject {
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
     
-     - parameter options: objects The array of objects to save.
+     - parameter options: A set of options used to save objects.
      
-     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if unsuccesfull.
+     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if failure.
      - throws:`ParseError`
     */
     func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
@@ -87,11 +87,13 @@ public extension Sequence where Element: ParseObject {
     }
 
     /**
-     Saves a collection of objects all at once `asynchronously` and executes the block when done.
+     Saves a collection of objects all at once *asynchronously* and executes the completion block when done.
     
      - parameter objects: The array of objects to save.
+     - parameter callbackQueue: The queue to return to after completion.  Default
+     value of .main.
      - parameter completion: The block to execute.
-     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
     */
     func saveAll(
         options: API.Options = [],
@@ -176,7 +178,8 @@ extension ParseObject {
     /**
      *Synchronously* fetches the ParseObject with the current data from the server and sets an error if it occurs.
     
-     - parameter error: Pointer to an `ParseError` that will be set if necessary.
+     - parameter options: A set of options used to save objects.
+     - throws: An Error of `ParseError` type.
     */
     public func fetch(options: API.Options) throws -> Self {
         let result: Self = try fetchCommand().execute(options: options)
@@ -187,7 +190,10 @@ extension ParseObject {
     /**
      Fetches the `ParseObject` *asynchronously* and executes the given callback block.
     
-     - parameter completion: The block to execute.
+     - parameter options: A set of options used to save objects.
+     - parameter callbackQueue: The queue to return to after completion.  Default
+     value of .main.
+     - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     public func fetch(
@@ -240,11 +246,12 @@ public extension ParseObject {
 extension ParseObject {
 
     /**
-     *Synchronously* saves the `ParseObject` and sets an error if it occurs.
+     *Synchronously* saves the `ParseObject` and thows an error if there's an issue.
      
-     - parameter error: Pointer to an `ParseError` that will be set if necessary.
+     - parameter options: A set of options used to save objects.
+     - throws: A Error of type `ParseError`.
     
-     - returns: Returns whether the save succeeded.
+     - returns: Returns saved  `ParseObject`.
     */
     public func save(options: API.Options) throws -> Self {
         let result: Self = try saveCommand().execute(options: options)
@@ -254,8 +261,11 @@ extension ParseObject {
 
     /**
      Saves the `ParseObject` *asynchronously* and executes the given callback block.
+     
+     - parameter options: A set of options used to save objects.
+     - parameter callbackQueue: The queue to return to after completion.  Default
+      value of .main.
      - parameter completion: The block to execute.
-    
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     public func save(
