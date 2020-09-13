@@ -43,15 +43,7 @@ do {
     print("Error logging out: \(error)")
 }
 
-//Logging in
-do {
-    try User.login(username: "hello", password: "world")
-    print("Succesfully logged out")
-} catch let error {
-    print("Error logging out: \(error)")
-}
 
-/*
 User.login(username: "hello", password: "world") { results in
 
     switch results {
@@ -72,5 +64,5 @@ User.login(username: "hello", password: "world") { results in
         print("Error logging in \(error)")
     }
 }
-*/
+
 //: [Next](@next)

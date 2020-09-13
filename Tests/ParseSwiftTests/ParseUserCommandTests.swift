@@ -878,12 +878,12 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 300.0)
+        wait(for: [expectation1], timeout: 10.0)
     }
 
     func testLoginAsyncMainQueue() {
         let loginResponse = LoginSignupResponse()
-/*
+
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
@@ -892,7 +892,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
                 return nil
             }
         }
-*/
+
         self.userLoginAsync(loginResponse: loginResponse, callbackQueue: .main)
     }
 
