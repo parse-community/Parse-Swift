@@ -36,7 +36,7 @@ public protocol ParseObject: Fetchable, Saveable, CustomDebugStringConvertible {
     /**
     The ACL for this object.
     */
-    var ACL: ACL? { get set }
+    var ACL: ParseACL? { get set }
 }
 
 // MARK: Default Implementations

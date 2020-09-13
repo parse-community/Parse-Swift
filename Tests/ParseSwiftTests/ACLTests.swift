@@ -35,7 +35,7 @@ class ACLTests: XCTestCase {
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ACL?
+        var ACL: ParseACL?
 
         // provided by User
         var username: String?
@@ -51,7 +51,7 @@ class ACLTests: XCTestCase {
         var createdAt: Date?
         var sessionToken: String
         var updatedAt: Date?
-        var ACL: ACL?
+        var ACL: ParseACL?
 
         // provided by User
         var username: String?
@@ -75,7 +75,7 @@ class ACLTests: XCTestCase {
     }
 
     func testPublicAccess() {
-        var acl = ACL()
+        var acl = ParseACL()
         XCTAssertFalse(acl.publicRead)
         XCTAssertFalse(acl.publicWrite)
 
@@ -87,7 +87,7 @@ class ACLTests: XCTestCase {
     }
 
     func testReadAccess() {
-        var acl = ACL()
+        var acl = ParseACL()
         XCTAssertFalse(acl.getReadAccess(userId: "someUserID"))
         XCTAssertFalse(acl.getReadAccess(roleName: "someRoleName"))
 
@@ -102,7 +102,7 @@ class ACLTests: XCTestCase {
     }
 
     func testWriteAccess() {
-        var acl = ACL()
+        var acl = ParseACL()
         XCTAssertFalse(acl.getWriteAccess(userId: "someUserID"))
         XCTAssertFalse(acl.getWriteAccess(roleName: "someRoleName"))
 
@@ -117,7 +117,7 @@ class ACLTests: XCTestCase {
     }
 
     func testCoding() {
-        var acl = ACL()
+        var acl = ParseACL()
         acl.setReadAccess(userId: "a", value: false)
         acl.setReadAccess(userId: "b", value: true)
         acl.setWriteAccess(userId: "c", value: false)
@@ -132,7 +132,7 @@ class ACLTests: XCTestCase {
 
         if let dataToDecode = encoded {
             do {
-                let decoded = try JSONDecoder().decode(ACL.self, from: dataToDecode)
+                let decoded = try JSONDecoder().decode(ParseACL.self, from: dataToDecode)
                 XCTAssertEqual(acl.getReadAccess(userId: "a"), decoded.getReadAccess(userId: "a"))
                 XCTAssertEqual(acl.getReadAccess(userId: "b"), decoded.getReadAccess(userId: "b"))
                 XCTAssertEqual(acl.getWriteAccess(userId: "c"), decoded.getWriteAccess(userId: "c"))
@@ -147,13 +147,13 @@ class ACLTests: XCTestCase {
     }
 
     func testDefaultACLNoUser() {
-        var newACL = ACL()
+        var newACL = ParseACL()
         let userId = "someUserID"
         newACL.setReadAccess(userId: userId, value: true)
         do {
-            let defaultACL = try ACL.defaultACL()
+            let defaultACL = try ParseACL.defaultACL()
             XCTAssertNotEqual(newACL, defaultACL)
-            try ACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
+            try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
             if defaultACL.getReadAccess(userId: userId) {
                 XCTFail("Shouldn't have set read access because there's no current user")
             }
@@ -162,8 +162,8 @@ class ACLTests: XCTestCase {
         }
 
         do {
-            try ACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
-            let defaultACL = try ACL.defaultACL()
+            try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
+            let defaultACL = try ParseACL.defaultACL()
             if !defaultACL.getReadAccess(userId: userId) {
                 XCTFail("Should have set defaultACL with read access even though there's no current user")
             }
@@ -189,13 +189,13 @@ class ACLTests: XCTestCase {
         } catch {
             XCTFail("Couldn't signUp user: \(error.localizedDescription)")
         }
-        var newACL = ACL()
+        var newACL = ParseACL()
         newACL.setReadAccess(userId: "someUserID", value: true)
         do {
-            var publicACL = try ACL.defaultACL()
+            var publicACL = try ParseACL.defaultACL()
             XCTAssertNotEqual(newACL, publicACL)
-            try ACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
-            publicACL = try ACL.defaultACL()
+            try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
+            publicACL = try ParseACL.defaultACL()
             XCTAssertEqual(newACL, publicACL)
         } catch {
             XCTFail("Should have set new ACL. Error \(error.localizedDescription)")
@@ -218,10 +218,10 @@ class ACLTests: XCTestCase {
         } catch {
             XCTFail("Couldn't signUp user: \(error.localizedDescription)")
         }
-        var newACL = ACL()
+        var newACL = ParseACL()
         newACL.setReadAccess(userId: "someUserID", value: true)
         do {
-            try ACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
+            try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
             guard var aclController: DefaultACL =
                 try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL) else {
                     XCTFail("Should have found new ACLController.")
@@ -230,7 +230,7 @@ class ACLTests: XCTestCase {
 
             aclController.useCurrentUser = false
             try KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
-            let publicACL = try ACL.defaultACL()
+            let publicACL = try ParseACL.defaultACL()
             XCTAssertEqual(newACL, publicACL)
         } catch {
             XCTFail("Should have set new ACL. Error \(error.localizedDescription)")

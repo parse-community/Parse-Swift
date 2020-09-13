@@ -11,7 +11,7 @@ struct GameScore: ParseObject {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-    var ACL: ACL?
+    var ACL: ParseACL?
 
     var score: Int?
 }

@@ -17,7 +17,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ACL?
+        var ACL: ParseACL?
 
         // provided by User
         var username: String?
@@ -33,7 +33,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         var createdAt: Date?
         var sessionToken: String
         var updatedAt: Date?
-        var ACL: ACL?
+        var ACL: ParseACL?
 
         // provided by User
         var username: String?

@@ -12,7 +12,7 @@ struct User: ParseUser {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-    var ACL: ACL?
+    var ACL: ParseACL?
 
     //: These are required for ParseUser
     var username: String?
