@@ -27,22 +27,29 @@ struct Installation: ParseInstallation {
     var parseVersion: String?
     var localeIdentifier: String?
 
-    // Your custom keys
+    //: Your custom keys
     var customKey: String?
 }
 
+//: WARNING: All calls on Installation need to be done on the main queue
 DispatchQueue.main.async {
-    //Save your first customKey value to your ParseUser
-    Installation.current?.customKey = "myCustomInstallationKey"
+
+    /*: Save your first customKey value to your ParseInstallation.
+        Performs work on background queue and returns to designated on
+        designated callbackQueue. If no callbackQueue is specified it
+        returns to main queue.
+     */
+    Installation.current?.customKey = "myCustomInstallationKey2"
     Installation.current?.save { results in
 
         switch results {
         case .success(let updatedInstallation):
             print("Succesufully save myCustomInstallationKey to ParseServer: \(updatedInstallation)")
         case .failure(let error):
-            print("Failed to update installation: \(error)")
+            assertionFailure("Failed to update installation: \(error)")
         }
     }
 }
 
+PlaygroundPage.current.finishExecution()
 //: [Next](@next)

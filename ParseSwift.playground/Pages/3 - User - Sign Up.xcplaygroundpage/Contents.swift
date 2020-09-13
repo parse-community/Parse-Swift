@@ -19,30 +19,35 @@ struct User: ParseUser {
     var email: String?
     var password: String?
 
-    // Your custom keys
+    //: Your custom keys
     var customKey: String?
 }
 
-//Sign up user asynchronously
+/*: Sign up user asynchronously - Performs work on background
+    queue and returns to designated on designated callbackQueue.
+    If no callbackQueue is specified it returns to main queue
+*/
 User.signup(username: "hello", password: "world") { results in
 
     switch results {
     case .success(let user):
 
         guard let currentUser = User.current else {
-            print("Error: current user currently not stored locally")
+            assertionFailure("Error: current user currently not stored locally")
             return
         }
 
         if !currentUser.hasSameObjectId(as: user) {
-            print("Error: these two objects should match")
+            assertionFailure("Error: these two objects should match")
         } else {
             print("Succesfully signed up user")
         }
 
     case .failure(let error):
-        print("Error signing up \(error)")
+        assertionFailure("Error signing up \(error)")
     }
 }
+
+PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)

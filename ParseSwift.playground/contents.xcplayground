@@ -3,7 +3,9 @@
     <pages>
         <page name='1 - Your first Object'/>
         <page name='2 - Finding Objects'/>
-        <page name='3 - Users - Sign Up'/>
-        <page name='4 - Users - Continued'/>
+        <page name='3 - User - Sign Up'/>
+        <page name='4 - User - Continued'/>
+        <page name='5 - ACL'/>
+        <page name='6 - Installation'/>
     </pages>
 </playground>

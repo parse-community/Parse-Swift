@@ -14,16 +14,20 @@ struct User: ParseUser {
     var updatedAt: Date?
     var ACL: ACL?
 
-    // These are required for ParseUser
+    //: These are required for ParseUser
     var username: String?
     var email: String?
     var password: String?
 
-    // Your custom keys
+    //: Your custom keys
     var customKey: String?
 }
 
-//Save your first customKey value to your ParseUser
+/*: Save your first customKey value to your ParseUser
+    Asynchrounously - Performs work on background
+    queue and returns to designated on designated callbackQueue.
+    If no callbackQueue is specified it returns to main queue.
+*/
 User.current?.customKey = "myCustom"
 User.current?.save { results in
 
@@ -31,37 +35,38 @@ User.current?.save { results in
     case .success(let updatedUser):
         print("Succesufully save myCustomKey to ParseServer: \(updatedUser)")
     case .failure(let error):
-        print("Failed to update user: \(error)")
+        assertionFailure("Failed to update user: \(error)")
     }
 }
 
-//Logging out
+//: Logging out - synchronously
 do {
     try User.logout()
     print("Succesfully logged out")
 } catch let error {
-    print("Error logging out: \(error)")
+    assertionFailure("Error logging out: \(error)")
 }
 
+/*: Login - asynchronously - Performs work on background
+    queue and returns to designated on designated callbackQueue.
+    If no callbackQueue is specified it returns to main queue
+*/
 User.login(username: "hello", password: "world") { results in
 
     switch results {
     case .success(let user):
 
         guard let currentUser = User.current else {
-            print("Error: current user currently not stored locally")
+            assertionFailure("Error: current user currently not stored locally")
             return
         }
-
-        if !currentUser.hasSameObjectId(as: user) {
-            print("Error: these two objects should match")
-        } else {
-            print("Succesfully logged in")
-        }
+        assert(currentUser.hasSameObjectId(as: user))
 
     case .failure(let error):
-        print("Error logging in \(error)")
+        assertionFailure("Error logging in \(error)")
     }
 }
+
+PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)

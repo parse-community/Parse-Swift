@@ -5,9 +5,6 @@ import Foundation
 import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 
-//: start parse-server with
-//: npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
-
 initializeParse()
 
 struct GameScore: ParseObject {
@@ -24,20 +21,12 @@ score.score = 200
 try score.save()
 
 let afterDate = Date().addingTimeInterval(-300)
-
-// Query synchronously
 var query = GameScore.query("score" > 100, "createdAt" > afterDate)
-let results = try query.limit(2).find(options: [])
 
-assert(results.count >= 1)
-results.forEach { (score) in
-    guard let createdAt = score.createdAt else { fatalError() }
-    assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
-    print(score)
-}
-
-// Query asynchronously
-query.limit(2).find(options: [], callbackQueue: .main) { results in
+// Query asynchronously (preferred way) - Performs work on background
+// queue and returns to designated on designated callbackQueue.
+// If no callbackQueue is specified it returns to main queue
+query.limit(2).find(callbackQueue: .main) { results in
     switch results {
     case .success(let scores):
 
@@ -45,13 +34,21 @@ query.limit(2).find(options: [], callbackQueue: .main) { results in
         scores.forEach { (score) in
             guard let createdAt = score.createdAt else { fatalError() }
             assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
-            print(score)
         }
 
     case .failure(let error):
-        print("Error querying: \(error)")
+        assertionFailure("Error querying: \(error)")
     }
-
 }
+
+// Query synchronously (not preferred - all operations on main queue)
+let results = try query.limit(2).find()
+assert(results.count >= 1)
+results.forEach { (score) in
+    guard let createdAt = score.createdAt else { fatalError() }
+    assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
+}
+
+PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)
