@@ -7,7 +7,7 @@
 //
 import Foundation
 
-protocol Queryable {
+public protocol Queryable {
     associatedtype ResultType
 
     func find(options: API.Options) throws -> [ResultType]

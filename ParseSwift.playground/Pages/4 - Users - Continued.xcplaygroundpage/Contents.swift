@@ -43,7 +43,6 @@ do {
     print("Error logging out: \(error)")
 }
 
-
 User.login(username: "hello", password: "world") { results in
 
     switch results {

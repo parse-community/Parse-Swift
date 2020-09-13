@@ -214,7 +214,7 @@ extension Query: Queryable {
 
       - returns: Returns an array of `ParseObject`s that were found.
     */
-    public func find(options: API.Options) throws -> [ResultType] {
+    public func find(options: API.Options = []) throws -> [ResultType] {
         let foundResults = try findCommand().execute(options: options)
         try? ResultType.updateKeychainIfNeeded(foundResults)
         return foundResults
@@ -228,7 +228,7 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ResultType], ParseError>)`
     */
-    public func find(options: API.Options, callbackQueue: DispatchQueue,
+    public func find(options: API.Options = [], callbackQueue: DispatchQueue,
                      completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
         findCommand().executeAsync(options: options, callbackQueue: callbackQueue) { results in
             if case .success(let foundResults) = results {
@@ -248,7 +248,7 @@ extension Query: Queryable {
 
       - returns: Returns a `ParseObject`, or `nil` if none was found.
     */
-    public func first(options: API.Options) throws -> ResultType? {
+    public func first(options: API.Options = []) throws -> ResultType? {
         let result = try firstCommand().execute(options: options)
         if let foundResult = result {
             try? ResultType.updateKeychainIfNeeded([foundResult])
@@ -268,7 +268,7 @@ extension Query: Queryable {
       `result` will be `nil` if `error` is set OR no object was found matching the query.
       `error` will be `nil` if `result` is set OR if the query succeeded, but found no results.
     */
-    public func first(options: API.Options, callbackQueue: DispatchQueue,
+    public func first(options: API.Options = [], callbackQueue: DispatchQueue,
                       completion: @escaping (Result<ResultType, ParseError>) -> Void) {
         firstCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
 
@@ -294,7 +294,7 @@ extension Query: Queryable {
 
       - returns: Returns the number of `ParseObject`s that match the query, or `-1` if there is an error.
     */
-    public func count(options: API.Options) throws -> Int {
+    public func count(options: API.Options = []) throws -> Int {
         return try countCommand().execute(options: options)
     }
 
@@ -306,7 +306,7 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `^(int count, ParseError *error)`
     */
-    public func count(options: API.Options, callbackQueue: DispatchQueue,
+    public func count(options: API.Options = [], callbackQueue: DispatchQueue,
                       completion: @escaping (Result<Int, ParseError>) -> Void) {
         countCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }

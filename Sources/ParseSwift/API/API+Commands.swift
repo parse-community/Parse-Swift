@@ -69,10 +69,13 @@ internal extension API {
 
             var urlRequest = URLRequest(url: urlComponents)
             urlRequest.allHTTPHeaderFields = headers
-            if body != nil {
-                if let bodyData = try? ParseCoding.jsonEncoder().encode(body!) {
-                    urlRequest.httpBody = bodyData
+            if let urlBody = body {
+                guard let bodyData = try? ParseCoding.jsonEncoder().encode(urlBody) else {
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: "couldn't encode body \(urlBody)")))
+                    return
                 }
+                urlRequest.httpBody = bodyData
             }
             urlRequest.httpMethod = method.rawValue
 

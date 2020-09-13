@@ -24,11 +24,34 @@ score.score = 200
 try score.save()
 
 let afterDate = Date().addingTimeInterval(-300)
+
+// Query synchronously
 var query = GameScore.query("score" > 100, "createdAt" > afterDate)
 let results = try query.limit(2).find(options: [])
-assert(results.count >= 1)
+
+assert(results.count >= 1)
 results.forEach { (score) in
     guard let createdAt = score.createdAt else { fatalError() }
     assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
+    print(score)
 }
+
+// Query asynchronously
+query.limit(2).find(options: [], callbackQueue: .main) { results in
+    switch results {
+    case .success(let scores):
+
+        assert(scores.count >= 1)
+        scores.forEach { (score) in
+            guard let createdAt = score.createdAt else { fatalError() }
+            assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
+            print(score)
+        }
+
+    case .failure(let error):
+        print("Error querying: \(error)")
+    }
+
+}
+
 //: [Next](@next)
