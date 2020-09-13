@@ -101,7 +101,6 @@ assert(savedScore != nil)
 assert(savedScore?.objectId != nil)
 assert(savedScore?.createdAt != nil)
 assert(savedScore?.updatedAt != nil)
-assert(savedScore.ACL == nil)
 assert(savedScore?.score == 10)
 
 /*:  To modify, need to make it a var as the Value Type

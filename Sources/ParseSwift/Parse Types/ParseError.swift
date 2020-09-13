@@ -13,13 +13,13 @@ public struct ParseError: Swift.Error, Codable {
     let message: String
 
     var localizedDescription: String {
-        return "ParseError code=\(code) error=\(message)"
+        return "ParseError code=\(code.rawValue) error=\(message)"
     }
 
     enum CodingKeys: String, CodingKey {
         case code
         case message
-        case stack
+        case error
     }
 
     /**
@@ -283,28 +283,12 @@ extension ParseError {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         code = try values.decode(Code.self, forKey: .code)
-        do {
-            message = try values.decode(String.self, forKey: .message)
-        } catch {
-            message = ""
-        }
+        message = try values.decode(String.self, forKey: .error)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(code, forKey: .code)
         try container.encode(message, forKey: .message)
-    }
-}
-
-// MARK: CustomDebugStringConvertible
-extension ParseError {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-                return "ParseError ()"
-        }
-
-        return "ParseError (\(descriptionString))"
     }
 }
