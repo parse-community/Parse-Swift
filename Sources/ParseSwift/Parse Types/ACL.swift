@@ -201,36 +201,27 @@ extension ParseACL {
     public static func defaultACL() throws -> Self {
 
         let currentUser = BaseParseUser.current
-        var aclController: DefaultACL? =
+        let aclController: DefaultACL? =
             try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL)
 
         if aclController != nil {
             if !aclController!.useCurrentUser {
                 return aclController!.defaultACL
-            }
-        } else {
-            aclController = DefaultACL(defaultACL: ParseACL(),
-                                                 lastCurrentUser: currentUser, useCurrentUser: true)
-        }
+            } else {
+                guard let userObjectId = currentUser?.objectId else {
+                    return aclController!.defaultACL
+                }
 
-        do {
-            guard let userObjectId = currentUser?.objectId else {
+                guard let lastCurrentUserObjectId = aclController!.lastCurrentUser?.objectId,
+                    userObjectId == lastCurrentUserObjectId else {
+                    return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
+                }
+
                 return aclController!.defaultACL
             }
-
-            guard let lastCurrentUserObjectId = aclController!.lastCurrentUser?.objectId else {
-                try setDefaultAccess(userObjectId)
-                return aclController!.defaultACL
-            }
-
-            if userObjectId != lastCurrentUserObjectId {
-                try setDefaultAccess(userObjectId)
-            }
-            return aclController!.defaultACL
-
-        } catch {
-            throw error
         }
+
+        return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
     }
 
     /**
@@ -247,28 +238,43 @@ extension ParseACL {
      provide read and write access to the `ParseUser.+currentUser` at the time of creation.
      - If `false`, the provided `acl` will be used without modification.
      - If `acl` is `nil`, this value is ignored.
+     
+     - returns: Updated defaultACL
     */
-    public static func setDefaultACL(_ acl: ParseACL, withAccessForCurrentUser: Bool) throws {
+    public static func setDefaultACL(_ acl: ParseACL, withAccessForCurrentUser: Bool) throws -> ParseACL {
 
         let currentUser = BaseParseUser.current
-        let aclController
-            = DefaultACL(defaultACL: acl, lastCurrentUser: currentUser, useCurrentUser: withAccessForCurrentUser)
+
+        let modifiedACL: ParseACL?
+        if withAccessForCurrentUser {
+            modifiedACL = setDefaultAccess(acl)
+        } else {
+            modifiedACL = acl
+        }
+
+        let aclController: DefaultACL!
+        if modifiedACL != nil {
+            aclController = DefaultACL(defaultACL: modifiedACL!,
+                                       lastCurrentUser: currentUser, useCurrentUser: withAccessForCurrentUser)
+        } else {
+            aclController =
+                DefaultACL(defaultACL: acl, lastCurrentUser: currentUser, useCurrentUser: withAccessForCurrentUser)
+        }
 
         try? KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
+
+        return aclController.defaultACL
     }
 
-    private static func setDefaultAccess(_ userObjectId: String?) throws {
-        guard let userObjectId = userObjectId else {
-            return
+    private static func setDefaultAccess(_ acl: ParseACL) -> ParseACL? {
+        guard let userObjectId = BaseParseUser.current?.objectId else {
+            return nil
         }
-        var acl = ParseACL()
-        acl.setReadAccess(userId: userObjectId, value: true)
-        acl.setWriteAccess(userId: userObjectId, value: true)
-        do {
-            try setDefaultACL(acl, withAccessForCurrentUser: true)
-        } catch {
-            throw error
-        }
+        var modifiedACL = acl
+        modifiedACL.setReadAccess(userId: userObjectId, value: true)
+        modifiedACL.setWriteAccess(userId: userObjectId, value: true)
+
+        return modifiedACL
     }
 }
 
@@ -289,7 +295,7 @@ extension ParseACL {
                 }
             }.forEach {
                 set($0, access: $1, value: $2)
-        }
+            }
     }
 
     public func encode(to encoder: Encoder) throws {

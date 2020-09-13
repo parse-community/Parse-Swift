@@ -151,9 +151,9 @@ class ACLTests: XCTestCase {
         let userId = "someUserID"
         newACL.setReadAccess(userId: userId, value: true)
         do {
-            let defaultACL = try ParseACL.defaultACL()
+            var defaultACL = try ParseACL.defaultACL()
             XCTAssertNotEqual(newACL, defaultACL)
-            try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
+            defaultACL = try ParseACL.setDefaultACL(defaultACL, withAccessForCurrentUser: true)
             if defaultACL.getReadAccess(userId: userId) {
                 XCTFail("Shouldn't have set read access because there's no current user")
             }
@@ -162,7 +162,7 @@ class ACLTests: XCTestCase {
         }
 
         do {
-            try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
+            _ = try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
             let defaultACL = try ParseACL.defaultACL()
             if !defaultACL.getReadAccess(userId: userId) {
                 XCTFail("Should have set defaultACL with read access even though there's no current user")
@@ -187,18 +187,30 @@ class ACLTests: XCTestCase {
         do {
             _ = try User.signup(username: "testUser", password: "password")
         } catch {
-            XCTFail("Couldn't signUp user: \(error.localizedDescription)")
+            XCTFail("Couldn't signUp user: \(error)")
+            //return
         }
+
+        guard let userObjectId = User.current?.objectId else {
+            XCTFail("Couldn't get objectId of currentUser")
+            return
+        }
+
         var newACL = ParseACL()
-        newACL.setReadAccess(userId: "someUserID", value: true)
+        newACL.publicRead = true
+        newACL.publicWrite = true
         do {
-            var publicACL = try ParseACL.defaultACL()
-            XCTAssertNotEqual(newACL, publicACL)
-            try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
-            publicACL = try ParseACL.defaultACL()
-            XCTAssertEqual(newACL, publicACL)
+            var defaultACL = try ParseACL.defaultACL()
+            XCTAssertNotEqual(newACL, defaultACL)
+            _ = try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
+            defaultACL = try ParseACL.defaultACL()
+            XCTAssertEqual(newACL.publicRead, defaultACL.publicRead)
+            XCTAssertEqual(newACL.publicWrite, defaultACL.publicWrite)
+            XCTAssertTrue(defaultACL.getReadAccess(userId: userObjectId))
+            XCTAssertTrue(defaultACL.getWriteAccess(userId: userObjectId))
+
         } catch {
-            XCTFail("Should have set new ACL. Error \(error.localizedDescription)")
+            XCTFail("Should have set new ACL. Error \(error)")
         }
     }
 
@@ -218,20 +230,20 @@ class ACLTests: XCTestCase {
         } catch {
             XCTFail("Couldn't signUp user: \(error.localizedDescription)")
         }
+
+        guard let userObjectId = User.current?.objectId else {
+            XCTFail("Couldn't get objectId of currentUser")
+            return
+        }
+
         var newACL = ParseACL()
         newACL.setReadAccess(userId: "someUserID", value: true)
         do {
-            try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
-            guard var aclController: DefaultACL =
-                try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL) else {
-                    XCTFail("Should have found new ACLController.")
-                return
-            }
-
-            aclController.useCurrentUser = false
-            try KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
-            let publicACL = try ParseACL.defaultACL()
-            XCTAssertEqual(newACL, publicACL)
+            _ = try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: false)
+            let defaultACL = try ParseACL.defaultACL()
+            XCTAssertTrue(defaultACL.getReadAccess(userId: "someUserID"))
+            XCTAssertFalse(defaultACL.getReadAccess(userId: userObjectId))
+            XCTAssertFalse(defaultACL.getWriteAccess(userId: userObjectId))
         } catch {
             XCTFail("Should have set new ACL. Error \(error.localizedDescription)")
         }
