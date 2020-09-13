@@ -17,10 +17,10 @@ internal extension API {
         let body: T?
         let mapper: ((Data) throws -> U)
         let params: [String: String?]?
-
+/*
         internal var data: Data? {
             return try? ParseCoding.jsonEncoder().encode(body)
-        }
+        }*/
 
         init(method: API.Method,
              path: API.Endpoint,
@@ -68,8 +68,10 @@ internal extension API {
 
             var urlRequest = URLRequest(url: urlComponents)
             urlRequest.allHTTPHeaderFields = headers
-            if let body = data {
-                urlRequest.httpBody = body
+            if body != nil {
+                if let bodyData = try? ParseCoding.jsonEncoder().encode(body!) {
+                    urlRequest.httpBody = bodyData
+                }
             }
             urlRequest.httpMethod = method.rawValue
 

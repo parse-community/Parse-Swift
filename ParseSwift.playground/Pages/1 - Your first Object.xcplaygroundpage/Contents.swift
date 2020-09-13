@@ -42,13 +42,8 @@ assert(savedChangedScore.score == 200)
 assert(savedChangedScore.objectId == changedScore.objectId)
 
 let score2 = GameScore(score: 3)
-guard let results = try? GameScore.saveAll(score, score2) else { fatalError() }
-results.forEach { (result) in
-    let (_, error) = result
-    assert(error == nil, "error should be nil")
-}
-
 guard let otherResults = try? [score, score2].saveAll() else { fatalError() }
+print(otherResults)
 otherResults.forEach { (result) in
     let (_, error) = result
     assert(error == nil, "error should be nil")

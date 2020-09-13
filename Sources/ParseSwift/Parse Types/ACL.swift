@@ -236,7 +236,8 @@ extension ACL {
     /**
      Sets a default ACL that will be applied to all instances of `ParseObject` when they are created.
 
-     - parameter acl: The ACL to use as a template for all instances of `ParseObject` created after this method has been called.
+     - parameter acl: The ACL to use as a template for all instances of `ParseObject` created
+     after this method has been called.
 
      This value will be copied and used as a template for the creation of new ACLs, so changes to the
      instance after this method has been called will not be reflected in new instance of `ParseObject`.
