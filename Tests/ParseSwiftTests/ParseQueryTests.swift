@@ -54,6 +54,14 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query2 = GameScore.query()
         XCTAssertEqual(query2.className, GameScore.className)
         XCTAssertEqual(query2.className, query.className)
+
+        let query3 = GameScore.query("score" > 100, "createdAt" > Date())
+        XCTAssertEqual(query3.className, GameScore.className)
+        XCTAssertEqual(query3.className, query.className)
+
+        let query4 = GameScore.query(["score" > 100, "createdAt" > Date()])
+        XCTAssertEqual(query4.className, GameScore.className)
+        XCTAssertEqual(query4.className, query.className)
     }
 
     func testFind() {

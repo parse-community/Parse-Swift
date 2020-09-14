@@ -234,7 +234,11 @@ public extension ParseObject {
     }
 
     static func query(_ constraints: QueryConstraint...) -> Query<Self> {
-        Query(constraints)
+        Query<Self>(constraints)
+    }
+
+    static func query(_ constraints: [QueryConstraint]) -> Query<Self> {
+        Query<Self>(constraints)
     }
 }
 

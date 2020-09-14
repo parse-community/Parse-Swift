@@ -18,15 +18,17 @@ public struct QueryConstraint: Encodable {
         case greaterThan = "$gt"
         case greaterThanOrEqualTo = "$gte"
         case equals = "$eq"
-        case notEqualTo = "$neq"
+        case notEqualTo = "$ne"
         case containedIn = "$in"
         case notContainedIn = "$nin"
+        case containedBy = "$containedBy"
         case exists = "$exists"
         case select = "$select"
         case dontSelect = "$dontSelect"
         case all = "$all"
         case regex = "$regex"
         case inQuery = "$inQuery"
+        case notInQuery = "$notInQuery"
     }
 
     var key: String
@@ -118,6 +120,8 @@ public struct Query<T>: Encodable where T: ParseObject {
     private var include: [String]?
     private var order: [Order]?
     private var isCount: Bool?
+    private var explain: Bool? = false
+    private var hint: AnyCodable?
 
     fileprivate var `where` = QueryWhere()
 
@@ -174,6 +178,22 @@ public struct Query<T>: Encodable where T: ParseObject {
     }
 
     /**
+      Investigates the query execution plan. Useful for optimizing queries.
+    */
+    public mutating func explain(_ value: Bool) -> Query<T> {
+        self.explain = value
+        return self
+    }
+
+    /**
+      Investigates the query execution plan. Useful for optimizing queries.
+    */
+    public mutating func hint(_ value: AnyCodable) -> Query<T> {
+        self.hint = value
+        return self
+    }
+
+    /**
       The className of a `ParseObject` to query.
     */
     var className: String {
@@ -199,6 +219,8 @@ public struct Query<T>: Encodable where T: ParseObject {
         case isCount = "count"
         case keys
         case order
+        case explain
+        case hint
     }
 }
 

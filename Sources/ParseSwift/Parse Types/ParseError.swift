@@ -18,8 +18,7 @@ public struct ParseError: Swift.Error, Codable {
 
     enum CodingKeys: String, CodingKey {
         case code
-        case message
-        case error
+        case message = "error"
     }
 
     /**
@@ -283,7 +282,7 @@ extension ParseError {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         code = try values.decode(Code.self, forKey: .code)
-        message = try values.decode(String.self, forKey: .error)
+        message = try values.decode(String.self, forKey: .message)
     }
 
     public func encode(to encoder: Encoder) throws {
