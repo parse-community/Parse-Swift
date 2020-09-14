@@ -171,18 +171,9 @@ extension ParseInstallation {
     }
 
     mutating func updateDeviceTypeFromDevice() {
-        var currentDeviceType: String?
-        #if os(iOS)
-        currentDeviceType = "ios"
-        #elseif os(macOS)
-        currentDeviceType = "osx"
-        #elseif os(tvOS)
-        currentDeviceType = "tvos"
-        #elseif os(watchOS)
-        currentDeviceType = "applewatch"
-        #endif
-        if deviceType != currentDeviceType {
-            deviceType = currentDeviceType
+
+        if deviceType != ParseConstants.deviceType {
+            deviceType = ParseConstants.deviceType
         }
     }
 
@@ -253,8 +244,8 @@ extension ParseInstallation {
             }
         }
 
-        if parseVersion != ParseConstants.parseVersion.rawValue {
-            parseVersion = ParseConstants.parseVersion.rawValue
+        if parseVersion != ParseConstants.parseVersion {
+            parseVersion = ParseConstants.parseVersion
         }
     }
 
