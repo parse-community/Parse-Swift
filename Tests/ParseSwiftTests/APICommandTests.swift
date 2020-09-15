@@ -27,6 +27,8 @@ class APICommandTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
+        try? KeychainStore.shared.deleteAll()
+        try? ParseStorage.shared.deleteAll()
     }
 
     func testExecuteCorrectly() {

@@ -7,40 +7,10 @@
 //
 
 import Foundation
-public protocol Querying {
-    associatedtype ResultType
-    func find(options: API.Options) throws -> [ResultType]
-    func first(options: API.Options) throws -> ResultType?
-    func count(options: API.Options) throws -> Int
-    func find(options: API.Options, callbackQueue: DispatchQueue,
-              completion: @escaping (Result<[ResultType], ParseError>) -> Void)
-    func first(options: API.Options, callbackQueue: DispatchQueue,
-               completion: @escaping (Result<ResultType, ParseError>) -> Void)
-    func count(options: API.Options, callbackQueue: DispatchQueue,
-               completion: @escaping (Result<Int, ParseError>) -> Void)
-}
 
-extension Querying {
-    func find() throws -> [ResultType] {
-        return try find(options: [])
-    }
-    func first() throws -> ResultType? {
-        return try first(options: [])
-    }
-    func count() throws -> Int {
-        return try count(options: [])
-    }
-    func find(completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
-        find(options: [], callbackQueue: .main, completion: completion)
-    }
-    func first(completion: @escaping (Result<ResultType, ParseError>) -> Void) {
-        first(options: [], callbackQueue: .main, completion: completion)
-    }
-    func count(completion: @escaping (Result<Int, ParseError>) -> Void) {
-        count(options: [], callbackQueue: .main, completion: completion)
-    }
-}
-
+/**
+  All available query constraints.
+*/
 public struct QueryConstraint: Encodable {
     public enum Comparator: String, CodingKey {
         case lessThan = "$lt"
@@ -48,15 +18,17 @@ public struct QueryConstraint: Encodable {
         case greaterThan = "$gt"
         case greaterThanOrEqualTo = "$gte"
         case equals = "$eq"
-        case notEqualTo = "$neq"
+        case notEqualTo = "$ne"
         case containedIn = "$in"
         case notContainedIn = "$nin"
+        case containedBy = "$containedBy"
         case exists = "$exists"
         case select = "$select"
         case dontSelect = "$dontSelect"
         case all = "$all"
         case regex = "$regex"
         case inQuery = "$inQuery"
+        case notInQuery = "$notInQuery"
     }
 
     var key: String
@@ -124,7 +96,7 @@ internal struct QueryWhere: Encodable {
     }
 
     // This only encodes the where...
-    public func encode(to encoder: Encoder) throws {
+    func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RawCodingKey.self)
         try _constraints.forEach { (key, value) in
             var nestedContainer = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
@@ -136,6 +108,9 @@ internal struct QueryWhere: Encodable {
     }
 }
 
+/**
+The `ParseQuery` struct defines a query that is used to query for `ParseObject`s.
+*/
 public struct Query<T>: Encodable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
@@ -145,9 +120,16 @@ public struct Query<T>: Encodable where T: ParseObject {
     private var include: [String]?
     private var order: [Order]?
     private var isCount: Bool?
+    private var explain: Bool? = false
+    private var hint: AnyCodable?
 
     fileprivate var `where` = QueryWhere()
 
+    /**
+      An enum that determines the order to sort the results based on a given key.
+
+      - parameter key: The key to order by.
+    */
     public enum Order: Encodable {
         case ascending(String)
         case descending(String)
@@ -176,20 +158,51 @@ public struct Query<T>: Encodable where T: ParseObject {
         return self
     }
 
+    /**
+      A limit on the number of objects to return. The default limit is `100`, with a
+      maximum of 1000 results being returned at a time.
+
+      - note: If you are calling `findObjects` with `limit = 1`, you may find it easier to use `first` instead.
+    */
     public mutating func limit(_ value: Int) -> Query<T> {
         self.limit = value
         return self
     }
 
+    /**
+      The number of objects to skip before returning any.
+    */
     public mutating func skip(_ value: Int) -> Query<T> {
         self.skip = value
         return self
     }
 
+    /**
+      Investigates the query execution plan. Useful for optimizing queries.
+    */
+    public mutating func explain(_ value: Bool) -> Query<T> {
+        self.explain = value
+        return self
+    }
+
+    /**
+      Investigates the query execution plan. Useful for optimizing queries.
+    */
+    public mutating func hint(_ value: AnyCodable) -> Query<T> {
+        self.hint = value
+        return self
+    }
+
+    /**
+      The className of a `ParseObject` to query.
+    */
     var className: String {
         return T.className
     }
 
+    /**
+      The className of a `ParseObject` to query.
+    */
     static var className: String {
         return T.className
     }
@@ -206,27 +219,78 @@ public struct Query<T>: Encodable where T: ParseObject {
         case isCount = "count"
         case keys
         case order
+        case explain
+        case hint
     }
 }
 
-extension Query: Querying {
+extension Query: Queryable {
 
     public typealias ResultType = T
 
-    public func find(options: API.Options) throws -> [ResultType] {
-        return try findCommand().execute(options: options)
+    /**
+      Finds objects *synchronously* based on the constructed query and sets an error if there was one.
+
+      - parameter options: A set of options used to save objects.
+      - throws: An error of type `ParseError`.
+
+      - returns: Returns an array of `ParseObject`s that were found.
+    */
+    public func find(options: API.Options = []) throws -> [ResultType] {
+        let foundResults = try findCommand().execute(options: options)
+        try? ResultType.updateKeychainIfNeeded(foundResults)
+        return foundResults
     }
 
-    public func find(options: API.Options, callbackQueue: DispatchQueue,
+    /**
+      Finds objects *asynchronously* and calls the given block with the results.
+
+      - parameter options: A set of options used to save objects.
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<[ResultType], ParseError>)`
+    */
+    public func find(options: API.Options = [], callbackQueue: DispatchQueue,
                      completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
-        findCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+        findCommand().executeAsync(options: options, callbackQueue: callbackQueue) { results in
+            if case .success(let foundResults) = results {
+                try? ResultType.updateKeychainIfNeeded(foundResults)
+            }
+            completion(results)
+        }
     }
 
-    public func first(options: API.Options) throws -> ResultType? {
-        return try firstCommand().execute(options: options)
+    /**
+      Gets an object *synchronously* based on the constructed query and sets an error if any occurred.
+
+      - warning: This method mutates the query. It will reset the limit to `1`.
+
+      - parameter options: A set of options used to save objects.
+      - throws: An error of type `ParseError`.
+
+      - returns: Returns a `ParseObject`, or `nil` if none was found.
+    */
+    public func first(options: API.Options = []) throws -> ResultType? {
+        let result = try firstCommand().execute(options: options)
+        if let foundResult = result {
+            try? ResultType.updateKeychainIfNeeded([foundResult])
+        }
+        return result
     }
 
-    public func first(options: API.Options, callbackQueue: DispatchQueue,
+    /**
+      Gets an object *asynchronously* and calls the given block with the result.
+
+      - warning: This method mutates the query. It will reset the limit to `1`.
+
+      - parameter options: A set of options used to save objects.
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter completion: The block to execute.
+      It should have the following argument signature: `^(ParseObject *object, ParseError *error)`.
+      `result` will be `nil` if `error` is set OR no object was found matching the query.
+      `error` will be `nil` if `result` is set OR if the query succeeded, but found no results.
+    */
+    public func first(options: API.Options = [], callbackQueue: DispatchQueue,
                       completion: @escaping (Result<ResultType, ParseError>) -> Void) {
         firstCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
 
@@ -236,6 +300,7 @@ extension Query: Querying {
                     completion(.failure(ParseError(code: .unknownError, message: "unable to unwrap data") ))
                     return
                 }
+                try? ResultType.updateKeychainIfNeeded([first])
                 completion(.success(first))
             case .failure(let error):
                 completion(.failure(error))
@@ -243,11 +308,27 @@ extension Query: Querying {
         }
     }
 
-    public func count(options: API.Options) throws -> Int {
+    /**
+      Counts objects *synchronously* based on the constructed query and sets an error if there was one.
+
+      - parameter options: A set of options used to save objects.
+      - throws: An error of type `ParseError`.
+
+      - returns: Returns the number of `ParseObject`s that match the query, or `-1` if there is an error.
+    */
+    public func count(options: API.Options = []) throws -> Int {
         return try countCommand().execute(options: options)
     }
 
-    public func count(options: API.Options, callbackQueue: DispatchQueue,
+    /**
+      Counts objects *asynchronously* and calls the given block with the counts.
+
+      - parameter options: A set of options used to save objects.
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter completion: The block to execute.
+      It should have the following argument signature: `^(int count, ParseError *error)`
+    */
+    public func count(options: API.Options = [], callbackQueue: DispatchQueue,
                       completion: @escaping (Result<Int, ParseError>) -> Void) {
         countCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }

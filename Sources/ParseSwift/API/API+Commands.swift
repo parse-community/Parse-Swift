@@ -18,10 +18,6 @@ internal extension API {
         let mapper: ((Data) throws -> U)
         let params: [String: String?]?
 
-        internal var data: Data? {
-            return try? ParseCoding.jsonEncoder().encode(body)
-        }
-
         init(method: API.Method,
              path: API.Endpoint,
              params: [String: String]? = nil,
@@ -58,18 +54,28 @@ internal extension API {
             let headers = API.getHeaders(options: options)
             let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
 
-            guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false),
-                let urlComponents = components.url else {
+            guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
                     completion(.failure(ParseError(code: .unknownError,
                                                    message: "couldn't unrwrap url components for \(url)")))
                 return
             }
             components.queryItems = params
 
+            guard let urlComponents = components.url else {
+                completion(.failure(ParseError(code: .unknownError,
+                                               message: "couldn't create url from components for \(components)")))
+                return
+            }
+
             var urlRequest = URLRequest(url: urlComponents)
             urlRequest.allHTTPHeaderFields = headers
-            if let body = data {
-                urlRequest.httpBody = body
+            if let urlBody = body {
+                guard let bodyData = try? ParseCoding.jsonEncoder().encode(urlBody) else {
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: "couldn't encode body \(urlBody)")))
+                    return
+                }
+                urlRequest.httpBody = bodyData
             }
             urlRequest.httpMethod = method.rawValue
 
@@ -77,7 +83,6 @@ internal extension API {
                 switch result {
 
                 case .success(let decoded):
-
                     completion(.success(decoded))
 
                 case .failure(let error):
