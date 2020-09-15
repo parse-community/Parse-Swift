@@ -94,26 +94,22 @@ struct CurrentInstallationContainer<T: ParseInstallation>: Codable {
 extension ParseInstallation {
     static var currentInstallationContainer: CurrentInstallationContainer<Self> {
         get {
-            guard let installationInMemory: CurrentInstallationContainer<Self> =
-                try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
-                    guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
-                        try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
-                         else {
-                            var newInstallation = CurrentInstallationContainer<Self>()
-                            let newInstallationId = UUID().uuidString.lowercased()
-                            newInstallation.installationId = newInstallationId
-                            newInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
-                            newInstallation.currentInstallation?.updateAutomaticInfo()
-                            try? KeychainStore.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
-                            try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
-                        return newInstallation
-                    }
-                    return installationFromKeyChain
+            if let installation: CurrentInstallationContainer<Self> =
+                try? ParseStorage.shared.secureStore.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                return installation
+            } else {
+                var newInstallation = CurrentInstallationContainer<Self>()
+                let newInstallationId = UUID().uuidString.lowercased()
+                newInstallation.installationId = newInstallationId
+                newInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
+                newInstallation.currentInstallation?.updateAutomaticInfo()
+                try? ParseStorage.shared.secureStore.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
+                return newInstallation
             }
-            return installationInMemory
         }
+
         set {
-            try? ParseStorage.shared.set(newValue, for: ParseStorage.Keys.currentInstallation)
+            try? ParseStorage.shared.secureStore.set(newValue, for: ParseStorage.Keys.currentInstallation)
         }
     }
 
@@ -128,17 +124,18 @@ extension ParseInstallation {
         Self.currentInstallationContainer.currentInstallation?.updateAutomaticInfo()
     }
 
-    internal static func saveCurrentContainerToKeychain() {
-        //Only save the BaseParseInstallation to keep Keychain footprint finite
-        guard let currentInstallationInMemory: CurrentInstallationContainer<BaseParseInstallation>
-            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+    internal static func saveCurrentContainer() {
+        //Only save the BaseParseInstallation to keep memory footprint finite
+        guard let currentInstallation: CurrentInstallationContainer<BaseParseInstallation>
+                = try? ParseStorage.shared.secureStore.get(valueFor: ParseStorage.Keys.currentInstallation) else {
             return
         }
-        try? KeychainStore.shared.set(currentInstallationInMemory, for: ParseStorage.Keys.currentInstallation)
+
+        try? ParseStorage.shared.secureStore.set(currentInstallation, for: ParseStorage.Keys.currentInstallation)
     }
 
     /**
-     Gets/Sets properties of the current installation in the Keychain.
+     Gets/Sets properties of the current installation in the shared secure store.
 
      - returns: Returns a `ParseInstallation` that is the current device. If there is none, returns `nil`.
     */
@@ -202,8 +199,8 @@ extension ParseInstallation {
 
         if badge != applicationBadge {
             badge = applicationBadge
-            //Since this changes, update the Keychain whenever it changes
-            Self.saveCurrentContainerToKeychain()
+            //Since this changes, update secure storage whenever it changes
+            Self.saveCurrentContainer()
         }
     }
 

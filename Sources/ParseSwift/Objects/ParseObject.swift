@@ -135,7 +135,7 @@ extension ParseObject {
 
 // MARK: Fetchable
 extension ParseObject {
-    internal static func updateKeychainIfNeeded(_ results: [Self], saving: Bool = false) throws {
+    internal static func updateSecureStorageIfNeeded(_ results: [Self], saving: Bool = false) throws {
         guard let currentUser = BaseParseUser.current else {
             return
         }
@@ -152,7 +152,7 @@ extension ParseObject {
             let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(foundCurrentUser)
             let updatedCurrentUser = try ParseCoding.jsonDecoder().decode(BaseParseUser.self, from: encoded)
             BaseParseUser.current = updatedCurrentUser
-            BaseParseUser.saveCurrentContainerToKeychain()
+            BaseParseUser.saveCurrentUser()
         } else if results.first?.className == BaseParseInstallation.className {
             guard let currentInstallation = BaseParseInstallation.current else {
                 return
@@ -169,7 +169,7 @@ extension ParseObject {
                 let updatedCurrentInstallation =
                     try ParseCoding.jsonDecoder().decode(BaseParseInstallation.self, from: encoded)
                 BaseParseInstallation.current = updatedCurrentInstallation
-                BaseParseInstallation.saveCurrentContainerToKeychain()
+                BaseParseInstallation.saveCurrentContainer()
             }
         }
     }
@@ -182,7 +182,7 @@ extension ParseObject {
     */
     public func fetch(options: API.Options = []) throws -> Self {
         let result: Self = try fetchCommand().execute(options: options)
-        try? Self.updateKeychainIfNeeded([result])
+        try? Self.updateSecureStorageIfNeeded([result])
         return result
     }
 
@@ -203,7 +203,7 @@ extension ParseObject {
          do {
             try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
                 if case .success(let foundResult) = result {
-                    try? Self.updateKeychainIfNeeded([foundResult])
+                    try? Self.updateSecureStorageIfNeeded([foundResult])
                 }
                 completion(result)
             }
@@ -255,7 +255,7 @@ extension ParseObject {
     */
     public func save(options: API.Options = []) throws -> Self {
         let result: Self = try saveCommand().execute(options: options)
-        try? Self.updateKeychainIfNeeded([result], saving: true)
+        try? Self.updateSecureStorageIfNeeded([result], saving: true)
         return result
     }
 
@@ -274,7 +274,7 @@ extension ParseObject {
     ) {
         saveCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
             if case .success(let foundResults) = result {
-                try? Self.updateKeychainIfNeeded([foundResults], saving: true)
+                try? Self.updateSecureStorageIfNeeded([foundResults], saving: true)
             }
             completion(result)
         }

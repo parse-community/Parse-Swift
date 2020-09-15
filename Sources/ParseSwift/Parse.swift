@@ -13,7 +13,8 @@ public func initialize(
     clientKey: String? = nil,
     masterKey: String? = nil,
     serverURL: URL,
-    primitiveObjectStore: PrimitiveObjectStore? = nil
+    primitiveObjectStore: PrimitiveObjectStore? = nil,
+    secureStore: PrimitiveObjectStore? = nil
 ) {
     ParseConfiguration.applicationId = applicationId
     ParseConfiguration.clientKey = clientKey
@@ -23,7 +24,9 @@ public func initialize(
                                             .filter { $0 != "/" }
                                             .joined(separator: "/")
 
-    ParseStorage.shared.use(primitiveObjectStore ?? CodableInMemoryPrimitiveObjectStore())
+    ParseStorage.shared.secureStore = secureStore ?? KeychainStore.shared
+    ParseStorage.shared.primitiveStore = primitiveObjectStore ?? CodableInMemoryPrimitiveObjectStore()
+
     DispatchQueue.main.async {
         _ = BaseParseInstallation()
     }

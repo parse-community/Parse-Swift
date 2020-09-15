@@ -41,27 +41,22 @@ struct CurrentUserContainer<T: ParseUser>: Codable {
 // MARK: Current User Support
 extension ParseUser {
     static var currentUserContainer: CurrentUserContainer<Self>? {
-        get {
-            guard let currentUserInMemory: CurrentUserContainer<Self>
-                = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
-                return try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser)
-            }
-            return currentUserInMemory
-        }
-        set { try? ParseStorage.shared.set(newValue, for: ParseStorage.Keys.currentUser) }
+        get { try? ParseStorage.shared.secureStore.get(valueFor: ParseStorage.Keys.currentUser) }
+        set { try? ParseStorage.shared.secureStore.set(newValue, for: ParseStorage.Keys.currentUser)}
     }
 
-    internal static func saveCurrentContainerToKeychain() {
-        //Only save the BaseParseUser to keep Keychain footprint finite
-        guard let currentUserInMemory: CurrentUserContainer<BaseParseUser>
-            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+    internal static func saveCurrentUser() {
+        //Only save the BaseParseUser to keep memory footprint finite
+        guard let currentUser: CurrentUserContainer<BaseParseUser> =
+                try? ParseStorage.shared.secureStore.get(valueFor: ParseStorage.Keys.currentUser) else {
             return
         }
-        try? KeychainStore.shared.set(currentUserInMemory, for: ParseStorage.Keys.currentUser)
+
+        try? ParseStorage.shared.secureStore.set(currentUser, for: ParseStorage.Keys.currentUser)
     }
 
     /**
-     Gets the currently logged in user from the Keychain and returns an instance of it.
+     Gets the currently logged in user from the shared secure store and returns an instance of it.
 
      - returns: Returns a `ParseUser` that is the currently logged in user. If there is none, returns `nil`.
     */
@@ -140,7 +135,7 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
-            Self.saveCurrentContainerToKeychain()
+            Self.saveCurrentUser()
             return user
         }
     }
@@ -150,7 +145,7 @@ extension ParseUser {
 extension ParseUser {
 
     /**
-    Logs out the currently logged in user in Keychain *synchronously*.
+    Logs out the currently logged in user in the shared secure store *synchronously*.
     */
     public static func logout() throws {
         _ = try logoutCommand().execute(options: [])
@@ -159,7 +154,7 @@ extension ParseUser {
     /**
      Logs out the currently logged in user *asynchronously*.
 
-     This will also remove the session from the Keychain, log out of linked services
+     This will also remove the session from the shared secure store, log out of linked services
      and all future calls to `current` will return `nil`. This is preferable to using `logout`,
      unless your code is already running from a background thread.
 
@@ -176,7 +171,7 @@ extension ParseUser {
     private static func logoutCommand() -> API.Command<NoBody, Void> {
        return API.Command(method: .POST, path: .logout) { (_) -> Void in
             currentUserContainer = nil
-            try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
+            try? ParseStorage.shared.secureStore.delete(valueFor: ParseStorage.Keys.currentUser)
        }
     }
 }
@@ -263,7 +258,7 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
-            Self.saveCurrentContainerToKeychain()
+            Self.saveCurrentUser()
             return user
         }
     }
@@ -279,7 +274,7 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
-            Self.saveCurrentContainerToKeychain()
+            Self.saveCurrentUser()
             return user
         }
     }

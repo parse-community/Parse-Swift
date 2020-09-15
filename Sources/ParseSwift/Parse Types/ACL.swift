@@ -194,7 +194,7 @@ public struct ParseACL: Codable, Equatable {
 // Default ACL
 extension ParseACL {
     /**
-     Get the default ACL from the Keychain.
+     Get the default ACL from the shared secure store.
 
      - returns: Returns the default ACL.
     */
@@ -202,7 +202,7 @@ extension ParseACL {
 
         let currentUser = BaseParseUser.current
         let aclController: DefaultACL? =
-            try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL)
+            try? ParseStorage.shared.secureStore.get(valueFor: ParseStorage.Keys.defaultACL)
 
         if aclController != nil {
             if !aclController!.useCurrentUser {
@@ -261,7 +261,7 @@ extension ParseACL {
                 DefaultACL(defaultACL: acl, lastCurrentUser: currentUser, useCurrentUser: withAccessForCurrentUser)
         }
 
-        try? KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
+        try? ParseStorage.shared.secureStore.set(aclController, for: ParseStorage.Keys.defaultACL)
 
         return aclController.defaultACL
     }

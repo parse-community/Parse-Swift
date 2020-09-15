@@ -238,7 +238,7 @@ extension Query: Queryable {
     */
     public func find(options: API.Options = []) throws -> [ResultType] {
         let foundResults = try findCommand().execute(options: options)
-        try? ResultType.updateKeychainIfNeeded(foundResults)
+        try? ResultType.updateSecureStorageIfNeeded(foundResults)
         return foundResults
     }
 
@@ -254,7 +254,7 @@ extension Query: Queryable {
                      completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
         findCommand().executeAsync(options: options, callbackQueue: callbackQueue) { results in
             if case .success(let foundResults) = results {
-                try? ResultType.updateKeychainIfNeeded(foundResults)
+                try? ResultType.updateSecureStorageIfNeeded(foundResults)
             }
             completion(results)
         }
@@ -273,7 +273,7 @@ extension Query: Queryable {
     public func first(options: API.Options = []) throws -> ResultType? {
         let result = try firstCommand().execute(options: options)
         if let foundResult = result {
-            try? ResultType.updateKeychainIfNeeded([foundResult])
+            try? ResultType.updateSecureStorageIfNeeded([foundResult])
         }
         return result
     }
@@ -300,7 +300,7 @@ extension Query: Queryable {
                     completion(.failure(ParseError(code: .unknownError, message: "unable to unwrap data") ))
                     return
                 }
-                try? ResultType.updateKeychainIfNeeded([first])
+                try? ResultType.updateSecureStorageIfNeeded([first])
                 completion(.success(first))
             case .failure(let error):
                 completion(.failure(error))
