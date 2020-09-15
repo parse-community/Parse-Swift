@@ -168,9 +168,9 @@ extension ParseInstallation {
     }
 
     mutating func updateDeviceTypeFromDevice() {
-        let currentDeviceTyppe = kParseVersion
-        if deviceType != currentDeviceTyppe {
-            deviceType = currentDeviceTyppe
+
+        if deviceType != ParseConstants.deviceType {
+            deviceType = ParseConstants.deviceType
         }
     }
 
@@ -241,8 +241,8 @@ extension ParseInstallation {
             }
         }
 
-        if parseVersion != kParseVersion {
-            parseVersion = kParseVersion
+        if parseVersion != ParseConstants.parseVersion {
+            parseVersion = ParseConstants.parseVersion
         }
     }
 
