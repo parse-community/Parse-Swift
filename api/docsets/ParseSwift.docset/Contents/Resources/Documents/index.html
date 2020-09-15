@@ -22,7 +22,7 @@
         <a class="header-link" href="index.html">
           ParseSwift 1.0 Docs
         </a>
-         (38% documented)
+         (69% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -56,6 +56,28 @@
       <nav class="navigation">
         <ul class="nav-groups">
           <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Extensions/Sequence.html">Sequence</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/ParseInstallation.html">ParseInstallation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/ParseObject.html">ParseObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/ParseUser.html">ParseUser</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
             <a class="nav-group-name-link" href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
@@ -67,6 +89,21 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/AnyEncodable.html">AnyEncodable</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseACL.html">ParseACL</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseACL/Access.html">– Access</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Query.html">Query</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/Query/Order.html">– Order</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/QueryConstraint.html">QueryConstraint</a>
+              </li>
             </ul>
           </li>
         </ul>
@@ -77,7 +114,7 @@
           <div class="section-content top-matter">
             
             <p align="center">
-  <a href="https://parseplatform.org"><img alt="Parse Platform" src="logo large.png" width="200"></a>
+  <a href="https://parseplatform.org"><img alt="Parse Platform" src="https://github.com/parse-community/Parse-Swift/blob/main/logo%20large.png" width="200"></a>
 </p>
 
 <h2 align="center">ParseSwift</h2>
@@ -88,15 +125,16 @@
 
 <p align="center">
     <a href="https://twitter.com/intent/follow?screen_name=parseplatform"><img alt="Follow on Twitter" src="https://img.shields.io/twitter/follow/parseplatform?style=social&label=Follow"></a>
-    <a href=" https://github.com/parse-community/Parse-Swift/blob/master/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-lightgrey.svg"></a>
+    <a href=" https://github.com/parse-community/Parse-Swift/blob/main/LICENSE"><img alt="License" src="https://img.shields.io/badge/license-MIT-lightgrey.svg"></a>
     <a href="#backers"><img alt="Backers on Open Collective" src="https://opencollective.com/parse-server/backers/badge.svg" /></a>
   <a href="#sponsors"><img alt="Sponsors on Open Collective" src="https://opencollective.com/parse-server/sponsors/badge.svg" /></a>
 </p>
 
 <p align="center">
-<a href="https://github.com/parse-community/Parse-Swift"><img alt="Swift 5.0" src="https://img.shields.io/badge/swift-5.0-brightgreen.svg"></a>
-    <a href="https://github.com/parse-community/Parse-Swift/actions?query=workflow%3ASwift+branch%3Amaster"><img alt="Build status" src="https://github.com/parse-community/Parse-Swift/workflows/build/badge.svg?branch=master"></a>
-    <a href="https://codecov.io/gh/parse-community/Parse-Swift/branches"><img alt="Code coverage" src="https://codecov.io/gh/parse-community/Parse-Swift/branch/master/graph/badge.svg"></a>
+<a href="https://swiftpackageindex.com/parse-community/Parse-Swift"><img alt="Swift 5.0" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fparse-community%2FParse-Swift%2Fbadge%3Ftype%3Dswift-versions"></a>
+<a href="https://swiftpackageindex.com/parse-community/Parse-Swift"><img alt="Platforms" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fparse-community%2FParse-Swift%2Fbadge%3Ftype%3Dplatforms"></a>
+    <a href="https://github.com/parse-community/Parse-Swift/actions?query=workflow%3ASwift+branch%3Amain"><img alt="Build status" src="https://github.com/parse-community/Parse-Swift/workflows/build/badge.svg?branch=main"></a>
+    <a href="https://codecov.io/gh/parse-community/Parse-Swift/branches"><img alt="Code coverage" src="https://codecov.io/gh/parse-community/Parse-Swift/branch/main/graph/badge.svg"></a>
     <a href="https://github.com/parse-community/Parse-Swift"><img alt="Dependencies" src="https://img.shields.io/badge/dependencies-0-yellowgreen.svg"></a>
     <a href="https://community.parseplatform.org/"><img alt="Join the conversation" src="https://img.shields.io/discourse/https/community.parseplatform.org/topics.svg"></a>
 </p>
@@ -106,17 +144,17 @@
 <p>For more information about the Parse Platform and its features, see the public <a href="http://docs.parseplatform.org/ios/guide/">documentation</a>.</p>
 <h2 id='installation' class='heading'>Installation</h2>
 
-<p>As there are currently no releases of the ParseSwift SDK you will need to specify either a branch or a specific commit with your chosen package manager. The <code>master</code> branch may be unstable and there may be breaking changes.</p>
+<p>As there are currently no releases of the ParseSwift SDK you will need to specify either a branch or a specific commit with your chosen package manager. The <code>main</code> branch may be unstable and there may be breaking changes.</p>
 <h3 id='a-href-https-swift-org-package-manager-swift-package-manager-a' class='heading'><a href="https://swift.org/package-manager/">Swift Package Manager</a></h3>
 
 <p>You can use The Swift Package Manager to install ParseSwift by adding the following description to your <code>Package.swift</code> file:</p>
-<pre class="highlight swift"><code><span class="c1">// swift-tools-version:5.0</span>
+<pre class="highlight swift"><code><span class="c1">// swift-tools-version:5.1</span>
 <span class="kd">import</span> <span class="kt">PackageDescription</span>
 
 <span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
     <span class="nv">name</span><span class="p">:</span> <span class="s">"YOUR_PROJECT_NAME"</span><span class="p">,</span>
     <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/parse-community/Parse-Swift.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">branch</span><span class="p">(</span><span class="s">"master"</span><span class="p">)</span><span class="s">"),
+        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/parse-community/Parse-Swift.git"</span><span class="p">,</span> <span class="o">.</span><span class="nf">branch</span><span class="p">(</span><span class="s">"main"</span><span class="p">)</span><span class="s">"),
     ]
 )
 </span></code></pre>
@@ -125,14 +163,14 @@
 <h3 id='a-href-https-cocoapods-org-cocoapods-a' class='heading'><a href="https://cocoapods.org">CocoaPods</a></h3>
 
 <p>Add the following line to your Podfile:</p>
-<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'ParseSwift'</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">'https://github.com/parse-community/Parse-Swift'</span><span class="p">,</span> <span class="ss">:branch</span> <span class="o">=&gt;</span> <span class="s1">'master'</span>
+<pre class="highlight ruby"><code><span class="n">pod</span> <span class="s1">'ParseSwift'</span><span class="p">,</span> <span class="ss">:git</span> <span class="o">=&gt;</span> <span class="s1">'https://github.com/parse-community/Parse-Swift'</span><span class="p">,</span> <span class="ss">:branch</span> <span class="o">=&gt;</span> <span class="s1">'main'</span>
 </code></pre>
 
-<p>Run <code>pod install</code>, and you should now have the latest version from the master branch. Please be aware that as this SDK is still in development there may be issues with master.</p>
+<p>Run <code>pod install</code>, and you should now have the latest version from the main branch. Please be aware that as this SDK is still in development there may be issues with main.</p>
 <h3 id='a-href-https-github-com-carthage-carthage-carthage-a' class='heading'><a href="https://github.com/carthage/carthage">Carthage</a></h3>
 
 <p>Add the following line to your Cartfile:</p>
-<pre class="highlight plaintext"><code>github "parse-community/Parse-Swift" "master"
+<pre class="highlight plaintext"><code>github "parse-community/Parse-Swift" "main"
 </code></pre>
 
 <p>Run <code>carthage update</code>, and you should now have the latest version of ParseSwift SDK in your Carthage folder.</p>
@@ -142,7 +180,7 @@
 <pre class="highlight swift"><code><span class="kt">ParseSwift</span><span class="o">.</span><span class="nf">initialize</span><span class="p">(</span><span class="nv">applicationId</span><span class="p">:</span> <span class="s">"xxxxxxxxxx"</span><span class="p">,</span> <span class="nv">clientKey</span><span class="p">:</span> <span class="s">"xxxxxxxxxx"</span><span class="p">,</span> <span class="nv">serverURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://example.com"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
 </code></pre>
 
-<p>Please chechout the <a href="https://github.com/parse-community/Parse-Swift/tree/master/ParseSwift.playground">Swift Playground</a> for more usage information.</p>
+<p>Please chechout the <a href="https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground">Swift Playground</a> for more usage information.</p>
 
           </div>
         </section>
@@ -151,7 +189,7 @@
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-09-12)</p>
+      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-09-15)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
