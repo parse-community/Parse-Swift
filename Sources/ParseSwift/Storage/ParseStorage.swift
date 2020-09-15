@@ -24,6 +24,8 @@ public struct ParseStorage {
 
     enum Keys {
         static let currentUser = "_currentUser"
+        static let currentInstallation = "_currentInstallation"
+        static let defaultACL = "_defaultACL"
     }
 }
 
@@ -34,6 +36,10 @@ extension ParseStorage: PrimitiveObjectStore {
         return try backingStore.delete(valueFor: key)
     }
 
+    public mutating func deleteAll() throws {
+        requireBackingStore()
+        return try backingStore.deleteAll()
+    }
     public mutating func get<T>(valueFor key: String) throws -> T? where T: Decodable {
         requireBackingStore()
         return try backingStore.get(valueFor: key)

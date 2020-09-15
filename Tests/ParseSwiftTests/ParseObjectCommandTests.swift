@@ -17,7 +17,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ACL?
+        var ACL: ParseACL?
 
         //: Your own properties
         var score: Int
@@ -43,6 +43,8 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
+        try? KeychainStore.shared.deleteAll()
+        try? ParseStorage.shared.deleteAll()
     }
 
     func testFetchCommand() {
@@ -63,7 +65,8 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         }
     }
 
-    func testFetch() { // swiftlint:disable:this function_body_length
+    // swiftlint:disable:next function_body_length
+    func testFetch() {
         var score = GameScore(score: 10)
         let objectId = "yarr"
         score.objectId = objectId
@@ -76,7 +79,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -126,11 +129,11 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         }
     }
 
+    // swiftlint:disable:next function_body_length
     func fetchAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Fetch object1")
         score.fetch(options: [], callbackQueue: callbackQueue) { result in
-            expectation1.fulfill()
 
             switch result {
             case .success(let fetched):
@@ -138,11 +141,13 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
                         return
                 }
                 guard let originalCreatedAt = scoreOnServer.createdAt,
                     let originalUpdatedAt = scoreOnServer.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
                         return
                 }
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
@@ -151,23 +156,25 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation1.fulfill()
         }
 
         let expectation2 = XCTestExpectation(description: "Fetch object2")
         score.fetch(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
 
-            expectation2.fulfill()
             switch result {
             case .success(let fetched):
                 XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
                         return
                 }
                 guard let originalCreatedAt = scoreOnServer.createdAt,
                     let originalUpdatedAt = scoreOnServer.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
                         return
                 }
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
@@ -176,6 +183,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 10.0)
     }
@@ -194,7 +202,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -222,7 +230,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -275,7 +283,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -339,7 +347,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -387,12 +395,12 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         }
     }
 
+    // swiftlint:disable:next function_body_length
     func saveAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Save object1")
 
         score.save(options: [], callbackQueue: callbackQueue) { result in
-            expectation1.fulfill()
 
             switch result {
 
@@ -401,11 +409,13 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
                 guard let savedCreatedAt = saved.createdAt,
                     let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
                         return
                 }
                 guard let originalCreatedAt = scoreOnServer.createdAt,
                     let originalUpdatedAt = scoreOnServer.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
                         return
                 }
                 XCTAssertEqual(savedCreatedAt, originalCreatedAt)
@@ -414,12 +424,11 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation1.fulfill()
         }
 
         let expectation2 = XCTestExpectation(description: "Save object2")
         score.save(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
-            expectation2.fulfill()
 
             switch result {
 
@@ -428,11 +437,13 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
                 guard let savedCreatedAt = saved.createdAt,
                     let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
                         return
                 }
                 guard let originalCreatedAt = scoreOnServer.createdAt,
                     let originalUpdatedAt = scoreOnServer.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
                         return
                 }
                 XCTAssertEqual(savedCreatedAt, originalCreatedAt)
@@ -441,6 +452,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 10.0)
     }
@@ -457,7 +469,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -483,7 +495,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -495,12 +507,12 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         self.saveAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
+    // swiftlint:disable:next function_body_length
     func updateAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update object1")
 
         score.save(options: [], callbackQueue: callbackQueue) { result in
-            expectation1.fulfill()
 
             switch result {
 
@@ -508,11 +520,13 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
                 guard let savedCreatedAt = saved.createdAt,
                     let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
                         return
                 }
                 guard let originalCreatedAt = score.createdAt,
                     let originalUpdatedAt = score.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
                         return
                 }
                 XCTAssertEqual(savedCreatedAt, originalCreatedAt)
@@ -521,12 +535,11 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation1.fulfill()
         }
 
         let expectation2 = XCTestExpectation(description: "Update object2")
         score.save(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
-            expectation2.fulfill()
 
             switch result {
 
@@ -534,11 +547,13 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
                 guard let savedCreatedAt = saved.createdAt,
                     let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
                         return
                 }
                 guard let originalCreatedAt = score.createdAt,
                     let originalUpdatedAt = score.updatedAt else {
                         XCTFail("Should unwrap dates")
+                        expectation2.fulfill()
                         return
                 }
                 XCTAssertEqual(savedCreatedAt, originalCreatedAt)
@@ -547,6 +562,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 10.0)
     }
@@ -564,7 +580,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -591,7 +607,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getTestDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return

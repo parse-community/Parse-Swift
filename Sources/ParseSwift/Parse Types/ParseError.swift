@@ -13,18 +13,12 @@ public struct ParseError: Swift.Error, Codable {
     let message: String
 
     var localizedDescription: String {
-        return "ParseError code=\(code) error=\(message)"
+        return "ParseError code=\(code.rawValue) error=\(message)"
     }
 
     enum CodingKeys: String, CodingKey {
         case code
-        case message
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(code, forKey: .code)
-        try container.encode(message, forKey: .message)
+        case message = "error"
     }
 
     /**
@@ -119,7 +113,7 @@ public struct ParseError: Swift.Error, Codable {
          */
         case invalidFileName = 122
         /**
-         Invalid ACL. An ACL with an invalid format was saved. This should not happen if you use `PFACL`.
+         Invalid ACL. An ACL with an invalid format was saved. This should not happen if you use `ParseACL`.
          */
         case invalidACL = 123
         /**
@@ -249,5 +243,51 @@ public struct ParseError: Swift.Error, Codable {
          Invalid linked session.
          */
         case invalidLinkedSession = 251
+
+        /**
+         Error code indicating that a service being linked (e.g. Facebook or
+         Twitter) is unsupported.
+         */
+        case unsupportedService = 252
+
+        /**
+         Error code indicating an invalid operation occured on schema
+         */
+        case invalidSchemaOperation = 255
+
+        /**
+         Error code indicating that there were multiple errors. Aggregate errors
+         have an "errors" property, which is an array of error objects with more
+         detail about each error that occurred.
+         */
+        case aggregateError = 600
+
+        /**
+         Error code indicating the client was unable to read an input file.
+         */
+        case fileReadError = 601
+
+        /**
+         Error code indicating a real error code is unavailable because
+         we had to use an XDomainRequest object to allow CORS requests in
+         Internet Explorer, which strips the body from HTTP responses that have
+         a non-2XX status code.
+         */
+        case xDomainRequest = 602
+    }
+}
+
+extension ParseError {
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        code = try values.decode(Code.self, forKey: .code)
+        message = try values.decode(String.self, forKey: .message)
+    }
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(code, forKey: .code)
+        try container.encode(message, forKey: .message)
     }
 }

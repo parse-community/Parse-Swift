@@ -9,9 +9,6 @@
 import XCTest
 @testable import ParseSwift
 
-// This is necessary because of the .sortedKeys output formatting given to the JSONEncoder
-// That API is only available on macOS 10.13 and up.
-@available(macOS 13, *)
 class ParseEncoderTests: XCTestCase {
     struct Address: Codable {
         let street: String

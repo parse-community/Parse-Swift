@@ -24,4 +24,7 @@ public func initialize(
                                             .joined(separator: "/")
 
     ParseStorage.shared.use(primitiveObjectStore ?? CodableInMemoryPrimitiveObjectStore())
+    DispatchQueue.main.async {
+        _ = BaseParseInstallation()
+    }
 }

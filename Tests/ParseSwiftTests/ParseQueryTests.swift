@@ -17,7 +17,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ACL?
+        var ACL: ParseACL?
 
         //: Your own properties
         var score: Int
@@ -43,6 +43,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
+        try? KeychainStore.shared.deleteAll()
+        try? ParseStorage.shared.deleteAll()
     }
 
     func testConstructors() {
@@ -52,6 +54,14 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query2 = GameScore.query()
         XCTAssertEqual(query2.className, GameScore.className)
         XCTAssertEqual(query2.className, query.className)
+
+        let query3 = GameScore.query("score" > 100, "createdAt" > Date())
+        XCTAssertEqual(query3.className, GameScore.className)
+        XCTAssertEqual(query3.className, query.className)
+
+        let query4 = GameScore.query(["score" > 100, "createdAt" > Date()])
+        XCTAssertEqual(query4.className, GameScore.className)
+        XCTAssertEqual(query4.className, query.className)
     }
 
     func testFind() {
@@ -89,20 +99,20 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         let expectation = XCTestExpectation(description: "Count object1")
         query.find(options: [], callbackQueue: callbackQueue) { result in
-            expectation.fulfill()
 
             switch result {
 
             case .success(let found):
                 guard let score = found.first else {
                     XCTFail("Should unwrap score count")
+                    expectation.fulfill()
                     return
                 }
                 XCTAssert(score.hasSameObjectId(as: scoreOnServer))
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 10.0)
     }
@@ -183,7 +193,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         let expectation = XCTestExpectation(description: "Count object1")
         query.first(options: [], callbackQueue: callbackQueue) { result in
-            expectation.fulfill()
 
             switch result {
 
@@ -193,6 +202,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
+            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 10.0)
     }
@@ -270,7 +280,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         let expectation = XCTestExpectation(description: "Count object1")
         query.count(options: [], callbackQueue: callbackQueue) { result in
-            expectation.fulfill()
 
             switch result {
 
@@ -279,7 +288,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
-
+            expectation.fulfill()
         }
         wait(for: [expectation], timeout: 10.0)
     }

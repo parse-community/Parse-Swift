@@ -11,7 +11,7 @@ public struct File: Saveable, Fetchable {
         self.url = url
     }
 
-    public func save(options: API.Options) -> File {
+    public func save(options: API.Options) throws -> File {
         // upload file
         // store in server
         // callback with the data

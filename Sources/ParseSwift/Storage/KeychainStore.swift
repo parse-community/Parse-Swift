@@ -21,6 +21,9 @@ func getKeychainQueryTemplate(forService service: String) -> [String: String] {
 struct KeychainStore: SecureStorage {
     private let synchronizationQueue: DispatchQueue
     private let keychainQueryTemplate: [String: String]
+
+    public static var shared = KeychainStore(service: "shared")
+
     init(service: String) {
         synchronizationQueue = DispatchQueue(label: "com.parse.keychain.\(service)",
                                              qos: .default,
@@ -133,12 +136,7 @@ struct KeychainStore: SecureStorage {
     }
 
     private func removeObject(forKeyUnsafe key: String) -> Bool {
-        if #available(iOS 10.0,
-                      macOS 10.12,
-                      tvOS 10.0,
-                      watchOS 3.0, *) {
-            dispatchPrecondition(condition: .onQueue(synchronizationQueue))
-        }
+        dispatchPrecondition(condition: .onQueue(synchronizationQueue))
         return SecItemDelete(keychainQuery(forKey: key) as CFDictionary) == errSecSuccess
     }
 }

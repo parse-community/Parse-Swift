@@ -37,4 +37,13 @@ extension Pointer {
                     try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }.execute(options: options)
     }
+
+    public func fetch(options: API.Options = [], callbackQueue: DispatchQueue = .main,
+                      completion: @escaping (Result<T, ParseError>) -> Void) {
+        let path = API.Endpoint.object(className: className, objectId: objectId)
+        API.Command<NoBody, T>(method: .GET,
+                                      path: path) { (data) -> T in
+                    try ParseCoding.jsonDecoder().decode(T.self, from: data)
+        }.executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+    }
 }
