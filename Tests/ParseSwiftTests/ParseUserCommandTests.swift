@@ -71,8 +71,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
-        try? KeychainStore.shared.deleteAll()
-        try? ParseStorage.shared.deleteAll()
+        try? ParseStorage.shared.secureStore.deleteAll()
     }
 
     func testFetchCommand() {
@@ -959,7 +958,7 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
     func testUserCustomValuesNotSavedToKeychain() {
         testUserLogin()
         User.current?.customKey = "Changed"
-        User.saveCurrentContainerToKeychain()
+        User.saveCurrentUserContainer()
         guard let keychainUser: CurrentUserContainer<User>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
                 XCTFail("Should get object from Keychain")

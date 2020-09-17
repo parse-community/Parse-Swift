@@ -43,8 +43,7 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
-        try? KeychainStore.shared.deleteAll()
-        try? ParseStorage.shared.deleteAll()
+        try? ParseStorage.shared.secureStore.deleteAll()
     }
 
     func testFetchCommand() {

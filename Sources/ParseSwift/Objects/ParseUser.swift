@@ -45,7 +45,7 @@ extension ParseUser {
         set { try? ParseStorage.shared.secureStore.set(newValue, for: ParseStorage.Keys.currentUser)}
     }
 
-    internal static func saveCurrentUser() {
+    internal static func saveCurrentUserContainer() {
         //Only save the BaseParseUser to keep memory footprint finite
         guard let currentUser: CurrentUserContainer<BaseParseUser> =
                 try? ParseStorage.shared.secureStore.get(valueFor: ParseStorage.Keys.currentUser) else {
@@ -135,7 +135,7 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
-            Self.saveCurrentUser()
+            Self.saveCurrentUserContainer()
             return user
         }
     }
@@ -258,7 +258,7 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
-            Self.saveCurrentUser()
+            Self.saveCurrentUserContainer()
             return user
         }
     }
@@ -274,7 +274,7 @@ extension ParseUser {
                 currentUser: user,
                 sessionToken: response.sessionToken
             )
-            Self.saveCurrentUser()
+            Self.saveCurrentUserContainer()
             return user
         }
     }

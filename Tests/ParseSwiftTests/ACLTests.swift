@@ -26,8 +26,7 @@ class ACLTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
-        try? KeychainStore.shared.deleteAll()
-        try? ParseStorage.shared.deleteAll()
+        try? ParseStorage.shared.secureStore.deleteAll()
     }
 
     struct User: ParseUser {

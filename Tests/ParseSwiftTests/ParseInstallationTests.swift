@@ -98,8 +98,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
-        try? KeychainStore.shared.deleteAll()
-        try? ParseStorage.shared.deleteAll()
+        try? ParseStorage.shared.secureStore.deleteAll()
     }
 
     func userLogin() {
@@ -164,7 +163,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
     func testInstallationCustomValuesNotSavedToKeychain() {
         Installation.current?.customKey = "Changed"
-        Installation.saveCurrentContainerToKeychain()
+        Installation.saveCurrentContainer()
         guard let keychainInstallation: CurrentInstallationContainer<Installation>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
             return
@@ -245,7 +244,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             Installation.current?.parseVersion = "changed"
             Installation.current?.localeIdentifier = "changed"
 
-            Installation.saveCurrentContainerToKeychain()
+            Installation.saveCurrentContainer()
 
             guard let keychainInstallation: CurrentInstallationContainer<Installation>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {

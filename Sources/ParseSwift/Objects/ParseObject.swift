@@ -152,7 +152,7 @@ extension ParseObject {
             let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(foundCurrentUser)
             let updatedCurrentUser = try ParseCoding.jsonDecoder().decode(BaseParseUser.self, from: encoded)
             BaseParseUser.current = updatedCurrentUser
-            BaseParseUser.saveCurrentUser()
+            BaseParseUser.saveCurrentUserContainer()
         } else if results.first?.className == BaseParseInstallation.className {
             guard let currentInstallation = BaseParseInstallation.current else {
                 return
