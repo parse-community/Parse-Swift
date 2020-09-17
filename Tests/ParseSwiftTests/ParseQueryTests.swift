@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 7/26/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-
+#if !os(watchOS)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -334,3 +334,4 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         countAsync(scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 }
+#endif

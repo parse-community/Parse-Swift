@@ -5,7 +5,7 @@
 //  Created by Pranjal Satija on 8/7/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-
+#if !os(watchOS)
 import XCTest
 @testable import ParseSwift
 
@@ -81,3 +81,4 @@ class ParseEncoderTests: XCTestCase {
         XCTAssertEqual(encoded, reference)
     }
 }
+#endif

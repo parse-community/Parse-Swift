@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 7/19/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-
+#if !os(watchOS)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -617,4 +617,6 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         }
         self.updateAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
-} // swiftlint:disable:this file_length
+}
+#endif
+// swiftlint:disable:this file_length
