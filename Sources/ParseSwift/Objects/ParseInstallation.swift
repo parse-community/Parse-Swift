@@ -10,7 +10,7 @@ import Foundation
 
 #if canImport(UIKit)
 import UIKit
-#else
+#elseif canImport(AppKit)
 import AppKit
 #endif
 

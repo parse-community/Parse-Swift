@@ -43,9 +43,7 @@
 		912C9BCF24D3005D009947C3 /* ParseSwift_watchOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 912C9BCD24D3005D009947C3 /* ParseSwift_watchOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		912C9BDC24D3011F009947C3 /* ParseSwift_tvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 912C9BDA24D3011F009947C3 /* ParseSwift_tvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		912C9BE024D302B0009947C3 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
-		912C9BF924D302B0009947C3 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		912C9BFD24D302B2009947C3 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
-		912C9C1624D302B2009947C3 /* (null) in Sources */ = {isa = PBXBuildFile; };
 		9194657824F16E330070296B /* ACLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9194657724F16E330070296B /* ACLTests.swift */; };
 		F971F4F624DE381A006CB79B /* ParseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */; };
 		F97B45CE24D9C6F200F4A88B /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B424D9C6F200F4A88B /* ParseCoding.swift */; };
@@ -1004,7 +1002,6 @@
 				F97B45DD24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				F97B462124D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B466724D9C88600F4A88B /* SecureStorage.swift in Sources */,
-				912C9C1624D302B2009947C3 /* (null) in Sources */,
 				70110D55250680140091CC1D /* ParseConstants.swift in Sources */,
 				70BDA2B6250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B465924D9C78C00F4A88B /* RemoveOperation.swift in Sources */,
@@ -1051,7 +1048,6 @@
 				F97B45DC24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				F97B462024D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B466624D9C88600F4A88B /* SecureStorage.swift in Sources */,
-				912C9BF924D302B0009947C3 /* (null) in Sources */,
 				70110D54250680140091CC1D /* ParseConstants.swift in Sources */,
 				70BDA2B5250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B465824D9C78C00F4A88B /* RemoveOperation.swift in Sources */,
