@@ -185,5 +185,11 @@ class ParseGeoPointTests: XCTestCase {
         XCTAssertEqual(sacramento.distanceInMiles(vorkuta), 5159.7,
                        accuracy: 100.0, "Sacramento to Vorkuta")
     }
+
+    func testDebugGeoPoint() {
+        let point = GeoPoint(latitude: 10, longitude: 20)
+        XCTAssertTrue(point.debugDescription.contains("10"))
+        XCTAssertTrue(point.debugDescription.contains("20"))
+    }
 }
 #endif
