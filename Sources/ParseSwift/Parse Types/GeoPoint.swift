@@ -12,8 +12,7 @@ public struct GeoPoint: Codable, Equatable {
     private let earthRadiusKilometers = 6371.0
 
     enum CodingKeys: String, CodingKey {
-        case latitude
-        case longitude
+        case __type, latitude, longitude // swiftlint:disable:this identifier_name
     }
 
     /**
@@ -118,6 +117,7 @@ extension GeoPoint {
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(__type, forKey: .__type)
         try container.encode(_longitude, forKey: .longitude)
         try container.encode(_latitude, forKey: .latitude)
     }
