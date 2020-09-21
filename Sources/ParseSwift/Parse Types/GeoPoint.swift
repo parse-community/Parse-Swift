@@ -1,11 +1,12 @@
 import Foundation
+import CoreLocation
 
 /**
  `PFGeoPoint` may be used to embed a latitude / longitude point as the value for a key in a `PFObject`.
  It could be used to perform queries in a geospatial manner using `PFQuery.-whereKey:nearGeoPoint:`.
  Currently, instances of `PFObject` may only have one key associated with a `PFGeoPoint` type.
 */
-public struct GeoPoint: Codable {
+public struct GeoPoint: Codable, Equatable {
     private let __type: String = "GeoPoint" // swiftlint:disable:this identifier_name
     private let earthRadiusMiles = 3958.8
     private let earthRadiusKilometers = 6371.0
@@ -18,20 +19,51 @@ public struct GeoPoint: Codable {
     /**
     Latitude of point in degrees. Valid range is from `-90.0` to `90.0`.
     */
-    public let latitude: Double
+    public var latitude: Double {
+        get {
+            return _latitude
+        }
+        set {
+            assert(newValue > -90, "latitude should be > -90")
+            assert(newValue < 90, "latitude should be > 90")
+            _latitude = newValue
+        }
+    }
 
     /**
     Longitude of point in degrees. Valid range is from `-180.0` to `180.0`.
     */
-    public let longitude: Double
+    public var longitude: Double {
+        get {
+            return _longitude
+        }
+        set {
+            assert(newValue > -180, "longitude should be > -180")
+            assert(newValue < 180, "longitude should be > -180")
+            _longitude = newValue
+        }
+    }
+
+    private var _latitude: Double
+    private var _longitude: Double
+
+    public init() {
+        _latitude = 0.0
+        _longitude = 0.0
+    }
 
     public init(latitude: Double, longitude: Double) {
-        assert(latitude > -180, "latitude should be > -180")
-        assert(latitude < 180, "latitude should be > -180")
+        assert(longitude > -180, "longitude should be > -180")
+        assert(longitude < 180, "longitude should be > -180")
         assert(latitude > -90, "latitude should be > -90")
         assert(latitude < 90, "latitude should be > 90")
-        self.latitude = latitude
-        self.longitude = longitude
+        self._latitude = latitude
+        self._longitude = longitude
+    }
+
+    public init(location: CLLocation) {
+        self._longitude = location.coordinate.longitude
+        self._latitude = location.coordinate.latitude
     }
 
     /**
@@ -72,7 +104,7 @@ public struct GeoPoint: Codable {
      - parameters point: `PFGeoPoint` that represents the location of other point.
      - returns: Distance in kilometers between the receiver and `point`.
     */
-    public func distancesInKilometers(_ point: GeoPoint) -> Double {
+    public func distanceInKilometers(_ point: GeoPoint) -> Double {
         return distanceInRadians(point) * earthRadiusKilometers
     }
 }
@@ -80,13 +112,23 @@ public struct GeoPoint: Codable {
 extension GeoPoint {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        longitude = try values.decode(Double.self, forKey: .longitude)
-        latitude = try values.decode(Double.self, forKey: .latitude)
+        _longitude = try values.decode(Double.self, forKey: .longitude)
+        _latitude = try values.decode(Double.self, forKey: .latitude)
     }
 
     public func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(longitude, forKey: .longitude)
-        try container.encode(latitude, forKey: .latitude)
+        try container.encode(_longitude, forKey: .longitude)
+        try container.encode(_latitude, forKey: .latitude)
+    }
+}
+
+extension GeoPoint: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        guard let descriptionData = try? JSONEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+            return "GeoPoint ()"
+        }
+        return "GeoPoint (\(descriptionString))"
     }
 }

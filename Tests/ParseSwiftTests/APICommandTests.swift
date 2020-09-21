@@ -121,8 +121,9 @@ class APICommandTests: XCTestCase {
             return response
         }
         do {
-            _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (data) -> NoBody in
-                    return try JSONDecoder().decode(NoBody.self, from: data)
+            _ = try API.Command<ParseError, ParseError>(method: .GET, path: .login, params: nil,
+                                                    mapper: { (data) -> ParseError in
+                    return try JSONDecoder().decode(ParseError.self, from: data)
             }).execute(options: [])
             XCTFail("Should have thrown an error")
         } catch {
@@ -130,7 +131,7 @@ class APICommandTests: XCTestCase {
                 XCTFail("should be able unwrap final error to ParseError")
                 return
             }
-            XCTAssertTrue(error.message.contains(originalError.message))
+            XCTAssertTrue(error.code == .unknownError)
         }
     }
 

@@ -23,8 +23,8 @@ import UIKit
  location request is guaranteed a speedily returned CLLocation.
  */
 class ParseLocationMananger: NSObject {
-    var locationManager: CLLocationManager
-    var bundle: Bundle
+    let locationManager: CLLocationManager
+    let bundle: Bundle
     var lastLocation: CLLocation?
 
     convenience override init() {

@@ -30,6 +30,7 @@
 		70BC0AF32518E6EC001556DB /* ParseLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC0AF12518E6EC001556DB /* ParseLocationManager.swift */; };
 		70BC0AF42518E6EC001556DB /* ParseLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC0AF12518E6EC001556DB /* ParseLocationManager.swift */; };
 		70BC0AF52518E6EC001556DB /* ParseLocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC0AF12518E6EC001556DB /* ParseLocationManager.swift */; };
+		70BC0B33251903D1001556DB /* ParseGeoPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */; };
 		70BDA2B3250536FF00FC2237 /* ParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */; };
 		70BDA2B4250536FF00FC2237 /* ParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */; };
 		70BDA2B5250536FF00FC2237 /* ParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */; };
@@ -231,6 +232,7 @@
 		70110D562506CE890091CC1D /* BaseParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseParseInstallation.swift; sourceTree = "<group>"; };
 		70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallationTests.swift; sourceTree = "<group>"; };
 		70BC0AF12518E6EC001556DB /* ParseLocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLocationManager.swift; sourceTree = "<group>"; };
+		70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGeoPointTests.swift; sourceTree = "<group>"; };
 		70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallation.swift; sourceTree = "<group>"; };
 		70C7DC1D24D20E530050419B /* ParseUserCommandTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseUserCommandTests.swift; sourceTree = "<group>"; };
 		70C7DC1F24D20F180050419B /* ParseQueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseQueryTests.swift; sourceTree = "<group>"; };
@@ -379,6 +381,7 @@
 				911DB12D24C4837E0027F3C7 /* APICommandTests.swift */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
 				F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */,
+				70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */,
 				70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */,
 				70C7DC2024D20F190050419B /* ParseObjectBatchTests.swift */,
 				911DB13524C4FC100027F3C7 /* ParseObjectCommandTests.swift */,
@@ -927,6 +930,7 @@
 				911DB12E24C4837E0027F3C7 /* APICommandTests.swift in Sources */,
 				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
 				70110D5C2506ED0E0091CC1D /* ParseInstallationTests.swift in Sources */,
+				70BC0B33251903D1001556DB /* ParseGeoPointTests.swift in Sources */,
 				7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */,
 				7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */,
 				70C7DC2224D20F190050419B /* ParseObjectBatchTests.swift in Sources */,
