@@ -8,8 +8,8 @@ import CoreLocation
 */
 public struct GeoPoint: Codable, Equatable {
     private let __type: String = "GeoPoint" // swiftlint:disable:this identifier_name
-    private let earthRadiusMiles = 3958.8
-    private let earthRadiusKilometers = 6371.0
+    static let earthRadiusMiles = 3958.8
+    static let earthRadiusKilometers = 6371.0
 
     enum CodingKeys: String, CodingKey {
         case __type, latitude, longitude // swiftlint:disable:this identifier_name
@@ -131,7 +131,7 @@ public struct GeoPoint: Codable, Equatable {
      - returns: Distance in miles between the receiver and `point`.
     */
     public func distanceInMiles(_ point: GeoPoint) -> Double {
-        return distanceInRadians(point) * earthRadiusMiles
+        return distanceInRadians(point) * Self.earthRadiusMiles
     }
 
     /**
@@ -140,7 +140,7 @@ public struct GeoPoint: Codable, Equatable {
      - returns: Distance in kilometers between the receiver and `point`.
     */
     public func distanceInKilometers(_ point: GeoPoint) -> Double {
-        return distanceInRadians(point) * earthRadiusKilometers
+        return distanceInRadians(point) * Self.earthRadiusKilometers
     }
 }
 

@@ -12,7 +12,7 @@ import Foundation
   All available query constraints.
 */
 public struct QueryConstraint: Encodable {
-    public enum Comparator: String, CodingKey {
+    public enum Comparator: String, CodingKey, Encodable {
         case lessThan = "$lt"
         case lessThanOrEqualTo = "$lte"
         case greaterThan = "$gt"
@@ -29,6 +29,17 @@ public struct QueryConstraint: Encodable {
         case regex = "$regex"
         case inQuery = "$inQuery"
         case notInQuery = "$notInQuery"
+        case nearSphere = "$nearSphere"
+        case within = "$within"
+        case geoWithin = "$geoWithin"
+        case geoIntersects = "$geoIntersects"
+        case maxDistance = "$maxDistance"
+        case box = "$box"
+        case polygon = "$polygon"
+        case point = "$point"
+        case search = "$search"
+        case term = "$term"
+        case regexOptions = "$options"
     }
 
     var key: String
@@ -84,6 +95,39 @@ private struct InQuery<T>: Encodable where T: ParseObject {
 
 public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
     return QueryConstraint(key: key, value: InQuery(query: value), comparator: .inQuery)
+}
+
+public func nearGeoPoint(key: String, point: GeoPoint) -> QueryConstraint {
+    return QueryConstraint(key: key, value: point, comparator: .nearSphere)
+}
+
+//Needs to be fixed
+public func nearGeoPoint(key: String, point: GeoPoint, withinRadians maxDistance: Double) -> QueryConstraint {
+    return QueryConstraint(key: key, value: point, comparator: .nearSphere)
+}
+
+public func nearGeoPoint(key: String, point: GeoPoint, withinMiles maxDistance: Double) -> QueryConstraint {
+    return nearGeoPoint(key: key, point: point, withinRadians: (maxDistance / GeoPoint.earthRadiusMiles))
+}
+
+public func nearGeoPoint(key: String, point: GeoPoint, withinKilometers maxDistance: Double) -> QueryConstraint {
+    return nearGeoPoint(key: key, point: point, withinRadians: (maxDistance / GeoPoint.earthRadiusKilometers))
+}
+
+public func withinGeoBox(key: String, fromSouthWest southwest: GeoPoint, toNortheast northeast: GeoPoint) -> QueryConstraint {
+    let array = [southwest, northeast]
+    let dictionary = [QueryConstraint.Comparator.box: array]
+    return .init(key: key, value: dictionary, comparator: .within)
+}
+
+public func withinPolygon(key: String, ponts: [GeoPoint]) -> QueryConstraint {
+    let dictionary = [QueryConstraint.Comparator.polygon: ponts]
+    return .init(key: key, value: dictionary, comparator: .within)
+}
+
+public func polygonContains(key: String, pont: GeoPoint) -> QueryConstraint {
+    let dictionary = [QueryConstraint.Comparator.point: pont]
+    return .init(key: key, value: dictionary, comparator: .geoIntersects)
 }
 
 internal struct QueryWhere: Encodable {
