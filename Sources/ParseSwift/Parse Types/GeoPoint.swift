@@ -65,11 +65,17 @@ public struct GeoPoint: Codable, Equatable {
         self._latitude = location.coordinate.latitude
     }
 
-    public static func currentLocation(completion: @escaping (GeoPoint) -> Void) {
+    public static func currentLocation(completion: @escaping (Result<GeoPoint, ParseError>) -> Void) {
         let locationManager = ParseLocationMananger()
-        locationManager.getCurrentLocation { location in
-            let geoPoint = Self.init(location: location)
-            completion(geoPoint)
+        locationManager.getCurrentLocation { result in
+            switch result {
+
+            case .success(let location):
+                let geoPoint = Self.init(location: location)
+                completion(.success(geoPoint))
+            case .failure(let error):
+                completion(.failure(error))
+            }
         }
     }
 
