@@ -1,12 +1,14 @@
-//: [Previous](@previous)
-
 import PlaygroundSupport
 import Foundation
 import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 
-//: start parse-server with
-//: npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
+/*: start parse-server with
+npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
+*/
+
+/*: In Xcode, make sure you are building the "ParseSwift (macOS)" framework.
+ */
 
 initializeParse()
 
@@ -31,7 +33,7 @@ struct GameScore: ParseObject {
 let score = GameScore(score: 10)
 let score2 = GameScore(score: 3)
 
-/*: Query asynchronously (preferred way) - Performs work on background
+/*: Save asynchronously (preferred way) - Performs work on background
     queue and returns to designated on designated callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */

@@ -26,6 +26,7 @@ class ParseLocationMananger: NSObject {
     let locationManager: CLLocationManager
     let bundle: Bundle
     var lastLocation: CLLocation?
+    private var currentLocationCallback: ((CLLocation) -> Void)?
 
     convenience override init() {
         self.init(locationManager: CLLocationManager(), bundle: Bundle.main)
@@ -42,7 +43,7 @@ class ParseLocationMananger: NSObject {
         locationManager.delegate = self
     }
 
-    func addCurrentLocation() {
+    func getCurrentLocation(completion: @escaping (CLLocation) -> Void) {
     #if os(watchOS)
         if self.bundle.object(forInfoDictionaryKey: "NSLocationWhenInUseUsageDescription") != nil {
             self.locationManager.requestWhenInUseAuthorization()
@@ -66,6 +67,12 @@ class ParseLocationMananger: NSObject {
     #elseif os (macOS)
         self.locationManager.startUpdatingLocation()
     #endif
+        let currentLocationQueue = DispatchQueue(label: "com.parse.location")
+        currentLocationQueue.async {
+            self.currentLocationCallback = { location in
+                completion(location)
+            }
+        }
     }
 
     deinit {
@@ -75,8 +82,11 @@ class ParseLocationMananger: NSObject {
 
 extension ParseLocationMananger: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        lastLocation = locations.last
-        manager.stopUpdatingLocation()
+        if let location = locations.last {
+            manager.stopUpdatingLocation()
+            self.currentLocationCallback?(location)
+            self.currentLocationCallback = nil
+        }
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

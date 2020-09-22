@@ -65,6 +65,14 @@ public struct GeoPoint: Codable, Equatable {
         self._latitude = location.coordinate.latitude
     }
 
+    public static func currentLocation(completion: @escaping (GeoPoint) -> Void) {
+        let locationManager = ParseLocationMananger()
+        locationManager.getCurrentLocation { location in
+            let geoPoint = Self.init(location: location)
+            completion(geoPoint)
+        }
+    }
+
     /**
      Get distance in radians from this point to specified point.
      
