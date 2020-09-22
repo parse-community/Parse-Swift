@@ -2,9 +2,9 @@ import Foundation
 import CoreLocation
 
 /**
- `PFGeoPoint` may be used to embed a latitude / longitude point as the value for a key in a `PFObject`.
- It could be used to perform queries in a geospatial manner using `PFQuery.-whereKey:nearGeoPoint:`.
- Currently, instances of `PFObject` may only have one key associated with a `PFGeoPoint` type.
+  `GeoPoint` may be used to embed a latitude / longitude point as the value for a key in a `ParseObject`.
+   It could be used to perform queries in a geospatial manner using `ParseQuery.-whereKey:nearGeoPoint:`.
+   Currently, instances of `ParseObject` may only have one key associated with a `GeoPoint` type.
 */
 public struct GeoPoint: Codable, Equatable {
     private let __type: String = "GeoPoint" // swiftlint:disable:this identifier_name
@@ -16,7 +16,7 @@ public struct GeoPoint: Codable, Equatable {
     }
 
     /**
-    Latitude of point in degrees. Valid range is from `-90.0` to `90.0`.
+      Latitude of point in degrees. Valid range is from `-90.0` to `90.0`.
     */
     public var latitude: Double {
         get {
@@ -30,7 +30,7 @@ public struct GeoPoint: Codable, Equatable {
     }
 
     /**
-    Longitude of point in degrees. Valid range is from `-180.0` to `180.0`.
+      Longitude of point in degrees. Valid range is from `-180.0` to `180.0`.
     */
     public var longitude: Double {
         get {
@@ -46,11 +46,19 @@ public struct GeoPoint: Codable, Equatable {
     private var _latitude: Double
     private var _longitude: Double
 
+    /**
+     Create a GeoPoint instance. Latitude and longitude are set to `0.0`.
+     */
     public init() {
         _latitude = 0.0
         _longitude = 0.0
     }
 
+    /**
+      Create a new `GeoPoint` instance with the specified latitude and longitude.
+       - parameter latitude: Latitude of point in degrees.
+       - parameter longitude: Longitude of point in degrees.
+     */
     public init(latitude: Double, longitude: Double) {
         assert(longitude > -180, "longitude should be > -180")
         assert(longitude < 180, "longitude should be > -180")
@@ -60,11 +68,25 @@ public struct GeoPoint: Codable, Equatable {
         self._longitude = longitude
     }
 
+    /**
+      Creates a new `GeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
+       - parameter location: Instace of `CLLocation`, with set latitude and longitude.
+     */
     public init(location: CLLocation) {
         self._longitude = location.coordinate.longitude
         self._latitude = location.coordinate.latitude
     }
 
+    /**
+       Fetches the current device location and executes a block with a new `GeoPoint` instance.
+       @discussion You should not block the main thread while calling this method, as underneath,
+       it makes a call to UIApplication.applicationState that requires to be on the main thread.
+       If you were to use a semaphore wait/signal to 'wait' for the result, you'd effectively deadlock
+       your app.
+       - parameter completion: A block which takes the newly created `GeoPoint` or ParseError
+         as an argument. It should have the following argument signature:
+         `(Result<GeoPoint, ParseError>)`
+     */
     public static func currentLocation(completion: @escaping (Result<GeoPoint, ParseError>) -> Void) {
         let locationManager = ParseLocationMananger()
         locationManager.getCurrentLocation { result in
@@ -82,7 +104,7 @@ public struct GeoPoint: Codable, Equatable {
     /**
      Get distance in radians from this point to specified point.
      
-     - parameters point: `PFGeoPoint` that represents the location of other point.
+     - parameter point: `GeoPoint` that represents the location of other point.
      - returns: Distance in radians between the receiver and `point`.
     */
     public func distanceInRadians(_ point: GeoPoint) -> Double {
@@ -105,7 +127,7 @@ public struct GeoPoint: Codable, Equatable {
     /**
      Get distance in miles from this point to specified point.
      
-     - parameters point: `PFGeoPoint` that represents the location of other point.
+     - parameter point: `GeoPoint` that represents the location of other point.
      - returns: Distance in miles between the receiver and `point`.
     */
     public func distanceInMiles(_ point: GeoPoint) -> Double {
@@ -114,7 +136,7 @@ public struct GeoPoint: Codable, Equatable {
 
     /**
      Get distance in kilometers from this point to specified point.
-     - parameters point: `PFGeoPoint` that represents the location of other point.
+     - parameter point: `GeoPoint` that represents the location of other point.
      - returns: Distance in kilometers between the receiver and `point`.
     */
     public func distanceInKilometers(_ point: GeoPoint) -> Double {
