@@ -785,6 +785,396 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(testValue.key, "yolo")
         XCTAssertEqual(testValue.object.objectId, object.objectId)
     }
+
+    func testExplainFindSynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        do {
+            let queryResult = try query.find(explain: true)
+            XCTAssertEqual(queryResult.keys.first, json.keys.first)
+            guard let valueString = queryResult.values.first?.value as? String else {
+                XCTFail("Error: Should cast to string")
+                return
+            }
+            XCTAssertEqual(valueString, json.values.first)
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
+    func testExplainFindAsynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation = XCTestExpectation(description: "Fetch object")
+        let query = GameScore.query()
+        query.find(explain: true, callbackQueue: .main) { result in
+            switch result {
+
+            case .success(let queryResult):
+                XCTAssertEqual(queryResult.keys.first, json.keys.first)
+                guard let valueString = queryResult.values.first?.value as? String else {
+                    XCTFail("Error: Should cast to string")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssertEqual(valueString, json.values.first)
+            case .failure(let error):
+                XCTFail("Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+
+    func testExplainFirstSynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        do {
+            let queryResult = try query.first(explain: true)
+            XCTAssertEqual(queryResult.keys.first, json.keys.first)
+            guard let valueString = queryResult.values.first?.value as? String else {
+                XCTFail("Error: Should cast to string")
+                return
+            }
+            XCTAssertEqual(valueString, json.values.first)
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
+    func testExplainFirstAsynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation = XCTestExpectation(description: "Fetch object")
+        let query = GameScore.query()
+        query.first(explain: true, callbackQueue: .main) { result in
+            switch result {
+
+            case .success(let queryResult):
+                XCTAssertEqual(queryResult.keys.first, json.keys.first)
+                guard let valueString = queryResult.values.first?.value as? String else {
+                    XCTFail("Error: Should cast to string")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssertEqual(valueString, json.values.first)
+            case .failure(let error):
+                XCTFail("Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+
+    func testExplainCountSynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        do {
+            let queryResult = try query.count(explain: true)
+            XCTAssertEqual(queryResult.keys.first, json.keys.first)
+            guard let valueString = queryResult.values.first?.value as? String else {
+                XCTFail("Error: Should cast to string")
+                return
+            }
+            XCTAssertEqual(valueString, json.values.first)
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
+    func testExplainCountAsynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation = XCTestExpectation(description: "Fetch object")
+        let query = GameScore.query()
+        query.count(explain: true, callbackQueue: .main) { result in
+            switch result {
+
+            case .success(let queryResult):
+                XCTAssertEqual(queryResult.keys.first, json.keys.first)
+                guard let valueString = queryResult.values.first?.value as? String else {
+                    XCTFail("Error: Should cast to string")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssertEqual(valueString, json.values.first)
+            case .failure(let error):
+                XCTFail("Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+
+    func testHintFindSynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        do {
+            let queryResult = try query.find(explain: false, hint: "_id_")
+            XCTAssertEqual(queryResult.keys.first, json.keys.first)
+            guard let valueString = queryResult.values.first?.value as? String else {
+                XCTFail("Error: Should cast to string")
+                return
+            }
+            XCTAssertEqual(valueString, json.values.first)
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
+    func testHintFindAsynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation = XCTestExpectation(description: "Fetch object")
+        let query = GameScore.query()
+        query.find(explain: false, hint: "_id_", callbackQueue: .main) { result in
+            switch result {
+
+            case .success(let queryResult):
+                XCTAssertEqual(queryResult.keys.first, json.keys.first)
+                guard let valueString = queryResult.values.first?.value as? String else {
+                    XCTFail("Error: Should cast to string")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssertEqual(valueString, json.values.first)
+            case .failure(let error):
+                XCTFail("Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+
+    func testHintFirstSynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        do {
+            let queryResult = try query.first(explain: false, hint: "_id_")
+            XCTAssertEqual(queryResult.keys.first, json.keys.first)
+            guard let valueString = queryResult.values.first?.value as? String else {
+                XCTFail("Error: Should cast to string")
+                return
+            }
+            XCTAssertEqual(valueString, json.values.first)
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
+    func testHintFirstAsynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation = XCTestExpectation(description: "Fetch object")
+        let query = GameScore.query()
+        query.first(explain: false, hint: "_id_", callbackQueue: .main) { result in
+            switch result {
+
+            case .success(let queryResult):
+                XCTAssertEqual(queryResult.keys.first, json.keys.first)
+                guard let valueString = queryResult.values.first?.value as? String else {
+                    XCTFail("Error: Should cast to string")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssertEqual(valueString, json.values.first)
+            case .failure(let error):
+                XCTFail("Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+
+    func testHintCountSynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        do {
+            let queryResult = try query.count(explain: false, hint: "_id_")
+            XCTAssertEqual(queryResult.keys.first, json.keys.first)
+            guard let valueString = queryResult.values.first?.value as? String else {
+                XCTFail("Error: Should cast to string")
+                return
+            }
+            XCTAssertEqual(valueString, json.values.first)
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
+    func testHintCountAsynchronous() {
+        let json = ["yolo": "yarr"]
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation = XCTestExpectation(description: "Fetch object")
+        let query = GameScore.query()
+        query.count(explain: false, hint: "_id_", callbackQueue: .main) { result in
+            switch result {
+
+            case .success(let queryResult):
+                XCTAssertEqual(queryResult.keys.first, json.keys.first)
+                guard let valueString = queryResult.values.first?.value as? String else {
+                    XCTFail("Error: Should cast to string")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssertEqual(valueString, json.values.first)
+            case .failure(let error):
+                XCTFail("Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
 }
 #endif
 // swiftlint:disable:this file_length
