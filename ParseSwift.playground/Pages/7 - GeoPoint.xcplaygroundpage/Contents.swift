@@ -98,4 +98,44 @@ GeoPoint.currentLocation { result in
     }
 }
 
+//: Now we will show how to query based on the GeoPoint
+let pointToFind = GeoPoint(latitude: 40.0, longitude: -30.0)
+var constraints = [QueryConstraint]()
+constraints.append(near(key: "location", geoPoint: pointToFind))
+
+let query = GameScore.query(constraints)
+query.find(callbackQueue: .main) { results in
+    switch results {
+    case .success(let scores):
+
+        assert(scores.count >= 1)
+        scores.forEach { (score) in
+            print("Someone with objectId \"\(score.objectId!)\" has a score of \"\(score.score)\" near me")
+        }
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+//: If you only want to query for scores > 50, you can add more constraints
+constraints.append("score" > 50)
+let query2 = GameScore.query(constraints)
+query2.find(callbackQueue: .main) { results in
+    switch results {
+    case .success(let scores):
+
+        assert(scores.count >= 1)
+        scores.forEach { (score) in
+            print("""
+                Someone with objectId \"\(score.objectId!)\" has a
+                score of \"\(score.score)\" near me which is greater than 50
+            """)
+        }
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
 //: [Next](@next)

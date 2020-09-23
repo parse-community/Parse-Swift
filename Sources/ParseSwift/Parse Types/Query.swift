@@ -30,6 +30,9 @@ public struct QueryConstraint: Encodable {
         case inQuery = "$inQuery"
         case notInQuery = "$notInQuery"
         case nearSphere = "$nearSphere"
+        case or = "$or" //swiftlint:disable:this identifier_name
+        case and = "$and"
+        case relatedTo = "$relatedTo"
         case within = "$within"
         case geoWithin = "$geoWithin"
         case geoIntersects = "$geoIntersects"
@@ -40,6 +43,7 @@ public struct QueryConstraint: Encodable {
         case search = "$search"
         case term = "$term"
         case regexOptions = "$options"
+        case object = "object"
     }
 
     var key: String
@@ -93,40 +97,219 @@ private struct InQuery<T>: Encodable where T: ParseObject {
     }
 }
 
+private struct QuerySelect<T>: Encodable where T: ParseObject {
+    let query: InQuery<T>
+    let key: String
+}
+
+private func getClassNameFromQueries <T>(_ queries: [Query<T>]) throws -> String where T: Encodable {
+    guard let firstClassName = queries.first?.className else {
+        throw ParseError(code: .unknownError, message: "First className is missing")
+    }
+    let incorrectQueries = queries.filter { $0.className != firstClassName }
+    if !incorrectQueries.isEmpty {
+        throw ParseError(code: .unknownError, message: "All sub queries of an `or` query should be on the same class.")
+    }
+    return firstClassName
+}
+
+/**
+  Returns a `Query` that is the `or` of the passed in queries.
+  - parameter queries: The list of queries to or together.
+  - returns: An instance of `QueryConstraint`'s that are the `or` of the passed in queries.
+ */
+public func or <T>(queries: [Query<T>]) throws -> [QueryConstraint] where T: Encodable {
+    _ = try getClassNameFromQueries(queries)
+    return queries.map { QueryConstraint(key: "className", value: InQuery(query: $0), comparator: .or) }
+}
+
+/**
+   Constructs a Query that is the AND of the passed in queries.  For
+    example:
+    ~~~
+    var compoundQueryConstraints = and(query1, query2, query3)
+    ~~~
+   will create a compoundQuery that is an and of the query1, query2, and
+    query3.
+    - parameter queries: The list of queries to AND.
+    - returns: The query that is the AND of the passed in queries.
+*/
+public func and <T>(queries: [Query<T>]) throws -> [QueryConstraint] where T: Encodable {
+    _ = try getClassNameFromQueries(queries)
+    return queries.map { QueryConstraint(key: "className", value: InQuery(query: $0), comparator: .and) }
+}
+
+/**
+ Add a constraint that requires that a key's value matches a `Query` constraint.
+ - warning: This only works where the key's values are `ParseObject`s or arrays of `ParseObject`s.
+ - parameter key: The key that the value is stored in
+ - parameter query: The query the value should match
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
 public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
     return QueryConstraint(key: key, value: InQuery(query: value), comparator: .inQuery)
 }
 
-public func nearGeoPoint(key: String, point: GeoPoint) -> QueryConstraint {
-    return QueryConstraint(key: key, value: point, comparator: .nearSphere)
+/**
+ Add a constraint that requires that a key's value to not match a `Query` constraint.
+ - warning: This only works where the key's values are `ParseObject`s or arrays of `ParseObject`s.
+ - parameter key: The key that the value is stored in
+ - parameter query: The query the value should not match
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func != <T>(key: String, query: Query<T>) -> QueryConstraint {
+    return QueryConstraint(key: key, value: InQuery(query: query), comparator: .notInQuery)
 }
 
-//Needs to be fixed
-public func nearGeoPoint(key: String, point: GeoPoint, withinRadians maxDistance: Double) -> QueryConstraint {
-    return QueryConstraint(key: key, value: point, comparator: .nearSphere)
+/**
+ Adds a constraint that requires that a key's value matches a value in another key
+ in objects returned by a sub query.
+ - parameter key: The key that the value is stored.
+ - parameter queryKey: The key in objects in the returned by the sub query whose value should match.
+ - parameter query: The query to run.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func matchesKeyInQuery <T>(key: String, queryKey: String, query: Query<T>) -> QueryConstraint {
+    let select = QuerySelect(query: InQuery(query: query), key: queryKey)
+    return QueryConstraint(key: key, value: select, comparator: .select)
 }
 
-public func nearGeoPoint(key: String, point: GeoPoint, withinMiles maxDistance: Double) -> QueryConstraint {
-    return nearGeoPoint(key: key, point: point, withinRadians: (maxDistance / GeoPoint.earthRadiusMiles))
+/**
+ Adds a constraint that requires that a key's value `NOT` match a value in another key
+ in objects returned by a sub query.
+ - parameter key: The key that the value is stored.
+ - parameter queryKey: The key in objects in the returned by the sub query whose value should match.
+ - parameter query: The query to run.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func doesNotMatchKeyInQuery <T>(key: String, queryKey: String, query: Query<T>) -> QueryConstraint {
+    let select = QuerySelect(query: InQuery(query: query), key: queryKey)
+    return QueryConstraint(key: key, value: select, comparator: .dontSelect)
 }
 
-public func nearGeoPoint(key: String, point: GeoPoint, withinKilometers maxDistance: Double) -> QueryConstraint {
-    return nearGeoPoint(key: key, point: point, withinRadians: (maxDistance / GeoPoint.earthRadiusKilometers))
+/**
+  Add a constraint to the query that requires a particular key's object
+  to be contained in the provided array.
+  - parameter key: The key to be constrained.
+  - parameter array: The possible values for the key's object.
+  - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func containedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
+    return QueryConstraint(key: key, value: array, comparator: .containedIn)
 }
 
-public func withinGeoBox(key: String, fromSouthWest southwest: GeoPoint, toNortheast northeast: GeoPoint) -> QueryConstraint {
+/**
+  Add a constraint to the query that requires a particular key's object
+  not be contained in the provided array.
+  - parameter key: The key to be constrained.
+  - parameter array: The list of values the key's object should not be.
+  - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func notContainedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
+    return QueryConstraint(key: key, value: array, comparator: .notContainedIn)
+}
+
+/**
+ Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
+ be near a reference point.
+ Distance is calculated based on angular distance on a sphere. Results will be sorted by distance
+ from reference point.
+ - parameter key: The key to be constrained.
+ - parameter geoPoint: The reference point represented as a `GeoPoint`.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func near(key: String, geoPoint: GeoPoint) -> QueryConstraint {
+    return QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)
+}
+
+/**
+ Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`) be near
+ a reference point and within the maximum distance specified (in radians).  Distance is calculated based on
+ angular distance on a sphere.  Results will be sorted by distance (nearest to farthest) from the reference point.
+ - parameter key: The key to be constrained.
+ - parameter geoPoint: The reference point as a `GeoPoint`.
+ - parameter distance: Maximum distance in radians.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func withinRadians(key: String, geoPoint: GeoPoint, distance: Double) -> [QueryConstraint] {
+    var constraints = [QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)]
+    constraints.append(.init(key: key, value: distance, comparator: .maxDistance))
+    return constraints
+}
+
+/**
+ Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
+ be near a reference point and within the maximum distance specified (in miles).
+ Distance is calculated based on a spherical coordinate system.
+ Results will be sorted by distance (nearest to farthest) from the reference point.
+ - parameter key: The key to be constrained.
+ - parameter geoPoint: The reference point represented as a `GeoPoint`.
+ - parameter distance: Maximum distance in miles.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func withinMiles(key: String, geoPoint: GeoPoint, distance: Double) -> [QueryConstraint] {
+    return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / GeoPoint.earthRadiusMiles))
+}
+
+/**
+ Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
+ be near a reference point and within the maximum distance specified (in kilometers).
+ Distance is calculated based on a spherical coordinate system.
+ Results will be sorted by distance (nearest to farthest) from the reference point.
+ - parameter key: The key to be constrained.
+ - parameter geoPoint: The reference point represented as a `GeoPoint`.
+ - parameter distance: Maximum distance in kilometers.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func withinKilometers(key: String, geoPoint: GeoPoint, distance: Double) -> [QueryConstraint] {
+    return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / GeoPoint.earthRadiusKilometers))
+}
+
+/**
+ Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`) be
+ contained within a given rectangular geographic bounding box.
+ - parameter key: The key to be constrained.
+ - parameter fromSouthWest: The lower-left inclusive corner of the box.
+ - parameter toNortheast: The upper-right inclusive corner of the box.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func withinGeoBox(key: String, fromSouthWest southwest: GeoPoint,
+                         toNortheast northeast: GeoPoint) -> QueryConstraint {
     let array = [southwest, northeast]
     let dictionary = [QueryConstraint.Comparator.box: array]
     return .init(key: key, value: dictionary, comparator: .within)
 }
 
-public func withinPolygon(key: String, ponts: [GeoPoint]) -> QueryConstraint {
-    let dictionary = [QueryConstraint.Comparator.polygon: ponts]
+/**
+ * Add a constraint to the query that requires a particular key's
+ * coordinates be contained within and on the bounds of a given polygon
+ * Supports closed and open (last point is connected to first) paths.
+ * (Requires parse-server@2.5.0)
+ *
+ * Polygon must have at least 3 points
+ *
+ * - parameter key: The key to be constrained.
+ * - parameter points: The polygon points as an Array of `GeoPoint`'s.
+ *
+ * - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func withinPolygon(key: String, points: [GeoPoint]) -> QueryConstraint {
+    let dictionary = [QueryConstraint.Comparator.polygon: points]
     return .init(key: key, value: dictionary, comparator: .within)
 }
 
-public func polygonContains(key: String, pont: GeoPoint) -> QueryConstraint {
-    let dictionary = [QueryConstraint.Comparator.point: pont]
+/**
+ * Add a constraint to the query that requires a particular key's
+ * coordinates that contains a `GeoPoint`
+ * (Requires parse-server@2.6.0)
+ *
+ * - parameter key: The key to be constrained.
+ * - parameter point: The point the polygon contains`GeoPoint`.
+ *
+ * - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func polygonContains(key: String, point: GeoPoint) -> QueryConstraint {
+    let dictionary = [QueryConstraint.Comparator.point: point]
     return .init(key: key, value: dictionary, comparator: .geoIntersects)
 }
 
@@ -153,7 +336,7 @@ internal struct QueryWhere: Encodable {
 }
 
 /**
-The `ParseQuery` struct defines a query that is used to query for `ParseObject`s.
+  The `Query` struct defines a query that is used to query for `ParseObject`s.
 */
 public struct Query<T>: Encodable where T: ParseObject {
     // interpolate as GET
@@ -206,7 +389,9 @@ public struct Query<T>: Encodable where T: ParseObject {
       A limit on the number of objects to return. The default limit is `100`, with a
       maximum of 1000 results being returned at a time.
 
-      - note: If you are calling `findObjects` with `limit = 1`, you may find it easier to use `first` instead.
+      - parameter value: `n` number of results to limit to.
+      - returns: Returns the query, so you can chain this call.
+      - note: If you are calling `find` with `limit = 1`, you may find it easier to use `first` instead.
     */
     public mutating func limit(_ value: Int) -> Query<T> {
         self.limit = value
@@ -215,25 +400,12 @@ public struct Query<T>: Encodable where T: ParseObject {
 
     /**
       The number of objects to skip before returning any.
+      This is useful for pagination. Default is to skip zero results.
+      - parameter value: `n` number of results to skip.
+      - returns: Returns the query, so you can chain this call.
     */
     public mutating func skip(_ value: Int) -> Query<T> {
         self.skip = value
-        return self
-    }
-
-    /**
-      Investigates the query execution plan. Useful for optimizing queries.
-    */
-    public mutating func explain(_ value: Bool) -> Query<T> {
-        self.explain = value
-        return self
-    }
-
-    /**
-      Investigates the query execution plan. Useful for optimizing queries.
-    */
-    public mutating func hint(_ value: AnyCodable) -> Query<T> {
-        self.hint = value
         return self
     }
 
@@ -271,6 +443,7 @@ public struct Query<T>: Encodable where T: ParseObject {
 extension Query: Queryable {
 
     public typealias ResultType = T
+    public typealias AnyResultType = [String: AnyCodable]
 
     /**
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
@@ -284,6 +457,20 @@ extension Query: Queryable {
         let foundResults = try findCommand().execute(options: options)
         try? ResultType.updateKeychainIfNeeded(foundResults)
         return foundResults
+    }
+
+    /**
+      Finds objects *synchronously* based on the constructed query and sets an error if there was one.
+
+      - parameter explain: Used to toggle the information on the query plan.
+      - parameter hint: String or Object of index that should be used when executing query.
+      - parameter options: A set of options used to save objects.
+      - throws: An error of type `ParseError`.
+
+      - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
+    */
+    public func find(explain: Bool, hint: AnyCodable? = nil, options: API.Options = []) throws -> AnyResultType {
+        try findCommand(explain: explain, hint: hint).execute(options: options)
     }
 
     /**
@@ -305,10 +492,25 @@ extension Query: Queryable {
     }
 
     /**
+      Finds objects *asynchronously* and calls the given block with the results.
+
+      - parameter explain: Used to toggle the information on the query plan.
+      - parameter hint: String or Object of index that should be used when executing query.
+      - parameter options: A set of options used to save objects.
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<[AnyResultType], ParseError>)`
+    */
+    public func find(explain: Bool, hint: AnyCodable? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
+                     completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+        findCommand(explain: explain, hint: hint).executeAsync(options: options,
+                                                               callbackQueue: callbackQueue, completion: completion)
+    }
+
+    /**
       Gets an object *synchronously* based on the constructed query and sets an error if any occurred.
 
       - warning: This method mutates the query. It will reset the limit to `1`.
-
       - parameter options: A set of options used to save objects.
       - throws: An error of type `ParseError`.
 
@@ -323,16 +525,28 @@ extension Query: Queryable {
     }
 
     /**
+      Gets an object *synchronously* based on the constructed query and sets an error if any occurred.
+
+      - warning: This method mutates the query. It will reset the limit to `1`.
+      - parameter explain: Used to toggle the information on the query plan.
+      - parameter hint: String or Object of index that should be used when executing query.
+      - parameter options: A set of options used to save objects.
+      - throws: An error of type `ParseError`.
+
+      - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
+    */
+    public func first(explain: Bool, hint: AnyCodable? = nil, options: API.Options = []) throws -> AnyResultType {
+        try firstCommand(explain: explain, hint: hint).execute(options: options)
+    }
+
+    /**
       Gets an object *asynchronously* and calls the given block with the result.
 
       - warning: This method mutates the query. It will reset the limit to `1`.
-
       - parameter options: A set of options used to save objects.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
-      It should have the following argument signature: `^(ParseObject *object, ParseError *error)`.
-      `result` will be `nil` if `error` is set OR no object was found matching the query.
-      `error` will be `nil` if `result` is set OR if the query succeeded, but found no results.
+      It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
     */
     public func first(options: API.Options = [], callbackQueue: DispatchQueue,
                       completion: @escaping (Result<ResultType, ParseError>) -> Void) {
@@ -353,6 +567,23 @@ extension Query: Queryable {
     }
 
     /**
+      Gets an object *asynchronously* and calls the given block with the result.
+
+      - warning: This method mutates the query. It will reset the limit to `1`.
+      - parameter explain: Used to toggle the information on the query plan.
+      - parameter hint: String or Object of index that should be used when executing query.
+      - parameter options: A set of options used to save objects.
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
+    */
+    public func first(explain: Bool, hint: AnyCodable? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
+                      completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+        firstCommand(explain: explain, hint: hint).executeAsync(options: options,
+                                                                callbackQueue: callbackQueue, completion: completion)
+    }
+
+    /**
       Counts objects *synchronously* based on the constructed query and sets an error if there was one.
 
       - parameter options: A set of options used to save objects.
@@ -361,7 +592,21 @@ extension Query: Queryable {
       - returns: Returns the number of `ParseObject`s that match the query, or `-1` if there is an error.
     */
     public func count(options: API.Options = []) throws -> Int {
-        return try countCommand().execute(options: options)
+        try countCommand().execute(options: options)
+    }
+
+    /**
+      Counts objects *synchronously* based on the constructed query and sets an error if there was one.
+
+      - parameter explain: Used to toggle the information on the query plan.
+      - parameter hint: String or Object of index that should be used when executing query.
+      - parameter options: A set of options used to save objects.
+      - throws: An error of type `ParseError`.
+
+      - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
+    */
+    public func count(explain: Bool, hint: AnyCodable? = nil, options: API.Options = []) throws -> AnyResultType {
+        try countCommand(explain: explain, hint: hint).execute(options: options)
     }
 
     /**
@@ -370,11 +615,26 @@ extension Query: Queryable {
       - parameter options: A set of options used to save objects.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
-      It should have the following argument signature: `^(int count, ParseError *error)`
+      It should have the following argument signature: `(Result<Int, ParseError>)`
     */
     public func count(options: API.Options = [], callbackQueue: DispatchQueue,
                       completion: @escaping (Result<Int, ParseError>) -> Void) {
         countCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+    }
+
+    /**
+      Counts objects *asynchronously* and calls the given block with the counts.
+      - parameter explain: Used to toggle the information on the query plan.
+      - parameter hint: String or Object of index that should be used when executing query.
+      - parameter options: A set of options used to save objects.
+      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<Int, ParseError>)`
+    */
+    public func count(explain: Bool, hint: AnyCodable? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
+                      completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+        countCommand(explain: explain, hint: hint).executeAsync(options: options,
+                                                                callbackQueue: callbackQueue, completion: completion)
     }
 }
 
@@ -401,6 +661,36 @@ private extension Query {
             try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
         }
     }
+
+    private func findCommand(explain: Bool, hint: AnyCodable?) -> API.Command<Query<ResultType>, AnyResultType> {
+        var query = self
+        query.explain = explain
+        query.hint = hint
+        return API.Command(method: .POST, path: endpoint, body: query) {
+            try JSONDecoder().decode(AnyResultType.self, from: $0)
+        }
+    }
+
+    private func firstCommand(explain: Bool, hint: AnyCodable?) -> API.Command<Query<ResultType>, AnyResultType> {
+        var query = self
+        query.limit = 1
+        query.explain = explain
+        query.hint = hint
+        return API.Command(method: .POST, path: endpoint, body: query) {
+            try JSONDecoder().decode(AnyResultType.self, from: $0)
+        }
+    }
+
+    private func countCommand(explain: Bool, hint: AnyCodable?) -> API.Command<Query<ResultType>, AnyResultType> {
+        var query = self
+        query.limit = 1
+        query.isCount = true
+        query.explain = explain
+        query.hint = hint
+        return API.Command(method: .POST, path: endpoint, body: query) {
+            try JSONDecoder().decode(AnyResultType.self, from: $0)
+        }
+    }
 }
 
 enum RawCodingKey: CodingKey {
@@ -421,3 +711,4 @@ enum RawCodingKey: CodingKey {
         fatalError()
     }
 }
+// swiftlint:disable:this file_length
