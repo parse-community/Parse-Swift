@@ -40,6 +40,7 @@ public struct QueryConstraint: Encodable {
         case box = "$box"
         case polygon = "$polygon"
         case point = "$point"
+        case text = "$text"
         case search = "$search"
         case term = "$term"
         case regexOptions = "$options"
@@ -311,6 +312,106 @@ public func withinPolygon(key: String, points: [GeoPoint]) -> QueryConstraint {
 public func polygonContains(key: String, point: GeoPoint) -> QueryConstraint {
     let dictionary = [QueryConstraint.Comparator.point: point]
     return .init(key: key, value: dictionary, comparator: .geoIntersects)
+}
+
+/**
+  Add a constraint for finding string values that contain a provided
+  string using Full Text Search
+  - parameter key: The key to be constrained.
+  - parameter text: the substring that the value must contain.
+  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+ */
+public func matchesText(key: String, text: String) -> QueryConstraint {
+    let dictionary = [QueryConstraint.Comparator.search: [QueryConstraint.Comparator.term: text]]
+    return .init(key: key, value: dictionary, comparator: .text)
+}
+
+/**
+  Add a regular expression constraint for finding string values that match the provided regular expression.
+  - warning: This may be slow for large datasets.
+  - parameter key: The key that the string to match is stored in.
+  - parameter regex: The regular expression pattern to match.
+  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+ */
+public func matchesRegex(key: String, regex: String) -> QueryConstraint {
+    .init(key: key, value: regex, comparator: .regex)
+}
+
+/**
+  Add a regular expression constraint for finding string values that match the provided regular expression.
+  - warning: This may be slow for large datasets.
+  - parameter key: The key that the string to match is stored in.
+  - parameter regex: The regular expression pattern to match.
+  - parameter modifiers: Any of the following supported PCRE modifiers:
+  - `i` - Case insensitive search
+  - `m` - Search across multiple lines of input
+  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+ */
+public func matchesRegex(key: String, regex: String, modifiers: String) -> QueryConstraint {
+    let dictionary = [
+        QueryConstraint.Comparator.regex: regex,
+        QueryConstraint.Comparator.regexOptions: modifiers
+    ]
+    return .init(key: key, value: dictionary, comparator: .text)
+}
+
+private func regexStringForString(_ inputString: String) -> String {
+    let escapedString = inputString.replacingOccurrences(of: "\\E", with: "\\E\\\\E\\Q")
+    return "\\Q\(escapedString)\\E"
+}
+
+/**
+  Add a constraint for finding string values that contain a provided substring.
+  - warning: This will be slow for large datasets.
+  - parameter key: The key that the string to match is stored in.
+  - parameter substring: The substring that the value must contain.
+  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+ */
+public func containsString(key: String, substring: String) -> QueryConstraint {
+    let regex = regexStringForString(substring)
+    return matchesRegex(key: key, regex: regex)
+}
+
+/**
+  Add a constraint for finding string values that start with a provided prefix.
+  This will use smart indexing, so it will be fast for large datasets.
+  - parameter key: The key that the string to match is stored in.
+  - parameter prefix: The substring that the value must start with.
+  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+ */
+public func hasPrefix(key: String, prefix: String) -> QueryConstraint {
+    let regex = "^\(regexStringForString(prefix))"
+    return matchesRegex(key: key, regex: regex)
+}
+
+/**
+  Add a constraint for finding string values that end with a provided suffix.
+  - warning: This will be slow for large datasets.
+  - parameter key: The key that the string to match is stored in.
+  - parameter suffix: The substring that the value must end with.
+  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+ */
+public func hasSuffix(key: String, suffix: String) -> QueryConstraint {
+    let regex = "\(regexStringForString(suffix))$"
+    return matchesRegex(key: key, regex: regex)
+}
+
+/**
+  Add a constraint that requires a particular key exists.
+  - parameter key: The key that should exist.
+  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+ */
+public func exists(key: String) -> QueryConstraint {
+    return .init(key: key, value: true, comparator: .exists)
+}
+
+/**
+  Add a constraint that requires a key not exist.
+  - parameter key: The key that should not exist.
+  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+ */
+public func doesNotExist(key: String) -> QueryConstraint {
+    return .init(key: key, value: false, comparator: .exists)
 }
 
 internal struct QueryWhere: Encodable {

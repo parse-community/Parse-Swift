@@ -544,6 +544,32 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         XCTAssertEqual(testConstraints2, geoPoint)
     }
+
+    func testWhereKeyPolygonContains() {
+        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let constraint = polygonContains(key: "yolo", point: geoPoint)
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$geoIntersects")
+
+        guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: GeoPoint],
+              let key = testValue.keys.first else {
+            XCTFail("Should have casted to GeoPoint")
+            return
+        }
+        XCTAssertEqual(key.rawValue, "$point")
+
+        guard let testConstraints2 = testValue[key] else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints2, geoPoint)
+    }
 }
 #endif
 // swiftlint:disable:this file_length
