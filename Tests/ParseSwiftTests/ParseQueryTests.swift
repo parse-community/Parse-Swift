@@ -28,6 +28,14 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    struct GameType: ParseObject {
+        //: Those are required for Object
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+    }
+
     override func setUp() {
         super.setUp()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -67,6 +75,24 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query4.className, GameScore.className)
         XCTAssertEqual(query4.className, query.className)
         XCTAssertEqual(query4.`where`.constraints.values.count, 2)
+    }
+
+    func testStaticProperties() {
+        XCTAssertEqual(Query<GameScore>.className, GameScore.className)
+    }
+
+    func testSkip() {
+        var query = GameScore.query()
+        let updatedQuery = query.skip(1)
+        XCTAssertEqual(query.skip, 1)
+        XCTAssertEqual(updatedQuery.skip, 1)
+    }
+
+    func testLimit() {
+        var query = GameScore.query()
+        let updatedQuery = query.limit(10)
+        XCTAssertEqual(query.limit, 10)
+        XCTAssertEqual(updatedQuery.limit, 10)
     }
 
     func testAddingConstraints() {
@@ -618,6 +644,48 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
         XCTAssertEqual(testValue, "\\Qyarr\\E$")
+    }
+
+    func testOrQuery() {
+        let query1 = GameScore.query()
+        let query2 = GameScore.query()
+        let constraint = or(queries: [query1, query2])
+        let query = Query<GameScore>(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["$or"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertNil(testConstraints.comparator)
+
+        guard let testValue = testConstraints.value as? [InQuery<GameScore>] else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue.first?.query, query1)
+        XCTAssertEqual(testValue.last?.query, query2)
+    }
+
+    func testAndQuery() {
+        let query1 = GameScore.query()
+        let query2 = GameScore.query()
+        let constraint = and(queries: [query1, query2])
+        let query = Query<GameScore>(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["$and"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertNil(testConstraints.comparator)
+
+        guard let testValue = testConstraints.value as? [InQuery<GameScore>] else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue.first?.query, query1)
+        XCTAssertEqual(testValue.last?.query, query2)
     }
 
     func testWhereKeyMatchesKeyInQuery() {

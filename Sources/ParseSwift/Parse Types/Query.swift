@@ -116,21 +116,14 @@ internal struct QuerySelect<T>: Encodable where T: ParseObject {
     let key: String
 }
 
-private func getClassNameFromQueries <T>(_ queries: [Query<T>]) throws where T: Encodable {
-    let numberOfIncorrectClasses = queries.firstIndex { $0.className != T.className }
-    if numberOfIncorrectClasses != nil {
-        throw ParseError(code: .unknownError, message: "All sub queries of an `or` query should be on the same class.")
-    }
-}
-
 /**
   Returns a `Query` that is the `or` of the passed in queries.
   - parameter queries: The list of queries to or together.
   - returns: An instance of `QueryConstraint`'s that are the `or` of the passed in queries.
  */
-public func or <T>(queries: [Query<T>]) throws -> QueryConstraint where T: Encodable {
-    try getClassNameFromQueries(queries)
-    return QueryConstraint(key: QueryConstraint.Comparator.or.rawValue, value: queries)
+public func or <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
+    let inQueries = queries.map { InQuery(query: $0) }
+    return QueryConstraint(key: QueryConstraint.Comparator.or.rawValue, value: inQueries)
 }
 
 /**
@@ -144,9 +137,9 @@ public func or <T>(queries: [Query<T>]) throws -> QueryConstraint where T: Encod
     - parameter queries: The list of queries to AND.
     - returns: The query that is the AND of the passed in queries.
 */
-public func and <T>(queries: [Query<T>]) throws -> QueryConstraint where T: Encodable {
-    try getClassNameFromQueries(queries)
-    return QueryConstraint(key: QueryConstraint.Comparator.and.rawValue, value: queries)
+public func and <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
+    let inQueries = queries.map { InQuery(query: $0) }
+    return QueryConstraint(key: QueryConstraint.Comparator.and.rawValue, value: inQueries)
 }
 
 /**
@@ -480,14 +473,14 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 
     // interpolate as GET
     private let method: String = "GET"
-    private var limit: Int = 100
-    private var skip: Int = 0
-    private var keys: [String]?
-    private var include: [String]?
-    private var order: [Order]?
-    private var isCount: Bool?
-    private var explain: Bool? = false
-    private var hint: String?
+    internal var limit: Int = 100
+    internal var skip: Int = 0
+    internal var keys: [String]?
+    internal var include: [String]?
+    internal var order: [Order]?
+    internal var isCount: Bool?
+    internal var explain: Bool? = false
+    internal var hint: String?
 
     internal var `where` = QueryWhere()
 
