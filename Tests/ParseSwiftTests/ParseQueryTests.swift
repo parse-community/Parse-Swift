@@ -83,6 +83,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testSkip() {
         var query = GameScore.query()
+        XCTAssertEqual(query.skip, 0)
         let updatedQuery = query.skip(1)
         XCTAssertEqual(query.skip, 1)
         XCTAssertEqual(updatedQuery.skip, 1)
@@ -90,9 +91,47 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testLimit() {
         var query = GameScore.query()
+        XCTAssertEqual(query.limit, 100)
         let updatedQuery = query.limit(10)
         XCTAssertEqual(query.limit, 10)
         XCTAssertEqual(updatedQuery.limit, 10)
+    }
+
+    func testReadPreferences() {
+        var query = GameScore.query()
+        XCTAssertNil(query.readPreference)
+        XCTAssertNil(query.includeReadPreference)
+        XCTAssertNil(query.subqueryReadPreference)
+        let updatedQuery = query.readPreference("test", includeReadPreference: "test", subqueryReadPreference: "test")
+        XCTAssertNotNil(query.readPreference)
+        XCTAssertNotNil(query.includeReadPreference)
+        XCTAssertNotNil(query.subqueryReadPreference)
+        XCTAssertNotNil(updatedQuery.readPreference)
+        XCTAssertNotNil(updatedQuery.includeReadPreference)
+        XCTAssertNotNil(updatedQuery.subqueryReadPreference)
+    }
+
+    func testSelect() {
+        var query = GameScore.query()
+        XCTAssertNil(query.select)
+        let updatedQuery = query.select(["yolo"])
+        XCTAssertNotNil(query.select)
+        XCTAssertNotNil(updatedQuery.select)
+    }
+
+    func testExcludeKeys() {
+        var query = GameScore.query()
+        XCTAssertNil(query.excludeKeys)
+        let updatedQuery = query.excludeKeys(["yolo"])
+        XCTAssertNotNil(query.excludeKeys)
+        XCTAssertNotNil(updatedQuery.excludeKeys)
+    }
+
+    func testDistinct() {
+        var query = GameScore.query()
+        let updatedQuery = query.distinct("size")
+        XCTAssertEqual(query.distinct, "size")
+        XCTAssertEqual(updatedQuery.distinct, "size")
     }
 
     func testAddingConstraints() {
