@@ -50,18 +50,33 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testConstructors() {
         let query = Query<GameScore>()
         XCTAssertEqual(query.className, GameScore.className)
+        XCTAssertEqual(query.`where`.constraints.values.count, 0)
 
         let query2 = GameScore.query()
         XCTAssertEqual(query2.className, GameScore.className)
         XCTAssertEqual(query2.className, query.className)
+        XCTAssertEqual(query2.`where`.constraints.values.count, 0)
 
         let query3 = GameScore.query("score" > 100, "createdAt" > Date())
         XCTAssertEqual(query3.className, GameScore.className)
         XCTAssertEqual(query3.className, query.className)
+        XCTAssertEqual(query3.`where`.constraints.values.count, 2)
 
         let query4 = GameScore.query(["score" > 100, "createdAt" > Date()])
         XCTAssertEqual(query4.className, GameScore.className)
         XCTAssertEqual(query4.className, query.className)
+        XCTAssertEqual(query4.`where`.constraints.values.count, 2)
+    }
+
+    func testAddingConstraints() {
+        var query = GameScore.query()
+        XCTAssertEqual(query.className, GameScore.className)
+        XCTAssertEqual(query.className, query.className)
+        XCTAssertEqual(query.`where`.constraints.values.count, 0)
+
+        let updatedQuery = query.`where`("score" > 100, "createdAt" > Date())
+        XCTAssertEqual(query.`where`.constraints.values.count, 2)
+        XCTAssertEqual(updatedQuery.`where`.constraints.values.count, 2)
     }
 
     func testFind() {
@@ -344,7 +359,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$nearSphere")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$nearSphere")
 
         guard let testValue = testConstraints.value as? GeoPoint else {
             XCTFail("Should have casted to GeoPoint")
@@ -363,7 +378,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$nearSphere")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$nearSphere")
 
         guard let testValue = testConstraints.value as? GeoPoint else {
             XCTFail("Should have casted to GeoPoint")
@@ -375,7 +390,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints2.comparator.rawValue, "$maxDistance")
+        XCTAssertEqual(testConstraints2.comparator?.rawValue, "$maxDistance")
 
         guard let testValue2 = testConstraints2.value as? Double else {
             XCTFail("Should have casted to Double")
@@ -394,7 +409,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$nearSphere")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$nearSphere")
 
         guard let testValue = testConstraints.value as? GeoPoint else {
             XCTFail("Should have casted to GeoPoint")
@@ -406,7 +421,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints2.comparator.rawValue, "$maxDistance")
+        XCTAssertEqual(testConstraints2.comparator?.rawValue, "$maxDistance")
 
         guard let testValue2 = testConstraints2.value as? Double else {
             XCTFail("Should have casted to Double")
@@ -425,7 +440,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$nearSphere")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$nearSphere")
 
         guard let testValue = testConstraints.value as? GeoPoint else {
             XCTFail("Should have casted to GeoPoint")
@@ -437,7 +452,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints2.comparator.rawValue, "$maxDistance")
+        XCTAssertEqual(testConstraints2.comparator?.rawValue, "$maxDistance")
 
         guard let testValue2 = testConstraints2.value as? Double else {
             XCTFail("Should have casted to Double")
@@ -457,7 +472,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$within")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$within")
 
         guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: [GeoPoint]],
               let key = testValue.keys.first else {
@@ -491,7 +506,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$geoWithin")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$geoWithin")
 
         guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: [GeoPoint]],
               let key = testValue.keys.first else {
@@ -529,7 +544,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$geoIntersects")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$geoIntersects")
 
         guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: GeoPoint],
               let key = testValue.keys.first else {
@@ -554,7 +569,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$text")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$text")
 
         guard let testValue = testConstraints.value as?
                 [QueryConstraint.Comparator: [QueryConstraint.Comparator: String]],
@@ -587,7 +602,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$regex")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$regex")
 
         guard let testValue = testConstraints.value as? String else {
             XCTFail("Should have casted to String")
@@ -605,7 +620,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$regex")
+        XCTAssertNil(testConstraints.comparator)
 
         guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: String],
               let testValue2 = testValue[.regex] else {
@@ -630,7 +645,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$regex")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$regex")
 
         guard let testValue = testConstraints.value as? String else {
             XCTFail("Should have casted to String")
@@ -648,7 +663,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$regex")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$regex")
 
         guard let testValue = testConstraints.value as? String else {
             XCTFail("Should have casted to String")
@@ -666,13 +681,109 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$regex")
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$regex")
 
         guard let testValue = testConstraints.value as? String else {
             XCTFail("Should have casted to String")
             return
         }
         XCTAssertEqual(testValue, "\\Qyarr\\E$")
+    }
+
+    func testWhereKeyMatchesKeyInQuery() {
+        let inQuery = GameScore.query()
+        let constraint = matchesKeyInQuery(key: "yolo", queryKey: "yolo1", query: inQuery)
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$select")
+
+        guard let testValue = testConstraints.value as? QuerySelect<GameScore> else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue.key, "yolo1")
+        XCTAssertEqual(testValue.query.query, inQuery)
+    }
+
+    func testWhereKeyDoesNotMatchKeyInQuery() {
+        let inQuery = GameScore.query()
+        let constraint = doesNotMatchKeyInQuery(key: "yolo", queryKey: "yolo1", query: inQuery)
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$dontSelect")
+
+        guard let testValue = testConstraints.value as? QuerySelect<GameScore> else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue.key, "yolo1")
+        XCTAssertEqual(testValue.query.query, inQuery)
+    }
+
+    func testWhereKeyMatchesQuery() {
+        let inQuery = GameScore.query()
+        let query = GameScore.query("yolo" == inQuery)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$inQuery")
+
+        guard let testValue = testConstraints.value as? InQuery<GameScore> else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue.query, inQuery)
+    }
+
+    func testWhereKeyDoesNotMatchQuery() {
+        let inQuery = GameScore.query()
+        let query = GameScore.query("yolo" != inQuery)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator?.rawValue, "$notInQuery")
+
+        guard let testValue = testConstraints.value as? InQuery<GameScore> else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(testValue.query, inQuery)
+    }
+
+    func testWhereKeyRelated() {
+        let object = GameScore(score: 50)
+        let constraint = related(key: "yolo", parent: object)
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["$relatedTo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertNil(testConstraints.comparator)
+
+        guard let testValue = testConstraints.value as? RelatedCondition<GameScore> else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(testValue.key, "yolo")
+        XCTAssertEqual(testValue.object.objectId, object.objectId)
     }
 }
 #endif

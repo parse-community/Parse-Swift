@@ -11,7 +11,7 @@ import Foundation
 /**
   All available query constraints.
 */
-public struct QueryConstraint: Encodable {
+public struct QueryConstraint: Encodable, Equatable {
     public enum Comparator: String, CodingKey, Encodable {
         case lessThan = "$lt"
         case lessThanOrEqualTo = "$lte"
@@ -49,7 +49,7 @@ public struct QueryConstraint: Encodable {
 
     var key: String
     var value: Encodable
-    var comparator: Comparator
+    var comparator: Comparator?
 
     public func encode(to encoder: Encoder) throws {
         if let value = value as? Date {
@@ -58,6 +58,15 @@ public struct QueryConstraint: Encodable {
         } else {
             try value.encode(to: encoder)
         }
+    }
+
+    /// - warning: Doesn't compare
+    public static func == (lhs: QueryConstraint, rhs: QueryConstraint) -> Bool {
+        guard lhs.key == rhs.key,
+              lhs.comparator == rhs.comparator else {
+            return false
+        }
+        return true
     }
 }
 
@@ -81,7 +90,7 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
     return QueryConstraint(key: key, value: value, comparator: .equals)
 }
 
-private struct InQuery<T>: Encodable where T: ParseObject {
+internal struct InQuery<T>: Encodable where T: ParseObject {
     let query: Query<T>
     var className: String {
         return T.className
@@ -98,20 +107,16 @@ private struct InQuery<T>: Encodable where T: ParseObject {
     }
 }
 
-private struct QuerySelect<T>: Encodable where T: ParseObject {
+internal struct QuerySelect<T>: Encodable where T: ParseObject {
     let query: InQuery<T>
     let key: String
 }
 
-private func getClassNameFromQueries <T>(_ queries: [Query<T>]) throws -> String where T: Encodable {
-    guard let firstClassName = queries.first?.className else {
-        throw ParseError(code: .unknownError, message: "First className is missing")
-    }
-    let incorrectQueries = queries.filter { $0.className != firstClassName }
-    if !incorrectQueries.isEmpty {
+private func getClassNameFromQueries <T>(_ queries: [Query<T>]) throws where T: Encodable {
+    let numberOfIncorrectClasses = queries.firstIndex { $0.className != T.className }
+    if numberOfIncorrectClasses != nil {
         throw ParseError(code: .unknownError, message: "All sub queries of an `or` query should be on the same class.")
     }
-    return firstClassName
 }
 
 /**
@@ -119,9 +124,9 @@ private func getClassNameFromQueries <T>(_ queries: [Query<T>]) throws -> String
   - parameter queries: The list of queries to or together.
   - returns: An instance of `QueryConstraint`'s that are the `or` of the passed in queries.
  */
-public func or <T>(queries: [Query<T>]) throws -> [QueryConstraint] where T: Encodable {
-    _ = try getClassNameFromQueries(queries)
-    return queries.map { QueryConstraint(key: "className", value: InQuery(query: $0), comparator: .or) }
+public func or <T>(queries: [Query<T>]) throws -> QueryConstraint where T: Encodable {
+    try getClassNameFromQueries(queries)
+    return QueryConstraint(key: QueryConstraint.Comparator.or.rawValue, value: queries)
 }
 
 /**
@@ -135,9 +140,9 @@ public func or <T>(queries: [Query<T>]) throws -> [QueryConstraint] where T: Enc
     - parameter queries: The list of queries to AND.
     - returns: The query that is the AND of the passed in queries.
 */
-public func and <T>(queries: [Query<T>]) throws -> [QueryConstraint] where T: Encodable {
-    _ = try getClassNameFromQueries(queries)
-    return queries.map { QueryConstraint(key: "className", value: InQuery(query: $0), comparator: .and) }
+public func and <T>(queries: [Query<T>]) throws -> QueryConstraint where T: Encodable {
+    try getClassNameFromQueries(queries)
+    return QueryConstraint(key: QueryConstraint.Comparator.and.rawValue, value: queries)
 }
 
 /**
@@ -152,7 +157,7 @@ public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
 }
 
 /**
- Add a constraint that requires that a key's value to not match a `Query` constraint.
+ Add a constraint that requires that a key's value do not match a `Query` constraint.
  - warning: This only works where the key's values are `ParseObject`s or arrays of `ParseObject`s.
  - parameter key: The key that the value is stored in
  - parameter query: The query the value should not match
@@ -352,7 +357,7 @@ public func matchesRegex(key: String, regex: String, modifiers: String) -> Query
         QueryConstraint.Comparator.regex: regex,
         QueryConstraint.Comparator.regexOptions: modifiers
     ]
-    return .init(key: key, value: dictionary, comparator: .regex)
+    return .init(key: key, value: dictionary)
 }
 
 private func regexStringForString(_ inputString: String) -> String {
@@ -414,7 +419,22 @@ public func doesNotExist(key: String) -> QueryConstraint {
     return .init(key: key, value: false, comparator: .exists)
 }
 
-internal struct QueryWhere: Encodable {
+internal struct RelatedCondition <T>: Encodable where T: ParseObject {
+    let object: T
+    let key: String
+}
+
+/**
+  Add a constraint that requires a key not exist.
+  - parameter key: The key that should not exist.
+  - returns: The same instance of `Query` as the receiver.
+ */
+public func related <T>(key: String, parent: T) -> QueryConstraint where T: ParseObject {
+    let condition = RelatedCondition(object: parent, key: key)
+    return .init(key: QueryConstraint.Comparator.relatedTo.rawValue, value: condition)
+}
+
+internal struct QueryWhere: Encodable, Equatable {
     var constraints = [String: [QueryConstraint]]()
 
     mutating func add(_ constraint: QueryConstraint) {
@@ -430,7 +450,9 @@ internal struct QueryWhere: Encodable {
             var nestedContainer = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
                                               forKey: .key(key))
             try value.forEach { (constraint) in
-                try constraint.encode(to: nestedContainer.superEncoder(forKey: constraint.comparator))
+                if constraint.comparator != nil {
+                    try constraint.encode(to: nestedContainer.superEncoder(forKey: constraint.comparator!))
+                }
             }
         }
     }
@@ -439,7 +461,8 @@ internal struct QueryWhere: Encodable {
 /**
   The `Query` struct defines a query that is used to query for `ParseObject`s.
 */
-public struct Query<T>: Encodable where T: ParseObject {
+public struct Query<T>: Encodable, Equatable where T: ParseObject {
+
     // interpolate as GET
     private let method: String = "GET"
     private var limit: Int = 100
@@ -449,7 +472,7 @@ public struct Query<T>: Encodable where T: ParseObject {
     private var order: [Order]?
     private var isCount: Bool?
     private var explain: Bool? = false
-    private var hint: AnyCodable?
+    private var hint: String?
 
     internal var `where` = QueryWhere()
 
@@ -458,7 +481,7 @@ public struct Query<T>: Encodable where T: ParseObject {
 
       - parameter key: The key to order by.
     */
-    public enum Order: Encodable {
+    public enum Order: Encodable, Equatable {
         case ascending(String)
         case descending(String)
 
@@ -473,14 +496,26 @@ public struct Query<T>: Encodable where T: ParseObject {
         }
     }
 
+    /**
+      Create an instance with a variadic amount constraints
+     - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s
+     */
     public init(_ constraints: QueryConstraint...) {
         self.init(constraints)
     }
 
+    /**
+      Create an instanse with an array of constraints
+     - parameter constraints: An array of `QueryConstraint`'s
+     */
     public init(_ constraints: [QueryConstraint]) {
         constraints.forEach({ self.where.add($0) })
     }
 
+    /**
+      Add any amount of variadic constraints
+     - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s
+     */
     public mutating func `where`(_ constraints: QueryConstraint...) -> Query<T> {
         constraints.forEach({ self.where.add($0) })
         return self
@@ -570,7 +605,7 @@ extension Query: Queryable {
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
     */
-    public func find(explain: Bool, hint: AnyCodable? = nil, options: API.Options = []) throws -> AnyResultType {
+    public func find(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyResultType {
         try findCommand(explain: explain, hint: hint).execute(options: options)
     }
 
@@ -602,7 +637,7 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[AnyResultType], ParseError>)`
     */
-    public func find(explain: Bool, hint: AnyCodable? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
+    public func find(explain: Bool, hint: String? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
                      completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
         findCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                callbackQueue: callbackQueue, completion: completion)
@@ -636,7 +671,7 @@ extension Query: Queryable {
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
     */
-    public func first(explain: Bool, hint: AnyCodable? = nil, options: API.Options = []) throws -> AnyResultType {
+    public func first(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyResultType {
         try firstCommand(explain: explain, hint: hint).execute(options: options)
     }
 
@@ -678,7 +713,7 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
     */
-    public func first(explain: Bool, hint: AnyCodable? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
+    public func first(explain: Bool, hint: String? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
                       completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
         firstCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                 callbackQueue: callbackQueue, completion: completion)
@@ -706,7 +741,7 @@ extension Query: Queryable {
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
     */
-    public func count(explain: Bool, hint: AnyCodable? = nil, options: API.Options = []) throws -> AnyResultType {
+    public func count(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyResultType {
         try countCommand(explain: explain, hint: hint).execute(options: options)
     }
 
@@ -732,7 +767,7 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Int, ParseError>)`
     */
-    public func count(explain: Bool, hint: AnyCodable? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
+    public func count(explain: Bool, hint: String? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
                       completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
         countCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                 callbackQueue: callbackQueue, completion: completion)
@@ -763,7 +798,7 @@ private extension Query {
         }
     }
 
-    private func findCommand(explain: Bool, hint: AnyCodable?) -> API.Command<Query<ResultType>, AnyResultType> {
+    private func findCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
         var query = self
         query.explain = explain
         query.hint = hint
@@ -772,7 +807,7 @@ private extension Query {
         }
     }
 
-    private func firstCommand(explain: Bool, hint: AnyCodable?) -> API.Command<Query<ResultType>, AnyResultType> {
+    private func firstCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
         var query = self
         query.limit = 1
         query.explain = explain
@@ -782,7 +817,7 @@ private extension Query {
         }
     }
 
-    private func countCommand(explain: Bool, hint: AnyCodable?) -> API.Command<Query<ResultType>, AnyResultType> {
+    private func countCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
         var query = self
         query.limit = 1
         query.isCount = true
