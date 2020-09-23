@@ -295,7 +295,7 @@ public func withinGeoBox(key: String, fromSouthWest southwest: GeoPoint,
  */
 public func withinPolygon(key: String, points: [GeoPoint]) -> QueryConstraint {
     let dictionary = [QueryConstraint.Comparator.polygon: points]
-    return .init(key: key, value: dictionary, comparator: .within)
+    return .init(key: key, value: dictionary, comparator: .geoWithin)
 }
 
 /**
@@ -314,18 +314,18 @@ public func polygonContains(key: String, point: GeoPoint) -> QueryConstraint {
 }
 
 internal struct QueryWhere: Encodable {
-    private var _constraints = [String: [QueryConstraint]]()
+    var constraints = [String: [QueryConstraint]]()
 
     mutating func add(_ constraint: QueryConstraint) {
-        var existing = _constraints[constraint.key] ?? []
+        var existing = constraints[constraint.key] ?? []
         existing.append(constraint)
-        _constraints[constraint.key] = existing
+        constraints[constraint.key] = existing
     }
 
     // This only encodes the where...
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RawCodingKey.self)
-        try _constraints.forEach { (key, value) in
+        try constraints.forEach { (key, value) in
             var nestedContainer = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
                                               forKey: .key(key))
             try value.forEach { (constraint) in
@@ -350,7 +350,7 @@ public struct Query<T>: Encodable where T: ParseObject {
     private var explain: Bool? = false
     private var hint: AnyCodable?
 
-    fileprivate var `where` = QueryWhere()
+    internal var `where` = QueryWhere()
 
     /**
       An enum that determines the order to sort the results based on a given key.

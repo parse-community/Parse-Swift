@@ -138,4 +138,8 @@ query2.find(callbackQueue: .main) { results in
     }
 }
 
+//: Explain the previous query
+let explain = try query2.find(explain: true)
+print(explain)
+
 //: [Next](@next)

@@ -333,5 +333,217 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         countAsync(scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
+
+    func testWhereKeyNearGeoPoint() {
+        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let constraint = near(key: "yolo", geoPoint: geoPoint)
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$nearSphere")
+
+        guard let testValue = testConstraints.value as? GeoPoint else {
+            XCTFail("Should have casted to GeoPoint")
+            return
+        }
+        XCTAssertEqual(testValue, geoPoint)
+    }
+
+    func testWhereKeyNearGeoPointWithinMiles() {
+        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let constraint = withinMiles(key: "yolo", geoPoint: geoPoint, distance: 3958.8)
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$nearSphere")
+
+        guard let testValue = testConstraints.value as? GeoPoint else {
+            XCTFail("Should have casted to GeoPoint")
+            return
+        }
+        XCTAssertEqual(testValue, geoPoint)
+
+        guard let testConstraints2 = queryConstraints["yolo"]?.last else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints2.comparator.rawValue, "$maxDistance")
+
+        guard let testValue2 = testConstraints2.value as? Double else {
+            XCTFail("Should have casted to Double")
+            return
+        }
+        XCTAssertEqual(testValue2, 1.0)
+    }
+
+    func testWhereKeyNearGeoPointWithinKilometers() {
+        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let constraint = withinKilometers(key: "yolo", geoPoint: geoPoint, distance: 6371.0)
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$nearSphere")
+
+        guard let testValue = testConstraints.value as? GeoPoint else {
+            XCTFail("Should have casted to GeoPoint")
+            return
+        }
+        XCTAssertEqual(testValue, geoPoint)
+
+        guard let testConstraints2 = queryConstraints["yolo"]?.last else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints2.comparator.rawValue, "$maxDistance")
+
+        guard let testValue2 = testConstraints2.value as? Double else {
+            XCTFail("Should have casted to Double")
+            return
+        }
+        XCTAssertEqual(testValue2, 1.0)
+    }
+
+    func testWhereKeyNearGeoPointWithinRadians() {
+        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let constraint = withinRadians(key: "yolo", geoPoint: geoPoint, distance: 10.0)
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$nearSphere")
+
+        guard let testValue = testConstraints.value as? GeoPoint else {
+            XCTFail("Should have casted to GeoPoint")
+            return
+        }
+        XCTAssertEqual(testValue, geoPoint)
+
+        guard let testConstraints2 = queryConstraints["yolo"]?.last else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints2.comparator.rawValue, "$maxDistance")
+
+        guard let testValue2 = testConstraints2.value as? Double else {
+            XCTFail("Should have casted to Double")
+            return
+        }
+        XCTAssertEqual(testValue2, 10.0)
+    }
+
+    func testWhereKeyNearGeoBox() {
+        let geoPoint1 = GeoPoint(latitude: 10, longitude: 20)
+        let geoPoint2 = GeoPoint(latitude: 20, longitude: 30)
+        let constraint = withinGeoBox(key: "yolo", fromSouthWest: geoPoint1, toNortheast: geoPoint2)
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$within")
+
+        guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: [GeoPoint]],
+              let key = testValue.keys.first else {
+            XCTFail("Should have casted to GeoPoint")
+            return
+        }
+        XCTAssertEqual(key.rawValue, "$box")
+
+        guard let testConstraints2 = testValue[key]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints2, geoPoint1)
+
+        guard let testConstraints3 = testValue[key]?.last else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints3, geoPoint2)
+    }
+
+    func testWhereKeyWithinPolygon() {
+        let geoPoint1 = GeoPoint(latitude: 10, longitude: 20)
+        let geoPoint2 = GeoPoint(latitude: 20, longitude: 30)
+        let geoPoint3 = GeoPoint(latitude: 30, longitude: 40)
+        let constraint = withinPolygon(key: "yolo", points: [geoPoint1, geoPoint2, geoPoint3])
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$geoWithin")
+
+        guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: [GeoPoint]],
+              let key = testValue.keys.first else {
+            XCTFail("Should have casted to GeoPoint")
+            return
+        }
+        XCTAssertEqual(key.rawValue, "$polygon")
+
+        guard let testConstraints2 = testValue[key]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints2, geoPoint1)
+
+        guard let testConstraints3 = testValue[key]?[1] else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints3, geoPoint2)
+
+        guard let testConstraints4 = testValue[key]?.last else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints4, geoPoint3)
+    }
+
+    func testWhereKeyPolygonContains() {
+        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let constraint = polygonContains(key: "yolo", point: geoPoint)
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$geoIntersects")
+
+        guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: GeoPoint],
+              let key = testValue.keys.first else {
+            XCTFail("Should have casted to GeoPoint")
+            return
+        }
+        XCTAssertEqual(key.rawValue, "$point")
+
+        guard let testConstraints2 = testValue[key] else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints2, geoPoint)
+    }
 }
 #endif
+// swiftlint:disable:this file_length
