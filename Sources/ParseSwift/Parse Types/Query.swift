@@ -319,7 +319,7 @@ public func polygonContains(key: String, point: GeoPoint) -> QueryConstraint {
   string using Full Text Search
   - parameter key: The key to be constrained.
   - parameter text: the substring that the value must contain.
-  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+  - returns: The same instance of `Query` as the receiver.
  */
 public func matchesText(key: String, text: String) -> QueryConstraint {
     let dictionary = [QueryConstraint.Comparator.search: [QueryConstraint.Comparator.term: text]]
@@ -331,7 +331,7 @@ public func matchesText(key: String, text: String) -> QueryConstraint {
   - warning: This may be slow for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter regex: The regular expression pattern to match.
-  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+  - returns: The same instance of `Query` as the receiver.
  */
 public func matchesRegex(key: String, regex: String) -> QueryConstraint {
     .init(key: key, value: regex, comparator: .regex)
@@ -345,14 +345,14 @@ public func matchesRegex(key: String, regex: String) -> QueryConstraint {
   - parameter modifiers: Any of the following supported PCRE modifiers:
   - `i` - Case insensitive search
   - `m` - Search across multiple lines of input
-  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+  - returns: The same instance of `Query` as the receiver.
  */
 public func matchesRegex(key: String, regex: String, modifiers: String) -> QueryConstraint {
     let dictionary = [
         QueryConstraint.Comparator.regex: regex,
         QueryConstraint.Comparator.regexOptions: modifiers
     ]
-    return .init(key: key, value: dictionary, comparator: .text)
+    return .init(key: key, value: dictionary, comparator: .regex)
 }
 
 private func regexStringForString(_ inputString: String) -> String {
@@ -365,7 +365,7 @@ private func regexStringForString(_ inputString: String) -> String {
   - warning: This will be slow for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter substring: The substring that the value must contain.
-  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+  - returns: The same instance of `Query` as the receiver.
  */
 public func containsString(key: String, substring: String) -> QueryConstraint {
     let regex = regexStringForString(substring)
@@ -377,7 +377,7 @@ public func containsString(key: String, substring: String) -> QueryConstraint {
   This will use smart indexing, so it will be fast for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter prefix: The substring that the value must start with.
-  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+  - returns: The same instance of `Query` as the receiver.
  */
 public func hasPrefix(key: String, prefix: String) -> QueryConstraint {
     let regex = "^\(regexStringForString(prefix))"
@@ -389,7 +389,7 @@ public func hasPrefix(key: String, prefix: String) -> QueryConstraint {
   - warning: This will be slow for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter suffix: The substring that the value must end with.
-  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+  - returns: The same instance of `Query` as the receiver.
  */
 public func hasSuffix(key: String, suffix: String) -> QueryConstraint {
     let regex = "\(regexStringForString(suffix))$"
@@ -399,7 +399,7 @@ public func hasSuffix(key: String, suffix: String) -> QueryConstraint {
 /**
   Add a constraint that requires a particular key exists.
   - parameter key: The key that should exist.
-  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+  - returns: The same instance of `Query` as the receiver.
  */
 public func exists(key: String) -> QueryConstraint {
     return .init(key: key, value: true, comparator: .exists)
@@ -408,7 +408,7 @@ public func exists(key: String) -> QueryConstraint {
 /**
   Add a constraint that requires a key not exist.
   - parameter key: The key that should not exist.
-  - returns: The same instance of `Query` as the receiver. This allows method chaining.
+  - returns: The same instance of `Query` as the receiver.
  */
 public func doesNotExist(key: String) -> QueryConstraint {
     return .init(key: key, value: false, comparator: .exists)

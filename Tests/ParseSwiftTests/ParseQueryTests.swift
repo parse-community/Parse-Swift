@@ -545,9 +545,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(testConstraints2, geoPoint)
     }
 
-    func testWhereKeyPolygonContains() {
-        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
-        let constraint = polygonContains(key: "yolo", point: geoPoint)
+    func testWhereKeyMatchesText() {
+        let constraint = matchesText(key: "yolo", text: "yarr")
         let query = GameScore.query(constraint)
         let queryConstraints = query.`where`.constraints
 
@@ -555,20 +554,125 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints.comparator.rawValue, "$geoIntersects")
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$text")
 
-        guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: GeoPoint],
+        guard let testValue = testConstraints.value as?
+                [QueryConstraint.Comparator: [QueryConstraint.Comparator: String]],
               let key = testValue.keys.first else {
-            XCTFail("Should have casted to GeoPoint")
+            XCTFail("Should have casted to dictionary")
             return
         }
-        XCTAssertEqual(key.rawValue, "$point")
+        XCTAssertEqual(key.rawValue, "$search")
 
-        guard let testConstraints2 = testValue[key] else {
+        guard let testConstraints2 = testValue[key],
+              let key2 = testConstraints2.keys.first else {
             XCTFail("Should have unwraped")
             return
         }
-        XCTAssertEqual(testConstraints2, geoPoint)
+        XCTAssertEqual(key2.rawValue, "$term")
+
+        guard let testConstraints3 = testConstraints2[key2] else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints3, "yarr")
+    }
+
+    func testWhereKeyMatchesRegex() {
+        let constraint = matchesRegex(key: "yolo", regex: "yarr")
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$regex")
+
+        guard let testValue = testConstraints.value as? String else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue, "yarr")
+    }
+
+    func testWhereKeyMatchesRegexModifiers() {
+        let constraint = matchesRegex(key: "yolo", regex: "yarr", modifiers: "i")
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$regex")
+
+        guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: String],
+              let testValue2 = testValue[.regex] else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue2, "yarr")
+
+        guard let testValue3 = testValue[.regexOptions] else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue3, "i")
+    }
+
+    func testWhereKeyContainsString() {
+        let constraint = containsString(key: "yolo", substring: "yarr")
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$regex")
+
+        guard let testValue = testConstraints.value as? String else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue, "\\Qyarr\\E")
+    }
+
+    func testWhereKeyHasPrefix() {
+        let constraint = hasPrefix(key: "yolo", prefix: "yarr")
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$regex")
+
+        guard let testValue = testConstraints.value as? String else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue, "^\\Qyarr\\E")
+    }
+
+    func testWhereKeyHasSuffix() {
+        let constraint = hasSuffix(key: "yolo", suffix: "yarr")
+        let query = GameScore.query(constraint)
+        let queryConstraints = query.`where`.constraints
+
+        guard let testConstraints = queryConstraints["yolo"]?.first else {
+            XCTFail("Should have unwraped")
+            return
+        }
+        XCTAssertEqual(testConstraints.comparator.rawValue, "$regex")
+
+        guard let testValue = testConstraints.value as? String else {
+            XCTFail("Should have casted to String")
+            return
+        }
+        XCTAssertEqual(testValue, "\\Qyarr\\E$")
     }
 }
 #endif
