@@ -90,6 +90,10 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
     return QueryConstraint(key: key, value: value, comparator: .equals)
 }
 
+public func != <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
+    return QueryConstraint(key: key, value: value, comparator: .notEqualTo)
+}
+
 internal struct InQuery<T>: Encodable where T: ParseObject {
     let query: Query<T>
     var className: String {
@@ -213,6 +217,17 @@ public func containedIn <T>(key: String, array: [T]) -> QueryConstraint where T:
  */
 public func notContainedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
     return QueryConstraint(key: key, value: array, comparator: .notContainedIn)
+}
+
+/**
+  Add a constraint to the query that requires a particular key's array
+  contains every element of the provided array.
+  - parameter key: The key to be constrained.
+  - parameter array: The possible values for the key's object.
+  - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func containsAll <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
+    return QueryConstraint(key: key, value: array, comparator: .all)
 }
 
 /**
