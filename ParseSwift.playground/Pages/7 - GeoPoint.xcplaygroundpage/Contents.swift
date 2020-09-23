@@ -118,9 +118,30 @@ query.find(callbackQueue: .main) { results in
     }
 }
 
+
+/*: If you only want to query for scores in descending order, use the order enum.
+Notice the "var", the query has to be mutable since it's a valueType.
+*/
+var querySorted = query
+querySorted.order([.descending("score")])
+querySorted.find(callbackQueue: .main) { results in
+    switch results {
+    case .success(let scores):
+
+        assert(scores.count >= 1)
+        scores.forEach { (score) in
+            print("Someone with objectId \"\(score.objectId!)\" has a score of \"\(score.score)\" near me")
+        }
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+
 //: If you only want to query for scores > 50, you can add more constraints
 constraints.append("score" > 50)
-let query2 = GameScore.query(constraints)
+var query2 = GameScore.query(constraints)
 query2.find(callbackQueue: .main) { results in
     switch results {
     case .success(let scores):

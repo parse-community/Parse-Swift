@@ -483,11 +483,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     internal var hint: String?
     internal var `where` = QueryWhere()
     internal var excludeKeys: [String]?
-    internal var select: [String]?
     internal var readPreference: String?
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
-    internal var distinct: String?
 
     /**
       An enum that determines the order to sort the results based on a given key.
@@ -567,22 +565,10 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     */
     public mutating func readPreference(_ readPreference: String?,
                                         includeReadPreference: String? = nil,
-                                        subqueryReadPreference: String?) -> Query<T> {
+                                        subqueryReadPreference: String? = nil) -> Query<T> {
         self.readPreference = readPreference
         self.includeReadPreference = includeReadPreference
         self.subqueryReadPreference = subqueryReadPreference
-        return self
-    }
-
-    /**
-       Restricts the fields of the returned ParseObjects to include only the
-       provided keys.  If this is called multiple times, then all of the keys
-       specified in each of the calls will be included.
-      - parameter keys: The name(s) of the key(s) to include.
-      - returns: Returns the query, so you can chain this call.
-    */
-    public mutating func select(_ keys: [String]?) -> Query<T> {
-        self.select = keys
         return self
     }
 
@@ -597,12 +583,12 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-      Executes a distinct query and returns unique values. Default is to nil.
-      - parameter key: A field to find distinct values.
+       An enum that determines the order to sort the results based on a given key.
+      - parameter keys: An array of keys to order by.
       - returns: Returns the query, so you can chain this call.
     */
-    public mutating func distinct(_ key: String?) -> Query<T> {
-        self.distinct = key
+    public mutating func order(_ keys: [Order]?) -> Query<T> {
+        self.order = keys
         return self
     }
 
@@ -634,12 +620,10 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
         case order
         case explain
         case hint
-        case select
         case excludeKeys
         case readPreference
         case includeReadPreference
         case subqueryReadPreference
-        case distinct
     }
 }
 

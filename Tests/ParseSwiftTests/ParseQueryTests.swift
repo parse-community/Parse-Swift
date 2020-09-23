@@ -97,12 +97,22 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(updatedQuery.limit, 10)
     }
 
+    func testOrder() {
+        var query = GameScore.query()
+        XCTAssertNil(query.order)
+        let updatedQuery = query.order([.ascending("yolo")])
+        XCTAssertNotNil(query.order)
+        XCTAssertNotNil(updatedQuery.order)
+    }
+
     func testReadPreferences() {
         var query = GameScore.query()
         XCTAssertNil(query.readPreference)
         XCTAssertNil(query.includeReadPreference)
         XCTAssertNil(query.subqueryReadPreference)
-        let updatedQuery = query.readPreference("test", includeReadPreference: "test", subqueryReadPreference: "test")
+        let updatedQuery = query.readPreference("PRIMARY",
+                                                includeReadPreference: "SECONDARY",
+                                                subqueryReadPreference: "SECONDARY_PREFERRED")
         XCTAssertNotNil(query.readPreference)
         XCTAssertNotNil(query.includeReadPreference)
         XCTAssertNotNil(query.subqueryReadPreference)
@@ -111,27 +121,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNotNil(updatedQuery.subqueryReadPreference)
     }
 
-    func testSelect() {
-        var query = GameScore.query()
-        XCTAssertNil(query.select)
-        let updatedQuery = query.select(["yolo"])
-        XCTAssertNotNil(query.select)
-        XCTAssertNotNil(updatedQuery.select)
-    }
-
     func testExcludeKeys() {
         var query = GameScore.query()
         XCTAssertNil(query.excludeKeys)
         let updatedQuery = query.excludeKeys(["yolo"])
         XCTAssertNotNil(query.excludeKeys)
         XCTAssertNotNil(updatedQuery.excludeKeys)
-    }
-
-    func testDistinct() {
-        var query = GameScore.query()
-        let updatedQuery = query.distinct("size")
-        XCTAssertEqual(query.distinct, "size")
-        XCTAssertEqual(updatedQuery.distinct, "size")
     }
 
     func testAddingConstraints() {
