@@ -60,7 +60,7 @@ public struct QueryConstraint: Encodable, Equatable {
         }
     }
 
-    /// - warning: Doesn't compare
+    /// - warning: Doesn't compare "value"
     public static func == (lhs: QueryConstraint, rhs: QueryConstraint) -> Bool {
         guard lhs.key == rhs.key,
               lhs.comparator == rhs.comparator else {
@@ -433,8 +433,8 @@ internal struct RelatedCondition <T>: Encodable where T: ParseObject {
 }
 
 /**
-  Add a constraint that requires a key not exist.
-  - parameter key: The key that should not exist.
+  Add a constraint that requires a key is related.
+  - parameter key: The key that should be related.
   - returns: The same instance of `Query` as the receiver.
  */
 public func related <T>(key: String, parent: T) -> QueryConstraint where T: ParseObject {
@@ -460,6 +460,8 @@ internal struct QueryWhere: Encodable, Equatable {
             try value.forEach { (constraint) in
                 if constraint.comparator != nil {
                     try constraint.encode(to: nestedContainer.superEncoder(forKey: constraint.comparator!))
+                } else {
+                    try constraint.encode(to: nestedContainer.superEncoder())
                 }
             }
         }

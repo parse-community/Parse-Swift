@@ -118,7 +118,6 @@ query.find(callbackQueue: .main) { results in
     }
 }
 
-
 /*: If you only want to query for scores in descending order, use the order enum.
 Notice the "var", the query has to be mutable since it's a valueType.
 */
@@ -138,7 +137,6 @@ querySorted.find(callbackQueue: .main) { results in
     }
 }
 
-
 //: If you only want to query for scores > 50, you can add more constraints
 constraints.append("score" > 50)
 var query2 = GameScore.query(constraints)
@@ -151,6 +149,59 @@ query2.find(callbackQueue: .main) { results in
             print("""
                 Someone with objectId \"\(score.objectId!)\" has a
                 score of \"\(score.score)\" near me which is greater than 50
+            """)
+        }
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+//: If you want to query for scores > 50 and don't have a geopoint
+var query3 = GameScore.query("score" > 50, doesNotExist(key: "location"))
+query3.find(callbackQueue: .main) { results in
+    switch results {
+    case .success(let scores):
+
+        assert(scores.count >= 1)
+        scores.forEach { (score) in
+            print("""
+                Someone has a score of \"\(score.score)\" with no geopoint \(String(describing: score.location))
+            """)
+        }
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+//: If you want to query for scores > 50 and have a geopoint
+var query4 = GameScore.query("score" > 50, exists(key: "location"))
+query4.find(callbackQueue: .main) { results in
+    switch results {
+    case .success(let scores):
+
+        assert(scores.count >= 1)
+        scores.forEach { (score) in
+            print("""
+                Someone has a score of \"\(score.score)\" with geopoint \(String(describing: score.location))
+            """)
+        }
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+var query5 = GameScore.query(or(queries: [query4, query]))
+query5.find(callbackQueue: .main) { results in
+    switch results {
+    case .success(let scores):
+
+        assert(scores.count >= 1)
+        scores.forEach { (score) in
+            print("""
+                Someone has a score of \"\(score.score)\" with geopoint \(String(describing: score.location))
             """)
         }
 

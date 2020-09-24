@@ -694,7 +694,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(testConstraints.comparator)
 
         guard let testValue = testConstraints.value as? [InQuery<GameScore>] else {
-            XCTFail("Should have casted to String")
+            XCTFail("Should have casted to")
             return
         }
         XCTAssertEqual(testValue.first?.query, query1)
