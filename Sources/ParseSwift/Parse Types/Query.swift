@@ -111,6 +111,19 @@ internal struct InQuery<T>: Encodable where T: ParseObject {
     }
 }
 
+internal struct OrAndQuery<T>: Encodable where T: ParseObject {
+    let query: Query<T>
+
+    func encode(to encoder: Encoder) throws {
+        var container = encoder.singleValueContainer()
+        try container.encode(query.where)
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case `where`
+    }
+}
+
 internal struct QuerySelect<T>: Encodable where T: ParseObject {
     let query: InQuery<T>
     let key: String
@@ -122,8 +135,8 @@ internal struct QuerySelect<T>: Encodable where T: ParseObject {
   - returns: An instance of `QueryConstraint`'s that are the `or` of the passed in queries.
  */
 public func or <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
-    let inQueries = queries.map { InQuery(query: $0) }
-    return QueryConstraint(key: QueryConstraint.Comparator.or.rawValue, value: inQueries)
+    let orQueries = queries.map { OrAndQuery(query: $0) }
+    return QueryConstraint(key: QueryConstraint.Comparator.or.rawValue, value: orQueries)
 }
 
 /**
@@ -138,8 +151,8 @@ public func or <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
     - returns: The query that is the AND of the passed in queries.
 */
 public func and <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
-    let inQueries = queries.map { InQuery(query: $0) }
-    return QueryConstraint(key: QueryConstraint.Comparator.and.rawValue, value: inQueries)
+    let andQueries = queries.map { OrAndQuery(query: $0) }
+    return QueryConstraint(key: QueryConstraint.Comparator.and.rawValue, value: andQueries)
 }
 
 /**
@@ -455,13 +468,13 @@ internal struct QueryWhere: Encodable, Equatable {
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RawCodingKey.self)
         try constraints.forEach { (key, value) in
-            var nestedContainer = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
-                                              forKey: .key(key))
             try value.forEach { (constraint) in
                 if constraint.comparator != nil {
+                    var nestedContainer = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
+                                                      forKey: .key(key))
                     try constraint.encode(to: nestedContainer.superEncoder(forKey: constraint.comparator!))
                 } else {
-                    try constraint.encode(to: nestedContainer.superEncoder())
+                    try container.encode(constraint, forKey: .key(key))
                 }
             }
         }

@@ -193,15 +193,18 @@ query4.find(callbackQueue: .main) { results in
     }
 }
 
-var query5 = GameScore.query(or(queries: [query4, query]))
-query5.find(callbackQueue: .main) { results in
+let query5 = GameScore.query("score" == 50)
+let query6 = GameScore.query("score" == 200)
+
+var query7 = GameScore.query(or(queries: [query5, query6]))
+query7.find(callbackQueue: .main) { results in
     switch results {
     case .success(let scores):
 
         assert(scores.count >= 1)
         scores.forEach { (score) in
             print("""
-                Someone has a score of \"\(score.score)\" with geopoint \(String(describing: score.location))
+                Someone has a score of \"\(score.score)\" with geopoint using OR \(String(describing: score.location))
             """)
         }
 
