@@ -79,10 +79,7 @@ public struct GeoPoint: Codable, Equatable {
 
     /**
        Fetches the current device location and executes a block with a new `GeoPoint` instance.
-       @discussion You should not block the main thread while calling this method, as underneath,
-       it makes a call to UIApplication.applicationState that requires to be on the main thread.
-       If you were to use a semaphore wait/signal to 'wait' for the result, you'd effectively deadlock
-       your app.
+       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
        - parameter completion: A block which takes the newly created `GeoPoint` or ParseError
          as an argument. It should have the following argument signature:
          `(Result<GeoPoint, ParseError>)`
