@@ -303,7 +303,7 @@ public func withinKilometers(key: String, geoPoint: GeoPoint, distance: Double) 
 public func withinGeoBox(key: String, fromSouthWest southwest: GeoPoint,
                          toNortheast northeast: GeoPoint) -> QueryConstraint {
     let array = [southwest, northeast]
-    let dictionary = [QueryConstraint.Comparator.box: array]
+    let dictionary = [QueryConstraint.Comparator.box.rawValue: array]
     return .init(key: key, value: dictionary, comparator: .within)
 }
 
@@ -321,7 +321,7 @@ public func withinGeoBox(key: String, fromSouthWest southwest: GeoPoint,
  * - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func withinPolygon(key: String, points: [GeoPoint]) -> QueryConstraint {
-    let dictionary = [QueryConstraint.Comparator.polygon: points]
+    let dictionary = [QueryConstraint.Comparator.polygon.rawValue: points]
     return .init(key: key, value: dictionary, comparator: .geoWithin)
 }
 
@@ -336,7 +336,7 @@ public func withinPolygon(key: String, points: [GeoPoint]) -> QueryConstraint {
  * - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func polygonContains(key: String, point: GeoPoint) -> QueryConstraint {
-    let dictionary = [QueryConstraint.Comparator.point: point]
+    let dictionary = [QueryConstraint.Comparator.point.rawValue: point]
     return .init(key: key, value: dictionary, comparator: .geoIntersects)
 }
 
@@ -348,7 +348,7 @@ public func polygonContains(key: String, point: GeoPoint) -> QueryConstraint {
   - returns: The same instance of `Query` as the receiver.
  */
 public func matchesText(key: String, text: String) -> QueryConstraint {
-    let dictionary = [QueryConstraint.Comparator.search: [QueryConstraint.Comparator.term: text]]
+    let dictionary = [QueryConstraint.Comparator.search.rawValue: [QueryConstraint.Comparator.term.rawValue: text]]
     return .init(key: key, value: dictionary, comparator: .text)
 }
 
@@ -375,8 +375,8 @@ public func matchesRegex(key: String, regex: String) -> QueryConstraint {
  */
 public func matchesRegex(key: String, regex: String, modifiers: String) -> QueryConstraint {
     let dictionary = [
-        QueryConstraint.Comparator.regex: regex,
-        QueryConstraint.Comparator.regexOptions: modifiers
+        QueryConstraint.Comparator.regex.rawValue: regex,
+        QueryConstraint.Comparator.regexOptions.rawValue: modifiers
     ]
     return .init(key: key, value: dictionary)
 }

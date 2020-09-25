@@ -413,284 +413,373 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     // MARK: Standard Conditions
     func testWhereKeyExists() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$exists": true]
+        ]
         let constraint = exists(key: "yolo")
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
 
         do {
             let encoded = try JSONEncoder().encode(queryWhere)
-            guard let jsonString = String(data: encoded, encoding: .utf8) else {
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: Bool],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: Bool] else {
+                XCTFail("Should have casted")
                 return
             }
-            print(jsonString)
-        } catch {
-            return
-        }
-        /*
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$exists")
+            XCTAssertEqual(expectedValues, decodedValues)
 
-        guard let testValue = testConstraints.value as? Bool else {
-            XCTFail("Should have casted to String")
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertTrue(testValue)*/
     }
 
     func testWhereKeyDoesNotExist() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$exists": false]
+        ]
         let constraint = doesNotExist(key: "yolo")
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: Bool],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: Bool] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$exists")
-
-        guard let testValue = testConstraints.value as? Bool else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertFalse(testValue)
     }
 
     func testWhereKeyEqualTo() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$eq": "yarr"]
+        ]
         let query = GameScore.query("yolo" == "yarr")
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$eq")
-
-        guard let testValue = testConstraints.value as? String else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, "yarr")
     }
 
     func testWhereKeyNotEqualTo() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$ne": "yarr"]
+        ]
         let query = GameScore.query("yolo" != "yarr")
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$ne")
-
-        guard let testValue = testConstraints.value as? String else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, "yarr")
     }
 
     func testWhereKeyLessThan() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$lt": "yarr"]
+        ]
         let query = GameScore.query("yolo" < "yarr")
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$lt")
-
-        guard let testValue = testConstraints.value as? String else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, "yarr")
     }
 
     func testWhereKeyLessThanOrEqualTo() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$lte": "yarr"]
+        ]
         let query = GameScore.query("yolo" <= "yarr")
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$lte")
-
-        guard let testValue = testConstraints.value as? String else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, "yarr")
     }
 
     func testWhereKeyGreaterThan() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$gt": "yarr"]
+        ]
         let query = GameScore.query("yolo" > "yarr")
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$gt")
-
-        guard let testValue = testConstraints.value as? String else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, "yarr")
     }
 
     func testWhereKeyGreaterThanOrEqualTo() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$gte": "yarr"]
+        ]
         let query = GameScore.query("yolo" >= "yarr")
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$gte")
-
-        guard let testValue = testConstraints.value as? String else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, "yarr")
     }
 
     func testWhereKeyMatchesText() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$text": ["$search": ["$term": "yarr"]]]
+        ]
         let constraint = matchesText(key: "yolo", text: "yarr")
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: [String: String]]],
+                  let decodedValues = decodedDictionary.values.first?.value as?
+                    [String: [String: [String: String]]] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$text")
-
-        guard let testValue = testConstraints.value as?
-                [QueryConstraint.Comparator: [QueryConstraint.Comparator: String]],
-              let key = testValue.keys.first else {
-            XCTFail("Should have casted to dictionary")
-            return
-        }
-        XCTAssertEqual(key.rawValue, "$search")
-
-        guard let testConstraints2 = testValue[key],
-              let key2 = testConstraints2.keys.first else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(key2.rawValue, "$term")
-
-        guard let testConstraints3 = testConstraints2[key2] else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints3, "yarr")
     }
 
     func testWhereKeyMatchesRegex() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$regex": "yarr"]
+        ]
         let constraint = matchesRegex(key: "yolo", regex: "yarr")
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$regex")
-
-        guard let testValue = testConstraints.value as? String else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, "yarr")
     }
 
     func testWhereKeyMatchesRegexModifiers() {
+        let expected: [String: AnyCodable] = [
+            "yolo": [
+                "$regex": "yarr",
+                "$options": "i"
+            ]
+        ]
         let constraint = matchesRegex(key: "yolo", regex: "yarr", modifiers: "i")
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertNil(testConstraints.comparator)
-
-        guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: String],
-              let testValue2 = testValue[.regex] else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue2, "yarr")
-
-        guard let testValue3 = testValue[.regexOptions] else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue3, "i")
     }
 
     func testWhereKeyContainsString() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$regex": "\\Qyarr\\E"]
+        ]
         let constraint = containsString(key: "yolo", substring: "yarr")
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$regex")
-
-        guard let testValue = testConstraints.value as? String else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, "\\Qyarr\\E")
     }
 
     func testWhereKeyHasPrefix() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$regex": "^\\Qyarr\\E"]
+        ]
         let constraint = hasPrefix(key: "yolo", prefix: "yarr")
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$regex")
-
-        guard let testValue = testConstraints.value as? String else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, "^\\Qyarr\\E")
     }
 
     func testWhereKeyHasSuffix() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$regex": "\\Qyarr\\E$"]
+        ]
         let constraint = hasSuffix(key: "yolo", suffix: "yarr")
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$regex")
-
-        guard let testValue = testConstraints.value as? String else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, "\\Qyarr\\E$")
     }
 
     func testOrQuery() {
+        let expected: [String: AnyCodable] = [
+            "$or": [
+                ["score": ["$eq": 50]],
+                ["score": ["$eq": 200]]
+            ]
+        ]
         let query1 = GameScore.query("score" == 50)
         let query2 = GameScore.query("score" == 200)
         let constraint = or(queries: [query1, query2])
@@ -700,414 +789,703 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         do {
             let encoded = try JSONEncoder().encode(queryWhere)
             guard let jsonString = String(data: encoded, encoding: .utf8) else {
+                XCTFail("Should have encoded")
                 return
             }
             print(jsonString)
-        } catch {
-            return
-        }
-        /*
-        XCTAssertNil(testConstraints.comparator)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
-        guard let testValue = testConstraints.value as? [InQuery<GameScore>] else {
-            XCTFail("Should have casted to")
+            guard let expectedValues = expected.values.first?.value as? [[String: [String: Int]]],
+                  let decodedValues = decodedDictionary.values.first?.value as? [[String: [String: Int]]] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testValue.first?.query, query1)
-        XCTAssertEqual(testValue.last?.query, query2)*/
     }
 
     func testAndQuery() {
-        let query1 = GameScore.query()
-        let query2 = GameScore.query()
+        let expected: [String: AnyCodable] = [
+            "$and": [
+                ["score": ["$eq": 50]],
+                ["score": ["$eq": 200]]
+            ]
+        ]
+        let query1 = GameScore.query("score" == 50)
+        let query2 = GameScore.query("score" == 200)
         let constraint = and(queries: [query1, query2])
         let query = Query<GameScore>(constraint)
         let queryWhere = query.`where`
 
         do {
             let encoded = try JSONEncoder().encode(queryWhere)
-            guard let jsonString = String(data: encoded, encoding: .utf8) else {
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [[String: [String: Int]]],
+                  let decodedValues = decodedDictionary.values.first?.value as? [[String: [String: Int]]] else {
+                XCTFail("Should have casted")
                 return
             }
-            print(jsonString)
-        } catch {
-            return
-        }
-        /*
-        guard let testConstraints = queryConstraints["$and"]?.first else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertNil(testConstraints.comparator)
+            XCTAssertEqual(expectedValues, decodedValues)
 
-        guard let testValue = testConstraints.value as? [InQuery<GameScore>] else {
-            XCTFail("Should have casted to String")
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testValue.first?.query, query1)
-        XCTAssertEqual(testValue.last?.query, query2)*/
     }
 
     func testWhereKeyMatchesKeyInQuery() {
-        let inQuery = GameScore.query()
+        let expected: [String: AnyCodable] = [
+            "yolo": [
+                "$select": [
+                    "query": ["className": "GameScore", "where": ["test": ["$eq": "awk"]]],
+                    "key": "yolo1"
+                ]
+            ]
+        ]
+        let inQuery = GameScore.query("test" == "awk")
         let constraint = matchesKeyInQuery(key: "yolo", queryKey: "yolo1", query: inQuery)
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: Any]],
+                  let expectedSelect = expectedValues["$select"],
+                  let expectedKeyValue = expectedSelect["key"] as? String,
+                  let expectedKeyQuery = expectedSelect["query"] as? [String: Any],
+                  let expectedKeyClassname = expectedKeyQuery["className"] as? String,
+                  let expectedKeyWhere = expectedKeyQuery["where"] as? [String: [String: String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: Any]],
+                  let decodedSelect = decodedValues["$select"],
+                  let decodedKeyValue = decodedSelect["key"] as? String,
+                  let decodedKeyQuery = decodedSelect["query"] as? [String: Any],
+                  let decodedKeyClassname = decodedKeyQuery["className"] as? String,
+                  let decodedKeyWhere = decodedKeyQuery["where"] as? [String: [String: String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            XCTAssertEqual(expectedKeyValue, decodedKeyValue)
+            XCTAssertEqual(expectedKeyClassname, decodedKeyClassname)
+            XCTAssertEqual(expectedKeyWhere, decodedKeyWhere)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$select")
-
-        guard let testValue = testConstraints.value as? QuerySelect<GameScore> else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue.key, "yolo1")
-        XCTAssertEqual(testValue.query.query, inQuery)
     }
 
     func testWhereKeyDoesNotMatchKeyInQuery() {
-        let inQuery = GameScore.query()
+        let expected: [String: AnyCodable] = [
+            "yolo": [
+                "$dontSelect": [
+                    "query": ["className": "GameScore", "where": ["test": ["$eq": "awk"]]],
+                    "key": "yolo1"
+                ]
+            ]
+        ]
+        let inQuery = GameScore.query("test" == "awk")
         let constraint = doesNotMatchKeyInQuery(key: "yolo", queryKey: "yolo1", query: inQuery)
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: Any]],
+                  let expectedSelect = expectedValues["$dontSelect"],
+                  let expectedKeyValue = expectedSelect["key"] as? String,
+                  let expectedKeyQuery = expectedSelect["query"] as? [String: Any],
+                  let expectedKeyClassname = expectedKeyQuery["className"] as? String,
+                  let expectedKeyWhere = expectedKeyQuery["where"] as? [String: [String: String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: Any]],
+                  let decodedSelect = decodedValues["$dontSelect"],
+                  let decodedKeyValue = decodedSelect["key"] as? String,
+                  let decodedKeyQuery = decodedSelect["query"] as? [String: Any],
+                  let decodedKeyClassname = decodedKeyQuery["className"] as? String,
+                  let decodedKeyWhere = decodedKeyQuery["where"] as? [String: [String: String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            XCTAssertEqual(expectedKeyValue, decodedKeyValue)
+            XCTAssertEqual(expectedKeyClassname, decodedKeyClassname)
+            XCTAssertEqual(expectedKeyWhere, decodedKeyWhere)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$dontSelect")
-
-        guard let testValue = testConstraints.value as? QuerySelect<GameScore> else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue.key, "yolo1")
-        XCTAssertEqual(testValue.query.query, inQuery)
     }
 
     func testWhereKeyMatchesQuery() {
-        let inQuery = GameScore.query()
+        let expected: [String: AnyCodable] = [
+            "yolo": [
+                "$inQuery": [
+                    "where": ["test": ["$eq": "awk"]],
+                    "className": "GameScore"
+                ]
+            ]
+        ]
+        let inQuery = GameScore.query("test" == "awk")
         let query = GameScore.query("yolo" == inQuery)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: Any]],
+                  let expectedInQuery = expectedValues["$inQuery"],
+                  let expectedKeyClassname = expectedInQuery["className"] as? String,
+                  let expectedKeyWhere = expectedInQuery["where"] as? [String: [String: String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: Any]],
+                  let decodedInQuery = decodedValues["$inQuery"],
+                  let decodedKeyClassname = decodedInQuery["className"] as? String,
+                  let decodedKeyWhere = decodedInQuery["where"] as? [String: [String: String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            XCTAssertEqual(expectedKeyClassname, decodedKeyClassname)
+            XCTAssertEqual(expectedKeyWhere, decodedKeyWhere)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$inQuery")
-
-        guard let testValue = testConstraints.value as? InQuery<GameScore> else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue.query, inQuery)
     }
 
     func testWhereKeyDoesNotMatchQuery() {
-        let inQuery = GameScore.query()
+        let expected: [String: AnyCodable] = [
+            "yolo": [
+                "$notInQuery": [
+                    "where": ["test": ["$eq": "awk"]],
+                    "className": "GameScore"
+                ]
+            ]
+        ]
+        let inQuery = GameScore.query("test" == "awk")
         let query = GameScore.query("yolo" != inQuery)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: Any]],
+                  let expectedInQuery = expectedValues["$notInQuery"],
+                  let expectedKeyClassname = expectedInQuery["className"] as? String,
+                  let expectedKeyWhere = expectedInQuery["where"] as? [String: [String: String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: Any]],
+                  let decodedInQuery = decodedValues["$notInQuery"],
+                  let decodedKeyClassname = decodedInQuery["className"] as? String,
+                  let decodedKeyWhere = decodedInQuery["where"] as? [String: [String: String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            XCTAssertEqual(expectedKeyClassname, decodedKeyClassname)
+            XCTAssertEqual(expectedKeyWhere, decodedKeyWhere)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$notInQuery")
-
-        guard let testValue = testConstraints.value as? InQuery<GameScore> else {
-            XCTFail("Should have casted")
-            return
-        }
-        XCTAssertEqual(testValue.query, inQuery)
     }
 
     func testWhereContainedIn() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$in": ["yarr"]]
+        ]
         let constraint = containedIn(key: "yolo", array: ["yarr"])
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String]],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: [String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$in")
-
-        guard let testValue = testConstraints.value as? [String] else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, ["yarr"])
     }
 
     func testWhereNotContainedIn() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$nin": ["yarr"]]
+        ]
         let constraint = notContainedIn(key: "yolo", array: ["yarr"])
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String]],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: [String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$nin")
-
-        guard let testValue = testConstraints.value as? [String] else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, ["yarr"])
     }
 
     func testWhereContainsAll() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$all": ["yarr"]]
+        ]
         let constraint = containsAll(key: "yolo", array: ["yarr"])
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String]],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: [String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$all")
-
-        guard let testValue = testConstraints.value as? [String] else {
-            XCTFail("Should have casted to String")
-            return
-        }
-        XCTAssertEqual(testValue, ["yarr"])
     }
 
     func testWhereKeyRelated() {
+        let expected: [String: AnyCodable] = [
+            "$relatedTo": [
+                "key": "yolo",
+                "object": ["score": 50]
+            ]
+        ]
         let object = GameScore(score: 50)
         let constraint = related(key: "yolo", parent: object)
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["$relatedTo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: Any],
+                  let expectedKey = expectedValues["key"] as? String,
+                  let expectedObject = expectedValues["object"] as? [String: Int] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: Any],
+                  let decodedKey = decodedValues["key"] as? String,
+                  let decodedObject = decodedValues["object"] as? [String: Int] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            XCTAssertEqual(expectedKey, decodedKey)
+            XCTAssertEqual(expectedObject, decodedObject)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertNil(testConstraints.comparator)
-
-        guard let testValue = testConstraints.value as? RelatedCondition<GameScore> else {
-            XCTFail("Should have casted")
-            return
-        }
-        XCTAssertEqual(testValue.key, "yolo")
-        XCTAssertEqual(testValue.object.objectId, object.objectId)
     }
 
     // MARK: GeoPoint
     func testWhereKeyNearGeoPoint() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"]]
+        ]
         let geoPoint = GeoPoint(latitude: 10, longitude: 20)
         let constraint = near(key: "yolo", geoPoint: geoPoint)
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: Any]],
+                  let expectedLongitude = expectedValues["$nearSphere"]?["longitude"] as? Int,
+                  let expectedLatitude = expectedValues["$nearSphere"]?["latitude"] as? Int,
+                  let expectedType = expectedValues["$nearSphere"]?["__type"] as? String else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: Any]],
+                  let decodedLongitude = decodedValues["$nearSphere"]?["longitude"] as? Int,
+                  let decodedLatitude = decodedValues["$nearSphere"]?["latitude"] as? Int,
+                  let decodedType = decodedValues["$nearSphere"]?["__type"] as? String else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedLongitude, decodedLongitude)
+            XCTAssertEqual(expectedLatitude, decodedLatitude)
+            XCTAssertEqual(expectedType, decodedType)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$nearSphere")
-
-        guard let testValue = testConstraints.value as? GeoPoint else {
-            XCTFail("Should have casted to GeoPoint")
-            return
-        }
-        XCTAssertEqual(testValue, geoPoint)
     }
 
     func testWhereKeyNearGeoPointWithinMiles() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
+                     "$maxDistance": 1
+            ]
+        ]
         let geoPoint = GeoPoint(latitude: 10, longitude: 20)
         let constraint = withinMiles(key: "yolo", geoPoint: geoPoint, distance: 3958.8)
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: Any],
+                  let expectedNear = expectedValues["$nearSphere"] as? [String: Any],
+                  let expectedLongitude = expectedNear["longitude"] as? Int,
+                  let expectedLatitude = expectedNear["latitude"] as? Int,
+                  let expectedType = expectedNear["__type"] as? String,
+                  let expectedDistance = expectedValues["$maxDistance"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: Any],
+                  let decodedNear = decodedValues["$nearSphere"] as? [String: Any],
+                  let decodedLongitude = decodedNear["longitude"] as? Int,
+                  let decodedLatitude = decodedNear["latitude"] as? Int,
+                  let decodedType = decodedNear["__type"] as? String,
+                  let decodedDistance = decodedValues["$maxDistance"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedLongitude, decodedLongitude)
+            XCTAssertEqual(expectedLatitude, decodedLatitude)
+            XCTAssertEqual(expectedType, decodedType)
+            XCTAssertEqual(expectedDistance, decodedDistance)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$nearSphere")
-
-        guard let testValue = testConstraints.value as? GeoPoint else {
-            XCTFail("Should have casted to GeoPoint")
-            return
-        }
-        XCTAssertEqual(testValue, geoPoint)
-
-        guard let testConstraints2 = queryConstraints["yolo"]?.last else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints2.comparator?.rawValue, "$maxDistance")
-
-        guard let testValue2 = testConstraints2.value as? Double else {
-            XCTFail("Should have casted to Double")
-            return
-        }
-        XCTAssertEqual(testValue2, 1.0)
     }
 
     func testWhereKeyNearGeoPointWithinKilometers() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
+                     "$maxDistance": 1
+            ]
+        ]
         let geoPoint = GeoPoint(latitude: 10, longitude: 20)
         let constraint = withinKilometers(key: "yolo", geoPoint: geoPoint, distance: 6371.0)
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: Any],
+                  let expectedNear = expectedValues["$nearSphere"] as? [String: Any],
+                  let expectedLongitude = expectedNear["longitude"] as? Int,
+                  let expectedLatitude = expectedNear["latitude"] as? Int,
+                  let expectedType = expectedNear["__type"] as? String,
+                  let expectedDistance = expectedValues["$maxDistance"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: Any],
+                  let decodedNear = decodedValues["$nearSphere"] as? [String: Any],
+                  let decodedLongitude = decodedNear["longitude"] as? Int,
+                  let decodedLatitude = decodedNear["latitude"] as? Int,
+                  let decodedType = decodedNear["__type"] as? String,
+                  let decodedDistance = decodedValues["$maxDistance"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedLongitude, decodedLongitude)
+            XCTAssertEqual(expectedLatitude, decodedLatitude)
+            XCTAssertEqual(expectedType, decodedType)
+            XCTAssertEqual(expectedDistance, decodedDistance)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$nearSphere")
-
-        guard let testValue = testConstraints.value as? GeoPoint else {
-            XCTFail("Should have casted to GeoPoint")
-            return
-        }
-        XCTAssertEqual(testValue, geoPoint)
-
-        guard let testConstraints2 = queryConstraints["yolo"]?.last else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints2.comparator?.rawValue, "$maxDistance")
-
-        guard let testValue2 = testConstraints2.value as? Double else {
-            XCTFail("Should have casted to Double")
-            return
-        }
-        XCTAssertEqual(testValue2, 1.0)
     }
 
     func testWhereKeyNearGeoPointWithinRadians() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
+                     "$maxDistance": 10
+            ]
+        ]
         let geoPoint = GeoPoint(latitude: 10, longitude: 20)
         let constraint = withinRadians(key: "yolo", geoPoint: geoPoint, distance: 10.0)
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: Any],
+                  let expectedNear = expectedValues["$nearSphere"] as? [String: Any],
+                  let expectedLongitude = expectedNear["longitude"] as? Int,
+                  let expectedLatitude = expectedNear["latitude"] as? Int,
+                  let expectedType = expectedNear["__type"] as? String,
+                  let expectedDistance = expectedValues["$maxDistance"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: Any],
+                  let decodedNear = decodedValues["$nearSphere"] as? [String: Any],
+                  let decodedLongitude = decodedNear["longitude"] as? Int,
+                  let decodedLatitude = decodedNear["latitude"] as? Int,
+                  let decodedType = decodedNear["__type"] as? String,
+                  let decodedDistance = decodedValues["$maxDistance"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedLongitude, decodedLongitude)
+            XCTAssertEqual(expectedLatitude, decodedLatitude)
+            XCTAssertEqual(expectedType, decodedType)
+            XCTAssertEqual(expectedDistance, decodedDistance)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$nearSphere")
-
-        guard let testValue = testConstraints.value as? GeoPoint else {
-            XCTFail("Should have casted to GeoPoint")
-            return
-        }
-        XCTAssertEqual(testValue, geoPoint)
-
-        guard let testConstraints2 = queryConstraints["yolo"]?.last else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints2.comparator?.rawValue, "$maxDistance")
-
-        guard let testValue2 = testConstraints2.value as? Double else {
-            XCTFail("Should have casted to Double")
-            return
-        }
-        XCTAssertEqual(testValue2, 10.0)
     }
 
+    // swiftlint:disable:next function_body_length
     func testWhereKeyNearGeoBox() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$within": ["$box": [
+                                    ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
+                                    ["latitude": 20, "longitude": 30, "__type": "GeoPoint"]]
+                                ]
+            ]
+        ]
         let geoPoint1 = GeoPoint(latitude: 10, longitude: 20)
         let geoPoint2 = GeoPoint(latitude: 20, longitude: 30)
         let constraint = withinGeoBox(key: "yolo", fromSouthWest: geoPoint1, toNortheast: geoPoint2)
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: [[String: Any]]]],
+                  let expectedBox = expectedValues["$within"]?["$box"],
+                  let expectedLongitude = expectedBox.first?["longitude"] as? Int,
+                  let expectedLatitude = expectedBox.first?["latitude"] as? Int,
+                  let expectedType = expectedBox.first?["__type"] as? String,
+                  let expectedLongitude2 = expectedBox.last?["longitude"] as? Int,
+                  let expectedLatitude2 = expectedBox.last?["latitude"] as? Int,
+                  let expectedType2 = expectedBox.last?["__type"] as? String else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[String: Any]]]],
+                  let decodedBox = decodedValues["$within"]?["$box"],
+                  let decodedLongitude = decodedBox.first?["longitude"] as? Int,
+                  let decodedLatitude = decodedBox.first?["latitude"] as? Int,
+                  let decodedType = decodedBox.first?["__type"] as? String,
+                  let decodedLongitude2 = decodedBox.last?["longitude"] as? Int,
+                  let decodedLatitude2 = decodedBox.last?["latitude"] as? Int,
+                  let decodedType2 = decodedBox.last?["__type"] as? String else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedLongitude, decodedLongitude)
+            XCTAssertEqual(expectedLatitude, decodedLatitude)
+            XCTAssertEqual(expectedType, decodedType)
+            XCTAssertEqual(expectedLongitude2, decodedLongitude2)
+            XCTAssertEqual(expectedLatitude2, decodedLatitude2)
+            XCTAssertEqual(expectedType2, decodedType2)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$within")
-
-        guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: [GeoPoint]],
-              let key = testValue.keys.first else {
-            XCTFail("Should have casted to GeoPoint")
-            return
-        }
-        XCTAssertEqual(key.rawValue, "$box")
-
-        guard let testConstraints2 = testValue[key]?.first else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints2, geoPoint1)
-
-        guard let testConstraints3 = testValue[key]?.last else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints3, geoPoint2)
     }
 
+    // swiftlint:disable:next function_body_length
     func testWhereKeyWithinPolygon() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$geoWithin": ["$polygon": [
+                                    ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
+                                    ["latitude": 20, "longitude": 30, "__type": "GeoPoint"],
+                                    ["latitude": 30, "longitude": 40, "__type": "GeoPoint"]]
+                                ]
+            ]
+        ]
         let geoPoint1 = GeoPoint(latitude: 10, longitude: 20)
         let geoPoint2 = GeoPoint(latitude: 20, longitude: 30)
         let geoPoint3 = GeoPoint(latitude: 30, longitude: 40)
         let constraint = withinPolygon(key: "yolo", points: [geoPoint1, geoPoint2, geoPoint3])
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: [[String: Any]]]],
+                  let expectedBox = expectedValues["$geoWithin"]?["$polygon"],
+                  let expectedLongitude = expectedBox.first?["longitude"] as? Int,
+                  let expectedLatitude = expectedBox.first?["latitude"] as? Int,
+                  let expectedType = expectedBox.first?["__type"] as? String,
+                  let expectedLongitude2 = expectedBox[1]["longitude"] as? Int,
+                  let expectedLatitude2 = expectedBox[1]["latitude"] as? Int,
+                  let expectedType2 = expectedBox[1]["__type"] as? String,
+                  let expectedLongitude3 = expectedBox.last?["longitude"] as? Int,
+                  let expectedLatitude3 = expectedBox.last?["latitude"] as? Int,
+                  let expectedType3 = expectedBox.last?["__type"] as? String else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[String: Any]]]],
+                  let decodedBox = decodedValues["$geoWithin"]?["$polygon"],
+                  let decodedLongitude = decodedBox.first?["longitude"] as? Int,
+                  let decodedLatitude = decodedBox.first?["latitude"] as? Int,
+                  let decodedType = decodedBox.first?["__type"] as? String,
+                  let decodedLongitude2 = decodedBox[1]["longitude"] as? Int,
+                  let decodedLatitude2 = decodedBox[1]["latitude"] as? Int,
+                  let decodedType2 = decodedBox[1]["__type"] as? String,
+                  let decodedLongitude3 = decodedBox.last?["longitude"] as? Int,
+                  let decodedLatitude3 = decodedBox.last?["latitude"] as? Int,
+                  let decodedType3 = decodedBox.last?["__type"] as? String else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedLongitude, decodedLongitude)
+            XCTAssertEqual(expectedLatitude, decodedLatitude)
+            XCTAssertEqual(expectedType, decodedType)
+            XCTAssertEqual(expectedLongitude2, decodedLongitude2)
+            XCTAssertEqual(expectedLatitude2, decodedLatitude2)
+            XCTAssertEqual(expectedType2, decodedType2)
+            XCTAssertEqual(expectedLongitude3, decodedLongitude3)
+            XCTAssertEqual(expectedLatitude3, decodedLatitude3)
+            XCTAssertEqual(expectedType3, decodedType3)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$geoWithin")
-
-        guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: [GeoPoint]],
-              let key = testValue.keys.first else {
-            XCTFail("Should have casted to GeoPoint")
-            return
-        }
-        XCTAssertEqual(key.rawValue, "$polygon")
-
-        guard let testConstraints2 = testValue[key]?.first else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints2, geoPoint1)
-
-        guard let testConstraints3 = testValue[key]?[1] else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints3, geoPoint2)
-
-        guard let testConstraints4 = testValue[key]?.last else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints4, geoPoint3)
     }
 
     func testWhereKeyPolygonContains() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$geoIntersects": ["$point":
+                                    ["latitude": 10, "longitude": 20, "__type": "GeoPoint"]
+                                ]
+            ]
+        ]
         let geoPoint = GeoPoint(latitude: 10, longitude: 20)
         let constraint = polygonContains(key: "yolo", point: geoPoint)
         let query = GameScore.query(constraint)
-        let queryConstraints = query.`where`.constraints
+        let queryWhere = query.`where`
 
-        guard let testConstraints = queryConstraints["yolo"]?.first else {
-            XCTFail("Should have unwraped")
+        do {
+            let encoded = try JSONEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: [String: Any]]],
+                  let expectedNear = expectedValues["$geoIntersects"]?["$point"],
+                  let expectedLongitude = expectedNear["longitude"] as? Int,
+                  let expectedLatitude = expectedNear["latitude"] as? Int,
+                  let expectedType = expectedNear["__type"] as? String else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [String: Any]]],
+                  let decodedNear = decodedValues["$geoIntersects"]?["$point"],
+                  let decodedLongitude = decodedNear["longitude"] as? Int,
+                  let decodedLatitude = decodedNear["latitude"] as? Int,
+                  let decodedType = decodedNear["__type"] as? String else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            XCTAssertEqual(expectedLongitude, decodedLongitude)
+            XCTAssertEqual(expectedLatitude, decodedLatitude)
+            XCTAssertEqual(expectedType, decodedType)
+
+        } catch {
+            XCTFail(error.localizedDescription)
             return
         }
-        XCTAssertEqual(testConstraints.comparator?.rawValue, "$geoIntersects")
-
-        guard let testValue = testConstraints.value as? [QueryConstraint.Comparator: GeoPoint],
-              let key = testValue.keys.first else {
-            XCTFail("Should have casted to GeoPoint")
-            return
-        }
-        XCTAssertEqual(key.rawValue, "$point")
-
-        guard let testConstraints2 = testValue[key] else {
-            XCTFail("Should have unwraped")
-            return
-        }
-        XCTAssertEqual(testConstraints2, geoPoint)
     }
 
     // MARK: JSON Responses
