@@ -87,9 +87,10 @@ public struct GeoPoint: Codable, Equatable {
          as an argument. It should have the following argument signature:
          `(Result<GeoPoint, ParseError>)`
      */
-    public static func currentLocation(completion: @escaping (Result<GeoPoint, ParseError>) -> Void) {
+    public static func currentLocation(callbackQueue: DispatchQueue = .main,
+                                       completion: @escaping (Result<GeoPoint, ParseError>) -> Void) {
         let locationManager = ParseLocationMananger()
-        locationManager.getCurrentLocation { result in
+        locationManager.getCurrentLocation(callbackQueue) { result in
             switch result {
 
             case .success(let location):

@@ -42,7 +42,8 @@ class ParseLocationMananger: NSObject {
         locationManager.delegate = self
     }
 
-    func getCurrentLocation(completion: @escaping (Result<CLLocation, ParseError>) -> Void) {
+    func getCurrentLocation(_ callbackQueue: DispatchQueue,
+                            completion: @escaping (Result<CLLocation, ParseError>) -> Void) {
     #if os(watchOS)
         if self.bundle.object(forInfoDictionaryKey: "NSLocationWhenInUseUsageDescription") != nil {
             self.locationManager.requestWhenInUseAuthorization()
@@ -69,7 +70,7 @@ class ParseLocationMananger: NSObject {
         let currentLocationQueue = DispatchQueue(label: "com.parse.location")
         currentLocationQueue.async {
             self.currentLocationCallback = { location in
-                completion(location)
+                callbackQueue.async { completion(location) }
             }
         }
     }
