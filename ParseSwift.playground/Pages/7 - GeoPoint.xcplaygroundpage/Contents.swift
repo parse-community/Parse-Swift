@@ -217,4 +217,7 @@ query7.find(callbackQueue: .main) { results in
 let explain = try query2.find(explain: true)
 print(explain)
 
+let hint = try query2.find(explain: false, hint: "objectId")
+print(hint)
+
 //: [Next](@next)
