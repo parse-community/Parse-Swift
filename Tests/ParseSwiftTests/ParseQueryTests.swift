@@ -84,25 +84,22 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testSkip() {
         var query = GameScore.query()
         XCTAssertEqual(query.skip, 0)
-        let updatedQuery = query.skip(1)
+        query.skip(1)
         XCTAssertEqual(query.skip, 1)
-        XCTAssertEqual(updatedQuery.skip, 1)
     }
 
     func testLimit() {
         var query = GameScore.query()
         XCTAssertEqual(query.limit, 100)
-        let updatedQuery = query.limit(10)
+        query.limit(10)
         XCTAssertEqual(query.limit, 10)
-        XCTAssertEqual(updatedQuery.limit, 10)
     }
 
     func testOrder() {
         var query = GameScore.query()
         XCTAssertNil(query.order)
-        let updatedQuery = query.order([.ascending("yolo")])
+        query.order([.ascending("yolo")])
         XCTAssertNotNil(query.order)
-        XCTAssertNotNil(updatedQuery.order)
     }
 
     func testReadPreferences() {
@@ -110,59 +107,56 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(query.readPreference)
         XCTAssertNil(query.includeReadPreference)
         XCTAssertNil(query.subqueryReadPreference)
-        let updatedQuery = query.readPreference("PRIMARY",
+        query.readPreference("PRIMARY",
                                                 includeReadPreference: "SECONDARY",
                                                 subqueryReadPreference: "SECONDARY_PREFERRED")
         XCTAssertNotNil(query.readPreference)
         XCTAssertNotNil(query.includeReadPreference)
         XCTAssertNotNil(query.subqueryReadPreference)
-        XCTAssertNotNil(updatedQuery.readPreference)
-        XCTAssertNotNil(updatedQuery.includeReadPreference)
-        XCTAssertNotNil(updatedQuery.subqueryReadPreference)
     }
 
     func testIncludeKeys() {
         var query = GameScore.query()
         XCTAssertNil(query.include)
-        let updatedQuery = query.include("yolo")
+        query.include("yolo")
         XCTAssertEqual(query.include?.count, 1)
-        XCTAssertEqual(updatedQuery.include?.first, "yolo")
-        let updatedQuery2 = query.include("yolo", "wow")
+        XCTAssertEqual(query.include?.first, "yolo")
+        query.include("yolo", "wow")
         XCTAssertEqual(query.include?.count, 2)
-        XCTAssertEqual(updatedQuery2.include, ["yolo", "wow"])
-        let updatedQuery3 = query.include(["yolo"])
+        XCTAssertEqual(query.include, ["yolo", "wow"])
+        query.include(["yolo"])
         XCTAssertEqual(query.include?.count, 1)
-        XCTAssertEqual(updatedQuery3.include, ["yolo"])
+        XCTAssertEqual(query.include, ["yolo"])
     }
 
     func testIncludeAllKeys() {
         var query = GameScore.query()
         XCTAssertNil(query.include)
-        let updatedQuery = query.includeAll()
+        query.includeAll()
         XCTAssertEqual(query.include?.count, 1)
-        XCTAssertEqual(updatedQuery.include, ["*"])
+        XCTAssertEqual(query.include, ["*"])
     }
 
     func testExcludeKeys() {
         var query = GameScore.query()
         XCTAssertNil(query.excludeKeys)
-        let updatedQuery = query.exclude(["yolo"])
+        query.exclude(["yolo"])
         XCTAssertEqual(query.excludeKeys, ["yolo"])
-        XCTAssertEqual(updatedQuery.excludeKeys, ["yolo"])
+        XCTAssertEqual(query.excludeKeys, ["yolo"])
     }
 
     func testSelectKeys() {
         var query = GameScore.query()
         XCTAssertNil(query.keys)
-        let updatedQuery = query.select("yolo")
+        query.select("yolo")
         XCTAssertEqual(query.keys?.count, 1)
-        XCTAssertEqual(updatedQuery.keys?.first, "yolo")
-        let updatedQuery2 = query.select("yolo", "wow")
+        XCTAssertEqual(query.keys?.first, "yolo")
+        query.select("yolo", "wow")
         XCTAssertEqual(query.keys?.count, 2)
-        XCTAssertEqual(updatedQuery2.keys, ["yolo", "wow"])
-        let updatedQuery3 = query.select(["yolo"])
+        XCTAssertEqual(query.keys, ["yolo", "wow"])
+        query.select(["yolo"])
         XCTAssertEqual(query.keys?.count, 1)
-        XCTAssertEqual(updatedQuery3.keys, ["yolo"])
+        XCTAssertEqual(query.keys, ["yolo"])
     }
 
     func testAddingConstraints() {
@@ -171,9 +165,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query.className, query.className)
         XCTAssertEqual(query.`where`.constraints.values.count, 0)
 
-        let updatedQuery = query.`where`("score" > 100, "createdAt" > Date())
+        query.`where`("score" > 100, "createdAt" > Date())
         XCTAssertEqual(query.`where`.constraints.values.count, 2)
-        XCTAssertEqual(updatedQuery.`where`.constraints.values.count, 2)
     }
 
     // MARK: Querying Parse Server

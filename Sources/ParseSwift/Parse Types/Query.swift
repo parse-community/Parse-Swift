@@ -542,9 +542,8 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
       Add any amount of variadic constraints
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s
      */
-    public mutating func `where`(_ constraints: QueryConstraint...) -> Query<T> {
+    public mutating func `where`(_ constraints: QueryConstraint...) {
         constraints.forEach({ self.where.add($0) })
-        return self
     }
 
     /**
@@ -552,23 +551,19 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
       maximum of 1000 results being returned at a time.
 
       - parameter value: `n` number of results to limit to.
-      - returns: Returns the query, so you can chain this call.
       - note: If you are calling `find` with `limit = 1`, you may find it easier to use `first` instead.
     */
-    public mutating func limit(_ value: Int) -> Query<T> {
+    public mutating func limit(_ value: Int) {
         self.limit = value
-        return self
     }
 
     /**
       The number of objects to skip before returning any.
       This is useful for pagination. Default is to skip zero results.
       - parameter value: `n` number of results to skip.
-      - returns: Returns the query, so you can chain this call.
     */
-    public mutating func skip(_ value: Int) -> Query<T> {
+    public mutating func skip(_ value: Int) {
         self.skip = value
-        return self
     }
 
     /**
@@ -576,87 +571,71 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter readPreference: The read preference for the main query.
       - parameter includeReadPreference: The read preference for the queries to include pointers.
       - parameter subqueryReadPreference: The read preference for the sub queries.
-      - returns: Returns the query, so you can chain this call.
     */
     public mutating func readPreference(_ readPreference: String?,
                                         includeReadPreference: String? = nil,
-                                        subqueryReadPreference: String? = nil) -> Query<T> {
+                                        subqueryReadPreference: String? = nil) {
         self.readPreference = readPreference
         self.includeReadPreference = includeReadPreference
         self.subqueryReadPreference = subqueryReadPreference
-        return self
     }
 
     /**
      Make the query include `ParseObject`s that have a reference stored at the provided keys.
      - parameter keys: A variadic list of keys to load child `ParseObject`s for.
-     - returns: The same instance of `ParseQuery` as the receiver. This allows method chaining.
      */
-    public mutating func include(_ keys: String...) -> Query<T> {
+    public mutating func include(_ keys: String...) {
         self.include = keys
-        return self
     }
 
     /**
      Make the query include `ParseObject`s that have a reference stored at the provided keys.
      - parameter keys: An array of keys to load child `ParseObject`s for.
-     - returns: The same instance of `ParseQuery` as the receiver. This allows method chaining.
      */
-    public mutating func include(_ keys: [String]) -> Query<T> {
+    public mutating func include(_ keys: [String]) {
         self.include = keys
-        return self
     }
 
     /**
      Includes all nested `ParseObject`s.
      - warning: Requires Parse Server 3.0.0+
-     - returns: The same instance of `ParseQuery` as the receiver. This allows method chaining.
      */
-    public mutating func includeAll() -> Query<T> {
+    public mutating func includeAll() {
         self.include = ["*"]
-        return self
     }
 
     /**
       Executes a distinct query and returns unique values. Default is to nil.
       - parameter keys: An arrays of keys to exclude.
-      - returns: Returns the query, so you can chain this call.
     */
-    public mutating func exclude(_ keys: [String]?) -> Query<T> {
+    public mutating func exclude(_ keys: [String]?) {
         self.excludeKeys = keys
-        return self
     }
 
     /**
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: A variadic list of keys include in the result.
-     - returns: The same instance of `ParseQuery` as the receiver. This allows method chaining.
      */
-    public mutating func select(_ keys: String...) -> Query<T> {
+    public mutating func select(_ keys: String...) {
         self.keys = keys
-        return self
     }
 
     /**
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys include in the result.
-     - returns: The same instance of `ParseQuery` as the receiver. This allows method chaining.
      */
-    public mutating func select(_ keys: [String]) -> Query<T> {
+    public mutating func select(_ keys: [String]) {
         self.keys = keys
-        return self
     }
 
     /**
        An enum that determines the order to sort the results based on a given key.
       - parameter keys: An array of keys to order by.
-      - returns: Returns the query, so you can chain this call.
     */
-    public mutating func order(_ keys: [Order]?) -> Query<T> {
+    public mutating func order(_ keys: [Order]?) {
         self.order = keys
-        return self
     }
 
     /**
