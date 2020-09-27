@@ -7,7 +7,7 @@ on:
     branches: [ main ]
 
 env:
-  CI_XCODE_VER: '/Applications/Xcode_11.6.app/Contents/Developer'
+  CI_XCODE_VER: '/Applications/Xcode_12.app/Contents/Developer'
 
 jobs:
   swift-test-ios:
