@@ -60,6 +60,11 @@ extension ParseUser {
         try? KeychainStore.shared.set(currentUserInMemory, for: ParseStorage.Keys.currentUser)
     }
 
+    internal static func deleteCurrentContainerFromKeychain() {
+        try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentUser)
+        try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
+    }
+
     /**
      Gets the currently logged in user from the Keychain and returns an instance of it.
 
@@ -175,8 +180,8 @@ extension ParseUser {
 
     private static func logoutCommand() -> API.Command<NoBody, Void> {
        return API.Command(method: .POST, path: .logout) { (_) -> Void in
+            deleteCurrentContainerFromKeychain()
             currentUserContainer = nil
-            try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
        }
     }
 }

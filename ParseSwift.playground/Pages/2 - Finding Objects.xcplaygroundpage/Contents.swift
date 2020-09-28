@@ -26,7 +26,8 @@ var query = GameScore.query("score" > 100, "createdAt" > afterDate)
 // Query asynchronously (preferred way) - Performs work on background
 // queue and returns to designated on designated callbackQueue.
 // If no callbackQueue is specified it returns to main queue
-query.limit(2).find(callbackQueue: .main) { results in
+query.limit(2)
+query.find(callbackQueue: .main) { results in
     switch results {
     case .success(let scores):
 
@@ -42,7 +43,7 @@ query.limit(2).find(callbackQueue: .main) { results in
 }
 
 // Query synchronously (not preferred - all operations on main queue)
-let results = try query.limit(2).find()
+let results = try query.find()
 assert(results.count >= 1)
 results.forEach { (score) in
     guard let createdAt = score.createdAt else { fatalError() }

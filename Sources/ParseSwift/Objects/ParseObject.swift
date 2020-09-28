@@ -12,7 +12,7 @@ import Foundation
  Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse cloud.
  This is the main protocol that is used to interact with objects in your app.
 */
-public protocol ParseObject: Fetchable, Saveable, CustomDebugStringConvertible {
+public protocol ParseObject: Fetchable, Saveable, Deletable, CustomDebugStringConvertible {
     /**
     The class name of the object.
     */
@@ -135,7 +135,7 @@ extension ParseObject {
 
 // MARK: Fetchable
 extension ParseObject {
-    internal static func updateKeychainIfNeeded(_ results: [Self], saving: Bool = false) throws {
+    internal static func updateKeychainIfNeeded(_ results: [Self], deleting: Bool = false) throws {
         guard let currentUser = BaseParseUser.current else {
             return
         }
@@ -149,10 +149,14 @@ extension ParseObject {
             return $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
         })
         if let foundCurrentUser = foundCurrentUserObjects.first {
-            let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(foundCurrentUser)
-            let updatedCurrentUser = try ParseCoding.jsonDecoder().decode(BaseParseUser.self, from: encoded)
-            BaseParseUser.current = updatedCurrentUser
-            BaseParseUser.saveCurrentContainerToKeychain()
+            if !deleting {
+                let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(foundCurrentUser)
+                let updatedCurrentUser = try ParseCoding.jsonDecoder().decode(BaseParseUser.self, from: encoded)
+                BaseParseUser.current = updatedCurrentUser
+                BaseParseUser.saveCurrentContainerToKeychain()
+            } else {
+                BaseParseUser.deleteCurrentContainerFromKeychain()
+            }
         } else if results.first?.className == BaseParseInstallation.className {
             guard let currentInstallation = BaseParseInstallation.current else {
                 return
@@ -165,11 +169,15 @@ extension ParseObject {
                 saveInstallation = results.first
             }
             if saveInstallation != nil {
-                let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(saveInstallation!)
-                let updatedCurrentInstallation =
-                    try ParseCoding.jsonDecoder().decode(BaseParseInstallation.self, from: encoded)
-                BaseParseInstallation.current = updatedCurrentInstallation
-                BaseParseInstallation.saveCurrentContainerToKeychain()
+                if !deleting {
+                    let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(saveInstallation!)
+                    let updatedCurrentInstallation =
+                        try ParseCoding.jsonDecoder().decode(BaseParseInstallation.self, from: encoded)
+                    BaseParseInstallation.current = updatedCurrentInstallation
+                    BaseParseInstallation.saveCurrentContainerToKeychain()
+                } else {
+                    BaseParseInstallation.deleteCurrentContainerFromKeychain()
+                }
             }
         }
     }
@@ -212,7 +220,7 @@ extension ParseObject {
          } catch {
              completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
          }
-     }
+    }
 
     internal func fetchCommand() throws -> API.Command<Self, Self> {
         return try API.Command<Self, Self>.fetchCommand(self)
@@ -255,7 +263,7 @@ extension ParseObject {
     */
     public func save(options: API.Options = []) throws -> Self {
         let result: Self = try saveCommand().execute(options: options)
-        try? Self.updateKeychainIfNeeded([result], saving: true)
+        try? Self.updateKeychainIfNeeded([result])
         return result
     }
 
@@ -274,7 +282,7 @@ extension ParseObject {
     ) {
         saveCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
             if case .success(let foundResults) = result {
-                try? Self.updateKeychainIfNeeded([foundResults], saving: true)
+                try? Self.updateKeychainIfNeeded([foundResults])
             }
             completion(result)
         }
@@ -282,6 +290,52 @@ extension ParseObject {
 
     internal func saveCommand() -> API.Command<Self, Self> {
         return API.Command<Self, Self>.saveCommand(self)
+    }
+}
+
+// MARK: Deletable
+extension ParseObject {
+    /**
+     Deletes the ParseObject *synchronously* with the current data from the server and sets an error if it occurs.
+
+     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - throws: An Error of `ParseError` type.
+    */
+    public func delete(options: API.Options = []) throws {
+        _ = try deleteCommand().execute(options: options)
+        //try? Self.updateKeychainIfNeeded([result], deleting: true)
+    }
+
+    /**
+     Deletes the `ParseObject` *asynchronously* and executes the given callback block.
+
+     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion.  Default
+     value of .main.
+     - parameter completion: The block to execute when completed.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+    */
+    public func delete(
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (ParseError?) -> Void
+    ) {
+         do {
+            try deleteCommand().executeAsync(options: options, callbackQueue: callbackQueue) { _ in
+                /*if case .success(_) = result {
+                    try? Self.updateKeychainIfNeeded([Self], deleting: true)
+                }*/
+                completion(nil)
+            }
+         } catch let error as ParseError {
+             completion(error)
+         } catch {
+             completion(ParseError(code: .unknownError, message: error.localizedDescription))
+         }
+    }
+
+    internal func deleteCommand() throws -> API.Command<Self, NoBody> {
+        return try API.Command<Self, NoBody>.deleteCommand(self)
     }
 }
 

@@ -137,6 +137,11 @@ extension ParseInstallation {
         try? KeychainStore.shared.set(currentInstallationInMemory, for: ParseStorage.Keys.currentInstallation)
     }
 
+    internal static func deleteCurrentContainerFromKeychain() {
+        try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+    }
+
     /**
      Gets/Sets properties of the current installation in the Keychain.
 

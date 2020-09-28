@@ -617,6 +617,139 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         }
         self.updateAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
+
+    func testDeleteCommand() {
+        var score = GameScore(score: 10)
+        let className = score.className
+        let objectId = "yarr"
+        score.objectId = objectId
+        do {
+            let command = try score.deleteCommand()
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+            XCTAssertEqual(command.method, API.Method.DELETE)
+            XCTAssertNil(command.params)
+            XCTAssertNil(command.body)
+            XCTAssertNil(command.data)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testDelete() {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+        let encoded: Data!
+        do {
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            try score.delete(options: [])
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        do {
+            try score.delete(options: [.useMasterKey])
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func deleteAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Fetch object1")
+        score.delete(options: [], callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                expectation1.fulfill()
+                return
+            }
+            XCTFail(error.localizedDescription)
+            expectation1.fulfill()
+        }
+
+        let expectation2 = XCTestExpectation(description: "Fetch object2")
+        score.delete(options: [.useMasterKey], callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                expectation2.fulfill()
+                return
+            }
+            XCTFail(error.localizedDescription)
+            expectation2.fulfill()
+        }
+        wait(for: [expectation1, expectation2], timeout: 10.0)
+    }
+
+    func testThreadSafeDeleteAsync() {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
+        let encoded: Data!
+        do {
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should have encoded/decoded: Error: \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+            self.deleteAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
+        }
+    }
+
+    func testDeleteAsyncMainQueue() {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+        let encoded: Data!
+        do {
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should have encoded/decoded: Error: \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        self.deleteAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
+    }
 }
 #endif
 // swiftlint:disable:this file_length

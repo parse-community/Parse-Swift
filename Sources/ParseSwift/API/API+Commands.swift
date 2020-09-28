@@ -140,6 +140,20 @@ internal extension API.Command {
             try ParseCoding.jsonDecoder().decode(FetchResponse.self, from: data).apply(to: object)
         }
     }
+
+    // MARK: Deleting
+    static func deleteCommand<T>(_ object: T) throws -> API.Command<T, NoBody> where T: ParseObject {
+        guard object.isSaved else {
+            throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
+        }
+
+        return API.Command<T, NoBody>(
+            method: .DELETE,
+            path: object.endpoint
+        ) { (data) -> NoBody in
+            try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+        }
+    }
 }
 
 extension API.Command where T: ParseObject {
