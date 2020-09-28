@@ -143,6 +143,26 @@ otherResults!.forEach { result in
     }
 }
 
+//: Now we will create another object and delete it
+let score3 = GameScore(score: 30)
+
+//: Save the score and store it in "scoreToDelete"
+var scoreToDelete: GameScore!
+do {
+    scoreToDelete = try score3.save()
+    print("Successfully saved: \(scoreToDelete!)")
+} catch {
+    assertionFailure("Error deleting: \(error)")
+}
+
+//: Delete the score from parse-server
+do {
+    try scoreToDelete.delete()
+    print("Successfully deleted: \(scoreToDelete!)")
+} catch {
+    assertionFailure("Error deleting: \(error)")
+}
+
 PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)

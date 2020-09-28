@@ -142,12 +142,12 @@ internal extension API.Command {
     }
 
     // MARK: Deleting
-    static func deleteCommand<T>(_ object: T) throws -> API.Command<T, NoBody> where T: ParseObject {
+    static func deleteCommand<T>(_ object: T) throws -> API.Command<NoBody, NoBody> where T: ParseObject {
         guard object.isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
         }
 
-        return API.Command<T, NoBody>(
+        return API.Command<NoBody, NoBody>(
             method: .DELETE,
             path: object.endpoint
         ) { (data) -> NoBody in

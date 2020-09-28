@@ -338,8 +338,8 @@ extension ParseObject {
          }
     }
 
-    internal func deleteCommand() throws -> API.Command<Self, NoBody> {
-        return try API.Command<Self, NoBody>.deleteCommand(self)
+    internal func deleteCommand() throws -> API.Command<NoBody, NoBody> {
+        return try API.Command<NoBody, NoBody>.deleteCommand(self)
     }
 }
 

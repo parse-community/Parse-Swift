@@ -630,7 +630,6 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
             XCTAssertEqual(command.method, API.Method.DELETE)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
         } catch {
             XCTFail(error.localizedDescription)
         }
