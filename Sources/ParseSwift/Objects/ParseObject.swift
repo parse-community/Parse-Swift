@@ -303,7 +303,7 @@ extension ParseObject {
     */
     public func delete(options: API.Options = []) throws {
         _ = try deleteCommand().execute(options: options)
-        //try? Self.updateKeychainIfNeeded([result], deleting: true)
+        try? Self.updateKeychainIfNeeded([self], deleting: true)
     }
 
     /**
@@ -321,11 +321,15 @@ extension ParseObject {
         completion: @escaping (ParseError?) -> Void
     ) {
          do {
-            try deleteCommand().executeAsync(options: options, callbackQueue: callbackQueue) { _ in
-                /*if case .success(_) = result {
-                    try? Self.updateKeychainIfNeeded([Self], deleting: true)
-                }*/
-                completion(nil)
+            try deleteCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
+                switch result {
+
+                case .success:
+                    try? Self.updateKeychainIfNeeded([self], deleting: true)
+                    completion(nil)
+                case .failure(let error):
+                    completion(error)
+                }
             }
          } catch let error as ParseError {
              completion(error)
