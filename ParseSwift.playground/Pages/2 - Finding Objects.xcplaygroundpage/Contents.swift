@@ -21,13 +21,12 @@ score.score = 200
 try score.save()
 
 let afterDate = Date().addingTimeInterval(-300)
-var query = GameScore.query("score" > 100, "createdAt" > afterDate)
+let query = GameScore.query("score" > 100, "createdAt" > afterDate)
 
 // Query asynchronously (preferred way) - Performs work on background
 // queue and returns to designated on designated callbackQueue.
 // If no callbackQueue is specified it returns to main queue
-query.limit(2)
-query.find(callbackQueue: .main) { results in
+query.limit(2).find(callbackQueue: .main) { results in
     switch results {
     case .success(let scores):
 

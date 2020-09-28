@@ -484,8 +484,7 @@ internal struct QueryWhere: Encodable, Equatable {
 /**
   The `Query` struct defines a query that is used to query for `ParseObject`s.
 */
-public struct Query<T>: Encodable, Equatable where T: ParseObject {
-
+public class Query<T>: Encodable, Equatable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     internal var limit: Int = 100
@@ -526,7 +525,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
       Create an instance with a variadic amount constraints
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s
      */
-    public init(_ constraints: QueryConstraint...) {
+    public convenience init(_ constraints: QueryConstraint...) {
         self.init(constraints)
     }
 
@@ -538,12 +537,32 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
         constraints.forEach({ self.where.add($0) })
     }
 
+    public static func == (lhs: Query<T>, rhs: Query<T>) -> Bool {
+        guard lhs.limit == rhs.limit,
+              lhs.skip == rhs.skip,
+              lhs.keys == rhs.keys,
+              lhs.include == rhs.include,
+              lhs.order == rhs.order,
+              lhs.isCount == rhs.isCount,
+              lhs.explain == rhs.explain,
+              lhs.hint == rhs.hint,
+              lhs.`where` == rhs.`where`,
+              lhs.excludeKeys == rhs.excludeKeys,
+              lhs.readPreference == rhs.readPreference,
+              lhs.includeReadPreference == rhs.includeReadPreference,
+              lhs.subqueryReadPreference == rhs.subqueryReadPreference else {
+            return false
+        }
+        return true
+    }
+
     /**
       Add any amount of variadic constraints
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s
      */
-    public mutating func `where`(_ constraints: QueryConstraint...) {
+    public func `where`(_ constraints: QueryConstraint...) -> Query<T> {
         constraints.forEach({ self.where.add($0) })
+        return self
     }
 
     /**
@@ -553,8 +572,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter value: `n` number of results to limit to.
       - note: If you are calling `find` with `limit = 1`, you may find it easier to use `first` instead.
     */
-    public mutating func limit(_ value: Int) {
+    public func limit(_ value: Int) -> Query<T> {
         self.limit = value
+        return self
     }
 
     /**
@@ -562,8 +582,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
       This is useful for pagination. Default is to skip zero results.
       - parameter value: `n` number of results to skip.
     */
-    public mutating func skip(_ value: Int) {
+    public func skip(_ value: Int) -> Query<T> {
         self.skip = value
+        return self
     }
 
     /**
@@ -572,44 +593,49 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter includeReadPreference: The read preference for the queries to include pointers.
       - parameter subqueryReadPreference: The read preference for the sub queries.
     */
-    public mutating func readPreference(_ readPreference: String?,
-                                        includeReadPreference: String? = nil,
-                                        subqueryReadPreference: String? = nil) {
+    public func readPreference(_ readPreference: String?,
+                               includeReadPreference: String? = nil,
+                               subqueryReadPreference: String? = nil) -> Query<T> {
         self.readPreference = readPreference
         self.includeReadPreference = includeReadPreference
         self.subqueryReadPreference = subqueryReadPreference
+        return self
     }
 
     /**
      Make the query include `ParseObject`s that have a reference stored at the provided keys.
      - parameter keys: A variadic list of keys to load child `ParseObject`s for.
      */
-    public mutating func include(_ keys: String...) {
+    public func include(_ keys: String...) -> Query<T> {
         self.include = keys
+        return self
     }
 
     /**
      Make the query include `ParseObject`s that have a reference stored at the provided keys.
      - parameter keys: An array of keys to load child `ParseObject`s for.
      */
-    public mutating func include(_ keys: [String]) {
+    public func include(_ keys: [String]) -> Query<T> {
         self.include = keys
+        return self
     }
 
     /**
      Includes all nested `ParseObject`s.
      - warning: Requires Parse Server 3.0.0+
      */
-    public mutating func includeAll() {
+    public func includeAll() -> Query<T> {
         self.include = ["*"]
+        return self
     }
 
     /**
       Executes a distinct query and returns unique values. Default is to nil.
       - parameter keys: An arrays of keys to exclude.
     */
-    public mutating func exclude(_ keys: [String]?) {
+    public func exclude(_ keys: [String]?) -> Query<T> {
         self.excludeKeys = keys
+        return self
     }
 
     /**
@@ -617,8 +643,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: A variadic list of keys include in the result.
      */
-    public mutating func select(_ keys: String...) {
+    public func select(_ keys: String...) -> Query<T> {
         self.keys = keys
+        return self
     }
 
     /**
@@ -626,16 +653,18 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys include in the result.
      */
-    public mutating func select(_ keys: [String]) {
+    public func select(_ keys: [String]) -> Query<T> {
         self.keys = keys
+        return self
     }
 
     /**
        An enum that determines the order to sort the results based on a given key.
       - parameter keys: An array of keys to order by.
     */
-    public mutating func order(_ keys: [Order]?) {
+    public func order(_ keys: [Order]?) -> Query<T> {
         self.order = keys
+        return self
     }
 
     /**
@@ -880,7 +909,7 @@ private extension Query {
     }
 
     private func firstCommand() -> API.Command<Query<ResultType>, ResultType?> {
-        var query = self
+        let query = self
         query.limit = 1
         return API.Command(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).results.first
@@ -888,7 +917,7 @@ private extension Query {
     }
 
     private func countCommand() -> API.Command<Query<ResultType>, Int> {
-        var query = self
+        let query = self
         query.limit = 1
         query.isCount = true
         return API.Command(method: .POST, path: endpoint, body: query) {
@@ -897,7 +926,7 @@ private extension Query {
     }
 
     private func findCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
-        var query = self
+        let query = self
         query.explain = explain
         query.hint = hint
         return API.Command(method: .POST, path: endpoint, body: query) {
@@ -906,7 +935,7 @@ private extension Query {
     }
 
     private func firstCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
-        var query = self
+        let query = self
         query.limit = 1
         query.explain = explain
         query.hint = hint
@@ -916,7 +945,7 @@ private extension Query {
     }
 
     private func countCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
-        var query = self
+        let query = self
         query.limit = 1
         query.isCount = true
         query.explain = explain
