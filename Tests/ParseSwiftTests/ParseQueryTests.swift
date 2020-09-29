@@ -295,6 +295,53 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     }
 
+    func testFirstNoObjectFound() {
+        let scoreOnServer = GameScore(score: 10)
+        let results = FindResult<GameScore>(results: [GameScore](), count: 0)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query()
+        do {
+
+            guard try query.first(options: []) != nil else {
+                XCTFail("Should have thrown error")
+                return
+            }
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("Should have casted as ParseError")
+                return
+            }
+            XCTAssertEqual(error.code.rawValue, 101)
+        }
+
+    }
+
+    func firstAsyncNoObjectFound(scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
+        let query = GameScore.query()
+        let expectation = XCTestExpectation(description: "Count object1")
+        query.first(options: [], callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success:
+                XCTFail("Should have failed")
+
+            case .failure(let error):
+                XCTAssertEqual(error.code.rawValue, 101)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+
     func firstAsync(scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
         let query = GameScore.query()
         let expectation = XCTestExpectation(description: "Count object1")
@@ -352,6 +399,37 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
         firstAsync(scoreOnServer: scoreOnServer, callbackQueue: .main)
+    }
+
+    func testThreadSafeFirstAsyncNoObjectFound() {
+        let scoreOnServer = GameScore(score: 10)
+        let results = FindResult<GameScore>(results: [GameScore](), count: 0)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        DispatchQueue.concurrentPerform(iterations: 100) {_ in
+            firstAsyncNoObjectFound(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
+        }
+    }
+
+    func testFirstAsyncNoObjectFoundMainQueue() {
+        let scoreOnServer = GameScore(score: 10)
+        let results = FindResult<GameScore>(results: [GameScore](), count: 0)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        firstAsyncNoObjectFound(scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
     func testCount() {

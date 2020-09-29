@@ -783,6 +783,8 @@ extension Query: Queryable {
         let result = try firstCommand().execute(options: options)
         if let foundResult = result {
             try? ResultType.updateKeychainIfNeeded([foundResult])
+        } else {
+            throw ParseError(code: .objectNotFound, message: "Object not found on the server.")
         }
         return result
     }
@@ -818,7 +820,7 @@ extension Query: Queryable {
             switch result {
             case .success(let first):
                 guard let first = first else {
-                    completion(.failure(ParseError(code: .unknownError, message: "unable to unwrap data") ))
+                    completion(.failure(ParseError(code: .objectNotFound, message: "Object not found on the server.")))
                     return
                 }
                 try? ResultType.updateKeychainIfNeeded([first])
