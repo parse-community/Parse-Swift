@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct GameScore: ParseObject {
         //: Those are required for Object
@@ -25,6 +25,36 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         //: a custom initializer
         init(score: Int) {
             self.score = score
+        }
+    }
+
+    class GameScoreClass: ParseObject {
+        //: Those are required for Object
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        //: Your own properties
+        var score: Int
+
+        //: a custom initializer
+        init(score: Int) {
+            self.score = score
+        }
+    }
+
+    class Game: GameScoreClass {
+        var name = "test"
+
+        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
+            case name
+        }
+
+        override func encode(to encoder: Encoder) throws {
+            try super.encode(to: encoder)
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(name, forKey: .name)
         }
     }
 
@@ -45,6 +75,18 @@ class ParseObjectCommandTests: XCTestCase { // swiftlint:disable:this type_body_
         MockURLProtocol.removeAll()
         try? KeychainStore.shared.deleteAll()
         try? ParseStorage.shared.deleteAll()
+    }
+
+    func testObjectCreationViaStruct() {
+        XCTAssertEqual(GameScore.className, "GameScore")
+        XCTAssertEqual(GameScore(score: 10).className, "GameScore")
+    }
+
+    func testObjectCreationViaClass() {
+        XCTAssertEqual(GameScoreClass.className, "GameScoreClass")
+        XCTAssertEqual(GameScoreClass(score: 10).className, "GameScoreClass")
+        XCTAssertEqual(Game.className, "Game")
+        XCTAssertEqual(Game(score: 10).className, "Game")
     }
 
     func testFetchCommand() {

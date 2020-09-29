@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
         //: Those are required for Object
