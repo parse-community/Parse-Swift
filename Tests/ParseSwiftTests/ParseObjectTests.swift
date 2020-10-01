@@ -96,15 +96,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(GameScore(score: 10).className, "GameScore")
     }
 
-    func testObjectCreationViaClass() {
-        XCTAssertEqual(GameScoreClass.className, "GameScoreClass")
-        XCTAssertEqual(GameScoreClass(score: 10).className, "GameScoreClass")
-        XCTAssertEqual(Game.className, "Game")
-        XCTAssertEqual(Game(score: 10).className, "Game")
-        XCTAssertEqual(ParseGame.className, "ParseGame")
-        XCTAssertEqual(ParseGame(score: 10).className, "ParseGame")
-    }
-
     func testFetchCommand() {
         var score = GameScore(score: 10)
         let className = score.className
