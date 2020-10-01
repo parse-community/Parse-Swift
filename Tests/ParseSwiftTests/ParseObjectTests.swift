@@ -58,6 +58,20 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    class ParseGame: Game {
+        var levels = 7
+
+        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
+            case levels
+        }
+
+        override func encode(to encoder: Encoder) throws {
+            try super.encode(to: encoder)
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(levels, forKey: .levels)
+        }
+    }
+
     override func setUp() {
         super.setUp()
         guard let url = URL(string: "https://localhost:1337/1") else {
@@ -87,6 +101,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(GameScoreClass(score: 10).className, "GameScoreClass")
         XCTAssertEqual(Game.className, "Game")
         XCTAssertEqual(Game(score: 10).className, "Game")
+        XCTAssertEqual(ParseGame.className, "ParseGame")
+        XCTAssertEqual(ParseGame(score: 10).className, "ParseGame")
     }
 
     func testFetchCommand() {

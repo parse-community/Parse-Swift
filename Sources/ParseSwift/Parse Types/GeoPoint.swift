@@ -1,5 +1,7 @@
 import Foundation
+#if canImport(CoreLocation)
 import CoreLocation
+#endif
 
 /**
   `GeoPoint` may be used to embed a latitude / longitude point as the value for a key in a `ParseObject`.
@@ -72,31 +74,10 @@ public struct GeoPoint: Codable, Equatable {
       Creates a new `GeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
        - parameter location: Instace of `CLLocation`, with set latitude and longitude.
      */
+    @available(iOS 11, macOS 10.13, tvOS 11, watchOS 4, *)
     public init(location: CLLocation) {
         self._longitude = location.coordinate.longitude
         self._latitude = location.coordinate.latitude
-    }
-
-    /**
-       Fetches the current device location and executes a block with a new `GeoPoint` instance.
-       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-       - parameter completion: A block which takes the newly created `GeoPoint` or ParseError
-         as an argument. It should have the following argument signature:
-         `(Result<GeoPoint, ParseError>)`
-     */
-    public static func currentLocation(callbackQueue: DispatchQueue = .main,
-                                       completion: @escaping (Result<GeoPoint, ParseError>) -> Void) {
-        let locationManager = ParseLocationMananger()
-        locationManager.getCurrentLocation(callbackQueue) { result in
-            switch result {
-
-            case .success(let location):
-                let geoPoint = Self.init(location: location)
-                completion(.success(geoPoint))
-            case .failure(let error):
-                completion(.failure(error))
-            }
-        }
     }
 
     /**

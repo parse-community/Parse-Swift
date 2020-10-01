@@ -8,8 +8,10 @@
 
 #if !os(watchOS)
 import XCTest
-@testable import ParseSwift
+#if canImport(CoreLocation)
 import CoreLocation
+#endif
+@testable import ParseSwift
 
 class ParseGeoPointTests: XCTestCase {
     override func setUp() {
@@ -38,12 +40,14 @@ class ParseGeoPointTests: XCTestCase {
         XCTAssertEqual(point.longitude, 0.0, accuracy: 0.00001, "Longitude should be 0.0")
     }
 
+    #if canImport(CoreLocation)
     func testGeoPointFromLocation() {
         let location = CLLocation(latitude: 10.0, longitude: 20.0)
         let geoPoint = GeoPoint(location: location)
         XCTAssertEqual(geoPoint.latitude, location.coordinate.latitude)
         XCTAssertEqual(geoPoint.longitude, location.coordinate.longitude)
     }
+    #endif
 
     func testGeoPointEncoding() {
         let point = GeoPoint(latitude: 10, longitude: 20)
