@@ -9,7 +9,7 @@ initializeParse()
 
 do {
     var acl = ParseACL()
-    acl.publicRead = false
+    acl.publicRead = true
     acl.publicWrite = false
     try ParseACL.setDefaultACL(acl, withAccessForCurrentUser: true)
 } catch {

@@ -67,7 +67,6 @@ User.login(username: "hello", password: "world") { results in
     }
 }
 
-
 //: Logging out - synchronously
 do {
     try User.logout()
@@ -83,16 +82,14 @@ newUser.password = "world"
 
 newUser.signup { result in
     switch result {
-    
+
     case .success(let user):
         print("Parse signup successful \(user)")
-        
+
     case .failure(let error):
         assertionFailure("Error logging in \(error)")
     }
 }
-    
-    
 
 PlaygroundPage.current.finishExecution()
 
