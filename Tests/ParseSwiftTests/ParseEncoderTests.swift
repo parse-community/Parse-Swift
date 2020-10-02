@@ -80,5 +80,21 @@ class ParseEncoderTests: XCTestCase {
         let reference = referenceEncoding(for: value)
         XCTAssertEqual(encoded, reference)
     }
+
+    func testNestedContatiner() throws {
+        var newACL = ParseACL()
+        newACL.publicRead = true
+
+        let jsonEncoded = try ParseCoding.jsonEncoder().encode(newACL)
+        let jsonDecoded = try ParseCoding.jsonDecoder().decode([String: [String: Bool]].self, from: jsonEncoded)
+
+        let parseEncoded = try ParseCoding.parseEncoder().encode(newACL)
+        let parseDecoded = try ParseCoding.jsonDecoder().decode([String: [String: Int]].self, from: parseEncoded)
+
+        XCTAssertEqual(jsonDecoded.keys.count, parseDecoded.keys.count)
+        XCTAssertEqual(jsonDecoded.values.count, parseDecoded.values.count)
+        XCTAssertEqual(jsonDecoded["*"]?["read"], true)
+        XCTAssertEqual(parseDecoded["*"]?["read"], 1)
+    }
 }
 #endif

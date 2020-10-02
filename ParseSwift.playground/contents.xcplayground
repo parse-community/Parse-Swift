@@ -7,5 +7,7 @@
         <page name='4 - User - Continued'/>
         <page name='5 - ACL'/>
         <page name='6 - Installation'/>
+        <page name='7 - GeoPoint'/>
+        <page name='8 - Pointers'/>
     </pages>
 </playground>

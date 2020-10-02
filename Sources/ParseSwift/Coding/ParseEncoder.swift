@@ -137,11 +137,23 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
         keyedBy keyType: NestedKey.Type,
         forKey key: Key
     ) -> KeyedEncodingContainer<NestedKey> where NestedKey: CodingKey {
-        let container = _ParseEncoderKeyedEncodingContainer<NestedKey>(
-            codingPath: codingPath + [key],
-            dictionary: dictionary,
-            skippingKeys: skippedKeys
-        )
+
+        dictionary[key.stringValue] = NSMutableDictionary()
+        let container: _ParseEncoderKeyedEncodingContainer<NestedKey>
+
+        if let mutableDictionary = dictionary[key.stringValue] as? NSMutableDictionary {
+            container = _ParseEncoderKeyedEncodingContainer<NestedKey>(
+                codingPath: codingPath + [key],
+                dictionary: mutableDictionary,
+                skippingKeys: skippedKeys
+            )
+        } else {
+            container = _ParseEncoderKeyedEncodingContainer<NestedKey>(
+                codingPath: codingPath + [key],
+                dictionary: dictionary,
+                skippingKeys: skippedKeys
+            )
+        }
 
         return KeyedEncodingContainer(container)
     }
@@ -159,7 +171,7 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
     }
 
     mutating func superEncoder(forKey key: Key) -> Encoder {
-        fatalError("You can't encode supertypes yet.")
+        _ParseEncoder(codingPath: codingPath + [key], dictionary: dictionary, skippingKeys: skippedKeys)
     }
 }
 
