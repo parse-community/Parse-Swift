@@ -279,6 +279,7 @@ extension ParseUser {
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             user.updatedAt = response.updatedAt ?? response.createdAt
             user.createdAt = response.createdAt
+            user.objectId = response.objectId
 
             Self.currentUserContainer = .init(
                 currentUser: user,

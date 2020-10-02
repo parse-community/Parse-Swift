@@ -67,6 +67,33 @@ User.login(username: "hello", password: "world") { results in
     }
 }
 
+
+//: Logging out - synchronously
+do {
+    try User.logout()
+    print("Succesfully logged out")
+} catch let error {
+    assertionFailure("Error logging out: \(error)")
+}
+
+//: Another way to sign up
+var newUser = User()
+newUser.username = "hello10"
+newUser.password = "world"
+
+newUser.signup { result in
+    switch result {
+    
+    case .success(let user):
+        print("Parse signup successful \(user)")
+        
+    case .failure(let error):
+        assertionFailure("Error logging in \(error)")
+    }
+}
+    
+    
+
 PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)
