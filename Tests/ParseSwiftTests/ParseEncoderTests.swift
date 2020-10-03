@@ -30,7 +30,7 @@ class ParseEncoderTests: XCTestCase {
 
     func parseEncoding<T: Encodable>(for object: T) -> Data {
         let encoder = ParseEncoder()
-        encoder.jsonEncoder.outputFormatting = .sortedKeys
+        //encoder.jsonEncoder.outputFormatting = .sortedKeys
 
         guard let encoding = try? encoder.encode(object) else {
             XCTFail("Couldn't get a Parse encoding.")
@@ -89,12 +89,12 @@ class ParseEncoderTests: XCTestCase {
         let jsonDecoded = try ParseCoding.jsonDecoder().decode([String: [String: Bool]].self, from: jsonEncoded)
 
         let parseEncoded = try ParseCoding.parseEncoder().encode(newACL)
-        let parseDecoded = try ParseCoding.jsonDecoder().decode([String: [String: Int]].self, from: parseEncoded)
+        let parseDecoded = try ParseCoding.jsonDecoder().decode([String: [String: Bool]].self, from: parseEncoded)
 
         XCTAssertEqual(jsonDecoded.keys.count, parseDecoded.keys.count)
         XCTAssertEqual(jsonDecoded.values.count, parseDecoded.values.count)
         XCTAssertEqual(jsonDecoded["*"]?["read"], true)
-        XCTAssertEqual(parseDecoded["*"]?["read"], 1)
+        XCTAssertEqual(parseDecoded["*"]?["read"], true)
     }
 }
 #endif
