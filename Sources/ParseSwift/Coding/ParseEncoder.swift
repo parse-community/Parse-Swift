@@ -125,7 +125,6 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
 
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
         if skippedKeys.contains(key.stringValue) { return }
-
         dictionary[key.stringValue] = try _ParseEncoder.encode(
             value,
             with: codingPath + [key],
@@ -139,23 +138,12 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
     ) -> KeyedEncodingContainer<NestedKey> where NestedKey: CodingKey {
 
         dictionary[key.stringValue] = NSMutableDictionary()
-        let container: _ParseEncoderKeyedEncodingContainer<NestedKey>
 
-        if let mutableDictionary = dictionary[key.stringValue] as? NSMutableDictionary {
-            container = _ParseEncoderKeyedEncodingContainer<NestedKey>(
-                codingPath: codingPath + [key],
-                dictionary: mutableDictionary,
-                skippingKeys: skippedKeys
-            )
-        } else {
-            container = _ParseEncoderKeyedEncodingContainer<NestedKey>(
-                codingPath: codingPath + [key],
-                dictionary: dictionary,
-                skippingKeys: skippedKeys
-            )
-        }
-
-        return KeyedEncodingContainer(container)
+        // swiftlint:disable:next force_cast
+        let mutableDictionary = dictionary[key.stringValue] as! NSMutableDictionary
+        let encoder = _ParseEncoder(codingPath: codingPath + [key],
+                                    dictionary: mutableDictionary, skippingKeys: skippedKeys)
+        return encoder.container(keyedBy: keyType)
     }
 
     mutating func nestedUnkeyedContainer(forKey key: Key) -> UnkeyedEncodingContainer {
@@ -171,7 +159,11 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
     }
 
     mutating func superEncoder(forKey key: Key) -> Encoder {
-        _ParseEncoder(codingPath: codingPath + [key], dictionary: dictionary, skippingKeys: skippedKeys)
+        dictionary[key.stringValue] = NSMutableDictionary()
+        // swiftlint:disable:next force_cast
+        let mutableDictionary = dictionary[key.stringValue] as! NSMutableDictionary
+        return _ParseEncoder(codingPath: codingPath + [key],
+                             dictionary: mutableDictionary, skippingKeys: skippedKeys)
     }
 }
 

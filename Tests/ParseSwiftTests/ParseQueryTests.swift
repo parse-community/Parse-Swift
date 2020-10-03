@@ -201,6 +201,45 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     }
 
+    func testFindEncoded() throws {
+
+        let afterDate = Date().addingTimeInterval(-300)
+        let query = GameScore.query("createdAt" > afterDate)
+        let encodedJSON = try ParseCoding.jsonEncoder().encode(query)
+        let decodedJSON = try ParseCoding.jsonDecoder().decode([String: AnyCodable].self, from: encodedJSON)
+        let encodedParse = try ParseCoding.parseEncoder().encode(query)
+        let decodedParse = try ParseCoding.jsonDecoder().decode([String: AnyCodable].self, from: encodedParse)
+
+        guard let jsonSkipAny = decodedJSON["skip"],
+              let jsonSkip = jsonSkipAny.value as? Int,
+              let jsonMethodAny = decodedJSON["_method"],
+              let jsonMethod = jsonMethodAny.value as? String,
+              let jsonLimitAny = decodedJSON["limit"],
+              let jsonLimit = jsonLimitAny.value as? Int,
+              let jsonWhereAny = decodedJSON["where"],
+              let jsonWhere = jsonWhereAny.value as? [String: [String: [String: String]]] else {
+            XCTFail("Should have casted all")
+            return
+        }
+
+        guard let parseSkipAny = decodedParse["skip"],
+              let parseSkip = parseSkipAny.value as? Int,
+              let parseMethodAny = decodedParse["_method"],
+              let parseMethod = parseMethodAny.value as? String,
+              let parseLimitAny = decodedParse["limit"],
+              let parseLimit = parseLimitAny.value as? Int,
+              let parseWhereAny = decodedParse["where"],
+              let parseWhere = parseWhereAny.value as? [String: [String: [String: String]]] else {
+            XCTFail("Should have casted all")
+            return
+        }
+
+        XCTAssertEqual(jsonSkip, parseSkip, "Parse shoud always match JSON")
+        XCTAssertEqual(jsonMethod, parseMethod, "Parse shoud always match JSON")
+        XCTAssertEqual(jsonLimit, parseLimit, "Parse shoud always match JSON")
+        XCTAssertEqual(jsonWhere, parseWhere, "Parse shoud always match JSON")
+    }
+
     func findAsync(scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
         let query = GameScore.query()
         let expectation = XCTestExpectation(description: "Count object1")

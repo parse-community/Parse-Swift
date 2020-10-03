@@ -70,7 +70,7 @@ internal extension API {
             var urlRequest = URLRequest(url: urlComponents)
             urlRequest.allHTTPHeaderFields = headers
             if let urlBody = body {
-                guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody) else {
+                guard let bodyData = try? ParseCoding.jsonEncoder().encode(urlBody) else {
                     completion(.failure(ParseError(code: .unknownError,
                                                    message: "couldn't encode body \(urlBody)")))
                     return

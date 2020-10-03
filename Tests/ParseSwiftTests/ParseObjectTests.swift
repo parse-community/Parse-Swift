@@ -28,7 +28,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    class GameScoreClass: ParseObject {
+    struct Game: ParseObject {
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -36,39 +36,12 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var ACL: ParseACL?
 
         //: Your own properties
-        var score: Int
+        var score: GameScore
+        var scores = [GameScore]()
 
         //: a custom initializer
-        init(score: Int) {
+        init(score: GameScore) {
             self.score = score
-        }
-    }
-
-    class Game: GameScoreClass {
-        var name = "test"
-
-        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
-            case name
-        }
-
-        override func encode(to encoder: Encoder) throws {
-            try super.encode(to: encoder)
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(name, forKey: .name)
-        }
-    }
-
-    class ParseGame: Game {
-        var levels = 7
-
-        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
-            case levels
-        }
-
-        override func encode(to encoder: Encoder) throws {
-            try super.encode(to: encoder)
-            var container = encoder.container(keyedBy: CodingKeys.self)
-            try container.encode(levels, forKey: .levels)
         }
     }
 
@@ -797,6 +770,32 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         self.deleteAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
+    }
+
+    func testPointer() throws {
+        var score = GameScore(score: 10)
+        score.objectId = "yarr"
+        var game = Game(score: score)
+        game.objectId = "nice"
+
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+        let encoded: Data!
+        do {
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should have encoded/decoded: Error: \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let save = try game.save()
     }
 }
 #endif
