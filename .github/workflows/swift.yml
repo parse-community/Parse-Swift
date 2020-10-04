@@ -132,7 +132,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: CocoaPods
-        run: pod lib lint
+        run: pod lib lint --allow-warnings
         env: 
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }} 
   carthage:
