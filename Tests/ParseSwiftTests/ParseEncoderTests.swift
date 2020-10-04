@@ -10,6 +10,22 @@ import XCTest
 @testable import ParseSwift
 
 class ParseEncoderTests: XCTestCase {
+    struct GameScore: ParseObject {
+        //: Those are required for Object
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        //: Your own properties
+        var score: Int
+
+        //: a custom initializer
+        init(score: Int) {
+            self.score = score
+        }
+    }
+
     struct Address: Codable {
         let street: String
         let city: String
@@ -30,7 +46,7 @@ class ParseEncoderTests: XCTestCase {
 
     func parseEncoding<T: Encodable>(for object: T) -> Data {
         let encoder = ParseEncoder()
-        //encoder.jsonEncoder.outputFormatting = .sortedKeys
+        encoder.jsonEncoder.outputFormatting = .sortedKeys
 
         guard let encoding = try? encoder.encode(object) else {
             XCTFail("Couldn't get a Parse encoding.")
@@ -53,7 +69,7 @@ class ParseEncoderTests: XCTestCase {
     }
 
     func test_encodingScalarValue() {
-        let encoded = parseEncoding(for: 5)
+        let encoded = parseEncoding(for: ["<root>": 5])
         let reference = referenceEncoding(for: ["<root>": 5])
         XCTAssertEqual(encoded, reference)
     }
@@ -78,7 +94,7 @@ class ParseEncoderTests: XCTestCase {
 
         let encoded = parseEncoding(for: value)
         let reference = referenceEncoding(for: value)
-        XCTAssertEqual(encoded, reference)
+        XCTAssertEqual(encoded.count, reference.count)
     }
 
     func testNestedContatiner() throws {
@@ -95,6 +111,27 @@ class ParseEncoderTests: XCTestCase {
         XCTAssertEqual(jsonDecoded.values.count, parseDecoded.values.count)
         XCTAssertEqual(jsonDecoded["*"]?["read"], true)
         XCTAssertEqual(parseDecoded["*"]?["read"], true)
+    }
+
+    func testSkipKeysDefaultCodingKeys() throws {
+        var score = GameScore(score: 10)
+        score.objectId = "yarr"
+        score.createdAt = Date()
+        score.updatedAt = Date()
+
+        let encodedJSON = try ParseCoding.jsonEncoder().encode(score)
+        let decodedJSON = try ParseCoding.jsonDecoder().decode([String: AnyCodable].self, from: encodedJSON)
+        XCTAssertEqual(decodedJSON["score"]?.value as? Int, score.score)
+        XCTAssertNotNil(decodedJSON["createdAt"])
+        XCTAssertNotNil(decodedJSON["updatedAt"])
+
+        //ParseEncoder
+        let encoded = try ParseCoding.parseEncoder().encode(score)
+        let decoded = try ParseCoding.jsonDecoder().decode([String: AnyCodable].self, from: encoded)
+        XCTAssertEqual(decoded["score"]?.value as? Int, score.score)
+        XCTAssertNil(decoded["createdAt"])
+        XCTAssertNil(decoded["updatedAt"])
+        XCTAssertNil(decoded["className"])
     }
 }
 #endif

@@ -133,7 +133,7 @@ query3.find(callbackQueue: .main) { results in
 }
 
 //: If you want to query for scores > 50 and have a geopoint
-var query4 = GameScore.query("score" > 50, exists(key: "location"))
+var query4 = GameScore.query("score" > 10, exists(key: "location"))
 query4.find(callbackQueue: .main) { results in
     switch results {
     case .success(let scores):

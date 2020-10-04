@@ -180,7 +180,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -272,7 +272,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -294,7 +294,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -313,7 +313,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -339,7 +339,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -409,7 +409,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -431,7 +431,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -445,7 +445,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -462,7 +462,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -481,7 +481,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -526,7 +526,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -548,7 +548,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try JSONEncoder().encode(results)
+                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -990,7 +990,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected: [String: AnyCodable] = [
             "yolo": [
                 "$select": [
-                    "query": ["className": "GameScore", "where": ["test": ["$eq": "awk"]]],
+                    "query": ["where": ["test": ["$eq": "awk"]]],
                     "key": "yolo1"
                 ]
             ]
@@ -1009,7 +1009,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                   let expectedSelect = expectedValues["$select"],
                   let expectedKeyValue = expectedSelect["key"] as? String,
                   let expectedKeyQuery = expectedSelect["query"] as? [String: Any],
-                  let expectedKeyClassname = expectedKeyQuery["className"] as? String,
                   let expectedKeyWhere = expectedKeyQuery["where"] as? [String: [String: String]] else {
                 XCTFail("Should have casted")
                 return
@@ -1019,14 +1018,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                   let decodedSelect = decodedValues["$select"],
                   let decodedKeyValue = decodedSelect["key"] as? String,
                   let decodedKeyQuery = decodedSelect["query"] as? [String: Any],
-                  let decodedKeyClassname = decodedKeyQuery["className"] as? String,
                   let decodedKeyWhere = decodedKeyQuery["where"] as? [String: [String: String]] else {
                 XCTFail("Should have casted")
                 return
             }
 
             XCTAssertEqual(expectedKeyValue, decodedKeyValue)
-            XCTAssertEqual(expectedKeyClassname, decodedKeyClassname)
             XCTAssertEqual(expectedKeyWhere, decodedKeyWhere)
 
         } catch {
@@ -1039,7 +1036,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected: [String: AnyCodable] = [
             "yolo": [
                 "$dontSelect": [
-                    "query": ["className": "GameScore", "where": ["test": ["$eq": "awk"]]],
+                    "query": ["where": ["test": ["$eq": "awk"]]],
                     "key": "yolo1"
                 ]
             ]
@@ -1058,7 +1055,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                   let expectedSelect = expectedValues["$dontSelect"],
                   let expectedKeyValue = expectedSelect["key"] as? String,
                   let expectedKeyQuery = expectedSelect["query"] as? [String: Any],
-                  let expectedKeyClassname = expectedKeyQuery["className"] as? String,
                   let expectedKeyWhere = expectedKeyQuery["where"] as? [String: [String: String]] else {
                 XCTFail("Should have casted")
                 return
@@ -1068,14 +1064,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                   let decodedSelect = decodedValues["$dontSelect"],
                   let decodedKeyValue = decodedSelect["key"] as? String,
                   let decodedKeyQuery = decodedSelect["query"] as? [String: Any],
-                  let decodedKeyClassname = decodedKeyQuery["className"] as? String,
                   let decodedKeyWhere = decodedKeyQuery["where"] as? [String: [String: String]] else {
                 XCTFail("Should have casted")
                 return
             }
 
             XCTAssertEqual(expectedKeyValue, decodedKeyValue)
-            XCTAssertEqual(expectedKeyClassname, decodedKeyClassname)
             XCTAssertEqual(expectedKeyWhere, decodedKeyWhere)
 
         } catch {
@@ -1088,8 +1082,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected: [String: AnyCodable] = [
             "yolo": [
                 "$inQuery": [
-                    "where": ["test": ["$eq": "awk"]],
-                    "className": "GameScore"
+                    "where": ["test": ["$eq": "awk"]]
                 ]
             ]
         ]
@@ -1104,7 +1097,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             guard let expectedValues = expected.values.first?.value as? [String: [String: Any]],
                   let expectedInQuery = expectedValues["$inQuery"],
-                  let expectedKeyClassname = expectedInQuery["className"] as? String,
                   let expectedKeyWhere = expectedInQuery["where"] as? [String: [String: String]] else {
                 XCTFail("Should have casted")
                 return
@@ -1112,13 +1104,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: Any]],
                   let decodedInQuery = decodedValues["$inQuery"],
-                  let decodedKeyClassname = decodedInQuery["className"] as? String,
                   let decodedKeyWhere = decodedInQuery["where"] as? [String: [String: String]] else {
                 XCTFail("Should have casted")
                 return
             }
 
-            XCTAssertEqual(expectedKeyClassname, decodedKeyClassname)
             XCTAssertEqual(expectedKeyWhere, decodedKeyWhere)
 
         } catch {
@@ -1131,8 +1121,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected: [String: AnyCodable] = [
             "yolo": [
                 "$notInQuery": [
-                    "where": ["test": ["$eq": "awk"]],
-                    "className": "GameScore"
+                    "where": ["test": ["$eq": "awk"]]
                 ]
             ]
         ]
@@ -1147,7 +1136,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             guard let expectedValues = expected.values.first?.value as? [String: [String: Any]],
                   let expectedInQuery = expectedValues["$notInQuery"],
-                  let expectedKeyClassname = expectedInQuery["className"] as? String,
                   let expectedKeyWhere = expectedInQuery["where"] as? [String: [String: String]] else {
                 XCTFail("Should have casted")
                 return
@@ -1155,13 +1143,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: Any]],
                   let decodedInQuery = decodedValues["$notInQuery"],
-                  let decodedKeyClassname = decodedInQuery["className"] as? String,
                   let decodedKeyWhere = decodedInQuery["where"] as? [String: [String: String]] else {
                 XCTFail("Should have casted")
                 return
             }
 
-            XCTAssertEqual(expectedKeyClassname, decodedKeyClassname)
             XCTAssertEqual(expectedKeyWhere, decodedKeyWhere)
 
         } catch {

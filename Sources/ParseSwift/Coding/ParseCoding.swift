@@ -28,7 +28,8 @@ extension ParseCoding {
     }
 
     static func parseEncoder(skipKeys: Bool = true) -> ParseEncoder {
-        ParseEncoder(dateEncodingStrategy: parseDateEncodingStrategy,
+        ParseEncoder(
+            dateEncodingStrategy: parseDateEncodingStrategy,
             skippingKeys: skipKeys ? forbiddenKeys : []
         )
     }

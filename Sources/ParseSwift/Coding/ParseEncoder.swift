@@ -60,6 +60,9 @@ internal struct ParseEncoder {
 
     func encode<T: Encodable>(_ value: T) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
+        if let dateEncoding = self.dateEncodingStrategy {
+            encoder.dateEncodingStrategy = .custom(dateEncoding)
+        }
         return try encoder.encode(value)
     }
 }
@@ -114,7 +117,12 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
 
     override func encode<T : Encodable>(_ value: T) throws -> Data {
         let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
-
+        encoder.outputFormatting = outputFormatting
+        encoder.dateEncodingStrategy = dateEncodingStrategy
+        encoder.dataEncodingStrategy = dataEncodingStrategy
+        encoder.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
+        encoder.keyEncodingStrategy = keyEncodingStrategy
+        encoder.userInfo = userInfo
         guard let topLevel = try encoder.box_(value) else {
             throw EncodingError.invalidValue(value,
                                              EncodingError.Context(codingPath: [], debugDescription: "Top-level \(T.self) did not encode any values."))
@@ -178,24 +186,6 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
             skippingKeys: skippedKeys
         )
     }
-/*
-    static func encode<T: Encodable>(
-        _ value: T,
-        with codingPath: [CodingKey],
-        skippingKeys skippedKeys: Set<String>
-    ) throws -> Any {
-        switch value {
-        case is Bool, is Int, is Int8, is Int16, is Int32, is Int64, is UInt, is UInt8, is UInt16, is UInt32, is UInt64,
-             is Float, is Double, is String, is Date:
-            return value
-        default:
-            let dictionary = NSMutableDictionary()
-            let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
-            try value.encode(to: encoder)
-
-            return codingPath.last.map { dictionary[$0.stringValue] ?? dictionary } ?? dictionary
-        }
-    }*/
 }
 
 // MARK: _ParseEncoderKeyedEncodingContainer
@@ -273,11 +263,6 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
         self.container[key.stringValue] = try self.encoder.box(value)
-        /*container[key.stringValue] = try _ParseEncoder.encode(
-            value,
-            with: codingPath + [key],
-            skippingKeys: skippedKeys
-        )*/
     }
 
     mutating func nestedContainer<NestedKey>(
@@ -717,7 +702,7 @@ private extension _ParseEncoder {
             // swiftlint:disable:next force_cast
             return (value as! NSDecimalNumber)
         } else if value is _JSONStringDictionaryEncodableMarker {
-            // swiftlint:disable next force_cast
+            // swiftlint:disable:next force_cast
             return try self.box(value as! [String : Encodable])
         }
 
