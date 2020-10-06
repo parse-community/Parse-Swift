@@ -21,6 +21,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         //: Your own properties
         var score: Int
+        var player = "Jen"
 
         //: a custom initializer
         init(score: Int) {
@@ -38,6 +39,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         //: Your own properties
         var score: GameScore
         var scores = [GameScore]()
+        var name = "Hello"
 
         //: a custom initializer
         init(score: GameScore) {
@@ -774,28 +776,18 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testPointer() throws {
         var score = GameScore(score: 10)
-        score.objectId = "yarr"
+        //score.objectId = "yarr"
         var game = Game(score: score)
         game.objectId = "nice"
 
-        var scoreOnServer = score
-        scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
-        scoreOnServer.ACL = nil
-        let encoded: Data!
-        do {
-            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
-            //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
-        } catch {
-            XCTFail("Should have encoded/decoded: Error: \(error)")
-            return
+        game.ensureDeepSave {
+            print("")
         }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
+        
+        let encoded = try game.getEncoder().encode(game)
+        let decoded = try ParseCoding.jsonDecoder().decode(Game.self, from: encoded)
 
-        let save = try game.save()
+        print(decoded)
     }
 }
 #endif

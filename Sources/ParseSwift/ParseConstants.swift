@@ -19,4 +19,5 @@ enum ParseConstants {
     #elseif os(watchOS)
     static let deviceType = "applewatch"
     #endif
+    static let hashingKey = "parseSwift"
 }

@@ -12,49 +12,10 @@ import Foundation
  Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse cloud.
  This is the main protocol that is used to interact with objects in your app.
 */
-public protocol ParseObject: Fetchable, Saveable, Deletable, CustomDebugStringConvertible {
-    /**
-    The class name of the object.
-    */
-    static var className: String { get }
-
-    /**
-    The id of the object.
-    */
-    var objectId: String? { get set }
-
-    /**
-    When the object was created.
-    */
-    var createdAt: Date? { get set }
-
-    /**
-    When the object was last updated.
-    */
-    var updatedAt: Date? { get set }
-
-    /**
-    The ACL for this object.
-    */
-    var ACL: ParseACL? { get set }
-}
+public protocol ParseObject: Objectable, Fetchable, Saveable, Deletable, Hashable, CustomDebugStringConvertible {}
 
 // MARK: Default Implementations
 extension ParseObject {
-    /**
-    The class name of the object.
-    */
-    public static var className: String {
-        let classType = "\(type(of: self))"
-        return classType.components(separatedBy: ".").first! // strip .Type
-    }
-
-    /**
-    The class name of the object.
-    */
-    public var className: String {
-        return Self.className
-    }
 
     /**
      Determines if an object has the same objectId
@@ -103,6 +64,25 @@ public extension Sequence where Element: ParseObject {
         API.Command<Self.Element, Self.Element>
                 .batch(commands: commands)
                 .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+    }
+}
+
+// MARK: Batch Support
+public extension Sequence where Element: Encodable {
+
+    /**
+     Saves a collection of objects *synchronously* all at once and throws an error if necessary.
+
+     - parameter options: A set of options used to save objects. Defaults to an empty set.
+
+     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
+     - throws: `ParseError`
+    */
+    internal func saveAll(options: API.Options = []) throws -> [(Result<PointerSaveResponse, ParseError>)] {
+        let commands = try map { try $0.saveCommand() }
+        return try API.Command<Self.Element, PointerSaveResponse>
+                .batch(commands: commands)
+                .execute(options: options)
     }
 }
 
@@ -290,6 +270,70 @@ extension ParseObject {
 
     internal func saveCommand() -> API.Command<Self, Self> {
         return API.Command<Self, Self>.saveCommand(self)
+    }
+
+    internal func ensureDeepSave(options: API.Options = [], completion: () -> Void) {
+        //var uniqueObjects = Set<String>()
+        //var newObjects = Set<NSMutableDictionary>()
+/*
+        let encoder2 = ParseCoding.jsonEncoder()
+        guard let object2 = try? encoder2.encode(self),
+              let childObjectsAsDictionary2 = try? ParseCoding.jsonDecoder().decode(AnyCodable.self, from: object2) else {
+            return
+        }        
+        print(childObjectsAsDictionary2)
+*/
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: .init())
+        encoder.collectChildren = true
+        do {
+            let object = try encoder.encodeObject(self, collectChildren: true, newObjects: .init())
+            print(object.unique)
+            print(object.unsavedChildren)
+
+            var waitingToBeSaved = object.unsavedChildren
+            var finishedSaving = [NSDictionary: PointerSaveResponse]()
+            while waitingToBeSaved.count > 0 {
+                var savable = [Encodable]()
+                var nextBatch = [Encodable]()
+                try waitingToBeSaved.forEach { parseObject in
+                    
+                    let waitingObjectInfo = try encoder.encodeObject(parseObject, collectChildren: true, newObjects: .init())
+                    let decoded = try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: waitingObjectInfo.encoded)
+                    
+                    /*
+                    guard let ob = parseObject as? Objectable else {
+                        return
+                    }
+                    
+                    let encoded2 = try encoder.encodeObject(ob, collectChildren: true, newObjects: .init())
+                    let decoded2 = try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: encoded2.encoded)
+                    print(decoded2)*/
+                    if waitingObjectInfo.unsavedChildren.count == 0 {
+                        savable.append(parseObject)
+                    } else {
+                        nextBatch.append(parseObject)
+                    }
+                }
+                waitingToBeSaved = nextBatch
+                
+                guard let objectableVersionsOfSavable = waitingToBeSaved as? [Objectable] else {
+                    throw ParseError(code: .unknownError, message: "Couldn't cast to objectable. Not saving")
+                }
+                
+            }
+        } catch {
+            print(error)
+            completion()
+            return
+        }
+        
+    }
+}
+
+// MARK: Savable Encodable Version
+internal extension Encodable {
+    func saveCommand() throws -> API.Command<Self, PointerSaveResponse> {
+        return try API.Command<Self, PointerSaveResponse>.saveEncodableCommand(self)
     }
 }
 

@@ -126,6 +126,19 @@ internal extension API.Command {
                                  body: object,
                                  mapper: mapper)
     }
+    
+    static func saveEncodableCommand<T>(_ object: T) throws -> API.Command<T, PointerSaveResponse> where T: Encodable {
+        guard let objectable = object as? Objectable else {
+            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
+        }
+        let mapper = { (data: Data) -> PointerSaveResponse in
+            try ParseCoding.jsonDecoder().decode(PointerSaveResponse.self, from: data)
+        }
+        return API.Command<T, PointerSaveResponse>(method: .POST,
+                                 path: objectable.endpoint,
+                                 body: object,
+                                 mapper: mapper)
+    }
 
     // MARK: Fetching
     static func fetchCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
@@ -203,5 +216,58 @@ extension API.Command where T: ParseObject {
         }
         let batchCommand = BatchCommand(requests: commands)
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
+    }
+}
+
+extension API.Command where T: Encodable {
+
+    internal var data: Data? {
+        guard let body = body else { return nil }
+        return try? ParseCoding.parseEncoder().encode(body)
+    }
+
+    static func batch(commands: [API.Command<T, PointerSaveResponse>]) -> RESTBatchCommandTypeEncodable<T> {
+        let commands = commands.compactMap { (command) -> API.Command<T, PointerSaveResponse>? in
+            let path = ParseConfiguration.mountPath + command.path.urlComponent
+            guard let body = command.body else {
+                return nil
+            }
+            return API.Command<T, PointerSaveResponse>(method: command.method, path: .any(path),
+                                     body: body, mapper: command.mapper)
+        }
+        let bodies = commands.compactMap { (command) -> (body: T, command: API.Method)?  in
+            guard let body = command.body else {
+                return nil
+            }
+            return (body: body, command: command.method)
+        }
+        let mapper = { (data: Data) -> [Result<PointerSaveResponse, ParseError>] in
+            let decodingType = [BatchResponseItem<PointerSaveResponse>].self
+            do {
+                let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
+                return bodies.enumerated().map({ (object) -> (Result<PointerSaveResponse, ParseError>) in
+                    let response = responses[object.offset]
+                    if let success = response.success {
+                        guard let successfulResponse = try? success.apply(to: object.element.body) else {
+                            return.failure(ParseError(code: .unknownError, message: "unknown error"))
+                        }
+                        return .success(successfulResponse)
+                    } else {
+                        guard let parseError = response.error else {
+                            return .failure(ParseError(code: .unknownError, message: "unknown error"))
+                        }
+
+                        return .failure(parseError)
+                    }
+                })
+            } catch {
+                guard let parseError = error as? ParseError else {
+                    return [(.failure(ParseError(code: .unknownError, message: "decoding error: \(error)")))]
+                }
+                return [(.failure(parseError))]
+            }
+        }
+        let batchCommand = BatchCommand(requests: commands)
+        return RESTBatchCommandTypeEncodable<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 }

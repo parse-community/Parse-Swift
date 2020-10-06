@@ -7,6 +7,13 @@ private func getObjectId<T: ParseObject>(target: T) -> String {
     return objectId
 }
 
+private func getObjectId(target: Objectable) -> String {
+    guard let objectId = target.objectId else {
+        fatalError("Cannot set a pointer to an unsaved object")
+    }
+    return objectId
+}
+
 public struct Pointer<T: ParseObject>: Fetchable, Codable {
     public typealias FetchingType = T
 

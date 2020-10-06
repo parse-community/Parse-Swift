@@ -31,6 +31,10 @@
 		708D035425215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035525215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		70BC0B33251903D1001556DB /* ParseGeoPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */; };
+		70BC9890252A5B5C00FF3074 /* Objectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC988F252A5B5C00FF3074 /* Objectable.swift */; };
+		70BC9891252A5B5C00FF3074 /* Objectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC988F252A5B5C00FF3074 /* Objectable.swift */; };
+		70BC9892252A5B5C00FF3074 /* Objectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC988F252A5B5C00FF3074 /* Objectable.swift */; };
+		70BC9893252A5B5C00FF3074 /* Objectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC988F252A5B5C00FF3074 /* Objectable.swift */; };
 		70BDA2B3250536FF00FC2237 /* ParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */; };
 		70BDA2B4250536FF00FC2237 /* ParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */; };
 		70BDA2B5250536FF00FC2237 /* ParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */; };
@@ -233,6 +237,7 @@
 		70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallationTests.swift; sourceTree = "<group>"; };
 		708D035125215F9B00646C70 /* Deletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deletable.swift; sourceTree = "<group>"; };
 		70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGeoPointTests.swift; sourceTree = "<group>"; };
+		70BC988F252A5B5C00FF3074 /* Objectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Objectable.swift; sourceTree = "<group>"; };
 		70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallation.swift; sourceTree = "<group>"; };
 		70C7DC1D24D20E530050419B /* ParseUserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseUserTests.swift; sourceTree = "<group>"; };
 		70C7DC1F24D20F180050419B /* ParseQueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseQueryTests.swift; sourceTree = "<group>"; };
@@ -427,7 +432,7 @@
 				F97B45C924D9C6F200F4A88B /* API */,
 				F97B45B324D9C6F200F4A88B /* Coding */,
 				F97B463F24D9C78B00F4A88B /* Mutation Operations */,
-				F97B45C324D9C6F200F4A88B /* Objects */,
+				F97B45C324D9C6F200F4A88B /* Object Protocols */,
 				F97B45BA24D9C6F200F4A88B /* Parse Types */,
 				F97B45CB24D9C6F200F4A88B /* Storage */,
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
@@ -463,6 +468,7 @@
 				F97B45C824D9C6F200F4A88B /* Queryable.swift */,
 				F97B45C724D9C6F200F4A88B /* Saveable.swift */,
 				708D035125215F9B00646C70 /* Deletable.swift */,
+				70BC988F252A5B5C00FF3074 /* Objectable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -531,7 +537,7 @@
 			path = "Parse Types";
 			sourceTree = "<group>";
 		};
-		F97B45C324D9C6F200F4A88B /* Objects */ = {
+		F97B45C324D9C6F200F4A88B /* Object Protocols */ = {
 			isa = PBXGroup;
 			children = (
 				70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */,
@@ -539,7 +545,7 @@
 				F97B45C424D9C6F200F4A88B /* ParseUser.swift */,
 				70110D5E25084AF80091CC1D /* Protocols */,
 			);
-			path = Objects;
+			path = "Object Protocols";
 			sourceTree = "<group>";
 		};
 		F97B45C924D9C6F200F4A88B /* API */ = {
@@ -907,6 +913,7 @@
 				F97B45F624D9C6F200F4A88B /* ParseError.swift in Sources */,
 				F97B463324D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
 				F97B464E24D9C78B00F4A88B /* AddOperation.swift in Sources */,
+				70BC9890252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B45FE24D9C6F200F4A88B /* File.swift in Sources */,
 				F97B45EE24D9C6F200F4A88B /* BaseParseUser.swift in Sources */,
 				F97B460A24D9C6F200F4A88B /* Fetchable.swift in Sources */,
@@ -976,6 +983,7 @@
 				F97B45F724D9C6F200F4A88B /* ParseError.swift in Sources */,
 				F97B463424D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
 				F97B464F24D9C78B00F4A88B /* AddOperation.swift in Sources */,
+				70BC9891252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B45FF24D9C6F200F4A88B /* File.swift in Sources */,
 				F97B45EF24D9C6F200F4A88B /* BaseParseUser.swift in Sources */,
 				F97B460B24D9C6F200F4A88B /* Fetchable.swift in Sources */,
@@ -1023,6 +1031,7 @@
 				F97B460124D9C6F200F4A88B /* File.swift in Sources */,
 				F97B464924D9C78B00F4A88B /* ParseMutationContainer.swift in Sources */,
 				F97B45D124D9C6F200F4A88B /* ParseCoding.swift in Sources */,
+				70BC9893252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B465524D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */,
 				F97B464D24D9C78B00F4A88B /* DeleteOperation.swift in Sources */,
 				F97B461524D9C6F200F4A88B /* Saveable.swift in Sources */,
@@ -1070,6 +1079,7 @@
 				F97B460024D9C6F200F4A88B /* File.swift in Sources */,
 				F97B464824D9C78B00F4A88B /* ParseMutationContainer.swift in Sources */,
 				F97B45D024D9C6F200F4A88B /* ParseCoding.swift in Sources */,
+				70BC9892252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B465424D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */,
 				F97B464C24D9C78B00F4A88B /* DeleteOperation.swift in Sources */,
 				F97B461424D9C6F200F4A88B /* Saveable.swift in Sources */,
