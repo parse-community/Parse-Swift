@@ -269,7 +269,7 @@ extension ParseObject {
             switch result {
 
             case .success(let savedChildObjects):
-                saveCommand().executeAsync(options: options, callbackQueue: callbackQueue,
+                self.saveCommand().executeAsync(options: options, callbackQueue: callbackQueue,
                                            childObjects: savedChildObjects) { result in
                     if case .success(let foundResults) = result {
                         try? Self.updateKeychainIfNeeded([foundResults])
