@@ -68,7 +68,7 @@ public extension Sequence where Element: ParseObject {
 }
 
 // MARK: Batch Support
-public extension Sequence where Element: Encodable {
+internal extension Sequence where Element: Encodable {
 
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
@@ -78,26 +78,11 @@ public extension Sequence where Element: Encodable {
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
     */
-    internal func saveAll(options: API.Options = []) throws -> [(Result<PointerSaveResponse, ParseError>)] {
+    func saveAllEncodable(options: API.Options = []) throws -> [(Result<PointerSaveResponse, ParseError>)] {
         let commands = try map { try $0.saveCommand() }
         return try API.Command<Self.Element, PointerSaveResponse>
                 .batch(commands: commands)
                 .execute(options: options)
-    }
-}
-
-// MARK: Convenience
-extension ParseObject {
-    var endpoint: API.Endpoint {
-        if let objectId = objectId {
-            return .object(className: className, objectId: objectId)
-        }
-
-        return .objects(className: className)
-    }
-
-    var isSaved: Bool {
-        return objectId != nil
     }
 }
 
@@ -273,20 +258,10 @@ extension ParseObject {
     }
 
     internal func ensureDeepSave(options: API.Options = [], completion: () -> Void) {
-        //var uniqueObjects = Set<String>()
-        //var newObjects = Set<NSMutableDictionary>()
-/*
-        let encoder2 = ParseCoding.jsonEncoder()
-        guard let object2 = try? encoder2.encode(self),
-              let childObjectsAsDictionary2 = try? ParseCoding.jsonDecoder().decode(AnyCodable.self, from: object2) else {
-            return
-        }        
-        print(childObjectsAsDictionary2)
-*/
-        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: .init())
-        encoder.collectChildren = true
+
         do {
-            let object = try encoder.encodeObject(self, collectChildren: true, newObjects: .init())
+            let object = try ParseCoding.parseEncoder().encode(self, collectChildren: true,
+                                                               objectsSavedBeforeThisOne: nil)
             print(object.unique)
             print(object.unsavedChildren)
 
@@ -296,11 +271,14 @@ extension ParseObject {
                 var savable = [Encodable]()
                 var nextBatch = [Encodable]()
                 try waitingToBeSaved.forEach { parseObject in
-                    
-                    let waitingObjectInfo = try encoder.encodeObject(parseObject, collectChildren: true, newObjects: .init())
-                    let decoded = try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: waitingObjectInfo.encoded)
-                    
+
+                    let waitingObjectInfo = try ParseCoding.parseEncoder().encode(parseObject,
+                                                                     collectChildren: true,
+                                                                     objectsSavedBeforeThisOne: finishedSaving)
+
                     /*
+                    let decoded = try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: waitingObjectInfo.encoded)
+
                     guard let ob = parseObject as? Objectable else {
                         return
                     }
@@ -315,25 +293,37 @@ extension ParseObject {
                     }
                 }
                 waitingToBeSaved = nextBatch
-                
-                guard let objectableVersionsOfSavable = waitingToBeSaved as? [Objectable] else {
-                    throw ParseError(code: .unknownError, message: "Couldn't cast to objectable. Not saving")
+
+                //Currently, batch isn't working for Encodable
+                try savable.forEach {
+                    let hash = BaseObjectable.createHash($0)
+                    finishedSaving[hash] = try $0.save(options: options)
                 }
-                
             }
         } catch {
             print(error)
             completion()
             return
         }
-        
     }
 }
 
 // MARK: Savable Encodable Version
 internal extension Encodable {
+    func save(options: API.Options = []) throws -> PointerSaveResponse {
+        return try saveCommand().execute(options: options)
+    }
+
     func saveCommand() throws -> API.Command<Self, PointerSaveResponse> {
         return try API.Command<Self, PointerSaveResponse>.saveEncodableCommand(self)
+    }
+
+    func saveAllEncodable<T: Encodable>(options: API.Options = [],
+                                        encodableObjects: [T]) throws -> [(Result<PointerSaveResponse, ParseError>)] {
+        let commands = try encodableObjects.map { try $0.saveCommand() }
+        return try API.Command<T, PointerSaveResponse>
+                .batch(commands: commands)
+                .execute(options: options)
     }
 }
 

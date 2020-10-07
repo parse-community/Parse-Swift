@@ -126,7 +126,7 @@ internal extension API.Command {
                                  body: object,
                                  mapper: mapper)
     }
-    
+
     static func saveEncodableCommand<T>(_ object: T) throws -> API.Command<T, PointerSaveResponse> where T: Encodable {
         guard let objectable = object as? Objectable else {
             throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")

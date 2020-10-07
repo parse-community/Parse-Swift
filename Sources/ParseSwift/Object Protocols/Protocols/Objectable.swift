@@ -55,7 +55,15 @@ extension Objectable {
         let hash: NSDictionary = [ParseConstants.hashingKey: object]
         return hash
     }
-    
+
+    internal func getUniqueObject() throws -> UniqueObject {
+        let encoded = try ParseCoding.jsonEncoder().encode(self)
+        return try ParseCoding.jsonDecoder().decode(UniqueObject.self, from: encoded)
+    }
+}
+
+// MARK: Convenience
+extension Objectable {
     var endpoint: API.Endpoint {
         if let objectId = objectId {
             return .object(className: className, objectId: objectId)
@@ -63,14 +71,30 @@ extension Objectable {
 
         return .objects(className: className)
     }
+
+    var isSaved: Bool {
+        return objectId != nil
+    }
 }
 
-struct BaseObjectable: Objectable {
+internal struct UniqueObject: Hashable, Codable {
+    let objectId: String
+
+    init?(target: Objectable) {
+        if let objectId = target.objectId {
+            self.objectId = objectId
+        } else {
+            return nil
+        }
+    }
+}
+
+internal struct BaseObjectable: Objectable {
     var objectId: String?
 
     var createdAt: Date?
-    
+
     var updatedAt: Date?
-    
+
     var ACL: ParseACL?
 }

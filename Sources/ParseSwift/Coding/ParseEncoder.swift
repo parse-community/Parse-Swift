@@ -65,26 +65,31 @@ internal struct ParseEncoder {
     }
 
     func encode<T: Encodable>(_ value: T) throws -> Data {
-        return try ParseCoding.jsonEncoder().encode(value)
+        try ParseCoding.jsonEncoder().encode(value)
     }
-/*
+
     func encode<T: ParseObject>(_ value: T) throws -> Data {
-        let encoder = _ParseEncoder<T>(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
-        if let dateEncoding = self.dateEncodingStrategy {
-            encoder.dateEncodingStrategy = .custom(dateEncoding)
-        }
-        return try encoder.encodeObject(value)
-    }*/
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
+        return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil).encoded
+    }
+
+    // swiftlint:disable large_tuple
+    func encode(_ value: Encodable, collectChildren: Bool,
+                objectsSavedBeforeThisOne: [NSDictionary: PointerSaveResponse]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
+        return try encoder.encodeObject(value, collectChildren: collectChildren, objectsSavedBeforeThisOne: objectsSavedBeforeThisOne)
+    }
 }
 
 // MARK: _ParseEncoder
-internal class _ParseEncoder: JSONEncoder, Encoder {
+private class _ParseEncoder: JSONEncoder, Encoder {
     var codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
     let skippedKeys: Set<String>
     var uniqueObjects = Set<UniqueObject>()
     var newObjects = [Encodable]()
     var collectChildren = false
+    var objectsSavedBeforeThisOne: [NSDictionary: PointerSaveResponse]?
     /// The encoder's storage.
     var storage: _ParseEncodingStorage
 
@@ -126,31 +131,14 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
         // Things which will not request containers do not need to have the coding path extended for them (but it doesn't matter if it is, because they will not reach here).
         return self.storage.count == self.codingPath.count
     }
-/*
+
+    @available(*, unavailable)
     override func encode<T : Encodable>(_ value: T) throws -> Data {
-        
-        let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
-        encoder.outputFormatting = outputFormatting
-        encoder.dateEncodingStrategy = dateEncodingStrategy
-        encoder.dataEncodingStrategy = dataEncodingStrategy
-        encoder.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
-        encoder.keyEncodingStrategy = keyEncodingStrategy
-        encoder.userInfo = userInfo
-        guard let topLevel = try encoder.box_(value) else {
-            throw EncodingError.invalidValue(value,
-                                             EncodingError.Context(codingPath: [], debugDescription: "Top-level \(T.self) did not encode any values."))
-        }
+        throw ParseError(code: .unknownError, message: "This method shouldn't be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
+    }
 
-        let writingOptions = JSONSerialization.WritingOptions(rawValue: self.outputFormatting.rawValue).union(.fragmentsAllowed)
-        do {
-           return try JSONSerialization.data(withJSONObject: topLevel, options: writingOptions)
-        } catch {
-            throw EncodingError.invalidValue(value,
-                                             EncodingError.Context(codingPath: [], debugDescription: "Unable to encode the given top-level value to JSON.", underlyingError: error))
-        }
-    }*/
-
-    func encodeObject(_ value: Encodable, collectChildren: Bool, newObjects: [Encodable]) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+    // swiftlint:disable large_tuple
+    func encodeObject(_ value: Encodable, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerSaveResponse]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
 
         let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
         encoder.collectChildren = collectChildren
@@ -160,6 +148,8 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
         encoder.nonConformingFloatEncodingStrategy = nonConformingFloatEncodingStrategy
         encoder.keyEncodingStrategy = keyEncodingStrategy
         encoder.userInfo = userInfo
+        encoder.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
+
         guard let topLevel = try encoder.box_(value) else {
             throw EncodingError.invalidValue(value,
                                              EncodingError.Context(codingPath: [], debugDescription: "Top-level \(value) did not encode any values."))
@@ -225,7 +215,7 @@ internal class _ParseEncoder: JSONEncoder, Encoder {
 }
 
 // MARK: _ParseEncoderKeyedEncodingContainer
-internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodingContainerProtocol {
+private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodingContainerProtocol {
     let encoder: _ParseEncoder
     var codingPath: [CodingKey]
     let container: NSMutableDictionary
@@ -239,76 +229,89 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
     // MARK: - KeyedEncodingContainerProtocol Methods
     mutating func encodeNil(forKey key: Key) throws {
         if self.encoder.skippedKeys.contains(key.stringValue) { return }
-
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             container[key.stringValue] = NSNull()
         }
     }
     mutating func encode(_ value: Bool, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: Int, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: Int8, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: Int16, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: Int32, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: Int64, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: UInt, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: UInt8, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: UInt16, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: UInt32, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: UInt64, forKey key: Key) throws {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
         }
     }
     mutating func encode(_ value: String, forKey key: Key) throws {
         if self.encoder.skippedKeys.contains(key.stringValue) { return }
-        if !self.encoder.collectChildren || codingPath.count > 0 {
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
+        //if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = self.encoder.box(value)
-        }
+        //}
     }
     mutating func encode(_ value: Float, forKey key: Key) throws {
         // Since the float may be invalid and throw, the coding path needs to contain this key.
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
+        //If looking for children, ignore top level key/value's unless they are ParseObjects
         if !self.encoder.collectChildren || codingPath.count > 0 {
             self.container[key.stringValue] = try self.encoder.box(value)
         }
@@ -318,14 +321,11 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
         // Since the double may be invalid and throw, the coding path needs to contain this key.
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = try self.encoder.box(value)
-        }
+        self.container[key.stringValue] = try self.encoder.box(value)
     }
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
         if self.encoder.skippedKeys.contains(key.stringValue) { return }
 
-        
         var valueToEncode: Encodable = value
         var encodingParseObject = false
         if let parseObject = value as? Objectable {
@@ -336,47 +336,29 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
                 }
                 self.encoder.uniqueObjects.insert(object)
             } else {
-                
+                let hashOfCurrentObject = BaseObjectable.createHash(value)
                 if self.encoder.collectChildren {
-                    //New object needs to be saved before it can be pointed to
-                    self.encoder.newObjects.append(value)
-                    /*
-                    let encoder = _ParseEncoder(codingPath: codingPath, dictionary: NSMutableDictionary(), skippingKeys: skippedKeys, collectChildren: collectChildren, encodedObjects: .init(), newObjects: newObjects)
-                    _ = try encoder.encodeObject(value, collectChildren: collectChildren, newObjects: newObjects)
-                    let newObject = try encoder.box(value)
-                    newObjects.insert(newObject)
-                    encoder.newObjects.forEach { newObjects.insert($0) }*/
-                    /*let decodedChildObject = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: encodedChildObject)
-                    if let object = UniqueObject(target: decodedChildObject) {
-                        if uniqueObjects.contains(object) {
-                            throw ParseError(code: .unknownError, message: "Found a circular dependency when encoding.")
-                        }
-                        uniqueObjects.insert(object)
-                        valueToEncode = PointerSaveResponse(decodedChildObject)
+                    if let pointerForCurrentObject = self.encoder.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
+                        valueToEncode = pointerForCurrentObject
                     } else {
-                        throw ParseError(code: .unknownError, message: "Error while attempting to encode and save child objects")
-                    }*/
+                        //New object needs to be saved before it can be pointed to
+                        self.encoder.newObjects.append(value)
+                    }
                 } else {
                     //Search for found version on dictionary, if it can't be found, throw
-                    //throw ParseError(code: .unknownError, message: "Error. Found unsaved object while encoding")
+                    if let pointerForCurrentObject = self.encoder.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
+                        valueToEncode = pointerForCurrentObject
+                    } else {
+                        //New object needs to be saved before it can be pointed to
+                        throw ParseError(code: .unknownError, message: "Error. Found unsaved object while encoding")
+                    }
                 }
             }
-            /*
-            var valueToEncode: Encodable
-            if !self.encoder.collectChildren {
-                valueToEncode = (value as! NSObject).responds(to: Selector(("toPointer")))
-                /*if (value as! NSObject).responds(to: Selector(("toPointer"))) {
-                    valueToEncode = (value as! NSObject).perform(Selector(("toPointer")))
-                }*/
-            } else {
-                valueToEncode = value
-            }*/
         }
-        if !self.encoder.collectChildren || codingPath.count > 0 || encodingParseObject {
-            self.encoder.codingPath.append(key)
-            defer { self.encoder.codingPath.removeLast() }
-            self.container[key.stringValue] = try self.encoder.box(valueToEncode)
-        }
+
+        self.encoder.codingPath.append(key)
+        defer { self.encoder.codingPath.removeLast() }
+        self.container[key.stringValue] = try self.encoder.box(valueToEncode)
     }
 
     mutating func nestedContainer<NestedKey>(
@@ -429,16 +411,16 @@ internal struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodi
     }
 
     mutating func superEncoder() -> Encoder {
-        _ParseReferencingEncoder(referencing: self.encoder, key: _JSONKey.super, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren)
+        _ParseReferencingEncoder(referencing: self.encoder, key: _JSONKey.super, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren, objectsSavedBeforeThisOne: self.encoder.objectsSavedBeforeThisOne)
     }
 
     mutating func superEncoder(forKey key: Key) -> Encoder {
-        _ParseReferencingEncoder(referencing: self.encoder, key: key, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren)
+        _ParseReferencingEncoder(referencing: self.encoder, key: key, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren, objectsSavedBeforeThisOne: self.encoder.objectsSavedBeforeThisOne)
     }
 }
 
 // MARK: _ParseEncoderUnkeyedEncodingContainer
-internal struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer {
+private struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     /// A reference to the encoder we're writing to.
     let encoder: _ParseEncoder
     var codingPath: [CodingKey]
@@ -512,7 +494,7 @@ internal struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer 
     }
 
     public mutating func superEncoder() -> Encoder {
-        return _ParseReferencingEncoder(referencing: self.encoder, at: self.container.count, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren)
+        return _ParseReferencingEncoder(referencing: self.encoder, at: self.container.count, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren, objectsSavedBeforeThisOne: self.encoder.objectsSavedBeforeThisOne)
     }
 }
 
@@ -783,10 +765,6 @@ extension _ParseEncoder {
         return self.storage.popContainer()
     }
 
-    func box<T>(_ value: T) throws -> NSObject where T: ParseObject {
-        return try self.box_(value) ?? NSDictionary()
-    }
-
     func box(_ value: Encodable) throws -> NSObject {
         return try self.box_(value) ?? NSDictionary()
     }
@@ -866,20 +844,22 @@ private class _ParseReferencingEncoder: _ParseEncoder {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given array container in the given encoder.
-    init(referencing encoder: _ParseEncoder, at index: Int, wrapping array: NSMutableArray, skippingKeys: Set<String>, collectChildren: Bool) {
+    init(referencing encoder: _ParseEncoder, at index: Int, wrapping array: NSMutableArray, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerSaveResponse]?) {
         self.encoder = encoder
         self.reference = .array(array, index)
         super.init(codingPath: encoder.codingPath, dictionary: NSMutableDictionary(), skippingKeys: skippingKeys)
         self.collectChildren = collectChildren
+        self.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
         self.codingPath.append(_JSONKey(index: index))
     }
 
     /// Initializes `self` by referencing the given dictionary container in the given encoder.
-    init(referencing encoder: _ParseEncoder, key: CodingKey, wrapping dictionary: NSMutableDictionary, skippingKeys: Set<String>, collectChildren: Bool) {
+    init(referencing encoder: _ParseEncoder, key: CodingKey, wrapping dictionary: NSMutableDictionary, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerSaveResponse]?) {
         self.encoder = encoder
         self.reference = .dictionary(dictionary, key.stringValue)
         super.init(codingPath: encoder.codingPath, dictionary: dictionary, skippingKeys: skippingKeys)
         self.collectChildren = collectChildren
+        self.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
         self.codingPath.append(key)
     }
 
@@ -978,21 +958,6 @@ extension EncodingError {
 
         let debugDescription = "Unable to encode \(valueDescription) directly in JSON. Use JSONEncoder.NonConformingFloatEncodingStrategy.convertToString to specify how the value should be encoded."
         return .invalidValue(value, EncodingError.Context(codingPath: codingPath, debugDescription: debugDescription))
-    }
-}
-
-struct UniqueObject: Hashable {
-    let objectId: String
-    let className: String
-
-    init?(target: Objectable) {
-        if let objectId = target.objectId {
-            self.objectId = objectId
-        } else {
-            return nil
-        }
-        //self.className = target.className
-        self.className = ""
     }
 }
 

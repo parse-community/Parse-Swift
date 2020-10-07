@@ -783,7 +783,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         game.ensureDeepSave {
             print("")
         }
-        
+
         let encoded = try game.getEncoder().encode(game)
         let decoded = try ParseCoding.jsonDecoder().decode(Game.self, from: encoded)
 
