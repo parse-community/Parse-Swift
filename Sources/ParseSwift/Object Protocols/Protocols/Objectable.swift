@@ -75,6 +75,10 @@ extension Objectable {
     var isSaved: Bool {
         return objectId != nil
     }
+
+    func toPointer() -> PointerType {
+        return PointerType(self)
+    }
 }
 
 internal struct UniqueObject: Hashable, Codable {

@@ -65,18 +65,24 @@ internal struct ParseEncoder {
     }
 
     func encode<T: Encodable>(_ value: T) throws -> Data {
-        try ParseCoding.jsonEncoder().encode(value)
+        try jsonEncoder.encode(value)
     }
 
     func encode<T: ParseObject>(_ value: T) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
+        if let dateEncodingStrategy = dateEncodingStrategy {
+            encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+        }
         return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil).encoded
     }
 
     // swiftlint:disable large_tuple
     func encode(_ value: Encodable, collectChildren: Bool,
-                objectsSavedBeforeThisOne: [NSDictionary: PointerSaveResponse]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+                objectsSavedBeforeThisOne: [NSDictionary: PointerType]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
+        if let dateEncodingStrategy = dateEncodingStrategy {
+            encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+        }
         return try encoder.encodeObject(value, collectChildren: collectChildren, objectsSavedBeforeThisOne: objectsSavedBeforeThisOne)
     }
 }
@@ -89,7 +95,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
     var uniqueObjects = Set<UniqueObject>()
     var newObjects = [Encodable]()
     var collectChildren = false
-    var objectsSavedBeforeThisOne: [NSDictionary: PointerSaveResponse]?
+    var objectsSavedBeforeThisOne: [NSDictionary: PointerType]?
     /// The encoder's storage.
     var storage: _ParseEncodingStorage
 
@@ -138,7 +144,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
     }
 
     // swiftlint:disable large_tuple
-    func encodeObject(_ value: Encodable, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerSaveResponse]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+    func encodeObject(_ value: Encodable, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerType]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
 
         let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
         encoder.collectChildren = collectChildren
@@ -229,92 +235,50 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
     // MARK: - KeyedEncodingContainerProtocol Methods
     mutating func encodeNil(forKey key: Key) throws {
         if self.encoder.skippedKeys.contains(key.stringValue) { return }
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            container[key.stringValue] = NSNull()
-        }
+        container[key.stringValue] = NSNull()
     }
     mutating func encode(_ value: Bool, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Int, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Int8, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Int16, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Int32, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Int64, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: UInt, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: UInt8, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: UInt16, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: UInt32, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: UInt64, forKey key: Key) throws {
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: String, forKey key: Key) throws {
-        if self.encoder.skippedKeys.contains(key.stringValue) { return }
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        //if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = self.encoder.box(value)
-        //}
+        //if self.encoder.skippedKeys.contains(key.stringValue) { return }
+        self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Float, forKey key: Key) throws {
         // Since the float may be invalid and throw, the coding path needs to contain this key.
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
-        //If looking for children, ignore top level key/value's unless they are ParseObjects
-        if !self.encoder.collectChildren || codingPath.count > 0 {
-            self.container[key.stringValue] = try self.encoder.box(value)
-        }
+        self.container[key.stringValue] = try self.encoder.box(value)
     }
 
     mutating func encode(_ value: Double, forKey key: Key) throws {
@@ -327,9 +291,7 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
         if self.encoder.skippedKeys.contains(key.stringValue) { return }
 
         var valueToEncode: Encodable = value
-        var encodingParseObject = false
         if let parseObject = value as? Objectable {
-            encodingParseObject = true
             if let object = UniqueObject(target: parseObject) {
                 if self.encoder.uniqueObjects.contains(object) {
                     throw ParseError(code: .unknownError, message: "Found a circular dependency when encoding.")
@@ -344,14 +306,11 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
                         //New object needs to be saved before it can be pointed to
                         self.encoder.newObjects.append(value)
                     }
-                } else {
-                    //Search for found version on dictionary, if it can't be found, throw
-                    if let pointerForCurrentObject = self.encoder.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
-                        valueToEncode = pointerForCurrentObject
-                    } else {
-                        //New object needs to be saved before it can be pointed to
-                        throw ParseError(code: .unknownError, message: "Error. Found unsaved object while encoding")
-                    }
+                } else if let pointerForCurrentObject = self.encoder.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
+                    valueToEncode = pointerForCurrentObject
+                } else if codingPath.count > 0 {
+                    //Only top level objects can be saved without a pointer
+                    throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved object while encoding.")
                 }
             }
         }
@@ -844,7 +803,7 @@ private class _ParseReferencingEncoder: _ParseEncoder {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given array container in the given encoder.
-    init(referencing encoder: _ParseEncoder, at index: Int, wrapping array: NSMutableArray, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerSaveResponse]?) {
+    init(referencing encoder: _ParseEncoder, at index: Int, wrapping array: NSMutableArray, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerType]?) {
         self.encoder = encoder
         self.reference = .array(array, index)
         super.init(codingPath: encoder.codingPath, dictionary: NSMutableDictionary(), skippingKeys: skippingKeys)
@@ -854,7 +813,7 @@ private class _ParseReferencingEncoder: _ParseEncoder {
     }
 
     /// Initializes `self` by referencing the given dictionary container in the given encoder.
-    init(referencing encoder: _ParseEncoder, key: CodingKey, wrapping dictionary: NSMutableDictionary, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerSaveResponse]?) {
+    init(referencing encoder: _ParseEncoder, key: CodingKey, wrapping dictionary: NSMutableDictionary, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerType]?) {
         self.encoder = encoder
         self.reference = .dictionary(dictionary, key.stringValue)
         super.init(codingPath: encoder.codingPath, dictionary: dictionary, skippingKeys: skippingKeys)

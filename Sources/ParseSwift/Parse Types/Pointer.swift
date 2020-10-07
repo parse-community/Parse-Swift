@@ -54,3 +54,19 @@ extension Pointer {
         }.executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 }
+
+internal struct PointerType: Codable {
+
+    private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
+    public var objectId: String
+    public var className: String
+
+    public init(_ target: Objectable) {
+        self.objectId = getObjectId(target: target)
+        self.className = target.className
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case __type, objectId, className // swiftlint:disable:this identifier_name
+    }
+}

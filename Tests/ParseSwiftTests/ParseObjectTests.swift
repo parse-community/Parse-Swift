@@ -775,19 +775,56 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testPointer() throws {
-        var score = GameScore(score: 10)
+        let score = GameScore(score: 10)
         //score.objectId = "yarr"
         var game = Game(score: score)
         game.objectId = "nice"
 
-        game.ensureDeepSave {
-            print("")
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+        scoreOnServer.objectId = "nice"
+        let encoded: Data!
+        do {
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
         }
 
-        let encoded = try game.getEncoder().encode(game)
-        let decoded = try ParseCoding.jsonDecoder().decode(Game.self, from: encoded)
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+/*
+        game.ensureDeepSave { results in
+            switch results {
 
-        print(decoded)
+            case .success(let savedChildren):
+                print(savedChildren)
+            case .failure(let error):
+                print(error)
+            }
+        }*/
+
+        let savedGame = try game.save()
+        print(savedGame)
+
+        game.save { result in
+            switch result {
+
+            case .success(let saved):
+                print(saved)
+            case .failure(let error):
+                print(error)
+            }
+        }
+        //let encoded = try game.getEncoder().encode(game)
+        //let decoded = try ParseCoding.jsonDecoder().decode(Game.self, from: encoded)
+
+        //print(decoded)
     }
 }
 #endif

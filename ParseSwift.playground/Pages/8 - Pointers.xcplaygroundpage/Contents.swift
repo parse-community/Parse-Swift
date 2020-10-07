@@ -46,10 +46,10 @@ let author = Author(name: "alice", book: newBook)
 author.save { result in
     switch result {
     case .success(let savedAuthorAndBook):
-        assert(author.objectId != nil)
-        assert(author.createdAt != nil)
-        assert(author.updatedAt != nil)
-        assert(author.ACL == nil)
+        assert(savedAuthorAndBook.objectId != nil)
+        assert(savedAuthorAndBook.createdAt != nil)
+        assert(savedAuthorAndBook.updatedAt != nil)
+        assert(savedAuthorAndBook.ACL == nil)
 
         /*: To modify, need to make it a var as the Value Type
             was initialized as immutable

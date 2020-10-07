@@ -30,12 +30,12 @@ internal extension API {
             self.params = params
         }
 
-        public func execute(options: API.Options) throws -> U {
+        func execute(options: API.Options, childObjects: [NSDictionary: PointerType]? = nil) throws -> U {
             var responseResult: Result<U, ParseError>?
 
             let group = DispatchGroup()
             group.enter()
-            self.executeAsync(options: options, callbackQueue: nil) { result in
+            self.executeAsync(options: options, callbackQueue: nil, childObjects: childObjects) { result in
                 responseResult = result
                 group.leave()
             }
@@ -48,8 +48,9 @@ internal extension API {
             return try response.get()
         }
 
-        public func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
-                                 completion: @escaping(Result<U, ParseError>) -> Void) {
+        func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
+                          childObjects: [NSDictionary: PointerType]? = nil,
+                          completion: @escaping(Result<U, ParseError>) -> Void) {
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
             let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
@@ -70,12 +71,24 @@ internal extension API {
             var urlRequest = URLRequest(url: urlComponents)
             urlRequest.allHTTPHeaderFields = headers
             if let urlBody = body {
-                guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody) else {
-                    completion(.failure(ParseError(code: .unknownError,
-                                                   message: "couldn't encode body \(urlBody)")))
-                    return
+                if let childObjects = childObjects {
+                    guard let bodyData = try? ParseCoding
+                            .parseEncoder()
+                            .encode(urlBody, collectChildren: false,
+                                    objectsSavedBeforeThisOne: childObjects) else {
+                        completion(.failure(ParseError(code: .unknownError,
+                                                       message: "couldn't encode body \(urlBody)")))
+                        return
+                    }
+                    urlRequest.httpBody = bodyData.encoded
+                } else {
+                    guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody) else {
+                        completion(.failure(ParseError(code: .unknownError,
+                                                       message: "couldn't encode body \(urlBody)")))
+                        return
+                    }
+                    urlRequest.httpBody = bodyData
                 }
-                urlRequest.httpBody = bodyData
             }
             urlRequest.httpMethod = method.rawValue
 
@@ -127,14 +140,16 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    static func saveEncodableCommand<T>(_ object: T) throws -> API.Command<T, PointerSaveResponse> where T: Encodable {
-        guard let objectable = object as? Objectable else {
+    static func saveCommand<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
+        guard var objectable = object as? Objectable else {
             throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
         }
-        let mapper = { (data: Data) -> PointerSaveResponse in
-            try ParseCoding.jsonDecoder().decode(PointerSaveResponse.self, from: data)
+        let mapper = { (data: Data) -> PointerType in
+            let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
+            objectable.objectId = baseObjectable.objectId
+            return objectable.toPointer()
         }
-        return API.Command<T, PointerSaveResponse>(method: .POST,
+        return API.Command<T, PointerType>(method: .POST,
                                  path: objectable.endpoint,
                                  body: object,
                                  mapper: mapper)
