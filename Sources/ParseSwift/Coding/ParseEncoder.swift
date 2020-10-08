@@ -62,6 +62,9 @@ internal struct ParseEncoder {
         self.dateEncodingStrategy = dateEncodingStrategy
         self.jsonEncoder = jsonEncoder
         self.skippedKeys = skippingKeys
+        if let dateEncodingStrategy = dateEncodingStrategy {
+            self.jsonEncoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+        }
     }
 
     func encode<T: Encodable>(_ value: T) throws -> Data {
@@ -98,6 +101,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
     var objectsSavedBeforeThisOne: [NSDictionary: PointerType]?
     /// The encoder's storage.
     var storage: _ParseEncodingStorage
+    var ignoreSkipKeys = false
 
     /// Options set on the top-level encoder to pass down the encoding hierarchy.
     fileprivate struct _Options {
@@ -271,7 +275,7 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: String, forKey key: Key) throws {
-        //if self.encoder.skippedKeys.contains(key.stringValue) { return }
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Float, forKey key: Key) throws {
@@ -752,12 +756,15 @@ extension _ParseEncoder {
         } else if value is _JSONStringDictionaryEncodableMarker {
             // swiftlint:disable:next force_cast
             return try self.box(value as! [String : Encodable])
+        } else if value is PointerType {
+            ignoreSkipKeys = true
         }
 
         // The value should request a container from the __JSONEncoder.
         let depth = self.storage.count
         do {
             try value.encode(to: self)
+            ignoreSkipKeys = false
         } catch {
             // If the value pushed a container before throwing, pop it back off to restore state.
             if self.storage.count > depth {
