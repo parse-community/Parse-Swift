@@ -291,37 +291,51 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
         defer { self.encoder.codingPath.removeLast() }
         self.container[key.stringValue] = try self.encoder.box(value)
     }
+
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
         if self.encoder.skippedKeys.contains(key.stringValue) { return }
 
         var valueToEncode: Encodable = value
         if let parseObject = value as? Objectable {
-            if let object = UniqueObject(target: parseObject) {
-                if self.encoder.uniqueObjects.contains(object) {
-                    throw ParseError(code: .unknownError, message: "Found a circular dependency when encoding.")
-                }
-                self.encoder.uniqueObjects.insert(object)
-            } else {
-                let hashOfCurrentObject = BaseObjectable.createHash(value)
-                if self.encoder.collectChildren {
-                    if let pointerForCurrentObject = self.encoder.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
-                        valueToEncode = pointerForCurrentObject
-                    } else {
-                        //New object needs to be saved before it can be pointed to
-                        self.encoder.newObjects.append(value)
-                    }
-                } else if let pointerForCurrentObject = self.encoder.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
-                    valueToEncode = pointerForCurrentObject
-                } else if codingPath.count > 0 {
-                    //Only top level objects can be saved without a pointer
-                    throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved object while encoding.")
-                }
+            if let replacedObject = try deepFindAndReplaceParseObjects(parseObject) {
+                valueToEncode = replacedObject
+            }
+        } else if let parseObjects = value as? [Objectable] {
+            let replacedObjects = try parseObjects.compactMap { try deepFindAndReplaceParseObjects($0) }
+            if replacedObjects.count > 0 {
+                valueToEncode = replacedObjects as! Encodable
             }
         }
 
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
         self.container[key.stringValue] = try self.encoder.box(valueToEncode)
+    }
+
+    func deepFindAndReplaceParseObjects(_ value: Objectable) throws -> Encodable? {
+        var valueToEncode: Encodable?
+        if let object = UniqueObject(target: value) {
+            if self.encoder.uniqueObjects.contains(object) {
+                throw ParseError(code: .unknownError, message: "Found a circular dependency when encoding.")
+            }
+            self.encoder.uniqueObjects.insert(object)
+        } else {
+            let hashOfCurrentObject = BaseObjectable.createHash(value)
+            if self.encoder.collectChildren {
+                if let pointerForCurrentObject = self.encoder.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
+                    valueToEncode = pointerForCurrentObject
+                } else {
+                    //New object needs to be saved before it can be pointed to
+                    self.encoder.newObjects.append(value)
+                }
+            } else if let pointerForCurrentObject = self.encoder.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
+                valueToEncode = pointerForCurrentObject
+            } else if codingPath.count > 0 {
+                //Only top level objects can be saved without a pointer
+                throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved object while encoding.")
+            }
+        }
+        return valueToEncode
     }
 
     mutating func nestedContainer<NestedKey>(

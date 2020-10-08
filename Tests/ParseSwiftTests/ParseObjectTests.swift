@@ -11,6 +11,20 @@ import XCTest
 @testable import ParseSwift
 
 class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
+    struct Level: ParseObject {
+        var objectId: String?
+
+        var createdAt: Date?
+
+        var updatedAt: Date?
+
+        var ACL: ParseACL?
+
+        var name = "First"
+
+        init() {
+        }
+    }
 
     struct GameScore: ParseObject {
         //: Those are required for Object
@@ -22,6 +36,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         //: Your own properties
         var score: Int
         var player = "Jen"
+        var level: Level?
+        var levels: [Level]?
 
         //: a custom initializer
         init(score: Int) {
@@ -774,9 +790,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.deleteAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
-    func testPointer() throws {
+    func testDeepSaveOneDeep() throws {
         let score = GameScore(score: 10)
-        //score.objectId = "yarr"
         var game = Game(score: score)
         game.objectId = "nice"
 
@@ -784,7 +799,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
-        scoreOnServer.objectId = "nice"
+        scoreOnServer.objectId = "yarr"
         let encoded: Data!
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
@@ -798,33 +813,115 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-/*
+
         game.ensureDeepSave { results in
             switch results {
 
             case .success(let savedChildren):
-                print(savedChildren)
+                XCTAssertEqual(savedChildren.count, 1)
+                savedChildren.forEach { (_, value) in
+                    XCTAssertEqual(value.className, "GameScore")
+                    XCTAssertEqual(value.objectId, "yarr")
+                }
             case .failure(let error):
-                print(error)
-            }
-        }*/
-
-        let savedGame = try game.save()
-        print(savedGame)
-
-        game.save { result in
-            switch result {
-
-            case .success(let saved):
-                print(saved)
-            case .failure(let error):
-                print(error)
+                XCTFail(error.localizedDescription)
             }
         }
-        //let encoded = try game.getEncoder().encode(game)
-        //let decoded = try ParseCoding.jsonDecoder().decode(Game.self, from: encoded)
+    }
 
-        //print(decoded)
+    func testDeepSaveTwoDeep() throws {
+        var score = GameScore(score: 10)
+        score.level = Level()
+        var game = Game(score: score)
+        game.objectId = "nice"
+
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+        scoreOnServer.objectId = "yarr"
+        let encoded: Data!
+        do {
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        game.ensureDeepSave { results in
+            switch results {
+
+            case .success(let savedChildren):
+                XCTAssertEqual(savedChildren.count, 2)
+                let gameScore = savedChildren.compactMap { (_, value) -> PointerType? in
+                    if value.className == "GameScore" {
+                        return value
+                    } else {
+                        return nil
+                    }
+                }
+                XCTAssertEqual(gameScore.count, 1)
+                XCTAssertEqual(gameScore.first?.className, "GameScore")
+                XCTAssertEqual(gameScore.first?.objectId, "yarr")
+
+                let level = savedChildren.compactMap { (_, value) -> PointerType? in
+                    if value.className == "Level" {
+                        return value
+                    } else {
+                        return nil
+                    }
+                }
+                XCTAssertEqual(level.count, 1)
+                XCTAssertEqual(level.first?.className, "Level")
+                XCTAssertEqual(level.first?.objectId, "yarr") //This is because mocker is only returning 1 response
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        }
+    }
+
+    func testDeepSavePointerArray() throws {
+        var score = GameScore(score: 10)
+        score.levels = [Level(), Level()]
+
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+        scoreOnServer.objectId = "yarr"
+        let encoded: Data!
+        do {
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        score.ensureDeepSave { results in
+            switch results {
+
+            case .success(let savedChildren):
+                XCTAssertEqual(savedChildren.count, 1) //This should return 2, but the mocker is limited to 1 response
+                savedChildren.forEach { (_, value) in
+                    XCTAssertEqual(value.className, "Level")
+                    XCTAssertEqual(value.objectId, "yarr")
+                }
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        }
     }
 }
 #endif
