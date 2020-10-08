@@ -31,11 +31,11 @@ internal struct PointerSaveResponse: ChildResponse {
         case __type, objectId, className // swiftlint:disable:this identifier_name
     }
 
-    func apply<T>(to object: T) throws -> Self where T: Encodable {
-        guard let object = object as? Objectable,
-              var pointer = PointerSaveResponse(object) else {
+    func apply<T>(to object: T) throws -> PointerType where T: Encodable {
+        guard let object = object as? Objectable else {
             throw ParseError(code: .unknownError, message: "Should have converterted encoded object to Pointer")
         }
+        var pointer = PointerType(object)
         pointer.objectId = objectId
         return pointer
     }

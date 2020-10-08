@@ -241,13 +241,13 @@ extension API.Command where T: Encodable {
         return try? ParseCoding.parseEncoder().encode(body)
     }
 
-    static func batch(commands: [API.Command<T, PointerSaveResponse>]) -> RESTBatchCommandTypeEncodable<T> {
-        let commands = commands.compactMap { (command) -> API.Command<T, PointerSaveResponse>? in
+    static func batch(commands: [API.Command<T, PointerType>]) -> RESTBatchCommandTypeEncodable<T> {
+        let commands = commands.compactMap { (command) -> API.Command<T, PointerType>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
             }
-            return API.Command<T, PointerSaveResponse>(method: command.method, path: .any(path),
+            return API.Command<T, PointerType>(method: command.method, path: .any(path),
                                      body: body, mapper: command.mapper)
         }
         let bodies = commands.compactMap { (command) -> (body: T, command: API.Method)?  in
@@ -256,11 +256,11 @@ extension API.Command where T: Encodable {
             }
             return (body: body, command: command.method)
         }
-        let mapper = { (data: Data) -> [Result<PointerSaveResponse, ParseError>] in
+        let mapper = { (data: Data) -> [Result<PointerType, ParseError>] in
             let decodingType = [BatchResponseItem<PointerSaveResponse>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
-                return bodies.enumerated().map({ (object) -> (Result<PointerSaveResponse, ParseError>) in
+                return bodies.enumerated().map({ (object) -> (Result<PointerType, ParseError>) in
                     let response = responses[object.offset]
                     if let success = response.success {
                         guard let successfulResponse = try? success.apply(to: object.element.body) else {

@@ -68,7 +68,7 @@ public extension Sequence where Element: ParseObject {
 }
 
 // MARK: Batch Support
-/*internal extension Sequence where Element: Encodable {
+internal extension Sequence where Element: Encodable {
 
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
@@ -78,13 +78,13 @@ public extension Sequence where Element: ParseObject {
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
     */
-    func saveAllEncodable(options: API.Options = []) throws -> [(Result<BaseObjectable, ParseError>)] {
+    func saveAll(options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         let commands = try map { try $0.saveCommand() }
         return try API.Command<Self.Element, BaseObjectable>
                 .batch(commands: commands)
                 .execute(options: options)
     }
-}*/
+}
 
 // MARK: CustomDebugStringConvertible
 extension ParseObject {
@@ -317,6 +317,7 @@ extension ParseObject {
                     waitingToBeSaved = nextBatch
 
                     //Currently, batch isn't working for Encodable
+                    //savable.saveAll(encodableObjects: savable)
                     try savable.forEach {
                         let hash = BaseObjectable.createHash($0)
                         finishedSaving[hash] = try $0.save(options: options)
@@ -343,14 +344,14 @@ internal extension Encodable {
     func saveCommand() throws -> API.Command<Self, PointerType> {
         return try API.Command<Self, PointerType>.saveCommand(self)
     }
-/*
-    func saveAllEncodable<T: Encodable>(options: API.Options = [],
-                                        encodableObjects: [T]) throws -> [(Result<PointerSaveResponse, ParseError>)] {
+
+    func saveAll<T: Encodable>(options: API.Options = [],
+                               encodableObjects: [T]) throws -> [(Result<PointerType, ParseError>)] {
         let commands = try encodableObjects.map { try $0.saveCommand() }
         return try API.Command<T, BaseObjectable>
                 .batch(commands: commands)
                 .execute(options: options)
-    }*/
+    }
 }
 
 // MARK: Deletable
