@@ -101,7 +101,7 @@ class ParseEncoderTests: XCTestCase {
         var newACL = ParseACL()
         newACL.publicRead = true
 
-        let jsonEncoded = try ParseCoding.jsonEncoder().encode(newACL)
+        let jsonEncoded = try JSONEncoder().encode(newACL)
         let jsonDecoded = try ParseCoding.jsonDecoder().decode([String: [String: Bool]].self, from: jsonEncoded)
 
         let parseEncoded = try ParseCoding.parseEncoder().encode(newACL)

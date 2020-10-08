@@ -11,6 +11,14 @@ import Foundation
 /**
  Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse cloud.
  This is the main protocol that is used to interact with objects in your app.
+ - note: `ParseObject`s can be "value types" (structs) or reference types "classes". If you are using value types
+ there isn't much else you need to do but to conform to ParseObject. If you are using reference types, see the warning.
+ - warning: If you plan to use "reference types" (classes), you will need to implement your own `==` method to conform
+ to `Equatable` along with with the `hash` method to conform to `Hashable`. It is important to note that for unsaved
+`ParseObject`s, you won't be able to rely on `objectId` for `Equatable` and `Hashable` as your unsaved objects
+ won't have this value yet and is nil. A possible way to address this is by creating a `UUID` for your objects locally
+ and relying on that for `Equatable` and `Hashable`, otherwise it's possible you will get "circular dependency errors"
+ depending on your implementation.
 */
 public protocol ParseObject: Objectable, Fetchable, Saveable, Deletable, Hashable, CustomDebugStringConvertible {}
 
@@ -18,7 +26,7 @@ public protocol ParseObject: Objectable, Fetchable, Saveable, Deletable, Hashabl
 extension ParseObject {
 
     /**
-     Determines if an object has the same objectId
+     Determines if to objects have the same objectId
 
      - parameter as: object to compare
 
@@ -89,7 +97,7 @@ internal extension Sequence where Element: Encodable {
 // MARK: CustomDebugStringConvertible
 extension ParseObject {
     public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+        guard let descriptionData = try? ParseCoding.parseEncoder(skipKeys: false).encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
                 return "\(className) ()"
         }
@@ -315,6 +323,12 @@ extension ParseObject {
                         }
                     }
                     waitingToBeSaved = nextBatch
+
+                    if savable.count == 0 {
+                        completion(.failure(ParseError(code: .unknownError,
+                                                       message: "Found a circular dependency in ParseObject.")))
+                        return
+                    }
 
                     //Currently, batch isn't working for Encodable
                     //savable.saveAll(encodableObjects: savable)

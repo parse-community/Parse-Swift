@@ -15,6 +15,7 @@ internal enum ParseCoding {}
 extension ParseCoding {
     private static let forbiddenKeys = Set(["createdAt", "updatedAt", "objectId", "className"])
 
+    ///This should only be used for Unit tests, don't use in SDK
     static func jsonEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = jsonDateEncodingStrategy

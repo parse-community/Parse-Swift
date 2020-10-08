@@ -63,6 +63,111 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    class GameScoreClass: ParseObject {
+
+        //: Those are required for Object
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        //: Your own properties
+        var score: Int
+        var player = "Jen"
+        var level: Level?
+        var levels: [Level]?
+        var game: GameClass?
+
+        //: a custom initializer
+        init(score: Int) {
+            self.score = score
+        }
+
+        /**
+         Conforms to Equatable by determining if an object has the same objectId.
+         - note: You can specify a custom way of `Equatable` if a more  detailed way is needed.
+         - warning: If you use the default implementation, equatable will only work if the ParseObject
+         has been previously synced to the parse-server (has an objectId). In addition, if two
+         `ParseObject`'s have the same objectId, but were modified at different times, the
+         default implementation will still return true. In these cases you either want to use a
+         "struct" (value types) to make your `ParseObjects` instead of a class (reference type) or
+         provide your own implementation of `==`.
+         - parameter lhs: first object to compare
+         - parameter rhs: second object to compare
+
+         - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+        */
+        public static func == (lhs: ParseObjectTests.GameScoreClass,
+                               rhs: ParseObjectTests.GameScoreClass) -> Bool {
+            lhs.hasSameObjectId(as: rhs)
+        }
+
+        /**
+         Conforms to `Hashable` using objectId.
+         - note: You can specify a custom way of `Hashable` if a more  detailed way is needed.
+         - warning: If you use the default implementation, hash will only work if the ParseObject has been previously
+         synced to the parse-server (has an objectId). In addition, if two `ParseObject`'s have the same objectId,
+         but were modified at different times, the default implementation will hash to the same value. In these
+         cases you either want to use a "struct" (value types) to make your `ParseObjects` instead of a
+         class (reference type) or provide your own implementation of `hash`.
+
+        */
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(self.objectId)
+        }
+    }
+
+    class GameClass: ParseObject {
+
+        //: Those are required for Object
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        //: Your own properties
+        var score: GameScoreClass
+        var scores = [GameScore]()
+        var name = "Hello"
+
+        //: a custom initializer
+        init(score: GameScoreClass) {
+            self.score = score
+        }
+
+        /**
+         Conforms to Equatable by determining if an object has the same objectId.
+         - note: You can specify a custom way of `Equatable` if a more  detailed way is needed.
+         - warning: If you use the default implementation, equatable will only work if the ParseObject
+         has been previously synced to the parse-server (has an objectId). In addition, if two
+         `ParseObject`'s have the same objectId, but were modified at different times, the
+         default implementation will still return true. In these cases you either want to use a
+         "struct" (value types) to make your `ParseObjects` instead of a class (reference type) or
+         provide your own implementation of `==`.
+         - parameter lhs: first object to compare
+         - parameter rhs: second object to compare
+
+         - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+        */
+        public static func == (lhs: ParseObjectTests.GameClass, rhs: ParseObjectTests.GameClass) -> Bool {
+            lhs.hasSameObjectId(as: rhs)
+        }
+
+        /**
+         Conforms to `Hashable` using objectId.
+         - note: You can specify a custom way of `Hashable` if a more  detailed way is needed.
+         - warning: If you use the default implementation, hash will only work if the ParseObject has been previously
+         synced to the parse-server (has an objectId). In addition, if two `ParseObject`'s have the same objectId,
+         but were modified at different times, the default implementation will hash to the same value. In these
+         cases you either want to use a "struct" (value types) to make your `ParseObjects` instead of a
+         class (reference type) or provide your own implementation of `hash`.
+
+        */
+        public func hash(into hasher: inout Hasher) {
+            hasher.combine(self.objectId)
+        }
+    }
+
     override func setUp() {
         super.setUp()
         guard let url = URL(string: "https://localhost:1337/1") else {
@@ -80,11 +185,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         MockURLProtocol.removeAll()
         try? KeychainStore.shared.deleteAll()
         try? ParseStorage.shared.deleteAll()
-    }
-
-    func testObjectCreationViaStruct() {
-        XCTAssertEqual(GameScore.className, "GameScore")
-        XCTAssertEqual(GameScore(score: 10).className, "GameScore")
     }
 
     func testFetchCommand() {
@@ -829,6 +929,23 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testDeepSaveDetectCircular() throws {
+        let score = GameScoreClass(score: 10)
+        let game = GameClass(score: score)
+        game.objectId = "nice"
+        score.game = game
+
+        game.ensureDeepSave { results in
+            switch results {
+
+            case .success:
+                XCTFail("Should have failed with an error of detecting a circular dependency")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("circular"))
+            }
+        }
+    }
+
     func testDeepSaveTwoDeep() throws {
         var score = GameScore(score: 10)
         score.level = Level()
@@ -840,11 +957,10 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
         scoreOnServer.objectId = "yarr"
+        let pointer = scoreOnServer.toPointer()
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
-            //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(pointer)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -913,7 +1029,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch results {
 
             case .success(let savedChildren):
-                XCTAssertEqual(savedChildren.count, 1) //This should return 2, but the mocker is limited to 1 response
+                //This should be 2, but the URLMocker is limited to 1 response whic hashes to the same value
+                XCTAssertEqual(savedChildren.count, 1)
                 savedChildren.forEach { (_, value) in
                     XCTAssertEqual(value.className, "Level")
                     XCTAssertEqual(value.objectId, "yarr")
