@@ -303,7 +303,10 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
         } else if let parseObjects = value as? [Objectable] {
             let replacedObjects = try parseObjects.compactMap { try deepFindAndReplaceParseObjects($0) }
             if replacedObjects.count > 0 {
-                valueToEncode = replacedObjects as! Encodable
+                self.encoder.codingPath.append(key)
+                defer { self.encoder.codingPath.removeLast() }
+                self.container[key.stringValue] = try replacedObjects.map { try self.encoder.box($0) }
+                return
             }
         }
 

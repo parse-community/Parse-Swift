@@ -65,7 +65,7 @@ author.save { result in
 let otherBook1 = Book(title: "I like this book")
 let otherBook2 = Book(title: "I like this book also")
 var author2 = Author(name: "Bruce", book: newBook)
-author2.otherBooks = [otherBook1,otherBook2]
+author2.otherBooks = [otherBook1, otherBook2]
 author2.save { result in
     switch result {
     case .success(let savedAuthorAndBook):
