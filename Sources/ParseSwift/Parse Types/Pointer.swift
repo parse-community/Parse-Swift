@@ -57,7 +57,7 @@ extension Pointer {
 
 internal struct PointerType: Codable {
 
-    private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
+    var __type: String = "Pointer" // swiftlint:disable:this identifier_name
     public var objectId: String
     public var className: String
 

@@ -49,7 +49,7 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
 // swiftlint:disable cyclomatic_complexity
 
 // MARK: ParseEncoder
-internal struct ParseEncoder {
+public struct ParseEncoder {
     let dateEncodingStrategy: AnyCodable.DateEncodingStrategy?
     let jsonEncoder: JSONEncoder
     let skippedKeys: Set<String>
@@ -67,11 +67,11 @@ internal struct ParseEncoder {
         }
     }
 
-    func encode<T: Encodable>(_ value: T) throws -> Data {
+    public func encode<T: Encodable>(_ value: T) throws -> Data {
         try jsonEncoder.encode(value)
     }
 
-    func encode<T: ParseObject>(_ value: T) throws -> Data {
+    public func encode<T: ParseObject>(_ value: T) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
@@ -80,8 +80,8 @@ internal struct ParseEncoder {
     }
 
     // swiftlint:disable large_tuple
-    func encode(_ value: Encodable, collectChildren: Bool,
-                objectsSavedBeforeThisOne: [NSDictionary: PointerType]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+    internal func encode(_ value: Encodable, collectChildren: Bool,
+                         objectsSavedBeforeThisOne: [NSDictionary: PointerType]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)

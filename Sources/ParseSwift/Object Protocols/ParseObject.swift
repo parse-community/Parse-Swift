@@ -419,6 +419,10 @@ extension ParseObject {
 }
 
 public extension ParseObject {
+    /**
+       Gets a Pointer referencing this Object.
+       - returns: Pointer<Self>
+    */
     func toPointer() -> Pointer<Self> {
         return Pointer(self)
     }
