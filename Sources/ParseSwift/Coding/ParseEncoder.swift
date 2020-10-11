@@ -321,6 +321,9 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
                 throw ParseError(code: .unknownError, message: "Found a circular dependency when encoding.")
             }
             self.encoder.uniqueObjects.insert(object)
+            if !self.encoder.collectChildren {
+                valueToEncode = value.toPointer()
+            }
         } else {
             let hashOfCurrentObject = BaseObjectable.createHash(value)
             if self.encoder.collectChildren {
