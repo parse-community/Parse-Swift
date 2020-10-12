@@ -19,6 +19,9 @@ import Foundation
  won't have this value yet and is nil. A possible way to address this is by creating a `UUID` for your objects locally
  and relying on that for `Equatable` and `Hashable`, otherwise it's possible you will get "circular dependency errors"
  depending on your implementation.
+ 
+ If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and `ACL`
+ to your `ParseObject` `CodingKeys`.
 */
 public protocol ParseObject: Objectable, Fetchable, Saveable, Deletable, Hashable, CustomDebugStringConvertible {}
 
