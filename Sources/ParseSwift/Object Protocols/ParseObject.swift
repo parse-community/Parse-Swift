@@ -19,7 +19,7 @@ import Foundation
  won't have this value yet and is nil. A possible way to address this is by creating a `UUID` for your objects locally
  and relying on that for `Equatable` and `Hashable`, otherwise it's possible you will get "circular dependency errors"
  depending on your implementation.
- 
+
  If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and `ACL`
  to your `ParseObject` `CodingKeys`.
 */
@@ -29,9 +29,9 @@ public protocol ParseObject: Objectable, Fetchable, Saveable, Deletable, Hashabl
 extension ParseObject {
 
     /**
-     Determines if to objects have the same objectId
+     Determines if two objects have the same objectId.
 
-     - parameter as: object to compare
+     - parameter as: Object to compare.
 
      - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
     */
@@ -159,7 +159,7 @@ extension ParseObject {
     }
 
     /**
-     Fetches the ParseObject *synchronously* with the current data from the server and sets an error if it occurs.
+     Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
@@ -174,7 +174,7 @@ extension ParseObject {
      Fetches the `ParseObject` *asynchronously* and executes the given callback block.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
-     - parameter callbackQueue: The queue to return to after completion.  Default
+     - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -230,12 +230,12 @@ public extension ParseObject {
 extension ParseObject {
 
     /**
-     Saves the `ParseObject` *synchronously* and thows an error if there's an issue.
+     Saves the `ParseObject` *synchronously* and throws an error if there's an issue.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - throws: A Error of type `ParseError`.
 
-     - returns: Returns saved  `ParseObject`.
+     - returns: Returns saved `ParseObject`.
     */
     public func save(options: API.Options = []) throws -> Self {
         var childObjects: [NSDictionary: PointerType]?
@@ -374,7 +374,7 @@ internal extension Encodable {
 // MARK: Deletable
 extension ParseObject {
     /**
-     Deletes the ParseObject *synchronously* with the current data from the server and sets an error if it occurs.
+     Deletes the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
@@ -388,7 +388,7 @@ extension ParseObject {
      Deletes the `ParseObject` *asynchronously* and executes the given callback block.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
-     - parameter callbackQueue: The queue to return to after completion.  Default
+     - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.

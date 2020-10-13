@@ -49,7 +49,7 @@ public struct GeoPoint: Codable, Equatable {
     private var _longitude: Double
 
     /**
-     Create a GeoPoint instance. Latitude and longitude are set to `0.0`.
+     Create a `GeoPoint` instance. Latitude and longitude are set to `0.0`.
      */
     public init() {
         _latitude = 0.0
@@ -72,7 +72,7 @@ public struct GeoPoint: Codable, Equatable {
 
     /**
       Creates a new `GeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
-       - parameter location: Instace of `CLLocation`, with set latitude and longitude.
+       - parameter location: Instance of `CLLocation`, with set latitude and longitude.
      */
     @available(iOS 11, macOS 10.13, tvOS 11, watchOS 4, *)
     public init(location: CLLocation) {
@@ -82,7 +82,7 @@ public struct GeoPoint: Codable, Equatable {
 
     /**
      Get distance in radians from this point to specified point.
-     
+
      - parameter point: `GeoPoint` that represents the location of other point.
      - returns: Distance in radians between the receiver and `point`.
     */
@@ -105,7 +105,7 @@ public struct GeoPoint: Codable, Equatable {
 
     /**
      Get distance in miles from this point to specified point.
-     
+
      - parameter point: `GeoPoint` that represents the location of other point.
      - returns: Distance in miles between the receiver and `point`.
     */

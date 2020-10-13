@@ -140,7 +140,7 @@ public func or <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
 }
 
 /**
-   Constructs a Query that is the AND of the passed in queries.  For
+   Constructs a Query that is the AND of the passed in queries. For
     example:
     ~~~
     var compoundQueryConstraints = and(query1, query2, query3)
@@ -158,8 +158,8 @@ public func and <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
 /**
  Add a constraint that requires that a key's value matches a `Query` constraint.
  - warning: This only works where the key's values are `ParseObject`s or arrays of `ParseObject`s.
- - parameter key: The key that the value is stored in
- - parameter query: The query the value should match
+ - parameter key: The key that the value is stored in.
+ - parameter query: The query the value should match.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
@@ -169,8 +169,8 @@ public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
 /**
  Add a constraint that requires that a key's value do not match a `Query` constraint.
  - warning: This only works where the key's values are `ParseObject`s or arrays of `ParseObject`s.
- - parameter key: The key that the value is stored in
- - parameter query: The query the value should not match
+ - parameter key: The key that the value is stored in.
+ - parameter query: The query the value should not match.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func != <T>(key: String, query: Query<T>) -> QueryConstraint {
@@ -191,10 +191,10 @@ public func matchesKeyInQuery <T>(key: String, queryKey: String, query: Query<T>
 }
 
 /**
- Adds a constraint that requires that a key's value `NOT` match a value in another key
+ Adds a constraint that requires that a key's value *not* match a value in another key
  in objects returned by a sub query.
  - parameter key: The key that the value is stored.
- - parameter queryKey: The key in objects in the returned by the sub query whose value should match.
+ - parameter queryKey: The key in objects returned by the sub query whose value should match.
  - parameter query: The query to run.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
@@ -238,8 +238,7 @@ public func containsAll <T>(key: String, array: [T]) -> QueryConstraint where T:
 
 /**
  Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
- be near a reference point.
- Distance is calculated based on angular distance on a sphere. Results will be sorted by distance
+ be near a reference point. Distance is calculated based on angular distance on a sphere. Results will be sorted by distance
  from reference point.
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `GeoPoint`.
@@ -251,8 +250,8 @@ public func near(key: String, geoPoint: GeoPoint) -> QueryConstraint {
 
 /**
  Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`) be near
- a reference point and within the maximum distance specified (in radians).  Distance is calculated based on
- angular distance on a sphere.  Results will be sorted by distance (nearest to farthest) from the reference point.
+ a reference point and within the maximum distance specified (in radians). Distance is calculated based on
+ angular distance on a sphere. Results will be sorted by distance (nearest to farthest) from the reference point.
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point as a `GeoPoint`.
  - parameter distance: Maximum distance in radians.
@@ -266,9 +265,7 @@ public func withinRadians(key: String, geoPoint: GeoPoint, distance: Double) -> 
 
 /**
  Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
- be near a reference point and within the maximum distance specified (in miles).
- Distance is calculated based on a spherical coordinate system.
- Results will be sorted by distance (nearest to farthest) from the reference point.
+ be near a reference point and within the maximum distance specified (in miles). Distance is calculated based on a spherical coordinate system. Results will be sorted by distance (nearest to farthest) from the reference point.
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `GeoPoint`.
  - parameter distance: Maximum distance in miles.
@@ -280,9 +277,7 @@ public func withinMiles(key: String, geoPoint: GeoPoint, distance: Double) -> [Q
 
 /**
  Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
- be near a reference point and within the maximum distance specified (in kilometers).
- Distance is calculated based on a spherical coordinate system.
- Results will be sorted by distance (nearest to farthest) from the reference point.
+ be near a reference point and within the maximum distance specified (in kilometers). Distance is calculated based on a spherical coordinate system. Results will be sorted by distance (nearest to farthest) from the reference point.
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `GeoPoint`.
  - parameter distance: Maximum distance in kilometers.
@@ -308,17 +303,16 @@ public func withinGeoBox(key: String, fromSouthWest southwest: GeoPoint,
 }
 
 /**
- * Add a constraint to the query that requires a particular key's
- * coordinates be contained within and on the bounds of a given polygon
- * Supports closed and open (last point is connected to first) paths.
- * (Requires parse-server@2.5.0)
- *
- * Polygon must have at least 3 points
- *
- * - parameter key: The key to be constrained.
- * - parameter points: The polygon points as an Array of `GeoPoint`'s.
- *
- * - returns: The same instance of `QueryConstraint` as the receiver.
+ Add a constraint to the query that requires a particular key's
+ coordinates be contained within and on the bounds of a given polygon
+ Supports closed and open (last point is connected to first) paths.
+ (Requires parse-server@2.5.0)
+
+ Polygon must have at least 3 points.
+
+ - parameter key: The key to be constrained.
+ - parameter points: The polygon points as an Array of `GeoPoint`'s.
+ - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func withinPolygon(key: String, points: [GeoPoint]) -> QueryConstraint {
     let dictionary = [QueryConstraint.Comparator.polygon.rawValue: points]
@@ -326,14 +320,14 @@ public func withinPolygon(key: String, points: [GeoPoint]) -> QueryConstraint {
 }
 
 /**
- * Add a constraint to the query that requires a particular key's
- * coordinates that contains a `GeoPoint`
- * (Requires parse-server@2.6.0)
- *
- * - parameter key: The key to be constrained.
- * - parameter point: The point the polygon contains`GeoPoint`.
- *
- * - returns: The same instance of `QueryConstraint` as the receiver.
+ Add a constraint to the query that requires a particular key's
+ coordinates that contains a `GeoPoint`
+ (Requires parse-server@2.6.0)
+
+ - parameter key: The key to be constrained.
+ - parameter point: The point the polygon contains `GeoPoint`.
+
+ - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func polygonContains(key: String, point: GeoPoint) -> QueryConstraint {
     let dictionary = [QueryConstraint.Comparator.point.rawValue: point]
@@ -342,9 +336,9 @@ public func polygonContains(key: String, point: GeoPoint) -> QueryConstraint {
 
 /**
   Add a constraint for finding string values that contain a provided
-  string using Full Text Search
+  string using Full Text Search.
   - parameter key: The key to be constrained.
-  - parameter text: the substring that the value must contain.
+  - parameter text: The substring that the value must contain.
   - returns: The same instance of `Query` as the receiver.
  */
 public func matchesText(key: String, text: String) -> QueryConstraint {
@@ -522,16 +516,16 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-      Create an instance with a variadic amount constraints
-     - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s
+      Create an instance with a variadic amount constraints.
+     - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
      */
     public convenience init(_ constraints: QueryConstraint...) {
         self.init(constraints)
     }
 
     /**
-      Create an instanse with an array of constraints
-     - parameter constraints: An array of `QueryConstraint`'s
+      Create an instance with an array of constraints.
+     - parameter constraints: An array of `QueryConstraint`'s.
      */
     public init(_ constraints: [QueryConstraint]) {
         constraints.forEach({ self.where.add($0) })
@@ -557,8 +551,8 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-      Add any amount of variadic constraints
-     - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s
+      Add any amount of variadic constraints.
+     - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
      */
     public func `where`(_ constraints: QueryConstraint...) -> Query<T> {
         constraints.forEach({ self.where.add($0) })
@@ -651,7 +645,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     /**
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
-     - parameter keys: An array of keys include in the result.
+     - parameter keys: An array of keys to include in the result.
      */
     public func select(_ keys: [String]) -> Query<T> {
         self.keys = keys
@@ -740,7 +734,7 @@ extension Query: Queryable {
       Finds objects *asynchronously* and calls the given block with the results.
 
       - parameter options: A set of options used to save objects.
-      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ResultType], ParseError>)`
     */
@@ -809,7 +803,7 @@ extension Query: Queryable {
 
       - warning: This method mutates the query. It will reset the limit to `1`.
       - parameter options: A set of options used to save objects.
-      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
     */
@@ -838,7 +832,7 @@ extension Query: Queryable {
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
       - parameter options: A set of options used to save objects.
-      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
     */
@@ -878,7 +872,7 @@ extension Query: Queryable {
       Counts objects *asynchronously* and calls the given block with the counts.
 
       - parameter options: A set of options used to save objects.
-      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Int, ParseError>)`
     */
@@ -892,7 +886,7 @@ extension Query: Queryable {
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
       - parameter options: A set of options used to save objects.
-      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Int, ParseError>)`
     */

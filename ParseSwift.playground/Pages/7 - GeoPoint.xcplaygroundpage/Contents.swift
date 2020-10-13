@@ -18,7 +18,7 @@ struct GameScore: ParseObject {
     //: Your own properties
     var score: Int
 
-    //: a custom initializer
+    //: A custom initializer
     init(score: Int) {
         self.score = score
     }
@@ -28,7 +28,7 @@ struct GameScore: ParseObject {
 var score = GameScore(score: 10)
 score.location = GeoPoint(latitude: 40.0, longitude: -30.0)
 
-/*: Save asynchronously (preferred way) - Performs work on background
+/*: Save asynchronously (preferred way) - performs work on background
     queue and returns to designated on designated callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
@@ -114,7 +114,7 @@ query2.find(callbackQueue: .main) { results in
     }
 }
 
-//: If you want to query for scores > 50 and don't have a geopoint
+//: If you want to query for scores > 50 and don't have a GeoPoint
 var query3 = GameScore.query("score" > 50, doesNotExist(key: "location"))
 query3.find(callbackQueue: .main) { results in
     switch results {
@@ -132,7 +132,7 @@ query3.find(callbackQueue: .main) { results in
     }
 }
 
-//: If you want to query for scores > 50 and have a geopoint
+//: If you want to query for scores > 50 and have a GeoPoint
 var query4 = GameScore.query("score" > 10, exists(key: "location"))
 query4.find(callbackQueue: .main) { results in
     switch results {
