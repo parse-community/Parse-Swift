@@ -49,6 +49,23 @@ results.forEach { (score) in
     assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
 }
 
+// Query first asynchronously (preferred way) - Performs work on background
+// queue and returns to designated on designated callbackQueue.
+// If no callbackQueue is specified it returns to main queue
+query.first(callbackQueue: .main) { results in
+    switch results {
+    case .success(let score):
+
+        guard let objectId = score.objectId,
+            let createdAt = score.createdAt else { fatalError() }
+        assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
+        print(objectId)
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
 PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)

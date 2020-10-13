@@ -46,6 +46,7 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
 // swiftlint:disable return_arrow_whitespace
 // swiftlint:disable file_length
 // swiftlint:disable redundant_discardable_let
+// swiftlint:disable cyclomatic_complexity
 
 // MARK: ParseEncoder
 public struct ParseEncoder {

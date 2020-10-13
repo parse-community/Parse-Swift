@@ -238,8 +238,8 @@ public func containsAll <T>(key: String, array: [T]) -> QueryConstraint where T:
 
 /**
  Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
- be near a reference point. Distance is calculated based on angular distance on a sphere. Results will be sorted by distance
- from reference point.
+ be near a reference point. Distance is calculated based on angular distance on a sphere. Results will be sorted
+ by distance from reference point.
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `GeoPoint`.
  - returns: The same instance of `QueryConstraint` as the receiver.
@@ -265,7 +265,8 @@ public func withinRadians(key: String, geoPoint: GeoPoint, distance: Double) -> 
 
 /**
  Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
- be near a reference point and within the maximum distance specified (in miles). Distance is calculated based on a spherical coordinate system. Results will be sorted by distance (nearest to farthest) from the reference point.
+ be near a reference point and within the maximum distance specified (in miles). Distance is calculated based
+ on a spherical coordinate system. Results will be sorted by distance (nearest to farthest) from the reference point.
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `GeoPoint`.
  - parameter distance: Maximum distance in miles.
@@ -277,7 +278,8 @@ public func withinMiles(key: String, geoPoint: GeoPoint, distance: Double) -> [Q
 
 /**
  Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
- be near a reference point and within the maximum distance specified (in kilometers). Distance is calculated based on a spherical coordinate system. Results will be sorted by distance (nearest to farthest) from the reference point.
+ be near a reference point and within the maximum distance specified (in kilometers). Distance is calculated based
+ on a spherical coordinate system. Results will be sorted by distance (nearest to farthest) from the reference point.
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `GeoPoint`.
  - parameter distance: Maximum distance in kilometers.
