@@ -30,7 +30,7 @@ extension JSONEncoder {
 }
 
 // MARK: ParseObject
-internal extension ParseObject {
+public extension ParseObject {
     func getEncoder(skipKeys: Bool = true) -> ParseEncoder {
         return ParseCoding.parseEncoder(skipKeys: skipKeys)
     }

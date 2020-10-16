@@ -5,12 +5,12 @@
 //  Created by Corey Baker on 7/21/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-
+#if !os(watchOS)
 import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
         //: Those are required for Object
@@ -967,4 +967,6 @@ class ParseUserCommandTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         XCTAssertNil(keychainUser.currentUser?.customKey)
     }
-} // swiftlint:disable:this file_length
+}
+#endif
+// swiftlint:disable:this file_length

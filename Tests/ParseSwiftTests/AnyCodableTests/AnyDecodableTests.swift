@@ -1,3 +1,4 @@
+#if !os(watchOS)
 import XCTest
 @testable import ParseSwift
 
@@ -42,3 +43,4 @@ class AnyDecodableTests: XCTestCase {
         ("testJSONDecoding", testJSONDecoding)
     ]
 }
+#endif

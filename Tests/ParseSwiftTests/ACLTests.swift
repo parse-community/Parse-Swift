@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 8/22/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-
+#if !os(watchOS)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -125,14 +125,14 @@ class ACLTests: XCTestCase {
 
         var encoded: Data?
         do {
-            encoded = try JSONEncoder().encode(acl)
+            encoded = try ParseCoding.parseEncoder().encode(acl)
         } catch {
             XCTFail(error.localizedDescription)
         }
 
         if let dataToDecode = encoded {
             do {
-                let decoded = try JSONDecoder().decode(ParseACL.self, from: dataToDecode)
+                let decoded = try ParseCoding.jsonDecoder().decode(ParseACL.self, from: dataToDecode)
                 XCTAssertEqual(acl.getReadAccess(userId: "a"), decoded.getReadAccess(userId: "a"))
                 XCTAssertEqual(acl.getReadAccess(userId: "b"), decoded.getReadAccess(userId: "b"))
                 XCTAssertEqual(acl.getWriteAccess(userId: "c"), decoded.getWriteAccess(userId: "c"))
@@ -249,3 +249,4 @@ class ACLTests: XCTestCase {
         }
     }
 }
+#endif
