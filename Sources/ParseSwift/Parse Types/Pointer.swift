@@ -7,6 +7,13 @@ private func getObjectId<T: ParseObject>(target: T) -> String {
     return objectId
 }
 
+private func getObjectId(target: Objectable) -> String {
+    guard let objectId = target.objectId else {
+        fatalError("Cannot set a pointer to an unsaved object")
+    }
+    return objectId
+}
+
 public struct Pointer<T: ParseObject>: Fetchable, Codable {
     public typealias FetchingType = T
 
@@ -45,5 +52,21 @@ extension Pointer {
                                       path: path) { (data) -> T in
                     try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }.executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+    }
+}
+
+internal struct PointerType: Codable {
+
+    var __type: String = "Pointer" // swiftlint:disable:this identifier_name
+    public var objectId: String
+    public var className: String
+
+    public init(_ target: Objectable) {
+        self.objectId = getObjectId(target: target)
+        self.className = target.className
+    }
+
+    private enum CodingKeys: String, CodingKey {
+        case __type, objectId, className // swiftlint:disable:this identifier_name
     }
 }

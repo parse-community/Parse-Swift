@@ -15,7 +15,7 @@ import Foundation
  "the public" so that, for example, any user could read a particular object but only a particular set of users
  could write to that object.
 */
-public struct ParseACL: Codable, Equatable {
+public struct ParseACL: Codable, Equatable, Hashable {
     private static let publicScope = "*"
     private var acl: [String: [Access: Bool]]?
 

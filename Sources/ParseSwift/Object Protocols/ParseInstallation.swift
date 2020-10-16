@@ -10,7 +10,7 @@ import Foundation
 
 #if canImport(UIKit)
 import UIKit
-#else
+#elseif canImport(AppKit)
 import AppKit
 #endif
 
@@ -135,6 +135,11 @@ extension ParseInstallation {
             return
         }
         try? KeychainStore.shared.set(currentInstallationInMemory, for: ParseStorage.Keys.currentInstallation)
+    }
+
+    internal static func deleteCurrentContainerFromKeychain() {
+        try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
     }
 
     /**

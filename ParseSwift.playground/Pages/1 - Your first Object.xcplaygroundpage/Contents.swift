@@ -1,12 +1,14 @@
-//: [Previous](@previous)
-
 import PlaygroundSupport
 import Foundation
 import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 
-//: start parse-server with
-//: npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
+/*: start parse-server with
+npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
+*/
+
+/*: In Xcode, make sure you are building the "ParseSwift (macOS)" framework.
+ */
 
 initializeParse()
 
@@ -31,7 +33,7 @@ struct GameScore: ParseObject {
 let score = GameScore(score: 10)
 let score2 = GameScore(score: 3)
 
-/*: Query asynchronously (preferred way) - Performs work on background
+/*: Save asynchronously (preferred way) - Performs work on background
     queue and returns to designated on designated callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
@@ -139,6 +141,26 @@ otherResults!.forEach { result in
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
     }
+}
+
+//: Now we will create another object and delete it
+let score3 = GameScore(score: 30)
+
+//: Save the score and store it in "scoreToDelete"
+var scoreToDelete: GameScore!
+do {
+    scoreToDelete = try score3.save()
+    print("Successfully saved: \(scoreToDelete!)")
+} catch {
+    assertionFailure("Error deleting: \(error)")
+}
+
+//: Delete the score from parse-server
+do {
+    try scoreToDelete.delete()
+    print("Successfully deleted: \(scoreToDelete!)")
+} catch {
+    assertionFailure("Error deleting: \(error)")
 }
 
 PlaygroundPage.current.finishExecution()

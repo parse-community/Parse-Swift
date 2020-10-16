@@ -9,10 +9,10 @@
 import Foundation
 
 public struct ParseError: Swift.Error, Codable {
-    let code: Code
-    let message: String
+    public let code: Code
+    public let message: String
 
-    var localizedDescription: String {
+    public var localizedDescription: String {
         return "ParseError code=\(code.rawValue) error=\(message)"
     }
 
@@ -25,7 +25,7 @@ public struct ParseError: Swift.Error, Codable {
     `ParseError.Code` enum contains all custom error codes that are used
          as `code` for `Error` for callbacks on all classes.
     */
-    enum Code: Int, Swift.Error, Codable {
+    public enum Code: Int, Swift.Error, Codable {
         /**
          Internal SDK Error. No information available
          */

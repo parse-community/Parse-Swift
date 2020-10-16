@@ -37,7 +37,7 @@ struct GameScore: ParseObject {
 //: Define initial GameScores
 let score = GameScore(score: 40)
 
-/*: Query asynchronously (preferred way) - Performs work on background
+/*: Save asynchronously (preferred way) - Performs work on background
     queue and returns to designated on designated callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
