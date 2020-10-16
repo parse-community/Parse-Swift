@@ -2,9 +2,7 @@ coverage:
   ignore:
     - Tests/ParseSwiftTests/.*
   status:
-    patch:
-      default:
-        target: 55
+    patch: true
     changes: false
     project:
       default:
