@@ -7,7 +7,7 @@ import Foundation
 public struct File: Saveable, Fetchable {
 
     private let __type: String = "File" // swiftlint:disable:this identifier_name
-    
+
     /**
       The name of the file.
       Before the file is saved, this is the filename given by
@@ -23,7 +23,7 @@ public struct File: Saveable, Fetchable {
       @return A new `PFFileObject` object.
      */
     public var data: Data?
-    
+
     /**
      The url of the file.
      */

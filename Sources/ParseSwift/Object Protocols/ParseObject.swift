@@ -18,10 +18,8 @@ import Foundation
 `ParseObject`s, you won't be able to rely on `objectId` for `Equatable` and `Hashable` as your unsaved objects
  won't have this value yet and is nil. A possible way to address this is by creating a `UUID` for your objects locally
  and relying on that for `Equatable` and `Hashable`, otherwise it's possible you will get "circular dependency errors"
- depending on your implementation.
-
- If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and `ACL`
- to your `ParseObject` `CodingKeys`.
+ depending on your implementation. If you plan to use custom encoding/decoding, be sure to add `objectId`,
+ `createdAt`, `updatedAt`, and `ACL` to your `ParseObject` `CodingKeys`.
 */
 public protocol ParseObject: Objectable, Fetchable, Saveable, Deletable, Hashable, CustomDebugStringConvertible {}
 
@@ -37,6 +35,14 @@ extension ParseObject {
     */
     public func hasSameObjectId<T: ParseObject>(as other: T) -> Bool {
         return other.className == className && other.objectId == objectId && objectId != nil
+    }
+
+    /**
+       Gets a Pointer referencing this Object.
+       - returns: Pointer<Self>
+    */
+    public func toPointer() -> Pointer<Self> {
+        return Pointer(self)
     }
 }
 
@@ -418,15 +424,5 @@ extension ParseObject {
 
     internal func deleteCommand() throws -> API.Command<NoBody, NoBody> {
         return try API.Command<NoBody, NoBody>.deleteCommand(self)
-    }
-}
-
-public extension ParseObject {
-    /**
-       Gets a Pointer referencing this Object.
-       - returns: Pointer<Self>
-    */
-    func toPointer() -> Pointer<Self> {
-        return Pointer(self)
     }
 }// swiftlint:disable:this file_length

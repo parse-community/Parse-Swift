@@ -4,7 +4,7 @@ import CoreLocation
 #endif
 
 /**
-  `GeoPoint` may be used to embed a latitude / longitude point as the value for a key in a `ParseObject`.
+  `GeoPoint` is used to embed a latitude / longitude point as the value for a key in a `ParseObject`.
    It could be used to perform queries in a geospatial manner using `ParseQuery.-whereKey:nearGeoPoint:`.
    Currently, instances of `ParseObject` may only have one key associated with a `GeoPoint` type.
 */

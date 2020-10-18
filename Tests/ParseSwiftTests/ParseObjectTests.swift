@@ -18,7 +18,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var updatedAt: Date?
 
-        var ACL: ParseACL?
+        var ACL: ACL?
 
         var name = "First"
 
@@ -31,7 +31,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ParseACL?
+        var ACL: ACL?
 
         //: Your own properties
         var score: Int
@@ -50,7 +50,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ParseACL?
+        var ACL: ACL?
 
         //: Your own properties
         var score: GameScore
@@ -69,7 +69,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ParseACL?
+        var ACL: ACL?
 
         //: Your own properties
         var score: Int
@@ -123,7 +123,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ParseACL?
+        var ACL: ACL?
 
         //: Your own properties
         var score: GameScoreClass

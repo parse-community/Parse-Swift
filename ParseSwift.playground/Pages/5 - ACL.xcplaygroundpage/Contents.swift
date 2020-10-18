@@ -8,10 +8,10 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 do {
-    var acl = ParseACL()
+    var acl = ACL()
     acl.publicRead = true
     acl.publicWrite = false
-    try ParseACL.setDefaultACL(acl, withAccessForCurrentUser: true)
+    try ACL.setDefaultACL(acl, withAccessForCurrentUser: true)
 } catch {
     assertionFailure("Error storing default ACL to Keychain: \(error)")
 }
@@ -22,7 +22,7 @@ struct GameScore: ParseObject {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-    var ACL: ParseACL?
+    var ACL: ACL?
 
     //: Your own properties
     var score: Int
@@ -30,7 +30,7 @@ struct GameScore: ParseObject {
     //: a custom initializer
     init(score: Int) {
         self.score = score
-        self.ACL = try? ParseACL.defaultACL()
+        self.ACL = try? ACL.defaultACL()
     }
 }
 

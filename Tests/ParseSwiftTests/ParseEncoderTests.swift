@@ -15,7 +15,7 @@ class ParseEncoderTests: XCTestCase {
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ParseACL?
+        var ACL: ACL?
 
         //: Your own properties
         var score: Int
@@ -98,7 +98,7 @@ class ParseEncoderTests: XCTestCase {
     }
 
     func testNestedContatiner() throws {
-        var newACL = ParseACL()
+        var newACL = ACL()
         newACL.publicRead = true
 
         let jsonEncoded = try JSONEncoder().encode(newACL)
