@@ -109,6 +109,8 @@ extension _AnyEncodable {
             throw EncodingError.invalidValue(self.value, context)
         }
     }
+
+    #if !os(Linux)
     private func encode(nsnumber: NSNumber, into container: inout SingleValueEncodingContainer) throws { // swiftlint:disable:this cyclomatic_complexity line_length
         switch CFNumberGetType(nsnumber) {
         case .charType:
@@ -137,6 +139,7 @@ extension _AnyEncodable {
             fatalError()
         }
     }
+    #endif
 }
 
 extension AnyEncodable: Equatable {

@@ -217,6 +217,7 @@ extension ParseInstallation {
             return
         }
 
+        #if !os(Linux)
         #if TARGET_OS_MACCATALYST
         // If using an Xcode new enough to know about Mac Catalyst:
         // Mac Catalyst Apps use a prefix to the bundle ID. This should not be transmitted
@@ -248,6 +249,7 @@ extension ParseInstallation {
                 appVersion = currentAppVersion
             }
         }
+        #endif
 
         if parseVersion != ParseConstants.parseVersion {
             parseVersion = ParseConstants.parseVersion
