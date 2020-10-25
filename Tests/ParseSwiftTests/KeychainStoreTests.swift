@@ -5,7 +5,7 @@
 //  Created by Florent Vilmart on 17-09-25.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if !os(watchOS)
+#if canImport(XCTest)
 import Foundation
 import XCTest
 @testable import ParseSwift

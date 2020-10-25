@@ -5,7 +5,7 @@
 //  Created by Corey E. Baker on 7/19/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-
+#if canImport(XCTest)
 import Foundation
 
 typealias MockURLProtocolRequestTestClosure = (URLRequest) -> Bool
@@ -127,3 +127,4 @@ class MockURLProtocol: URLProtocol {
         self.loading = false
     }
 }
+#endif
