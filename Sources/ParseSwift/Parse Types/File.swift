@@ -29,21 +29,6 @@ public struct File: Saveable, Fetchable {
      */
     public var url: URL?
 
-    /**
-      Creates a file with given data. A name will be assigned to it by the server.
-      @param data The contents of the new `PFFileObject`.
-      @return A new `PFFileObject`.
-     */
-    public init(data: Data) {
-        self.data = data
-        self.url = nil
-    }
-
-    public init(url: URL) {
-        self.data = nil
-        self.url = url
-    }
-
     internal init(data: Data?, url: URL?) {
         self.data = data
         self.url = url
