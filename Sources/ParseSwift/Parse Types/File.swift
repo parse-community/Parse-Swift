@@ -1,7 +1,7 @@
 import Foundation
 
 /**
-  `PFFileObject` representes a file of binary data stored on the Parse servers.
+  A `File` object representes a file of binary data stored on the Parse server.
   This can be a image, video, or anything else that an application needs to reference in a non-relational way.
  */
 public struct File: Saveable, Fetchable {
@@ -10,17 +10,13 @@ public struct File: Saveable, Fetchable {
 
     /**
       The name of the file.
-      Before the file is saved, this is the filename given by
-      the user. After the file is saved, that name gets prefixed with a unique
-      identifier.
+      Before the file is saved, this is the filename given by the user.
+      After the file is saved, that name gets prefixed with a unique identifier.
      */
     public var name: String?
 
     /**
-      Creates a file with given data and content type.
-      @param data The contents of the new `PFFileObject`.
-      @param contentType Represents MIME type of the data.
-      @return A new `PFFileObject` object.
+     The contents of the file.
      */
     public var data: Data?
 
