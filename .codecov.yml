@@ -1,6 +1,7 @@
 coverage:
   ignore:
     - Tests/ParseSwiftTests/.*
+    - Sources/ParseSwift/Coding/ParseEncoder.swift 
   status:
     patch: true
     changes: false
