@@ -1,12 +1,31 @@
 import Foundation
 
+/**
+  A `File` object representes a file of binary data stored on the Parse server.
+  This can be a image, video, or anything else that an application needs to reference in a non-relational way.
+ */
 public struct File: Saveable, Fetchable {
 
     private let __type: String = "File" // swiftlint:disable:this identifier_name
+
+    /**
+      The name of the file.
+      Before the file is saved, this is the filename given by the user.
+      After the file is saved, that name gets prefixed with a unique identifier.
+     */
+    public var name: String?
+
+    /**
+     The contents of the file.
+     */
     public var data: Data?
+
+    /**
+     The url of the file.
+     */
     public var url: URL?
 
-    public init(data: Data?, url: URL?) {
+    internal init(data: Data?, url: URL?) {
         self.data = data
         self.url = url
     }
@@ -40,6 +59,7 @@ public struct File: Saveable, Fetchable {
     enum CodingKeys: String, CodingKey {
         case url
         case data
+        case name
         case __type // swiftlint:disable:this identifier_name
     }
 }

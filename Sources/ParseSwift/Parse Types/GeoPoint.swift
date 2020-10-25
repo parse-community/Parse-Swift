@@ -4,7 +4,7 @@ import CoreLocation
 #endif
 
 /**
-  `GeoPoint` may be used to embed a latitude / longitude point as the value for a key in a `ParseObject`.
+  `GeoPoint` is used to embed a latitude / longitude point as the value for a key in a `ParseObject`.
    It could be used to perform queries in a geospatial manner using `ParseQuery.-whereKey:nearGeoPoint:`.
    Currently, instances of `ParseObject` may only have one key associated with a `GeoPoint` type.
 */
@@ -70,15 +70,16 @@ public struct GeoPoint: Codable, Hashable, Equatable {
         self._longitude = longitude
     }
 
+    #if canImport(CoreLocation)
     /**
       Creates a new `GeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
        - parameter location: Instance of `CLLocation`, with set latitude and longitude.
      */
-    @available(iOS 11, macOS 10.13, tvOS 11, watchOS 4, *)
     public init(location: CLLocation) {
         self._longitude = location.coordinate.longitude
         self._latitude = location.coordinate.latitude
     }
+    #endif
 
     /**
      Get distance in radians from this point to specified point.

@@ -13,7 +13,7 @@ struct GameScore: ParseObject {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-    var ACL: ParseACL?
+    var ACL: ACL?
     var location: GeoPoint?
     //: Your own properties
     var score: Int

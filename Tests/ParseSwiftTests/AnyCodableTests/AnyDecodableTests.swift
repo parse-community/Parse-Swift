@@ -1,4 +1,4 @@
-#if !os(watchOS)
+#if canImport(XCTest)
 import XCTest
 @testable import ParseSwift
 

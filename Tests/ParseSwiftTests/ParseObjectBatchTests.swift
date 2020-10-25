@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 7/27/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if !os(watchOS)
+#if canImport(XCTest)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -17,7 +17,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ParseACL?
+        var ACL: ACL?
 
         //: Your own properties
         var score: Int

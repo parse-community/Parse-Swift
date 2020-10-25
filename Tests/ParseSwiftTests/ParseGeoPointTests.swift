@@ -6,7 +6,7 @@
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
 
-#if !os(watchOS)
+#if canImport(XCTest)
 import XCTest
 #if canImport(CoreLocation)
 import CoreLocation

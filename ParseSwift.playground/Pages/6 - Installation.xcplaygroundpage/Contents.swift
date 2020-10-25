@@ -12,7 +12,7 @@ struct Installation: ParseInstallation {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-    var ACL: ParseACL?
+    var ACL: ACL?
 
     //: These are required for ParseInstallation
     var installationId: String?

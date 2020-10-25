@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(Security)
+import Security
+#endif
 
 func getKeychainQueryTemplate(forService service: String) -> [String: String] {
     var query = [String: String]()

@@ -11,6 +11,10 @@ import Foundation
 /**
  Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse cloud.
  This is the main protocol that is used to interact with objects in your app.
+
+ If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
+ `ACL` to your `ParseObject` `CodingKeys`.
+ 
  - note: `ParseObject`s can be "value types" (structs) or reference types "classes". If you are using value types
  there isn't much else you need to do but to conform to ParseObject. If you are using reference types, see the warning.
  - warning: If you plan to use "reference types" (classes), you will need to implement your own `==` method to conform
@@ -19,9 +23,6 @@ import Foundation
  won't have this value yet and is nil. A possible way to address this is by creating a `UUID` for your objects locally
  and relying on that for `Equatable` and `Hashable`, otherwise it's possible you will get "circular dependency errors"
  depending on your implementation.
-
- If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and `ACL`
- to your `ParseObject` `CodingKeys`.
 */
 public protocol ParseObject: Objectable, Fetchable, Saveable, Deletable, Hashable, CustomDebugStringConvertible {}
 
@@ -37,6 +38,14 @@ extension ParseObject {
     */
     public func hasSameObjectId<T: ParseObject>(as other: T) -> Bool {
         return other.className == className && other.objectId == objectId && objectId != nil
+    }
+
+    /**
+       Gets a Pointer referencing this Object.
+       - returns: Pointer<Self>
+    */
+    public func toPointer() -> Pointer<Self> {
+        return Pointer(self)
     }
 }
 
@@ -418,15 +427,5 @@ extension ParseObject {
 
     internal func deleteCommand() throws -> API.Command<NoBody, NoBody> {
         return try API.Command<NoBody, NoBody>.deleteCommand(self)
-    }
-}
-
-public extension ParseObject {
-    /**
-       Gets a Pointer referencing this Object.
-       - returns: Pointer<Self>
-    */
-    func toPointer() -> Pointer<Self> {
-        return Pointer(self)
     }
 }// swiftlint:disable:this file_length
