@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ParseACL Structure Reference</title>
+    <title>ACL Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/ParseACL" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/ACL" class="dashAnchor"></a>
 
-    <a title="ParseACL Structure Reference"></a>
+    <a title="ACL Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ParseACL Structure Reference
+      ACL Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -173,6 +173,12 @@
             <a class="nav-group-name-link" href="../Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ACL.html">ACL</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ACL/Access.html">– Access</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/AnyCodable.html">AnyCodable</a>
               </li>
               <li class="nav-group-task">
@@ -182,13 +188,10 @@
                 <a class="nav-group-task-link" href="../Structs/AnyEncodable.html">AnyEncodable</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/File.html">File</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/GeoPoint.html">GeoPoint</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/ParseACL.html">ParseACL</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/ParseACL/Access.html">– Access</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/QueryConstraint.html">QueryConstraint</a>
@@ -201,17 +204,17 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>ParseACL</h1>
+            <h1>ACL</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseACL</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
-<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ParseACL</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ACL</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ACL</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
 
                 </div>
               </div>
-            <p>Objects that conform to the <code>ACL</code> protocol are used to control which users can access or modify a particular
-<code><a href="../Protocols/ParseObject.html">ParseObject</a></code>. Each <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> can have its own <code>ACL</code>. You can grant read and write permissions
+            <p><code>ACL</code> is used to control which users can access or modify a particular <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.
+Each <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> can have its own <code>ACL</code>. You can grant read and write permissions
 separately to specific users, to groups of users that belong to roles, or you can grant permissions to
 &ldquo;the public&rdquo; so that, for example, any user could read a particular object but only a particular set of users
 could write to that object.</p>
@@ -226,9 +229,9 @@ could write to that object.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV6AccessO"></a>
+                    <a name="/s:10ParseSwift3ACLV6AccessO"></a>
                     <a name="//apple_ref/swift/Enum/Access" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV6AccessO">Access</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV6AccessO">Access</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -238,7 +241,7 @@ could write to that object.</p>
                       <div class="abstract">
                         <p>An enum specifying read and write access controls.</p>
 
-                        <a href="../Structs/ParseACL/Access.html" class="slightly-smaller">See more</a>
+                        <a href="../Structs/ACL/Access.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -254,9 +257,9 @@ could write to that object.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV10publicReadSbvp"></a>
+                    <a name="/s:10ParseSwift3ACLV10publicReadSbvp"></a>
                     <a name="//apple_ref/swift/Property/publicRead" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV10publicReadSbvp">publicRead</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV10publicReadSbvp">publicRead</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -281,9 +284,9 @@ could write to that object.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV11publicWriteSbvp"></a>
+                    <a name="/s:10ParseSwift3ACLV11publicWriteSbvp"></a>
                     <a name="//apple_ref/swift/Property/publicWrite" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV11publicWriteSbvp">publicWrite</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV11publicWriteSbvp">publicWrite</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -308,9 +311,9 @@ could write to that object.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV3get_6accessSbSS_AC6AccessOtF"></a>
+                    <a name="/s:10ParseSwift3ACLV3get_6accessSbSS_AC6AccessOtF"></a>
                     <a name="//apple_ref/swift/Method/get(_:access:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV3get_6accessSbSS_AC6AccessOtF">get(_:<wbr>access:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV3get_6accessSbSS_AC6AccessOtF">get(_:<wbr>access:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -325,7 +328,7 @@ could write to that object.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">get</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">access</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseACL/Access.html">Access</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">get</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">access</span><span class="p">:</span> <span class="kt"><a href="../Structs/ACL/Access.html">Access</a></span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -370,9 +373,9 @@ could write to that object.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV13getReadAccess6userIdSbSS_tF"></a>
+                    <a name="/s:10ParseSwift3ACLV13getReadAccess6userIdSbSS_tF"></a>
                     <a name="//apple_ref/swift/Method/getReadAccess(userId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13getReadAccess6userIdSbSS_tF">getReadAccess(userId:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV13getReadAccess6userIdSbSS_tF">getReadAccess(userId:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -422,9 +425,9 @@ or if the user belongs to a role that has access.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV14getWriteAccess6userIdSbSS_tF"></a>
+                    <a name="/s:10ParseSwift3ACLV14getWriteAccess6userIdSbSS_tF"></a>
                     <a name="//apple_ref/swift/Method/getWriteAccess(userId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14getWriteAccess6userIdSbSS_tF">getWriteAccess(userId:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV14getWriteAccess6userIdSbSS_tF">getWriteAccess(userId:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -474,9 +477,9 @@ or if the user belongs to a role that has access.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV13setReadAccess6userId5valueySS_SbtF"></a>
+                    <a name="/s:10ParseSwift3ACLV13setReadAccess6userId5valueySS_SbtF"></a>
                     <a name="//apple_ref/swift/Method/setReadAccess(userId:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13setReadAccess6userId5valueySS_SbtF">setReadAccess(userId:<wbr>value:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV13setReadAccess6userId5valueySS_SbtF">setReadAccess(userId:<wbr>value:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -532,9 +535,9 @@ or if the user belongs to a role that has access.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV14setWriteAccess6userId5valueySS_SbtF"></a>
+                    <a name="/s:10ParseSwift3ACLV14setWriteAccess6userId5valueySS_SbtF"></a>
                     <a name="//apple_ref/swift/Method/setWriteAccess(userId:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14setWriteAccess6userId5valueySS_SbtF">setWriteAccess(userId:<wbr>value:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV14setWriteAccess6userId5valueySS_SbtF">setWriteAccess(userId:<wbr>value:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -590,9 +593,9 @@ or if the user belongs to a role that has access.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV13getReadAccess8roleNameSbSS_tF"></a>
+                    <a name="/s:10ParseSwift3ACLV13getReadAccess8roleNameSbSS_tF"></a>
                     <a name="//apple_ref/swift/Method/getReadAccess(roleName:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13getReadAccess8roleNameSbSS_tF">getReadAccess(roleName:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV13getReadAccess8roleNameSbSS_tF">getReadAccess(roleName:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -641,9 +644,9 @@ Even if this returns <code>false</code>, the role may still be able to read it i
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV14getWriteAccess8roleNameSbSS_tF"></a>
+                    <a name="/s:10ParseSwift3ACLV14getWriteAccess8roleNameSbSS_tF"></a>
                     <a name="//apple_ref/swift/Method/getWriteAccess(roleName:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14getWriteAccess8roleNameSbSS_tF">getWriteAccess(roleName:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV14getWriteAccess8roleNameSbSS_tF">getWriteAccess(roleName:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -692,9 +695,9 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV13setReadAccess8roleName5valueySS_SbtF"></a>
+                    <a name="/s:10ParseSwift3ACLV13setReadAccess8roleName5valueySS_SbtF"></a>
                     <a name="//apple_ref/swift/Method/setReadAccess(roleName:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13setReadAccess8roleName5valueySS_SbtF">setReadAccess(roleName:<wbr>value:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV13setReadAccess8roleName5valueySS_SbtF">setReadAccess(roleName:<wbr>value:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -750,9 +753,9 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV14setWriteAccess8roleName5valueySS_SbtF"></a>
+                    <a name="/s:10ParseSwift3ACLV14setWriteAccess8roleName5valueySS_SbtF"></a>
                     <a name="//apple_ref/swift/Method/setWriteAccess(roleName:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14setWriteAccess8roleName5valueySS_SbtF">setWriteAccess(roleName:<wbr>value:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV14setWriteAccess8roleName5valueySS_SbtF">setWriteAccess(roleName:<wbr>value:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -808,9 +811,9 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV07defaultC0ACyKFZ"></a>
+                    <a name="/s:10ParseSwift3ACLV07defaultC0ACyKFZ"></a>
                     <a name="//apple_ref/swift/Method/defaultACL()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV07defaultC0ACyKFZ">defaultACL()</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV07defaultC0ACyKFZ">defaultACL()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -825,7 +828,7 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">defaultACL</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ParseACL</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">defaultACL</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ACL</span></code></pre>
 
                         </div>
                       </div>
@@ -839,9 +842,9 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV010setDefaultC0_24withAccessForCurrentUserA2C_SbtKFZ"></a>
+                    <a name="/s:10ParseSwift3ACLV010setDefaultC0_24withAccessForCurrentUserA2C_SbtKFZ"></a>
                     <a name="//apple_ref/swift/Method/setDefaultACL(_:withAccessForCurrentUser:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV010setDefaultC0_24withAccessForCurrentUserA2C_SbtKFZ">setDefaultACL(_:<wbr>withAccessForCurrentUser:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV010setDefaultC0_24withAccessForCurrentUserA2C_SbtKFZ">setDefaultACL(_:<wbr>withAccessForCurrentUser:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -864,7 +867,7 @@ instance after this method has been called will not be reflected in new instance
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">setDefaultACL</span><span class="p">(</span><span class="n">_</span> <span class="nv">acl</span><span class="p">:</span> <span class="kt">ParseACL</span><span class="p">,</span> <span class="nv">withAccessForCurrentUser</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ParseACL</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">setDefaultACL</span><span class="p">(</span><span class="n">_</span> <span class="nv">acl</span><span class="p">:</span> <span class="kt">ACL</span><span class="p">,</span> <span class="nv">withAccessForCurrentUser</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ACL</span></code></pre>
 
                         </div>
                       </div>
@@ -893,7 +896,7 @@ after this method has been called.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>If <code>true</code>, the <code>ParseACL</code> that is applied to
+                                  <p>If <code>true</code>, the <code>ACL</code> that is applied to
 newly-created instance of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> will
 provide read and write access to the <code>ParseUser.+currentUser</code> at the time of creation.</p>
                                 </div>
@@ -995,7 +998,7 @@ provide read and write access to the <code>ParseUser.+currentUser</code> at the 
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-10-16)</p>
+      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-10-25)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

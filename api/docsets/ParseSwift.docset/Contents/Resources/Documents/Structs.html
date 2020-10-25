@@ -173,6 +173,12 @@
             <a class="nav-group-name-link" href="Structs.html">Structures</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ACL.html">ACL</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ACL/Access.html">– Access</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/AnyCodable.html">AnyCodable</a>
               </li>
               <li class="nav-group-task">
@@ -182,13 +188,10 @@
                 <a class="nav-group-task-link" href="Structs/AnyEncodable.html">AnyEncodable</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/File.html">File</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/GeoPoint.html">GeoPoint</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/ParseACL.html">ParseACL</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Structs/ParseACL/Access.html">– Access</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/QueryConstraint.html">QueryConstraint</a>
@@ -389,9 +392,9 @@ by declaring their contained type to be <code>AnyEncodable</code>:</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV"></a>
-                    <a name="//apple_ref/swift/Struct/ParseACL" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV">ParseACL</a>
+                    <a name="/s:10ParseSwift3ACLV"></a>
+                    <a name="//apple_ref/swift/Struct/ACL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3ACLV">ACL</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -399,20 +402,49 @@ by declaring their contained type to be <code>AnyEncodable</code>:</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Objects that conform to the <code>ACL</code> protocol are used to control which users can access or modify a particular
-<code><a href="Protocols/ParseObject.html">ParseObject</a></code>. Each <code><a href="Protocols/ParseObject.html">ParseObject</a></code> can have its own <code>ACL</code>. You can grant read and write permissions
+                        <p><code>ACL</code> is used to control which users can access or modify a particular <code><a href="Protocols/ParseObject.html">ParseObject</a></code>.
+Each <code><a href="Protocols/ParseObject.html">ParseObject</a></code> can have its own <code>ACL</code>. You can grant read and write permissions
 separately to specific users, to groups of users that belong to roles, or you can grant permissions to
 &ldquo;the public&rdquo; so that, for example, any user could read a particular object but only a particular set of users
 could write to that object.</p>
 
-                        <a href="Structs/ParseACL.html" class="slightly-smaller">See more</a>
+                        <a href="Structs/ACL.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseACL</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
-<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ParseACL</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ACL</span> <span class="p">:</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
+<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ACL</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift4FileV"></a>
+                    <a name="//apple_ref/swift/Struct/File" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift4FileV">File</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A <code>File</code> object representes a file of binary data stored on the Parse server.
+This can be a image, video, or anything else that an application needs to reference in a non-relational way.</p>
+
+                        <a href="Structs/File.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">File</span> <span class="p">:</span> <span class="kt">Saveable</span><span class="p">,</span> <span class="kt">Fetchable</span></code></pre>
 
                         </div>
                       </div>
@@ -432,7 +464,7 @@ could write to that object.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p><code>GeoPoint</code> may be used to embed a latitude / longitude point as the value for a key in a <code><a href="Protocols/ParseObject.html">ParseObject</a></code>.
+                        <p><code>GeoPoint</code> is used to embed a latitude / longitude point as the value for a key in a <code><a href="Protocols/ParseObject.html">ParseObject</a></code>.
  It could be used to perform queries in a geospatial manner using <code>ParseQuery.-whereKey:nearGeoPoint:</code>.
  Currently, instances of <code><a href="Protocols/ParseObject.html">ParseObject</a></code> may only have one key associated with a <code>GeoPoint</code> type.</p>
 
@@ -486,7 +518,7 @@ could write to that object.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-10-16)</p>
+      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-10-25)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.5</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

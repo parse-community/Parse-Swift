@@ -100,7 +100,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyEncodable.swift",
-      "line": 217,
+      "line": 220,
       "symbol": "_AnyEncodable",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
@@ -184,28 +184,28 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Object Protocols/ParseObject.swift",
-      "line": 208,
+      "line": 217,
       "symbol": "ParseObject.mutationContainer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Object Protocols/ParseObject.swift",
-      "line": 216,
+      "line": 225,
       "symbol": "ParseObject.query()",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Object Protocols/ParseObject.swift",
-      "line": 220,
+      "line": 229,
       "symbol": "ParseObject.query(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Object Protocols/ParseObject.swift",
-      "line": 224,
+      "line": 233,
       "symbol": "ParseObject.query(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
@@ -276,29 +276,36 @@
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Parse Types/ACL.swift",
       "line": 26,
-      "symbol": "ParseACL.Access.read",
+      "symbol": "ACL.Access.read",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Parse Types/ACL.swift",
       "line": 27,
-      "symbol": "ParseACL.Access.write",
+      "symbol": "ACL.Access.write",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Parse Types/ACL.swift",
       "line": 39,
-      "symbol": "ParseACL.init()",
+      "symbol": "ACL.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Parse Types/File.swift",
-      "line": 3,
-      "symbol": "File",
-      "symbol_kind": "source.lang.swift.decl.struct",
+      "line": 33,
+      "symbol": "File.save(options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Parse Types/File.swift",
+      "line": 55,
+      "symbol": "File.fetch(options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
