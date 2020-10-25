@@ -13,7 +13,7 @@ struct GameScore: ParseObject {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-    var ACL: ACL?
+    var ACL: ParseACL?
     var location: GeoPoint?
     //: Your own properties
     var score: Int
@@ -95,7 +95,7 @@ querySorted.find(callbackQueue: .main) { results in
 }
 
 //: If you only want to query for scores > 50, you can add more constraints
-constraints.append("score" > 50)
+constraints.append("score" > 9)
 var query2 = GameScore.query(constraints)
 query2.find(callbackQueue: .main) { results in
     switch results {
@@ -105,7 +105,7 @@ query2.find(callbackQueue: .main) { results in
         scores.forEach { (score) in
             print("""
                 Someone with objectId \"\(score.objectId!)\" has a
-                score of \"\(score.score)\" near me which is greater than 50
+                score of \"\(score.score)\" near me which is greater than 9
             """)
         }
 

@@ -13,7 +13,7 @@ struct Book: ParseObject {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-    var ACL: ACL?
+    var ACL: ParseACL?
 
     //: Your own properties
     var title: String
@@ -28,7 +28,7 @@ struct Author: ParseObject {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-    var ACL: ACL?
+    var ACL: ParseACL?
 
     //: Your own properties
     var name: String

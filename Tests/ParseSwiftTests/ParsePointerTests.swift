@@ -18,7 +18,7 @@ class ParsePointerTests: XCTestCase {
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ACL?
+        var ACL: ParseACL?
 
         //: Your own properties
         var score: Int
