@@ -10,10 +10,10 @@ import Foundation
 
 /**
  `ParseACL` is used to control which users can access or modify a particular `ParseObject`.
- Each `ParseObject` can have its own `ACL`. You can grant read and write permissions
- separately to specific users, to groups of users that belong to roles, or you can grant permissions to
- "the public" so that, for example, any user could read a particular object but only a particular set of users
- could write to that object.
+ Each `ParseObject` has its own ACL. You can grant read and write permissions separately 
+ to specific users, to groups of users that belong to roles, or you can grant permissions to
+ "the public" so that, for example, any user could read a particular object but only a 
+ particular set of users could write to that object.
 */
 public struct ParseACL: Codable, Equatable, Hashable {
     private static let publicScope = "*"
