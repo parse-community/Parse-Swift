@@ -32,7 +32,7 @@ public protocol Objectable: Codable {
     /**
     The ACL for this object.
     */
-    var ACL: ACL? { get set }
+    var ACL: ParseACL? { get set }
 }
 
 extension Objectable {
@@ -100,5 +100,5 @@ internal struct BaseObjectable: Objectable {
 
     var updatedAt: Date?
 
-    var ACL: ACL?
+    var ACL: ParseACL?
 }

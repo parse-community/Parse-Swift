@@ -17,7 +17,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ACL?
+        var ACL: ParseACL?
 
         //: Your own properties
         var score: Int
@@ -33,7 +33,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
-        var ACL: ACL?
+        var ACL: ParseACL?
     }
 
     override func setUp() {

@@ -100,10 +100,10 @@
 		F97B45F724D9C6F200F4A88B /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BF24D9C6F200F4A88B /* ParseError.swift */; };
 		F97B45F824D9C6F200F4A88B /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BF24D9C6F200F4A88B /* ParseError.swift */; };
 		F97B45F924D9C6F200F4A88B /* ParseError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BF24D9C6F200F4A88B /* ParseError.swift */; };
-		F97B45FA24D9C6F200F4A88B /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C024D9C6F200F4A88B /* ACL.swift */; };
-		F97B45FB24D9C6F200F4A88B /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C024D9C6F200F4A88B /* ACL.swift */; };
-		F97B45FC24D9C6F200F4A88B /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C024D9C6F200F4A88B /* ACL.swift */; };
-		F97B45FD24D9C6F200F4A88B /* ACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C024D9C6F200F4A88B /* ACL.swift */; };
+		F97B45FA24D9C6F200F4A88B /* ParseACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C024D9C6F200F4A88B /* ParseACL.swift */; };
+		F97B45FB24D9C6F200F4A88B /* ParseACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C024D9C6F200F4A88B /* ParseACL.swift */; };
+		F97B45FC24D9C6F200F4A88B /* ParseACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C024D9C6F200F4A88B /* ParseACL.swift */; };
+		F97B45FD24D9C6F200F4A88B /* ParseACL.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C024D9C6F200F4A88B /* ParseACL.swift */; };
 		F97B45FE24D9C6F200F4A88B /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C124D9C6F200F4A88B /* File.swift */; };
 		F97B45FF24D9C6F200F4A88B /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C124D9C6F200F4A88B /* File.swift */; };
 		F97B460024D9C6F200F4A88B /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45C124D9C6F200F4A88B /* File.swift */; };
@@ -270,7 +270,7 @@
 		F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseParseUser.swift; sourceTree = "<group>"; };
 		F97B45BE24D9C6F200F4A88B /* Pointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pointer.swift; sourceTree = "<group>"; };
 		F97B45BF24D9C6F200F4A88B /* ParseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseError.swift; sourceTree = "<group>"; };
-		F97B45C024D9C6F200F4A88B /* ACL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ACL.swift; sourceTree = "<group>"; };
+		F97B45C024D9C6F200F4A88B /* ParseACL.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseACL.swift; sourceTree = "<group>"; };
 		F97B45C124D9C6F200F4A88B /* File.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		F97B45C224D9C6F200F4A88B /* NoBody.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoBody.swift; sourceTree = "<group>"; };
 		F97B45C424D9C6F200F4A88B /* ParseUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseUser.swift; sourceTree = "<group>"; };
@@ -529,7 +529,7 @@
 		F97B45BA24D9C6F200F4A88B /* Parse Types */ = {
 			isa = PBXGroup;
 			children = (
-				F97B45C024D9C6F200F4A88B /* ACL.swift */,
+				F97B45C024D9C6F200F4A88B /* ParseACL.swift */,
 				F97B45C124D9C6F200F4A88B /* File.swift */,
 				F97B45BC24D9C6F200F4A88B /* GeoPoint.swift */,
 				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
@@ -924,7 +924,7 @@
 				F97B461224D9C6F200F4A88B /* Saveable.swift in Sources */,
 				F97B45CE24D9C6F200F4A88B /* ParseCoding.swift in Sources */,
 				F97B465624D9C78C00F4A88B /* RemoveOperation.swift in Sources */,
-				F97B45FA24D9C6F200F4A88B /* ACL.swift in Sources */,
+				F97B45FA24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70BDA2B3250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B462724D9C72700F4A88B /* API.swift in Sources */,
 				70110D572506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
@@ -995,7 +995,7 @@
 				F97B461324D9C6F200F4A88B /* Saveable.swift in Sources */,
 				F97B45CF24D9C6F200F4A88B /* ParseCoding.swift in Sources */,
 				F97B465724D9C78C00F4A88B /* RemoveOperation.swift in Sources */,
-				F97B45FB24D9C6F200F4A88B /* ACL.swift in Sources */,
+				F97B45FB24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70BDA2B4250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B462824D9C72700F4A88B /* API.swift in Sources */,
 				70110D582506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
@@ -1014,7 +1014,7 @@
 				F97B45E124D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				F97B45E524D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				F97B465D24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
-				F97B45FD24D9C6F200F4A88B /* ACL.swift in Sources */,
+				F97B45FD24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				F97B465124D9C78C00F4A88B /* AddOperation.swift in Sources */,
 				F97B461124D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				F97B460D24D9C6F200F4A88B /* Fetchable.swift in Sources */,
@@ -1062,7 +1062,7 @@
 				F97B45E024D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				F97B45E424D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				F97B465C24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
-				F97B45FC24D9C6F200F4A88B /* ACL.swift in Sources */,
+				F97B45FC24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				F97B465024D9C78B00F4A88B /* AddOperation.swift in Sources */,
 				F97B461024D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				F97B460C24D9C6F200F4A88B /* Fetchable.swift in Sources */,

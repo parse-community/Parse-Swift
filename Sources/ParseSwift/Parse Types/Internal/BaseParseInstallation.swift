@@ -23,7 +23,7 @@ internal struct BaseParseInstallation: ParseInstallation {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-    var ACL: ACL?
+    var ACL: ParseACL?
 
     init() {
         //Force installation in keychain to be created if it hasn't already

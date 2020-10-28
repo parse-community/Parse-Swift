@@ -1,5 +1,5 @@
 //
-//  ACL.swift
+//  ParseACL.swift
 //  ParseSwift
 //
 //  Created by Florent Vilmart on 17-08-19.
@@ -9,13 +9,13 @@
 import Foundation
 
 /**
- `ACL` is used to control which users can access or modify a particular `ParseObject`.
- Each `ParseObject` can have its own `ACL`. You can grant read and write permissions
- separately to specific users, to groups of users that belong to roles, or you can grant permissions to
- "the public" so that, for example, any user could read a particular object but only a particular set of users
- could write to that object.
+ `ParseACL` is used to control which users can access or modify a particular `ParseObject`.
+ Each `ParseObject` has its own ACL. You can grant read and write permissions separately 
+ to specific users, to groups of users that belong to roles, or you can grant permissions to
+ "the public" so that, for example, any user could read a particular object but only a 
+ particular set of users could write to that object.
 */
-public struct ACL: Codable, Equatable, Hashable {
+public struct ParseACL: Codable, Equatable, Hashable {
     private static let publicScope = "*"
     private var acl: [String: [Access: Bool]]?
 
@@ -43,10 +43,10 @@ public struct ACL: Codable, Equatable, Hashable {
     */
     public var publicRead: Bool {
         get {
-            return get(ACL.publicScope, access: .read)
+            return get(ParseACL.publicScope, access: .read)
         }
         set {
-            set(ACL.publicScope, access: .read, value: newValue)
+            set(ParseACL.publicScope, access: .read, value: newValue)
         }
     }
 
@@ -55,10 +55,10 @@ public struct ACL: Codable, Equatable, Hashable {
     */
     public var publicWrite: Bool {
         get {
-            return get(ACL.publicScope, access: .write)
+            return get(ParseACL.publicScope, access: .write)
         }
         set {
-            set(ACL.publicScope, access: .write, value: newValue)
+            set(ParseACL.publicScope, access: .write, value: newValue)
         }
     }
 
@@ -192,7 +192,7 @@ public struct ACL: Codable, Equatable, Hashable {
 }
 
 // Default ACL
-extension ACL {
+extension ParseACL {
     /**
      Get the default ACL from the Keychain.
 
@@ -214,14 +214,14 @@ extension ACL {
 
                 guard let lastCurrentUserObjectId = aclController!.lastCurrentUser?.objectId,
                     userObjectId == lastCurrentUserObjectId else {
-                    return try setDefaultACL(ACL(), withAccessForCurrentUser: true)
+                    return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
                 }
 
                 return aclController!.defaultACL
             }
         }
 
-        return try setDefaultACL(ACL(), withAccessForCurrentUser: true)
+        return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
     }
 
     /**
@@ -241,11 +241,11 @@ extension ACL {
      
      - returns: Updated defaultACL
     */
-    public static func setDefaultACL(_ acl: ACL, withAccessForCurrentUser: Bool) throws -> ACL {
+    public static func setDefaultACL(_ acl: ParseACL, withAccessForCurrentUser: Bool) throws -> ParseACL {
 
         let currentUser = BaseParseUser.current
 
-        let modifiedACL: ACL?
+        let modifiedACL: ParseACL?
         if withAccessForCurrentUser {
             modifiedACL = setDefaultAccess(acl)
         } else {
@@ -266,7 +266,7 @@ extension ACL {
         return aclController.defaultACL
     }
 
-    private static func setDefaultAccess(_ acl: ACL) -> ACL? {
+    private static func setDefaultAccess(_ acl: ParseACL) -> ParseACL? {
         guard let userObjectId = BaseParseUser.current?.objectId else {
             return nil
         }
@@ -279,10 +279,10 @@ extension ACL {
 }
 
 // Encoding and decoding
-extension ACL {
+extension ParseACL {
     public init(from decoder: Decoder) throws {
         let container = try decoder.container(keyedBy: RawCodingKey.self)
-        try container.allKeys.lazy.map { (scope) -> (String, KeyedDecodingContainer<ACL.Access>) in
+        try container.allKeys.lazy.map { (scope) -> (String, KeyedDecodingContainer<ParseACL.Access>) in
             return (scope.stringValue,
                     try container.nestedContainer(keyedBy: Access.self, forKey: scope))
             }.flatMap { pair -> [(String, Access, Bool)] in
@@ -314,7 +314,7 @@ extension ACL {
 
 }
 
-extension ACL: CustomDebugStringConvertible {
+extension ParseACL: CustomDebugStringConvertible {
     public var debugDescription: String {
         guard let descriptionData = try? JSONEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
@@ -325,7 +325,7 @@ extension ACL: CustomDebugStringConvertible {
 }
 
 struct DefaultACL: Codable {
-    var defaultACL: ACL
+    var defaultACL: ParseACL
     var lastCurrentUser: BaseParseUser?
     var useCurrentUser: Bool
 }
