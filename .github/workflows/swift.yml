@@ -20,7 +20,7 @@ jobs:
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
-  swift-macos:
+  swift-test-macos:
     
     runs-on: macos-latest
     steps:
@@ -34,7 +34,7 @@ jobs:
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS test | xcpretty
 
-  swift-tvos:
+  swift-build-tvos:
     
     runs-on: macos-latest
     steps:
@@ -44,7 +44,7 @@ jobs:
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
-  swift-watchos:
+  swift-build-watchos:
     
     runs-on: macos-latest
     steps:
@@ -54,7 +54,7 @@ jobs:
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
-  spm-build-test:
+  spm-test:
     
     runs-on: macos-latest
     steps:
@@ -78,7 +78,7 @@ jobs:
       
   deploy_docs:
     
-    needs: spm-build-test
+    needs: spm-test
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -104,7 +104,7 @@ jobs:
           publish_dir: ./docs
 
   cocoapods:
-    needs: spm-build-test
+    needs: spm-test
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
