@@ -16,11 +16,11 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 11\ Pro\ Max build test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 11\ Pro\ Max test | xcpretty
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
-  xcode-test-all:
+  swift-macos:
     
     runs-on: macos-latest
     steps:
@@ -31,8 +31,26 @@ jobs:
         security default-keychain -s temporary
         security unlock-keychain -p "" temporary
         security set-keychain-settings -lut 7200 temporary
-    - name: Run tests
-      run: make test
+    - name: Build
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS | xcpretty
+
+  swift-tvos:
+    
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build-Test
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV\ 4K \(at 1080p\) test | xcpretty
+    - name: Send codecov
+      run: bash <(curl https://codecov.io/bash)
+
+  swift-watchos:
+    
+    runs-on: macos-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
