@@ -10,7 +10,7 @@ env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
 
 jobs:
-  swift-test-ios:
+  xcode-test-ios:
     
     runs-on: macos-latest
     steps:
@@ -20,7 +20,7 @@ jobs:
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
-  swift-test-macos:
+  xcode-test-macos:
     
     runs-on: macos-latest
     steps:
@@ -34,7 +34,7 @@ jobs:
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS test | xcpretty
 
-  swift-build-tvos:
+  xcode-build-tvos:
     
     runs-on: macos-latest
     steps:
@@ -44,7 +44,7 @@ jobs:
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
-  swift-build-watchos:
+  xcode-build-watchos:
     
     runs-on: macos-latest
     steps:
@@ -112,7 +112,7 @@ jobs:
         run: pod lib lint --allow-warnings
 
   carthage:
-   needs: spm-build-test
+   needs: spm-test
    runs-on: macos-latest
 
    steps:
