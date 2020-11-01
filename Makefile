@@ -8,15 +8,15 @@ default: test
 test:
 	set -o pipefail && env NSUnbufferedIO=YES xcodebuild test \
 		-scheme ParseSwift\ \(iOS\) \
-		-destination platform="$(PLATFORM_IOS)"
+		-destination platform="$(PLATFORM_IOS)" \
                 | xcpretty
         xcodebuild test \
 		-scheme ParseSwift\ \(macOS\) \
-		-destination platform="$(PLATFORM_MACOS)"
+		-destination platform="$(PLATFORM_MACOS)" \
                 | xcpretty
 	xcodebuild test \
 		-scheme ParseSwift\ \(tvOS\) \
-		-destination platform="$(PLATFORM_TVOS)"
+		-destination platform="$(PLATFORM_TVOS)" \
                 | xcpretty
 	set -o pipefail && env NSUnbufferedIO=YES xcodebuild \
 		-scheme ParseSwift\ \(watchOS\) \
