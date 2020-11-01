@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
-    branches: [ main ]
+    branches: '*'
 
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
@@ -20,7 +20,7 @@ jobs:
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
-  swift-macos:
+  xcode-test-all:
     
     runs-on: macos-latest
     steps:
@@ -31,30 +31,12 @@ jobs:
         security default-keychain -s temporary
         security unlock-keychain -p "" temporary
         security set-keychain-settings -lut 7200 temporary
-    - name: Build
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(macOS\) | xcpretty
- 
-  swift-tvos:
-    
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(tvOS\) | xcpretty
+    - name: Run tests
+      run: make test
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
-  swift-watchos:
-    
-    runs-on: macos-latest
-    steps:
-    - uses: actions/checkout@v2
-    - name: Build
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
-    - name: Send codecov
-      run: bash <(curl https://codecov.io/bash)
-
-  build-test-swift:
+  spm-build-test:
     
     runs-on: macos-latest
     steps:
@@ -104,7 +86,7 @@ jobs:
           publish_dir: ./docs
 
   cocoapods:
-    needs: [build-test-swift]
+    needs: spm-build-test
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -112,7 +94,7 @@ jobs:
         run: pod lib lint --allow-warnings
 
   carthage:
-   needs: build-test-swift
+   needs: spm-build-test
    runs-on: macos-latest
 
    steps:
