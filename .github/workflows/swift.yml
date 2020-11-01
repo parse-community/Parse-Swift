@@ -60,7 +60,7 @@ jobs:
       
   deploy_docs:
     
-    needs: build-test-swift
+    needs: spm-build-test
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
