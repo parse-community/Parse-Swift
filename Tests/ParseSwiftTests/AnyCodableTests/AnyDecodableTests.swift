@@ -1,4 +1,3 @@
-#if canImport(XCTest)
 import XCTest
 @testable import ParseSwift
 
@@ -43,4 +42,3 @@ class AnyDecodableTests: XCTestCase {
         ("testJSONDecoding", testJSONDecoding)
     ]
 }
-#endif

@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 7/21/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if canImport(XCTest)
+
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -968,5 +968,4 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(keychainUser.currentUser?.customKey)
     }
 }
-#endif
 // swiftlint:disable:this file_length

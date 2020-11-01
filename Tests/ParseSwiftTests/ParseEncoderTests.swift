@@ -5,7 +5,7 @@
 //  Created by Pranjal Satija on 8/7/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if canImport(XCTest)
+
 import XCTest
 @testable import ParseSwift
 
@@ -134,4 +134,3 @@ class ParseEncoderTests: XCTestCase {
         XCTAssertNil(decoded["className"])
     }
 }
-#endif

@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 8/22/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if canImport(XCTest)
+
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -255,4 +255,3 @@ class ACLTests: XCTestCase {
         }
     }
 }
-#endif

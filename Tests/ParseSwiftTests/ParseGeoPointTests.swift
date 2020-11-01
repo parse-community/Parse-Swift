@@ -6,7 +6,6 @@
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
 
-#if canImport(XCTest)
 import XCTest
 #if canImport(CoreLocation)
 import CoreLocation
@@ -196,4 +195,3 @@ class ParseGeoPointTests: XCTestCase {
         XCTAssertTrue(point.debugDescription.contains("20"))
     }
 }
-#endif

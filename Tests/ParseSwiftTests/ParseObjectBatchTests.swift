@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 7/27/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if canImport(XCTest)
+
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -981,5 +981,4 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 }
 
-#endif
 // swiftlint:disable:this file_length

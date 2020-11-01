@@ -10,11 +10,11 @@ test:
 		-scheme ParseSwift\ \(iOS\) \
 		-destination platform="$(PLATFORM_IOS)" \
                 | xcpretty
-        xcodebuild test \
+        set -o pipefail && env NSUnbufferedIO=YES xcodebuild test \
 		-scheme ParseSwift\ \(macOS\) \
 		-destination platform="$(PLATFORM_MACOS)" \
                 | xcpretty
-	xcodebuild test \
+	set -o pipefail && env NSUnbufferedIO=YES xcodebuild test \
 		-scheme ParseSwift\ \(tvOS\) \
 		-destination platform="$(PLATFORM_TVOS)" \
                 | xcpretty
