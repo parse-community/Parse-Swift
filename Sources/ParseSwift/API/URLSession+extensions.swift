@@ -27,7 +27,8 @@ extension URLSession {
                     return try .success(mapper(responseData))
                 } catch {
                     let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData)
-                    return .failure(parseError ?? ParseError(code: .unknownError, message: "cannot decode error"))
+                    return .failure(parseError ?? ParseError(code: .unknownError,
+                                                             message: "Decoding error: \(error.localizedDescription)"))
                 }
             } else if let responseError = responseError {
                 return .failure(ParseError(code: .unknownError, message: "Unable to sync: \(responseError)"))
