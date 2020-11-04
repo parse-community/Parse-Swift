@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 7/18/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if canImport(XCTest)
+
 import Foundation
 @testable import ParseSwift
 
@@ -47,4 +47,3 @@ struct MockURLResponse {
         self.error = nil
     }
 }
-#endif

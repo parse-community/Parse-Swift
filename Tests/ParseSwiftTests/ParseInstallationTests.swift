@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 9/7/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if canImport(XCTest)
+
 import Foundation
 #if canImport(UIKit)
 import UIKit
@@ -613,5 +613,4 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         wait(for: [expectation1], timeout: 10.0)
     }
 }
-#endif
 // swiftlint:disable:this file_length
