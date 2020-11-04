@@ -28,13 +28,16 @@ extension URLSession {
                 } catch {
                     let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData)
                     return .failure(parseError ?? ParseError(code: .unknownError,
-                                                             message: "Decoding error: \(error.localizedDescription)"))
+                                                             // swiftlint:disable:next line_length
+                                                             message: "Error decoding parse-server response: \(error.localizedDescription)"))
                 }
             } else if let responseError = responseError {
-                return .failure(ParseError(code: .unknownError, message: "Unable to sync: \(responseError)"))
+                return .failure(ParseError(code: .unknownError,
+                                           message: "Unable to sync with parse-server: \(responseError)"))
             } else {
                 return .failure(ParseError(code: .unknownError,
-                                           message: "Unable to sync: \(String(describing: urlResponse))."))
+                                           // swiftlint:disable:next line_length
+                                           message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
             }
         }
 
