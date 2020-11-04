@@ -68,7 +68,10 @@ public struct ParseEncoder {
     }
 
     public func encode<T: Encodable>(_ value: T) throws -> Data {
-        try jsonEncoder.encode(value)
+        if let dateEncodingStrategy = dateEncodingStrategy {
+            jsonEncoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+        }
+        return try jsonEncoder.encode(value)
     }
 
     public func encode<T: ParseObject>(_ value: T) throws -> Data {
