@@ -96,7 +96,7 @@ internal extension API {
             }
             urlRequest.httpMethod = method.rawValue
 
-            URLSession.shared.dataTask(with: urlRequest, callbackQueue: callbackQueue, mapper: mapper) { result in
+            URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
                 switch result {
 
                 case .success(let decoded):

@@ -16,7 +16,6 @@ extension URLSession {
 
     internal func dataTask<U>(
         with request: URLRequest,
-        callbackQueue: DispatchQueue?,
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
