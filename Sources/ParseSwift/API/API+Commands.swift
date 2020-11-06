@@ -51,6 +51,7 @@ internal extension API {
             return try response.get()
         }
 
+        // swiftlint:disable:next function_body_length
         func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
                           childObjects: [NSDictionary: PointerType]? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
