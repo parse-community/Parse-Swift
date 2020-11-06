@@ -43,12 +43,7 @@ extension URLSession {
 
         dataTask(with: request) { (responseData, urlResponse, responseError) in
             let result = makeResult(responseData: responseData, urlResponse: urlResponse, responseError: responseError)
-
-            if let callbackQueue = callbackQueue {
-                callbackQueue.async { completion(result) }
-            } else {
-                completion(result)
-            }
+            completion(result)
         }.resume()
     }
 }

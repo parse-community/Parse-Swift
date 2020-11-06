@@ -99,10 +99,18 @@ internal extension API {
                 switch result {
 
                 case .success(let decoded):
-                    completion(.success(decoded))
+                    if let callbackQueue = callbackQueue {
+                        callbackQueue.async { completion(.success(decoded)) }
+                    } else {
+                        completion(.success(decoded))
+                    }
 
                 case .failure(let error):
-                    completion(.failure(error))
+                    if let callbackQueue = callbackQueue {
+                        callbackQueue.async { completion(.failure(error)) }
+                    } else {
+                        completion(.failure(error))
+                    }
                 }
             }
         }
