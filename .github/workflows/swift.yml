@@ -34,13 +34,13 @@ jobs:
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS test | xcpretty
 
-  xcode-build-tvos:
+  xcode-test-tvos:
     
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(tvOS\) | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV test | xcpretty
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
