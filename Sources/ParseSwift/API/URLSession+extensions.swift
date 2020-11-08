@@ -16,7 +16,6 @@ extension URLSession {
 
     internal func dataTask<U>(
         with request: URLRequest,
-        callbackQueue: DispatchQueue?,
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
@@ -43,12 +42,7 @@ extension URLSession {
 
         dataTask(with: request) { (responseData, urlResponse, responseError) in
             let result = makeResult(responseData: responseData, urlResponse: urlResponse, responseError: responseError)
-
-            if let callbackQueue = callbackQueue {
-                callbackQueue.async { completion(result) }
-            } else {
-                completion(result)
-            }
+            completion(result)
         }.resume()
     }
 }
