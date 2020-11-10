@@ -1002,7 +1002,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testDeepSavePointerArray() throws {
+    func testDeepSaveOfUnsavedPointerArrayFails() throws {
         var score = GameScore(score: 10)
         score.levels = [Level(), Level()]
 
@@ -1016,28 +1016,41 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+            XCTFail("Should have thrown encode/decode error")
+        } catch {
+            XCTAssertNotEqual(error.localizedDescription, "")
+            return
+        }
+    }
+
+    func testDeepSavePointerArray() throws {
+        var score = GameScore(score: 10)
+        var level1 = Level()
+        level1.objectId = "level1"
+        var level2 = Level()
+        level2.objectId = "level2"
+        score.levels = [level1, level2]
+
+        do {
+            let encoded = try score.getEncoder(skipKeys: false).encode(score)
+            //Get dates in correct format from ParseDecoding strategy
+            guard let scoreOnServer = try (score.getDecoder()
+                                            .decode([String: AnyCodable].self,
+                                                    from: encoded))["levels"]?.value as? [[String: String]],
+                  let first = scoreOnServer.first,
+                  let second = scoreOnServer.last else {
+                XCTFail("Should unwrapped decoded")
+                return
+            }
+            XCTAssertEqual(first["__type"], "Pointer")
+            XCTAssertEqual(first["objectId"], level1.objectId)
+            XCTAssertEqual(first["className"], level1.className)
+            XCTAssertEqual(second["__type"], "Pointer")
+            XCTAssertEqual(second["objectId"], level2.objectId)
+            XCTAssertEqual(second["className"], level2.className)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
-        }
-
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        score.ensureDeepSave { results in
-            switch results {
-
-            case .success(let savedChildren):
-                //This should be 2, but the URLMocker is limited to 1 response whic hashes to the same value
-                XCTAssertEqual(savedChildren.count, 1)
-                savedChildren.forEach { (_, value) in
-                    XCTAssertEqual(value.className, "Level")
-                    XCTAssertEqual(value.objectId, "yarr")
-                }
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
         }
     }
 }
