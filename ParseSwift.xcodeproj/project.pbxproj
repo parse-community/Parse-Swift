@@ -26,10 +26,32 @@
 		70110D592506CE890091CC1D /* BaseParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D562506CE890091CC1D /* BaseParseInstallation.swift */; };
 		70110D5A2506CE890091CC1D /* BaseParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D562506CE890091CC1D /* BaseParseInstallation.swift */; };
 		70110D5C2506ED0E0091CC1D /* ParseInstallationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */; };
+		7033ECB325584A83009770F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7033ECB225584A83009770F3 /* AppDelegate.swift */; };
+		7033ECB525584A83009770F3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7033ECB425584A83009770F3 /* ViewController.swift */; };
+		7033ECB825584A83009770F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECB625584A83009770F3 /* Main.storyboard */; };
+		7033ECBA25584A85009770F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECB925584A85009770F3 /* Assets.xcassets */; };
+		7033ECBD25584A85009770F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECBB25584A85009770F3 /* LaunchScreen.storyboard */; };
 		708D035225215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035325215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035425215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035525215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
+		709B98352556EC7400507778 /* ParseSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 912C9BD824D3011F009947C3 /* ParseSwift.framework */; };
+		709B984B2556ECAA00507778 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB13224C494390027F3C7 /* MockURLProtocol.swift */; };
+		709B984C2556ECAA00507778 /* APICommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB12D24C4837E0027F3C7 /* APICommandTests.swift */; };
+		709B984D2556ECAA00507778 /* AnyDecodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552D2217E729007C3B4E /* AnyDecodableTests.swift */; };
+		709B984E2556ECAA00507778 /* ParseGeoPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */; };
+		709B984F2556ECAA00507778 /* AnyCodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552C2217E729007C3B4E /* AnyCodableTests.swift */; };
+		709B98502556ECAA00507778 /* KeychainStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */; };
+		709B98512556ECAA00507778 /* ParseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */; };
+		709B98522556ECAA00507778 /* ParseUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C7DC1D24D20E530050419B /* ParseUserTests.swift */; };
+		709B98532556ECAA00507778 /* ParsePointerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70CE1D882545BF730018D572 /* ParsePointerTests.swift */; };
+		709B98542556ECAA00507778 /* ParseInstallationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */; };
+		709B98552556ECAA00507778 /* ParseQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C7DC1F24D20F180050419B /* ParseQueryTests.swift */; };
+		709B98562556ECAA00507778 /* ParseObjectTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB13524C4FC100027F3C7 /* ParseObjectTests.swift */; };
+		709B98572556ECAA00507778 /* ACLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9194657724F16E330070296B /* ACLTests.swift */; };
+		709B98582556ECAA00507778 /* AnyEncodableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */; };
+		709B98592556ECAA00507778 /* MockURLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB12B24C3F7720027F3C7 /* MockURLResponse.swift */; };
+		709B985A2556ECAA00507778 /* ParseObjectBatchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C7DC2024D20F190050419B /* ParseObjectBatchTests.swift */; };
 		70BC0B33251903D1001556DB /* ParseGeoPointTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */; };
 		70BC9890252A5B5C00FF3074 /* Objectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC988F252A5B5C00FF3074 /* Objectable.swift */; };
 		70BC9891252A5B5C00FF3074 /* Objectable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70BC988F252A5B5C00FF3074 /* Objectable.swift */; };
@@ -230,6 +252,20 @@
 			remoteGlobalIDString = 4AB8B4F31F254AE10070F682;
 			remoteInfo = Parse;
 		};
+		7033ECCB25584AAF009770F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4AB8B4EB1F254AE10070F682 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 7033ECAF25584A83009770F3;
+			remoteInfo = TestHostTV;
+		};
+		709B98362556EC7400507778 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 4AB8B4EB1F254AE10070F682 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 912C9BD724D3011F009947C3;
+			remoteInfo = "ParseSwift (tvOS)";
+		};
 		70F2E256254F247000B2EA5C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 4AB8B4EB1F254AE10070F682 /* Project object */;
@@ -260,7 +296,16 @@
 		70110D51250680140091CC1D /* ParseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		70110D562506CE890091CC1D /* BaseParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseParseInstallation.swift; sourceTree = "<group>"; };
 		70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallationTests.swift; sourceTree = "<group>"; };
+		7033ECB025584A83009770F3 /* TestHostTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestHostTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		7033ECB225584A83009770F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		7033ECB425584A83009770F3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		7033ECB725584A83009770F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		7033ECB925584A85009770F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7033ECBC25584A85009770F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		7033ECBE25584A85009770F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		708D035125215F9B00646C70 /* Deletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deletable.swift; sourceTree = "<group>"; };
+		709B98302556EC7400507778 /* ParseSwiftTeststvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParseSwiftTeststvOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		709B98342556EC7400507778 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGeoPointTests.swift; sourceTree = "<group>"; };
 		70BC988F252A5B5C00FF3074 /* Objectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Objectable.swift; sourceTree = "<group>"; };
 		70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallation.swift; sourceTree = "<group>"; };
@@ -350,6 +395,21 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7033ECAD25584A83009770F3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		709B982D2556EC7400507778 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				709B98352556EC7400507778 /* ParseSwift.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -448,6 +508,8 @@
 				4AA807591F794242008CD551 /* TestHost */,
 				70F2E23B254F246000B2EA5C /* ParseSwiftTeststvOS */,
 				70F2E251254F247000B2EA5C /* ParseSwiftTestsmacOS */,
+				709B98312556EC7400507778 /* ParseSwiftTeststvOS */,
+				7033ECB125584A83009770F3 /* TestHostTV */,
 				4AB8B4F51F254AE10070F682 /* Products */,
 				4ACFC2E21F3CA21F0046F3A3 /* ParseSwift.playground */,
 			);
@@ -463,6 +525,8 @@
 				912C9BCB24D3005D009947C3 /* ParseSwift.framework */,
 				912C9BD824D3011F009947C3 /* ParseSwift.framework */,
 				70F2E250254F247000B2EA5C /* ParseSwiftTestsmacOS.xctest */,
+				709B98302556EC7400507778 /* ParseSwiftTeststvOS.xctest */,
+				7033ECB025584A83009770F3 /* TestHostTV.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -512,6 +576,27 @@
 				70BC988F252A5B5C00FF3074 /* Objectable.swift */,
 			);
 			path = Protocols;
+			sourceTree = "<group>";
+		};
+		7033ECB125584A83009770F3 /* TestHostTV */ = {
+			isa = PBXGroup;
+			children = (
+				7033ECB225584A83009770F3 /* AppDelegate.swift */,
+				7033ECB425584A83009770F3 /* ViewController.swift */,
+				7033ECB625584A83009770F3 /* Main.storyboard */,
+				7033ECB925584A85009770F3 /* Assets.xcassets */,
+				7033ECBB25584A85009770F3 /* LaunchScreen.storyboard */,
+				7033ECBE25584A85009770F3 /* Info.plist */,
+			);
+			path = TestHostTV;
+			sourceTree = "<group>";
+		};
+		709B98312556EC7400507778 /* ParseSwiftTeststvOS */ = {
+			isa = PBXGroup;
+			children = (
+				709B98342556EC7400507778 /* Info.plist */,
+			);
+			path = ParseSwiftTeststvOS;
 			sourceTree = "<group>";
 		};
 		70F2E23B254F246000B2EA5C /* ParseSwiftTeststvOS */ = {
@@ -753,6 +838,42 @@
 			productReference = 4AFDA7121F26D9A5002AE4FC /* ParseSwift.framework */;
 			productType = "com.apple.product-type.framework";
 		};
+		7033ECAF25584A83009770F3 /* TestHostTV */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 7033ECC125584A85009770F3 /* Build configuration list for PBXNativeTarget "TestHostTV" */;
+			buildPhases = (
+				7033ECAC25584A83009770F3 /* Sources */,
+				7033ECAD25584A83009770F3 /* Frameworks */,
+				7033ECAE25584A83009770F3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TestHostTV;
+			productName = TestHostTV;
+			productReference = 7033ECB025584A83009770F3 /* TestHostTV.app */;
+			productType = "com.apple.product-type.application";
+		};
+		709B982F2556EC7400507778 /* ParseSwiftTeststvOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 709B983A2556EC7400507778 /* Build configuration list for PBXNativeTarget "ParseSwiftTeststvOS" */;
+			buildPhases = (
+				709B982C2556EC7400507778 /* Sources */,
+				709B982D2556EC7400507778 /* Frameworks */,
+				709B982E2556EC7400507778 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				709B98372556EC7400507778 /* PBXTargetDependency */,
+				7033ECCC25584AAF009770F3 /* PBXTargetDependency */,
+			);
+			name = ParseSwiftTeststvOS;
+			productName = ParseSwiftTeststvOS;
+			productReference = 709B98302556EC7400507778 /* ParseSwiftTeststvOS.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		70F2E24F254F247000B2EA5C /* ParseSwiftTestsmacOS */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 70F2E258254F247000B2EA5C /* Build configuration list for PBXNativeTarget "ParseSwiftTestsmacOS" */;
@@ -836,6 +957,15 @@
 						CreatedOnToolsVersion = 9.0;
 						LastSwiftMigration = 1130;
 					};
+					7033ECAF25584A83009770F3 = {
+						CreatedOnToolsVersion = 12.1;
+						ProvisioningStyle = Automatic;
+					};
+					709B982F2556EC7400507778 = {
+						CreatedOnToolsVersion = 12.1;
+						ProvisioningStyle = Manual;
+						TestTargetID = 7033ECAF25584A83009770F3;
+					};
 					70F2E24F254F247000B2EA5C = {
 						CreatedOnToolsVersion = 12.1;
 						ProvisioningStyle = Manual;
@@ -870,6 +1000,8 @@
 				4AB8B4FC1F254AE10070F682 /* ParseSwiftTests */,
 				4AA807571F794242008CD551 /* TestHost */,
 				70F2E24F254F247000B2EA5C /* ParseSwiftTestsmacOS */,
+				709B982F2556EC7400507778 /* ParseSwiftTeststvOS */,
+				7033ECAF25584A83009770F3 /* TestHostTV */,
 			);
 		};
 /* End PBXProject section */
@@ -900,6 +1032,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		4AFDA7101F26D9A5002AE4FC /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		7033ECAE25584A83009770F3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7033ECBD25584A85009770F3 /* LaunchScreen.storyboard in Resources */,
+				7033ECBA25584A85009770F3 /* Assets.xcassets in Resources */,
+				7033ECB825584A83009770F3 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		709B982E2556EC7400507778 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1088,6 +1237,38 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		7033ECAC25584A83009770F3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				7033ECB525584A83009770F3 /* ViewController.swift in Sources */,
+				7033ECB325584A83009770F3 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		709B982C2556EC7400507778 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				709B98512556ECAA00507778 /* ParseEncoderTests.swift in Sources */,
+				709B98532556ECAA00507778 /* ParsePointerTests.swift in Sources */,
+				709B984C2556ECAA00507778 /* APICommandTests.swift in Sources */,
+				709B984D2556ECAA00507778 /* AnyDecodableTests.swift in Sources */,
+				709B98572556ECAA00507778 /* ACLTests.swift in Sources */,
+				709B984F2556ECAA00507778 /* AnyCodableTests.swift in Sources */,
+				709B98592556ECAA00507778 /* MockURLResponse.swift in Sources */,
+				709B98522556ECAA00507778 /* ParseUserTests.swift in Sources */,
+				709B984E2556ECAA00507778 /* ParseGeoPointTests.swift in Sources */,
+				709B984B2556ECAA00507778 /* MockURLProtocol.swift in Sources */,
+				709B98552556ECAA00507778 /* ParseQueryTests.swift in Sources */,
+				709B98502556ECAA00507778 /* KeychainStoreTests.swift in Sources */,
+				709B98562556ECAA00507778 /* ParseObjectTests.swift in Sources */,
+				709B985A2556ECAA00507778 /* ParseObjectBatchTests.swift in Sources */,
+				709B98582556ECAA00507778 /* AnyEncodableTests.swift in Sources */,
+				709B98542556ECAA00507778 /* ParseInstallationTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		70F2E24C254F247000B2EA5C /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1220,6 +1401,16 @@
 			target = 4AB8B4F31F254AE10070F682 /* ParseSwift (iOS) */;
 			targetProxy = 4AB8B4FF1F254AE10070F682 /* PBXContainerItemProxy */;
 		};
+		7033ECCC25584AAF009770F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 7033ECAF25584A83009770F3 /* TestHostTV */;
+			targetProxy = 7033ECCB25584AAF009770F3 /* PBXContainerItemProxy */;
+		};
+		709B98372556EC7400507778 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 912C9BD724D3011F009947C3 /* ParseSwift (tvOS) */;
+			targetProxy = 709B98362556EC7400507778 /* PBXContainerItemProxy */;
+		};
 		70F2E257254F247000B2EA5C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 4AFDA7111F26D9A5002AE4FC /* ParseSwift (macOS) */;
@@ -1240,6 +1431,22 @@
 			isa = PBXVariantGroup;
 			children = (
 				4AA807641F794242008CD551 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		7033ECB625584A83009770F3 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7033ECB725584A83009770F3 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		7033ECBB25584A85009770F3 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				7033ECBC25584A85009770F3 /* Base */,
 			);
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
@@ -1526,6 +1733,86 @@
 			};
 			name = Release;
 		};
+		7033ECBF25584A85009770F3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TestHostTV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.parse.TestHostTV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
+			};
+			name = Debug;
+		};
+		7033ECC025584A85009770F3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Automatic;
+				INFOPLIST_FILE = TestHostTV/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.parse.TestHostTV;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TVOS_DEPLOYMENT_TARGET = 14.0;
+			};
+			name = Release;
+		};
+		709B98382556EC7400507778 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ParseSwiftTeststvOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.cs.netrecon.ParseSwiftTeststvOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestHostTV.app/TestHostTV";
+				TVOS_DEPLOYMENT_TARGET = 14.0;
+			};
+			name = Debug;
+		};
+		709B98392556EC7400507778 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CODE_SIGN_STYLE = Manual;
+				DEVELOPMENT_TEAM = "";
+				INFOPLIST_FILE = ParseSwiftTeststvOS/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = edu.uky.cs.netrecon.ParseSwiftTeststvOS;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = appletvos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 3;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/TestHostTV.app/TestHostTV";
+				TVOS_DEPLOYMENT_TARGET = 14.0;
+			};
+			name = Release;
+		};
 		70F2E259254F247000B2EA5C /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1715,6 +2002,24 @@
 			buildConfigurations = (
 				4AFDA7241F26D9A5002AE4FC /* Debug */,
 				4AFDA7251F26D9A5002AE4FC /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		7033ECC125584A85009770F3 /* Build configuration list for PBXNativeTarget "TestHostTV" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				7033ECBF25584A85009770F3 /* Debug */,
+				7033ECC025584A85009770F3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		709B983A2556EC7400507778 /* Build configuration list for PBXNativeTarget "ParseSwiftTeststvOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				709B98382556EC7400507778 /* Debug */,
+				709B98392556EC7400507778 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

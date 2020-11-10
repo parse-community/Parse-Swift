@@ -51,6 +51,7 @@ internal extension API {
             return try response.get()
         }
 
+        // swiftlint:disable:next function_body_length
         func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
                           childObjects: [NSDictionary: PointerType]? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
@@ -95,14 +96,22 @@ internal extension API {
             }
             urlRequest.httpMethod = method.rawValue
 
-            URLSession.shared.dataTask(with: urlRequest, callbackQueue: callbackQueue, mapper: mapper) { result in
+            URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
                 switch result {
 
                 case .success(let decoded):
-                    completion(.success(decoded))
+                    if let callbackQueue = callbackQueue {
+                        callbackQueue.async { completion(.success(decoded)) }
+                    } else {
+                        completion(.success(decoded))
+                    }
 
                 case .failure(let error):
-                    completion(.failure(error))
+                    if let callbackQueue = callbackQueue {
+                        callbackQueue.async { completion(.failure(error)) }
+                    } else {
+                        completion(.failure(error))
+                    }
                 }
             }
         }
