@@ -3,7 +3,9 @@ coverage:
     - Tests/ParseSwiftTests/.*
     - Sources/ParseSwift/Coding/ParseEncoder.swift 
   status:
-    patch: true
+    patch:
+      default:
+        target: 0
     changes: false
     project:
       default:
