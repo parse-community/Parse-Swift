@@ -35,6 +35,10 @@ public extension ParseObject {
         return ParseCoding.parseEncoder(skipKeys: skipKeys)
     }
 
+    func getJSONEncoder() -> JSONEncoder {
+        return ParseCoding.jsonEncoder()
+    }
+
     func getDecoder() -> JSONDecoder {
         ParseCoding.jsonDecoder()
     }
