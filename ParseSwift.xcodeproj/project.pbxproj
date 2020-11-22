@@ -329,6 +329,7 @@
 		912C9BD824D3011F009947C3 /* ParseSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ParseSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		912C9BDA24D3011F009947C3 /* ParseSwift_tvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseSwift_tvOS.h; sourceTree = "<group>"; };
 		912C9BDB24D3011F009947C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9158916A256A07DD0024BE9A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		9194657724F16E330070296B /* ACLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACLTests.swift; sourceTree = "<group>"; };
 		F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoderTests.swift; sourceTree = "<group>"; };
 		F97B45B424D9C6F200F4A88B /* ParseCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCoding.swift; sourceTree = "<group>"; };
@@ -499,6 +500,7 @@
 		4AB8B4EA1F254AE10070F682 = {
 			isa = PBXGroup;
 			children = (
+				9158916A256A07DD0024BE9A /* README.md */,
 				4A5EE45F1F49E9E000D3CAE3 /* Sources */,
 				4A5EE4601F49EA0600D3CAE3 /* Tests */,
 				4A65114E1F48E3CE005237DF /* ParseSwift-iOS */,
