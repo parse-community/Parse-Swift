@@ -21,9 +21,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var ACL: ParseACL?
 
         var name = "First"
-
-        init() {
-        }
     }
 
     struct GameScore: ParseObject {
