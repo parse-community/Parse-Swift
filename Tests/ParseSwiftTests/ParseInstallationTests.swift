@@ -56,7 +56,6 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             self.customKey = "blah"
             self.sessionToken = "myToken"
             self.username = "hello10"
-            self.password = "world"
             self.email = "hello@parse.com"
         }
     }
@@ -104,6 +103,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
     func userLogin() {
         let loginResponse = LoginSignupResponse()
+        let loginUserName = "hello10"
+        let loginPassword = "world"
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -114,7 +115,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             }
         }
         do {
-            _ = try User.login(username: loginResponse.username!, password: loginResponse.password!)
+            _ = try User.login(username: loginUserName, password: loginPassword)
             MockURLProtocol.removeAll()
         } catch {
             XCTFail("Should login")

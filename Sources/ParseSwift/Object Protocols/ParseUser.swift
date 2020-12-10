@@ -138,8 +138,11 @@ extension ParseUser {
         return API.Command<NoBody, Self>(method: .GET,
                                          path: .login,
                                          params: params) { (data) -> Self in
-            let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
+            var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+            user.username = username
+            user.password = password
+            user.updatedAt = response.updatedAt ?? response.createdAt
 
             Self.currentUserContainer = .init(
                 currentUser: user,
