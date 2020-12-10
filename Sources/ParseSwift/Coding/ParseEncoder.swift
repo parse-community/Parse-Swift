@@ -451,7 +451,7 @@ private struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     }
 
     public mutating func encode<T : Encodable>(_ value: T) throws {
-        var valueToEncode: Encodable = value
+        /*var valueToEncode: Encodable = value
         if let parseObject = value as? Objectable {
             if let replacedObject = try self.encoder.deepFindAndReplaceParseObjects(parseObject) {
                 valueToEncode = replacedObject
@@ -464,10 +464,11 @@ private struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer {
                 self.container.add(try replacedObjects.map { try self.encoder.box($0) })
                 return
             }
-        }
+        }*/
         self.encoder.codingPath.append(_JSONKey(index: self.count))
         defer { self.encoder.codingPath.removeLast() }
-        self.container.add(try self.encoder.box(valueToEncode))
+        //self.container.add(try self.encoder.box(valueToEncode))
+        self.container.add(try self.encoder.box(value))
     }
 
     public mutating func nestedContainer<NestedKey>(keyedBy keyType: NestedKey.Type) -> KeyedEncodingContainer<NestedKey> {
