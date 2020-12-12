@@ -2,12 +2,13 @@ import Foundation
 
 internal struct ParseConfiguration {
     static var applicationId: String!
-    static var masterKey: String?
+    static var masterKey: String? // swiftlint:disable:this inclusive_language
     static var clientKey: String?
     static var serverURL: URL!
     static var mountPath: String!
 }
 
+// swiftlint:disable:next inclusive_language
 public func initialize(
     applicationId: String,
     clientKey: String? = nil,

@@ -51,7 +51,7 @@ public struct API {
     public typealias Options = Set<API.Option>
 
     public enum Option: Hashable {
-        case useMasterKey
+        case useMasterKey // swiftlint:disable:this inclusive_language
         case sessionToken(String)
         case installationId(String)
 
