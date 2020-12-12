@@ -788,8 +788,7 @@ extension _ParseEncoder {
             // swiftlint:disable:next force_cast
             return (value as! NSDecimalNumber)
         } else if value is _JSONStringDictionaryEncodableMarker {
-            // swiftlint:disable:next force_cast
-            return try self.box(value as! [String : Encodable])
+            return try self.box(value)
         } else if value is PointerType {
             ignoreSkipKeys = true
         }
