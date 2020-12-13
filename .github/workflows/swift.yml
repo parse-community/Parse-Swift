@@ -7,7 +7,7 @@ on:
     branches: '*'
 
 env:
-  CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
+  CI_XCODE_VER_11: '/Applications/Xcode_11.7.app/Contents/Developer'
 
 jobs:
   xcode-test-ios:
@@ -71,8 +71,6 @@ jobs:
       run: swift test --enable-code-coverage -v
     - name: Prepare codecov
       run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
-      env: 
-        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}      
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
       
@@ -120,4 +118,4 @@ jobs:
      - name: Carthage 
        run: carthage build --no-skip-current
        env: 
-        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }} 
+        DEVELOPER_DIR: ${{ env.CI_XCODE_VER_11 }}
