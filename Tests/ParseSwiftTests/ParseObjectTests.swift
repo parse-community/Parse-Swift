@@ -21,9 +21,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var ACL: ParseACL?
 
         var name = "First"
-
-        init() {
-        }
     }
 
     struct GameScore: ParseObject {
@@ -1011,7 +1008,9 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testDeepSaveOfUnsavedPointerArrayFails() throws {
         var score = GameScore(score: 10)
-        score.levels = [Level(), Level()]
+        var newLevel = Level()
+        newLevel.objectId = "sameId"
+        score.levels = [newLevel, newLevel]
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
@@ -1023,7 +1022,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
-            XCTFail("Should have thrown encode/decode error")
+            XCTFail("Should have thrown encode/decode error because child objects can't have the same objectId")
         } catch {
             XCTAssertNotEqual(error.localizedDescription, "")
             return
