@@ -414,7 +414,10 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
-        scoreOnServer.ACL = nil
+
+        var newACL = ParseACL()
+        newACL.setReadAccess(userId: "yarr", value: true)
+        scoreOnServer.ACL = newACL
 
         let encoded: Data!
         do {
@@ -444,7 +447,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             XCTAssertEqual(savedCreatedAt, originalCreatedAt)
             XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(saved.ACL)
+            XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -464,7 +467,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             XCTAssertEqual(savedCreatedAt, originalCreatedAt)
             XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(saved.ACL)
+            XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -557,7 +560,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 }
                 XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
+                XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -585,7 +588,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 }
                 XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
+                XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -601,7 +604,11 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
-        scoreOnServer.ACL = nil
+
+        var newACL = ParseACL()
+        newACL.setReadAccess(userId: "yarr", value: true)
+        scoreOnServer.ACL = newACL
+
         let encoded: Data!
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
