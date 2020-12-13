@@ -51,10 +51,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             self.customKey = "blah"
             self.sessionToken = "myToken"
             self.username = "hello10"
-            self.password = "world"
             self.email = "hello@parse.com"
         }
     }
+
+    let loginUserName = "hello10"
+    let loginPassword = "world"
 
     override func setUp() {
         super.setUp()
@@ -713,7 +715,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
         do {
-           let signedUp = try User.signup(username: loginResponse.username!, password: loginResponse.password!)
+           let signedUp = try User.signup(username: loginUserName, password: loginPassword)
             XCTAssertNotNil(signedUp)
             XCTAssertNotNil(signedUp.createdAt)
             XCTAssertNotNil(signedUp.updatedAt)
@@ -747,7 +749,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func signUpAsync(loginResponse: LoginSignupResponse, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Signup user1")
-        User.signup(username: loginResponse.username!, password: loginResponse.password!,
+        User.signup(username: loginUserName, password: loginPassword,
                     callbackQueue: callbackQueue) { result in
             switch result {
 
@@ -810,7 +812,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
         do {
-           let loggedIn = try User.login(username: loginResponse.username!, password: loginResponse.password!)
+            let loggedIn = try User.login(username: loginUserName, password: loginPassword)
             XCTAssertNotNil(loggedIn)
             XCTAssertNotNil(loggedIn.createdAt)
             XCTAssertNotNil(loggedIn.updatedAt)
@@ -844,7 +846,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func userLoginAsync(loginResponse: LoginSignupResponse, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Login user")
-        User.login(username: loginResponse.username!, password: loginResponse.password!,
+        User.login(username: loginUserName, password: loginPassword,
                    callbackQueue: callbackQueue) { result in
 
             switch result {

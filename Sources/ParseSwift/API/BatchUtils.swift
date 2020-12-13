@@ -33,12 +33,13 @@ internal struct WriteResponse: Codable {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
+    var ACL: ParseACL?
 
     func asSaveResponse() -> SaveResponse {
         guard let objectId = objectId, let createdAt = createdAt else {
             fatalError("Cannot create a SaveResponse without objectId")
         }
-        return SaveResponse(objectId: objectId, createdAt: createdAt)
+        return SaveResponse(objectId: objectId, createdAt: createdAt, ACL: ACL)
     }
 
     func asUpdateResponse() -> UpdateResponse {

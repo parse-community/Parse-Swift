@@ -69,7 +69,6 @@ class ACLTests: XCTestCase {
             self.customKey = "blah"
             self.sessionToken = "myToken"
             self.username = "hello10"
-            self.password = "world"
             self.email = "hello@parse.com"
         }
     }
@@ -180,6 +179,8 @@ class ACLTests: XCTestCase {
 
     func testDefaultACL() {
         let loginResponse = LoginSignupResponse()
+        let loginUserName = "hello10"
+        let loginPassword = "world"
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -191,7 +192,7 @@ class ACLTests: XCTestCase {
         }
 
         do {
-            _ = try User.signup(username: "testUser", password: "password")
+            _ = try User.signup(username: loginUserName, password: loginPassword)
         } catch {
             XCTFail("Couldn't signUp user: \(error)")
             //return
@@ -222,6 +223,8 @@ class ACLTests: XCTestCase {
 
     func testDefaultACLDontUseCurrentUser() {
         let loginResponse = LoginSignupResponse()
+        let loginUserName = "hello10"
+        let loginPassword = "world"
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -232,7 +235,7 @@ class ACLTests: XCTestCase {
             }
         }
         do {
-            _ = try User.signup(username: "testUser", password: "password")
+            _ = try User.signup(username: loginUserName, password: loginPassword)
         } catch {
             XCTFail("Couldn't signUp user: \(error.localizedDescription)")
         }
