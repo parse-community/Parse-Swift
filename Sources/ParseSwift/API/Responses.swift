@@ -33,7 +33,7 @@ internal struct PointerSaveResponse: ChildResponse {
 
     func apply<T>(to object: T) throws -> PointerType where T: Encodable {
         guard let object = object as? Objectable else {
-            throw ParseError(code: .unknownError, message: "Should have converterted encoded object to Pointer")
+            throw ParseError(code: .unknownError, message: "Should have converted encoded object to Pointer")
         }
         var pointer = PointerType(object)
         pointer.objectId = objectId
