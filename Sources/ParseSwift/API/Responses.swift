@@ -47,12 +47,14 @@ internal struct SaveResponse: Decodable {
     var updatedAt: Date {
         return createdAt
     }
+    var ACL: ParseACL?
 
     func apply<T>(to object: T) -> T where T: ParseObject {
         var object = object
         object.objectId = objectId
         object.createdAt = createdAt
         object.updatedAt = updatedAt
+        object.ACL = ACL
         return object
     }
 }
@@ -77,4 +79,12 @@ internal struct FetchResponse: Decodable {
         object.updatedAt = updatedAt
         return object
     }
+}
+
+// MARK: LoginSignupResponse
+internal struct LoginSignupResponse: Codable {
+    let createdAt: Date
+    let objectId: String
+    let sessionToken: String
+    var updatedAt: Date?
 }
