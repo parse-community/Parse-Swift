@@ -422,7 +422,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Parse.swift",
-      "line": 11,
+      "line": 12,
       "symbol": "initialize(applicationId:clientKey:masterKey:serverURL:primitiveObjectStore:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
