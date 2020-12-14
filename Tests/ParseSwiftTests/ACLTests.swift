@@ -195,7 +195,6 @@ class ACLTests: XCTestCase {
             _ = try User.signup(username: loginUserName, password: loginPassword)
         } catch {
             XCTFail("Couldn't signUp user: \(error)")
-            //return
         }
 
         guard let userObjectId = User.current?.objectId else {
