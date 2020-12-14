@@ -21,11 +21,15 @@ struct GameScore: ParseObject {
     var ACL: ParseACL?
 
     //: Your own properties
-    var score: Int
+    var score: Int = 0
 
-    //: a custom initializer
+    //custom initializer
     init(score: Int) {
         self.score = score
+    }
+
+    init(objectId: String?) {
+        self.objectId = objectId
     }
 }
 
@@ -155,12 +159,23 @@ do {
     assertionFailure("Error deleting: \(error)")
 }
 
-//: Delete the score from parse-server
+//: Delete the score from parse-server synchronously
 do {
     try scoreToDelete.delete()
     print("Successfully deleted: \(scoreToDelete!)")
 } catch {
     assertionFailure("Error deleting: \(error)")
+}
+
+//: Now will fetch a ParseObject that has already been saved based on its' objectId
+let scoreToFetch = GameScore(objectId: savedScore?.objectId)
+
+//: Synchronously fetch this GameScore based on it's objectId alone.
+do {
+    let fetchedScore = try scoreToFetch.fetch()
+    print("Successfully fetched: \(fetchedScore)")
+} catch {
+    assertionFailure("Error fetching: \(error)")
 }
 
 PlaygroundPage.current.finishExecution()

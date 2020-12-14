@@ -83,5 +83,8 @@ internal struct FetchResponse: Decodable {
 
 // MARK: LoginSignupResponse
 internal struct LoginSignupResponse: Codable {
+    let createdAt: Date
+    let objectId: String
     let sessionToken: String
+    var updatedAt: Date?
 }

@@ -61,6 +61,7 @@ User.login(username: "hello", password: "world") { results in
             return
         }
         assert(currentUser.hasSameObjectId(as: user))
+        print("Succesfully logged in as use \(user)")
 
     case .failure(let error):
         assertionFailure("Error logging in \(error)")
