@@ -205,7 +205,7 @@ internal extension API.Command {
             method: .GET,
             path: object.endpoint
         ) { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(FetchResponse.self, from: data).apply(to: object)
+            try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }
     }
 
