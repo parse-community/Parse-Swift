@@ -85,6 +85,85 @@ public extension Sequence where Element: ParseObject {
                 .batch(commands: commands)
                 .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
+
+    /**
+     Fetches a collection of objects *synchronously* all at once and throws an error if necessary.
+
+     - parameter options: A set of options used to fetch objects. Defaults to an empty set.
+
+     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
+     - throws: `ParseError`
+     - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
+     any particular order.
+    */
+    func fetchAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+
+        if (allSatisfy { $0.className == Self.Element.className}) {
+            let uniqueObjectIds = Set(compactMap { $0.objectId })
+            let query = Self.Element.query(containedIn(key: "objectId", array: [uniqueObjectIds]))
+            let fetchedObjects = try query.find(options: options)
+            var fetchedObjectsToReturn = [(Result<Self.Element, ParseError>)]()
+
+            uniqueObjectIds.forEach {
+                let uniqueObjectId = $0
+                if let fetchedObject = fetchedObjects.first(where: {$0.objectId == uniqueObjectId}) {
+                    fetchedObjectsToReturn.append(.success(fetchedObject))
+                } else {
+                    fetchedObjectsToReturn.append(.failure(ParseError(code: .objectNotFound,
+                                                                      // swiftlint:disable:next line_length
+                                                                      message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
+                }
+            }
+            return fetchedObjectsToReturn
+        } else {
+            throw ParseError(code: .unknownError, message: "all items to fetch must be of the same class")
+        }
+    }
+
+    /**
+     Fetches a collection of objects all at once *asynchronously* and executes the completion block when done.
+
+     - parameter options: A set of options used to fetch objects. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
+     - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
+     any particular order.
+    */
+    func fetchAll(
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
+    ) {
+        if (allSatisfy { $0.className == Self.Element.className}) {
+            let uniqueObjectIds = Set(compactMap { $0.objectId })
+            let query = Self.Element.query(containedIn(key: "objectId", array: [uniqueObjectIds]))
+            query.find(options: options, callbackQueue: callbackQueue) { result in
+                switch result {
+
+                case .success(let fetchedObjects):
+                    var fetchedObjectsToReturn = [(Result<Self.Element, ParseError>)]()
+
+                    uniqueObjectIds.forEach {
+                        let uniqueObjectId = $0
+                        if let fetchedObject = fetchedObjects.first(where: {$0.objectId == uniqueObjectId}) {
+                            fetchedObjectsToReturn.append(.success(fetchedObject))
+                        } else {
+                            fetchedObjectsToReturn.append(.failure(ParseError(code: .objectNotFound,
+                                                                              // swiftlint:disable:next line_length
+                                                                              message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
+                        }
+                    }
+                    completion(.success(fetchedObjectsToReturn))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } else {
+            completion(.failure(ParseError(code: .unknownError,
+                                           message: "all items to fetch must be of the same class")))
+        }
+    }
 }
 
 // MARK: Batch Support

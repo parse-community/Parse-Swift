@@ -49,13 +49,6 @@ internal struct WriteResponse: Codable {
         return UpdateResponse(updatedAt: updatedAt)
     }
 
-    func asFetchResponse() -> FetchResponse {
-        guard let createdAt = createdAt, let updatedAt = updatedAt else {
-            fatalError("Cannot create a SaveResponse without objectId")
-        }
-        return FetchResponse(createdAt: createdAt, updatedAt: updatedAt)
-    }
-
     func apply<T>(to object: T, method: API.Method) -> T where T: ParseObject {
         switch method {
         case .POST:
@@ -63,7 +56,8 @@ internal struct WriteResponse: Codable {
         case .PUT:
             return asUpdateResponse().apply(to: object)
         case .GET:
-            return asFetchResponse().apply(to: object)
+            // swiftlint:disable:next line_length
+            fatalError("Cannot fetch in batches for a mixed batch. The whole batch must consist of fetch for a batch fetch to succeed.")
         default:
             fatalError("There is no configured way to apply for method: \(method)")
         }

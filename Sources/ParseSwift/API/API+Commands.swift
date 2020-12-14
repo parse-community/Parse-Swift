@@ -235,18 +235,23 @@ extension API.Command where T: ParseObject {
         let commands = commands.compactMap { (command) -> API.Command<T, T>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
-                return nil
+                return API.Command<T, T>(
+                    method: command.method,
+                    path: .any(path), mapper: command.mapper)
             }
             return API.Command<T, T>(method: command.method, path: .any(path),
                                      body: body, mapper: command.mapper)
         }
+
         let bodies = commands.compactMap { (command) -> (body: T, command: API.Method)?  in
             guard let body = command.body else {
                 return nil
             }
             return (body: body, command: command.method)
         }
+
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
+
             let decodingType = [BatchResponseItem<WriteResponse>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
@@ -269,6 +274,7 @@ extension API.Command where T: ParseObject {
                 return [(.failure(parseError))]
             }
         }
+
         let batchCommand = BatchCommand(requests: commands)
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }

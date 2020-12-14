@@ -69,18 +69,6 @@ internal struct UpdateResponse: Decodable {
     }
 }
 
-internal struct FetchResponse: Decodable {
-    var createdAt: Date
-    var updatedAt: Date
-
-    func apply<T>(to object: T) -> T where T: ParseObject {
-        var object = object
-        object.createdAt = createdAt
-        object.updatedAt = updatedAt
-        return object
-    }
-}
-
 // MARK: LoginSignupResponse
 internal struct LoginSignupResponse: Codable {
     let createdAt: Date

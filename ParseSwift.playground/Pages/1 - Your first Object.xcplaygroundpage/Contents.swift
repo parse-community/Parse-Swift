@@ -75,15 +75,22 @@ score.save { result in
     }
 }
 
+//: This will store the second batch score to be used later
+var score2ForFetchedLater: GameScore?
+
 //: Saving multiple GameScores at once
 [score, score2].saveAll { results in
     switch results {
     case .success(let otherResults):
+        var index = 0
         otherResults.forEach { otherResult in
             switch otherResult {
             case .success(let savedScore):
                 print("Saved \"\(savedScore.className)\" with score \(savedScore.score) successfully")
-
+                if index == 1 {
+                    score2ForFetchedLater = savedScore
+                }
+                index += 1
             case .failure(let error):
                 assertionFailure("Error saving: \(error)")
             }
@@ -170,10 +177,56 @@ do {
 //: Now will fetch a ParseObject that has already been saved based on its' objectId
 let scoreToFetch = GameScore(objectId: savedScore?.objectId)
 
+//: Asynchronously (preferred way) fetch this GameScore based on it's objectId alone.
+scoreToFetch.fetch { result in
+    switch result {
+    case .success(let fetchedScore):
+        print("Successfully fetched: \(fetchedScore)")
+    case .failure(let error):
+        assertionFailure("Error fetching: \(error)")
+    }
+}
+
 //: Synchronously fetch this GameScore based on it's objectId alone.
 do {
     let fetchedScore = try scoreToFetch.fetch()
     print("Successfully fetched: \(fetchedScore)")
+} catch {
+    assertionFailure("Error fetching: \(error)")
+}
+
+//: Now will fetch ParseObject's in batch that have already been saved based on its' objectId
+let score2ToFetch = GameScore(objectId: score2ForFetchedLater?.objectId)
+
+//: Asynchronously (preferred way) fetch GameScores based on it's objectId alone.
+[scoreToFetch, score2ToFetch].fetchAll { result in
+    switch result {
+    case .success(let fetchedScores):
+        print(fetchedScores.count)
+        fetchedScores.forEach { result in
+            switch result {
+            case .success(let fetched):
+                print("Successfully fetched: \(fetched)")
+            case .failure(let error):
+                print("Error fetching: \(error)")
+            }
+        }
+    case .failure(let error):
+        assertionFailure("Error fetching: \(error)")
+    }
+}
+
+//: Synchronously fetchAll GameScore's based on it's objectId's alone.
+do {
+    let fetchedScores = try [scoreToFetch, score2ToFetch].fetchAll()
+    fetchedScores.forEach { result in
+        switch result {
+        case .success(let fetched):
+            print("Successfully fetched: \(fetched)")
+        case .failure(let error):
+            print("Error fetching: \(error)")
+        }
+    }
 } catch {
     assertionFailure("Error fetching: \(error)")
 }
