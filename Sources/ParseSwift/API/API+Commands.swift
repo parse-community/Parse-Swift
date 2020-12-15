@@ -235,9 +235,7 @@ extension API.Command where T: ParseObject {
         let commands = commands.compactMap { (command) -> API.Command<T, T>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
-                return API.Command<T, T>(
-                    method: command.method,
-                    path: .any(path), mapper: command.mapper)
+                return nil
             }
             return API.Command<T, T>(method: command.method, path: .any(path),
                                      body: body, mapper: command.mapper)
