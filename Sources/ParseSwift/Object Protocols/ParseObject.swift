@@ -91,7 +91,7 @@ public extension Sequence where Element: ParseObject {
 
      - parameter options: A set of options used to fetch objects. Defaults to an empty set.
 
-     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
+     - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: `ParseError`
      - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
      any particular order.
@@ -162,6 +162,63 @@ public extension Sequence where Element: ParseObject {
         } else {
             completion(.failure(ParseError(code: .unknownError,
                                            message: "all items to fetch must be of the same class")))
+        }
+    }
+
+    /**
+     Deletes a collection of objects *synchronously* all at once and throws an error if necessary.
+
+     - parameter options: A set of options used to delete objects. Defaults to an empty set.
+
+     - returns: Returns a Result enum with `true` if the delete successful or a `ParseError` if it failed.
+        1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
+        array of other Parse.Error objects. Each error object in this array
+        has an "object" property that references the object that could not be
+        deleted (for instance, because that object could not be found).
+        2. A non-aggregate Parse.Error. This indicates a serious error that
+        caused the delete operation to be aborted partway through (for
+        instance, a connection failure in the middle of the delete).
+     - throws: `ParseError`
+    */
+    func deleteAll(options: API.Options = []) throws -> [(Result<Bool, ParseError>)] {
+        let commands = try map { try $0.deleteCommand() }
+        return try API.Command<Self.Element, Self.Element>
+                .batch(commands: commands)
+                .execute(options: options)
+    }
+
+    /**
+     Deletes a collection of objects all at once *asynchronously* and executes the completion block when done.
+
+     - parameter options: A set of options used to delete objects. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<[(Result<Bool, ParseError>)], ParseError>)`.
+     Each element in the array is a Result enum with `true` if the delete successful or a `ParseError` if it failed.
+     1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
+     array of other Parse.Error objects. Each error object in this array
+     has an "object" property that references the object that could not be
+     deleted (for instance, because that object could not be found).
+     2. A non-aggregate Parse.Error. This indicates a serious error that
+     caused the delete operation to be aborted partway through (for
+     instance, a connection failure in the middle of the delete).
+    */
+    func deleteAll(
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<[(Result<Bool, ParseError>)], ParseError>) -> Void
+    ) {
+        do {
+            let commands = try map({ try $0.deleteCommand() })
+            API.Command<Self.Element, Self.Element>
+                    .batch(commands: commands)
+                    .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+        } catch {
+            guard let parseError = error as? ParseError else {
+                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                return
+            }
+            completion(.failure(parseError))
         }
     }
 }
@@ -505,6 +562,6 @@ extension ParseObject {
     }
 
     internal func deleteCommand() throws -> API.Command<NoBody, NoBody> {
-        return try API.Command<NoBody, NoBody>.deleteCommand(self)
+        try API.Command<NoBody, NoBody>.deleteCommand(self)
     }
 }// swiftlint:disable:this file_length

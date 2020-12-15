@@ -1229,4 +1229,113 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         self.fetchAllAsync(scores: [score, score2], scoresOnServer: [scoreOnServer, scoreOnServer2],
                           callbackQueue: .main)
     }
+
+    func testDeleteAll() {
+        let score = GameScore(score: 10)
+
+        let response = [BatchResponseItem<Bool>(success: true, error: nil),
+        BatchResponseItem<Bool>(success: true, error: nil)]
+        let encoded: Data!
+        do {
+           encoded = try score.getEncoder(skipKeys: false).encode(response)
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+           return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let fetched = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
+
+            XCTAssertEqual(fetched.count, 2)
+            guard let firstObject = fetched.first,
+                let secondObject = fetched.last else {
+                    XCTFail("Should unwrap")
+                    return
+            }
+
+            switch firstObject {
+
+            case .success(let first):
+                XCTAssertTrue(first)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
+            switch secondObject {
+
+            case .success(let second):
+                XCTAssertTrue(second)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func deleteAllAsync(callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Delete object1")
+
+        [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll(options: [],
+                                                                            callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success(let fetched):
+                XCTAssertEqual(fetched.count, 2)
+                guard let firstObject = fetched.first,
+                    let secondObject = fetched.last else {
+                        XCTFail("Should unwrap")
+                        expectation1.fulfill()
+                        return
+                }
+
+                switch firstObject {
+
+                case .success(let first):
+                    XCTAssertTrue(first)
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+
+                switch secondObject {
+
+                case .success(let second):
+                    XCTAssertTrue(second)
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
+                }
+
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testDeleteAllAsyncMainQueue() {
+        let score = GameScore(score: 10)
+
+        let response = [BatchResponseItem<Bool>(success: true, error: nil),
+        BatchResponseItem<Bool>(success: true, error: nil)]
+
+        do {
+            let encoded = try score.getEncoder(skipKeys: false).encode(response)
+            MockURLProtocol.mockRequests { _ in
+               return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+
+        self.deleteAllAsync(callbackQueue: .main)
+    }
 }// swiftlint:disable:this file_length

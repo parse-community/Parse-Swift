@@ -202,7 +202,7 @@ let score2ToFetch = GameScore(objectId: score2ForFetchedLater?.objectId)
 [scoreToFetch, score2ToFetch].fetchAll { result in
     switch result {
     case .success(let fetchedScores):
-        print(fetchedScores.count)
+
         fetchedScores.forEach { result in
             switch result {
             case .success(let fetched):
@@ -230,6 +230,40 @@ do {
 } catch {
     assertionFailure("Error fetching: \(error)")
 }
+
+//: Asynchronously (preferred way) deleteAll GameScores based on it's objectId alone.
+[scoreToFetch, score2ToFetch].deleteAll { result in
+    switch result {
+    case .success(let deletedScores):
+
+        deletedScores.forEach { result in
+            switch result {
+            case .success(let deleted):
+                print("Successfully deleted: \(deleted)")
+            case .failure(let error):
+                print("Error deleting: \(error)")
+            }
+        }
+    case .failure(let error):
+        assertionFailure("Error deleting: \(error)")
+    }
+}
+
+//: Synchronously deleteAll GameScore's based on it's objectId's alone.
+//: Commented out because the async above deletes the items already
+/* do {
+    let fetchedScores = try [scoreToFetch, score2ToFetch].deleteAll()
+    fetchedScores.forEach { result in
+        switch result {
+        case .success(let fetched):
+            print("Successfully deleted: \(fetched)")
+        case .failure(let error):
+            print("Error deleted: \(error)")
+        }
+    }
+} catch {
+    assertionFailure("Error deleting: \(error)")
+}*/
 
 PlaygroundPage.current.finishExecution()
 

@@ -13,6 +13,10 @@ typealias ParseObjectBatchResponse<T> = [(Result<T, ParseError>)]
 // swiftlint:disable line_length
 typealias RESTBatchCommandType<T> = API.Command<ParseObjectBatchCommand<T>, ParseObjectBatchResponse<T>> where T: ParseObject
 
+typealias ParseObjectBatchCommandNoBody<T> = BatchCommand<NoBody, NoBody>
+typealias ParseObjectBatchResponseNoBody<Bool> = [(Result<Bool, ParseError>)]
+typealias RESTBatchCommandNoBodyType<T> = API.Command<ParseObjectBatchCommandNoBody<T>, ParseObjectBatchResponseNoBody<T>> where T: Codable
+
 typealias ParseObjectBatchCommandEncodable<T> = BatchCommand<T, PointerType> where T: Encodable
 typealias ParseObjectBatchResponseEncodable<U> = [(Result<PointerType, ParseError>)]
 // swiftlint:disable line_length
@@ -56,8 +60,7 @@ internal struct WriteResponse: Codable {
         case .PUT:
             return asUpdateResponse().apply(to: object)
         case .GET:
-            // swiftlint:disable:next line_length
-            fatalError("Cannot fetch in batches for a mixed batch. The whole batch must consist of fetch for a batch fetch to succeed.")
+            fatalError("Parse-server doesn't support batch fetching like this. Look at \"fetchAll\".")
         default:
             fatalError("There is no configured way to apply for method: \(method)")
         }
