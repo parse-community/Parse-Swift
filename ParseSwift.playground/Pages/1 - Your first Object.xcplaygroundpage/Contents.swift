@@ -174,7 +174,7 @@ do {
     assertionFailure("Error deleting: \(error)")
 }
 
-//: Now will fetch a ParseObject that has already been saved based on its' objectId
+//: Now we will fetch a ParseObject that has already been saved based on its' objectId
 let scoreToFetch = GameScore(objectId: savedScore?.objectId)
 
 //: Asynchronously (preferred way) fetch this GameScore based on it's objectId alone.
@@ -195,7 +195,7 @@ do {
     assertionFailure("Error fetching: \(error)")
 }
 
-//: Now will fetch ParseObject's in batch that have already been saved based on its' objectId
+//: Now we will fetch ParseObject's in batch that have already been saved based on its' objectId
 let score2ToFetch = GameScore(objectId: score2ForFetchedLater?.objectId)
 
 //: Asynchronously (preferred way) fetch GameScores based on it's objectId alone.
