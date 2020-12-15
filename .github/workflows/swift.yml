@@ -74,7 +74,7 @@ jobs:
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
       
-  deploy_docs:
+  docs:
     
     needs: spm-test
     runs-on: macos-latest
