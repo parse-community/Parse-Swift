@@ -71,6 +71,6 @@ After installing ParseSwift, to use it first `import ParseSwift` in your AppDele
 ```swift
 ParseSwift.initialize(applicationId: "xxxxxxxxxx", clientKey: "xxxxxxxxxx", serverURL: URL(string: "https://example.com")!)
 ```
-Please chechout the [Swift Playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground) for more usage information.
+Please checkout the [Swift Playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground) for more usage information.
 
 [docs]: http://docs.parseplatform.org/ios/guide/
