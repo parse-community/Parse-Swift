@@ -18,7 +18,7 @@
 <p align="center">
 <a href="https://swiftpackageindex.com/parse-community/Parse-Swift"><img alt="Swift 5.0" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fparse-community%2FParse-Swift%2Fbadge%3Ftype%3Dswift-versions"></a>
 <a href="https://swiftpackageindex.com/parse-community/Parse-Swift"><img alt="Platforms" src="https://img.shields.io/endpoint?url=https%3A%2F%2Fswiftpackageindex.com%2Fapi%2Fpackages%2Fparse-community%2FParse-Swift%2Fbadge%3Ftype%3Dplatforms"></a>
-    <a href="https://github.com/parse-community/Parse-Swift/actions?query=workflow%3Aci+branch%3Amain"><img alt="Build status" src="https://github.com/parse-community/Parse-Swift/workflows/ci/badge.svg?branch=main"></a>
+    <a href="https://github.com/parse-community/Parse-Swift/actions?query=workflow%3Aci+branch%3Amain"><img alt="CI status" src="https://github.com/parse-community/Parse-Swift/workflows/ci/badge.svg?branch=main"></a>
     <a href="https://codecov.io/gh/parse-community/Parse-Swift/branches"><img alt="Code coverage" src="https://codecov.io/gh/parse-community/Parse-Swift/branch/main/graph/badge.svg"></a>
     <a href="https://github.com/parse-community/Parse-Swift"><img alt="Dependencies" src="https://img.shields.io/badge/dependencies-0-yellowgreen.svg"></a>
     <a href="https://community.parseplatform.org/"><img alt="Join the conversation" src="https://img.shields.io/discourse/https/community.parseplatform.org/topics.svg"></a>
