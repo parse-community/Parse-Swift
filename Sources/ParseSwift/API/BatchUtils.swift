@@ -13,6 +13,10 @@ typealias ParseObjectBatchResponse<T> = [(Result<T, ParseError>)]
 // swiftlint:disable line_length
 typealias RESTBatchCommandType<T> = API.Command<ParseObjectBatchCommand<T>, ParseObjectBatchResponse<T>> where T: ParseObject
 
+typealias ParseObjectBatchCommandNoBody<T> = BatchCommand<NoBody, NoBody>
+typealias ParseObjectBatchResponseNoBody<Bool> = [(Result<Bool, ParseError>)]
+typealias RESTBatchCommandNoBodyType<T> = API.Command<ParseObjectBatchCommandNoBody<T>, ParseObjectBatchResponseNoBody<T>> where T: Codable
+
 typealias ParseObjectBatchCommandEncodable<T> = BatchCommand<T, PointerType> where T: Encodable
 typealias ParseObjectBatchResponseEncodable<U> = [(Result<PointerType, ParseError>)]
 // swiftlint:disable line_length
@@ -49,13 +53,6 @@ internal struct WriteResponse: Codable {
         return UpdateResponse(updatedAt: updatedAt)
     }
 
-    func asFetchResponse() -> FetchResponse {
-        guard let createdAt = createdAt, let updatedAt = updatedAt else {
-            fatalError("Cannot create a SaveResponse without objectId")
-        }
-        return FetchResponse(createdAt: createdAt, updatedAt: updatedAt)
-    }
-
     func apply<T>(to object: T, method: API.Method) -> T where T: ParseObject {
         switch method {
         case .POST:
@@ -63,7 +60,7 @@ internal struct WriteResponse: Codable {
         case .PUT:
             return asUpdateResponse().apply(to: object)
         case .GET:
-            return asFetchResponse().apply(to: object)
+            fatalError("Parse-server doesn't support batch fetching like this. Look at \"fetchAll\".")
         default:
             fatalError("There is no configured way to apply for method: \(method)")
         }

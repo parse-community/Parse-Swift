@@ -938,7 +938,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail("Should have encoded")
                 return
             }
-            print(jsonString)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 

@@ -31,12 +31,15 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var ACL: ParseACL?
 
         //: Your own properties
-        var score: Int
+        var score = 0
         var player = "Jen"
         var level: Level?
         var levels: [Level]?
 
-        //: a custom initializer
+        //custom initializers
+        init (objectId: String?) {
+            self.objectId = objectId
+        }
         init(score: Int) {
             self.score = score
         }
@@ -266,6 +269,51 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testFetchBasedOnObjectId() {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+        let encoded: Data!
+        do {
+            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            var fetched = GameScore(objectId: score.objectId)
+            fetched = try fetched.fetch(options: [])
+            XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
+            guard let fetchedCreatedAt = fetched.createdAt,
+                let fetchedUpdatedAt = fetched.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = scoreOnServer.createdAt,
+                let originalUpdatedAt = scoreOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+            XCTAssertNil(fetched.ACL)
+            XCTAssertEqual(fetched.score, score.score)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     // swiftlint:disable:next function_body_length
     func fetchAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
@@ -290,6 +338,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(fetched.ACL)
+                XCTAssertEqual(fetched.score, scoreOnServer.score)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -317,6 +366,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(fetched.ACL)
+                XCTAssertEqual(fetched.score, scoreOnServer.score)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -473,7 +523,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testUpdate() { // swiftlint:disable:this function_body_length
+    func testUpdate() {
         var score = GameScore(score: 10)
         score.objectId = "yarr"
         score.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
@@ -498,18 +548,15 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         do {
             let saved = try score.save()
-            guard let savedCreatedAt = saved.createdAt,
-                let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let savedUpdatedAt = saved.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            guard let originalCreatedAt = score.createdAt,
-                let originalUpdatedAt = score.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
             XCTFail(error.localizedDescription)
@@ -517,18 +564,15 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         do {
             let saved = try score.save(options: [.useMasterKey])
-            guard let savedCreatedAt = saved.createdAt,
-                let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let savedUpdatedAt = saved.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            guard let originalCreatedAt = score.createdAt,
-                let originalUpdatedAt = score.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
             XCTFail(error.localizedDescription)
@@ -651,7 +695,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.saveAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
-    // swiftlint:disable:next function_body_length
     func updateAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update object1")
@@ -661,20 +704,17 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let saved):
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
+                guard let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
                 }
-                guard let originalCreatedAt = score.createdAt,
-                    let originalUpdatedAt = score.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
+                guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -688,20 +728,17 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let saved):
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation2.fulfill()
-                        return
+                guard let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation2.fulfill()
+                    return
                 }
-                guard let originalCreatedAt = score.createdAt,
-                    let originalUpdatedAt = score.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation2.fulfill()
-                        return
+                guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation2.fulfill()
+                    return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)

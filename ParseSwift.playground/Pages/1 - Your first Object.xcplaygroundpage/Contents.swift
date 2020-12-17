@@ -21,11 +21,15 @@ struct GameScore: ParseObject {
     var ACL: ParseACL?
 
     //: Your own properties
-    var score: Int
+    var score: Int = 0
 
-    //: a custom initializer
+    //custom initializer
     init(score: Int) {
         self.score = score
+    }
+
+    init(objectId: String?) {
+        self.objectId = objectId
     }
 }
 
@@ -71,15 +75,22 @@ score.save { result in
     }
 }
 
+//: This will store the second batch score to be used later
+var score2ForFetchedLater: GameScore?
+
 //: Saving multiple GameScores at once
 [score, score2].saveAll { results in
     switch results {
     case .success(let otherResults):
+        var index = 0
         otherResults.forEach { otherResult in
             switch otherResult {
             case .success(let savedScore):
                 print("Saved \"\(savedScore.className)\" with score \(savedScore.score) successfully")
-
+                if index == 1 {
+                    score2ForFetchedLater = savedScore
+                }
+                index += 1
             case .failure(let error):
                 assertionFailure("Error saving: \(error)")
             }
@@ -155,13 +166,104 @@ do {
     assertionFailure("Error deleting: \(error)")
 }
 
-//: Delete the score from parse-server
+//: Delete the score from parse-server synchronously
 do {
     try scoreToDelete.delete()
     print("Successfully deleted: \(scoreToDelete!)")
 } catch {
     assertionFailure("Error deleting: \(error)")
 }
+
+//: Now we will fetch a ParseObject that has already been saved based on its' objectId
+let scoreToFetch = GameScore(objectId: savedScore?.objectId)
+
+//: Asynchronously (preferred way) fetch this GameScore based on it's objectId alone.
+scoreToFetch.fetch { result in
+    switch result {
+    case .success(let fetchedScore):
+        print("Successfully fetched: \(fetchedScore)")
+    case .failure(let error):
+        assertionFailure("Error fetching: \(error)")
+    }
+}
+
+//: Synchronously fetch this GameScore based on it's objectId alone.
+do {
+    let fetchedScore = try scoreToFetch.fetch()
+    print("Successfully fetched: \(fetchedScore)")
+} catch {
+    assertionFailure("Error fetching: \(error)")
+}
+
+//: Now we will fetch ParseObject's in batch that have already been saved based on its' objectId
+let score2ToFetch = GameScore(objectId: score2ForFetchedLater?.objectId)
+
+//: Asynchronously (preferred way) fetch GameScores based on it's objectId alone.
+[scoreToFetch, score2ToFetch].fetchAll { result in
+    switch result {
+    case .success(let fetchedScores):
+
+        fetchedScores.forEach { result in
+            switch result {
+            case .success(let fetched):
+                print("Successfully fetched: \(fetched)")
+            case .failure(let error):
+                print("Error fetching: \(error)")
+            }
+        }
+    case .failure(let error):
+        assertionFailure("Error fetching: \(error)")
+    }
+}
+
+//: Synchronously fetchAll GameScore's based on it's objectId's alone.
+do {
+    let fetchedScores = try [scoreToFetch, score2ToFetch].fetchAll()
+    fetchedScores.forEach { result in
+        switch result {
+        case .success(let fetched):
+            print("Successfully fetched: \(fetched)")
+        case .failure(let error):
+            print("Error fetching: \(error)")
+        }
+    }
+} catch {
+    assertionFailure("Error fetching: \(error)")
+}
+
+//: Asynchronously (preferred way) deleteAll GameScores based on it's objectId alone.
+[scoreToFetch, score2ToFetch].deleteAll { result in
+    switch result {
+    case .success(let deletedScores):
+
+        deletedScores.forEach { result in
+            switch result {
+            case .success(let deleted):
+                print("Successfully deleted: \(deleted)")
+            case .failure(let error):
+                print("Error deleting: \(error)")
+            }
+        }
+    case .failure(let error):
+        assertionFailure("Error deleting: \(error)")
+    }
+}
+
+//: Synchronously deleteAll GameScore's based on it's objectId's alone.
+//: Commented out because the async above deletes the items already
+/* do {
+    let fetchedScores = try [scoreToFetch, score2ToFetch].deleteAll()
+    fetchedScores.forEach { result in
+        switch result {
+        case .success(let fetched):
+            print("Successfully deleted: \(fetched)")
+        case .failure(let error):
+            print("Error deleted: \(error)")
+        }
+    }
+} catch {
+    assertionFailure("Error deleting: \(error)")
+}*/
 
 PlaygroundPage.current.finishExecution()
 

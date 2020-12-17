@@ -69,6 +69,7 @@ extension ParseUser {
      Gets the currently logged in user from the Keychain and returns an instance of it.
 
      - returns: Returns a `ParseUser` that is the currently logged in user. If there is none, returns `nil`.
+     - warning: Only use `current` objects on the main thread as as modifications to `current` have to be unique.
     */
     public static var current: Self? {
         get { Self.currentUserContainer?.currentUser }

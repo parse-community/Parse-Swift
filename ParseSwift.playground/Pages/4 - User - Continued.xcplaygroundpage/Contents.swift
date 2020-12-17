@@ -61,9 +61,10 @@ User.login(username: "hello", password: "world") { results in
             return
         }
         assert(currentUser.hasSameObjectId(as: user))
+        print("Succesfully logged in as user: \(user)")
 
     case .failure(let error):
-        assertionFailure("Error logging in \(error)")
+        assertionFailure("Error logging in: \(error)")
     }
 }
 
@@ -84,10 +85,10 @@ newUser.signup { result in
     switch result {
 
     case .success(let user):
-        print("Parse signup successful \(user)")
+        print("Parse signup successful: \(user)")
 
     case .failure(let error):
-        assertionFailure("Error logging in \(error)")
+        assertionFailure("Error logging in: \(error)")
     }
 }
 

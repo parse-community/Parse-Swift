@@ -205,7 +205,7 @@ internal extension API.Command {
             method: .GET,
             path: object.endpoint
         ) { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(FetchResponse.self, from: data).apply(to: object)
+            try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }
     }
 
@@ -240,13 +240,16 @@ extension API.Command where T: ParseObject {
             return API.Command<T, T>(method: command.method, path: .any(path),
                                      body: body, mapper: command.mapper)
         }
+
         let bodies = commands.compactMap { (command) -> (body: T, command: API.Method)?  in
             guard let body = command.body else {
                 return nil
             }
             return (body: body, command: command.method)
         }
+
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
+
             let decodingType = [BatchResponseItem<WriteResponse>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
@@ -269,8 +272,46 @@ extension API.Command where T: ParseObject {
                 return [(.failure(parseError))]
             }
         }
+
         let batchCommand = BatchCommand(requests: commands)
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
+    }
+
+    static func batch(commands: [API.Command<NoBody, NoBody>]) -> RESTBatchCommandNoBodyType<Bool> {
+        let commands = commands.compactMap { (command) -> API.Command<NoBody, NoBody>? in
+            let path = ParseConfiguration.mountPath + command.path.urlComponent
+            return API.Command<NoBody, NoBody>(
+                method: command.method,
+                path: .any(path), mapper: command.mapper)
+        }
+
+        let mapper = { (data: Data) -> [Result<Bool, ParseError>] in
+
+            let decodingType = [BatchResponseItem<NoBody>].self
+            do {
+                let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
+                return responses.enumerated().map({ (object) -> (Result<Bool, ParseError>) in
+                    let response = responses[object.offset]
+                    if response.success != nil {
+                        return .success(true)
+                    } else {
+                        guard let parseError = response.error else {
+                            return .failure(ParseError(code: .unknownError, message: "unknown error"))
+                        }
+
+                        return .failure(parseError)
+                    }
+                })
+            } catch {
+                guard let parseError = error as? ParseError else {
+                    return [(.failure(ParseError(code: .unknownError, message: "decoding error: \(error)")))]
+                }
+                return [(.failure(parseError))]
+            }
+        }
+
+        let batchCommand = BatchCommand(requests: commands)
+        return RESTBatchCommandNoBodyType<Bool>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 }
 
