@@ -1,0 +1,46 @@
+name: release
+
+on:
+  push:
+    tags: '*'
+    
+env:
+  CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
+
+jobs:
+  cocoapods:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: CocoaPods
+        run: set -o pipefail && env NSUnbufferedIO=YES pod lib lint --allow-warnings --verbose
+      - name: Deploy CocoaPods
+        run: set -o pipefail && env NSUnbufferedIO=YES pod trunk push ParseSwift.podspec --allow-warnings --verbose
+        env:
+          COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+
+  docs:
+    needs: spm-test
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache Gems
+        id: cache-gems
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-
+      - name: Install Bundle
+        run: |
+          bundle config path vendor/bundle
+          bundle install
+      - name: Create Jazzy Docs
+        run: ./Scripts/jazzy.sh
+      - name: Deploy Jazzy Docs
+        if: github.ref == 'refs/heads/main'
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
+          publish_dir: ./docs
