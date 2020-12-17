@@ -1,11 +1,9 @@
 name: ci
-
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: '*'
-
 env:
   CI_XCODE_VER_11: '/Applications/Xcode_11.7.app/Contents/Developer'
 
