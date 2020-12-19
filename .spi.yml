@@ -3,5 +3,7 @@ builder:
   configs:
   - platform: ios
     scheme: "ParseSwift (iOS)"
+  - platform: tvos
+    scheme: "ParseSwift (tvOS)"
   - platform: watchos
     scheme: "ParseSwift (watchOS)"
