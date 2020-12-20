@@ -107,4 +107,4 @@ jobs:
    steps:
      - uses: actions/checkout@v2
      - name: Carthage 
-       run: carthage.sh build --no-skip-current
+       run: ./carthage.sh build --no-skip-current
