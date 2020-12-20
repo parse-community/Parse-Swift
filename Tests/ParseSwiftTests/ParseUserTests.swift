@@ -974,6 +974,70 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(keychainUser.currentUser?.customKey)
     }
 
+    func testDelete() {
+        testUserLogin()
+        let expectation1 = XCTestExpectation(description: "Delete installation1")
+        DispatchQueue.main.async {
+            guard let user = User.current else {
+                    XCTFail("Should unwrap dates")
+                expectation1.fulfill()
+                    return
+            }
+
+            do {
+                try user.delete(options: [])
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            do {
+                try user.delete(options: [.useMasterKey])
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testDeleteAsyncMainQueue() {
+        testUserLogin()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Delete installation1")
+        DispatchQueue.main.async {
+            guard let user = User.current else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                return
+            }
+
+            var userOnServer = user
+            userOnServer.updatedAt = user.updatedAt?.addingTimeInterval(+300)
+
+            let encoded: Data!
+            do {
+                encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+                //Get dates in correct format from ParseDecoding strategy
+                userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
+            } catch {
+                XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
+                return
+            }
+            MockURLProtocol.mockRequests { _ in
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+
+            user.delete { error in
+                XCTAssertNil(error)
+                expectation1.fulfill()
+            }
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
     // swiftlint:disable:next function_body_length
     func testFetchAll() {
         testUserLogin()
@@ -1333,7 +1397,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         DispatchQueue.main.async {
             guard let user = User.current else {
                     XCTFail("Should unwrap dates")
-                expectation1.fulfill()
+                    expectation1.fulfill()
                     return
             }
 
