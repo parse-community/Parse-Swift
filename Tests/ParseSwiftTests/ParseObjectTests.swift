@@ -853,7 +853,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func deleteAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
-        let expectation1 = XCTestExpectation(description: "Fetch object1")
+        let expectation1 = XCTestExpectation(description: "Delete object1")
         score.delete(options: [], callbackQueue: callbackQueue) { error in
 
             guard let error = error else {
@@ -864,7 +864,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             expectation1.fulfill()
         }
 
-        let expectation2 = XCTestExpectation(description: "Fetch object2")
+        let expectation2 = XCTestExpectation(description: "Delete object2")
         score.delete(options: [.useMasterKey], callbackQueue: callbackQueue) { error in
 
             guard let error = error else {

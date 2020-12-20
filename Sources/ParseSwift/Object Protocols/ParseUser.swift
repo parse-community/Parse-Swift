@@ -105,7 +105,7 @@ extension ParseUser {
     */
     public static func login(username: String,
                              password: String) throws -> Self {
-        return try loginCommand(username: username, password: password).execute(options: [])
+        try loginCommand(username: username, password: password).execute(options: [])
     }
 
     /**
@@ -202,7 +202,7 @@ extension ParseUser {
     */
     public static func signup(username: String,
                               password: String) throws -> Self {
-        return try signupCommand(username: username, password: password).execute(options: [])
+        try signupCommand(username: username, password: password).execute(options: [])
     }
 
     /**
@@ -215,7 +215,7 @@ extension ParseUser {
      - returns: Returns whether the sign up was successful.
     */
     public func signup() throws -> Self {
-        return try signupCommand().execute(options: [])
+        try signupCommand().execute(options: [])
     }
 
     /**
@@ -326,10 +326,11 @@ extension ParseUser {
     }
 
     /**
-     Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
+     - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     public func fetch(options: API.Options = []) throws -> Self {
         let result: Self = try fetchCommand().execute(options: options)
@@ -338,13 +339,14 @@ extension ParseUser {
     }
 
     /**
-     Fetches the `ParseObject` *asynchronously* and executes the given callback block.
+     Fetches the `ParseUser` *asynchronously* and executes the given callback block.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     public func fetch(
         options: API.Options = [],
@@ -370,12 +372,12 @@ extension ParseUser {
 extension ParseUser {
 
     /**
-     Saves the `ParseObject` *synchronously* and throws an error if there's an issue.
+     Saves the `ParseUser` *synchronously* and throws an error if there's an issue.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - throws: A Error of type `ParseError`.
-
-     - returns: Returns saved `ParseObject`.
+     - returns: Returns saved `ParseUser`.
+     - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     public func save(options: API.Options = []) throws -> Self {
         var childObjects: [NSDictionary: PointerType]?
@@ -387,10 +389,10 @@ extension ParseUser {
 
             case .success(let savedChildObjects):
                 childObjects = savedChildObjects
-                group.leave()
             case .failure(let parseError):
                 error = parseError
             }
+            group.leave()
         }
         group.wait()
 
@@ -404,12 +406,13 @@ extension ParseUser {
     }
 
     /**
-     Saves the `ParseObject` *asynchronously* and executes the given callback block.
+     Saves the `ParseUser` *asynchronously* and executes the given callback block.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     public func save(
         options: API.Options = [],
@@ -437,10 +440,11 @@ extension ParseUser {
 // MARK: Deletable
 extension ParseUser {
     /**
-     Deletes the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
+     Deletes the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
+     - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(options: API.Options = []) throws {
         _ = try deleteCommand().execute(options: options)
@@ -448,13 +452,14 @@ extension ParseUser {
     }
 
     /**
-     Deletes the `ParseObject` *asynchronously* and executes the given callback block.
+     Deletes the `ParseUser` *asynchronously* and executes the given callback block.
 
      - parameter options: A set of options used to save objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(
         options: API.Options = [],
@@ -490,6 +495,7 @@ public extension Sequence where Element: ParseUser {
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
+     - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         let commands = map { $0.saveCommand() }
@@ -507,6 +513,7 @@ public extension Sequence where Element: ParseUser {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
+     - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     func saveAll(
         options: API.Options = [],
@@ -535,6 +542,7 @@ public extension Sequence where Element: ParseUser {
 
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: `ParseError`
+     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
      any particular order.
     */
@@ -570,6 +578,7 @@ public extension Sequence where Element: ParseUser {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
+     - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
      any particular order.
     */
@@ -623,6 +632,7 @@ public extension Sequence where Element: ParseUser {
         caused the delete operation to be aborted partway through (for
         instance, a connection failure in the middle of the delete).
      - throws: `ParseError`
+     - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func deleteAll(options: API.Options = []) throws -> [(Result<Bool, ParseError>)] {
         let commands = try map { try $0.deleteCommand() }
@@ -649,6 +659,7 @@ public extension Sequence where Element: ParseUser {
      2. A non-aggregate Parse.Error. This indicates a serious error that
      caused the delete operation to be aborted partway through (for
      instance, a connection failure in the middle of the delete).
+     - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func deleteAll(
         options: API.Options = [],

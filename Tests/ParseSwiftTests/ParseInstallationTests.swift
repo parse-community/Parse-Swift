@@ -617,5 +617,514 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
         wait(for: [expectation1], timeout: 10.0)
     }
+
+    func testDelete() {
+        testUpdate()
+        let expectation1 = XCTestExpectation(description: "Delete installation1")
+        DispatchQueue.main.async {
+            guard let installation = Installation.current else {
+                    XCTFail("Should unwrap dates")
+                expectation1.fulfill()
+                    return
+            }
+
+            do {
+                try installation.delete(options: [])
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            do {
+                try installation.delete(options: [.useMasterKey])
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testDeleteAsyncMainQueue() {
+        testUpdate()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Delete installation1")
+        DispatchQueue.main.async {
+            guard let installation = Installation.current else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                return
+            }
+
+            var installationOnServer = installation
+            installationOnServer.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
+
+            let encoded: Data!
+            do {
+                encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+                //Get dates in correct format from ParseDecoding strategy
+                installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
+            } catch {
+                XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
+                return
+            }
+            MockURLProtocol.mockRequests { _ in
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+
+            installation.delete { error in
+                XCTAssertNil(error)
+                expectation1.fulfill()
+            }
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    // swiftlint:disable:next function_body_length
+    func testFetchAll() {
+        testUpdate()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Fetch installation1")
+
+        DispatchQueue.main.async {
+            guard var installation = Installation.current else {
+                    XCTFail("Should unwrap dates")
+                expectation1.fulfill()
+                    return
+            }
+
+            installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
+            installation.customKey = "newValue"
+            let installationOnServer = FindResult<Installation>(results: [installation], count: 1)
+
+            let encoded: Data!
+            do {
+                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                //Get dates in correct format from ParseDecoding strategy
+                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
+            } catch {
+                XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
+                return
+            }
+            MockURLProtocol.mockRequests { _ in
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+
+            do {
+                let fetched = try [installation].fetchAll()
+                fetched.forEach {
+                    switch $0 {
+                    case .success(let fetched):
+                        XCTAssert(fetched.hasSameObjectId(as: installation))
+                        guard let fetchedCreatedAt = fetched.createdAt,
+                            let fetchedUpdatedAt = fetched.updatedAt else {
+                                XCTFail("Should unwrap dates")
+                                expectation1.fulfill()
+                                return
+                        }
+                        guard let originalCreatedAt = installation.createdAt,
+                            let originalUpdatedAt = installation.updatedAt,
+                            let serverUpdatedAt = installation.updatedAt else {
+                                XCTFail("Should unwrap dates")
+                                expectation1.fulfill()
+                                return
+                        }
+                        XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+                        XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+                        XCTAssertEqual(fetchedUpdatedAt, serverUpdatedAt)
+                        XCTAssertEqual(Installation.current?.customKey, installation.customKey)
+
+                        //Should be updated in memory
+                        guard let updatedCurrentDate = Installation.current?.updatedAt else {
+                            XCTFail("Should unwrap current date")
+                            expectation1.fulfill()
+                            return
+                        }
+                        XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+
+                        //Shold be updated in Keychain
+                        guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
+                            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
+                            let keychainUpdatedCurrentDate = keychainInstallation.currentInstallation?.updatedAt else {
+                                XCTFail("Should get object from Keychain")
+                                expectation1.fulfill()
+                            return
+                        }
+                        XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    case .failure(let error):
+                        XCTFail("Should have fetched: \(error.localizedDescription)")
+                    }
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    // swiftlint:disable:next function_body_length
+    func testFetchAllAsyncMainQueue() {
+        testUpdate()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Fetch installation1")
+        DispatchQueue.main.async {
+            guard var installation = Installation.current else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                return
+            }
+
+            installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
+            installation.customKey = "newValue"
+            let installationOnServer = FindResult<Installation>(results: [installation], count: 1)
+
+            let encoded: Data!
+            do {
+                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                //Get dates in correct format from ParseDecoding strategy
+                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
+            } catch {
+                XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
+                return
+            }
+            MockURLProtocol.mockRequests { _ in
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+
+            [installation].fetchAll { results in
+                switch results {
+
+                case .success(let fetched):
+                    fetched.forEach {
+                        switch $0 {
+                        case .success(let fetched):
+                            XCTAssert(fetched.hasSameObjectId(as: installation))
+                            guard let fetchedCreatedAt = fetched.createdAt,
+                                let fetchedUpdatedAt = fetched.updatedAt else {
+                                    XCTFail("Should unwrap dates")
+                                    expectation1.fulfill()
+                                    return
+                            }
+                            guard let originalCreatedAt = installation.createdAt,
+                                let originalUpdatedAt = installation.updatedAt,
+                                let serverUpdatedAt = installation.updatedAt else {
+                                    XCTFail("Should unwrap dates")
+                                    expectation1.fulfill()
+                                    return
+                            }
+                            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+                            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+                            XCTAssertEqual(fetchedUpdatedAt, serverUpdatedAt)
+                            XCTAssertEqual(Installation.current?.customKey, installation.customKey)
+
+                            //Should be updated in memory
+                            guard let updatedCurrentDate = Installation.current?.updatedAt else {
+                                XCTFail("Should unwrap current date")
+                                expectation1.fulfill()
+                                return
+                            }
+                            XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+
+                            //Shold be updated in Keychain
+                            guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
+                                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
+                                let keychainUpdatedCurrentDate = keychainInstallation
+                                    .currentInstallation?.updatedAt else {
+                                    XCTFail("Should get object from Keychain")
+                                    expectation1.fulfill()
+                                return
+                            }
+                            XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                        case .failure(let error):
+                            XCTFail("Should have fetched: \(error.localizedDescription)")
+                        }
+                    }
+                case .failure(let error):
+                    XCTFail("Should have fetched: \(error.localizedDescription)")
+                }
+                expectation1.fulfill()
+            }
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    // swiftlint:disable:next function_body_length
+    func testSaveAll() {
+        testUpdate()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Fetch installation1")
+
+        DispatchQueue.main.async {
+            guard var installation = Installation.current else {
+                    XCTFail("Should unwrap dates")
+                expectation1.fulfill()
+                    return
+            }
+
+            installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
+            installation.customKey = "newValue"
+            let installationOnServer = [BatchResponseItem<Installation>(success: installation, error: nil)]
+
+            let encoded: Data!
+            do {
+                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                //Get dates in correct format from ParseDecoding strategy
+                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
+            } catch {
+                XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
+                return
+            }
+            MockURLProtocol.mockRequests { _ in
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+
+            do {
+                let saved = try [installation].saveAll()
+                saved.forEach {
+                    switch $0 {
+                    case .success(let saved):
+                        XCTAssert(saved.hasSameObjectId(as: installation))
+                        guard let savedCreatedAt = saved.createdAt,
+                            let savedUpdatedAt = saved.updatedAt else {
+                                XCTFail("Should unwrap dates")
+                                expectation1.fulfill()
+                                return
+                        }
+                        guard let originalCreatedAt = installation.createdAt,
+                            let originalUpdatedAt = installation.updatedAt,
+                            let serverUpdatedAt = installation.updatedAt else {
+                                XCTFail("Should unwrap dates")
+                                expectation1.fulfill()
+                                return
+                        }
+                        XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                        XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                        XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
+                        XCTAssertEqual(Installation.current?.customKey, installation.customKey)
+
+                        //Should be updated in memory
+                        guard let updatedCurrentDate = Installation.current?.updatedAt else {
+                            XCTFail("Should unwrap current date")
+                            expectation1.fulfill()
+                            return
+                        }
+                        XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+
+                        //Shold be updated in Keychain
+                        guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
+                            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
+                            let keychainUpdatedCurrentDate = keychainInstallation.currentInstallation?.updatedAt else {
+                                XCTFail("Should get object from Keychain")
+                                expectation1.fulfill()
+                            return
+                        }
+                        XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    case .failure(let error):
+                        XCTFail("Should have fetched: \(error.localizedDescription)")
+                    }
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    // swiftlint:disable:next function_body_length
+    func testSaveAllAsyncMainQueue() {
+        testUpdate()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Fetch installation1")
+        DispatchQueue.main.async {
+            guard var installation = Installation.current else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                return
+            }
+
+            installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
+            installation.customKey = "newValue"
+            let installationOnServer = [BatchResponseItem<Installation>(success: installation, error: nil)]
+
+            let encoded: Data!
+            do {
+                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                //Get dates in correct format from ParseDecoding strategy
+                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
+            } catch {
+                XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
+                return
+            }
+            MockURLProtocol.mockRequests { _ in
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+
+            [installation].saveAll { results in
+                switch results {
+
+                case .success(let saved):
+                    saved.forEach {
+                        switch $0 {
+                        case .success(let saved):
+                            XCTAssert(saved.hasSameObjectId(as: installation))
+                            guard let savedCreatedAt = saved.createdAt,
+                                let savedUpdatedAt = saved.updatedAt else {
+                                    XCTFail("Should unwrap dates")
+                                    expectation1.fulfill()
+                                    return
+                            }
+                            guard let originalCreatedAt = installation.createdAt,
+                                let originalUpdatedAt = installation.updatedAt,
+                                let serverUpdatedAt = installation.updatedAt else {
+                                    XCTFail("Should unwrap dates")
+                                    expectation1.fulfill()
+                                    return
+                            }
+                            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                            XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
+                            XCTAssertEqual(Installation.current?.customKey, installation.customKey)
+
+                            //Should be updated in memory
+                            guard let updatedCurrentDate = Installation.current?.updatedAt else {
+                                XCTFail("Should unwrap current date")
+                                expectation1.fulfill()
+                                return
+                            }
+                            XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+
+                            //Shold be updated in Keychain
+                            guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
+                                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
+                                let keychainUpdatedCurrentDate = keychainInstallation
+                                    .currentInstallation?.updatedAt else {
+                                    XCTFail("Should get object from Keychain")
+                                    expectation1.fulfill()
+                                return
+                            }
+                            XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                        case .failure(let error):
+                            XCTFail("Should have fetched: \(error.localizedDescription)")
+                        }
+                    }
+                case .failure(let error):
+                    XCTFail("Should have fetched: \(error.localizedDescription)")
+                }
+                expectation1.fulfill()
+            }
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testDeleteAll() {
+        testUpdate()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Delete installation1")
+
+        DispatchQueue.main.async {
+            guard let installation = Installation.current else {
+                    XCTFail("Should unwrap dates")
+                expectation1.fulfill()
+                    return
+            }
+
+            let installationOnServer = [BatchResponseItem<Bool>(success: true, error: nil)]
+
+            let encoded: Data!
+            do {
+                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+            } catch {
+                XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
+                return
+            }
+            MockURLProtocol.mockRequests { _ in
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+
+            do {
+                let deleted = try [installation].deleteAll()
+                deleted.forEach {
+                    switch $0 {
+                    case .success:
+                        return
+                    case .failure(let error):
+                        XCTFail("Should have deleted: \(error.localizedDescription)")
+                    }
+                }
+            } catch {
+                XCTFail(error.localizedDescription)
+            }
+
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testDeleteAllAsyncMainQueue() {
+        testUpdate()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Delete installation1")
+        DispatchQueue.main.async {
+            guard let installation = Installation.current else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                return
+            }
+
+            let installationOnServer = [BatchResponseItem<Bool>(success: true, error: nil)]
+
+            let encoded: Data!
+            do {
+                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+            } catch {
+                XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
+                return
+            }
+            MockURLProtocol.mockRequests { _ in
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+
+            [installation].deleteAll { results in
+                switch results {
+
+                case .success(let deleted):
+                    deleted.forEach {
+                        switch $0 {
+                        case .success:
+                            return
+                        case .failure(let error):
+                            XCTFail("Should have deleted: \(error.localizedDescription)")
+                        }
+                    }
+                case .failure(let error):
+                    XCTFail("Should have deleted: \(error.localizedDescription)")
+                }
+                expectation1.fulfill()
+            }
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
 }
 // swiftlint:disable:this file_length

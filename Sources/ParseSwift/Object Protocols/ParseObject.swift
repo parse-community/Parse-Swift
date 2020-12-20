@@ -266,7 +266,7 @@ extension ParseObject {
      - throws: An Error of `ParseError` type.
     */
     public func fetch(options: API.Options = []) throws -> Self {
-        return try fetchCommand().execute(options: options)
+        try fetchCommand().execute(options: options)
     }
 
     /**
@@ -293,7 +293,7 @@ extension ParseObject {
     }
 
     internal func fetchCommand() throws -> API.Command<Self, Self> {
-        return try API.Command<Self, Self>.fetchCommand(self)
+        try API.Command<Self, Self>.fetchCommand(self)
     }
 }
 
@@ -341,10 +341,10 @@ extension ParseObject {
 
             case .success(let savedChildObjects):
                 childObjects = savedChildObjects
-                group.leave()
             case .failure(let parseError):
                 error = parseError
             }
+            group.leave()
         }
         group.wait()
 
@@ -442,11 +442,11 @@ extension ParseObject {
 // MARK: Savable Encodable Version
 internal extension Encodable {
     func save(options: API.Options = []) throws -> PointerType {
-        return try saveCommand().execute(options: options)
+        try saveCommand().execute(options: options)
     }
 
     func saveCommand() throws -> API.Command<Self, PointerType> {
-        return try API.Command<Self, PointerType>.saveCommand(self)
+        try API.Command<Self, PointerType>.saveCommand(self)
     }
 
     func saveAll<T: Encodable>(options: API.Options = [],
