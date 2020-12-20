@@ -107,6 +107,4 @@ jobs:
    steps:
      - uses: actions/checkout@v2
      - name: Carthage 
-       run: carthage build --no-skip-current
-       env: 
-        DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
+       run: carthage.sh build --no-skip-current
