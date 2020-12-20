@@ -33,7 +33,7 @@ User.current?.save { results in
 
     switch results {
     case .success(let updatedUser):
-        print("Succesufully save myCustomKey to ParseServer: \(updatedUser)")
+        print("Successfully save myCustomKey to ParseServer: \(updatedUser)")
     case .failure(let error):
         assertionFailure("Failed to update user: \(error)")
     }
@@ -42,7 +42,7 @@ User.current?.save { results in
 //: Logging out - synchronously
 do {
     try User.logout()
-    print("Succesfully logged out")
+    print("Successfully logged out")
 } catch let error {
     assertionFailure("Error logging out: \(error)")
 }
@@ -61,7 +61,7 @@ User.login(username: "hello", password: "world") { results in
             return
         }
         assert(currentUser.hasSameObjectId(as: user))
-        print("Succesfully logged in as user: \(user)")
+        print("Successfully logged in as user: \(user)")
 
     case .failure(let error):
         assertionFailure("Error logging in: \(error)")
@@ -71,7 +71,7 @@ User.login(username: "hello", password: "world") { results in
 //: Logging out - synchronously
 do {
     try User.logout()
-    print("Succesfully logged out")
+    print("Successfully logged out")
 } catch let error {
     assertionFailure("Error logging out: \(error)")
 }

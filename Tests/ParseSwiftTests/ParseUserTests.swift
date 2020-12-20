@@ -159,7 +159,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFetchAndUpdateCurrentUser() { // swiftlint:disable:this function_body_length
-        XCTAssertNil(User.current?.objectId)
         testUserLogin()
         MockURLProtocol.removeAll()
         XCTAssertNotNil(User.current?.objectId)
@@ -172,6 +171,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         var userOnServer = user
         userOnServer.createdAt = User.current?.createdAt
         userOnServer.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+        userOnServer.customKey = "newValue"
 
         let encoded: Data!
         do {
@@ -202,9 +202,11 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
             XCTAssertGreaterThan(fetchedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(fetched.ACL)
+            XCTAssertEqual(fetched.customKey, userOnServer.customKey)
 
             //Should be updated in memory
             XCTAssertEqual(User.current?.updatedAt, fetchedUpdatedAt)
+            XCTAssertEqual(User.current?.customKey, userOnServer.customKey)
 
             //Shold be updated in Keychain
             guard let keychainUser: CurrentUserContainer<BaseParseUser>
@@ -233,6 +235,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         var userOnServer = user
         userOnServer.createdAt = User.current?.createdAt
         userOnServer.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+        userOnServer.customKey = "newValue"
 
         let encoded: Data!
         do {
@@ -266,6 +269,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(fetchedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(fetched.ACL)
+                XCTAssertEqual(User.current?.customKey, userOnServer.customKey)
 
                 //Should be updated in memory
                 XCTAssertEqual(User.current?.updatedAt, fetchedUpdatedAt)

@@ -475,6 +475,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             var installationOnServer = installation
             installationOnServer.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
+            installationOnServer.customKey = "newValue"
 
             let encoded: Data!
             do {
@@ -499,7 +500,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         expectation1.fulfill()
                         return
                 }
-                guard let originalCreatedAt = installation.createdAt,
+                guard let originalCreatedAt = installationOnServer.createdAt,
                     let originalUpdatedAt = installation.updatedAt,
                     let serverUpdatedAt = installationOnServer.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -509,6 +510,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(fetchedUpdatedAt, originalUpdatedAt)
                 XCTAssertEqual(fetchedUpdatedAt, serverUpdatedAt)
+                XCTAssertEqual(Installation.current?.customKey, installationOnServer.customKey)
 
                 //Should be updated in memory
                 guard let updatedCurrentDate = Installation.current?.updatedAt else {
@@ -551,6 +553,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             var installationOnServer = installation
             installationOnServer.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
+            installationOnServer.customKey = "newValue"
 
             let encoded: Data!
             do {
@@ -577,7 +580,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                             expectation1.fulfill()
                             return
                     }
-                    guard let originalCreatedAt = installation.createdAt,
+                    guard let originalCreatedAt = installationOnServer.createdAt,
                         let originalUpdatedAt = installation.updatedAt,
                         let serverUpdatedAt = installationOnServer.updatedAt else {
                             XCTFail("Should unwrap dates")
@@ -587,6 +590,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
                     XCTAssertGreaterThan(fetchedUpdatedAt, originalUpdatedAt)
                     XCTAssertEqual(fetchedUpdatedAt, serverUpdatedAt)
+                    XCTAssertEqual(Installation.current?.customKey, installationOnServer.customKey)
 
                     //Should be updated in memory
                     guard let updatedCurrentDate = Installation.current?.updatedAt else {
