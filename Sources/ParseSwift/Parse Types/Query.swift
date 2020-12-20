@@ -738,7 +738,7 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ResultType], ParseError>)`
     */
-    public func find(options: API.Options = [], callbackQueue: DispatchQueue,
+    public func find(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
         findCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
@@ -753,7 +753,8 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[AnyResultType], ParseError>)`
     */
-    public func find(explain: Bool, hint: String? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
+    public func find(explain: Bool, hint: String? = nil, options: API.Options = [],
+                     callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
         findCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                callbackQueue: callbackQueue, completion: completion)
@@ -796,7 +797,7 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
     */
-    public func first(options: API.Options = [], callbackQueue: DispatchQueue,
+    public func first(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<ResultType, ParseError>) -> Void) {
         firstCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
 
@@ -824,7 +825,8 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
     */
-    public func first(explain: Bool, hint: String? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
+    public func first(explain: Bool, hint: String? = nil, options: API.Options = [],
+                      callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
         firstCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                 callbackQueue: callbackQueue, completion: completion)
@@ -864,7 +866,7 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Int, ParseError>)`
     */
-    public func count(options: API.Options = [], callbackQueue: DispatchQueue,
+    public func count(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Int, ParseError>) -> Void) {
         countCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
@@ -878,7 +880,8 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Int, ParseError>)`
     */
-    public func count(explain: Bool, hint: String? = nil, options: API.Options = [], callbackQueue: DispatchQueue,
+    public func count(explain: Bool, hint: String? = nil, options: API.Options = [],
+                      callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
         countCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                 callbackQueue: callbackQueue, completion: completion)
