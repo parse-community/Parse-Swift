@@ -41,8 +41,9 @@ extension URLSession {
         }
 
         dataTask(with: request) { (responseData, urlResponse, responseError) in
-            let result = makeResult(responseData: responseData, urlResponse: urlResponse, responseError: responseError)
-            completion(result)
+            completion(makeResult(responseData: responseData,
+                                  urlResponse: urlResponse,
+                                  responseError: responseError))
         }.resume()
     }
 }

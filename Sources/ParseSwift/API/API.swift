@@ -21,6 +21,7 @@ public struct API {
         case login
         case signup
         case logout
+        case file(fileName: String)
         case any(String)
 
         var urlComponent: String {
@@ -37,6 +38,8 @@ public struct API {
                 return "/users"
             case .logout:
                 return "/users/logout"
+            case .file(let fileName):
+                return "/file/\(fileName)"
             case .any(let path):
                 return path
             }
@@ -55,7 +58,6 @@ public struct API {
         case sessionToken(String)
         case installationId(String)
 
-        // use HashValue so we can use in a sets
         public func hash(into hasher: inout Hasher) {
             switch self {
             case .useMasterKey:
