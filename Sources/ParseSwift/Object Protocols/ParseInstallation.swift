@@ -656,8 +656,9 @@ public extension Sequence where Element: ParseInstallation {
         do {
             let commands = try map({ try $0.deleteCommand() })
             API.Command<Self.Element, Self.Element>
-                    .batch(commands: commands)
-                .executeAsync(options: options, callbackQueue: callbackQueue) { results in
+                .batch(commands: commands)
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { results in
                     switch results {
 
                     case .success(let deleted):
@@ -669,7 +670,8 @@ public extension Sequence where Element: ParseInstallation {
                 }
         } catch {
             guard let parseError = error as? ParseError else {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                completion(.failure(ParseError(code: .unknownError,
+                                               message: error.localizedDescription)))
                 return
             }
             completion(.failure(parseError))

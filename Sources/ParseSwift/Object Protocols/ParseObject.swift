@@ -211,11 +211,14 @@ public extension Sequence where Element: ParseObject {
         do {
             let commands = try map({ try $0.deleteCommand() })
             API.Command<Self.Element, Self.Element>
-                    .batch(commands: commands)
-                .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+                .batch(commands: commands)
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue,
+                              completion: completion)
         } catch {
             guard let parseError = error as? ParseError else {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                completion(.failure(ParseError(code: .unknownError,
+                                               message: error.localizedDescription)))
                 return
             }
             completion(.failure(parseError))
