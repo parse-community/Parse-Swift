@@ -182,11 +182,9 @@ public extension Sequence where Element: ParseObject {
     */
     func deleteAll(options: API.Options = []) throws -> [(Result<Bool, ParseError>)] {
         let commands = try map { try $0.deleteCommand() }
-        let returnResults = try API.Command<Self.Element, Self.Element>
+        return try API.Command<Self.Element, Self.Element>
             .batch(commands: commands)
             .execute(options: options)
-
-        return returnResults
     }
 
     /**
