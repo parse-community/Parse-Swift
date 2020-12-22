@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           ParseSwift 1.0 Docs
         </a>
-         (75% documented)
+         (77% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -494,13 +494,483 @@ require UIApplication for <code>badge</code>
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Fetchable"></a>
+                <a name="//apple_ref/swift/Section/Fetchable" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Fetchable"></a>
+                  <h3 class="section-name"><p>Fetchable</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A12InstallationPAAE5fetch7optionsxShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="//apple_ref/swift/Method/fetch(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE5fetch7optionsxShyAA3APIV6OptionOG_tKF">fetch(options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Fetches the <code>ParseInstallation</code> <em>synchronously</em> with the current data from the server
+and sets an error if one occurs.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An Error of <code>ParseError</code> type.
+
+</div><div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object fetched has the same objectId as current, it will automatically update the current.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A12InstallationPAAE5fetch7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/fetch(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE5fetch7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">fetch(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Fetches the <code>ParseInstallation</code> <em>asynchronously</em> and executes the given callback block.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object fetched has the same objectId as current, it will automatically update the current.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default
+value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute when completed.
+It should have the following argument signature: <code>(Result&lt;Self, ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Saveable"></a>
+                <a name="//apple_ref/swift/Section/Saveable" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Saveable"></a>
+                  <h3 class="section-name"><p>Saveable</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A12InstallationPAAE4save7optionsxShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="//apple_ref/swift/Method/save(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE4save7optionsxShyAA3APIV6OptionOG_tKF">save(options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Saves the <code>ParseInstallation</code> <em>synchronously</em> and throws an error if there&rsquo;s an issue.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    A Error of type <code>ParseError</code>.
+
+</div><div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object saved has the same objectId as current, it will automatically update the current.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns saved <code>ParseInstallation</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A12InstallationPAAE4save7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/save(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE4save7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">save(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Saves the <code>ParseInstallation</code> <em>asynchronously</em> and executes the given callback block.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object saved has the same objectId as current, it will automatically update the current.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;Self, ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Deletable"></a>
+                <a name="//apple_ref/swift/Section/Deletable" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Deletable"></a>
+                  <h3 class="section-name"><p>Deletable</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A12InstallationPAAE6delete7optionsyShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="//apple_ref/swift/Method/delete(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE6delete7optionsyShyAA3APIV6OptionOG_tKF">delete(options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Deletes the <code>ParseInstallation</code> <em>synchronously</em> with the current data from the server
+and sets an error if one occurs.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An Error of <code>ParseError</code> type.
+
+</div><div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object deleted has the same objectId as current, it will automatically update the current.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A12InstallationPAAE6delete7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCyAA0A5ErrorVSgctF"></a>
+                    <a name="//apple_ref/swift/Method/delete(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE6delete7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCyAA0A5ErrorVSgctF">delete(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Deletes the <code>ParseInstallation</code> <em>asynchronously</em> and executes the given callback block.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object deleted has the same objectId as current, it will automatically update the current.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ParseError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default
+value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute when completed.
+It should have the following argument signature: <code>(Result&lt;Self, ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
 
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-12-19)</p>
+      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-12-22)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

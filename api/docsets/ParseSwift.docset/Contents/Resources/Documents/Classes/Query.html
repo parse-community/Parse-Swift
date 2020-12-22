@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           ParseSwift 1.0 Docs
         </a>
-         (75% documented)
+         (77% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -1068,7 +1068,7 @@ If this is called multiple times, then all of the keys specified in each of the 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                  <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -1140,7 +1140,8 @@ It should have the following argument signature: <code>(Result&lt;[ResultType], 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                 <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                  <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AnyResultType</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -1383,7 +1384,7 @@ It should have the following argument signature: <code>(Result&lt;[AnyResultType
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">first</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">first</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                   <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -1460,7 +1461,8 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">first</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">first</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                  <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                   <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AnyResultType</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -1690,7 +1692,7 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                   <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -1762,7 +1764,8 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                  <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                   <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AnyResultType</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -1846,7 +1849,7 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-12-19)</p>
+      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-12-22)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
