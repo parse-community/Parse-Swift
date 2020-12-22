@@ -10,20 +10,32 @@ import Foundation
 
 internal struct ParseFileManager {
 
-    private static var defaultDirectoryAttributes: [FileAttributeKey: Any]? {
+    private var defaultDirectoryAttributes: [FileAttributeKey: Any]? {
         #if !os(macOS) || !os(Linux)
-        return [FileAttributeKey.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication]
+        return [.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication]
         #else
         return nil
         #endif
     }
 
-    private static var defaultDataWritingOptions: Data.WritingOptions {
+    private var defaultDataWritingOptions: Data.WritingOptions {
         var options = Data.WritingOptions.atomic
         #if !os(macOS) || !os(Linux)
         options.insert(.completeFileProtectionUntilFirstUserAuthentication)
         #endif
         return options
+    }
+
+    private var localSandBoxDataDirectoryPath: URL? {
+        #if !os(macOS) || !os(Linux)
+        return self.defaultDataDirectoryPath
+        #else
+        let directoryPath = NSHomeDirectory()
+            .append(ParseConstants.fileManagementLibraryDirectory)
+            .append(ParseConstants.fileManagementPrivateDocumentsDirectory)
+            .append(ParseConstants.fileManagementDirectory)
+        return createDirectoryIfNeeded(directoryPath)
+        #endif
     }
 
     private let synchronizationQueue = DispatchQueue(label: "com.parse.file",
@@ -34,7 +46,41 @@ internal struct ParseFileManager {
 
     private let applicationIdentifier: String
     private let applicationGroupIdentifer: String?
-    
+
+    public var defaultDataDirectoryPath: URL? {
+        var directoryPath: String!
+        #if !os(macOS) || !os(Linux)
+        let paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
+        guard let directory = paths.first else {
+            return nil
+        }
+        directoryPath = directory
+        directoryPath += "\(ParseConstants.fileManagementDirectory)\(applicationIdentifier)"
+
+        #else
+        if let groupIdentifier = applicationGroupIdentifer {
+            let paths = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier)
+            guard var directory = paths.first else {
+                return nil
+            }
+            directoryPath = directory
+            directoryPath += "\(ParseConstants.fileManagementDirectory)\(applicationIdentifier)"
+        } else {
+            return self.localSandBoxDataDirectoryPath
+        }
+        #endif
+
+        return URL(fileURLWithPath: directoryPath, isDirectory: true)
+    }
+
+    public func dataItemPathForPathComponent(_ component: String) -> URL? {
+        guard var path = self.defaultDataDirectoryPath else {
+            return nil
+        }
+        path.appendPathComponent(component)
+        return path
+    }
+
     init?() {
         if let identifier = Bundle.main.bundleIdentifier {
             applicationIdentifier = identifier
@@ -43,27 +89,12 @@ internal struct ParseFileManager {
         }
         applicationGroupIdentifer = nil
     }
-    
-    public var defaultDataDirectoryPath: URL? {
-        #if !os(macOS) || !os(Linux)
-        let paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
-        guard var directoryPath = paths.first else {
-            return nil
-        }
-        
-        directoryPath += "parse/\(applicationIdentifier)"
-        #else
-        if let groupIdentifier = applicationGroupIdentifer {
-            
-        }
-        #endif
-    }
-    
+
     func createDirectoryIfNeeded(_ path: String) throws {
         if !FileManager.default.fileExists(atPath: path) {
             try FileManager.default.createDirectory(atPath: path,
                                                     withIntermediateDirectories: true,
-                                                    attributes: ParseFileManager.defaultDirectoryAttributes)
+                                                    attributes: defaultDirectoryAttributes)
         }
     }
 
@@ -74,7 +105,7 @@ internal struct ParseFileManager {
                     completion(ParseError(code: .unknownError, message: "Couldn't convert string to utf8"))
                     return
                 }
-                try data.write(to: filePath, options: ParseFileManager.defaultDataWritingOptions)
+                try data.write(to: filePath, options: defaultDataWritingOptions)
                 completion(nil)
             } catch {
                 completion(error)
@@ -85,14 +116,14 @@ internal struct ParseFileManager {
     func writeData(_ data: Data, filePath: URL, completion: @escaping(Error?) -> Void) {
         synchronizationQueue.async {
             do {
-                try data.write(to: filePath, options: ParseFileManager.defaultDataWritingOptions)
+                try data.write(to: filePath, options: defaultDataWritingOptions)
                 completion(nil)
             } catch {
                 completion(error)
             }
         }
     }
-    
+
     func copyItem(_ fromPath: URL, toPath: URL, completion: @escaping(Error?) -> Void) {
         synchronizationQueue.async {
             do {
@@ -122,7 +153,7 @@ internal struct ParseFileManager {
                     completion(nil)
                     return
                 }
-                
+
                 try createDirectoryIfNeeded(toPath.path)
                 let contents = try FileManager.default.contentsOfDirectory(atPath: fromPath.path)
                 if contents.count == 0 {
