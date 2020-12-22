@@ -30,7 +30,7 @@ extension Queryable {
       - returns: Returns an array of `ParseObject`s that were found.
     */
     func find() throws -> [ResultType] {
-        return try find(options: [])
+        try find(options: [])
     }
 
     /**
@@ -43,7 +43,7 @@ extension Queryable {
        - returns: Returns a `ParseObject`, or `nil` if none was found.
      */
     func first() throws -> ResultType? {
-        return try first(options: [])
+        try first(options: [])
     }
 
     /**
@@ -54,7 +54,7 @@ extension Queryable {
       - returns: Returns the number of `ParseObject`s that match the query, or `-1` if there is an error.
     */
     func count() throws -> Int {
-        return try count(options: [])
+        try count(options: [])
     }
 
     /**

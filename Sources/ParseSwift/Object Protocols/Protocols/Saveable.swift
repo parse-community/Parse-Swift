@@ -15,6 +15,6 @@ public protocol Saveable: Codable {
 
 extension Saveable {
     public func save() throws -> SavingType {
-        return try save(options: [])
+        try save(options: [])
     }
 }

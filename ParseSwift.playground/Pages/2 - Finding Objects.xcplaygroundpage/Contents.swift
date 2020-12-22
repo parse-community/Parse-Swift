@@ -52,7 +52,7 @@ results.forEach { (score) in
 // Query first asynchronously (preferred way) - Performs work on background
 // queue and returns to designated on designated callbackQueue.
 // If no callbackQueue is specified it returns to main queue
-query.first(callbackQueue: .main) { results in
+query.first { results in
     switch results {
     case .success(let score):
 

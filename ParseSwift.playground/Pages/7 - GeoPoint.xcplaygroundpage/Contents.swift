@@ -61,7 +61,7 @@ var constraints = [QueryConstraint]()
 constraints.append(near(key: "location", geoPoint: pointToFind))
 
 let query = GameScore.query(constraints)
-query.find(callbackQueue: .main) { results in
+query.find { results in
     switch results {
     case .success(let scores):
 
@@ -80,7 +80,7 @@ Notice the "var", the query has to be mutable since it's a valueType.
 */
 var querySorted = query
 querySorted.order([.descending("score")])
-querySorted.find(callbackQueue: .main) { results in
+querySorted.find { results in
     switch results {
     case .success(let scores):
 
@@ -97,7 +97,7 @@ querySorted.find(callbackQueue: .main) { results in
 //: If you only want to query for scores > 50, you can add more constraints
 constraints.append("score" > 9)
 var query2 = GameScore.query(constraints)
-query2.find(callbackQueue: .main) { results in
+query2.find { results in
     switch results {
     case .success(let scores):
 
@@ -116,7 +116,7 @@ query2.find(callbackQueue: .main) { results in
 
 //: If you want to query for scores > 50 and don't have a GeoPoint
 var query3 = GameScore.query("score" > 50, doesNotExist(key: "location"))
-query3.find(callbackQueue: .main) { results in
+query3.find { results in
     switch results {
     case .success(let scores):
 
@@ -134,7 +134,7 @@ query3.find(callbackQueue: .main) { results in
 
 //: If you want to query for scores > 50 and have a GeoPoint
 var query4 = GameScore.query("score" > 10, exists(key: "location"))
-query4.find(callbackQueue: .main) { results in
+query4.find { results in
     switch results {
     case .success(let scores):
 
@@ -154,7 +154,7 @@ let query5 = GameScore.query("score" == 50)
 let query6 = GameScore.query("score" == 200)
 
 var query7 = GameScore.query(or(queries: [query5, query6]))
-query7.find(callbackQueue: .main) { results in
+query7.find { results in
     switch results {
     case .success(let scores):
 
