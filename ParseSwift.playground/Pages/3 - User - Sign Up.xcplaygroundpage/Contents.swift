@@ -40,7 +40,7 @@ User.signup(username: "hello", password: "world") { results in
         if !currentUser.hasSameObjectId(as: user) {
             assertionFailure("Error: these two objects should match")
         } else {
-            print("Succesfully signed up user \(user)")
+            print("Successfully signed up user \(user)")
         }
 
     case .failure(let error):

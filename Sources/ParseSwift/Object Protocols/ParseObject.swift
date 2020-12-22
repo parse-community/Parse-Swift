@@ -183,8 +183,8 @@ public extension Sequence where Element: ParseObject {
     func deleteAll(options: API.Options = []) throws -> [(Result<Bool, ParseError>)] {
         let commands = try map { try $0.deleteCommand() }
         return try API.Command<Self.Element, Self.Element>
-                .batch(commands: commands)
-                .execute(options: options)
+            .batch(commands: commands)
+            .execute(options: options)
     }
 
     /**
@@ -211,11 +211,14 @@ public extension Sequence where Element: ParseObject {
         do {
             let commands = try map({ try $0.deleteCommand() })
             API.Command<Self.Element, Self.Element>
-                    .batch(commands: commands)
-                    .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+                .batch(commands: commands)
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue,
+                              completion: completion)
         } catch {
             guard let parseError = error as? ParseError else {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                completion(.failure(ParseError(code: .unknownError,
+                                               message: error.localizedDescription)))
                 return
             }
             completion(.failure(parseError))
@@ -256,52 +259,6 @@ extension ParseObject {
 
 // MARK: Fetchable
 extension ParseObject {
-    internal static func updateKeychainIfNeeded(_ results: [Self], deleting: Bool = false) throws {
-        guard let currentUser = BaseParseUser.current else {
-            return
-        }
-
-        var foundCurrentUserObjects = results.filter { $0.hasSameObjectId(as: currentUser) }
-        foundCurrentUserObjects = try foundCurrentUserObjects.sorted(by: {
-            if $0.updatedAt == nil || $1.updatedAt == nil {
-                throw ParseError(code: .unknownError,
-                                 message: "Objects from the server should always have an 'updatedAt'")
-            }
-            return $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
-        })
-        if let foundCurrentUser = foundCurrentUserObjects.first {
-            if !deleting {
-                let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(foundCurrentUser)
-                let updatedCurrentUser = try ParseCoding.jsonDecoder().decode(BaseParseUser.self, from: encoded)
-                BaseParseUser.current = updatedCurrentUser
-                BaseParseUser.saveCurrentContainerToKeychain()
-            } else {
-                BaseParseUser.deleteCurrentContainerFromKeychain()
-            }
-        } else if results.first?.className == BaseParseInstallation.className {
-            guard let currentInstallation = BaseParseInstallation.current else {
-                return
-            }
-            var saveInstallation: Self?
-            let foundCurrentInstallationObjects = results.filter { $0.hasSameObjectId(as: currentInstallation) }
-            if let foundCurrentInstallation = foundCurrentInstallationObjects.first {
-                saveInstallation = foundCurrentInstallation
-            } else {
-                saveInstallation = results.first
-            }
-            if saveInstallation != nil {
-                if !deleting {
-                    let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(saveInstallation!)
-                    let updatedCurrentInstallation =
-                        try ParseCoding.jsonDecoder().decode(BaseParseInstallation.self, from: encoded)
-                    BaseParseInstallation.current = updatedCurrentInstallation
-                    BaseParseInstallation.saveCurrentContainerToKeychain()
-                } else {
-                    BaseParseInstallation.deleteCurrentContainerFromKeychain()
-                }
-            }
-        }
-    }
 
     /**
      Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
@@ -310,9 +267,7 @@ extension ParseObject {
      - throws: An Error of `ParseError` type.
     */
     public func fetch(options: API.Options = []) throws -> Self {
-        let result: Self = try fetchCommand().execute(options: options)
-        try? Self.updateKeychainIfNeeded([result])
-        return result
+        try fetchCommand().execute(options: options)
     }
 
     /**
@@ -330,12 +285,7 @@ extension ParseObject {
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
          do {
-            try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                if case .success(let foundResult) = result {
-                    try? Self.updateKeychainIfNeeded([foundResult])
-                }
-                completion(result)
-            }
+            try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
          } catch let error as ParseError {
              completion(.failure(error))
          } catch {
@@ -344,7 +294,7 @@ extension ParseObject {
     }
 
     internal func fetchCommand() throws -> API.Command<Self, Self> {
-        return try API.Command<Self, Self>.fetchCommand(self)
+        try API.Command<Self, Self>.fetchCommand(self)
     }
 }
 
@@ -392,10 +342,10 @@ extension ParseObject {
 
             case .success(let savedChildObjects):
                 childObjects = savedChildObjects
-                group.leave()
             case .failure(let parseError):
                 error = parseError
             }
+            group.leave()
         }
         group.wait()
 
@@ -403,9 +353,7 @@ extension ParseObject {
             throw error
         }
 
-        let result: Self = try saveCommand().execute(options: options, childObjects: childObjects)
-        try? Self.updateKeychainIfNeeded([result])
-        return result
+        return try saveCommand().execute(options: options, childObjects: childObjects)
     }
 
     /**
@@ -426,12 +374,7 @@ extension ParseObject {
 
             case .success(let savedChildObjects):
                 self.saveCommand().executeAsync(options: options, callbackQueue: callbackQueue,
-                                           childObjects: savedChildObjects) { result in
-                    if case .success(let foundResults) = result {
-                        try? Self.updateKeychainIfNeeded([foundResults])
-                    }
-                    completion(result)
-                }
+                                           childObjects: savedChildObjects, completion: completion)
             case .failure(let parseError):
                 completion(.failure(parseError))
             }
@@ -500,11 +443,11 @@ extension ParseObject {
 // MARK: Savable Encodable Version
 internal extension Encodable {
     func save(options: API.Options = []) throws -> PointerType {
-        return try saveCommand().execute(options: options)
+        try saveCommand().execute(options: options)
     }
 
     func saveCommand() throws -> API.Command<Self, PointerType> {
-        return try API.Command<Self, PointerType>.saveCommand(self)
+        try API.Command<Self, PointerType>.saveCommand(self)
     }
 
     func saveAll<T: Encodable>(options: API.Options = [],
@@ -526,7 +469,7 @@ extension ParseObject {
     */
     public func delete(options: API.Options = []) throws {
         _ = try deleteCommand().execute(options: options)
-        try? Self.updateKeychainIfNeeded([self], deleting: true)
+        return
     }
 
     /**
@@ -548,7 +491,6 @@ extension ParseObject {
                 switch result {
 
                 case .success:
-                    try? Self.updateKeychainIfNeeded([self], deleting: true)
                     completion(nil)
                 case .failure(let error):
                     completion(error)

@@ -349,7 +349,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         do {
 
-            guard try query.first(options: []) != nil else {
+            guard try query.first(options: []) == nil else {
                 XCTFail("Should have thrown error")
                 return
             }
@@ -934,10 +934,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         do {
             let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
-            guard let jsonString = String(data: encoded, encoding: .utf8) else {
-                XCTFail("Should have encoded")
-                return
-            }
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 

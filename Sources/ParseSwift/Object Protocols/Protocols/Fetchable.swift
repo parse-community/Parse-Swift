@@ -15,6 +15,6 @@ public protocol Fetchable: Codable {
 
 extension Fetchable {
     public func fetch() throws -> FetchingType {
-        return try fetch(options: [])
+        try fetch(options: [])
     }
 }

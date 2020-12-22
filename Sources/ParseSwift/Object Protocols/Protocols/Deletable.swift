@@ -15,6 +15,6 @@ public protocol Deletable: Codable {
 
 extension Deletable {
     public func delete() throws -> DeletingType {
-        return try delete(options: [])
+        try delete(options: [])
     }
 }
