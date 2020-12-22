@@ -14,7 +14,7 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-    var location: GeoPoint?
+    var location: ParseGeoPoint?
     //: Your own properties
     var score: Int
 
@@ -26,7 +26,7 @@ struct GameScore: ParseObject {
 
 //: Define initial GameScore
 var score = GameScore(score: 10)
-score.location = GeoPoint(latitude: 40.0, longitude: -30.0)
+score.location = ParseGeoPoint(latitude: 40.0, longitude: -30.0)
 
 /*: Save asynchronously (preferred way) - performs work on background
     queue and returns to designated on designated callbackQueue.
@@ -55,8 +55,8 @@ score.save { result in
 
 }
 
-//: Now we will show how to query based on the GeoPoint
-let pointToFind = GeoPoint(latitude: 40.0, longitude: -30.0)
+//: Now we will show how to query based on the ParseGeoPoint
+let pointToFind = ParseGeoPoint(latitude: 40.0, longitude: -30.0)
 var constraints = [QueryConstraint]()
 constraints.append(near(key: "location", geoPoint: pointToFind))
 
@@ -114,7 +114,7 @@ query2.find { results in
     }
 }
 
-//: If you want to query for scores > 50 and don't have a GeoPoint
+//: If you want to query for scores > 50 and don't have a ParseGeoPoint
 var query3 = GameScore.query("score" > 50, doesNotExist(key: "location"))
 query3.find { results in
     switch results {
@@ -132,8 +132,8 @@ query3.find { results in
     }
 }
 
-//: If you want to query for scores > 50 and have a GeoPoint
-var query4 = GameScore.query("score" > 10, exists(key: "location"))
+//: If you want to query for scores > 9 and have a ParseGeoPoint
+var query4 = GameScore.query("score" > 9, exists(key: "location"))
 query4.find { results in
     switch results {
     case .success(let scores):

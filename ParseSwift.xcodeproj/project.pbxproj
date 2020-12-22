@@ -123,10 +123,10 @@
 		F97B45E724D9C6F200F4A88B /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BB24D9C6F200F4A88B /* Query.swift */; };
 		F97B45E824D9C6F200F4A88B /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BB24D9C6F200F4A88B /* Query.swift */; };
 		F97B45E924D9C6F200F4A88B /* Query.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BB24D9C6F200F4A88B /* Query.swift */; };
-		F97B45EA24D9C6F200F4A88B /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BC24D9C6F200F4A88B /* GeoPoint.swift */; };
-		F97B45EB24D9C6F200F4A88B /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BC24D9C6F200F4A88B /* GeoPoint.swift */; };
-		F97B45EC24D9C6F200F4A88B /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BC24D9C6F200F4A88B /* GeoPoint.swift */; };
-		F97B45ED24D9C6F200F4A88B /* GeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BC24D9C6F200F4A88B /* GeoPoint.swift */; };
+		F97B45EA24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */; };
+		F97B45EB24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */; };
+		F97B45EC24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */; };
+		F97B45ED24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */; };
 		F97B45EE24D9C6F200F4A88B /* BaseParseUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */; };
 		F97B45EF24D9C6F200F4A88B /* BaseParseUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */; };
 		F97B45F024D9C6F200F4A88B /* BaseParseUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */; };
@@ -339,7 +339,7 @@
 		F97B45B824D9C6F200F4A88B /* AnyCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
 		F97B45B924D9C6F200F4A88B /* AnyEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
 		F97B45BB24D9C6F200F4A88B /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
-		F97B45BC24D9C6F200F4A88B /* GeoPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GeoPoint.swift; sourceTree = "<group>"; };
+		F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseGeoPoint.swift; sourceTree = "<group>"; };
 		F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BaseParseUser.swift; sourceTree = "<group>"; };
 		F97B45BE24D9C6F200F4A88B /* Pointer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Pointer.swift; sourceTree = "<group>"; };
 		F97B45BF24D9C6F200F4A88B /* ParseError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseError.swift; sourceTree = "<group>"; };
@@ -672,7 +672,7 @@
 			children = (
 				F97B45C024D9C6F200F4A88B /* ParseACL.swift */,
 				F97B45C124D9C6F200F4A88B /* File.swift */,
-				F97B45BC24D9C6F200F4A88B /* GeoPoint.swift */,
+				F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */,
 				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
 				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
 				F97B45BB24D9C6F200F4A88B /* Query.swift */,
@@ -1147,7 +1147,7 @@
 				F97B466424D9C88600F4A88B /* SecureStorage.swift in Sources */,
 				F97B462F24D9C74400F4A88B /* BatchUtils.swift in Sources */,
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
-				F97B45EA24D9C6F200F4A88B /* GeoPoint.swift in Sources */,
+				F97B45EA24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B460224D9C6F200F4A88B /* NoBody.swift in Sources */,
 				F97B45F624D9C6F200F4A88B /* ParseError.swift in Sources */,
 				F97B463324D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
@@ -1218,7 +1218,7 @@
 				F97B466524D9C88600F4A88B /* SecureStorage.swift in Sources */,
 				F97B463024D9C74400F4A88B /* BatchUtils.swift in Sources */,
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
-				F97B45EB24D9C6F200F4A88B /* GeoPoint.swift in Sources */,
+				F97B45EB24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B460324D9C6F200F4A88B /* NoBody.swift in Sources */,
 				F97B45F724D9C6F200F4A88B /* ParseError.swift in Sources */,
 				F97B463424D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
@@ -1309,7 +1309,7 @@
 				F97B465124D9C78C00F4A88B /* AddOperation.swift in Sources */,
 				F97B461124D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				F97B460D24D9C6F200F4A88B /* Fetchable.swift in Sources */,
-				F97B45ED24D9C6F200F4A88B /* GeoPoint.swift in Sources */,
+				F97B45ED24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B45F524D9C6F200F4A88B /* Pointer.swift in Sources */,
 				F97B460924D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				F97B463A24D9C74400F4A88B /* Responses.swift in Sources */,
@@ -1357,7 +1357,7 @@
 				F97B465024D9C78B00F4A88B /* AddOperation.swift in Sources */,
 				F97B461024D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				F97B460C24D9C6F200F4A88B /* Fetchable.swift in Sources */,
-				F97B45EC24D9C6F200F4A88B /* GeoPoint.swift in Sources */,
+				F97B45EC24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B45F424D9C6F200F4A88B /* Pointer.swift in Sources */,
 				F97B460824D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				F97B463924D9C74400F4A88B /* Responses.swift in Sources */,

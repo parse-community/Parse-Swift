@@ -1274,7 +1274,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"]]
         ]
-        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = near(key: "yolo", geoPoint: geoPoint)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1315,7 +1315,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                      "$maxDistance": 1
             ]
         ]
-        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinMiles(key: "yolo", geoPoint: geoPoint, distance: 3958.8)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1361,7 +1361,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                      "$maxDistance": 1
             ]
         ]
-        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinKilometers(key: "yolo", geoPoint: geoPoint, distance: 6371.0)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1407,7 +1407,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                      "$maxDistance": 10
             ]
         ]
-        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinRadians(key: "yolo", geoPoint: geoPoint, distance: 10.0)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1456,8 +1456,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                                 ]
             ]
         ]
-        let geoPoint1 = GeoPoint(latitude: 10, longitude: 20)
-        let geoPoint2 = GeoPoint(latitude: 20, longitude: 30)
+        let geoPoint1 = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint2 = ParseGeoPoint(latitude: 20, longitude: 30)
         let constraint = withinGeoBox(key: "yolo", fromSouthWest: geoPoint1, toNortheast: geoPoint2)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1513,9 +1513,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                                 ]
             ]
         ]
-        let geoPoint1 = GeoPoint(latitude: 10, longitude: 20)
-        let geoPoint2 = GeoPoint(latitude: 20, longitude: 30)
-        let geoPoint3 = GeoPoint(latitude: 30, longitude: 40)
+        let geoPoint1 = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint2 = ParseGeoPoint(latitude: 20, longitude: 30)
+        let geoPoint3 = ParseGeoPoint(latitude: 30, longitude: 40)
         let constraint = withinPolygon(key: "yolo", points: [geoPoint1, geoPoint2, geoPoint3])
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1577,7 +1577,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                                 ]
             ]
         ]
-        let geoPoint = GeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = polygonContains(key: "yolo", point: geoPoint)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`

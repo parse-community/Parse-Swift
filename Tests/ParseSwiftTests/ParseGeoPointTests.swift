@@ -33,7 +33,7 @@ class ParseGeoPointTests: XCTestCase {
     }
 
     func testDefaults() {
-        let point = GeoPoint()
+        let point = ParseGeoPoint()
         // Check default values
         XCTAssertEqual(point.latitude, 0.0, accuracy: 0.00001, "Latitude should be 0.0")
         XCTAssertEqual(point.longitude, 0.0, accuracy: 0.00001, "Longitude should be 0.0")
@@ -42,18 +42,18 @@ class ParseGeoPointTests: XCTestCase {
     #if canImport(CoreLocation)
     func testGeoPointFromLocation() {
         let location = CLLocation(latitude: 10.0, longitude: 20.0)
-        let geoPoint = GeoPoint(location: location)
+        let geoPoint = ParseGeoPoint(location: location)
         XCTAssertEqual(geoPoint.latitude, location.coordinate.latitude)
         XCTAssertEqual(geoPoint.longitude, location.coordinate.longitude)
     }
     #endif
 
     func testGeoPointEncoding() {
-        let point = GeoPoint(latitude: 10, longitude: 20)
+        let point = ParseGeoPoint(latitude: 10, longitude: 20)
 
         do {
             let encoded = try ParseEncoder().encode(point)
-            let decoded = try JSONDecoder().decode(GeoPoint.self, from: encoded)
+            let decoded = try JSONDecoder().decode(ParseGeoPoint.self, from: encoded)
             XCTAssertEqual(point, decoded)
         } catch {
             XCTFail("Should have encoded/decoded")
@@ -63,8 +63,8 @@ class ParseGeoPointTests: XCTestCase {
     // swiftlint:disable:next function_body_length
     func testGeoUtilityDistance() {
         let d2R = Double.pi / 180.0
-        var pointA = GeoPoint()
-        var pointB = GeoPoint()
+        var pointA = ParseGeoPoint()
+        var pointB = ParseGeoPoint()
 
         // Zero
         XCTAssertEqual(pointA.distanceInRadians(pointB), 0.0,
@@ -134,28 +134,28 @@ class ParseGeoPointTests: XCTestCase {
                        accuracy: 0.01, "Sydney to Buenos Aires Fail")
 
         // [SAC]  38.52  -121.50  Sacramento,CA
-        let sacramento = GeoPoint(latitude: 38.52, longitude: -121.50)
+        let sacramento = ParseGeoPoint(latitude: 38.52, longitude: -121.50)
 
         // [HNL]  21.35  -157.93  Honolulu Int,HI
-        let honolulu = GeoPoint(latitude: 21.35, longitude: -157.93)
+        let honolulu = ParseGeoPoint(latitude: 21.35, longitude: -157.93)
 
         // [51Q]  37.75  -122.68  San Francisco,CA
-        let sanfran = GeoPoint(latitude: 37.75, longitude: -122.68)
+        let sanfran = ParseGeoPoint(latitude: 37.75, longitude: -122.68)
 
         // Vorkuta 67.509619,64.085999
-        let vorkuta = GeoPoint(latitude: 67.509619, longitude: 64.085999)
+        let vorkuta = ParseGeoPoint(latitude: 67.509619, longitude: 64.085999)
 
         // London
-        let london = GeoPoint(latitude: 51.501904, longitude: -0.115356)
+        let london = ParseGeoPoint(latitude: 51.501904, longitude: -0.115356)
 
         // Northampton
-        let northhampton = GeoPoint(latitude: 52.241256, longitude: -0.895386)
+        let northhampton = ParseGeoPoint(latitude: 52.241256, longitude: -0.895386)
 
         // Powell St BART station
-        let powell = GeoPoint(latitude: 37.78507, longitude: -122.407007)
+        let powell = ParseGeoPoint(latitude: 37.78507, longitude: -122.407007)
 
         // Apple store
-        let astore = GeoPoint(latitude: 37.785809, longitude: -122.406363)
+        let astore = ParseGeoPoint(latitude: 37.785809, longitude: -122.406363)
 
         // Self
         XCTAssertEqual(honolulu.distanceInKilometers(honolulu), 0.0,
@@ -190,7 +190,7 @@ class ParseGeoPointTests: XCTestCase {
     }
 
     func testDebugGeoPoint() {
-        let point = GeoPoint(latitude: 10, longitude: 20)
+        let point = ParseGeoPoint(latitude: 10, longitude: 20)
         XCTAssertTrue(point.debugDescription.contains("10"))
         XCTAssertTrue(point.debugDescription.contains("20"))
     }
