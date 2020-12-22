@@ -125,7 +125,7 @@ extension File {
      - parameter completion: A block that will be called when logging out, completes or fails.
     */
     public func upload(callbackQueue: DispatchQueue = .main,
-                              completion: @escaping (Result<Bool, ParseError>) -> Void) {
+                       completion: @escaping (Result<Bool, ParseError>) -> Void) {
         uploadCommand().executeAsync(options: [], callbackQueue: callbackQueue) { result in
             completion(result.map { true })
         }
