@@ -8,6 +8,10 @@ public struct ParseFile: Saveable, Fetchable {
 
     private let __type: String = "File" // swiftlint:disable:this identifier_name
 
+    internal var isSaved: Bool {
+        return url != nil
+    }
+
     /**
       The name of the file.
       Before the file is saved, this is the filename given by the user.
@@ -77,9 +81,10 @@ public struct ParseFile: Saveable, Fetchable {
      - parameter metadata: Optional key value pairs to be stored with file object
      - parameter tags: Optional key value pairs to be stored with file object
      */
-    public init(name: String = "file", localURL: String, metadata: [String: String]? = nil, tags: [String: String]? = nil) {
+    public init(name: String = "file", localURL: URL,
+                metadata: [String: String]? = nil, tags: [String: String]? = nil) {
         self.name = name
-        self.localURL = URL(string: localURL)
+        self.localURL = localURL
         self.metadata = metadata
         self.tags = tags
     }
@@ -96,9 +101,10 @@ public struct ParseFile: Saveable, Fetchable {
      - parameter metadata: Optional key value pairs to be stored with file object
      - parameter tags: Optional key value pairs to be stored with file object
      */
-    public init(name: String = "file", cloudURL: String, metadata: [String: String]? = nil, tags: [String: String]? = nil) {
+    public init(name: String = "file", cloudURL: URL,
+                metadata: [String: String]? = nil, tags: [String: String]? = nil) {
         self.name = name
-        self.cloudURL = URL(string: cloudURL)
+        self.cloudURL = cloudURL
         self.metadata = metadata
         self.tags = tags
     }
@@ -161,7 +167,7 @@ extension ParseFile {
     }
 }
 
-// MARK: Saving
+// MARK: Fetching
 extension ParseFile {
     public func fetch(options: API.Options) -> ParseFile {
         fatalError()
@@ -212,4 +218,9 @@ extension ParseFile {
     internal func uploadCommand() -> API.Command<Self, Self> {
         return API.Command<Self, Self>.uploadCommand(self)
     }
+}
+
+// MARK: Downloading
+extension ParseFile {
+
 }

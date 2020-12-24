@@ -21,17 +21,20 @@ internal extension API {
         let mapper: ((Data) throws -> U)
         let params: [String: String?]?
         let uploadData: Data?
+        let uploadFile: URL?
 
         init(method: API.Method,
              path: API.Endpoint,
              params: [String: String]? = nil,
              body: T? = nil,
              uploadData: Data? = nil,
+             uploadFile: URL? = nil,
              mapper: @escaping ((Data) throws -> U)) {
             self.method = method
             self.path = path
             self.body = body
             self.uploadData = uploadData
+            self.uploadFile = uploadFile
             self.mapper = mapper
             self.params = params
         }
@@ -108,8 +111,8 @@ internal extension API {
             if path.urlComponent.contains("/files/") {
                 let delegate = ParseURLSessionDelegate(progress: progress)
                 let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
-                if method == .POST {
-                    session.uploadTask(with: urlRequest, from: uploadData, mapper: mapper) { result in
+                if method == .POST || method == .PUT {
+                    session.uploadTask(with: urlRequest, from: uploadData, from: uploadFile, mapper: mapper) { result in
                         switch result {
 
                         case .success(let decoded):
@@ -177,9 +180,29 @@ internal extension API {
 }
 
 internal extension API.Command {
-
+    // MARK: Uploading
     static func uploadCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
-        API.Command(method: .POST, path: .file(fileName: object.name), uploadData: object.data) { (data) -> ParseFile in
+        if object.isSaved {
+            return updateFileCommand(object)
+        }
+        return createFileCommand(object)
+    }
+
+    // MARK: Uploading - private
+    private static func createFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
+        API.Command(method: .POST,
+                    path: .file(fileName: object.name),
+                    uploadData: object.data,
+                    uploadFile: object.localURL) { (data) -> ParseFile in
+            try ParseCoding.jsonDecoder().decode(FileUploadResponse.self, from: data).apply(to: object)
+        }
+    }
+
+    private static func updateFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
+        API.Command(method: .PUT,
+                    path: .file(fileName: object.name),
+                    uploadData: object.data,
+                    uploadFile: object.localURL) { (data) -> ParseFile in
             try ParseCoding.jsonDecoder().decode(FileUploadResponse.self, from: data).apply(to: object)
         }
     }

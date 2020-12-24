@@ -63,7 +63,11 @@ class ParseFileTests: XCTestCase {
     }
 
     func testUploadCommand() {
-        let file = ParseFile(cloudURL: "http://localhost/")
+        guard let url = URL(string: "http://localhost/") else {
+            XCTFail("Should have created url")
+            return
+        }
+        let file = ParseFile(cloudURL: url)
 
         let command = file.uploadCommand()
         XCTAssertNotNil(command)
@@ -75,8 +79,6 @@ class ParseFileTests: XCTestCase {
     }
 
     func testUpload() throws {
-        //let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
-        //try sampleData.write(to: tempFilePath)
 
         var parseFile = ParseFile(name: "sampleData.data", data: sampleData)
         parseFile.mimeType = "application/octet-stream"
@@ -105,6 +107,35 @@ class ParseFileTests: XCTestCase {
 
     func testUploadWithSpecifyingMime() throws {
         let parseFile = ParseFile(name: "sampleData.data", data: sampleData)
+
+        // swiftlint:disable:next line_length
+        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {
+            XCTFail("Should create URL")
+            return
+        }
+        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let uploadedFile = try parseFile.upload()
+        XCTAssertEqual(uploadedFile.name, response.name)
+        XCTAssertEqual(uploadedFile.url, response.url)
+    }
+
+    func testUploadLocalFile() throws {
+        let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
+        try sampleData.write(to: tempFilePath)
+
+        var parseFile = ParseFile(name: "sampleData.data", localURL: tempFilePath)
+        parseFile.mimeType = "application/octet-stream"
 
         // swiftlint:disable:next line_length
         guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {

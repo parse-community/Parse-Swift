@@ -89,15 +89,26 @@ extension URLSession {
     internal func uploadTask<U>(
         with request: URLRequest,
         from data: Data?,
+        from file: URL?,
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
 
-        uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
-            completion(self.makeResult(responseData: responseData,
-                                  urlResponse: urlResponse,
-                                  responseError: responseError, mapper: mapper))
-        }.resume()
+        if let data = data {
+            uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
+                completion(self.makeResult(responseData: responseData,
+                                      urlResponse: urlResponse,
+                                      responseError: responseError, mapper: mapper))
+            }.resume()
+        } else if let file = file {
+            uploadTask(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
+                completion(self.makeResult(responseData: responseData,
+                                      urlResponse: urlResponse,
+                                      responseError: responseError, mapper: mapper))
+            }.resume()
+        } else {
+            completion(.failure(ParseError(code: .unknownError, message: "data and file both can't be nil")))
+        }
     }
 /*
     internal func uploadTask<U>(
