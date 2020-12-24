@@ -552,11 +552,11 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail("Should unwrap dates")
                 return
             }
-            guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+            guard let originalUpdatedAt = score.updatedAt else {
                 XCTFail("Should unwrap dates")
                 return
             }
-            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
             XCTFail(error.localizedDescription)
@@ -568,11 +568,11 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail("Should unwrap dates")
                 return
             }
-            guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+            guard let originalUpdatedAt = score.updatedAt else {
                 XCTFail("Should unwrap dates")
                 return
             }
-            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
             XCTFail(error.localizedDescription)
@@ -709,12 +709,12 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                     expectation1.fulfill()
                     return
                 }
-                guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+                guard let originalUpdatedAt = score.updatedAt else {
                     XCTFail("Should unwrap dates")
                     expectation1.fulfill()
                     return
                 }
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -733,12 +733,12 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                     expectation2.fulfill()
                     return
                 }
-                guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+                guard let originalUpdatedAt = score.updatedAt else {
                     XCTFail("Should unwrap dates")
                     expectation2.fulfill()
                     return
                 }
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)

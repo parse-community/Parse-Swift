@@ -125,7 +125,7 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        return loginCommand(username: username, password: password)
+        loginCommand(username: username, password: password)
             .executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
     }
 
@@ -160,8 +160,8 @@ extension ParseUser {
     /**
     Logs out the currently logged in user in Keychain *synchronously*.
     */
-    public static func logout() throws {
-        _ = try logoutCommand().execute(options: [])
+    public static func logout(options: API.Options = []) throws {
+        _ = try logoutCommand().execute(options: options)
     }
 
     /**
@@ -174,9 +174,9 @@ extension ParseUser {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when logging out, completes or fails.
     */
-    public static func logout(callbackQueue: DispatchQueue = .main,
+    public static func logout(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                               completion: @escaping (Result<Bool, ParseError>) -> Void) {
-        logoutCommand().executeAsync(options: [], callbackQueue: callbackQueue) { result in
+        logoutCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
             completion(result.map { true })
         }
     }
@@ -197,12 +197,14 @@ extension ParseUser {
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
-
+     - parameter username: The username of the user.
+     - parameter password: The password of the user.
+     - parameter options: A set of options used to delete objects. Defaults to an empty set.
      - returns: Returns whether the sign up was successful.
     */
     public static func signup(username: String,
-                              password: String) throws -> Self {
-        try signupCommand(username: username, password: password).execute(options: [])
+                              password: String, options: API.Options = []) throws -> Self {
+        try signupCommand(username: username, password: password).execute(options: options)
     }
 
     /**
@@ -211,11 +213,11 @@ extension ParseUser {
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
-
+     - parameter options: A set of options used to delete objects. Defaults to an empty set.
      - returns: Returns whether the sign up was successful.
     */
-    public func signup() throws -> Self {
-        try signupCommand().execute(options: [])
+    public func signup(options: API.Options = []) throws -> Self {
+        try signupCommand().execute(options: options)
     }
 
     /**
@@ -224,13 +226,14 @@ extension ParseUser {
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
+     - parameter options: A set of options used to delete objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
-    public func signup(callbackQueue: DispatchQueue = .main,
+    public func signup(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
-        return signupCommand().executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
+        signupCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
     /**
@@ -239,9 +242,9 @@ extension ParseUser {
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
-
      - parameter username: The username of the user.
      - parameter password: The password of the user.
+     - parameter options: A set of options used to delete objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -249,10 +252,11 @@ extension ParseUser {
     public static func signup(
         username: String,
         password: String,
+        options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        return signupCommand(username: username, password: password)
+        signupCommand(username: username, password: password)
             .executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
     }
 

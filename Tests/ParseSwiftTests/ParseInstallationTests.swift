@@ -318,19 +318,16 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         DispatchQueue.main.async {
             do {
                 let saved = try installation.save()
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
+                guard let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
                         expectation1.fulfill()
                         return
                 }
-                guard let originalCreatedAt = installation.createdAt,
-                    let originalUpdatedAt = installation.updatedAt else {
+                guard let originalUpdatedAt = installation.updatedAt else {
                         XCTFail("Should unwrap dates")
                         expectation1.fulfill()
                         return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
             } catch {
@@ -365,55 +362,46 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             switch result {
 
             case .success(let saved):
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
+                guard let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
                 }
-                guard let originalCreatedAt = installation.createdAt,
-                    let originalUpdatedAt = installation.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
+                guard let originalUpdatedAt = installation.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
 
                 if callbackQueue != .main {
                     DispatchQueue.main.async {
-                        guard let savedCreatedAt = Installation.current?.createdAt,
-                            let savedUpdatedAt = Installation.current?.updatedAt else {
-                                XCTFail("Should unwrap dates")
-                                expectation1.fulfill()
-                                return
+                        guard let savedUpdatedAt = Installation.current?.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
+                            return
                         }
-                        guard let originalCreatedAt = installation.createdAt,
-                            let originalUpdatedAt = installation.updatedAt else {
-                                XCTFail("Should unwrap dates")
-                                expectation1.fulfill()
-                                return
+                        guard let originalUpdatedAt = installation.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
+                            return
                         }
-                        XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                         XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                         XCTAssertNil(Installation.current?.ACL)
                         expectation1.fulfill()
                     }
                 } else {
-                    guard let savedCreatedAt = Installation.current?.createdAt,
-                        let savedUpdatedAt = Installation.current?.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation1.fulfill()
-                            return
+                    guard let savedUpdatedAt = Installation.current?.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
                     }
-                    guard let originalCreatedAt = installation.createdAt,
-                        let originalUpdatedAt = installation.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation1.fulfill()
-                            return
+                    guard let originalUpdatedAt = installation.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
                     }
-                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                     XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                     XCTAssertNil(Installation.current?.ACL)
                     expectation1.fulfill()

@@ -557,17 +557,14 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         do {
             let saved = try user.save()
-            guard let savedCreatedAt = saved.createdAt,
-                let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let savedUpdatedAt = saved.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            guard let originalCreatedAt = user.createdAt,
-                let originalUpdatedAt = user.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let originalUpdatedAt = user.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
             XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
@@ -576,17 +573,14 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         do {
             let saved = try user.save(options: [.useMasterKey])
-            guard let savedCreatedAt = saved.createdAt,
-                let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let savedUpdatedAt = saved.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            guard let originalCreatedAt = user.createdAt,
-                let originalUpdatedAt = user.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let originalUpdatedAt = user.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
             XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
@@ -594,7 +588,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    // swiftlint:disable:next function_body_length
     func updateAsync(user: User, userOnServer: User, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update user1")
@@ -603,19 +596,16 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let saved):
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
+                guard let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
                 }
-                guard let originalCreatedAt = user.createdAt,
-                    let originalUpdatedAt = user.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
+                guard let originalUpdatedAt = user.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
             case .failure(let error):
@@ -630,19 +620,17 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let saved):
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation2.fulfill()
-                        return
+                guard let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation2.fulfill()
+                    return
                 }
-                guard let originalCreatedAt = user.createdAt,
-                    let originalUpdatedAt = user.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation2.fulfill()
-                        return
+                guard let originalUpdatedAt = user.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation2.fulfill()
+                    return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
             case .failure(let error):

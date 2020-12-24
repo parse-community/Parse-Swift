@@ -6,7 +6,7 @@
 //  Copyright © 2020 Parse. All rights reserved.
 //
 
-public protocol Fetchable: Codable {
+public protocol Fetchable: Decodable {
     associatedtype FetchingType
 
     func fetch(options: API.Options) throws -> FetchingType

@@ -20,25 +20,33 @@ internal extension API {
         let body: T?
         let mapper: ((Data) throws -> U)
         let params: [String: String?]?
+        let uploadData: Data?
 
         init(method: API.Method,
              path: API.Endpoint,
              params: [String: String]? = nil,
              body: T? = nil,
+             uploadData: Data? = nil,
              mapper: @escaping ((Data) throws -> U)) {
             self.method = method
             self.path = path
             self.body = body
+            self.uploadData = uploadData
             self.mapper = mapper
             self.params = params
         }
 
-        func execute(options: API.Options, childObjects: [NSDictionary: PointerType]? = nil) throws -> U {
+        func execute(options: API.Options,
+                     childObjects: [NSDictionary: PointerType]? = nil,
+                     progress: ((Int64, Int64, Int64) -> Void)? = nil) throws -> U {
             var responseResult: Result<U, ParseError>?
 
             let group = DispatchGroup()
             group.enter()
-            self.executeAsync(options: options, callbackQueue: nil, childObjects: childObjects) { result in
+            self.executeAsync(options: options,
+                              callbackQueue: nil,
+                              childObjects: childObjects,
+                              progress: progress) { result in
                 responseResult = result
                 group.leave()
             }
@@ -51,9 +59,10 @@ internal extension API {
             return try response.get()
         }
 
-        // swiftlint:disable:next function_body_length
+        // swiftlint:disable:next function_body_length cyclomatic_complexity
         func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
                           childObjects: [NSDictionary: PointerType]? = nil,
+                          progress: ((Int64, Int64, Int64) -> Void)? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
@@ -96,24 +105,69 @@ internal extension API {
             }
             urlRequest.httpMethod = method.rawValue
 
-            URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
-                switch result {
+            if path.urlComponent.contains("/files/") {
+                let delegate = ParseURLSessionDelegate(progress: progress)
+                let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                if method == .POST {
+                    session.uploadTask(with: urlRequest, from: uploadData, mapper: mapper) { result in
+                        switch result {
 
-                case .success(let decoded):
-                    if let callbackQueue = callbackQueue {
-                        callbackQueue.async { completion(.success(decoded)) }
-                    } else {
-                        completion(.success(decoded))
+                        case .success(let decoded):
+                            if let callbackQueue = callbackQueue {
+                                callbackQueue.async { completion(.success(decoded)) }
+                            } else {
+                                completion(.success(decoded))
+                            }
+
+                        case .failure(let error):
+                            if let callbackQueue = callbackQueue {
+                                callbackQueue.async { completion(.failure(error)) }
+                            } else {
+                                completion(.failure(error))
+                            }
+                        }
                     }
+                } else {
+                    session.downloadTask(with: urlRequest, mapper: mapper) { result in
+                        switch result {
 
-                case .failure(let error):
-                    if let callbackQueue = callbackQueue {
-                        callbackQueue.async { completion(.failure(error)) }
-                    } else {
-                        completion(.failure(error))
+                        case .success(let decoded):
+                            if let callbackQueue = callbackQueue {
+                                callbackQueue.async { completion(.success(decoded)) }
+                            } else {
+                                completion(.success(decoded))
+                            }
+
+                        case .failure(let error):
+                            if let callbackQueue = callbackQueue {
+                                callbackQueue.async { completion(.failure(error)) }
+                            } else {
+                                completion(.failure(error))
+                            }
+                        }
+                    }
+                }
+            } else {
+                URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
+                    switch result {
+
+                    case .success(let decoded):
+                        if let callbackQueue = callbackQueue {
+                            callbackQueue.async { completion(.success(decoded)) }
+                        } else {
+                            completion(.success(decoded))
+                        }
+
+                    case .failure(let error):
+                        if let callbackQueue = callbackQueue {
+                            callbackQueue.async { completion(.failure(error)) }
+                        } else {
+                            completion(.failure(error))
+                        }
                     }
                 }
             }
+
         }
 
         enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
@@ -123,6 +177,13 @@ internal extension API {
 }
 
 internal extension API.Command {
+
+    static func uploadCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
+        API.Command(method: .POST, path: .file(fileName: object.name), uploadData: object.data) { (data) -> ParseFile in
+            try ParseCoding.jsonDecoder().decode(FileUploadResponse.self, from: data).apply(to: object)
+        }
+    }
+
     // MARK: Saving
     static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         if object.isSaved {
@@ -366,4 +427,4 @@ extension API.Command where T: Encodable {
         let batchCommand = BatchCommand(requests: commands)
         return RESTBatchCommandTypeEncodable<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
-}
+} // swiftlint:disable:this file_length

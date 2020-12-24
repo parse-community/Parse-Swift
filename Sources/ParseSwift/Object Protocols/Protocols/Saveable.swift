@@ -6,7 +6,7 @@
 //  Copyright © 2020 Parse. All rights reserved.
 //
 
-public protocol Saveable: Codable {
+public protocol Saveable: Encodable {
     associatedtype SavingType
 
     func save(options: API.Options) throws -> SavingType

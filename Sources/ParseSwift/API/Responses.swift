@@ -76,3 +76,17 @@ internal struct LoginSignupResponse: Codable {
     let sessionToken: String
     var updatedAt: Date?
 }
+
+internal struct FileUploadResponse: Decodable {
+    let name: String
+    let url: URL
+
+    func apply(to file: ParseFile) -> ParseFile {
+        var file = file
+        file.name = name
+        file.url = url
+        file.data = nil
+        file.mimeType = nil
+        return file
+    }
+}

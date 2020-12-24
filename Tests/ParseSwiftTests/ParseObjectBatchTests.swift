@@ -278,18 +278,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             case .success(let first):
 
-                guard let savedCreatedAt = first.createdAt,
-                    let savedUpdatedAt = first.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let savedUpdatedAt = first.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-                guard let originalCreatedAt = score.createdAt,
-                    let originalUpdatedAt = score.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let originalUpdatedAt = score.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(first.ACL)
 
@@ -301,18 +297,15 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             case .success(let second):
 
-                guard let savedCreatedAt2 = second.createdAt,
-                    let savedUpdatedAt2 = second.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let savedUpdatedAt2 = second.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-                guard let originalCreatedAt2 = score2.createdAt,
-                    let originalUpdatedAt2 = score2.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let originalUpdatedAt2 = score2.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
 
-                XCTAssertEqual(savedCreatedAt2, originalCreatedAt2)
                 XCTAssertGreaterThan(savedUpdatedAt2, originalUpdatedAt2)
                 XCTAssertNil(second.ACL)
 
@@ -331,18 +324,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch saved[0] {
 
             case .success(let first):
-                guard let savedCreatedAt = first.createdAt,
-                    let savedUpdatedAt = first.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let savedUpdatedAt = first.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-                guard let originalCreatedAt = score.createdAt,
-                    let originalUpdatedAt = score.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let originalUpdatedAt = score.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(first.ACL)
             case .failure(let error):
@@ -352,20 +341,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch saved[1] {
 
             case .success(let second):
-                guard let savedCreatedAt2 = second.createdAt,
-                    let savedUpdatedAt2 = second.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let savedUpdatedAt2 = second.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-                guard let originalCreatedAt2 = score2.createdAt,
-                    let originalUpdatedAt2 = score2.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let originalUpdatedAt2 = score2.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-                /*Date's are not exactly as their original because the URLMocking doesn't use the same dateEncoding
-                 strategy, so we only compare the day*/
-                XCTAssertTrue(Calendar.current.isDate(savedCreatedAt2,
-                                                      equalTo: originalCreatedAt2, toGranularity: .day))
                 XCTAssertGreaterThan(savedUpdatedAt2, originalUpdatedAt2)
                 XCTAssertNil(second.ACL)
             case .failure(let error):
@@ -789,13 +772,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         expectation1.fulfill()
                         return
                     }
-                    guard let originalUpdatedAt = scoresOnServer.first?.updatedAt else {
+                    guard let originalUpdatedAt = scores.first?.updatedAt else {
                             XCTFail("Should unwrap dates")
                             expectation1.fulfill()
                             return
                     }
 
-                    XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                    XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                     XCTAssertNil(first.ACL)
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -805,17 +788,17 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
                 case .success(let second):
                     guard let savedUpdatedAt2 = second.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation1.fulfill()
-                            return
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
                     }
-                    guard let originalUpdatedAt2 = scoresOnServer.last?.updatedAt else {
+                    guard let originalUpdatedAt2 = scores.last?.updatedAt else {
                         XCTFail("Should unwrap dates")
                         expectation1.fulfill()
                         return
                     }
 
-                    XCTAssertEqual(savedUpdatedAt2,
+                    XCTAssertGreaterThan(savedUpdatedAt2,
                                          originalUpdatedAt2)
                     XCTAssertNil(second.ACL)
                 case .failure(let error):
@@ -849,13 +832,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         expectation2.fulfill()
                         return
                     }
-                    guard let originalUpdatedAt = scoresOnServer.first?.updatedAt else {
+                    guard let originalUpdatedAt = scores.first?.updatedAt else {
                         XCTFail("Should unwrap dates")
                         expectation2.fulfill()
                         return
                     }
 
-                    XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                    XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                     XCTAssertNil(first.ACL)
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -869,13 +852,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         expectation2.fulfill()
                         return
                     }
-                    guard let originalUpdatedAt2 = scoresOnServer.last?.updatedAt else {
+                    guard let originalUpdatedAt2 = scores.last?.updatedAt else {
                         XCTFail("Should unwrap dates")
                         expectation2.fulfill()
                         return
                     }
 
-                    XCTAssertEqual(savedUpdatedAt2,
+                    XCTAssertGreaterThan(savedUpdatedAt2,
                                          originalUpdatedAt2)
                     XCTAssertNil(second.ACL)
                 case .failure(let error):
