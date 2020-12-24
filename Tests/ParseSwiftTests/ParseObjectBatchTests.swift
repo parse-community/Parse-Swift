@@ -977,7 +977,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
-        let response = FindResult<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
+        let response = QueryResponse<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
         let encoded: Data!
         do {
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
@@ -1152,7 +1152,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer2.updatedAt = Date()
         scoreOnServer2.ACL = nil
 
-        let response = FindResult<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
+        let response = QueryResponse<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
         let encoded: Data!
         do {
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
@@ -1192,7 +1192,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
-        let response = FindResult<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
+        let response = QueryResponse<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
         let encoded: Data!
         do {
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)

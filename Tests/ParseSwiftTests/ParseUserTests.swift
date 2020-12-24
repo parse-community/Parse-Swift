@@ -1042,7 +1042,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
             user.customKey = "newValue"
-            let userOnServer = FindResult<User>(results: [user], count: 1)
+            let userOnServer = QueryResponse<User>(results: [user], count: 1)
 
             let encoded: Data!
             do {
@@ -1128,7 +1128,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
             user.customKey = "newValue"
-            let userOnServer = FindResult<User>(results: [user], count: 1)
+            let userOnServer = QueryResponse<User>(results: [user], count: 1)
 
             let encoded: Data!
             do {

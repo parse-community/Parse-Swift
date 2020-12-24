@@ -686,7 +686,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
             installation.customKey = "newValue"
-            let installationOnServer = FindResult<Installation>(results: [installation], count: 1)
+            let installationOnServer = QueryResponse<Installation>(results: [installation], count: 1)
 
             let encoded: Data!
             do {
@@ -772,7 +772,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
             installation.customKey = "newValue"
-            let installationOnServer = FindResult<Installation>(results: [installation], count: 1)
+            let installationOnServer = QueryResponse<Installation>(results: [installation], count: 1)
 
             let encoded: Data!
             do {

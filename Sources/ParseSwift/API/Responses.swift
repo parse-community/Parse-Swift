@@ -13,6 +13,7 @@ protocol ChildResponse: Codable {
     var className: String { get set }
 }
 
+// MARK: ParseObject
 internal struct PointerSaveResponse: ChildResponse {
 
     private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
@@ -69,7 +70,53 @@ internal struct UpdateResponse: Decodable {
     }
 }
 
-// MARK: LoginSignupResponse
+// MARK: ParseObject Batch
+internal struct BatchResponseItem<T>: Codable where T: Codable {
+    let success: T?
+    let error: ParseError?
+}
+
+internal struct WriteResponse: Codable {
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseACL?
+
+    func asSaveResponse() -> SaveResponse {
+        guard let objectId = objectId, let createdAt = createdAt else {
+            fatalError("Cannot create a SaveResponse without objectId")
+        }
+        return SaveResponse(objectId: objectId, createdAt: createdAt, ACL: ACL)
+    }
+
+    func asUpdateResponse() -> UpdateResponse {
+        guard let updatedAt = updatedAt else {
+            fatalError("Cannot create an UpdateResponse without updatedAt")
+        }
+        return UpdateResponse(updatedAt: updatedAt)
+    }
+
+    func apply<T>(to object: T, method: API.Method) -> T where T: ParseObject {
+        switch method {
+        case .POST:
+            return asSaveResponse().apply(to: object)
+        case .PUT:
+            return asUpdateResponse().apply(to: object)
+        case .GET:
+            fatalError("Parse-server doesn't support batch fetching like this. Look at \"fetchAll\".")
+        default:
+            fatalError("There is no configured way to apply for method: \(method)")
+        }
+    }
+}
+
+// MARK: Query
+internal struct QueryResponse<T>: Codable where T: ParseObject {
+    let results: [T]
+    let count: Int?
+}
+
+// MARK: ParseUser
 internal struct LoginSignupResponse: Codable {
     let createdAt: Date
     let objectId: String
@@ -77,6 +124,7 @@ internal struct LoginSignupResponse: Codable {
     var updatedAt: Date?
 }
 
+// MARK: ParseFile
 internal struct FileUploadResponse: Decodable {
     let name: String
     let url: URL

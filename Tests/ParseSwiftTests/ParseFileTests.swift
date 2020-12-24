@@ -63,7 +63,7 @@ class ParseFileTests: XCTestCase {
     }
 
     func testUploadCommand() {
-        let file = ParseFile(url: "http://localhost/")
+        let file = ParseFile(cloudURL: "http://localhost/")
 
         let command = file.uploadCommand()
         XCTAssertNotNil(command)

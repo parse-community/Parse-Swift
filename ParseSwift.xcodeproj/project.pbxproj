@@ -245,10 +245,6 @@
 		F97B466524D9C88600F4A88B /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B466324D9C88600F4A88B /* SecureStorage.swift */; };
 		F97B466624D9C88600F4A88B /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B466324D9C88600F4A88B /* SecureStorage.swift */; };
 		F97B466724D9C88600F4A88B /* SecureStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B466324D9C88600F4A88B /* SecureStorage.swift */; };
-		F97B466924D9C8C600F4A88B /* FindResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B466824D9C8C600F4A88B /* FindResult.swift */; };
-		F97B466A24D9C8C600F4A88B /* FindResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B466824D9C8C600F4A88B /* FindResult.swift */; };
-		F97B466B24D9C8C600F4A88B /* FindResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B466824D9C8C600F4A88B /* FindResult.swift */; };
-		F97B466C24D9C8C600F4A88B /* FindResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B466824D9C8C600F4A88B /* FindResult.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -384,7 +380,6 @@
 		F97B464524D9C78B00F4A88B /* IncrementOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncrementOperation.swift; sourceTree = "<group>"; };
 		F97B465E24D9C7B500F4A88B /* KeychainStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		F97B466324D9C88600F4A88B /* SecureStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
-		F97B466824D9C8C600F4A88B /* FindResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FindResult.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -583,7 +578,6 @@
 				705726DF2592C2A800F0ADD5 /* ParseHash.swift */,
 				F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */,
 				70110D562506CE890091CC1D /* BaseParseInstallation.swift */,
-				F97B466824D9C8C600F4A88B /* FindResult.swift */,
 				F97B45C224D9C6F200F4A88B /* NoBody.swift */,
 				70572670259033A700F0ADD5 /* ParseFileManager.swift */,
 			);
@@ -1163,7 +1157,6 @@
 				F97B460624D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				F97B465A24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
 				F97B45E224D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
-				F97B466924D9C8C600F4A88B /* FindResult.swift in Sources */,
 				70572671259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462224D9C6F200F4A88B /* PrimitiveObjectStore.swift in Sources */,
 				F97B45E624D9C6F200F4A88B /* Query.swift in Sources */,
@@ -1238,7 +1231,6 @@
 				F97B460724D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				F97B465B24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
 				F97B45E324D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
-				F97B466A24D9C8C600F4A88B /* FindResult.swift in Sources */,
 				70572672259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462324D9C6F200F4A88B /* PrimitiveObjectStore.swift in Sources */,
 				F97B45E724D9C6F200F4A88B /* Query.swift in Sources */,
@@ -1346,7 +1338,6 @@
 				F97B45F524D9C6F200F4A88B /* Pointer.swift in Sources */,
 				F97B460924D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				F97B463A24D9C74400F4A88B /* Responses.swift in Sources */,
-				F97B466C24D9C8C600F4A88B /* FindResult.swift in Sources */,
 				F97B45DD24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				70572674259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462124D9C6F200F4A88B /* ParseStorage.swift in Sources */,
@@ -1396,7 +1387,6 @@
 				F97B45F424D9C6F200F4A88B /* Pointer.swift in Sources */,
 				F97B460824D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				F97B463924D9C74400F4A88B /* Responses.swift in Sources */,
-				F97B466B24D9C8C600F4A88B /* FindResult.swift in Sources */,
 				F97B45DC24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				70572673259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462024D9C6F200F4A88B /* ParseStorage.swift in Sources */,
