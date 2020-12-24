@@ -134,8 +134,7 @@ class ParseFileTests: XCTestCase {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
         try sampleData.write(to: tempFilePath)
 
-        var parseFile = ParseFile(name: "sampleData.data", localURL: tempFilePath)
-        parseFile.mimeType = "application/octet-stream"
+        let parseFile = ParseFile(name: "sampleData.data", localURL: tempFilePath)
 
         // swiftlint:disable:next line_length
         guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {
@@ -157,6 +156,32 @@ class ParseFileTests: XCTestCase {
         let uploadedFile = try parseFile.upload()
         XCTAssertEqual(uploadedFile.name, response.name)
         XCTAssertEqual(uploadedFile.url, response.url)
+    }
+
+    func testUploadFileStream() throws {
+        let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
+        try sampleData.write(to: tempFilePath)
+
+        var parseFile = ParseFile(name: "sampleData.data", localURL: tempFilePath)
+
+        // swiftlint:disable:next line_length
+        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {
+            XCTFail("Should create URL")
+            return
+        }
+        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        try parseFile.save(options: [], progress: nil, stream: InputStream(fileAtPath: tempFilePath.absoluteString))
     }
 /*
     func testSave() {

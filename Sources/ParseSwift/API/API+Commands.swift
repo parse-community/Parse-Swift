@@ -22,6 +22,7 @@ internal extension API {
         let params: [String: String?]?
         let uploadData: Data?
         let uploadFile: URL?
+        let stream: InputStream?
 
         init(method: API.Method,
              path: API.Endpoint,
@@ -29,21 +30,43 @@ internal extension API {
              body: T? = nil,
              uploadData: Data? = nil,
              uploadFile: URL? = nil,
+             stream: InputStream? = nil,
              mapper: @escaping ((Data) throws -> U)) {
             self.method = method
             self.path = path
             self.body = body
             self.uploadData = uploadData
             self.uploadFile = uploadFile
+            self.stream = stream
             self.mapper = mapper
             self.params = params
+        }
+
+        func executeStream(options: API.Options,
+                           childObjects: [NSDictionary: PointerType]? = nil,
+                           progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                           stream: InputStream? = nil) throws {
+            if let stream = stream {
+                let delegate = ParseURLSessionDelegate(progress: progress, stream: stream)
+                let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+
+                switch self.prepareURLRequest(options: options, childObjects: childObjects) {
+
+                case .success(let urlRequest):
+                    if method == .POST || method == .PUT {
+                        session.uploadTask(withStreamedRequest: urlRequest).resume()
+                        return
+                    }
+                case .failure(let error):
+                    throw error
+                }
+            }
         }
 
         func execute(options: API.Options,
                      childObjects: [NSDictionary: PointerType]? = nil,
                      progress: ((Int64, Int64, Int64) -> Void)? = nil) throws -> U {
             var responseResult: Result<U, ParseError>?
-
             let group = DispatchGroup()
             group.enter()
             self.executeAsync(options: options,
@@ -67,21 +90,95 @@ internal extension API {
                           childObjects: [NSDictionary: PointerType]? = nil,
                           progress: ((Int64, Int64, Int64) -> Void)? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
+
+            switch self.prepareURLRequest(options: options, childObjects: childObjects) {
+
+            case .success(let urlRequest):
+                if path.urlComponent.contains("/files/") {
+                    let delegate = ParseURLSessionDelegate(progress: progress)
+                    let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                    if method == .POST || method == .PUT {
+                        session.uploadTask(with: urlRequest,
+                                           from: uploadData,
+                                           from: uploadFile,
+                                           mapper: mapper) { result in
+                            switch result {
+
+                            case .success(let decoded):
+                                if let callbackQueue = callbackQueue {
+                                    callbackQueue.async { completion(.success(decoded)) }
+                                } else {
+                                    completion(.success(decoded))
+                                }
+
+                            case .failure(let error):
+                                if let callbackQueue = callbackQueue {
+                                    callbackQueue.async { completion(.failure(error)) }
+                                } else {
+                                    completion(.failure(error))
+                                }
+                            }
+                        }
+                    } else {
+                        session.downloadTask(with: urlRequest, mapper: mapper) { result in
+                            switch result {
+
+                            case .success(let decoded):
+                                if let callbackQueue = callbackQueue {
+                                    callbackQueue.async { completion(.success(decoded)) }
+                                } else {
+                                    completion(.success(decoded))
+                                }
+
+                            case .failure(let error):
+                                if let callbackQueue = callbackQueue {
+                                    callbackQueue.async { completion(.failure(error)) }
+                                } else {
+                                    completion(.failure(error))
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
+                        switch result {
+
+                        case .success(let decoded):
+                            if let callbackQueue = callbackQueue {
+                                callbackQueue.async { completion(.success(decoded)) }
+                            } else {
+                                completion(.success(decoded))
+                            }
+
+                        case .failure(let error):
+                            if let callbackQueue = callbackQueue {
+                                callbackQueue.async { completion(.failure(error)) }
+                            } else {
+                                completion(.failure(error))
+                            }
+                        }
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+
+        func prepareURLRequest(options: API.Options,
+                               childObjects: [NSDictionary: PointerType]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
             let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
-                    completion(.failure(ParseError(code: .unknownError,
-                                                   message: "couldn't unrwrap url components for \(url)")))
-                return
+                return .failure(ParseError(code: .unknownError,
+                                           message: "couldn't unrwrap url components for \(url)"))
             }
             components.queryItems = params
 
             guard let urlComponents = components.url else {
-                completion(.failure(ParseError(code: .unknownError,
-                                               message: "couldn't create url from components for \(components)")))
-                return
+                return .failure(ParseError(code: .unknownError,
+                                           message: "couldn't create url from components for \(components)"))
             }
 
             var urlRequest = URLRequest(url: urlComponents)
@@ -92,85 +189,23 @@ internal extension API {
                             .parseEncoder()
                             .encode(urlBody, collectChildren: false,
                                     objectsSavedBeforeThisOne: childObjects) else {
-                        completion(.failure(ParseError(code: .unknownError,
-                                                       message: "couldn't encode body \(urlBody)")))
-                        return
+                            return .failure(ParseError(code: .unknownError,
+                                                       message: "couldn't encode body \(urlBody)"))
                     }
                     urlRequest.httpBody = bodyData.encoded
                 } else {
-                    guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody) else {
-                        completion(.failure(ParseError(code: .unknownError,
-                                                       message: "couldn't encode body \(urlBody)")))
-                        return
+                    guard let bodyData = try? ParseCoding
+                            .parseEncoder()
+                            .encode(urlBody) else {
+                            return .failure(ParseError(code: .unknownError,
+                                                       message: "couldn't encode body \(urlBody)"))
                     }
                     urlRequest.httpBody = bodyData
                 }
             }
             urlRequest.httpMethod = method.rawValue
 
-            if path.urlComponent.contains("/files/") {
-                let delegate = ParseURLSessionDelegate(progress: progress)
-                let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
-                if method == .POST || method == .PUT {
-                    session.uploadTask(with: urlRequest, from: uploadData, from: uploadFile, mapper: mapper) { result in
-                        switch result {
-
-                        case .success(let decoded):
-                            if let callbackQueue = callbackQueue {
-                                callbackQueue.async { completion(.success(decoded)) }
-                            } else {
-                                completion(.success(decoded))
-                            }
-
-                        case .failure(let error):
-                            if let callbackQueue = callbackQueue {
-                                callbackQueue.async { completion(.failure(error)) }
-                            } else {
-                                completion(.failure(error))
-                            }
-                        }
-                    }
-                } else {
-                    session.downloadTask(with: urlRequest, mapper: mapper) { result in
-                        switch result {
-
-                        case .success(let decoded):
-                            if let callbackQueue = callbackQueue {
-                                callbackQueue.async { completion(.success(decoded)) }
-                            } else {
-                                completion(.success(decoded))
-                            }
-
-                        case .failure(let error):
-                            if let callbackQueue = callbackQueue {
-                                callbackQueue.async { completion(.failure(error)) }
-                            } else {
-                                completion(.failure(error))
-                            }
-                        }
-                    }
-                }
-            } else {
-                URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
-                    switch result {
-
-                    case .success(let decoded):
-                        if let callbackQueue = callbackQueue {
-                            callbackQueue.async { completion(.success(decoded)) }
-                        } else {
-                            completion(.success(decoded))
-                        }
-
-                    case .failure(let error):
-                        if let callbackQueue = callbackQueue {
-                            callbackQueue.async { completion(.failure(error)) }
-                        } else {
-                            completion(.failure(error))
-                        }
-                    }
-                }
-            }
-
+            return .success(urlRequest)
         }
 
         enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
@@ -200,6 +235,15 @@ internal extension API.Command {
 
     private static func updateFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
         API.Command(method: .PUT,
+                    path: .file(fileName: object.name),
+                    uploadData: object.data,
+                    uploadFile: object.localURL) { (data) -> ParseFile in
+            try ParseCoding.jsonDecoder().decode(FileUploadResponse.self, from: data).apply(to: object)
+        }
+    }
+
+    static func downloadCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
+        API.Command(method: .GET,
                     path: .file(fileName: object.name),
                     uploadData: object.data,
                     uploadFile: object.localURL) { (data) -> ParseFile in

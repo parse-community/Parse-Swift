@@ -16,10 +16,13 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
 {
 
     var progress: ((Int64, Int64, Int64) -> Void)?
+    var stream: InputStream?
 
-    init (progress: ((Int64, Int64, Int64) -> Void)? = nil) {
+    init (progress: ((Int64, Int64, Int64) -> Void)? = nil,
+          stream: InputStream? = nil) {
         super.init()
         self.progress = progress
+        self.stream = stream
     }
 
     func urlSession(_ session: URLSession,
@@ -42,6 +45,12 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     totalBytesWritten: Int64,
                     totalBytesExpectedToWrite: Int64) {
         progress?(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
+    }
+
+    func urlSession(_ session: URLSession,
+                    task: URLSessionTask,
+                    needNewBodyStream completionHandler: @escaping (InputStream?) -> Void) {
+        completionHandler(stream)
     }
 }
 
