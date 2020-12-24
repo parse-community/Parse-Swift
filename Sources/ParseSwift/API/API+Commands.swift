@@ -216,7 +216,7 @@ internal extension API {
 
 internal extension API.Command {
     // MARK: Uploading
-    static func uploadCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
+    static func uploadFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
         if object.isSaved {
             return updateFileCommand(object)
         }
@@ -242,12 +242,23 @@ internal extension API.Command {
         }
     }
 
-    static func downloadCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
+    // MARK: Downloading File
+    static func downloadFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
         API.Command(method: .GET,
                     path: .file(fileName: object.name),
                     uploadData: object.data,
                     uploadFile: object.localURL) { (data) -> ParseFile in
             try ParseCoding.jsonDecoder().decode(FileUploadResponse.self, from: data).apply(to: object)
+        }
+    }
+
+    // MARK: Deleting File
+    static func deleteFileCommand(_ object: ParseFile) -> API.Command<ParseFile, NoBody> {
+        API.Command(method: .DELETE,
+                    path: .file(fileName: object.name),
+                    uploadData: object.data,
+                    uploadFile: object.localURL) { (data) -> NoBody in
+            try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
         }
     }
 

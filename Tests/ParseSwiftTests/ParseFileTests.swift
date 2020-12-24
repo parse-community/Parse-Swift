@@ -69,7 +69,7 @@ class ParseFileTests: XCTestCase {
         }
         let file = ParseFile(cloudURL: url)
 
-        let command = file.uploadCommand()
+        let command = file.uploadFileCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/files/a")
         XCTAssertEqual(command.method, API.Method.POST)

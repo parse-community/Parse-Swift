@@ -235,7 +235,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
-        return try uploadCommand().executeStream(options: options, progress: progress, stream: stream)
+        return try uploadFileCommand().executeStream(options: options, progress: progress, stream: stream)
     }
 
     internal func upload(options: API.Options = [],
@@ -252,7 +252,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
-        return try uploadCommand().execute(options: options, progress: progress)
+        return try uploadFileCommand().execute(options: options, progress: progress)
     }
 
     internal func upload(options: API.Options = [],
@@ -271,13 +271,52 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
-        uploadCommand().executeAsync(options: options,
+        uploadFileCommand().executeAsync(options: options,
                                      callbackQueue: callbackQueue,
                                      progress: progress, completion: completion)
     }
 
-    internal func uploadCommand() -> API.Command<Self, Self> {
-        return API.Command<Self, Self>.uploadCommand(self)
+    internal func uploadFileCommand() -> API.Command<Self, Self> {
+        return API.Command<Self, Self>.uploadFileCommand(self)
+    }
+}
+
+// MARK: Deleting
+extension ParseFile {
+    /**
+     Deletes the file from the Parse cloud.
+     - warning: Requires the masterKey be passed as one of the set of `options`.
+     - parameter options: A set of options used to delete files.
+     - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
+     */
+    public func delete(options: API.Options) throws {
+        _ = try deleteFileCommand().execute(options: options)
+    }
+
+    /**
+     Deletes the file from the Parse cloud.
+     - warning: Requires the masterKey be passed as one of the set of `options`.
+     - parameter options: A set of options used to delete files.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: A block that will be called when file deletes or fails.
+     */
+    public func delete(options: API.Options,
+                       callbackQueue: DispatchQueue = .main,
+                       completion: @escaping (ParseError?) -> Void) {
+        deleteFileCommand().executeAsync(options: options,
+                                         callbackQueue: callbackQueue) { result in
+            switch result {
+
+            case .success:
+                completion(nil)
+            case .failure(let error):
+                completion(error)
+            }
+        }
+    }
+
+    internal func deleteFileCommand() -> API.Command<Self, NoBody> {
+        return API.Command<Self, NoBody>.deleteFileCommand(self)
     }
 }
 
@@ -298,7 +337,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
-        return try downloadCommand().executeStream(options: options, progress: progress, stream: stream)
+        return try downloadFileCommand().executeStream(options: options, progress: progress, stream: stream)
     }
 
     internal func download(options: API.Options = [],
@@ -315,7 +354,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
-        return try downloadCommand().execute(options: options, progress: progress)
+        return try downloadFileCommand().execute(options: options, progress: progress)
     }
 
     internal func download(options: API.Options = [],
@@ -334,12 +373,12 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
-        downloadCommand().executeAsync(options: options,
+        downloadFileCommand().executeAsync(options: options,
                                      callbackQueue: callbackQueue,
                                      progress: progress, completion: completion)
     }
 
-    internal func downloadCommand() -> API.Command<Self, Self> {
-        return API.Command<Self, Self>.downloadCommand(self)
+    internal func downloadFileCommand() -> API.Command<Self, Self> {
+        return API.Command<Self, Self>.downloadFileCommand(self)
     }
 }
