@@ -1239,19 +1239,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                     return
             }
 
-            switch firstObject {
-
-            case .success(let first):
-                XCTAssertTrue(first)
-            case .failure(let error):
+            if let error = firstObject {
                 XCTFail(error.localizedDescription)
             }
 
-            switch secondObject {
-
-            case .success(let second):
-                XCTAssertTrue(second)
-            case .failure(let error):
+            if let error = secondObject {
                 XCTFail(error.localizedDescription)
             }
 
@@ -1278,19 +1270,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         return
                 }
 
-                switch firstObject {
-
-                case .success(let first):
-                    XCTAssertTrue(first)
-                case .failure(let error):
+                if let error = firstObject {
                     XCTFail(error.localizedDescription)
                 }
 
-                switch secondObject {
-
-                case .success(let second):
-                    XCTAssertTrue(second)
-                case .failure(let error):
+                if let error = secondObject {
                     XCTFail(error.localizedDescription)
                 }
 

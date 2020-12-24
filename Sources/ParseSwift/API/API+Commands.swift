@@ -416,7 +416,7 @@ extension API.Command where T: ParseObject {
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 
-    static func batch(commands: [API.Command<NoBody, NoBody>]) -> RESTBatchCommandNoBodyType<Bool> {
+    static func batch(commands: [API.Command<NoBody, NoBody>]) -> RESTBatchCommandNoBodyType<ParseError?> {
         let commands = commands.compactMap { (command) -> API.Command<NoBody, NoBody>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             return API.Command<NoBody, NoBody>(
@@ -424,33 +424,33 @@ extension API.Command where T: ParseObject {
                 path: .any(path), mapper: command.mapper)
         }
 
-        let mapper = { (data: Data) -> [Result<Bool, ParseError>] in
+        let mapper = { (data: Data) -> [ParseError?] in
 
             let decodingType = [BatchResponseItem<NoBody>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
-                return responses.enumerated().map({ (object) -> (Result<Bool, ParseError>) in
+                return responses.enumerated().map({ (object) -> ParseError? in
                     let response = responses[object.offset]
                     if response.success != nil {
-                        return .success(true)
+                        return nil
                     } else {
                         guard let parseError = response.error else {
-                            return .failure(ParseError(code: .unknownError, message: "unknown error"))
+                            return ParseError(code: .unknownError, message: "unknown error")
                         }
 
-                        return .failure(parseError)
+                        return parseError
                     }
                 })
             } catch {
                 guard let parseError = error as? ParseError else {
-                    return [(.failure(ParseError(code: .unknownError, message: "decoding error: \(error)")))]
+                    return [ParseError(code: .unknownError, message: "decoding error: \(error)")]
                 }
-                return [(.failure(parseError))]
+                return [parseError]
             }
         }
 
         let batchCommand = BatchCommand(requests: commands)
-        return RESTBatchCommandNoBodyType<Bool>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
+        return RESTBatchCommandNoBodyType<ParseError?>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 }
 

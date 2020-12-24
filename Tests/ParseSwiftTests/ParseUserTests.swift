@@ -1406,10 +1406,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             do {
                 let deleted = try [user].deleteAll()
                 deleted.forEach {
-                    switch $0 {
-                    case .success:
-                        return
-                    case .failure(let error):
+                    if let error = $0 {
                         XCTFail("Should have deleted: \(error.localizedDescription)")
                     }
                 }
@@ -1453,10 +1450,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
                 case .success(let deleted):
                     deleted.forEach {
-                        switch $0 {
-                        case .success:
-                            return
-                        case .failure(let error):
+                        if let error = $0 {
                             XCTFail("Should have deleted: \(error.localizedDescription)")
                         }
                     }

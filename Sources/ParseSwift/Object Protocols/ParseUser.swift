@@ -627,7 +627,7 @@ public extension Sequence where Element: ParseUser {
 
      - parameter options: A set of options used to delete objects. Defaults to an empty set.
 
-     - returns: Returns a Result enum with `true` if the delete successful or a `ParseError` if it failed.
+     - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
         1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
         array of other Parse.Error objects. Each error object in this array
         has an "object" property that references the object that could not be
@@ -638,7 +638,7 @@ public extension Sequence where Element: ParseUser {
      - throws: `ParseError`
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
-    func deleteAll(options: API.Options = []) throws -> [(Result<Bool, ParseError>)] {
+    func deleteAll(options: API.Options = []) throws -> [ParseError?] {
         let commands = try map { try $0.deleteCommand() }
         let returnResults = try API.Command<Self.Element, Self.Element>
             .batch(commands: commands)
@@ -654,8 +654,8 @@ public extension Sequence where Element: ParseUser {
      - parameter options: A set of options used to delete objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
-     It should have the following argument signature: `(Result<[(Result<Bool, ParseError>)], ParseError>)`.
-     Each element in the array is a Result enum with `true` if the delete successful or a `ParseError` if it failed.
+     It should have the following argument signature: `(Result<[ParseError?], ParseError>)`.
+     Each element in the array is `nil` if the delete successful or a `ParseError` if it failed.
      1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
      array of other Parse.Error objects. Each error object in this array
      has an "object" property that references the object that could not be
@@ -668,7 +668,7 @@ public extension Sequence where Element: ParseUser {
     func deleteAll(
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (Result<[(Result<Bool, ParseError>)], ParseError>) -> Void
+        completion: @escaping (Result<[ParseError?], ParseError>) -> Void
     ) {
         do {
             let commands = try map({ try $0.deleteCommand() })

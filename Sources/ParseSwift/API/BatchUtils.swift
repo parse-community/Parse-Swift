@@ -14,7 +14,7 @@ typealias ParseObjectBatchResponse<T> = [(Result<T, ParseError>)]
 typealias RESTBatchCommandType<T> = API.Command<ParseObjectBatchCommand<T>, ParseObjectBatchResponse<T>> where T: ParseObject
 
 typealias ParseObjectBatchCommandNoBody<T> = BatchCommand<NoBody, NoBody>
-typealias ParseObjectBatchResponseNoBody<Bool> = [(Result<Bool, ParseError>)]
+typealias ParseObjectBatchResponseNoBody<Bool> = [ParseError?]
 typealias RESTBatchCommandNoBodyType<T> = API.Command<ParseObjectBatchCommandNoBody<T>, ParseObjectBatchResponseNoBody<T>> where T: Codable
 
 typealias ParseObjectBatchCommandEncodable<T> = BatchCommand<T, PointerType> where T: Encodable

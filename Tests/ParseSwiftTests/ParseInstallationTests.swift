@@ -1052,10 +1052,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             do {
                 let deleted = try [installation].deleteAll()
                 deleted.forEach {
-                    switch $0 {
-                    case .success:
-                        return
-                    case .failure(let error):
+                    if let error = $0 {
                         XCTFail("Should have deleted: \(error.localizedDescription)")
                     }
                 }
@@ -1099,10 +1096,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
                 case .success(let deleted):
                     deleted.forEach {
-                        switch $0 {
-                        case .success:
-                            return
-                        case .failure(let error):
+                        if let error = $0 {
                             XCTFail("Should have deleted: \(error.localizedDescription)")
                         }
                     }
