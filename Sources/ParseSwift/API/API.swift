@@ -60,6 +60,8 @@ public struct API {
         case mimeType(String)
         case fileSize(String)
         case removeMimeType
+        case metadata([String: String])
+        case tags([String: String])
 
         public func hash(into hasher: inout Hasher) {
             switch self {
@@ -75,10 +77,15 @@ public struct API {
                 hasher.combine(5)
             case .removeMimeType:
                 hasher.combine(6)
+            case .metadata:
+                hasher.combine(7)
+            case .tags:
+                hasher.combine(8)
             }
         }
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     internal static func getHeaders(options: API.Options) -> [String: String] {
         var headers: [String: String] = ["X-Parse-Application-Id": ParseConfiguration.applicationId,
                                          "Content-Type": "application/json"]
@@ -108,6 +115,14 @@ public struct API {
                 headers["Content-Length"] = fileSize
             case .removeMimeType:
                 headers.removeValue(forKey: "Content-Type")
+            case .metadata(let metadata):
+                metadata.forEach {(key, value) -> Void in
+                    headers[key] = value
+                }
+            case .tags(let tags):
+                tags.forEach {(key, value) -> Void in
+                    headers[key] = value
+                }
             }
         }
 

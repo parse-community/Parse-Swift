@@ -85,8 +85,6 @@ internal struct FileUploadResponse: Decodable {
         var file = file
         file.name = name
         file.url = url
-        file.data = nil
-        file.mimeType = nil
         return file
     }
 }

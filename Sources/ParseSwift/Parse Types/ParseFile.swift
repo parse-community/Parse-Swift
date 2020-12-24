@@ -29,7 +29,7 @@ public struct ParseFile: Saveable, Fetchable {
     public var mimeType: String?
 
     /// Key value pairs to be stored with file object
-    public var metaData: [String: String]?
+    public var metadata: [String: String]?
 
     /// Key value pairs to be stored with file object
     public var tags: [String: String]?
@@ -43,22 +43,22 @@ public struct ParseFile: Saveable, Fetchable {
      - parameter mimeType: Specify the Content-Type header to use for the file,  for example
      "application/pdf". The default is nil. If no value is specified the file type will be inferred from the file
      extention of `name`.
-     - parameter metaData: Optional key value pairs to be stored with file object
+     - parameter metadata: Optional key value pairs to be stored with file object
      - parameter tags: Optional key value pairs to be stored with file object
      */
     public init(name: String = "file", data: Data, mimeType: String? = nil,
-                metaData: [String: String]? = nil, tags: [String: String]? = nil) {
+                metadata: [String: String]? = nil, tags: [String: String]? = nil) {
         self.name = name
         self.data = data
         self.mimeType = mimeType
-        self.metaData = metaData
+        self.metadata = metadata
         self.tags = tags
     }
 
-    public init(name: String = "file", url: String, metaData: [String: String]? = nil, tags: [String: String]? = nil) {
+    public init(name: String = "file", url: String, metadata: [String: String]? = nil, tags: [String: String]? = nil) {
         self.name = name
         self.url = URL(string: url)
-        self.metaData = metaData
+        self.metadata = metadata
         self.tags = tags
     }
 
@@ -93,6 +93,7 @@ public struct ParseFile: Saveable, Fetchable {
         upload(options: options, progress: progress, completion: completion)
     }
 
+    /*
     public func encode(to encoder: Encoder) throws {
         if data == nil && url == nil {
             throw ParseError(code: .unknownError, message: "cannot encode file")
@@ -106,7 +107,7 @@ public struct ParseFile: Saveable, Fetchable {
             try container.encode(__type, forKey: .__type)
             try container.encode(data, forKey: .data)
         }
-    }
+    }*/
 
     public func fetch(options: API.Options) -> ParseFile {
         fatalError()
@@ -114,7 +115,7 @@ public struct ParseFile: Saveable, Fetchable {
 
     enum CodingKeys: String, CodingKey {
         case url
-        case data
+        //case data
         case name
         case __type // swiftlint:disable:this identifier_name
     }
@@ -131,6 +132,12 @@ extension ParseFile {
         } else {
             options.insert(.removeMimeType)
         }
+        if let metadata = metadata {
+            options.insert(.metadata(metadata))
+        }
+        if let tags = tags {
+            options.insert(.tags(tags))
+        }
         return try uploadCommand().execute(options: options, progress: progress)
     }
 
@@ -143,6 +150,12 @@ extension ParseFile {
             options.insert(.mimeType(mimeType))
         } else {
             options.insert(.removeMimeType)
+        }
+        if let metadata = metadata {
+            options.insert(.metadata(metadata))
+        }
+        if let tags = tags {
+            options.insert(.tags(tags))
         }
         uploadCommand().executeAsync(options: options,
                                      callbackQueue: callbackQueue,
