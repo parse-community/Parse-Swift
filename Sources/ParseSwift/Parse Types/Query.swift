@@ -237,68 +237,68 @@ public func containsAll <T>(key: String, array: [T]) -> QueryConstraint where T:
 }
 
 /**
- Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
+ Add a constraint to the query that requires a particular key's coordinates (specified via `ParseGeoPoint`)
  be near a reference point. Distance is calculated based on angular distance on a sphere. Results will be sorted
  by distance from reference point.
  - parameter key: The key to be constrained.
- - parameter geoPoint: The reference point represented as a `GeoPoint`.
+ - parameter geoPoint: The reference point represented as a `ParseGeoPoint`.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func near(key: String, geoPoint: GeoPoint) -> QueryConstraint {
+public func near(key: String, geoPoint: ParseGeoPoint) -> QueryConstraint {
     return QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)
 }
 
 /**
- Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`) be near
+ Add a constraint to the query that requires a particular key's coordinates (specified via `ParseGeoPoint`) be near
  a reference point and within the maximum distance specified (in radians). Distance is calculated based on
  angular distance on a sphere. Results will be sorted by distance (nearest to farthest) from the reference point.
  - parameter key: The key to be constrained.
- - parameter geoPoint: The reference point as a `GeoPoint`.
+ - parameter geoPoint: The reference point as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in radians.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinRadians(key: String, geoPoint: GeoPoint, distance: Double) -> [QueryConstraint] {
+public func withinRadians(key: String, geoPoint: ParseGeoPoint, distance: Double) -> [QueryConstraint] {
     var constraints = [QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)]
     constraints.append(.init(key: key, value: distance, comparator: .maxDistance))
     return constraints
 }
 
 /**
- Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
+ Add a constraint to the query that requires a particular key's coordinates (specified via `ParseGeoPoint`)
  be near a reference point and within the maximum distance specified (in miles). Distance is calculated based
  on a spherical coordinate system. Results will be sorted by distance (nearest to farthest) from the reference point.
  - parameter key: The key to be constrained.
- - parameter geoPoint: The reference point represented as a `GeoPoint`.
+ - parameter geoPoint: The reference point represented as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in miles.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinMiles(key: String, geoPoint: GeoPoint, distance: Double) -> [QueryConstraint] {
-    return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / GeoPoint.earthRadiusMiles))
+public func withinMiles(key: String, geoPoint: ParseGeoPoint, distance: Double) -> [QueryConstraint] {
+    return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / ParseGeoPoint.earthRadiusMiles))
 }
 
 /**
- Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`)
+ Add a constraint to the query that requires a particular key's coordinates (specified via `ParseGeoPoint`)
  be near a reference point and within the maximum distance specified (in kilometers). Distance is calculated based
  on a spherical coordinate system. Results will be sorted by distance (nearest to farthest) from the reference point.
  - parameter key: The key to be constrained.
- - parameter geoPoint: The reference point represented as a `GeoPoint`.
+ - parameter geoPoint: The reference point represented as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in kilometers.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinKilometers(key: String, geoPoint: GeoPoint, distance: Double) -> [QueryConstraint] {
-    return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / GeoPoint.earthRadiusKilometers))
+public func withinKilometers(key: String, geoPoint: ParseGeoPoint, distance: Double) -> [QueryConstraint] {
+    return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / ParseGeoPoint.earthRadiusKilometers))
 }
 
 /**
- Add a constraint to the query that requires a particular key's coordinates (specified via `GeoPoint`) be
+ Add a constraint to the query that requires a particular key's coordinates (specified via `ParseGeoPoint`) be
  contained within a given rectangular geographic bounding box.
  - parameter key: The key to be constrained.
  - parameter fromSouthWest: The lower-left inclusive corner of the box.
  - parameter toNortheast: The upper-right inclusive corner of the box.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinGeoBox(key: String, fromSouthWest southwest: GeoPoint,
-                         toNortheast northeast: GeoPoint) -> QueryConstraint {
+public func withinGeoBox(key: String, fromSouthWest southwest: ParseGeoPoint,
+                         toNortheast northeast: ParseGeoPoint) -> QueryConstraint {
     let array = [southwest, northeast]
     let dictionary = [QueryConstraint.Comparator.box.rawValue: array]
     return .init(key: key, value: dictionary, comparator: .within)
@@ -313,25 +313,25 @@ public func withinGeoBox(key: String, fromSouthWest southwest: GeoPoint,
  Polygon must have at least 3 points.
 
  - parameter key: The key to be constrained.
- - parameter points: The polygon points as an Array of `GeoPoint`'s.
+ - parameter points: The polygon points as an Array of `ParseGeoPoint`'s.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinPolygon(key: String, points: [GeoPoint]) -> QueryConstraint {
+public func withinPolygon(key: String, points: [ParseGeoPoint]) -> QueryConstraint {
     let dictionary = [QueryConstraint.Comparator.polygon.rawValue: points]
     return .init(key: key, value: dictionary, comparator: .geoWithin)
 }
 
 /**
  Add a constraint to the query that requires a particular key's
- coordinates that contains a `GeoPoint`
+ coordinates that contains a `ParseGeoPoint`
  (Requires parse-server@2.6.0)
 
  - parameter key: The key to be constrained.
- - parameter point: The point the polygon contains `GeoPoint`.
+ - parameter point: The point the polygon contains `ParseGeoPoint`.
 
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func polygonContains(key: String, point: GeoPoint) -> QueryConstraint {
+public func polygonContains(key: String, point: ParseGeoPoint) -> QueryConstraint {
     let dictionary = [QueryConstraint.Comparator.point.rawValue: point]
     return .init(key: key, value: dictionary, comparator: .geoIntersects)
 }

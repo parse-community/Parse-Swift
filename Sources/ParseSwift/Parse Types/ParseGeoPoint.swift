@@ -4,11 +4,11 @@ import CoreLocation
 #endif
 
 /**
-  `GeoPoint` is used to embed a latitude / longitude point as the value for a key in a `ParseObject`.
+  `ParseGeoPoint` is used to embed a latitude / longitude point as the value for a key in a `ParseObject`.
    It could be used to perform queries in a geospatial manner using `ParseQuery.-whereKey:nearGeoPoint:`.
-   Currently, instances of `ParseObject` may only have one key associated with a `GeoPoint` type.
+   Currently, instances of `ParseObject` may only have one key associated with a `ParseGeoPoint` type.
 */
-public struct GeoPoint: Codable, Hashable, Equatable {
+public struct ParseGeoPoint: Codable, Hashable, Equatable {
     private let __type: String = "GeoPoint" // swiftlint:disable:this identifier_name
     static let earthRadiusMiles = 3958.8
     static let earthRadiusKilometers = 6371.0
@@ -49,7 +49,7 @@ public struct GeoPoint: Codable, Hashable, Equatable {
     private var _longitude: Double
 
     /**
-     Create a `GeoPoint` instance. Latitude and longitude are set to `0.0`.
+     Create a `ParseGeoPoint` instance. Latitude and longitude are set to `0.0`.
      */
     public init() {
         _latitude = 0.0
@@ -57,7 +57,7 @@ public struct GeoPoint: Codable, Hashable, Equatable {
     }
 
     /**
-      Create a new `GeoPoint` instance with the specified latitude and longitude.
+      Create a new `ParseGeoPoint` instance with the specified latitude and longitude.
        - parameter latitude: Latitude of point in degrees.
        - parameter longitude: Longitude of point in degrees.
      */
@@ -72,7 +72,7 @@ public struct GeoPoint: Codable, Hashable, Equatable {
 
     #if canImport(CoreLocation)
     /**
-      Creates a new `GeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
+      Creates a new `ParseGeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
        - parameter location: Instance of `CLLocation`, with set latitude and longitude.
      */
     public init(location: CLLocation) {
@@ -84,10 +84,10 @@ public struct GeoPoint: Codable, Hashable, Equatable {
     /**
      Get distance in radians from this point to specified point.
 
-     - parameter point: `GeoPoint` that represents the location of other point.
+     - parameter point: `ParseGeoPoint` that represents the location of other point.
      - returns: Distance in radians between the receiver and `point`.
     */
-    public func distanceInRadians(_ point: GeoPoint) -> Double {
+    public func distanceInRadians(_ point: ParseGeoPoint) -> Double {
         let d2r: Double = .pi / 180.0 // radian conversion factor
         let lat1rad = self.latitude * d2r
         let long1rad = self.longitude * d2r
@@ -107,24 +107,24 @@ public struct GeoPoint: Codable, Hashable, Equatable {
     /**
      Get distance in miles from this point to specified point.
 
-     - parameter point: `GeoPoint` that represents the location of other point.
+     - parameter point: `ParseGeoPoint` that represents the location of other point.
      - returns: Distance in miles between the receiver and `point`.
     */
-    public func distanceInMiles(_ point: GeoPoint) -> Double {
+    public func distanceInMiles(_ point: ParseGeoPoint) -> Double {
         return distanceInRadians(point) * Self.earthRadiusMiles
     }
 
     /**
      Get distance in kilometers from this point to specified point.
-     - parameter point: `GeoPoint` that represents the location of other point.
+     - parameter point: `ParseGeoPoint` that represents the location of other point.
      - returns: Distance in kilometers between the receiver and `point`.
     */
-    public func distanceInKilometers(_ point: GeoPoint) -> Double {
+    public func distanceInKilometers(_ point: ParseGeoPoint) -> Double {
         return distanceInRadians(point) * Self.earthRadiusKilometers
     }
 }
 
-extension GeoPoint {
+extension ParseGeoPoint {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         _longitude = try values.decode(Double.self, forKey: .longitude)
@@ -139,7 +139,7 @@ extension GeoPoint {
     }
 }
 
-extension GeoPoint: CustomDebugStringConvertible {
+extension ParseGeoPoint: CustomDebugStringConvertible {
     public var debugDescription: String {
         guard let descriptionData = try? JSONEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
