@@ -46,20 +46,33 @@ class ParseFileTests: XCTestCase {
         MockURLProtocol.removeAll()
         try KeychainStore.shared.deleteAll()
         try ParseStorage.shared.deleteAll()
-        guard let fileManager = ParseFileManager() else {
+
+        guard let fileManager = ParseFileManager(),
+              let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
             throw ParseError(code: .unknownError, message: "Should have initialized file manage")
         }
         let directory = URL(fileURLWithPath: temporaryDirectory, isDirectory: true)
-        let expectation = XCTestExpectation(description: "Delete files")
+        let expectation1 = XCTestExpectation(description: "Delete files1")
         fileManager.removeDirectoryContents(directory) { error in
             guard let error = error else {
-                expectation.fulfill()
+                expectation1.fulfill()
                 return
             }
             XCTFail(error.localizedDescription)
-            expectation.fulfill()
+            expectation1.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        let directory2 = defaultDirectoryPath
+            .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
+        let expectation2 = XCTestExpectation(description: "Delete files2")
+        fileManager.removeDirectoryContents(directory2) { error in
+            guard let error = error else {
+                expectation2.fulfill()
+                return
+            }
+            XCTFail(error.localizedDescription)
+            expectation2.fulfill()
+        }
+        wait(for: [expectation1, expectation2], timeout: 10.0)
     }
 
     func testUploadCommand() {
@@ -67,7 +80,7 @@ class ParseFileTests: XCTestCase {
             XCTFail("Should have created url")
             return
         }
-        let file = ParseFile(cloudURL: url)
+        let file = ParseFile(name: "a", cloudURL: url)
 
         let command = file.uploadFileCommand()
         XCTAssertNotNil(command)
@@ -76,9 +89,19 @@ class ParseFileTests: XCTestCase {
         XCTAssertNil(command.params)
         XCTAssertNil(command.body)
         XCTAssertNil(command.data)
+
+        let file2 = ParseFile(cloudURL: url)
+
+        let command2 = file2.uploadFileCommand()
+        XCTAssertNotNil(command2)
+        XCTAssertEqual(command2.path.urlComponent, "/files/file")
+        XCTAssertEqual(command2.method, API.Method.POST)
+        XCTAssertNil(command2.params)
+        XCTAssertNil(command2.body)
+        XCTAssertNil(command2.data)
     }
 
-    func testUpload() throws {
+    func testSave() throws {
 
         var parseFile = ParseFile(name: "sampleData.data", data: sampleData)
         parseFile.mimeType = "application/octet-stream"
@@ -100,12 +123,12 @@ class ParseFileTests: XCTestCase {
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let uploadedFile = try parseFile.upload()
-        XCTAssertEqual(uploadedFile.name, response.name)
-        XCTAssertEqual(uploadedFile.url, response.url)
+        let savedFile = try parseFile.save()
+        XCTAssertEqual(savedFile.name, response.name)
+        XCTAssertEqual(savedFile.url, response.url)
     }
 
-    func testUploadWithSpecifyingMime() throws {
+    func testSaveWithSpecifyingMime() throws {
         let parseFile = ParseFile(name: "sampleData.data", data: sampleData)
 
         // swiftlint:disable:next line_length
@@ -125,12 +148,12 @@ class ParseFileTests: XCTestCase {
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let uploadedFile = try parseFile.upload()
-        XCTAssertEqual(uploadedFile.name, response.name)
-        XCTAssertEqual(uploadedFile.url, response.url)
+        let savedFile = try parseFile.save()
+        XCTAssertEqual(savedFile.name, response.name)
+        XCTAssertEqual(savedFile.url, response.url)
     }
 
-    func testUploadLocalFile() throws {
+    func testSaveLocalFile() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
         try sampleData.write(to: tempFilePath)
 
@@ -153,12 +176,43 @@ class ParseFileTests: XCTestCase {
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let uploadedFile = try parseFile.upload()
-        XCTAssertEqual(uploadedFile.name, response.name)
-        XCTAssertEqual(uploadedFile.url, response.url)
+        let savedFile = try parseFile.save()
+        XCTAssertEqual(savedFile.name, response.name)
+        XCTAssertEqual(savedFile.url, response.url)
     }
 
-    func testUploadFileStream() throws {
+    func testSaveCloudFile() throws {
+        guard let tempFilePath = URL(string: "https://parseplatform.org/img/logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+
+        let parseFile = ParseFile(name: "logo.svg", cloudURL: tempFilePath)
+
+        // swiftlint:disable:next line_length
+        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let savedFile = try parseFile.save()
+        XCTAssertEqual(savedFile.name, response.name)
+        XCTAssertEqual(savedFile.url, response.url)
+        XCTAssertEqual(savedFile.cloudURL, tempFilePath)
+    }
+
+    func testSaveFileStream() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
         try sampleData.write(to: tempFilePath)
 
@@ -181,7 +235,7 @@ class ParseFileTests: XCTestCase {
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        try parseFile.save(options: [], progress: nil, stream: InputStream(fileAtPath: tempFilePath.absoluteString))
+        try parseFile.save(options: [], progress: nil, stream: InputStream(fileAtPath: tempFilePath.relativePath))
     }
 /*
     func testSave() {

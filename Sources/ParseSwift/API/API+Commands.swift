@@ -22,6 +22,8 @@ internal extension API {
         let params: [String: String?]?
         let uploadData: Data?
         let uploadFile: URL?
+        let parseURL: URL?
+        let otherURL: URL?
         let stream: InputStream?
 
         init(method: API.Method,
@@ -30,6 +32,8 @@ internal extension API {
              body: T? = nil,
              uploadData: Data? = nil,
              uploadFile: URL? = nil,
+             parseURL: URL? = nil,
+             otherURL: URL? = nil,
              stream: InputStream? = nil,
              mapper: @escaping ((Data) throws -> U)) {
             self.method = method
@@ -37,6 +41,8 @@ internal extension API {
             self.body = body
             self.uploadData = uploadData
             self.uploadFile = uploadFile
+            self.parseURL = parseURL
+            self.otherURL = otherURL
             self.stream = stream
             self.mapper = mapper
             self.params = params
@@ -120,23 +126,48 @@ internal extension API {
                             }
                         }
                     } else {
-                        session.downloadTask(with: urlRequest, mapper: mapper) { result in
-                            switch result {
+                        if parseURL != nil {
+                            session.downloadTask(with: urlRequest, mapper: mapper) { result in
+                                switch result {
 
-                            case .success(let decoded):
-                                if let callbackQueue = callbackQueue {
-                                    callbackQueue.async { completion(.success(decoded)) }
-                                } else {
-                                    completion(.success(decoded))
-                                }
+                                case .success(let decoded):
+                                    if let callbackQueue = callbackQueue {
+                                        callbackQueue.async { completion(.success(decoded)) }
+                                    } else {
+                                        completion(.success(decoded))
+                                    }
 
-                            case .failure(let error):
-                                if let callbackQueue = callbackQueue {
-                                    callbackQueue.async { completion(.failure(error)) }
-                                } else {
-                                    completion(.failure(error))
+                                case .failure(let error):
+                                    if let callbackQueue = callbackQueue {
+                                        callbackQueue.async { completion(.failure(error)) }
+                                    } else {
+                                        completion(.failure(error))
+                                    }
                                 }
                             }
+                        } else if let otherURL = self.otherURL {
+                            session.downloadTask(with: otherURL, mapper: mapper) { result in
+                                switch result {
+
+                                case .success(let decoded):
+                                    if let callbackQueue = callbackQueue {
+                                        callbackQueue.async { completion(.success(decoded)) }
+                                    } else {
+                                        completion(.success(decoded))
+                                    }
+
+                                case .failure(let error):
+                                    if let callbackQueue = callbackQueue {
+                                        callbackQueue.async { completion(.failure(error)) }
+                                    } else {
+                                        completion(.failure(error))
+                                    }
+                                }
+                            }
+                        } else {
+                            completion(.failure(ParseError(code: .unknownError,
+                                                           // swiftlint:disable:next line_length
+                                                           message: "Can't download the file without specifying the url")))
                         }
                     }
                 } else {
@@ -246,9 +277,21 @@ internal extension API.Command {
     static func downloadFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
         API.Command(method: .GET,
                     path: .file(fileName: object.name),
-                    uploadData: object.data,
-                    uploadFile: object.localURL) { (data) -> ParseFile in
-            try ParseCoding.jsonDecoder().decode(FileUploadResponse.self, from: data).apply(to: object)
+                    parseURL: object.url,
+                    otherURL: object.cloudURL) { (data) -> ParseFile in
+            let tempFileLocation = try ParseCoding.jsonDecoder().decode(URL.self, from: data)
+            guard let fileManager = ParseFileManager(),
+                  let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
+                throw ParseError(code: .unknownError, message: "Can't create fileManager")
+            }
+            let downloadDirectoryPath = defaultDirectoryPath
+                .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
+            try fileManager.createDirectoryIfNeeded(downloadDirectoryPath.relativePath)
+            let fileLocation = downloadDirectoryPath.appendingPathComponent(tempFileLocation.lastPathComponent)
+            try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
+            var object = object
+            object.localURL = fileLocation
+            return object
         }
     }
 

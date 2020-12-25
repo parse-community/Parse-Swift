@@ -14,6 +14,7 @@ enum ParseConstants {
     static let fileManagementDirectory = "parse/"
     static let fileManagementPrivateDocumentsDirectory = "Private Documents/"
     static let fileManagementLibraryDirectory = "Library/"
+    static let fileDownloadsDirectory = "Downloads"
     #if os(iOS)
     static let deviceType = "ios"
     #elseif os(macOS)

@@ -21,22 +21,20 @@ internal struct ParseFileManager {
     private var defaultDataWritingOptions: Data.WritingOptions {
         var options = Data.WritingOptions.atomic
         #if !os(macOS) || !os(Linux)
-        if #available(OSX 11.0, *) {
             options.insert(.completeFileProtectionUntilFirstUserAuthentication)
-        }
         #endif
         return options
     }
 
     private var localSandBoxDataDirectoryPath: URL? {
-        #if !os(macOS) || !os(Linux)
+        #if os(macOS) || os(Linux)
         return self.defaultDataDirectoryPath
         #else
-        let directoryPath = NSHomeDirectory()
-            .append(ParseConstants.fileManagementLibraryDirectory)
-            .append(ParseConstants.fileManagementPrivateDocumentsDirectory)
-            .append(ParseConstants.fileManagementDirectory)
-        return createDirectoryIfNeeded(directoryPath)
+        let directoryPath = "\(NSHomeDirectory())/\(ParseConstants.fileManagementLibraryDirectory)\(ParseConstants.fileManagementPrivateDocumentsDirectory)\(ParseConstants.fileManagementDirectory)"
+        guard (try? createDirectoryIfNeeded(directoryPath)) != nil else {
+            return nil
+        }
+        return URL(fileURLWithPath: directoryPath, isDirectory: true)
         #endif
     }
 
@@ -50,29 +48,27 @@ internal struct ParseFileManager {
     private let applicationGroupIdentifer: String?
 
     public var defaultDataDirectoryPath: URL? {
+        #if os(macOS) || os(Linux)
         var directoryPath: String!
-        #if !os(macOS) || !os(Linux)
         let paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
         guard let directory = paths.first else {
             return nil
         }
         directoryPath = directory
         directoryPath += "\(ParseConstants.fileManagementDirectory)\(applicationIdentifier)"
-
+        return URL(fileURLWithPath: directoryPath, isDirectory: true)
         #else
         if let groupIdentifier = applicationGroupIdentifer {
-            let paths = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier)
-            guard var directory = paths.first else {
+            guard var directory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier) else {
                 return nil
             }
-            directoryPath = directory
-            directoryPath += "\(ParseConstants.fileManagementDirectory)\(applicationIdentifier)"
+            directory.appendPathComponent(ParseConstants.fileManagementDirectory)
+            directory.appendPathComponent(applicationIdentifier)
+            return directory
         } else {
             return self.localSandBoxDataDirectoryPath
         }
         #endif
-
-        return URL(fileURLWithPath: directoryPath, isDirectory: true)
     }
 
     public func dataItemPathForPathComponent(_ component: String) -> URL? {

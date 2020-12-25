@@ -12,6 +12,14 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
         return url != nil
     }
 
+    internal var isDownloadNeeded: Bool {
+        return cloudURL != nil
+            && url == nil
+            && localURL == nil
+            && data == nil
+            && stream == nil
+    }
+
     /**
       The name of the file.
       Before the file is saved, this is the filename given by the user.
@@ -134,150 +142,10 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
         self.tags = tags
     }
 
-    /*
-    public func encode(to encoder: Encoder) throws {
-        if data == nil && url == nil {
-            throw ParseError(code: .unknownError, message: "cannot encode file")
-        }
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        if let url = url {
-            try container.encode(__type, forKey: .__type)
-            try container.encode(url.absoluteString, forKey: .url)
-        }
-        if let data = data {
-            try container.encode(__type, forKey: .__type)
-            try container.encode(data, forKey: .data)
-        }
-    }*/
-
     enum CodingKeys: String, CodingKey {
         case url
-        //case data
         case name
         case __type // swiftlint:disable:this identifier_name
-    }
-}
-
-// MARK: Saving
-extension ParseFile {
-    /**
-     Creates a file with given data. A name will be assigned to it by the server.
-     - parameter options: A set of options used to save files. Defaults to an empty set.
-     - returns: A saved `ParseFile`.
-     */
-    public mutating func save(options: API.Options,
-                              progress: ((Int64, Int64, Int64) -> Void)? = nil,
-                              stream: InputStream? = nil) throws {
-        if let stream = stream {
-            self.stream = stream
-            try upload(options: options, progress: progress, stream: stream)
-        } else if let stream = self.stream {
-            try upload(options: options, progress: progress, stream: stream)
-        } else {
-            throw ParseError(code: .unknownError, message: "a file stream is required")
-        }
-    }
-
-    /**
-     Creates a file with given data. A name will be assigned to it by the server.
-     - parameter options: A set of options used to save files. Defaults to an empty set.
-     - returns: A saved `ParseFile`.
-     */
-    public func save(options: API.Options) throws -> Self {
-        try upload(options: options)
-    }
-
-    /**
-     
-     - parameter options: A set of options used to save files. Defaults to an empty set.
-     - parameter progress: A block that will be called when file updates it's progress.
-    */
-    public func save(options: API.Options, progress: ((Int64, Int64, Int64) -> Void)?) throws -> Self {
-        try upload(options: options, progress: progress)
-    }
-
-    /**
-     
-     - parameter options: A set of options used to save files. Defaults to an empty set.
-     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter progress: A block that will be called when file updates it's progress.
-     - parameter completion: A block that will be called when file saves or fails.
-    */
-    public func save(options: API.Options,
-                     progress: ((Int64, Int64, Int64) -> Void)? = nil,
-                     completion: @escaping (Result<Self, ParseError>) -> Void) {
-        upload(options: options, progress: progress, completion: completion)
-    }
-}
-
-// MARK: Fetching
-extension ParseFile {
-    public func fetch(options: API.Options) -> ParseFile {
-        fatalError()
-    }
-}
-
-// MARK: Uploading
-extension ParseFile {
-
-    internal func upload(options: API.Options = [],
-                         progress: ((Int64, Int64, Int64) -> Void)? = nil,
-                         stream: InputStream) throws {
-        var options = options
-        if let mimeType = mimeType {
-            options.insert(.mimeType(mimeType))
-        } else {
-            options.insert(.removeMimeType)
-        }
-        if let metadata = metadata {
-            options.insert(.metadata(metadata))
-        }
-        if let tags = tags {
-            options.insert(.tags(tags))
-        }
-        return try uploadFileCommand().executeStream(options: options, progress: progress, stream: stream)
-    }
-
-    internal func upload(options: API.Options = [],
-                         progress: ((Int64, Int64, Int64) -> Void)? = nil) throws -> ParseFile {
-        var options = options
-        if let mimeType = mimeType {
-            options.insert(.mimeType(mimeType))
-        } else {
-            options.insert(.removeMimeType)
-        }
-        if let metadata = metadata {
-            options.insert(.metadata(metadata))
-        }
-        if let tags = tags {
-            options.insert(.tags(tags))
-        }
-        return try uploadFileCommand().execute(options: options, progress: progress)
-    }
-
-    internal func upload(options: API.Options = [],
-                         callbackQueue: DispatchQueue = .main,
-                         progress: ((Int64, Int64, Int64) -> Void)? = nil,
-                         completion: @escaping (Result<Self, ParseError>) -> Void) {
-        var options = options
-        if let mimeType = mimeType {
-            options.insert(.mimeType(mimeType))
-        } else {
-            options.insert(.removeMimeType)
-        }
-        if let metadata = metadata {
-            options.insert(.metadata(metadata))
-        }
-        if let tags = tags {
-            options.insert(.tags(tags))
-        }
-        uploadFileCommand().executeAsync(options: options,
-                                     callbackQueue: callbackQueue,
-                                     progress: progress, completion: completion)
-    }
-
-    internal func uploadFileCommand() -> API.Command<Self, Self> {
-        return API.Command<Self, Self>.uploadFileCommand(self)
     }
 }
 
@@ -320,11 +188,145 @@ extension ParseFile {
     }
 }
 
+// MARK: Saving
+extension ParseFile {
+    /**
+     Creates a file with given data. A name will be assigned to it by the server.
+     - parameter options: A set of options used to save files. Defaults to an empty set.
+     - returns: A saved `ParseFile`.
+     */
+    public mutating func save(options: API.Options = [],
+                              progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                              stream: InputStream?) throws {
+        var options = options
+        if let mimeType = mimeType {
+            options.insert(.mimeType(mimeType))
+        } else {
+            options.insert(.removeMimeType)
+        }
+        if let metadata = metadata {
+            options.insert(.metadata(metadata))
+        }
+        if let tags = tags {
+            options.insert(.tags(tags))
+        }
+
+        if let stream = stream {
+            self.stream = stream
+            return try uploadFileCommand().executeStream(options: options, progress: progress, stream: stream)
+        } else if let stream = self.stream {
+            return try uploadFileCommand().executeStream(options: options, progress: progress, stream: stream)
+        } else {
+            throw ParseError(code: .unknownError, message: "a file stream is required")
+        }
+    }
+
+    /**
+     Creates a file with given data. A name will be assigned to it by the server.
+     - parameter options: A set of options used to save files. Defaults to an empty set.
+     - returns: A saved `ParseFile`.
+     */
+    public func save(options: API.Options = []) throws -> ParseFile {
+        var options = options
+        if let mimeType = mimeType {
+            options.insert(.mimeType(mimeType))
+        } else {
+            options.insert(.removeMimeType)
+        }
+        if let metadata = metadata {
+            options.insert(.metadata(metadata))
+        }
+        if let tags = tags {
+            options.insert(.tags(tags))
+        }
+        if isDownloadNeeded {
+            let fetched = try fetch(options: options)
+            return try fetched.uploadFileCommand().execute(options: options)
+        }
+        return try uploadFileCommand().execute(options: options)
+    }
+
+    /**
+     Creates a file with given data. A name will be assigned to it by the server.
+     - parameter options: A set of options used to save files. Defaults to an empty set.
+     - returns: A saved `ParseFile`.
+     */
+    public func save(options: API.Options = [],
+                              progress: ((Int64, Int64, Int64) -> Void)?) throws -> ParseFile {
+        var options = options
+        if let mimeType = mimeType {
+            options.insert(.mimeType(mimeType))
+        } else {
+            options.insert(.removeMimeType)
+        }
+        if let metadata = metadata {
+            options.insert(.metadata(metadata))
+        }
+        if let tags = tags {
+            options.insert(.tags(tags))
+        }
+        if isDownloadNeeded {
+            let fetched = try fetch(options: options)
+            return try fetched.uploadFileCommand().execute(options: options, progress: progress)
+        }
+        return try uploadFileCommand().execute(options: options, progress: progress)
+    }
+
+    /**
+     
+     - parameter options: A set of options used to save files. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter completion: A block that will be called when file saves or fails.
+    */
+    public func save(options: API.Options = [],
+                              callbackQueue: DispatchQueue = .main,
+                              progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                              completion: @escaping (Result<Self, ParseError>) -> Void) {
+        var options = options
+        if let mimeType = mimeType {
+            options.insert(.mimeType(mimeType))
+        } else {
+            options.insert(.removeMimeType)
+        }
+        if let metadata = metadata {
+            options.insert(.metadata(metadata))
+        }
+        if let tags = tags {
+            options.insert(.tags(tags))
+        }
+        if isDownloadNeeded {
+            fetch(options: options) { result in
+                switch result {
+
+                case .success(let fetched):
+                    fetched.uploadFileCommand()
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue,
+                                      progress: progress, completion: completion)
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        } else {
+            uploadFileCommand()
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue,
+                              progress: progress, completion: completion)
+        }
+
+    }
+
+    internal func uploadFileCommand() -> API.Command<Self, Self> {
+        return API.Command<Self, Self>.uploadFileCommand(self)
+    }
+}
+
 // MARK: Downloading
 extension ParseFile {
-    internal func download(options: API.Options = [],
-                           progress: ((Int64, Int64, Int64) -> Void)? = nil,
-                           stream: InputStream) throws {
+    public func fetch(options: API.Options = [],
+                      progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                      stream: InputStream) throws {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -340,8 +342,24 @@ extension ParseFile {
         return try downloadFileCommand().executeStream(options: options, progress: progress, stream: stream)
     }
 
-    internal func download(options: API.Options = [],
-                           progress: ((Int64, Int64, Int64) -> Void)? = nil) throws -> ParseFile {
+    public func fetch(options: API.Options = []) throws -> ParseFile {
+        var options = options
+        if let mimeType = mimeType {
+            options.insert(.mimeType(mimeType))
+        } else {
+            options.insert(.removeMimeType)
+        }
+        if let metadata = metadata {
+            options.insert(.metadata(metadata))
+        }
+        if let tags = tags {
+            options.insert(.tags(tags))
+        }
+        return try downloadFileCommand().execute(options: options)
+    }
+
+    public func fetch(options: API.Options = [],
+                      progress: ((Int64, Int64, Int64) -> Void)? = nil) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -357,10 +375,17 @@ extension ParseFile {
         return try downloadFileCommand().execute(options: options, progress: progress)
     }
 
-    internal func download(options: API.Options = [],
-                           callbackQueue: DispatchQueue = .main,
-                           progress: ((Int64, Int64, Int64) -> Void)? = nil,
-                           completion: @escaping (Result<Self, ParseError>) -> Void) {
+    /**
+     
+     - parameter options: A set of options used to save files. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter completion: A block that will be called when file saves or fails.
+    */
+    public func fetch(options: API.Options = [],
+                      callbackQueue: DispatchQueue = .main,
+                      progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                      completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -381,4 +406,4 @@ extension ParseFile {
     internal func downloadFileCommand() -> API.Command<Self, Self> {
         return API.Command<Self, Self>.downloadFileCommand(self)
     }
-}
+} // swiftlint:disable:this file_length

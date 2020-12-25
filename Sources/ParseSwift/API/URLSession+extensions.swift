@@ -79,6 +79,29 @@ extension URLSession {
         }
     }
 
+    internal func makeResult<U>(location: URL?,
+                                urlResponse: URLResponse?,
+                                responseError: Error?,
+                                mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
+        if let location = location {
+            do {
+                let data = try ParseCoding.jsonEncoder().encode(location)
+                return try .success(mapper(data))
+            } catch {
+                return .failure(ParseError(code: .unknownError,
+                                           // swiftlint:disable:next line_length
+                                           message: "Error decoding parse-server response: \(error.localizedDescription)"))
+            }
+        } else if let responseError = responseError {
+            return .failure(ParseError(code: .unknownError,
+                                       message: "Unable to sync with parse-server: \(responseError)"))
+        } else {
+            return .failure(ParseError(code: .unknownError,
+                                       // swiftlint:disable:next line_length
+                                       message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
+        }
+    }
+
     internal func dataTask<U>(
         with request: URLRequest,
         mapper: @escaping (Data) throws -> U,
@@ -119,22 +142,6 @@ extension URLSession {
             completion(.failure(ParseError(code: .unknownError, message: "data and file both can't be nil")))
         }
     }
-/*
-    internal func uploadTask<U>(
-        withStreamedRequest request: URLRequest,
-        mapper: @escaping (Data) throws -> U,
-        completion: @escaping(Result<U, ParseError>) -> Void
-    ) {
-
-        let task = uploadTask(withStreamedRequest: request)
-
-        /*
-        { (responseData, urlResponse, responseError) in
-            completion(self.makeResult(responseData: responseData,
-                                  urlResponse: urlResponse,
-                                  responseError: responseError, mapper: mapper))
-        }.resume()*/
-    }*/
 
     internal func downloadTask<U>(
         with request: URLRequest,
@@ -142,10 +149,24 @@ extension URLSession {
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
 
-        downloadTask(with: request) { (_, _, _) in
-            /*completion(self.makeResult(responseData: responseData,
+        downloadTask(with: request) { (location, urlResponse, responseError) in
+            completion(self.makeResult(location: location,
                                   urlResponse: urlResponse,
-                                  responseError: responseError, mapper: mapper))*/
+                                  responseError: responseError, mapper: mapper))
+        }.resume()
+    }
+
+    internal func downloadTask<U>(
+        with url: URL,
+        mapper: @escaping (Data) throws -> U,
+        completion: @escaping(Result<U, ParseError>) -> Void
+    ) {
+
+        downloadTask(with: url) { (location, urlResponse, responseError) in
+            completion(self.makeResult(location: location,
+                                       urlResponse: urlResponse,
+                                       responseError: responseError,
+                                       mapper: mapper))
         }.resume()
     }
 }
