@@ -11,16 +11,16 @@ import Foundation
 internal struct ParseFileManager {
 
     private var defaultDirectoryAttributes: [FileAttributeKey: Any]? {
-        #if !os(macOS) || !os(Linux)
-        return [.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication]
-        #else
+        #if os(macOS) || os(Linux)
         return nil
+        #else
+        return [.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication]
         #endif
     }
 
     private var defaultDataWritingOptions: Data.WritingOptions {
         var options = Data.WritingOptions.atomic
-        #if !os(macOS) || !os(Linux)
+        #if !os(macOS) && !os(Linux)
             options.insert(.completeFileProtectionUntilFirstUserAuthentication)
         #endif
         return options

@@ -579,7 +579,6 @@
 				F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */,
 				70110D562506CE890091CC1D /* BaseParseInstallation.swift */,
 				F97B45C224D9C6F200F4A88B /* NoBody.swift */,
-				70572670259033A700F0ADD5 /* ParseFileManager.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -587,11 +586,11 @@
 		70110D5E25084AF80091CC1D /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				708D035125215F9B00646C70 /* Deletable.swift */,
 				F97B45C524D9C6F200F4A88B /* Fetchable.swift */,
+				70BC988F252A5B5C00FF3074 /* Objectable.swift */,
 				F97B45C824D9C6F200F4A88B /* Queryable.swift */,
 				F97B45C724D9C6F200F4A88B /* Saveable.swift */,
-				708D035125215F9B00646C70 /* Deletable.swift */,
-				70BC988F252A5B5C00FF3074 /* Objectable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -673,12 +672,12 @@
 		F97B45B324D9C6F200F4A88B /* Coding */ = {
 			isa = PBXGroup;
 			children = (
-				F97B45B424D9C6F200F4A88B /* ParseCoding.swift */,
-				F97B45B524D9C6F200F4A88B /* AnyDecodable.swift */,
-				F97B45B624D9C6F200F4A88B /* ParseEncoder.swift */,
-				F97B45B724D9C6F200F4A88B /* Extensions.swift */,
 				F97B45B824D9C6F200F4A88B /* AnyCodable.swift */,
+				F97B45B524D9C6F200F4A88B /* AnyDecodable.swift */,
 				F97B45B924D9C6F200F4A88B /* AnyEncodable.swift */,
+				F97B45B724D9C6F200F4A88B /* Extensions.swift */,
+				F97B45B424D9C6F200F4A88B /* ParseCoding.swift */,
+				F97B45B624D9C6F200F4A88B /* ParseEncoder.swift */,
 			);
 			path = Coding;
 			sourceTree = "<group>";
@@ -687,9 +686,9 @@
 			isa = PBXGroup;
 			children = (
 				F97B45C024D9C6F200F4A88B /* ParseACL.swift */,
+				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
 				F97B45C124D9C6F200F4A88B /* ParseFile.swift */,
 				F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */,
-				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
 				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
 				F97B45BB24D9C6F200F4A88B /* Query.swift */,
 				70110D5D250849B30091CC1D /* Internal */,
@@ -724,6 +723,7 @@
 			isa = PBXGroup;
 			children = (
 				F97B465E24D9C7B500F4A88B /* KeychainStore.swift */,
+				70572670259033A700F0ADD5 /* ParseFileManager.swift */,
 				F97B45CC24D9C6F200F4A88B /* ParseStorage.swift */,
 				F97B45CD24D9C6F200F4A88B /* PrimitiveObjectStore.swift */,
 				F97B466324D9C88600F4A88B /* SecureStorage.swift */,
@@ -734,12 +734,12 @@
 		F97B463F24D9C78B00F4A88B /* Mutation Operations */ = {
 			isa = PBXGroup;
 			children = (
-				F97B464024D9C78B00F4A88B /* ParseMutationContainer.swift */,
-				F97B464124D9C78B00F4A88B /* DeleteOperation.swift */,
 				F97B464224D9C78B00F4A88B /* AddOperation.swift */,
 				F97B464324D9C78B00F4A88B /* AddUniqueOperation.swift */,
-				F97B464424D9C78B00F4A88B /* RemoveOperation.swift */,
+				F97B464124D9C78B00F4A88B /* DeleteOperation.swift */,
 				F97B464524D9C78B00F4A88B /* IncrementOperation.swift */,
+				F97B464024D9C78B00F4A88B /* ParseMutationContainer.swift */,
+				F97B464424D9C78B00F4A88B /* RemoveOperation.swift */,
 			);
 			path = "Mutation Operations";
 			sourceTree = "<group>";

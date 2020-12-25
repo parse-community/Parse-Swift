@@ -514,7 +514,7 @@ public extension Sequence where Element: ParseInstallation {
                 switch results {
 
                 case .success(let saved):
-                    try? Self.Element.updateKeychainIfNeeded(compactMap {$0})
+                    try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
                     completion(.success(saved))
                 case .failure(let error):
                     completion(.failure(error))
@@ -662,7 +662,7 @@ public extension Sequence where Element: ParseInstallation {
                     switch results {
 
                     case .success(let deleted):
-                        try? Self.Element.updateKeychainIfNeeded(compactMap {$0})
+                        try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
                         completion(.success(deleted))
                     case .failure(let error):
                         completion(.failure(error))

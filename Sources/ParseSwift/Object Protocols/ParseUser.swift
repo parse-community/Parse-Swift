@@ -531,7 +531,7 @@ public extension Sequence where Element: ParseUser {
                 switch results {
 
                 case .success(let saved):
-                    try? Self.Element.updateKeychainIfNeeded(compactMap {$0})
+                    try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
                     completion(.success(saved))
                 case .failure(let error):
                     completion(.failure(error))
@@ -553,7 +553,7 @@ public extension Sequence where Element: ParseUser {
     func fetchAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
 
         if (allSatisfy { $0.className == Self.Element.className}) {
-            let uniqueObjectIds = Set(compactMap { $0.objectId })
+            let uniqueObjectIds = Set(self.compactMap { $0.objectId })
             let query = Self.Element.query(containedIn(key: "objectId", array: [uniqueObjectIds]))
             let fetchedObjects = try query.find(options: options)
             var fetchedObjectsToReturn = [(Result<Self.Element, ParseError>)]()
@@ -679,7 +679,7 @@ public extension Sequence where Element: ParseUser {
                     switch results {
 
                     case .success(let deleted):
-                        try? Self.Element.updateKeychainIfNeeded(compactMap {$0})
+                        try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
                         completion(.success(deleted))
                     case .failure(let error):
                         completion(.failure(error))
