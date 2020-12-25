@@ -287,7 +287,9 @@ internal extension API.Command {
             let downloadDirectoryPath = defaultDirectoryPath
                 .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
             try fileManager.createDirectoryIfNeeded(downloadDirectoryPath.relativePath)
-            let fileLocation = downloadDirectoryPath.appendingPathComponent(tempFileLocation.lastPathComponent)
+            let fileData = try Data(contentsOf: tempFileLocation)
+            let tempFileName = ParseHash.md5HashFromData(fileData)
+            let fileLocation = downloadDirectoryPath.appendingPathComponent(tempFileName)
             try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
             var object = object
             object.localURL = fileLocation
@@ -299,8 +301,7 @@ internal extension API.Command {
     static func deleteFileCommand(_ object: ParseFile) -> API.Command<ParseFile, NoBody> {
         API.Command(method: .DELETE,
                     path: .file(fileName: object.name),
-                    uploadData: object.data,
-                    uploadFile: object.localURL) { (data) -> NoBody in
+                    parseURL: object.url) { (data) -> NoBody in
             try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
         }
     }

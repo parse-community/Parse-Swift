@@ -60,7 +60,13 @@ extension URLSession {
                                 urlResponse: URLResponse?,
                                 responseError: Error?,
                                 mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
-        if let responseData = responseData {
+        if let responseError = responseError {
+            guard let parseError = responseError as? ParseError else {
+                return .failure(ParseError(code: .unknownError,
+                                           message: "Unable to sync with parse-server: \(responseError)"))
+            }
+            return .failure(parseError)
+        } else if let responseData = responseData {
             do {
                 return try .success(mapper(responseData))
             } catch {
@@ -69,9 +75,6 @@ extension URLSession {
                                                          // swiftlint:disable:next line_length
                                                          message: "Error decoding parse-server response: \(error.localizedDescription)"))
             }
-        } else if let responseError = responseError {
-            return .failure(ParseError(code: .unknownError,
-                                       message: "Unable to sync with parse-server: \(responseError)"))
         } else {
             return .failure(ParseError(code: .unknownError,
                                        // swiftlint:disable:next line_length
@@ -83,7 +86,13 @@ extension URLSession {
                                 urlResponse: URLResponse?,
                                 responseError: Error?,
                                 mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
-        if let location = location {
+        if let responseError = responseError {
+            guard let parseError = responseError as? ParseError else {
+                return .failure(ParseError(code: .unknownError,
+                                           message: "Unable to sync with parse-server: \(responseError)"))
+            }
+            return .failure(parseError)
+        } else if let location = location {
             do {
                 let data = try ParseCoding.jsonEncoder().encode(location)
                 return try .success(mapper(data))
@@ -92,9 +101,6 @@ extension URLSession {
                                            // swiftlint:disable:next line_length
                                            message: "Error decoding parse-server response: \(error.localizedDescription)"))
             }
-        } else if let responseError = responseError {
-            return .failure(ParseError(code: .unknownError,
-                                       message: "Unable to sync with parse-server: \(responseError)"))
         } else {
             return .failure(ParseError(code: .unknownError,
                                        // swiftlint:disable:next line_length

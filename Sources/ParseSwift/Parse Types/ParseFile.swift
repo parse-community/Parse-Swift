@@ -191,8 +191,10 @@ extension ParseFile {
 // MARK: Saving
 extension ParseFile {
     /**
-     Creates a file with given data. A name will be assigned to it by the server.
+     Creates a file with given stream *synchronously*. A name will be assigned to it by the server.
      - parameter options: A set of options used to save files. Defaults to an empty set.
+     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter stream: An input file stream.
      - returns: A saved `ParseFile`.
      */
     public mutating func save(options: API.Options = [],
@@ -222,7 +224,8 @@ extension ParseFile {
     }
 
     /**
-     Creates a file with given data. A name will be assigned to it by the server.
+     Creates a file with given data *synchronously*. A name will be assigned to it by the server.
+     If the file hasn't been downloaded, it will automatically be downloaded before saved.
      - parameter options: A set of options used to save files. Defaults to an empty set.
      - returns: A saved `ParseFile`.
      */
@@ -247,8 +250,10 @@ extension ParseFile {
     }
 
     /**
-     Creates a file with given data. A name will be assigned to it by the server.
+     Creates a file with given data *synchronously*. A name will be assigned to it by the server.
+     If the file hasn't been downloaded, it will automatically be downloaded before saved.
      - parameter options: A set of options used to save files. Defaults to an empty set.
+     - parameter progress: A block that will be called when file updates it's progress.
      - returns: A saved `ParseFile`.
      */
     public func save(options: API.Options = [],
@@ -273,7 +278,9 @@ extension ParseFile {
     }
 
     /**
-     
+     Creates a file with given data *asynchronously* and executes the given callback block.
+     A name will be assigned to it by the server. If the file hasn't been downloaded, it will automatically
+     be downloaded before saved.
      - parameter options: A set of options used to save files. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter progress: A block that will be called when file updates it's progress.
@@ -324,6 +331,13 @@ extension ParseFile {
 
 // MARK: Downloading
 extension ParseFile {
+    /**
+     Fetches a file with given url *synchronously*.
+     - parameter options: A set of options used to fetch the file. Defaults to an empty set.
+     - parameter progress: A block that will be called when file updates it's progress.
+     - parameter stream: An input file stream.
+     - returns: A saved `ParseFile`.
+     */
     public func fetch(options: API.Options = [],
                       progress: ((Int64, Int64, Int64) -> Void)? = nil,
                       stream: InputStream) throws {
@@ -342,6 +356,11 @@ extension ParseFile {
         return try downloadFileCommand().executeStream(options: options, progress: progress, stream: stream)
     }
 
+    /**
+     Fetches a file with given url *synchronously*.
+     - parameter options: A set of options used to fetch the file. Defaults to an empty set.
+     - returns: A saved `ParseFile`.
+     */
     public func fetch(options: API.Options = []) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
@@ -358,6 +377,12 @@ extension ParseFile {
         return try downloadFileCommand().execute(options: options)
     }
 
+    /**
+     Fetches a file with given url *synchronously*.
+     - parameter options: A set of options used to fetch the file. Defaults to an empty set.
+     - parameter progress: A block that will be called when file updates it's progress.
+     - returns: A saved `ParseFile`.
+     */
     public func fetch(options: API.Options = [],
                       progress: ((Int64, Int64, Int64) -> Void)? = nil) throws -> ParseFile {
         var options = options
@@ -376,11 +401,11 @@ extension ParseFile {
     }
 
     /**
-     
-     - parameter options: A set of options used to save files. Defaults to an empty set.
+     Fetches a file with given url *asynchronously*.
+     - parameter options: A set of options used to fetch the file. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter progress: A block that will be called when file updates it's progress.
-     - parameter completion: A block that will be called when file saves or fails.
+     - parameter completion: A block that will be called when file fetches or fails.
     */
     public func fetch(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
