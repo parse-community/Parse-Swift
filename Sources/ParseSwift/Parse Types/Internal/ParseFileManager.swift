@@ -30,6 +30,7 @@ internal struct ParseFileManager {
         #if os(macOS) || os(Linux)
         return self.defaultDataDirectoryPath
         #else
+        // swiftlint:disable:next line_length
         let directoryPath = "\(NSHomeDirectory())/\(ParseConstants.fileManagementLibraryDirectory)\(ParseConstants.fileManagementPrivateDocumentsDirectory)\(ParseConstants.fileManagementDirectory)"
         guard (try? createDirectoryIfNeeded(directoryPath)) != nil else {
             return nil
@@ -59,7 +60,9 @@ internal struct ParseFileManager {
         return URL(fileURLWithPath: directoryPath, isDirectory: true)
         #else
         if let groupIdentifier = applicationGroupIdentifer {
-            guard var directory = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier) else {
+            guard var directory = FileManager
+                    .default
+                    .containerURL(forSecurityApplicationGroupIdentifier: groupIdentifier) else {
                 return nil
             }
             directory.appendPathComponent(ParseConstants.fileManagementDirectory)

@@ -252,7 +252,7 @@ extension ParseFile {
      - returns: A saved `ParseFile`.
      */
     public func save(options: API.Options = [],
-                              progress: ((Int64, Int64, Int64) -> Void)?) throws -> ParseFile {
+                     progress: ((Int64, Int64, Int64) -> Void)?) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -280,9 +280,9 @@ extension ParseFile {
      - parameter completion: A block that will be called when file saves or fails.
     */
     public func save(options: API.Options = [],
-                              callbackQueue: DispatchQueue = .main,
-                              progress: ((Int64, Int64, Int64) -> Void)? = nil,
-                              completion: @escaping (Result<Self, ParseError>) -> Void) {
+                     callbackQueue: DispatchQueue = .main,
+                     progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                     completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
