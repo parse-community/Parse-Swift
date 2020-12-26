@@ -53,14 +53,18 @@ internal extension API {
                            progress: ((Int64, Int64, Int64) -> Void)? = nil,
                            stream: InputStream? = nil) throws {
             if let stream = stream {
-                let delegate = ParseURLSessionDelegate(progress: progress, stream: stream)
-                let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
 
                 switch self.prepareURLRequest(options: options, childObjects: childObjects) {
 
                 case .success(let urlRequest):
                     if method == .POST || method == .PUT {
-                        session.uploadTask(withStreamedRequest: urlRequest).resume()
+                        if !ParseConfiguration.isTestingSDK {
+                            let delegate = ParseURLSessionDelegate(progress: progress, stream: stream)
+                            let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                            session.uploadTask(withStreamedRequest: urlRequest).resume()
+                        } else {
+                            URLSession.testing.uploadTask(withStreamedRequest: urlRequest).resume()
+                        }
                         return
                     }
                 case .failure(let error):
@@ -101,8 +105,14 @@ internal extension API {
 
             case .success(let urlRequest):
                 if path.urlComponent.contains("/files/") {
-                    let delegate = ParseURLSessionDelegate(progress: progress)
-                    let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                    let session: URLSession!
+                    if !ParseConfiguration.isTestingSDK {
+                        let delegate = ParseURLSessionDelegate(progress: progress)
+                        session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                    } else {
+                        session = URLSession.testing
+                    }
+
                     if method == .POST || method == .PUT {
                         session.uploadTask(with: urlRequest,
                                            from: uploadData,

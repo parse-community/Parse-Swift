@@ -39,6 +39,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             throw ParseError(code: .unknownError, message: "Should have initialized file manage")
         }
         try fileManager.createDirectoryIfNeeded(temporaryDirectory)
+        ParseSwift.setupForTesting()
     }
 
     override func tearDownWithError() throws {
@@ -340,68 +341,4 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         try parseFile.delete(options: [.useMasterKey])
     }
-/*
-    func testSave() {
-        var user = User()
-        let objectId = "yarr"
-        user.objectId = objectId
-
-        var userOnServer = user
-        userOnServer.createdAt = Date()
-        userOnServer.updatedAt = Date()
-        userOnServer.ACL = nil
-        let encoded: Data!
-        do {
-            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
-            //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        do {
-            let fetched = try user.fetch()
-            XCTAssert(fetched.hasSameObjectId(as: userOnServer))
-            guard let fetchedCreatedAt = fetched.createdAt,
-                let fetchedUpdatedAt = fetched.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = userOnServer.createdAt,
-                let originalUpdatedAt = userOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(fetched.ACL)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-
-        do {
-            let fetched = try user.fetch(options: [.useMasterKey])
-            XCTAssert(fetched.hasSameObjectId(as: userOnServer))
-            guard let fetchedCreatedAt = fetched.createdAt,
-                let fetchedUpdatedAt = fetched.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = userOnServer.createdAt,
-                let originalUpdatedAt = userOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(fetched.ACL)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-    }
-*/
 }

@@ -176,3 +176,7 @@ extension URLSession {
         }.resume()
     }
 }
+
+internal extension URLSession {
+    static var testing = URLSession.shared
+}

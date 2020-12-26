@@ -6,6 +6,7 @@ internal struct ParseConfiguration {
     static var clientKey: String?
     static var serverURL: URL!
     static var mountPath: String!
+    static var isTestingSDK = false //Enable this only for certain tests like ParseFile
 }
 
 // swiftlint:disable:next inclusive_language
@@ -28,4 +29,9 @@ public func initialize(
     DispatchQueue.main.async {
         _ = BaseParseInstallation()
     }
+}
+
+internal func setupForTesting() {
+    ParseConfiguration.isTestingSDK = true
+    _ = URLSession.testing
 }
