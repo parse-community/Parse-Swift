@@ -70,7 +70,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
                 expectation2.fulfill()
                 return
             }
-            XCTFail(error.localizedDescription)
             expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 10.0)
