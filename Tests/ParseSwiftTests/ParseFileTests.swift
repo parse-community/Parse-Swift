@@ -270,7 +270,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         try sampleData.write(to: tempFilePath)
 
-        var parseFile = ParseFile(name: "sampleData.data", localURL: tempFilePath)
+        let parseFile = ParseFile(name: "sampleData.data")
 
         // swiftlint:disable:next line_length
         guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {
@@ -289,7 +289,10 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        try parseFile.save(options: [], progress: nil, stream: InputStream(fileAtPath: tempFilePath.relativePath))
+        guard let stream = InputStream(fileAtPath: tempFilePath.relativePath) else {
+            throw ParseError(code: .unknownError, message: "Should have created file stream")
+        }
+        try parseFile.save(options: [], progress: nil, stream: stream)
     }
 
     func testFetchFile() throws {

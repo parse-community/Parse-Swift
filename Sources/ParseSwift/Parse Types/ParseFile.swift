@@ -17,7 +17,6 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
             && url == nil
             && localURL == nil
             && data == nil
-            && stream == nil
     }
 
     /**
@@ -41,11 +40,6 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
      The link to the file online that should be downloaded.
      */
     public var cloudURL: URL?
-
-    /**
-     The stream for the file.
-     */
-    public var stream: InputStream?
 
     /**
      The contents of the file.
@@ -73,7 +67,7 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
      - parameter metadata: Optional key value pairs to be stored with file object
      - parameter tags: Optional key value pairs to be stored with file object
      */
-    public init(name: String = "file", data: Data, mimeType: String? = nil,
+    public init(name: String = "file", data: Data? = nil, mimeType: String? = nil,
                 metadata: [String: String]? = nil, tags: [String: String]? = nil) {
         self.name = name
         self.data = data
@@ -118,26 +112,6 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
                 metadata: [String: String]? = nil, tags: [String: String]? = nil) {
         self.name = name
         self.cloudURL = cloudURL
-        self.metadata = metadata
-        self.tags = tags
-    }
-
-    /**
-     Creates a file from a stream and name.
-     - parameter name: The name of the new `ParseFile`. The file name must begin with and
-     alphanumeric character, and consist of alphanumeric characters, periods, spaces, underscores,
-     or dashes. The default value is "file".
-     - parameter stream: The stream of the`ParseFile`.
-     - parameter mimeType: Specify the Content-Type header to use for the file,  for example
-     "application/pdf". The default is nil. If no value is specified the file type will be inferred from the file
-     extention of `name`.
-     - parameter metadata: Optional key value pairs to be stored with file object
-     - parameter tags: Optional key value pairs to be stored with file object
-     */
-    public init(name: String = "file", stream: InputStream,
-                metadata: [String: String]? = nil, tags: [String: String]? = nil) {
-        self.name = name
-        self.stream = stream
         self.metadata = metadata
         self.tags = tags
     }
@@ -207,9 +181,9 @@ extension ParseFile {
      - parameter stream: An input file stream.
      - returns: A saved `ParseFile`.
      */
-    public mutating func save(options: API.Options = [],
-                              progress: ((Int64, Int64, Int64) -> Void)? = nil,
-                              stream: InputStream?) throws {
+    public func save(options: API.Options = [],
+                     progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                     stream: InputStream) throws {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -223,14 +197,7 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
 
-        if let stream = stream {
-            self.stream = stream
-            return try uploadFileCommand().executeStream(options: options, progress: progress, stream: stream)
-        } else if let stream = self.stream {
-            return try uploadFileCommand().executeStream(options: options, progress: progress, stream: stream)
-        } else {
-            throw ParseError(code: .unknownError, message: "a file stream is required")
-        }
+        return try uploadFileCommand().executeStream(options: options, progress: progress, stream: stream)
     }
 
     /**

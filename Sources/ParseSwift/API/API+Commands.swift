@@ -51,25 +51,22 @@ internal extension API {
         func executeStream(options: API.Options,
                            childObjects: [NSDictionary: PointerType]? = nil,
                            progress: ((Int64, Int64, Int64) -> Void)? = nil,
-                           stream: InputStream? = nil) throws {
-            if let stream = stream {
+                           stream: InputStream) throws {
+            switch self.prepareURLRequest(options: options, childObjects: childObjects) {
 
-                switch self.prepareURLRequest(options: options, childObjects: childObjects) {
-
-                case .success(let urlRequest):
-                    if method == .POST || method == .PUT {
-                        if !ParseConfiguration.isTestingSDK {
-                            let delegate = ParseURLSessionDelegate(progress: progress, stream: stream)
-                            let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
-                            session.uploadTask(withStreamedRequest: urlRequest).resume()
-                        } else {
-                            URLSession.testing.uploadTask(withStreamedRequest: urlRequest).resume()
-                        }
-                        return
+            case .success(let urlRequest):
+                if method == .POST || method == .PUT {
+                    if !ParseConfiguration.isTestingSDK {
+                        let delegate = ParseURLSessionDelegate(progress: progress, stream: stream)
+                        let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                        session.uploadTask(withStreamedRequest: urlRequest).resume()
+                    } else {
+                        URLSession.testing.uploadTask(withStreamedRequest: urlRequest).resume()
                     }
-                case .failure(let error):
-                    throw error
+                    return
                 }
+            case .failure(let error):
+                throw error
             }
         }
 
