@@ -158,6 +158,10 @@ extension ParseFile {
      - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
      */
     public func delete(options: API.Options) throws {
+        if !options.contains(.useMasterKey) {
+            throw ParseError(code: .unknownError,
+                             message: "You must specify \"useMasterKey\" in \"options\" in order to delete a file.")
+        }
         _ = try deleteFileCommand().execute(options: options)
     }
 
@@ -171,6 +175,12 @@ extension ParseFile {
     public func delete(options: API.Options,
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (ParseError?) -> Void) {
+        if !options.contains(.useMasterKey) {
+            completion(ParseError(code: .unknownError,
+                                  // swiftlint:disable:next line_length
+                                  message: "You must specify \"useMasterKey\" in \"options\" in order to delete a file."))
+            return
+        }
         deleteFileCommand().executeAsync(options: options,
                                          callbackQueue: callbackQueue) { result in
             switch result {
