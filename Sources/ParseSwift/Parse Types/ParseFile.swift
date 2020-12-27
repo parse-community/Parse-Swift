@@ -127,7 +127,7 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
 extension ParseFile {
     /**
      Deletes the file from the Parse cloud.
-     - warning: Requires the masterKey be passed as one of the set of `options`.
+     - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
      - parameter options: A set of options used to delete files.
      - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
      */
@@ -140,11 +140,12 @@ extension ParseFile {
     }
 
     /**
-     Deletes the file from the Parse cloud.
-     - warning: Requires the masterKey be passed as one of the set of `options`.
+     Deletes the file from the Parse cloud. Completes with `nil` if successful.
+     - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
      - parameter options: A set of options used to delete files.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
+     It should have the following argument signature: `(ParseError?)`
      */
     public func delete(options: API.Options,
                        callbackQueue: DispatchQueue = .main,
@@ -176,14 +177,49 @@ extension ParseFile {
 extension ParseFile {
     /**
      Creates a file with given stream *synchronously*. A name will be assigned to it by the server.
+     
+    **Checking progress**
+             
+          guard let parseFileURL = URL(string: "https://parseplatform.org/img/logo.svg") else {
+            return
+          }
+
+          let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
+          let fetchedFile = try parseFile.fetch(stream: InputStream(fileAtPath: URL("parse.org")!) {
+          (_, _, totalWritten, totalExpected) in
+            let currentProgess = totalWritten/totalExpected * 100
+            print(currentProgess)
+          }
+     
+    **Cancelling**
+              
+           guard let parseFileURL = URL(string: "https://parseplatform.org/img/logo.svg") else {
+             return
+           }
+
+           let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
+           let fetchedFile = try parseFile.fetch(stream: InputStream(fileAtPath: URL("parse.org")!){
+           (task, _, totalWritten, totalExpected) in
+             let currentProgess = totalWritten/totalExpected * 100
+             //Cancel when data exceeds 10%
+             if currentProgess > 10 {
+               task.cancel()
+               print("task has been cancelled")
+             }
+             print(currentProgess)
+           }
+      
      - parameter options: A set of options used to save files. Defaults to an empty set.
      - parameter progress: A block that will be called when file updates it's progress.
+     It should have the following argument signature: `(task: URLSessionDownloadTask,
+     bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
+     - warning: The progress block is currently disabled as it's a work in progress. Will be enabled in the future.
      - parameter stream: An input file stream.
      - returns: A saved `ParseFile`.
      */
     public func save(options: API.Options = [],
-                     progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
-                     stream: InputStream) throws {
+                     stream: InputStream,
+                     progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil) throws {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -229,8 +265,41 @@ extension ParseFile {
     /**
      Creates a file with given data *synchronously*. A name will be assigned to it by the server.
      If the file hasn't been downloaded, it will automatically be downloaded before saved.
+     
+    **Checking progress**
+             
+          guard let parseFileURL = URL(string: "https://parseplatform.org/img/logo.svg") else {
+            return
+          }
+
+          let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
+          let fetchedFile = try parseFile.save { (_, _, totalWritten, totalExpected) in
+            let currentProgess = totalWritten/totalExpected * 100
+            print(currentProgess)
+          }
+     
+    **Cancelling**
+              
+           guard let parseFileURL = URL(string: "https://parseplatform.org/img/logo.svg") else {
+             return
+           }
+
+           let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
+           let fetchedFile = try parseFile.save { (task, _, totalWritten, totalExpected) in
+             let currentProgess = totalWritten/totalExpected * 100
+             //Cancel when data exceeds 10%
+             if currentProgess > 10 {
+               task.cancel()
+               print("task has been cancelled")
+             }
+             print(currentProgess)
+           }
+      
      - parameter options: A set of options used to save files. Defaults to an empty set.
      - parameter progress: A block that will be called when file updates it's progress.
+     It should have the following argument signature: `(task: URLSessionDownloadTask,
+     bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
+     - warning: The progress block is currently disabled as it's a work in progress. Will be enabled in the future.
      - returns: A saved `ParseFile`.
      */
     public func save(options: API.Options = [],
@@ -258,10 +327,46 @@ extension ParseFile {
      Creates a file with given data *asynchronously* and executes the given callback block.
      A name will be assigned to it by the server. If the file hasn't been downloaded, it will automatically
      be downloaded before saved.
+    
+    **Checking progress**
+             
+          guard let parseFileURL = URL(string: "https://parseplatform.org/img/logo.svg") else {
+            return
+          }
+
+          let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
+          let fetchedFile = try parseFile.save { (_, _, totalWritten, totalExpected) in
+            let currentProgess = totalWritten/totalExpected * 100
+            print(currentProgess)
+          }
+     
+    **Cancelling**
+              
+           guard let parseFileURL = URL(string: "https://parseplatform.org/img/logo.svg") else {
+             return
+           }
+
+           let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
+           let fetchedFile = try parseFile.save(progress: {(task, _, totalWritten, totalExpected)-> Void in
+               let currentProgess = totalWritten/totalExpected * 100
+                 //Cancel when data exceeds 10%
+                 if currentProgess > 10 {
+                   task.cancel()
+                   print("task has been cancelled")
+                 }
+                 print(currentProgess)
+               }) { result in
+                 ...
+           })
+      
      - parameter options: A set of options used to save files. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter progress: A block that will be called when file updates it's progress.
+     It should have the following argument signature: `(task: URLSessionDownloadTask,
+     bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
+     - warning: The progress block is currently disabled as it's a work in progress. Will be enabled in the future.
      - parameter completion: A block that will be called when file saves or fails.
+     It should have the following argument signature: `(Result<Self, ParseError>)`
     */
     public func save(options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
@@ -356,12 +461,45 @@ extension ParseFile {
 
     /**
      Fetches a file with given url *synchronously*.
+     
+    **Checking progress**
+            
+         guard let parseFileURL = URL(string: "https://parseplatform.org/img/logo.svg") else {
+           return
+         }
+
+         let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
+         let fetchedFile = try parseFile.fetch { (_, _, totalWritten, totalExpected) in
+           let currentProgess = totalWritten/totalExpected * 100
+           print(currentProgess)
+         }
+    
+    **Cancelling**
+             
+          guard let parseFileURL = URL(string: "https://parseplatform.org/img/logo.svg") else {
+            return
+          }
+
+          let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
+          let fetchedFile = try parseFile.fetch { (task, _, totalWritten, totalExpected) in
+            let currentProgess = totalWritten/totalExpected * 100
+            //Cancel when data exceeds 10%
+            if currentProgess > 10 {
+              task.cancel()
+              print("task has been cancelled")
+            }
+            print(currentProgess)
+          }
+     
      - parameter options: A set of options used to fetch the file. Defaults to an empty set.
      - parameter progress: A block that will be called when file updates it's progress.
+     It should have the following argument signature: `(task: URLSessionDownloadTask,
+     bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
+     - warning: The progress block is currently disabled as it's a work in progress. Will be enabled in the future.
      - returns: A saved `ParseFile`.
      */
     public func fetch(options: API.Options = [],
-                      progress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) throws -> ParseFile {
+                      progress: @escaping ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -379,10 +517,46 @@ extension ParseFile {
 
     /**
      Fetches a file with given url *asynchronously*.
+     
+    **Checking progress**
+             
+          guard let parseFileURL = URL(string: "https://parseplatform.org/img/logo.svg") else {
+            return
+          }
+
+          let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
+          let fetchedFile = try parseFile.fetch { (_, _, totalWritten, totalExpected) in
+            let currentProgess = totalWritten/totalExpected * 100
+            print(currentProgess)
+          }
+     
+    **Cancelling**
+              
+           guard let parseFileURL = URL(string: "https://parseplatform.org/img/logo.svg") else {
+             return
+           }
+
+           let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
+           let fetchedFile = try parseFile.fetch(progress: {(task, _, totalWritten, totalExpected)-> Void in
+             let currentProgess = totalWritten/totalExpected * 100
+             //Cancel when data exceeds 10%
+             if currentProgess > 10 {
+               task.cancel()
+               print("task has been cancelled")
+             }
+             print(currentProgess)
+           }) { result in
+             ...
+           }
+      
      - parameter options: A set of options used to fetch the file. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter progress: A block that will be called when file updates it's progress.
+     It should have the following argument signature: `(task: URLSessionDownloadTask,
+     bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
+     - warning: The progress block is currently disabled as it's a work in progress. Will be enabled in the future.
      - parameter completion: A block that will be called when file fetches or fails.
+     It should have the following argument signature: `(Result<Self, ParseError>)`
     */
     public func fetch(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,

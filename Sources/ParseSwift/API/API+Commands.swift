@@ -106,10 +106,10 @@ internal extension API {
             case .success(let urlRequest):
                 if path.urlComponent.contains("/files/") {
                     let session: URLSession!
-
+                    let delegate: ParseURLSessionDelegate!
                     if method == .POST || method == .PUT {
                         if !ParseConfiguration.isTestingSDK {
-                            let delegate = ParseURLSessionDelegate(uploadProgress: uploadProgress)
+                            delegate = ParseURLSessionDelegate(uploadProgress: uploadProgress)
                             session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
                         } else {
                             session = URLSession.testing
@@ -137,7 +137,7 @@ internal extension API {
                         }
                     } else {
                         if !ParseConfiguration.isTestingSDK {
-                            let delegate = ParseURLSessionDelegate(downloadProgress: downloadProgress)
+                            delegate = ParseURLSessionDelegate(downloadProgress: downloadProgress)
                             session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
                         } else {
                             session = URLSession.testing
