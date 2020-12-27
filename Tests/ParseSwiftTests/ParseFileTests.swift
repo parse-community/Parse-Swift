@@ -500,6 +500,38 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNotNil(fetchedFile.localURL)
     }
 
+    func testFetchFileStream() throws {
+        let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
+        guard let sampleData = "Hello World".data(using: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have converted to data")
+        }
+        try sampleData.write(to: tempFilePath)
+
+        let parseFile = ParseFile(name: "sampleData.data")
+
+        // swiftlint:disable:next line_length
+        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {
+            XCTFail("Should create URL")
+            return
+        }
+        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        guard let stream = InputStream(fileAtPath: tempFilePath.relativePath) else {
+            throw ParseError(code: .unknownError, message: "Should have created file stream")
+        }
+        try parseFile.fetch(stream: stream)
+    }
+
     func testDeleteFile() throws {
         // swiftlint:disable:next line_length
         guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
