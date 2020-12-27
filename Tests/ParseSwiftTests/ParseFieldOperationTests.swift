@@ -33,19 +33,7 @@ class ParseFieldOperationTests: XCTestCase {
     }
     
     func testFieldOperationEncoding() {
-        /*PFFieldOperation *operation = [[PFFieldOperation alloc] init];
-        XCTAssertThrows([operation mergeWithPrevious:nil]);
-        XCTAssertThrows([operation mergeWithPrevious:[PFSetOperation setWithValue:@1]]);*/
-        
-        //How do I use the "mergeWithPrevious"?
-        //Point me in a direction
-    }
-    
-    func testFieldOperationMerge() {
-        
-    }
-    
-    func testFieldOperationApply() {
-        
+        let container = score.mutationContainer
+        XCTAssertNoThrow(container.encode(to: <#T##Encoder#>))
     }
 }
