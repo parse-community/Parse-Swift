@@ -4,19 +4,25 @@ import Foundation
   A `ParseFile` object representes a file of binary data stored on the Parse server.
   This can be a image, video, or anything else that an application needs to reference in a non-relational way.
  */
-public struct ParseFile: Saveable, Fetchable, Deletable {
+public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
 
-    private let __type: String = "File" // swiftlint:disable:this identifier_name
-
-    internal var isSaved: Bool {
-        return url != nil
-    }
+    internal let __type: String = "File" // swiftlint:disable:this identifier_name
 
     internal var isDownloadNeeded: Bool {
         return cloudURL != nil
             && url == nil
             && localURL == nil
             && data == nil
+    }
+
+    internal var _localUUID: UUID? // swiftlint:disable:this identifier_name
+    internal var localUUID: UUID {
+        mutating get {
+            if self._localUUID == nil {
+                self._localUUID = UUID()
+            }
+            return _localUUID!
+        }
     }
 
     /**
@@ -55,6 +61,9 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
     /// Key value pairs to be stored with file object
     public var tags: [String: String]?
 
+    /// A set of options used to delete files.
+    public var options: API.Options = []
+
     /**
      Creates a file with given data and name.
      - parameter name: The name of the new `ParseFile`. The file name must begin with and
@@ -68,12 +77,15 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
      - parameter tags: Optional key value pairs to be stored with file object
      */
     public init(name: String = "file", data: Data? = nil, mimeType: String? = nil,
-                metadata: [String: String]? = nil, tags: [String: String]? = nil) {
+                metadata: [String: String]? = nil, tags: [String: String]? = nil,
+                options: API.Options = []) {
         self.name = name
         self.data = data
         self.mimeType = mimeType
         self.metadata = metadata
         self.tags = tags
+        self.options = options
+        _ = self.localUUID //Need to ensure this creates a uuid
     }
 
     /**
@@ -89,11 +101,14 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
      - parameter tags: Optional key value pairs to be stored with file object
      */
     public init(name: String = "file", localURL: URL,
-                metadata: [String: String]? = nil, tags: [String: String]? = nil) {
+                metadata: [String: String]? = nil, tags: [String: String]? = nil,
+                options: API.Options = []) {
         self.name = name
         self.localURL = localURL
         self.metadata = metadata
         self.tags = tags
+        self.options = options
+        _ = self.localUUID //Need to ensure this creates a uuid
     }
 
     /**
@@ -109,11 +124,14 @@ public struct ParseFile: Saveable, Fetchable, Deletable {
      - parameter tags: Optional key value pairs to be stored with file object
      */
     public init(name: String = "file", cloudURL: URL,
-                metadata: [String: String]? = nil, tags: [String: String]? = nil) {
+                metadata: [String: String]? = nil, tags: [String: String]? = nil,
+                options: API.Options = []) {
         self.name = name
         self.cloudURL = cloudURL
         self.metadata = metadata
         self.tags = tags
+        self.options = options
+        _ = self.localUUID //Need to ensure this creates a uuid
     }
 
     enum CodingKeys: String, CodingKey {
@@ -132,6 +150,9 @@ extension ParseFile {
      - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
      */
     public func delete(options: API.Options) throws {
+        var options = options
+        options = options.union(self.options)
+
         if !options.contains(.useMasterKey) {
             throw ParseError(code: .unknownError,
                              message: "You must specify \"useMasterKey\" in \"options\" in order to delete a file.")
@@ -150,6 +171,9 @@ extension ParseFile {
     public func delete(options: API.Options,
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (ParseError?) -> Void) {
+        var options = options
+        options = options.union(self.options)
+
         if !options.contains(.useMasterKey) {
             completion(ParseError(code: .unknownError,
                                   // swiftlint:disable:next line_length
@@ -232,7 +256,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
-
+        options = options.union(self.options)
         return try uploadFileCommand().executeStream(options: options, uploadProgress: progress, stream: stream)
     }
 
@@ -255,6 +279,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options = options.union(self.options)
         if isDownloadNeeded {
             let fetched = try fetch(options: options)
             return try fetched.uploadFileCommand().execute(options: options)
@@ -316,6 +341,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options = options.union(self.options)
         if isDownloadNeeded {
             let fetched = try fetch(options: options)
             return try fetched.uploadFileCommand().execute(options: options, downloadProgress: progress)
@@ -384,6 +410,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options = options.union(self.options)
         if isDownloadNeeded {
             fetch(options: options) { result in
                 switch result {
@@ -435,6 +462,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options = options.union(self.options)
         return try downloadFileCommand().executeStream(options: options, stream: stream)
     }
 
@@ -456,6 +484,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options = options.union(self.options)
         return try downloadFileCommand().execute(options: options)
     }
 
@@ -512,6 +541,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options = options.union(self.options)
         return try downloadFileCommand().execute(options: options, downloadProgress: progress)
     }
 
@@ -574,6 +604,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options = options.union(self.options)
         downloadFileCommand().executeAsync(options: options,
                                      callbackQueue: callbackQueue,
                                      downloadProgress: progress, completion: completion)

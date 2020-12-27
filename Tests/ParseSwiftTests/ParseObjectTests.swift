@@ -955,18 +955,15 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        game.ensureDeepSave { results in
-            switch results {
+        game.ensureDeepSave { (savedChildren, savedChildFiles, parseError) in
 
-            case .success(let savedChildren):
-                XCTAssertEqual(savedChildren.count, 1)
-                savedChildren.forEach { (_, value) in
-                    XCTAssertEqual(value.className, "GameScore")
-                    XCTAssertEqual(value.objectId, "yarr")
-                }
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
+            XCTAssertEqual(savedChildren.count, 1)
+            XCTAssertEqual(savedChildFiles.count, 0)
+            savedChildren.forEach { (_, value) in
+                XCTAssertEqual(value.className, "GameScore")
+                XCTAssertEqual(value.objectId, "yarr")
             }
+            XCTAssertNil(parseError)
         }
     }
 
@@ -976,14 +973,13 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         game.objectId = "nice"
         score.game = game
 
-        game.ensureDeepSave { results in
-            switch results {
+        game.ensureDeepSave { (_, _, parseError) in
 
-            case .success:
+            guard let error = parseError else {
                 XCTFail("Should have failed with an error of detecting a circular dependency")
-            case .failure(let error):
-                XCTAssertTrue(error.message.contains("circular"))
+                return
             }
+            XCTAssertTrue(error.message.contains("circular"))
         }
     }
 
@@ -1011,35 +1007,32 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        game.ensureDeepSave { results in
-            switch results {
+        game.ensureDeepSave { (savedChildren, savedChildFiles, parseError) in
 
-            case .success(let savedChildren):
-                XCTAssertEqual(savedChildren.count, 2)
-                let gameScore = savedChildren.compactMap { (_, value) -> PointerType? in
-                    if value.className == "GameScore" {
-                        return value
-                    } else {
-                        return nil
-                    }
+            XCTAssertEqual(savedChildFiles.count, 0)
+            XCTAssertEqual(savedChildren.count, 2)
+            let gameScore = savedChildren.compactMap { (_, value) -> PointerType? in
+                if value.className == "GameScore" {
+                    return value
+                } else {
+                    return nil
                 }
-                XCTAssertEqual(gameScore.count, 1)
-                XCTAssertEqual(gameScore.first?.className, "GameScore")
-                XCTAssertEqual(gameScore.first?.objectId, "yarr")
-
-                let level = savedChildren.compactMap { (_, value) -> PointerType? in
-                    if value.className == "Level" {
-                        return value
-                    } else {
-                        return nil
-                    }
-                }
-                XCTAssertEqual(level.count, 1)
-                XCTAssertEqual(level.first?.className, "Level")
-                XCTAssertEqual(level.first?.objectId, "yarr") //This is because mocker is only returning 1 response
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
             }
+            XCTAssertEqual(gameScore.count, 1)
+            XCTAssertEqual(gameScore.first?.className, "GameScore")
+            XCTAssertEqual(gameScore.first?.objectId, "yarr")
+
+            let level = savedChildren.compactMap { (_, value) -> PointerType? in
+                if value.className == "Level" {
+                    return value
+                } else {
+                    return nil
+                }
+            }
+            XCTAssertEqual(level.count, 1)
+            XCTAssertEqual(level.first?.className, "Level")
+            XCTAssertEqual(level.first?.objectId, "yarr") //This is because mocker is only returning 1 response
+            XCTAssertNil(parseError)
         }
     }
 

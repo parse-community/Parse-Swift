@@ -354,7 +354,7 @@ extension ParseInstallation {
     }
 }
 
-// MARK: Saveable
+// MARK: Savable
 extension ParseInstallation {
 
     /**
@@ -367,17 +367,14 @@ extension ParseInstallation {
     */
     public func save(options: API.Options = []) throws -> Self {
         var childObjects: [NSDictionary: PointerType]?
+        var childFiles: [UUID: ParseFile]?
         var error: ParseError?
         let group = DispatchGroup()
         group.enter()
-        self.ensureDeepSave(options: options) { result in
-            switch result {
-
-            case .success(let savedChildObjects):
-                childObjects = savedChildObjects
-            case .failure(let parseError):
-                error = parseError
-            }
+        self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) in
+            childObjects = savedChildObjects
+            childFiles = savedChildFiles
+            error = parseError
             group.leave()
         }
         group.wait()
@@ -386,7 +383,10 @@ extension ParseInstallation {
             throw error
         }
 
-        let result: Self = try saveCommand().execute(options: options, childObjects: childObjects)
+        let result: Self = try saveCommand()
+            .execute(options: options,
+                     childObjects: childObjects,
+                     childFiles: childFiles)
         try? Self.updateKeychainIfNeeded([result])
         return result
     }
@@ -405,20 +405,20 @@ extension ParseInstallation {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        self.ensureDeepSave(options: options) { result in
-            switch result {
-
-            case .success(let savedChildObjects):
-                self.saveCommand().executeAsync(options: options, callbackQueue: callbackQueue,
-                                           childObjects: savedChildObjects) { result in
+        self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
+            guard let parseError = error else {
+                self.saveCommand().executeAsync(options: options,
+                                                callbackQueue: callbackQueue,
+                                                childObjects: savedChildObjects,
+                                                childFiles: savedChildFiles) { result in
                     if case .success(let foundResults) = result {
                         try? Self.updateKeychainIfNeeded([foundResults])
                     }
                     completion(result)
                 }
-            case .failure(let parseError):
-                completion(.failure(parseError))
+                return
             }
+            completion(.failure(parseError))
         }
     }
 }

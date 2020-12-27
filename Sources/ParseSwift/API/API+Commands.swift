@@ -50,9 +50,10 @@ internal extension API {
 
         func executeStream(options: API.Options,
                            childObjects: [NSDictionary: PointerType]? = nil,
+                           childFiles: [UUID: ParseFile]? = nil,
                            uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                            stream: InputStream) throws {
-            switch self.prepareURLRequest(options: options, childObjects: childObjects) {
+            switch self.prepareURLRequest(options: options, childObjects: childObjects, childFiles: childFiles) {
 
             case .success(let urlRequest):
                 if method == .POST || method == .PUT {
@@ -72,6 +73,7 @@ internal extension API {
 
         func execute(options: API.Options,
                      childObjects: [NSDictionary: PointerType]? = nil,
+                     childFiles: [UUID: ParseFile]? = nil,
                      uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                      downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) throws -> U {
             var responseResult: Result<U, ParseError>?
@@ -80,6 +82,7 @@ internal extension API {
             self.executeAsync(options: options,
                               callbackQueue: nil,
                               childObjects: childObjects,
+                              childFiles: childFiles,
                               uploadProgress: uploadProgress,
                               downloadProgress: downloadProgress) { result in
                 responseResult = result
@@ -97,11 +100,12 @@ internal extension API {
         // swiftlint:disable:next function_body_length cyclomatic_complexity
         func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
                           childObjects: [NSDictionary: PointerType]? = nil,
+                          childFiles: [UUID: ParseFile]? = nil,
                           uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                           downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
 
-            switch self.prepareURLRequest(options: options, childObjects: childObjects) {
+            switch self.prepareURLRequest(options: options, childObjects: childObjects, childFiles: childFiles) {
 
             case .success(let urlRequest):
                 if path.urlComponent.contains("/files/") {
@@ -212,7 +216,8 @@ internal extension API {
         }
 
         func prepareURLRequest(options: API.Options,
-                               childObjects: [NSDictionary: PointerType]? = nil) -> Result<URLRequest, ParseError> {
+                               childObjects: [NSDictionary: PointerType]? = nil,
+                               childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
             let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
@@ -235,7 +240,7 @@ internal extension API {
                     guard let bodyData = try? ParseCoding
                             .parseEncoder()
                             .encode(urlBody, collectChildren: false,
-                                    objectsSavedBeforeThisOne: childObjects) else {
+                                    objectsSavedBeforeThisOne: childObjects, filesSavedBeforeThisOne: childFiles) else {
                             return .failure(ParseError(code: .unknownError,
                                                        message: "couldn't encode body \(urlBody)"))
                     }
