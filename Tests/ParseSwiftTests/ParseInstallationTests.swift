@@ -144,7 +144,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertEqual(installationIdFromContainer, installationIdFromCurrent)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInstallationMutableValuesCanBeChangedInMemory() {
@@ -160,7 +160,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertNotEqual(originalInstallation.customKey, Installation.current?.customKey)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInstallationCustomValuesNotSavedToKeychain() {
@@ -213,7 +213,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertEqual(originalLocaleIdentifier, Installation.current?.localeIdentifier)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -264,7 +264,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertEqual(originalLocaleIdentifier, keychainInstallation.currentInstallation?.localeIdentifier)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInstallationHasApplicationBadge() {
@@ -289,7 +289,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         #endif
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUpdate() {
@@ -335,7 +335,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUpdateToCurrentInstallation() {
@@ -350,7 +350,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertEqual(savedObjectId, self.testInstallationObjectId)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -412,7 +412,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUpdateAsyncMainQueue() {
@@ -524,7 +524,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testFetchUpdatedCurrentInstallationAsync() { // swiftlint:disable:this function_body_length
@@ -603,7 +603,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDelete() {
@@ -630,7 +630,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAsyncMainQueue() {
@@ -667,7 +667,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -754,7 +754,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -843,7 +843,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -930,7 +930,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -1019,7 +1019,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAll() {
@@ -1062,7 +1062,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAllAsyncMainQueue() {
@@ -1106,7 +1106,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 }
 // swiftlint:disable:this file_length

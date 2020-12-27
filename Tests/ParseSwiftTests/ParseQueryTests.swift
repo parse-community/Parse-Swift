@@ -259,7 +259,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testThreadSafeFindAsync() {
@@ -378,7 +378,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func firstAsync(scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
@@ -396,7 +396,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testThreadSafeFirstAsync() {
@@ -513,7 +513,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testThreadSafeCountAsync() {
@@ -1678,7 +1678,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testExplainFirstSynchronous() {
@@ -1743,7 +1743,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testExplainCountSynchronous() {
@@ -1808,7 +1808,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testHintFindSynchronous() {
@@ -1873,7 +1873,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testHintFirstSynchronous() {
@@ -1938,7 +1938,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testHintCountSynchronous() {
@@ -2003,7 +2003,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 }
 // swiftlint:disable:this file_length

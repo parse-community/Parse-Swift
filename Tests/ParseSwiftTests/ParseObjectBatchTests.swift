@@ -662,7 +662,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeSaveAllAsync() {
@@ -870,7 +870,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeUpdateAllAsync() {
@@ -1133,7 +1133,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             expectation1.fulfill()
         }
 
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testThreadSafeFetchAllAsync() {
@@ -1284,7 +1284,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             expectation1.fulfill()
         }
 
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAllAsyncMainQueue() {

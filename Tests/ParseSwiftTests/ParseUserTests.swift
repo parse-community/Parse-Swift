@@ -286,7 +286,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -347,7 +347,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeFetchAsync() {
@@ -529,7 +529,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUpdate() { // swiftlint:disable:this function_body_length
@@ -638,7 +638,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeUpdateAsync() {
@@ -774,7 +774,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testSignUpAsyncMainQueue() {
@@ -872,7 +872,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testLoginAsyncMainQueue() {
@@ -932,7 +932,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testLogoutAsyncMainQueue() {
@@ -986,7 +986,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAsyncMainQueue() {
@@ -1023,7 +1023,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -1110,7 +1110,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -1198,7 +1198,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -1285,7 +1285,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -1373,7 +1373,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAll() {
@@ -1416,7 +1416,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAllAsyncMainQueue() {
@@ -1460,7 +1460,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 }
 // swiftlint:disable:this file_length

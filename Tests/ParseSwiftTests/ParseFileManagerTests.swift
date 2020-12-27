@@ -61,7 +61,7 @@ class ParseFileManagerTests: XCTestCase {
         fileManager.removeDirectoryContents(directory2) { _ in
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testWriteData() throws {
@@ -86,7 +86,7 @@ class ParseFileManagerTests: XCTestCase {
             expectation1.fulfill()
         }
 
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testCopyItem() throws {
@@ -123,7 +123,7 @@ class ParseFileManagerTests: XCTestCase {
             expectation1.fulfill()
         }
 
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testMoveItem() throws {
@@ -158,7 +158,7 @@ class ParseFileManagerTests: XCTestCase {
             expectation1.fulfill()
         }
 
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testMoveContentsOfDirectory() throws {
@@ -198,6 +198,6 @@ class ParseFileManagerTests: XCTestCase {
             expectation1.fulfill()
         }
 
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 }

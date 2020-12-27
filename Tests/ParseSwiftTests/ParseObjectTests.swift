@@ -372,7 +372,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeFetchAsync() {
@@ -638,7 +638,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeSaveAsync() {
@@ -745,7 +745,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeUpdateAsync() {
@@ -874,7 +874,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail(error.localizedDescription)
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeDeleteAsync() {
