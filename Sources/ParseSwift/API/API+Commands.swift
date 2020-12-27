@@ -50,14 +50,14 @@ internal extension API {
 
         func executeStream(options: API.Options,
                            childObjects: [NSDictionary: PointerType]? = nil,
-                           progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                           uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                            stream: InputStream) throws {
             switch self.prepareURLRequest(options: options, childObjects: childObjects) {
 
             case .success(let urlRequest):
                 if method == .POST || method == .PUT {
                     if !ParseConfiguration.isTestingSDK {
-                        let delegate = ParseURLSessionDelegate(progress: progress, stream: stream)
+                        let delegate = ParseURLSessionDelegate(uploadProgress: uploadProgress, stream: stream)
                         let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
                         session.uploadTask(withStreamedRequest: urlRequest).resume()
                     } else {
@@ -72,14 +72,16 @@ internal extension API {
 
         func execute(options: API.Options,
                      childObjects: [NSDictionary: PointerType]? = nil,
-                     progress: ((Int64, Int64, Int64) -> Void)? = nil) throws -> U {
+                     uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
+                     downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) throws -> U {
             var responseResult: Result<U, ParseError>?
             let group = DispatchGroup()
             group.enter()
             self.executeAsync(options: options,
                               callbackQueue: nil,
                               childObjects: childObjects,
-                              progress: progress) { result in
+                              uploadProgress: uploadProgress,
+                              downloadProgress: downloadProgress) { result in
                 responseResult = result
                 group.leave()
             }
@@ -95,7 +97,8 @@ internal extension API {
         // swiftlint:disable:next function_body_length cyclomatic_complexity
         func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
                           childObjects: [NSDictionary: PointerType]? = nil,
-                          progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                          uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
+                          downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
 
             switch self.prepareURLRequest(options: options, childObjects: childObjects) {
@@ -103,14 +106,14 @@ internal extension API {
             case .success(let urlRequest):
                 if path.urlComponent.contains("/files/") {
                     let session: URLSession!
-                    if !ParseConfiguration.isTestingSDK {
-                        let delegate = ParseURLSessionDelegate(progress: progress)
-                        session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
-                    } else {
-                        session = URLSession.testing
-                    }
 
                     if method == .POST || method == .PUT {
+                        if !ParseConfiguration.isTestingSDK {
+                            let delegate = ParseURLSessionDelegate(uploadProgress: uploadProgress)
+                            session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                        } else {
+                            session = URLSession.testing
+                        }
                         session.uploadTask(with: urlRequest,
                                            from: uploadData,
                                            from: uploadFile,
@@ -133,6 +136,12 @@ internal extension API {
                             }
                         }
                     } else {
+                        if !ParseConfiguration.isTestingSDK {
+                            let delegate = ParseURLSessionDelegate(downloadProgress: downloadProgress)
+                            session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                        } else {
+                            session = URLSession.testing
+                        }
                         if parseURL != nil {
                             session.downloadTask(with: urlRequest, mapper: mapper) { result in
                                 switch result {

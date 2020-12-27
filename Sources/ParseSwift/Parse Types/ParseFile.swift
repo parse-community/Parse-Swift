@@ -182,7 +182,7 @@ extension ParseFile {
      - returns: A saved `ParseFile`.
      */
     public func save(options: API.Options = [],
-                     progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                     progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                      stream: InputStream) throws {
         var options = options
         if let mimeType = mimeType {
@@ -197,7 +197,7 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
 
-        return try uploadFileCommand().executeStream(options: options, progress: progress, stream: stream)
+        return try uploadFileCommand().executeStream(options: options, uploadProgress: progress, stream: stream)
     }
 
     /**
@@ -234,7 +234,7 @@ extension ParseFile {
      - returns: A saved `ParseFile`.
      */
     public func save(options: API.Options = [],
-                     progress: ((Int64, Int64, Int64) -> Void)?) throws -> ParseFile {
+                     progress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)?) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -249,9 +249,9 @@ extension ParseFile {
         }
         if isDownloadNeeded {
             let fetched = try fetch(options: options)
-            return try fetched.uploadFileCommand().execute(options: options, progress: progress)
+            return try fetched.uploadFileCommand().execute(options: options, downloadProgress: progress)
         }
-        return try uploadFileCommand().execute(options: options, progress: progress)
+        return try uploadFileCommand().execute(options: options, downloadProgress: progress)
     }
 
     /**
@@ -265,7 +265,7 @@ extension ParseFile {
     */
     public func save(options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
-                     progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                     progress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
                      completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
         if let mimeType = mimeType {
@@ -287,7 +287,8 @@ extension ParseFile {
                     fetched.uploadFileCommand()
                         .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
-                                      progress: progress, completion: completion)
+                                      downloadProgress: progress,
+                                      completion: completion)
                 case .failure(let error):
                     completion(.failure(error))
                 }
@@ -296,7 +297,8 @@ extension ParseFile {
             uploadFileCommand()
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue,
-                              progress: progress, completion: completion)
+                              downloadProgress: progress,
+                              completion: completion)
         }
 
     }
@@ -311,12 +313,10 @@ extension ParseFile {
     /**
      Fetches a file with given url *synchronously*.
      - parameter options: A set of options used to fetch the file. Defaults to an empty set.
-     - parameter progress: A block that will be called when file updates it's progress.
      - parameter stream: An input file stream.
      - returns: A saved `ParseFile`.
      */
     public func fetch(options: API.Options = [],
-                      progress: ((Int64, Int64, Int64) -> Void)? = nil,
                       stream: InputStream) throws {
         var options = options
         if let mimeType = mimeType {
@@ -330,7 +330,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
-        return try downloadFileCommand().executeStream(options: options, progress: progress, stream: stream)
+        return try downloadFileCommand().executeStream(options: options, stream: stream)
     }
 
     /**
@@ -361,7 +361,7 @@ extension ParseFile {
      - returns: A saved `ParseFile`.
      */
     public func fetch(options: API.Options = [],
-                      progress: ((Int64, Int64, Int64) -> Void)? = nil) throws -> ParseFile {
+                      progress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -374,7 +374,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
-        return try downloadFileCommand().execute(options: options, progress: progress)
+        return try downloadFileCommand().execute(options: options, downloadProgress: progress)
     }
 
     /**
@@ -386,7 +386,7 @@ extension ParseFile {
     */
     public func fetch(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
-                      progress: ((Int64, Int64, Int64) -> Void)? = nil,
+                      progress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
         if let mimeType = mimeType {
@@ -402,7 +402,7 @@ extension ParseFile {
         }
         downloadFileCommand().executeAsync(options: options,
                                      callbackQueue: callbackQueue,
-                                     progress: progress, completion: completion)
+                                     downloadProgress: progress, completion: completion)
     }
 
     internal func downloadFileCommand() -> API.Command<Self, Self> {

@@ -15,13 +15,16 @@ import FoundationNetworking
 class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDelegate, URLSessionDownloadDelegate
 {
 
-    var progress: ((Int64, Int64, Int64) -> Void)?
+    var downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)?
+    var uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)?
     var stream: InputStream?
 
-    init (progress: ((Int64, Int64, Int64) -> Void)? = nil,
+    init (uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
+          downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
           stream: InputStream? = nil) {
         super.init()
-        self.progress = progress
+        self.uploadProgress = uploadProgress
+        self.downloadProgress = downloadProgress
         self.stream = stream
     }
 
@@ -30,13 +33,13 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     didSendBodyData bytesSent: Int64,
                     totalBytesSent: Int64,
                     totalBytesExpectedToSend: Int64) {
-        progress?(bytesSent, totalBytesSent, totalBytesExpectedToSend)
+        uploadProgress?(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
     }
 
     func urlSession(_ session: URLSession,
                     downloadTask: URLSessionDownloadTask,
                     didFinishDownloadingTo location: URL) {
-        progress = nil
+        downloadProgress = nil
     }
 
     func urlSession(_ session: URLSession,
@@ -44,7 +47,7 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     didWriteData bytesWritten: Int64,
                     totalBytesWritten: Int64,
                     totalBytesExpectedToWrite: Int64) {
-        progress?(bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
+        downloadProgress?(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
     }
 
     func urlSession(_ session: URLSession,
