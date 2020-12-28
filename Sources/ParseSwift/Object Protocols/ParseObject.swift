@@ -427,7 +427,7 @@ extension ParseObject {
                     }
                     waitingToBeSaved = nextBatch
 
-                    if savable.count == 0 {
+                    if savable.count == 0 && savableFiles.count == 0 {
                         completion(finishedSaving, filesFinishedSaving, ParseError(code: .unknownError,
                                                        message: "Found a circular dependency in ParseObject."))
                         return

@@ -143,11 +143,53 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(command2.data)
     }
 
-    func testSave() throws {
+    func testLocalUUID() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
             throw ParseError(code: .unknownError, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
+        let localUUID = parseFile._localUUID
+        XCTAssertNotNil(localUUID)
+        XCTAssertEqual(localUUID,
+                       parseFile._localUUID,
+                       "localUUID should remain the same no matter how many times the getter is called")
+    }
+
+    func testFileEquality() throws {
+        guard let sampleData = "Hello World".data(using: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have converted to data")
+        }
+
+        guard let url1 = URL(string: "https://parseplatform.org/img/logo.svg"),
+              let url2 = URL(string: "https://parseplatform.org/img/logo2.svg") else {
+            throw ParseError(code: .unknownError, message: "Should have created urls")
+        }
+
+        var parseFile1 = ParseFile(name: "sampleData.txt", data: sampleData)
+        parseFile1.url = url1
+        var parseFile2 = ParseFile(name: "sampleData2.txt", data: sampleData)
+        parseFile2.url = url2
+        var parseFile3 = ParseFile(name: "sampleData3.txt", data: sampleData)
+        parseFile3.url = url1
+        XCTAssertNotEqual(parseFile1, parseFile2, "different urls, url takes precedence over localUUID")
+        XCTAssertEqual(parseFile1, parseFile3, "same urls")
+        parseFile1.url = nil
+        parseFile2.url = nil
+        XCTAssertNotEqual(parseFile1, parseFile2, "no urls, but localUUIDs shoud be different")
+        let uuid = UUID()
+        parseFile1._localUUID = uuid
+        parseFile2._localUUID = uuid
+        XCTAssertEqual(parseFile1, parseFile2, "no urls, but localUUIDs shoud be the same")
+    }
+
+    func testSave() throws {
+        guard let sampleData = "Hello World".data(using: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have converted to data")
+        }
+        let parseFile = ParseFile(name: "sampleData.txt",
+                                  data: sampleData,
+                                  metadata: ["Testing": "123"],
+                                  tags: ["Hey": "now"])
 
         // swiftlint:disable:next line_length
         guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {

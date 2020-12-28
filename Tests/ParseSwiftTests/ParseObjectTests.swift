@@ -56,11 +56,24 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var score: GameScore
         var scores = [GameScore]()
         var name = "Hello"
+        var profilePicture: ParseFile?
 
         //: a custom initializer
         init(score: GameScore) {
             self.score = score
         }
+    }
+
+    struct Game2: ParseObject {
+        //: Those are required for Object
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        //: Your own properties
+        var name = "Hello"
+        var profilePicture: ParseFile?
     }
 
     class GameScoreClass: ParseObject {
@@ -180,11 +193,24 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                               serverURL: url)
     }
 
-    override func tearDown() {
+    override func tearDownWithError() throws {
         super.tearDown()
         MockURLProtocol.removeAll()
-        try? KeychainStore.shared.deleteAll()
-        try? ParseStorage.shared.deleteAll()
+        try KeychainStore.shared.deleteAll()
+        try ParseStorage.shared.deleteAll()
+
+        guard let fileManager = ParseFileManager(),
+              let defaultDirectoryPath = fileManager.defaultDataDirectoryPath else {
+            throw ParseError(code: .unknownError, message: "Should have initialized file manage")
+        }
+
+        let directory2 = defaultDirectoryPath
+            .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
+        let expectation2 = XCTestExpectation(description: "Delete files2")
+        fileManager.removeDirectoryContents(directory2) { _ in
+            expectation2.fulfill()
+        }
+        wait(for: [expectation2], timeout: 20.0)
     }
 
     func testFetchCommand() {
@@ -1087,6 +1113,47 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
+        }
+    }
+
+    func testDeepSaveFile() throws {
+        ParseSwift.setupForTesting()
+        var game = Game2()
+        game.objectId = "nice"
+
+        guard let cloudPath = URL(string: "https://parseplatform.org/img/logo.svg"),
+              // swiftlint:disable:next line_length
+              let parseURL = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+
+        let parseFile = ParseFile(name: "profile.svg", cloudURL: cloudPath)
+        game.profilePicture = parseFile
+
+        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: parseURL)
+
+        let encoded: Data!
+        do {
+            encoded = try game.getEncoder(skipKeys: false).encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        game.ensureDeepSave { (savedChildren, savedChildFiles, parseError) in
+
+            XCTAssertEqual(savedChildren.count, 0)
+            XCTAssertEqual(savedChildFiles.count, 1)
+            savedChildFiles.forEach { (_, value) in
+                XCTAssertEqual(value.url, response.url)
+                XCTAssertEqual(value.name, response.name)
+            }
+            XCTAssertNil(parseError)
         }
     }
 }
