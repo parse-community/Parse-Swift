@@ -18,11 +18,13 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
     var downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)?
     var uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)?
     var stream: InputStream?
+    var callbackQueue: DispatchQueue?
 
-    init (uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
+    init (callbackQueue: DispatchQueue?, uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
           downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
           stream: InputStream? = nil) {
         super.init()
+        self.callbackQueue = callbackQueue
         self.uploadProgress = uploadProgress
         self.downloadProgress = downloadProgress
         self.stream = stream
@@ -33,7 +35,13 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     didSendBodyData bytesSent: Int64,
                     totalBytesSent: Int64,
                     totalBytesExpectedToSend: Int64) {
-        uploadProgress?(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
+        if let callbackQueue = callbackQueue {
+            callbackQueue.async {
+                self.uploadProgress?(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
+            }
+        } else {
+            uploadProgress?(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
+        }
     }
 
     func urlSession(_ session: URLSession,
@@ -47,7 +55,13 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     didWriteData bytesWritten: Int64,
                     totalBytesWritten: Int64,
                     totalBytesExpectedToWrite: Int64) {
-        downloadProgress?(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
+        if let callbackQueue = callbackQueue {
+            callbackQueue.async {
+                self.downloadProgress?(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
+            }
+        } else {
+            downloadProgress?(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
+        }
     }
 
     func urlSession(_ session: URLSession,

@@ -58,7 +58,9 @@ internal extension API {
             case .success(let urlRequest):
                 if method == .POST || method == .PUT {
                     if !ParseConfiguration.isTestingSDK {
-                        let delegate = ParseURLSessionDelegate(uploadProgress: uploadProgress, stream: stream)
+                        let delegate = ParseURLSessionDelegate(callbackQueue: nil,
+                                                               uploadProgress: uploadProgress,
+                                                               stream: stream)
                         let session = URLSession(configuration: .default,
                                                  delegate: delegate,
                                                  delegateQueue: nil)
@@ -117,7 +119,8 @@ internal extension API {
 
                     case .success(let urlRequest):
                         if !ParseConfiguration.isTestingSDK {
-                            delegate = ParseURLSessionDelegate(uploadProgress: uploadProgress)
+                            delegate = ParseURLSessionDelegate(callbackQueue: callbackQueue,
+                                                               uploadProgress: uploadProgress)
                             session = URLSession(configuration: .default,
                                                  delegate: delegate,
                                                  delegateQueue: nil)
@@ -151,7 +154,8 @@ internal extension API {
                 } else {
 
                     if !ParseConfiguration.isTestingSDK {
-                        delegate = ParseURLSessionDelegate(downloadProgress: downloadProgress)
+                        delegate = ParseURLSessionDelegate(callbackQueue: callbackQueue,
+                                                           downloadProgress: downloadProgress)
                         session = URLSession(configuration: .default,
                                              delegate: delegate,
                                              delegateQueue: nil)
