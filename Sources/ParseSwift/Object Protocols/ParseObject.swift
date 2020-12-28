@@ -392,7 +392,7 @@ extension ParseObject {
                                   attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
 
         queue.sync {
-            var finishedSaving = [NSDictionary: PointerType]()
+            var objectsFinishedSaving = [NSDictionary: PointerType]()
             var filesFinishedSaving = [UUID: ParseFile]()
 
             do {
@@ -403,41 +403,47 @@ extension ParseObject {
                 var waitingToBeSaved = object.unsavedChildren
 
                 while waitingToBeSaved.count > 0 {
-                    var savable = [Encodable]()
-                    var nextBatch = [Encodable]()
+                    var savableObjects = [Encodable]()
                     var savableFiles = [ParseFile]()
-                    try waitingToBeSaved.forEach { parseObject in
+                    var nextBatch = [Encodable]()
+                    try waitingToBeSaved.forEach { parseType in
 
-                        if let parseFile = parseObject as? ParseFile {
+                        if let parseFile = parseType as? ParseFile {
+                            //ParseFiles can be saved now
                             savableFiles.append(parseFile)
                         } else {
-
-                            let waitingObjectInfo = try ParseCoding.parseEncoder().encode(parseObject,
-                                                                             collectChildren: true,
-                                                                             objectsSavedBeforeThisOne: finishedSaving,
-                                                                             // swiftlint:disable:next line_length
-                                                                             filesSavedBeforeThisOne: filesFinishedSaving)
+                            //This is a ParseObject
+                            let waitingObjectInfo = try ParseCoding
+                                .parseEncoder()
+                                .encode(parseType,
+                                        collectChildren: true,
+                                        objectsSavedBeforeThisOne: objectsFinishedSaving,
+                                        filesSavedBeforeThisOne: filesFinishedSaving)
 
                             if waitingObjectInfo.unsavedChildren.count == 0 {
-                                savable.append(parseObject)
+                                //If this ParseObject has no additional children, it can be saved now
+                                savableObjects.append(parseType)
                             } else {
-                                nextBatch.append(parseObject)
+                                //Else this ParseObject needs to wait until it's children are saved
+                                nextBatch.append(parseType)
                             }
                         }
                     }
                     waitingToBeSaved = nextBatch
 
-                    if savable.count == 0 && savableFiles.count == 0 {
-                        completion(finishedSaving, filesFinishedSaving, ParseError(code: .unknownError,
-                                                       message: "Found a circular dependency in ParseObject."))
+                    if savableObjects.count == 0 && savableFiles.count == 0 {
+                        completion(objectsFinishedSaving,
+                                   filesFinishedSaving,
+                                   ParseError(code: .unknownError,
+                                              message: "Found a circular dependency in ParseObject."))
                         return
                     }
 
                     //Currently, batch isn't working for Encodable
-                    //savable.saveAll(encodableObjects: savable)
-                    try savable.forEach {
+                    //savableObjects.saveAll(encodableObjects: savable)
+                    try savableObjects.forEach {
                         let hash = BaseObjectable.createHash($0)
-                        finishedSaving[hash] = try $0.save(options: options)
+                        objectsFinishedSaving[hash] = try $0.save(options: options)
                     }
 
                     try savableFiles.forEach {
@@ -445,15 +451,15 @@ extension ParseObject {
                         filesFinishedSaving[file.localUUID] = try $0.save(options: options)
                     }
                 }
-                completion(finishedSaving, filesFinishedSaving, nil)
+                completion(objectsFinishedSaving, filesFinishedSaving, nil)
             } catch {
                 guard let parseError = error as? ParseError else {
-                    completion(finishedSaving, filesFinishedSaving,
+                    completion(objectsFinishedSaving, filesFinishedSaving,
                                ParseError(code: .unknownError,
                                           message: error.localizedDescription))
                     return
                 }
-                completion(finishedSaving, filesFinishedSaving, parseError)
+                completion(objectsFinishedSaving, filesFinishedSaving, parseError)
             }
         }
     }

@@ -48,14 +48,12 @@ internal struct SaveResponse: Decodable {
     var updatedAt: Date {
         return createdAt
     }
-    var ACL: ParseACL?
 
     func apply<T>(to object: T) -> T where T: ParseObject {
         var object = object
         object.objectId = objectId
         object.createdAt = createdAt
         object.updatedAt = updatedAt
-        object.ACL = ACL
         return object
     }
 }
@@ -80,13 +78,12 @@ internal struct WriteResponse: Codable {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
-    var ACL: ParseACL?
 
     func asSaveResponse() -> SaveResponse {
         guard let objectId = objectId, let createdAt = createdAt else {
             fatalError("Cannot create a SaveResponse without objectId")
         }
-        return SaveResponse(objectId: objectId, createdAt: createdAt, ACL: ACL)
+        return SaveResponse(objectId: objectId, createdAt: createdAt)
     }
 
     func asUpdateResponse() -> UpdateResponse {

@@ -822,6 +822,7 @@ extension _ParseEncoder {
             // swiftlint:disable:next force_cast
             return (value as! NSDecimalNumber)
         } else if value is _JSONStringDictionaryEncodableMarker {
+            //COREY: DON'T remove the force unwrap, it will crash the app
             // swiftlint:disable:next force_cast
             return try self.box(value as! [String : Encodable])
         } else if value is PointerType {

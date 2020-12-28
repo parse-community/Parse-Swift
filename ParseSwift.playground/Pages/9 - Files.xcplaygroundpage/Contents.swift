@@ -39,7 +39,7 @@ let linkToFile = URL(string: "https://parseplatform.org/img/logo.svg")!
 //: Create a new ParseFile for your picture
 let profilePic = ParseFile(name: "profile.svg", cloudURL: linkToFile)
 
-//: Set the pic as part of your ParseObject
+//: Set the picture as part of your ParseObject
 score.profilePicture = profilePic
 
 /*: Save asynchronously (preferred way) - Performs work on background
@@ -88,8 +88,9 @@ score.save { result in
     }
 }
 
-//: Files can also be saved from data. Below is how to do it synchrously, but async is similar to above
-//: Create a new ParseFile for your data
+/*: Files can also be saved from data. Below is how to do it synchrously, but async is similar to above
+ Create a new ParseFile for your data
+ */
 let sampleData = "Hello World".data(using: .utf8)!
 let helloFile = ParseFile(name: "hello.txt", data: sampleData)
 
@@ -115,8 +116,9 @@ do {
             print("The file is now saved at: \(fetchedFile.localURL!)")
             print("The current details of your data ParseFile are: \(fetchedFile)")
 
-            //: If you want to use the data from the file to display the text file or image, you need to retreive
-            //: the data from the file.
+            /*: If you want to use the data from the file to display the text file or image, you need to retreive
+             the data from the file.
+            */
             guard let dataFromParseFile = try? Data(contentsOf: fetchedFile.localURL!) else {
                 fatalError("Error: couldn't get data from file.")
             }
@@ -140,7 +142,7 @@ do {
     fatalError("Error saving: \(error)")
 }
 
-//: Files can also be saved from files located on your device by using:
-//: let localFile = ParseFile(name: "hello.txt", localURL: <#T##URL#>)
-
+/*: Files can also be saved from files located on your device by using:
+ let localFile = ParseFile(name: "hello.txt", localURL: URL)
+*/
 //: [Next](@next)

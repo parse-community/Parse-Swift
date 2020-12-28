@@ -496,10 +496,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
 
-        var newACL = ParseACL()
-        newACL.setReadAccess(userId: "yarr", value: true)
-        scoreOnServer.ACL = newACL
-
         let encoded: Data!
         do {
             encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
@@ -679,10 +675,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
-
-        var newACL = ParseACL()
-        newACL.setReadAccess(userId: "yarr", value: true)
-        scoreOnServer.ACL = newACL
 
         let encoded: Data!
         do {

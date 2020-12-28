@@ -48,6 +48,7 @@ internal extension API {
             self.params = params
         }
 
+        // MARK: Synchronous Execution
         func executeStream(options: API.Options,
                            childObjects: [NSDictionary: PointerType]? = nil,
                            childFiles: [UUID: ParseFile]? = nil,
@@ -101,6 +102,7 @@ internal extension API {
             return try response.get()
         }
 
+        // MARK: Asynchronous Execution
         // swiftlint:disable:next function_body_length cyclomatic_complexity
         func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
                           childObjects: [NSDictionary: PointerType]? = nil,
@@ -109,7 +111,35 @@ internal extension API {
                           downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
 
-            if path.urlComponent.contains("/files/") {
+            if !path.urlComponent.contains("/files/") {
+                //All ParseObjects use the shared URLSession
+                switch self.prepareURLRequest(options: options,
+                                              childObjects: childObjects,
+                                              childFiles: childFiles) {
+                case .success(let urlRequest):
+                    URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
+                        switch result {
+
+                        case .success(let decoded):
+                            if let callbackQueue = callbackQueue {
+                                callbackQueue.async { completion(.success(decoded)) }
+                            } else {
+                                completion(.success(decoded))
+                            }
+
+                        case .failure(let error):
+                            if let callbackQueue = callbackQueue {
+                                callbackQueue.async { completion(.failure(error)) }
+                            } else {
+                                completion(.failure(error))
+                            }
+                        }
+                    }
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            } else {
+                //ParseFiles are handled with a dedicated URLSession
                 let session: URLSession!
                 let delegate: URLSessionDelegate!
                 if method == .POST || method == .PUT {
@@ -165,8 +195,7 @@ internal extension API {
                     if parseURL != nil {
                         switch self.prepareURLRequest(options: options,
                                                       childObjects: childObjects,
-                                                      childFiles: childFiles,
-                                                      useSpecifiedURL: parseURL) {
+                                                      childFiles: childFiles) {
 
                         case .success(let urlRequest):
                             session.downloadTask(with: urlRequest, mapper: mapper) { result in
@@ -191,6 +220,7 @@ internal extension API {
                             completion(.failure(error))
                         }
                     } else if let otherURL = self.otherURL {
+                        //Non-parse servers don't receive any parse dedicated request info
                         session.downloadTask(with: otherURL, mapper: mapper) { result in
                             switch result {
 
@@ -214,44 +244,17 @@ internal extension API {
                                                        message: "Can't download the file without specifying the url")))
                     }
                 }
-            } else {
-
-                switch self.prepareURLRequest(options: options,
-                                              childObjects: childObjects,
-                                              childFiles: childFiles) {
-                case .success(let urlRequest):
-                    URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
-                        switch result {
-
-                        case .success(let decoded):
-                            if let callbackQueue = callbackQueue {
-                                callbackQueue.async { completion(.success(decoded)) }
-                            } else {
-                                completion(.success(decoded))
-                            }
-
-                        case .failure(let error):
-                            if let callbackQueue = callbackQueue {
-                                callbackQueue.async { completion(.failure(error)) }
-                            } else {
-                                completion(.failure(error))
-                            }
-                        }
-                    }
-                case .failure(let error):
-                    completion(.failure(error))
-                }
             }
         }
 
+        // MARK: URL Preperation
         func prepareURLRequest(options: API.Options,
                                childObjects: [NSDictionary: PointerType]? = nil,
-                               childFiles: [UUID: ParseFile]? = nil,
-                               useSpecifiedURL: URL? = nil) -> Result<URLRequest, ParseError> {
+                               childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
-            let url = useSpecifiedURL == nil ?
-                ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent) : useSpecifiedURL!
+            let url = parseURL == nil ?
+                ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent) : parseURL!
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
                 return .failure(ParseError(code: .unknownError,
@@ -298,7 +301,7 @@ internal extension API {
 }
 
 internal extension API.Command {
-    // MARK: Uploading
+    // MARK: Uploading File
     static func uploadFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
         if object.isSaved {
             return updateFileCommand(object)
@@ -306,7 +309,7 @@ internal extension API.Command {
         return createFileCommand(object)
     }
 
-    // MARK: Uploading - private
+    // MARK: Uploading File - private
     private static func createFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
         API.Command(method: .POST,
                     path: .file(fileName: object.name),
@@ -358,7 +361,7 @@ internal extension API.Command {
         }
     }
 
-    // MARK: Saving
+    // MARK: Saving ParseObjects
     static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         if object.isSaved {
             return updateCommand(object)
@@ -366,7 +369,7 @@ internal extension API.Command {
         return createCommand(object)
     }
 
-    // MARK: Saving - private
+    // MARK: Saving ParseObjects - private
     private static func createCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         let mapper = { (data) -> T in
             try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
@@ -387,7 +390,7 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    // MARK: Saving Encodable
+    // MARK: Saving ParseObjects - Encodable
     static func saveCommand<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
         guard let objectable = object as? Objectable else {
             throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
@@ -399,7 +402,7 @@ internal extension API.Command {
         }
     }
 
-    // MARK: Saving Encodable - private
+    // MARK: Saving ParseObjects - Encodable - private
     private static func createCommand<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
         guard var objectable = object as? Objectable else {
             throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
@@ -459,6 +462,7 @@ internal extension API.Command {
     }
 }
 
+// MARK: Batch - Saving, Fetching
 extension API.Command where T: ParseObject {
 
     internal var data: Data? {
@@ -512,6 +516,7 @@ extension API.Command where T: ParseObject {
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 
+    // MARK: Batch - Deleting
     static func batch(commands: [API.Command<NoBody, NoBody>]) -> RESTBatchCommandNoBodyType<ParseError?> {
         let commands = commands.compactMap { (command) -> API.Command<NoBody, NoBody>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
@@ -550,6 +555,7 @@ extension API.Command where T: ParseObject {
     }
 }
 
+// MARK: Batch - Child Objects
 extension API.Command where T: Encodable {
 
     internal var data: Data? {

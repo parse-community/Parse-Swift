@@ -28,10 +28,10 @@ import AppKit
  when the `ParseInstallation` is saved, thus these fields might not reflect the
  latest device state if the installation has not recently been saved.
 
- `ParseInstallation` objects which have a valid `deviceToken` and are saved to
+ `ParseInstallation` installations which have a valid `deviceToken` and are saved to
  the Parse cloud can be used to target push notifications.
 
- - warning: Only use `ParseInstallation` objects on the main thread as they
+ - warning: Only use `ParseInstallation` installations on the main thread as they
    require UIApplication for `badge`
 */
 public protocol ParseInstallation: ParseObject {
@@ -314,7 +314,7 @@ extension ParseInstallation {
      Fetches the `ParseInstallation` *synchronously* with the current data from the server
      and sets an error if one occurs.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save installations. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
@@ -327,7 +327,7 @@ extension ParseInstallation {
     /**
      Fetches the `ParseInstallation` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save installations. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -360,7 +360,7 @@ extension ParseInstallation {
     /**
      Saves the `ParseInstallation` *synchronously* and throws an error if there's an issue.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save installations. Defaults to an empty set.
      - throws: A Error of type `ParseError`.
      - returns: Returns saved `ParseInstallation`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
@@ -394,7 +394,7 @@ extension ParseInstallation {
     /**
      Saves the `ParseInstallation` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save installations. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -429,7 +429,7 @@ extension ParseInstallation {
      Deletes the `ParseInstallation` *synchronously* with the current data from the server
      and sets an error if one occurs.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save installations. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
@@ -441,7 +441,7 @@ extension ParseInstallation {
     /**
      Deletes the `ParseInstallation` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save installations. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -476,9 +476,9 @@ extension ParseInstallation {
 public extension Sequence where Element: ParseInstallation {
 
     /**
-     Saves a collection of objects *synchronously* all at once and throws an error if necessary.
+     Saves a collection of installations *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save installations. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
@@ -494,9 +494,9 @@ public extension Sequence where Element: ParseInstallation {
     }
 
     /**
-     Saves a collection of objects all at once *asynchronously* and executes the completion block when done.
+     Saves a collection of installations all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save installations. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
@@ -523,14 +523,14 @@ public extension Sequence where Element: ParseInstallation {
     }
 
     /**
-     Fetches a collection of objects *synchronously* all at once and throws an error if necessary.
+     Fetches a collection of installations *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to fetch objects. Defaults to an empty set.
+     - parameter options: A set of options used to fetch installations. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: `ParseError`
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
-     - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which installations are returned are not guarenteed. You shouldn't expect results in
      any particular order.
     */
     func fetchAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
@@ -559,14 +559,14 @@ public extension Sequence where Element: ParseInstallation {
     }
 
     /**
-     Fetches a collection of objects all at once *asynchronously* and executes the completion block when done.
+     Fetches a collection of installations all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to fetch objects. Defaults to an empty set.
+     - parameter options: A set of options used to fetch installations. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
-     - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which installations are returned are not guarenteed. You shouldn't expect results in
      any particular order.
     */
     func fetchAll(
@@ -606,9 +606,9 @@ public extension Sequence where Element: ParseInstallation {
     }
 
     /**
-     Deletes a collection of objects *synchronously* all at once and throws an error if necessary.
+     Deletes a collection of installations *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to delete objects. Defaults to an empty set.
+     - parameter options: A set of options used to delete installations. Defaults to an empty set.
 
      - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
         1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
@@ -632,9 +632,9 @@ public extension Sequence where Element: ParseInstallation {
     }
 
     /**
-     Deletes a collection of objects all at once *asynchronously* and executes the completion block when done.
+     Deletes a collection of installations all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to delete objects. Defaults to an empty set.
+     - parameter options: A set of options used to delete installations. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[ParseError?], ParseError>)`.
