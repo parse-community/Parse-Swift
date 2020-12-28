@@ -164,6 +164,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         encoder.keyEncodingStrategy = keyEncodingStrategy
         encoder.userInfo = userInfo
         encoder.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
+        encoder.filesSavedBeforeThisOne = filesSavedBeforeThisOne
 
         guard let topLevel = try encoder.box_(value) else {
             throw EncodingError.invalidValue(value,

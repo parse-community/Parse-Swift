@@ -56,7 +56,7 @@ internal struct ParseFileManager {
             return nil
         }
         directoryPath = directory
-        directoryPath += "\(ParseConstants.fileManagementDirectory)\(applicationIdentifier)"
+        directoryPath += "/\(ParseConstants.fileManagementDirectory)\(applicationIdentifier)"
         return URL(fileURLWithPath: directoryPath, isDirectory: true)
         #else
         if let groupIdentifier = applicationGroupIdentifer {

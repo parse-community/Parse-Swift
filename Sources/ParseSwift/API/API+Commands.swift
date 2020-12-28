@@ -59,7 +59,9 @@ internal extension API {
                 if method == .POST || method == .PUT {
                     if !ParseConfiguration.isTestingSDK {
                         let delegate = ParseURLSessionDelegate(uploadProgress: uploadProgress, stream: stream)
-                        let session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                        let session = URLSession(configuration: URLSession.shared.configuration,
+                                                 delegate: delegate,
+                                                 delegateQueue: nil)
                         session.uploadTask(withStreamedRequest: urlRequest).resume()
                     } else {
                         URLSession.testing.uploadTask(withStreamedRequest: urlRequest).resume()
@@ -110,11 +112,13 @@ internal extension API {
             case .success(let urlRequest):
                 if path.urlComponent.contains("/files/") {
                     let session: URLSession!
-                    let delegate: ParseURLSessionDelegate!
+                    let delegate: URLSessionDelegate!
                     if method == .POST || method == .PUT {
                         if !ParseConfiguration.isTestingSDK {
                             delegate = ParseURLSessionDelegate(uploadProgress: uploadProgress)
-                            session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                            session = URLSession(configuration: URLSession.shared.configuration,
+                                                 delegate: delegate,
+                                                 delegateQueue: nil)
                         } else {
                             session = URLSession.testing
                         }
@@ -142,7 +146,9 @@ internal extension API {
                     } else {
                         if !ParseConfiguration.isTestingSDK {
                             delegate = ParseURLSessionDelegate(downloadProgress: downloadProgress)
-                            session = URLSession(configuration: .default, delegate: delegate, delegateQueue: nil)
+                            session = URLSession(configuration: URLSession.shared.configuration,
+                                                 delegate: delegate,
+                                                 delegateQueue: nil)
                         } else {
                             session = URLSession.testing
                         }
@@ -308,9 +314,8 @@ internal extension API.Command {
             let downloadDirectoryPath = defaultDirectoryPath
                 .appendingPathComponent(ParseConstants.fileDownloadsDirectory, isDirectory: true)
             try fileManager.createDirectoryIfNeeded(downloadDirectoryPath.relativePath)
-            let fileData = try Data(contentsOf: tempFileLocation)
-            let tempFileName = ParseHash.md5HashFromData(fileData)
-            let fileLocation = downloadDirectoryPath.appendingPathComponent(tempFileName)
+            let fileLocation = downloadDirectoryPath.appendingPathComponent(object.name)
+            try? FileManager.default.removeItem(at: fileLocation) //Remove file if it's already present
             try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
             var object = object
             object.localURL = fileLocation
