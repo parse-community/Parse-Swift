@@ -12,7 +12,7 @@ import FoundationNetworking
 #endif
 
 internal extension API {
-
+    // swiftlint:disable:next type_body_length
     struct Command<T, U>: Encodable where T: Encodable {
         typealias ReturnType = U // swiftlint:disable:this nesting
         let method: API.Method
@@ -59,7 +59,7 @@ internal extension API {
                 if method == .POST || method == .PUT {
                     if !ParseConfiguration.isTestingSDK {
                         let delegate = ParseURLSessionDelegate(uploadProgress: uploadProgress, stream: stream)
-                        let session = URLSession(configuration: URLSession.shared.configuration,
+                        let session = URLSession(configuration: .default,
                                                  delegate: delegate,
                                                  delegateQueue: nil)
                         session.uploadTask(withStreamedRequest: urlRequest).resume()
@@ -107,16 +107,18 @@ internal extension API {
                           downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
 
-            switch self.prepareURLRequest(options: options, childObjects: childObjects, childFiles: childFiles) {
+            if path.urlComponent.contains("/files/") {
+                let session: URLSession!
+                let delegate: URLSessionDelegate!
+                if method == .POST || method == .PUT {
+                    switch self.prepareURLRequest(options: options,
+                                                  childObjects: childObjects,
+                                                  childFiles: childFiles) {
 
-            case .success(let urlRequest):
-                if path.urlComponent.contains("/files/") {
-                    let session: URLSession!
-                    let delegate: URLSessionDelegate!
-                    if method == .POST || method == .PUT {
+                    case .success(let urlRequest):
                         if !ParseConfiguration.isTestingSDK {
                             delegate = ParseURLSessionDelegate(uploadProgress: uploadProgress)
-                            session = URLSession(configuration: URLSession.shared.configuration,
+                            session = URLSession(configuration: .default,
                                                  delegate: delegate,
                                                  delegateQueue: nil)
                         } else {
@@ -143,16 +145,26 @@ internal extension API {
                                 }
                             }
                         }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+                } else {
+
+                    if !ParseConfiguration.isTestingSDK {
+                        delegate = ParseURLSessionDelegate(downloadProgress: downloadProgress)
+                        session = URLSession(configuration: .default,
+                                             delegate: delegate,
+                                             delegateQueue: nil)
                     } else {
-                        if !ParseConfiguration.isTestingSDK {
-                            delegate = ParseURLSessionDelegate(downloadProgress: downloadProgress)
-                            session = URLSession(configuration: URLSession.shared.configuration,
-                                                 delegate: delegate,
-                                                 delegateQueue: nil)
-                        } else {
-                            session = URLSession.testing
-                        }
-                        if parseURL != nil {
+                        session = URLSession.testing
+                    }
+                    if parseURL != nil {
+                        switch self.prepareURLRequest(options: options,
+                                                      childObjects: childObjects,
+                                                      childFiles: childFiles,
+                                                      useSpecifiedURL: parseURL) {
+
+                        case .success(let urlRequest):
                             session.downloadTask(with: urlRequest, mapper: mapper) { result in
                                 switch result {
 
@@ -171,32 +183,39 @@ internal extension API {
                                     }
                                 }
                             }
-                        } else if let otherURL = self.otherURL {
-                            session.downloadTask(with: otherURL, mapper: mapper) { result in
-                                switch result {
+                        case .failure(let error):
+                            completion(.failure(error))
+                        }
+                    } else if let otherURL = self.otherURL {
+                        session.downloadTask(with: otherURL, mapper: mapper) { result in
+                            switch result {
 
-                                case .success(let decoded):
-                                    if let callbackQueue = callbackQueue {
-                                        callbackQueue.async { completion(.success(decoded)) }
-                                    } else {
-                                        completion(.success(decoded))
-                                    }
+                            case .success(let decoded):
+                                if let callbackQueue = callbackQueue {
+                                    callbackQueue.async { completion(.success(decoded)) }
+                                } else {
+                                    completion(.success(decoded))
+                                }
 
-                                case .failure(let error):
-                                    if let callbackQueue = callbackQueue {
-                                        callbackQueue.async { completion(.failure(error)) }
-                                    } else {
-                                        completion(.failure(error))
-                                    }
+                            case .failure(let error):
+                                if let callbackQueue = callbackQueue {
+                                    callbackQueue.async { completion(.failure(error)) }
+                                } else {
+                                    completion(.failure(error))
                                 }
                             }
-                        } else {
-                            completion(.failure(ParseError(code: .unknownError,
-                                                           // swiftlint:disable:next line_length
-                                                           message: "Can't download the file without specifying the url")))
                         }
+                    } else {
+                        completion(.failure(ParseError(code: .unknownError,
+                                                       message: "Can't download the file without specifying the url")))
                     }
-                } else {
+                }
+            } else {
+
+                switch self.prepareURLRequest(options: options,
+                                              childObjects: childObjects,
+                                              childFiles: childFiles) {
+                case .success(let urlRequest):
                     URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
                         switch result {
 
@@ -215,18 +234,20 @@ internal extension API {
                             }
                         }
                     }
+                case .failure(let error):
+                    completion(.failure(error))
                 }
-            case .failure(let error):
-                completion(.failure(error))
             }
         }
 
         func prepareURLRequest(options: API.Options,
                                childObjects: [NSDictionary: PointerType]? = nil,
-                               childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
+                               childFiles: [UUID: ParseFile]? = nil,
+                               useSpecifiedURL: URL? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
-            let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
+            let url = useSpecifiedURL == nil ?
+                ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent) : useSpecifiedURL!
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
                 return .failure(ParseError(code: .unknownError,
@@ -319,6 +340,7 @@ internal extension API.Command {
             try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
             var object = object
             object.localURL = fileLocation
+            _ = object.localUUID //Ensure downloaded file has a localUUID
             return object
         }
     }

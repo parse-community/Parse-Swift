@@ -65,14 +65,15 @@ score.save { result in
                 guard let picture = fetchedScore.profilePicture else {
                     return
                 }
-                print("The new name of my saved profilePicture is: \(picture.name)")
-                print("All of the details of my profilePicture file is : \(picture)")
+                print("The new name of your saved profilePicture is: \(picture.name)")
+                print("The current details of your profilePicture ParseFile are: \(picture)")
 
                 //: If you need to download your profilePicture
                 picture.fetch { result in
                     switch result {
                     case .success(let fetchedFile):
-                        print("The file is now saved: \(fetchedFile.localURL)")
+                        print("The file is now saved on your device at: \(fetchedFile.localURL)")
+                        print("The current details of your profilePicture ParseFile are: \(fetchedFile)")
                     case .failure(let error):
                         assertionFailure("Error fetching: \(error)")
                     }
@@ -105,13 +106,30 @@ do {
     let fetchedScore = try savedScore.fetch()
     if var myData = fetchedScore.myData {
 
-        print("The new name of my saved data is: \(myData.name)")
-        print("All of the details of my data file is : \(myData)")
+        print("The new name of your saved data is: \(myData.name)")
+        print("The current details of your data file are: \(myData)")
 
         //: If you need to download your profilePicture
         let fetchedFile = try myData.fetch()
         if fetchedFile.localURL != nil {
-            print("The file is now saved: \(fetchedFile.localURL!)")
+            print("The file is now saved at: \(fetchedFile.localURL!)")
+            print("The current details of your data ParseFile are: \(fetchedFile)")
+
+            //: If you want to use the data from the file to display the text file or image, you need to retreive
+            //: the data from the file.
+            guard let dataFromParseFile = try? Data(contentsOf: fetchedFile.localURL!) else {
+                fatalError("Error: couldn't get data from file.")
+            }
+
+            //: Checking to make sure the data saved on the Parse Server is the same as the original
+            if dataFromParseFile != sampleData {
+                assertionFailure("Data isn't the same. Something went wrong.")
+            }
+
+            guard let parseFileString = String(data: dataFromParseFile, encoding: .utf8) else {
+                fatalError("Error: couldn't create String from data.")
+            }
+            print("The data saved on parse is: \"\(parseFileString)\"")
         } else {
             assertionFailure("Error fetching: there should be a localURL")
         }
