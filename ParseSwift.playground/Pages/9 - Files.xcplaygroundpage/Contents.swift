@@ -62,18 +62,20 @@ score.save { result in
         savedScore.fetch { result in
             switch result {
             case .success(let fetchedScore):
-                guard let picture = fetchedScore.profilePicture else {
+                guard let picture = fetchedScore.profilePicture,
+                      let url = fetchedScore.profilePicture?.url else {
                     return
                 }
                 print("The new name of your saved profilePicture is: \(picture.name)")
-                print("The current details of your profilePicture ParseFile are: \(picture)")
+                print("The profilePicture is saved to your Parse Server at: \(url)")
+                print("The full details of your profilePicture ParseFile are: \(picture)")
 
                 //: If you need to download your profilePicture
                 picture.fetch { result in
                     switch result {
                     case .success(let fetchedFile):
                         print("The file is now saved on your device at: \(fetchedFile.localURL)")
-                        print("The current details of your profilePicture ParseFile are: \(fetchedFile)")
+                        print("The full details of your profilePicture ParseFile are: \(fetchedFile)")
                     case .failure(let error):
                         assertionFailure("Error fetching: \(error)")
                     }
@@ -107,14 +109,18 @@ do {
     let fetchedScore = try savedScore.fetch()
     if var myData = fetchedScore.myData {
 
+        guard let url = myData.url else {
+            fatalError("Error: file should have url.")
+        }
         print("The new name of your saved data is: \(myData.name)")
-        print("The current details of your data file are: \(myData)")
+        print("The file is saved to your Parse Server at: \(url)")
+        print("The full details of your data file are: \(myData)")
 
         //: If you need to download your profilePicture
         let fetchedFile = try myData.fetch()
         if fetchedFile.localURL != nil {
             print("The file is now saved at: \(fetchedFile.localURL!)")
-            print("The current details of your data ParseFile are: \(fetchedFile)")
+            print("The full details of your data ParseFile are: \(fetchedFile)")
 
             /*: If you want to use the data from the file to display the text file or image, you need to retreive
              the data from the file.

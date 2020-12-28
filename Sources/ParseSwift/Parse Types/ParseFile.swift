@@ -211,7 +211,7 @@ extension ParseFile {
           let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
           let fetchedFile = try parseFile.fetch(stream: InputStream(fileAtPath: URL("parse.org")!) {
           (_, _, totalWritten, totalExpected) in
-            let currentProgess = totalWritten/totalExpected * 100
+            let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
             print(currentProgess)
           }
      
@@ -224,7 +224,7 @@ extension ParseFile {
            let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
            let fetchedFile = try parseFile.fetch(stream: InputStream(fileAtPath: URL("parse.org")!){
            (task, _, totalWritten, totalExpected) in
-             let currentProgess = totalWritten/totalExpected * 100
+             let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
              //Cancel when data exceeds 10%
              if currentProgess > 10 {
                task.cancel()
@@ -237,7 +237,6 @@ extension ParseFile {
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
-     - warning: The progress block is currently disabled as it's a work in progress. Will be enabled in the future.
      - parameter stream: An input file stream.
      - returns: A saved `ParseFile`.
      */
@@ -299,7 +298,7 @@ extension ParseFile {
 
           let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
           let fetchedFile = try parseFile.save { (_, _, totalWritten, totalExpected) in
-            let currentProgess = totalWritten/totalExpected * 100
+            let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
             print(currentProgess)
           }
      
@@ -311,7 +310,7 @@ extension ParseFile {
 
            let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
            let fetchedFile = try parseFile.save { (task, _, totalWritten, totalExpected) in
-             let currentProgess = totalWritten/totalExpected * 100
+             let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
              //Cancel when data exceeds 10%
              if currentProgess > 10 {
                task.cancel()
@@ -324,11 +323,10 @@ extension ParseFile {
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
-     - warning: The progress block is currently disabled as it's a work in progress. Will be enabled in the future.
      - returns: A saved `ParseFile`.
      */
     public func save(options: API.Options = [],
-                     progress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)?) throws -> ParseFile {
+                     progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)?) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -344,9 +342,9 @@ extension ParseFile {
         options = options.union(self.options)
         if isDownloadNeeded {
             let fetched = try fetch(options: options)
-            return try fetched.uploadFileCommand().execute(options: options, downloadProgress: progress)
+            return try fetched.uploadFileCommand().execute(options: options, uploadProgress: progress)
         }
-        return try uploadFileCommand().execute(options: options, downloadProgress: progress)
+        return try uploadFileCommand().execute(options: options, uploadProgress: progress)
     }
 
     /**
@@ -362,7 +360,7 @@ extension ParseFile {
 
           let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
           let fetchedFile = try parseFile.save { (_, _, totalWritten, totalExpected) in
-            let currentProgess = totalWritten/totalExpected * 100
+            let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
             print(currentProgess)
           }
      
@@ -374,7 +372,7 @@ extension ParseFile {
 
            let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
            let fetchedFile = try parseFile.save(progress: {(task, _, totalWritten, totalExpected)-> Void in
-               let currentProgess = totalWritten/totalExpected * 100
+               let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
                  //Cancel when data exceeds 10%
                  if currentProgess > 10 {
                    task.cancel()
@@ -390,13 +388,12 @@ extension ParseFile {
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
-     - warning: The progress block is currently disabled as it's a work in progress. Will be enabled in the future.
      - parameter completion: A block that will be called when file saves or fails.
      It should have the following argument signature: `(Result<Self, ParseError>)`
     */
     public func save(options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
-                     progress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
+                     progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                      completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
         if let mimeType = mimeType {
@@ -419,7 +416,7 @@ extension ParseFile {
                     fetched.uploadFileCommand()
                         .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
-                                      downloadProgress: progress,
+                                      uploadProgress: progress,
                                       completion: completion)
                 case .failure(let error):
                     completion(.failure(error))
@@ -429,7 +426,7 @@ extension ParseFile {
             uploadFileCommand()
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue,
-                              downloadProgress: progress,
+                              uploadProgress: progress,
                               completion: completion)
         }
 
@@ -498,8 +495,8 @@ extension ParseFile {
          }
 
          let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
-         let fetchedFile = try parseFile.fetch { (_, _, totalWritten, totalExpected) in
-           let currentProgess = totalWritten/totalExpected * 100
+         let fetchedFile = try parseFile.fetch { (_, _, totalDownloaded, totalExpected) in
+           let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
            print(currentProgess)
          }
     
@@ -510,8 +507,8 @@ extension ParseFile {
           }
 
           let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
-          let fetchedFile = try parseFile.fetch { (task, _, totalWritten, totalExpected) in
-            let currentProgess = totalWritten/totalExpected * 100
+          let fetchedFile = try parseFile.fetch { (task, _, totalDownloaded, totalExpected) in
+            let currentProgess = Double(totalDownloaded)/Double(totalExpected) * 100
             //Cancel when data exceeds 10%
             if currentProgess > 10 {
               task.cancel()
@@ -524,7 +521,6 @@ extension ParseFile {
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
-     - warning: The progress block is currently disabled as it's a work in progress. Will be enabled in the future.
      - returns: A saved `ParseFile`.
      */
     public func fetch(options: API.Options = [],
@@ -555,8 +551,8 @@ extension ParseFile {
           }
 
           let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
-          let fetchedFile = try parseFile.fetch { (_, _, totalWritten, totalExpected) in
-            let currentProgess = totalWritten/totalExpected * 100
+          let fetchedFile = try parseFile.fetch { (_, _, totalDownloaded, totalExpected) in
+            let currentProgess = Double(totalDownloaded)/Double(totalExpected) * 100
             print(currentProgess)
           }
      
@@ -567,8 +563,8 @@ extension ParseFile {
            }
 
            let parseFile = ParseFile(name: "logo.svg", cloudURL: parseFileURL)
-           let fetchedFile = try parseFile.fetch(progress: {(task, _, totalWritten, totalExpected)-> Void in
-             let currentProgess = totalWritten/totalExpected * 100
+           let fetchedFile = try parseFile.fetch(progress: {(task, _, totalDownloaded, totalExpected)-> Void in
+             let currentProgess = Double(totalDownloaded)/Double(totalExpected) * 100
              //Cancel when data exceeds 10%
              if currentProgess > 10 {
                task.cancel()
@@ -584,7 +580,6 @@ extension ParseFile {
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
-     - warning: The progress block is currently disabled as it's a work in progress. Will be enabled in the future.
      - parameter completion: A block that will be called when file fetches or fails.
      It should have the following argument signature: `(Result<Self, ParseError>)`
     */
