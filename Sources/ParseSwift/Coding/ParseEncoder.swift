@@ -53,15 +53,18 @@ public struct ParseEncoder {
     let dateEncodingStrategy: AnyCodable.DateEncodingStrategy?
     let jsonEncoder: JSONEncoder
     let skippedKeys: Set<String>
+    let skippedCloudKeys: Set<String>
 
     init(
         dateEncodingStrategy: AnyCodable.DateEncodingStrategy? = nil,
         jsonEncoder: JSONEncoder = JSONEncoder(),
-        skippingKeys: Set<String> = []
+        skippingKeys: Set<String> = [],
+        skippingCloudKeys: Set<String> = []
     ) {
         self.dateEncodingStrategy = dateEncodingStrategy
         self.jsonEncoder = jsonEncoder
         self.skippedKeys = skippingKeys
+        self.skippedCloudKeys = skippingCloudKeys
         if let dateEncodingStrategy = dateEncodingStrategy {
             self.jsonEncoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
         }
@@ -69,6 +72,14 @@ public struct ParseEncoder {
 
     public func encode<T: Encodable>(_ value: T) throws -> Data {
         try jsonEncoder.encode(value)
+    }
+
+    public func encode<T: ParseCloud>(_ value: T) throws -> Data {
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedCloudKeys)
+        if let dateEncodingStrategy = dateEncodingStrategy {
+            encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+        }
+        return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil).encoded
     }
 
     public func encode<T: ParseObject>(_ value: T) throws -> Data {

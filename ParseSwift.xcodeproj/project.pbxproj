@@ -93,6 +93,13 @@
 		912C9BDC24D3011F009947C3 /* ParseSwift_tvOS.h in Headers */ = {isa = PBXBuildFile; fileRef = 912C9BDA24D3011F009947C3 /* ParseSwift_tvOS.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		912C9BE024D302B0009947C3 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
 		912C9BFD24D302B2009947C3 /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
+		916786E2259B7DDA00BB5B4E /* ParseCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916786E1259B7DDA00BB5B4E /* ParseCloud.swift */; };
+		916786E3259B7DDA00BB5B4E /* ParseCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916786E1259B7DDA00BB5B4E /* ParseCloud.swift */; };
+		916786E4259B7DDA00BB5B4E /* ParseCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916786E1259B7DDA00BB5B4E /* ParseCloud.swift */; };
+		916786E5259B7DDA00BB5B4E /* ParseCloud.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916786E1259B7DDA00BB5B4E /* ParseCloud.swift */; };
+		91678706259BC5D400BB5B4E /* ParseCloudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916786EF259BC59600BB5B4E /* ParseCloudTests.swift */; };
+		91678710259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916786EF259BC59600BB5B4E /* ParseCloudTests.swift */; };
+		9167871A259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916786EF259BC59600BB5B4E /* ParseCloudTests.swift */; };
 		9194657824F16E330070296B /* ACLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9194657724F16E330070296B /* ACLTests.swift */; };
 		F971F4F624DE381A006CB79B /* ParseEncoderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */; };
 		F97B45CE24D9C6F200F4A88B /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B424D9C6F200F4A88B /* ParseCoding.swift */; };
@@ -330,6 +337,8 @@
 		912C9BDA24D3011F009947C3 /* ParseSwift_tvOS.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ParseSwift_tvOS.h; sourceTree = "<group>"; };
 		912C9BDB24D3011F009947C3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		9158916A256A07DD0024BE9A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		916786E1259B7DDA00BB5B4E /* ParseCloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCloud.swift; sourceTree = "<group>"; };
+		916786EF259BC59600BB5B4E /* ParseCloudTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCloudTests.swift; sourceTree = "<group>"; };
 		9194657724F16E330070296B /* ACLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ACLTests.swift; sourceTree = "<group>"; };
 		F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoderTests.swift; sourceTree = "<group>"; };
 		F97B45B424D9C6F200F4A88B /* ParseCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCoding.swift; sourceTree = "<group>"; };
@@ -491,6 +500,7 @@
 				70CE1D882545BF730018D572 /* ParsePointerTests.swift */,
 				70C7DC1F24D20F180050419B /* ParseQueryTests.swift */,
 				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
+				916786EF259BC59600BB5B4E /* ParseCloudTests.swift */,
 				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
 			);
@@ -541,6 +551,7 @@
 				F97B463F24D9C78B00F4A88B /* Mutation Operations */,
 				F97B45C324D9C6F200F4A88B /* Object Protocols */,
 				F97B45BA24D9C6F200F4A88B /* Parse Types */,
+				916786E0259B7D0100BB5B4E /* Cloud */,
 				F97B45CB24D9C6F200F4A88B /* Storage */,
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
 				70110D51250680140091CC1D /* ParseConstants.swift */,
@@ -652,6 +663,14 @@
 				912C9BDB24D3011F009947C3 /* Info.plist */,
 			);
 			path = "ParseSwift-tvOS";
+			sourceTree = "<group>";
+		};
+		916786E0259B7D0100BB5B4E /* Cloud */ = {
+			isa = PBXGroup;
+			children = (
+				916786E1259B7DDA00BB5B4E /* ParseCloud.swift */,
+			);
+			path = Cloud;
 			sourceTree = "<group>";
 		};
 		F97B45B324D9C6F200F4A88B /* Coding */ = {
@@ -1125,6 +1144,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F97B463724D9C74400F4A88B /* Responses.swift in Sources */,
+				916786E2259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				F97B461624D9C6F200F4A88B /* Queryable.swift in Sources */,
 				F97B45DA24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				F97B465F24D9C7B500F4A88B /* KeychainStore.swift in Sources */,
@@ -1178,6 +1198,7 @@
 				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
 				70110D5C2506ED0E0091CC1D /* ParseInstallationTests.swift in Sources */,
 				70BC0B33251903D1001556DB /* ParseGeoPointTests.swift in Sources */,
+				91678706259BC5D400BB5B4E /* ParseCloudTests.swift in Sources */,
 				7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */,
 				7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */,
 				70C7DC2224D20F190050419B /* ParseObjectBatchTests.swift in Sources */,
@@ -1196,6 +1217,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F97B463824D9C74400F4A88B /* Responses.swift in Sources */,
+				916786E3259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				F97B461724D9C6F200F4A88B /* Queryable.swift in Sources */,
 				F97B45DB24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				F97B466024D9C7B500F4A88B /* KeychainStore.swift in Sources */,
@@ -1258,6 +1280,7 @@
 				709B984D2556ECAA00507778 /* AnyDecodableTests.swift in Sources */,
 				709B98572556ECAA00507778 /* ACLTests.swift in Sources */,
 				709B984F2556ECAA00507778 /* AnyCodableTests.swift in Sources */,
+				9167871A259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */,
 				709B98592556ECAA00507778 /* MockURLResponse.swift in Sources */,
 				709B98522556ECAA00507778 /* ParseUserTests.swift in Sources */,
 				709B984E2556ECAA00507778 /* ParseGeoPointTests.swift in Sources */,
@@ -1281,6 +1304,7 @@
 				70F2E2C2254F283000B2EA5C /* APICommandTests.swift in Sources */,
 				70F2E2BC254F283000B2EA5C /* ParseObjectTests.swift in Sources */,
 				70F2E2BD254F283000B2EA5C /* AnyDecodableTests.swift in Sources */,
+				91678710259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */,
 				70F2E2C1254F283000B2EA5C /* AnyCodableTests.swift in Sources */,
 				70F2E2B3254F283000B2EA5C /* ParseUserTests.swift in Sources */,
 				70F2E2C0254F283000B2EA5C /* MockURLResponse.swift in Sources */,
@@ -1299,6 +1323,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F97B45D524D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
+				916786E5259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				F97B45E924D9C6F200F4A88B /* Query.swift in Sources */,
 				F97B463624D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
 				F97B460524D9C6F200F4A88B /* NoBody.swift in Sources */,
@@ -1347,6 +1372,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F97B45D424D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
+				916786E4259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				F97B45E824D9C6F200F4A88B /* Query.swift in Sources */,
 				F97B463524D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
 				F97B460424D9C6F200F4A88B /* NoBody.swift in Sources */,

@@ -21,6 +21,9 @@ public struct API {
         case login
         case signup
         case logout
+        case passwordReset
+        case functions(name: String)
+        case jobs(name: String)
         case any(String)
 
         var urlComponent: String {
@@ -37,6 +40,12 @@ public struct API {
                 return "/users"
             case .logout:
                 return "/users/logout"
+            case .passwordReset:
+                return "/requestPasswordReset"
+            case .functions(name: let name):
+                return "/functions/\(name)"
+            case .jobs(name: let name):
+                return "/jobs/\(name)"
             case .any(let path):
                 return path
             }

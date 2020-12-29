@@ -25,6 +25,17 @@ public protocol ParseUser: ParseObject {
     var password: String? { get set }
 }
 
+// MARK: SignupBody
+struct SignupBody: Codable {
+    let username: String
+    let password: String
+}
+
+// MARK: PasswordResetBody
+struct PasswordResetBody: Codable {
+    let email: String
+}
+
 // MARK: Default Implementations
 public extension ParseUser {
     static var className: String {
@@ -104,8 +115,8 @@ extension ParseUser {
      If login failed due to either an incorrect password or incorrect username, it throws a `ParseError`.
     */
     public static func login(username: String,
-                             password: String) throws -> Self {
-        try loginCommand(username: username, password: password).execute(options: [])
+                             password: String, options: API.Options = []) throws -> Self {
+        try loginCommand(username: username, password: password).execute(options: options)
     }
 
     /**
@@ -122,15 +133,16 @@ extension ParseUser {
     public static func login(
         username: String,
         password: String,
+        options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
         return loginCommand(username: username, password: password)
-            .executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
+            .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
-    private static func loginCommand(username: String,
-                                     password: String) -> API.Command<NoBody, Self> {
+    internal static func loginCommand(username: String,
+                                      password: String) -> API.Command<NoBody, Self> {
         let params = [
             "username": username,
             "password": password
@@ -174,18 +186,72 @@ extension ParseUser {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when logging out, completes or fails.
     */
-    public static func logout(callbackQueue: DispatchQueue = .main,
-                              completion: @escaping (Result<Bool, ParseError>) -> Void) {
-        logoutCommand().executeAsync(options: [], callbackQueue: callbackQueue) { result in
-            completion(result.map { true })
+    public static func logout(options: API.Options = [], callbackQueue: DispatchQueue = .main,
+                              completion: @escaping (ParseError?) -> Void) {
+        logoutCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
+            switch result {
+
+            case .success:
+                completion(nil)
+            case .failure(let error):
+                completion(error)
+            }
         }
     }
 
-    private static func logoutCommand() -> API.Command<NoBody, Void> {
-       return API.Command(method: .POST, path: .logout) { (_) -> Void in
+    internal static func logoutCommand() -> API.Command<NoBody, NoBody> {
+       return API.Command(method: .POST, path: .logout) { (data) -> NoBody in
+            let serverResponse = try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
             deleteCurrentContainerFromKeychain()
             currentUserContainer = nil
+            return serverResponse
        }
+    }
+}
+
+// MARK: Password Reset
+extension ParseUser {
+
+    /**
+     *Synchronously* requests a password reset email to be sent to the specified email address
+     associated with the user account. This email allows the user to securely.
+     reset their password on the Parse site.
+     *     - parameter email: The email address associated with the user that
+     *     forgot their password.
+     *     - parameter options: A set of options used to reset the password. Defaults to an empty set.
+    */
+    public static func passwordReset(email: String, options: API.Options = []) throws {
+        _ = try passwordResetCommand(email: email).execute(options: options)
+    }
+
+    /**
+     *Asynchronously* requests a password reset email to be sent to the specified email address
+     associated with the user account. This email allows the user to securely.
+     reset their password on the Parse site.
+     *     - parameter email: The email address associated with the user that
+     *     forgot their password.
+     *     - parameter options: A set of options used to reset the password. Defaults to an empty set.
+     *     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     *     - parameter completion: A block that will be called when logging out, completes or fails.
+    */
+    public static func passwordReset(email: String, options: API.Options = [], callbackQueue: DispatchQueue = .main,
+                                     completion: @escaping (ParseError?) -> Void) {
+        passwordResetCommand(email: email).executeAsync(options: options, callbackQueue: callbackQueue) { result in
+            switch result {
+
+            case .success:
+                completion(nil)
+            case .failure(let error):
+                completion(error)
+            }
+        }
+    }
+
+    internal static func passwordResetCommand(email: String) -> API.Command<PasswordResetBody, NoBody> {
+        let resetBody = PasswordResetBody(email: email)
+        return API.Command(method: .POST, path: .passwordReset, body: resetBody) { (data) -> NoBody in
+            try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+        }
     }
 }
 
@@ -195,14 +261,13 @@ extension ParseUser {
      Signs up the user *synchronously*.
 
      This will also enforce that the username isn't already taken.
-
-     - warning: Make sure that password and username are set before calling this method.
-
+     - parameter username: The username of the user.
+     - parameter password: The password of the user.
      - returns: Returns whether the sign up was successful.
     */
     public static func signup(username: String,
-                              password: String) throws -> Self {
-        try signupCommand(username: username, password: password).execute(options: [])
+                              password: String, options: API.Options = []) throws -> Self {
+        try signupCommand(username: username, password: password).execute(options: options)
     }
 
     /**
@@ -211,11 +276,10 @@ extension ParseUser {
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
-
      - returns: Returns whether the sign up was successful.
     */
-    public func signup() throws -> Self {
-        try signupCommand().execute(options: [])
+    public func signup(options: API.Options = []) throws -> Self {
+        try signupCommand().execute(options: options)
     }
 
     /**
@@ -228,17 +292,15 @@ extension ParseUser {
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
-    public func signup(callbackQueue: DispatchQueue = .main,
+    public func signup(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
-        return signupCommand().executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
+        return signupCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
     /**
      Signs up the user *asynchronously*.
 
      This will also enforce that the username isn't already taken.
-
-     - warning: Make sure that password and username are set before calling this method.
 
      - parameter username: The username of the user.
      - parameter password: The password of the user.
@@ -249,15 +311,16 @@ extension ParseUser {
     public static func signup(
         username: String,
         password: String,
+        options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
         return signupCommand(username: username, password: password)
-            .executeAsync(options: [], callbackQueue: callbackQueue, completion: completion)
+            .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
-    private static func signupCommand(username: String,
-                                      password: String) -> API.Command<SignupBody, Self> {
+    internal static func signupCommand(username: String,
+                                       password: String) -> API.Command<SignupBody, Self> {
 
         let body = SignupBody(username: username, password: password)
         return API.Command(method: .POST, path: .signup, body: body) { (data) -> Self in
@@ -276,7 +339,7 @@ extension ParseUser {
         }
     }
 
-    private func signupCommand() -> API.Command<Self, Self> {
+    internal func signupCommand() -> API.Command<Self, Self> {
         return API.Command(method: .POST, path: .signup, body: self) { (data) -> Self in
 
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
@@ -292,12 +355,6 @@ extension ParseUser {
             return user
         }
     }
-}
-
-// MARK: SignupBody
-private struct SignupBody: Codable {
-    let username: String
-    let password: String
 }
 
 // MARK: Fetchable

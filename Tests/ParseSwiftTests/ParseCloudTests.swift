@@ -1,0 +1,305 @@
+//
+//  ParseCloudTests.swift
+//  ParseSwift
+//
+//  Created by Corey Baker on 12/29/20.
+//  Copyright © 2020 Parse Community. All rights reserved.
+//
+
+import Foundation
+import XCTest
+@testable import ParseSwift
+
+class ParseCloudTests: XCTestCase {
+
+    struct Cloud: ParseCloud {
+        // Those are required for Object
+        var functionJobName: String
+    }
+
+    struct Cloud2: ParseCloud {
+        // Those are required for Object
+        var functionJobName: String
+
+        // Your custom keys
+        var customKey: String?
+    }
+
+    override func setUpWithError() throws {
+        super.setUp()
+        guard let url = URL(string: "https://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url)
+    }
+
+    override func tearDownWithError() throws {
+        super.tearDown()
+        MockURLProtocol.removeAll()
+        try KeychainStore.shared.deleteAll()
+        try ParseStorage.shared.deleteAll()
+    }
+
+    func testJSONEncoding() throws {
+        let expected = ["functionJobName": "test"]
+        let cloud = Cloud(functionJobName: "test")
+        let encoded = try JSONEncoder().encode(cloud)
+        let decoded = try JSONDecoder().decode([String: String].self, from: encoded)
+        XCTAssertEqual(decoded, expected, "all keys should show up in JSONEncoder")
+    }
+
+    func testJSONEncoding2() throws {
+        let expected = [
+            "functionJobName": "test",
+            "customKey": "parse"
+        ]
+        let cloud = Cloud2(functionJobName: "test", customKey: "parse")
+        let encoded = try JSONEncoder().encode(cloud)
+        let decoded = try JSONDecoder().decode([String: String].self, from: encoded)
+        XCTAssertEqual(decoded, expected, "all keys should show up in JSONEncoder")
+    }
+
+    func testParseEncoding() throws {
+        let expected = [String: String]()
+        let cloud = Cloud(functionJobName: "test")
+        let encoded = try ParseCoding.parseEncoder().encode(cloud)
+        let decoded = try JSONDecoder().decode([String: String].self, from: encoded)
+        XCTAssertEqual(decoded, expected, "\"functionJobName\" key should be skipped by ParseEncoder")
+    }
+
+    func testParseEncoding2() throws {
+        let expected = [
+            "customKey": "parse"
+        ]
+        let cloud = Cloud2(functionJobName: "test", customKey: "parse")
+        let encoded = try ParseCoding.parseEncoder().encode(cloud)
+        let decoded = try JSONDecoder().decode([String: String].self, from: encoded)
+        XCTAssertEqual(decoded, expected, "\"functionJobName\" key should be skipped by ParseEncoder")
+    }
+
+    func testCallFunctionCommand() throws {
+        let cloud = Cloud(functionJobName: "test")
+        let command = cloud.callFunctionCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/functions/test")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertEqual(command.body?.functionJobName, "test")
+        XCTAssertNotNil(command.data)
+    }
+
+    func testCallFunctionWithArgsCommand() throws {
+        let cloud = Cloud2(functionJobName: "test", customKey: "parse")
+        let command = cloud.callFunctionCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/functions/test")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertEqual(command.body?.functionJobName, "test")
+        XCTAssertEqual(command.body?.customKey, "parse")
+        XCTAssertNotNil(command.data)
+    }
+
+    func testFunction() {
+        let response = [String: AnyCodable]()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            let cloud = Cloud(functionJobName: "test")
+            let functionResponse = try cloud.callFunction()
+            XCTAssertEqual(functionResponse, response)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testFunction2() {
+        let response: [String: AnyCodable] = ["hello": "world"]
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            let cloud = Cloud(functionJobName: "test")
+            let functionResponse = try cloud.callFunction()
+            XCTAssertEqual(functionResponse, response)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func functionAsync(serverResponse: [String: AnyCodable], callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        let cloud = Cloud(functionJobName: "test")
+        cloud.callFunction(callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success(let response):
+                XCTAssertEqual(response, serverResponse)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testFunctionMainQueue() {
+        let response = [String: AnyCodable]()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.functionAsync(serverResponse: response, callbackQueue: .main)
+    }
+
+    func testFunctionMainQueue2() {
+        let response: [String: AnyCodable] = ["hello": "world"]
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.functionAsync(serverResponse: response, callbackQueue: .main)
+    }
+
+    func testCallJobCommand() throws {
+        let cloud = Cloud(functionJobName: "test")
+        let command = cloud.callJobCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/jobs/test")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertEqual(command.body?.functionJobName, "test")
+        XCTAssertNotNil(command.data)
+    }
+
+    func testCallJobWithArgsCommand() throws {
+        let cloud = Cloud2(functionJobName: "test", customKey: "parse")
+        let command = cloud.callJobCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/jobs/test")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertEqual(command.body?.functionJobName, "test")
+        XCTAssertEqual(command.body?.customKey, "parse")
+        XCTAssertNotNil(command.data)
+    }
+
+    func testJob() {
+        let response = [String: AnyCodable]()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            let cloud = Cloud(functionJobName: "test")
+            let functionResponse = try cloud.callJob()
+            XCTAssertEqual(functionResponse, response)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testJob2() {
+        let response: [String: AnyCodable] = ["hello": "world"]
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            let cloud = Cloud(functionJobName: "test")
+            let functionResponse = try cloud.callJob()
+            XCTAssertEqual(functionResponse, response)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func jobAsync(serverResponse: [String: AnyCodable], callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        let cloud = Cloud(functionJobName: "test")
+        cloud.callJob(callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success(let response):
+                XCTAssertEqual(response, serverResponse)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testJobMainQueue() {
+        let response = [String: AnyCodable]()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.jobAsync(serverResponse: response, callbackQueue: .main)
+    }
+
+    func testJobMainQueue2() {
+        let response: [String: AnyCodable] = ["hello": "world"]
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.jobAsync(serverResponse: response, callbackQueue: .main)
+    }
+}
