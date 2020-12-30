@@ -1019,6 +1019,33 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testPasswordResetError() {
+
+        let parseError = ParseError(code: .internalServer, message: "Object not found")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(parseError)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            try User.passwordReset(email: "hello@parse.org")
+            XCTFail("Should have thrown ParseError")
+        } catch {
+            if let error = error as? ParseError {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+        }
+    }
+
     func passwordResetAsync(callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
@@ -1047,6 +1074,37 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         self.passwordResetAsync(callbackQueue: .main)
+    }
+
+    func passwordResetAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        User.passwordReset(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                XCTFail("Should have thrown ParseError")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(error.code, parseError.code)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testPasswordResetMainQueueError() {
+        let parseError = ParseError(code: .internalServer, message: "Object not found")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.passwordResetAsyncError(parseError: parseError, callbackQueue: .main)
     }
 
     func testUserCustomValuesNotSavedToKeychain() {

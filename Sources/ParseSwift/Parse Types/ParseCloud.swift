@@ -55,6 +55,9 @@ extension ParseCloud {
                            body: self) { (data) -> AnyCodable in
             let response = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: data)
             guard let result = response.result else {
+                if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) {
+                    throw error
+                }
                 return AnyCodable()
             }
             return result
