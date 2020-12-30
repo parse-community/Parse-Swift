@@ -179,7 +179,7 @@ class ParsePointerTests: XCTestCase {
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeFetchAsync() {

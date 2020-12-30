@@ -83,17 +83,18 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
         }
-        return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil).encoded
+        return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil).encoded
     }
 
     // swiftlint:disable large_tuple
     internal func encode(_ value: Encodable, collectChildren: Bool,
-                         objectsSavedBeforeThisOne: [NSDictionary: PointerType]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+                         objectsSavedBeforeThisOne: [NSDictionary: PointerType]?,
+                         filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
         }
-        return try encoder.encodeObject(value, collectChildren: collectChildren, objectsSavedBeforeThisOne: objectsSavedBeforeThisOne)
+        return try encoder.encodeObject(value, collectChildren: collectChildren, objectsSavedBeforeThisOne: objectsSavedBeforeThisOne, filesSavedBeforeThisOne: filesSavedBeforeThisOne)
     }
 }
 
@@ -103,9 +104,11 @@ private class _ParseEncoder: JSONEncoder, Encoder {
     let dictionary: NSMutableDictionary
     let skippedKeys: Set<String>
     var uniqueObjects = Set<UniqueObject>()
+    var uniqueFiles = Set<ParseFile>()
     var newObjects = [Encodable]()
     var collectChildren = false
     var objectsSavedBeforeThisOne: [NSDictionary: PointerType]?
+    var filesSavedBeforeThisOne: [UUID: ParseFile]?
     /// The encoder's storage.
     var storage: _ParseEncodingStorage
     var ignoreSkipKeys = false
@@ -155,7 +158,9 @@ private class _ParseEncoder: JSONEncoder, Encoder {
     }
 
     // swiftlint:disable large_tuple
-    func encodeObject(_ value: Encodable, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerType]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+    func encodeObject(_ value: Encodable, collectChildren: Bool,
+                      objectsSavedBeforeThisOne: [NSDictionary: PointerType]?,
+                      filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
 
         let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
         encoder.collectChildren = collectChildren
@@ -166,6 +171,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         encoder.keyEncodingStrategy = keyEncodingStrategy
         encoder.userInfo = userInfo
         encoder.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
+        encoder.filesSavedBeforeThisOne = filesSavedBeforeThisOne
 
         guard let topLevel = try encoder.box_(value) else {
             throw EncodingError.invalidValue(value,
@@ -258,6 +264,36 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         }
         return valueToEncode
     }
+
+    func deepFindAndReplaceParseFiles(_ value: ParseFile) throws -> Encodable? {
+        var valueToEncode: Encodable?
+        if value.isSaved {
+            if self.uniqueFiles.contains(value) {
+                throw ParseError(code: .unknownError, message: "Found a circular dependency when encoding.")
+            }
+            self.uniqueFiles.insert(value)
+            if !self.collectChildren {
+                valueToEncode = value
+            }
+        } else {
+            var mutableValue = value
+            let uuid = mutableValue.localUUID
+            if self.collectChildren {
+                if let updatedFile = self.filesSavedBeforeThisOne?[uuid] {
+                    valueToEncode = updatedFile
+                } else {
+                    //New object needs to be saved before it can be stored
+                    self.newObjects.append(value)
+                }
+            } else if let currentFile = self.filesSavedBeforeThisOne?[uuid] {
+                valueToEncode = currentFile
+            } else if codingPath.count > 0 {
+                //Only top level objects can be saved without a pointer
+                throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved file while encoding.")
+            }
+        }
+        return valueToEncode
+    }
 }
 
 // MARK: _ParseEncoderKeyedEncodingContainer
@@ -344,6 +380,18 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
                 self.container[key.stringValue] = try replacedObjects.map { try self.encoder.box($0) }
                 return
             }
+        } else if let parseFile = value as? ParseFile {
+            if let replacedObject = try self.encoder.deepFindAndReplaceParseFiles(parseFile) {
+                valueToEncode = replacedObject
+            }
+        } else if let parseFiles = value as? [ParseFile] {
+            let replacedFiles = try parseFiles.compactMap { try self.encoder.deepFindAndReplaceParseFiles($0) }
+            if replacedFiles.count > 0 {
+                self.encoder.codingPath.append(key)
+                defer { self.encoder.codingPath.removeLast() }
+                self.container[key.stringValue] = try replacedFiles.map { try self.encoder.box($0) }
+                return
+            }
         }
 
         self.encoder.codingPath.append(key)
@@ -401,11 +449,11 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
     }
 
     mutating func superEncoder() -> Encoder {
-        _ParseReferencingEncoder(referencing: self.encoder, key: _JSONKey.super, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren, objectsSavedBeforeThisOne: self.encoder.objectsSavedBeforeThisOne)
+        _ParseReferencingEncoder(referencing: self.encoder, key: _JSONKey.super, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren, objectsSavedBeforeThisOne: self.encoder.objectsSavedBeforeThisOne, filesSavedBeforeThisOne: self.encoder.filesSavedBeforeThisOne)
     }
 
     mutating func superEncoder(forKey key: Key) -> Encoder {
-        _ParseReferencingEncoder(referencing: self.encoder, key: key, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren, objectsSavedBeforeThisOne: self.encoder.objectsSavedBeforeThisOne)
+        _ParseReferencingEncoder(referencing: self.encoder, key: key, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren, objectsSavedBeforeThisOne: self.encoder.objectsSavedBeforeThisOne, filesSavedBeforeThisOne: self.encoder.filesSavedBeforeThisOne)
     }
 }
 
@@ -484,7 +532,7 @@ private struct _ParseEncoderUnkeyedEncodingContainer: UnkeyedEncodingContainer {
     }
 
     public mutating func superEncoder() -> Encoder {
-        return _ParseReferencingEncoder(referencing: self.encoder, at: self.container.count, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren, objectsSavedBeforeThisOne: self.encoder.objectsSavedBeforeThisOne)
+        return _ParseReferencingEncoder(referencing: self.encoder, at: self.container.count, wrapping: self.container, skippingKeys: self.encoder.skippedKeys, collectChildren: self.encoder.collectChildren, objectsSavedBeforeThisOne: self.encoder.objectsSavedBeforeThisOne, filesSavedBeforeThisOne: self.encoder.filesSavedBeforeThisOne)
     }
 }
 
@@ -781,6 +829,7 @@ extension _ParseEncoder {
             // swiftlint:disable:next force_cast
             return (value as! NSDecimalNumber)
         } else if value is _JSONStringDictionaryEncodableMarker {
+            //COREY: DON'T remove the force unwrap, it will crash the app
             // swiftlint:disable:next force_cast
             return try self.box(value as! [String : Encodable])
         } else if value is PointerType {
@@ -837,22 +886,24 @@ private class _ParseReferencingEncoder: _ParseEncoder {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given array container in the given encoder.
-    init(referencing encoder: _ParseEncoder, at index: Int, wrapping array: NSMutableArray, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerType]?) {
+    init(referencing encoder: _ParseEncoder, at index: Int, wrapping array: NSMutableArray, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerType]?, filesSavedBeforeThisOne: [UUID: ParseFile]?) {
         self.encoder = encoder
         self.reference = .array(array, index)
         super.init(codingPath: encoder.codingPath, dictionary: NSMutableDictionary(), skippingKeys: skippingKeys)
         self.collectChildren = collectChildren
         self.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
+        self.filesSavedBeforeThisOne = filesSavedBeforeThisOne
         self.codingPath.append(_JSONKey(index: index))
     }
 
     /// Initializes `self` by referencing the given dictionary container in the given encoder.
-    init(referencing encoder: _ParseEncoder, key: CodingKey, wrapping dictionary: NSMutableDictionary, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerType]?) {
+    init(referencing encoder: _ParseEncoder, key: CodingKey, wrapping dictionary: NSMutableDictionary, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerType]?, filesSavedBeforeThisOne: [UUID: ParseFile]?) {
         self.encoder = encoder
         self.reference = .dictionary(dictionary, key.stringValue)
         super.init(codingPath: encoder.codingPath, dictionary: dictionary, skippingKeys: skippingKeys)
         self.collectChildren = collectChildren
         self.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
+        self.filesSavedBeforeThisOne = filesSavedBeforeThisOne
         self.codingPath.append(key)
     }
 

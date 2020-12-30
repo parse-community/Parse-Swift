@@ -80,7 +80,7 @@ extension ParseUser {
      Gets the currently logged in user from the Keychain and returns an instance of it.
 
      - returns: Returns a `ParseUser` that is the currently logged in user. If there is none, returns `nil`.
-     - warning: Only use `current` objects on the main thread as as modifications to `current` have to be unique.
+     - warning: Only use `current` users on the main thread as as modifications to `current` have to be unique.
     */
     public static var current: Self? {
         get { Self.currentUserContainer?.currentUser }
@@ -137,7 +137,7 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        return loginCommand(username: username, password: password)
+        loginCommand(username: username, password: password)
             .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
@@ -172,8 +172,8 @@ extension ParseUser {
     /**
     Logs out the currently logged in user in Keychain *synchronously*.
     */
-    public static func logout() throws {
-        _ = try logoutCommand().execute(options: [])
+    public static func logout(options: API.Options = []) throws {
+        _ = try logoutCommand().execute(options: options)
     }
 
     /**
@@ -262,8 +262,11 @@ extension ParseUser {
      Signs up the user *synchronously*.
 
      This will also enforce that the username isn't already taken.
+
+     - warning: Make sure that password and username are set before calling this method.
      - parameter username: The username of the user.
      - parameter password: The password of the user.
+     - parameter options: A set of options used to sign up users. Defaults to an empty set.
      - returns: Returns whether the sign up was successful.
     */
     public static func signup(username: String,
@@ -277,6 +280,7 @@ extension ParseUser {
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
+     - parameter options: A set of options used to sign up users. Defaults to an empty set.
      - returns: Returns whether the sign up was successful.
     */
     public func signup(options: API.Options = []) throws -> Self {
@@ -289,13 +293,14 @@ extension ParseUser {
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
+     - parameter options: A set of options used to sign up users. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     public func signup(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
-        return signupCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+        signupCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
     /**
@@ -303,8 +308,10 @@ extension ParseUser {
 
      This will also enforce that the username isn't already taken.
 
+     - warning: Make sure that password and username are set before calling this method.
      - parameter username: The username of the user.
      - parameter password: The password of the user.
+     - parameter options: A set of options used to sign up users. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -316,7 +323,7 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        return signupCommand(username: username, password: password)
+        signupCommand(username: username, password: password)
             .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
@@ -386,7 +393,7 @@ extension ParseUser {
     /**
      Fetches the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save users. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
@@ -399,7 +406,7 @@ extension ParseUser {
     /**
      Fetches the `ParseUser` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save users. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -426,30 +433,27 @@ extension ParseUser {
     }
 }
 
-// MARK: Saveable
+// MARK: Savable
 extension ParseUser {
 
     /**
      Saves the `ParseUser` *synchronously* and throws an error if there's an issue.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save users. Defaults to an empty set.
      - throws: A Error of type `ParseError`.
      - returns: Returns saved `ParseUser`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     public func save(options: API.Options = []) throws -> Self {
         var childObjects: [NSDictionary: PointerType]?
+        var childFiles: [UUID: ParseFile]?
         var error: ParseError?
         let group = DispatchGroup()
         group.enter()
-        self.ensureDeepSave(options: options) { result in
-            switch result {
-
-            case .success(let savedChildObjects):
-                childObjects = savedChildObjects
-            case .failure(let parseError):
-                error = parseError
-            }
+        self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) in
+            childObjects = savedChildObjects
+            childFiles = savedChildFiles
+            error = parseError
             group.leave()
         }
         group.wait()
@@ -458,7 +462,10 @@ extension ParseUser {
             throw error
         }
 
-        let result: Self = try saveCommand().execute(options: options, childObjects: childObjects)
+        let result: Self = try saveCommand()
+            .execute(options: options,
+                     childObjects: childObjects,
+                     childFiles: childFiles)
         try? Self.updateKeychainIfNeeded([result])
         return result
     }
@@ -466,7 +473,7 @@ extension ParseUser {
     /**
      Saves the `ParseUser` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save users. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -477,20 +484,20 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        self.ensureDeepSave(options: options) { result in
-            switch result {
-
-            case .success(let savedChildObjects):
-                self.saveCommand().executeAsync(options: options, callbackQueue: callbackQueue,
-                                           childObjects: savedChildObjects) { result in
+        self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
+            guard let parseError = error else {
+                self.saveCommand().executeAsync(options: options,
+                                                callbackQueue: callbackQueue,
+                                                childObjects: savedChildObjects,
+                                                childFiles: savedChildFiles) { result in
                     if case .success(let foundResults) = result {
                         try? Self.updateKeychainIfNeeded([foundResults])
                     }
                     completion(result)
                 }
-            case .failure(let parseError):
-                completion(.failure(parseError))
+                return
             }
+            completion(.failure(parseError))
         }
     }
 }
@@ -500,7 +507,7 @@ extension ParseUser {
     /**
      Deletes the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save users. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
@@ -512,7 +519,7 @@ extension ParseUser {
     /**
      Deletes the `ParseUser` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save users. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -547,9 +554,9 @@ extension ParseUser {
 public extension Sequence where Element: ParseUser {
 
     /**
-     Saves a collection of objects *synchronously* all at once and throws an error if necessary.
+     Saves a collection of users *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save users. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
@@ -565,9 +572,9 @@ public extension Sequence where Element: ParseUser {
     }
 
     /**
-     Saves a collection of objects all at once *asynchronously* and executes the completion block when done.
+     Saves a collection of users all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of options used to save users. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
@@ -585,7 +592,7 @@ public extension Sequence where Element: ParseUser {
                 switch results {
 
                 case .success(let saved):
-                    try? Self.Element.updateKeychainIfNeeded(compactMap {$0})
+                    try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
                     completion(.success(saved))
                 case .failure(let error):
                     completion(.failure(error))
@@ -594,20 +601,20 @@ public extension Sequence where Element: ParseUser {
     }
 
     /**
-     Fetches a collection of objects *synchronously* all at once and throws an error if necessary.
+     Fetches a collection of users *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to fetch objects. Defaults to an empty set.
+     - parameter options: A set of options used to fetch users. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: `ParseError`
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
-     - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which users are returned are not guarenteed. You shouldn't expect results in
      any particular order.
     */
     func fetchAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
 
         if (allSatisfy { $0.className == Self.Element.className}) {
-            let uniqueObjectIds = Set(compactMap { $0.objectId })
+            let uniqueObjectIds = Set(self.compactMap { $0.objectId })
             let query = Self.Element.query(containedIn(key: "objectId", array: [uniqueObjectIds]))
             let fetchedObjects = try query.find(options: options)
             var fetchedObjectsToReturn = [(Result<Self.Element, ParseError>)]()
@@ -630,14 +637,14 @@ public extension Sequence where Element: ParseUser {
     }
 
     /**
-     Fetches a collection of objects all at once *asynchronously* and executes the completion block when done.
+     Fetches a collection of users all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to fetch objects. Defaults to an empty set.
+     - parameter options: A set of options used to fetch users. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
-     - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
+     - warning: The order in which users are returned are not guarenteed. You shouldn't expect results in
      any particular order.
     */
     func fetchAll(
@@ -677,11 +684,11 @@ public extension Sequence where Element: ParseUser {
     }
 
     /**
-     Deletes a collection of objects *synchronously* all at once and throws an error if necessary.
+     Deletes a collection of users *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to delete objects. Defaults to an empty set.
+     - parameter options: A set of options used to delete users. Defaults to an empty set.
 
-     - returns: Returns a Result enum with `true` if the delete successful or a `ParseError` if it failed.
+     - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
         1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
         array of other Parse.Error objects. Each error object in this array
         has an "object" property that references the object that could not be
@@ -692,9 +699,9 @@ public extension Sequence where Element: ParseUser {
      - throws: `ParseError`
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
-    func deleteAll(options: API.Options = []) throws -> [(Result<Bool, ParseError>)] {
+    func deleteAll(options: API.Options = []) throws -> [ParseError?] {
         let commands = try map { try $0.deleteCommand() }
-        let returnResults = try API.Command<Self.Element, Self.Element>
+        let returnResults = try API.Command<Self.Element, ParseError?>
             .batch(commands: commands)
             .execute(options: options)
 
@@ -703,13 +710,13 @@ public extension Sequence where Element: ParseUser {
     }
 
     /**
-     Deletes a collection of objects all at once *asynchronously* and executes the completion block when done.
+     Deletes a collection of users all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to delete objects. Defaults to an empty set.
+     - parameter options: A set of options used to delete users. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
-     It should have the following argument signature: `(Result<[(Result<Bool, ParseError>)], ParseError>)`.
-     Each element in the array is a Result enum with `true` if the delete successful or a `ParseError` if it failed.
+     It should have the following argument signature: `(Result<[ParseError?], ParseError>)`.
+     Each element in the array is `nil` if the delete successful or a `ParseError` if it failed.
      1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
      array of other Parse.Error objects. Each error object in this array
      has an "object" property that references the object that could not be
@@ -722,18 +729,18 @@ public extension Sequence where Element: ParseUser {
     func deleteAll(
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (Result<[(Result<Bool, ParseError>)], ParseError>) -> Void
+        completion: @escaping (Result<[ParseError?], ParseError>) -> Void
     ) {
         do {
             let commands = try map({ try $0.deleteCommand() })
-            API.Command<Self.Element, Self.Element>
+            API.Command<Self.Element, ParseError?>
                 .batch(commands: commands)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { results in
                     switch results {
 
                     case .success(let deleted):
-                        try? Self.Element.updateKeychainIfNeeded(compactMap {$0})
+                        try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
                         completion(.success(deleted))
                     case .failure(let error):
                         completion(.failure(error))

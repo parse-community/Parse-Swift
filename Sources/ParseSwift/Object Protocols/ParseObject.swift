@@ -24,7 +24,7 @@ import Foundation
  and relying on that for `Equatable` and `Hashable`, otherwise it's possible you will get "circular dependency errors"
  depending on your implementation.
 */
-public protocol ParseObject: Objectable, Fetchable, Saveable, Deletable, Hashable, CustomDebugStringConvertible {}
+public protocol ParseObject: Objectable, Fetchable, Savable, Deletable, Hashable, CustomDebugStringConvertible {}
 
 // MARK: Default Implementations
 extension ParseObject {
@@ -170,7 +170,7 @@ public extension Sequence where Element: ParseObject {
 
      - parameter options: A set of options used to delete objects. Defaults to an empty set.
 
-     - returns: Returns a Result enum with `true` if the delete successful or a `ParseError` if it failed.
+     - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
         1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
         array of other Parse.Error objects. Each error object in this array
         has an "object" property that references the object that could not be
@@ -180,9 +180,9 @@ public extension Sequence where Element: ParseObject {
         instance, a connection failure in the middle of the delete).
      - throws: `ParseError`
     */
-    func deleteAll(options: API.Options = []) throws -> [(Result<Bool, ParseError>)] {
+    func deleteAll(options: API.Options = []) throws -> [ParseError?] {
         let commands = try map { try $0.deleteCommand() }
-        return try API.Command<Self.Element, Self.Element>
+        return try API.Command<Self.Element, ParseError?>
             .batch(commands: commands)
             .execute(options: options)
     }
@@ -193,8 +193,8 @@ public extension Sequence where Element: ParseObject {
      - parameter options: A set of options used to delete objects. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
-     It should have the following argument signature: `(Result<[(Result<Bool, ParseError>)], ParseError>)`.
-     Each element in the array is a Result enum with `true` if the delete successful or a `ParseError` if it failed.
+     It should have the following argument signature: `(Result<[ParseError?], ParseError>)`.
+     Each element in the array is `nil` if the delete successful or a `ParseError` if it failed.
      1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
      array of other Parse.Error objects. Each error object in this array
      has an "object" property that references the object that could not be
@@ -206,11 +206,11 @@ public extension Sequence where Element: ParseObject {
     func deleteAll(
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (Result<[(Result<Bool, ParseError>)], ParseError>) -> Void
+        completion: @escaping (Result<[ParseError?], ParseError>) -> Void
     ) {
         do {
             let commands = try map({ try $0.deleteCommand() })
-            API.Command<Self.Element, Self.Element>
+            API.Command<Self.Element, ParseError?>
                 .batch(commands: commands)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue,
@@ -321,7 +321,7 @@ public extension ParseObject {
     }
 }
 
-// MARK: Saveable
+// MARK: Savable
 extension ParseObject {
 
     /**
@@ -334,17 +334,14 @@ extension ParseObject {
     */
     public func save(options: API.Options = []) throws -> Self {
         var childObjects: [NSDictionary: PointerType]?
+        var childFiles: [UUID: ParseFile]?
         var error: ParseError?
         let group = DispatchGroup()
         group.enter()
-        self.ensureDeepSave(options: options) { result in
-            switch result {
-
-            case .success(let savedChildObjects):
-                childObjects = savedChildObjects
-            case .failure(let parseError):
-                error = parseError
-            }
+        self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) in
+            childObjects = savedChildObjects
+            childFiles = savedChildFiles
+            error = parseError
             group.leave()
         }
         group.wait()
@@ -353,7 +350,7 @@ extension ParseObject {
             throw error
         }
 
-        return try saveCommand().execute(options: options, childObjects: childObjects)
+        return try saveCommand().execute(options: options, childObjects: childObjects, childFiles: childFiles)
     }
 
     /**
@@ -369,15 +366,16 @@ extension ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        self.ensureDeepSave(options: options) { result in
-            switch result {
-
-            case .success(let savedChildObjects):
-                self.saveCommand().executeAsync(options: options, callbackQueue: callbackQueue,
-                                           childObjects: savedChildObjects, completion: completion)
-            case .failure(let parseError):
-                completion(.failure(parseError))
+        self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
+            guard let parseError = error else {
+                self.saveCommand().executeAsync(options: options,
+                                                callbackQueue: callbackQueue,
+                                                childObjects: savedChildObjects,
+                                                childFiles: savedChildFiles,
+                                                completion: completion)
+                return
             }
+            completion(.failure(parseError))
         }
     }
 
@@ -385,56 +383,83 @@ extension ParseObject {
         return API.Command<Self, Self>.saveCommand(self)
     }
 
+    // swiftlint:disable:next function_body_length
     internal func ensureDeepSave(options: API.Options = [],
-                                 completion: @escaping (Result<[NSDictionary: PointerType], ParseError>) -> Void) {
+                                 completion: @escaping ([NSDictionary: PointerType],
+                                                        [UUID: ParseFile], ParseError?) -> Void) {
 
         let queue = DispatchQueue(label: "com.parse.deepSave", qos: .default,
                                   attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
 
         queue.sync {
+            var objectsFinishedSaving = [NSDictionary: PointerType]()
+            var filesFinishedSaving = [UUID: ParseFile]()
+
             do {
-                let object = try ParseCoding.parseEncoder().encode(self, collectChildren: true,
-                                                                   objectsSavedBeforeThisOne: nil)
+                let object = try ParseCoding.parseEncoder()
+                    .encode(self, collectChildren: true,
+                            objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil)
 
                 var waitingToBeSaved = object.unsavedChildren
-                var finishedSaving = [NSDictionary: PointerType]()
+
                 while waitingToBeSaved.count > 0 {
-                    var savable = [Encodable]()
+                    var savableObjects = [Encodable]()
+                    var savableFiles = [ParseFile]()
                     var nextBatch = [Encodable]()
-                    try waitingToBeSaved.forEach { parseObject in
+                    try waitingToBeSaved.forEach { parseType in
 
-                        let waitingObjectInfo = try ParseCoding.parseEncoder().encode(parseObject,
-                                                                         collectChildren: true,
-                                                                         objectsSavedBeforeThisOne: finishedSaving)
-
-                        if waitingObjectInfo.unsavedChildren.count == 0 {
-                            savable.append(parseObject)
+                        if let parseFile = parseType as? ParseFile {
+                            //ParseFiles can be saved now
+                            savableFiles.append(parseFile)
                         } else {
-                            nextBatch.append(parseObject)
+                            //This is a ParseObject
+                            let waitingObjectInfo = try ParseCoding
+                                .parseEncoder()
+                                .encode(parseType,
+                                        collectChildren: true,
+                                        objectsSavedBeforeThisOne: objectsFinishedSaving,
+                                        filesSavedBeforeThisOne: filesFinishedSaving)
+
+                            if waitingObjectInfo.unsavedChildren.count == 0 {
+                                //If this ParseObject has no additional children, it can be saved now
+                                savableObjects.append(parseType)
+                            } else {
+                                //Else this ParseObject needs to wait until it's children are saved
+                                nextBatch.append(parseType)
+                            }
                         }
                     }
                     waitingToBeSaved = nextBatch
 
-                    if savable.count == 0 {
-                        completion(.failure(ParseError(code: .unknownError,
-                                                       message: "Found a circular dependency in ParseObject.")))
+                    if savableObjects.count == 0 && savableFiles.count == 0 {
+                        completion(objectsFinishedSaving,
+                                   filesFinishedSaving,
+                                   ParseError(code: .unknownError,
+                                              message: "Found a circular dependency in ParseObject."))
                         return
                     }
 
                     //Currently, batch isn't working for Encodable
-                    //savable.saveAll(encodableObjects: savable)
-                    try savable.forEach {
+                    //savableObjects.saveAll(encodableObjects: savable)
+                    try savableObjects.forEach {
                         let hash = BaseObjectable.createHash($0)
-                        finishedSaving[hash] = try $0.save(options: options)
+                        objectsFinishedSaving[hash] = try $0.save(options: options)
+                    }
+
+                    try savableFiles.forEach {
+                        var file = $0
+                        filesFinishedSaving[file.localUUID] = try $0.save(options: options)
                     }
                 }
-                completion(.success(finishedSaving))
+                completion(objectsFinishedSaving, filesFinishedSaving, nil)
             } catch {
                 guard let parseError = error as? ParseError else {
-                    completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                    completion(objectsFinishedSaving, filesFinishedSaving,
+                               ParseError(code: .unknownError,
+                                          message: error.localizedDescription))
                     return
                 }
-                completion(.failure(parseError))
+                completion(objectsFinishedSaving, filesFinishedSaving, parseError)
             }
         }
     }
@@ -468,8 +493,9 @@ extension ParseObject {
      - throws: An Error of `ParseError` type.
     */
     public func delete(options: API.Options = []) throws {
-        _ = try deleteCommand().execute(options: options)
-        return
+        if let error = try deleteCommand().execute(options: options) {
+            throw error
+        }
     }
 
     /**
@@ -490,8 +516,8 @@ extension ParseObject {
             try deleteCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
                 switch result {
 
-                case .success:
-                    completion(nil)
+                case .success(let error):
+                    completion(error)
                 case .failure(let error):
                     completion(error)
                 }
@@ -503,7 +529,7 @@ extension ParseObject {
          }
     }
 
-    internal func deleteCommand() throws -> API.Command<NoBody, NoBody> {
-        try API.Command<NoBody, NoBody>.deleteCommand(self)
+    internal func deleteCommand() throws -> API.Command<NoBody, ParseError?> {
+        try API.Command<NoBody, ParseError?>.deleteCommand(self)
     }
 }// swiftlint:disable:this file_length

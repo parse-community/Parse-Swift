@@ -75,7 +75,6 @@ class MockURLProtocol: URLProtocol {
     }
 
     override init(request: URLRequest, cachedResponse: CachedURLResponse?, client: URLProtocolClient?) {
-        self.mock = nil
         super.init(request: request, cachedResponse: cachedResponse, client: client)
         guard let mock = MockURLProtocol.firstMockForRequest(request) else {
             self.mock = nil

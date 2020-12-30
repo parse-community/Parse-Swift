@@ -286,7 +286,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -347,7 +347,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeFetchAsync() {
@@ -529,7 +529,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUpdate() { // swiftlint:disable:this function_body_length
@@ -557,17 +557,14 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         do {
             let saved = try user.save()
-            guard let savedCreatedAt = saved.createdAt,
-                let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let savedUpdatedAt = saved.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            guard let originalCreatedAt = user.createdAt,
-                let originalUpdatedAt = user.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let originalUpdatedAt = user.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
             XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
@@ -576,17 +573,14 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         do {
             let saved = try user.save(options: [.useMasterKey])
-            guard let savedCreatedAt = saved.createdAt,
-                let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let savedUpdatedAt = saved.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            guard let originalCreatedAt = user.createdAt,
-                let originalUpdatedAt = user.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            guard let originalUpdatedAt = user.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
             }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
             XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
@@ -594,7 +588,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    // swiftlint:disable:next function_body_length
     func updateAsync(user: User, userOnServer: User, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update user1")
@@ -603,19 +596,16 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let saved):
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
+                guard let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
                 }
-                guard let originalCreatedAt = user.createdAt,
-                    let originalUpdatedAt = user.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
+                guard let originalUpdatedAt = user.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
             case .failure(let error):
@@ -630,19 +620,17 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let saved):
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation2.fulfill()
-                        return
+                guard let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation2.fulfill()
+                    return
                 }
-                guard let originalCreatedAt = user.createdAt,
-                    let originalUpdatedAt = user.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation2.fulfill()
-                        return
+                guard let originalUpdatedAt = user.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation2.fulfill()
+                    return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
             case .failure(let error):
@@ -650,7 +638,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeUpdateAsync() {
@@ -797,7 +785,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testSignUpAsyncMainQueue() {
@@ -908,7 +896,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testLoginAsyncMainQueue() {
@@ -973,7 +961,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail(error.localizedDescription)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testLogoutAsyncMainQueue() {
@@ -1143,7 +1131,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAsyncMainQueue() {
@@ -1180,7 +1168,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -1199,7 +1187,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
             user.customKey = "newValue"
-            let userOnServer = FindResult<User>(results: [user], count: 1)
+            let userOnServer = QueryResponse<User>(results: [user], count: 1)
 
             let encoded: Data!
             do {
@@ -1267,7 +1255,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -1285,7 +1273,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
             user.customKey = "newValue"
-            let userOnServer = FindResult<User>(results: [user], count: 1)
+            let userOnServer = QueryResponse<User>(results: [user], count: 1)
 
             let encoded: Data!
             do {
@@ -1355,7 +1343,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -1442,7 +1430,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -1530,7 +1518,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAll() {
@@ -1546,7 +1534,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     return
             }
 
-            let userOnServer = [BatchResponseItem<Bool>(success: true, error: nil)]
+            let error: ParseError? = nil
+            let userOnServer = [error]
 
             let encoded: Data!
             do {
@@ -1563,10 +1552,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             do {
                 let deleted = try [user].deleteAll()
                 deleted.forEach {
-                    switch $0 {
-                    case .success:
-                        return
-                    case .failure(let error):
+                    if let error = $0 {
                         XCTFail("Should have deleted: \(error.localizedDescription)")
                     }
                 }
@@ -1576,7 +1562,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAllAsyncMainQueue() {
@@ -1591,7 +1577,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return
             }
 
-            let userOnServer = [BatchResponseItem<Bool>(success: true, error: nil)]
+            let error: ParseError? = nil
+            let userOnServer = [error]
 
             let encoded: Data!
             do {
@@ -1610,10 +1597,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
                 case .success(let deleted):
                     deleted.forEach {
-                        switch $0 {
-                        case .success:
-                            return
-                        case .failure(let error):
+                        if let error = $0 {
                             XCTFail("Should have deleted: \(error.localizedDescription)")
                         }
                     }
@@ -1623,7 +1607,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 }
 // swiftlint:disable:this file_length

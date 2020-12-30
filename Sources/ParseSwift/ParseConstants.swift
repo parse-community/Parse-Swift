@@ -11,6 +11,10 @@ import Foundation
 enum ParseConstants {
     static let parseVersion = "0.0.1"
     static let hashingKey = "parseSwift"
+    static let fileManagementDirectory = "parse/"
+    static let fileManagementPrivateDocumentsDirectory = "Private Documents/"
+    static let fileManagementLibraryDirectory = "Library/"
+    static let fileDownloadsDirectory = "Downloads"
     #if os(iOS)
     static let deviceType = "ios"
     #elseif os(macOS)

@@ -34,6 +34,7 @@ query.limit(2).find(callbackQueue: .main) { results in
         scores.forEach { (score) in
             guard let createdAt = score.createdAt else { fatalError() }
             assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
+            print("Found score: \(score)")
         }
 
     case .failure(let error):
@@ -47,6 +48,7 @@ assert(results.count >= 1)
 results.forEach { (score) in
     guard let createdAt = score.createdAt else { fatalError() }
     assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
+    print("Found score: \(score)")
 }
 
 // Query first asynchronously (preferred way) - Performs work on background
@@ -59,7 +61,7 @@ query.first { results in
         guard let objectId = score.objectId,
             let createdAt = score.createdAt else { fatalError() }
         assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
-        print(objectId)
+        print("Found score: \(score)")
 
     case .failure(let error):
         assertionFailure("Error querying: \(error)")
