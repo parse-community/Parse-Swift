@@ -623,7 +623,7 @@ public extension Sequence where Element: ParseInstallation {
     */
     func deleteAll(options: API.Options = []) throws -> [ParseError?] {
         let commands = try map { try $0.deleteCommand() }
-        let returnResults = try API.Command<Self.Element, Self.Element>
+        let returnResults = try API.Command<Self.Element, ParseError?>
             .batch(commands: commands)
             .execute(options: options)
 
@@ -655,7 +655,7 @@ public extension Sequence where Element: ParseInstallation {
     ) {
         do {
             let commands = try map({ try $0.deleteCommand() })
-            API.Command<Self.Element, Self.Element>
+            API.Command<Self.Element, ParseError?>
                 .batch(commands: commands)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { results in

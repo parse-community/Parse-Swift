@@ -448,16 +448,16 @@ internal extension API.Command {
     }
 
     // MARK: Deleting
-    static func deleteCommand<T>(_ object: T) throws -> API.Command<NoBody, NoBody> where T: ParseObject {
+    static func deleteCommand<T>(_ object: T) throws -> API.Command<NoBody, ParseError?> where T: ParseObject {
         guard object.isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
         }
 
-        return API.Command<NoBody, NoBody>(
+        return API.Command<NoBody, ParseError?>(
             method: .DELETE,
             path: object.endpoint
-        ) { (data) -> NoBody in
-            try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+        ) { (data) -> ParseError? in
+            try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
         }
     }
 }
@@ -517,28 +517,29 @@ extension API.Command where T: ParseObject {
     }
 
     // MARK: Batch - Deleting
-    static func batch(commands: [API.Command<NoBody, NoBody>]) -> RESTBatchCommandNoBodyType<ParseError?> {
-        let commands = commands.compactMap { (command) -> API.Command<NoBody, NoBody>? in
+    static func batch(commands: [API.Command<NoBody, ParseError?>]) -> RESTBatchCommandNoBodyType<ParseError?> {
+        let commands = commands.compactMap { (command) -> API.Command<NoBody, ParseError?>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
-            return API.Command<NoBody, NoBody>(
+            return API.Command<NoBody, ParseError?>(
                 method: command.method,
                 path: .any(path), mapper: command.mapper)
         }
 
         let mapper = { (data: Data) -> [ParseError?] in
 
-            let decodingType = [BatchResponseItem<NoBody>].self
+            let decodingType = [BatchResponseItem<ParseError?>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
                 return responses.enumerated().map({ (object) -> ParseError? in
                     let response = responses[object.offset]
-                    if response.success != nil {
+                    if response.success == nil {
                         return nil
+                    } else if let error = response.success as? ParseError {
+                        return error
                     } else {
                         guard let parseError = response.error else {
                             return ParseError(code: .unknownError, message: "unknown error")
                         }
-
                         return parseError
                     }
                 })

@@ -182,7 +182,7 @@ public extension Sequence where Element: ParseObject {
     */
     func deleteAll(options: API.Options = []) throws -> [ParseError?] {
         let commands = try map { try $0.deleteCommand() }
-        return try API.Command<Self.Element, NoBody>
+        return try API.Command<Self.Element, ParseError?>
             .batch(commands: commands)
             .execute(options: options)
     }
@@ -210,7 +210,7 @@ public extension Sequence where Element: ParseObject {
     ) {
         do {
             let commands = try map({ try $0.deleteCommand() })
-            API.Command<Self.Element, NoBody>
+            API.Command<Self.Element, ParseError?>
                 .batch(commands: commands)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue,
@@ -493,8 +493,9 @@ extension ParseObject {
      - throws: An Error of `ParseError` type.
     */
     public func delete(options: API.Options = []) throws {
-        _ = try deleteCommand().execute(options: options)
-        return
+        if let error = try deleteCommand().execute(options: options) {
+            throw error
+        }
     }
 
     /**
@@ -515,8 +516,8 @@ extension ParseObject {
             try deleteCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
                 switch result {
 
-                case .success:
-                    completion(nil)
+                case .success(let error):
+                    completion(error)
                 case .failure(let error):
                     completion(error)
                 }
@@ -528,7 +529,7 @@ extension ParseObject {
          }
     }
 
-    internal func deleteCommand() throws -> API.Command<NoBody, NoBody> {
-        try API.Command<NoBody, NoBody>.deleteCommand(self)
+    internal func deleteCommand() throws -> API.Command<NoBody, ParseError?> {
+        try API.Command<NoBody, ParseError?>.deleteCommand(self)
     }
 }// swiftlint:disable:this file_length

@@ -1216,8 +1216,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     func testDeleteAll() {
         let score = GameScore(score: 10)
 
-        let response = [BatchResponseItem<Bool>(success: true, error: nil),
-        BatchResponseItem<Bool>(success: true, error: nil)]
+        let response = [BatchResponseItem<ParseError?>(success: nil, error: nil),
+        BatchResponseItem<ParseError?>(success: nil, error: nil)]
         let encoded: Data!
         do {
            encoded = try score.getEncoder(skipKeys: false).encode(response)
@@ -1245,6 +1245,49 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             if let error = secondObject {
                 XCTFail(error.localizedDescription)
+            }
+
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testDeleteAllError() {
+        let score = GameScore(score: 10)
+        let parseError = ParseError(code: .objectNotFound, message: "Object not found")
+        let response = [BatchResponseItem<ParseError?>(success: parseError, error: nil),
+        BatchResponseItem<ParseError?>(success: parseError, error: nil)]
+        let encoded: Data!
+        do {
+           encoded = try score.getEncoder(skipKeys: false).encode(response)
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+           return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let fetched = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
+
+            XCTAssertEqual(fetched.count, 2)
+            guard let firstObject = fetched.first,
+                let secondObject = fetched.last else {
+                    XCTFail("Should have thrown ParseError")
+                    return
+            }
+
+            if let error = firstObject {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+
+            if let error = secondObject {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
             }
 
         } catch {
@@ -1290,8 +1333,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     func testDeleteAllAsyncMainQueue() {
         let score = GameScore(score: 10)
 
-        let response = [BatchResponseItem<Bool>(success: true, error: nil),
-        BatchResponseItem<Bool>(success: true, error: nil)]
+        let response = [BatchResponseItem<ParseError?>(success: nil, error: nil),
+        BatchResponseItem<ParseError?>(success: nil, error: nil)]
 
         do {
             let encoded = try score.getEncoder(skipKeys: false).encode(response)
@@ -1304,5 +1347,64 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         self.deleteAllAsync(callbackQueue: .main)
+    }
+
+    func deleteAllAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Delete object1")
+
+        [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll(options: [],
+                                                                            callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success(let fetched):
+                XCTAssertEqual(fetched.count, 2)
+                guard let firstObject = fetched.first,
+                    let secondObject = fetched.last else {
+                        XCTFail("Should have thrown ParseError")
+                        expectation1.fulfill()
+                        return
+                }
+
+                if let error = firstObject {
+                    XCTAssertEqual(error.code, parseError.code)
+                } else {
+                    XCTFail("Should have thrown ParseError")
+                }
+
+                if let error = secondObject {
+                    XCTAssertEqual(error.code, parseError.code)
+                } else {
+                    XCTFail("Should have thrown ParseError")
+                }
+
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testDeleteAllAsyncMainQueueError() {
+        let score = GameScore(score: 10)
+
+        let parseError = ParseError(code: .objectNotFound, message: "Object not found")
+        let response = [BatchResponseItem<ParseError?>(success: parseError, error: nil),
+        BatchResponseItem<ParseError?>(success: parseError, error: nil)]
+
+        do {
+            let encoded = try score.getEncoder(skipKeys: false).encode(response)
+            MockURLProtocol.mockRequests { _ in
+               return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+
+        self.deleteAllAsyncError(parseError: parseError, callbackQueue: .main)
     }
 }// swiftlint:disable:this file_length

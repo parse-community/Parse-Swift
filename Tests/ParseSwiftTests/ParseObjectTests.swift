@@ -874,6 +874,47 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testDeleteError() {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        let parseError = ParseError(code: .objectNotFound, message: "Object not found")
+
+        let encoded: Data!
+        do {
+            encoded = try score.getEncoder(skipKeys: false).encode(parseError)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            try score.delete(options: [])
+            XCTFail("Should have thrown ParseError")
+        } catch {
+            if let error = error as? ParseError {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+        }
+
+        do {
+            try score.delete(options: [.useMasterKey])
+            XCTFail("Should have thrown ParseError")
+        } catch {
+            if let error = error as? ParseError {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+        }
+    }
+
     func deleteAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Delete object1")
@@ -952,6 +993,54 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         self.deleteAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
+    }
+
+    func deleteAsyncError(score: GameScore, parseError: ParseError, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Delete object1")
+        score.delete(options: [], callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                XCTFail("Should have thrown ParseError")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(error.code, parseError.code)
+            expectation1.fulfill()
+        }
+
+        let expectation2 = XCTestExpectation(description: "Delete object2")
+        score.delete(options: [.useMasterKey], callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                XCTFail("Should have thrown ParseError")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(error.code, parseError.code)
+            expectation2.fulfill()
+        }
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+
+    func testDeleteAsyncMainQueueError() {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        let parseError = ParseError(code: .objectNotFound, message: "Object not found")
+        let encoded: Data!
+        do {
+            encoded = try score.getEncoder(skipKeys: false).encode(parseError)
+        } catch {
+            XCTFail("Should have encoded/decoded: Error: \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        self.deleteAsyncError(score: score, parseError: parseError, callbackQueue: .main)
     }
 
     // swiftlint:disable:next function_body_length
