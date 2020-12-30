@@ -142,7 +142,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/ParseEncoder.swift",
-      "line": 484,
+      "line": 532,
       "symbol": "_ParseEncoder",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
@@ -246,6 +246,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Object Protocols/Protocols/Fileable.swift",
+      "line": 18,
+      "symbol": "Fileable",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Object Protocols/Protocols/Objectable.swift",
       "line": 11,
       "symbol": "Objectable",
@@ -267,31 +274,17 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Object Protocols/Protocols/Saveable.swift",
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Object Protocols/Protocols/Savable.swift",
       "line": 9,
-      "symbol": "Saveable",
+      "symbol": "Savable",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Object Protocols/Protocols/Saveable.swift",
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Object Protocols/Protocols/Savable.swift",
       "line": 16,
-      "symbol": "Saveable",
+      "symbol": "Savable",
       "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Parse Types/File.swift",
-      "line": 33,
-      "symbol": "File.save(options:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Parse Types/File.swift",
-      "line": 55,
-      "symbol": "File.fetch(options:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
@@ -422,7 +415,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Parse.swift",
-      "line": 12,
+      "line": 13,
       "symbol": "initialize(applicationId:clientKey:masterKey:serverURL:primitiveObjectStore:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"

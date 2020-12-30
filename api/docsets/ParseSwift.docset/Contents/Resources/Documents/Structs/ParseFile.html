@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ParseFile Structure Reference</title>
+    <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
+    <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
+    <meta charset="utf-8">
+    <script src="../js/jquery.min.js" defer></script>
+    <script src="../js/jazzy.js" defer></script>
+    
+    <script src="../js/lunr.min.js" defer></script>
+    <script src="../js/typeahead.jquery.js" defer></script>
+    <script src="../js/jazzy.search.js" defer></script>
+  </head>
+  <body>
+
+    <a name="//apple_ref/swift/Struct/ParseFile" class="dashAnchor"></a>
+
+    <a title="ParseFile Structure Reference"></a>
+
+    <header class="header">
+      <p class="header-col header-col--primary">
+        <a class="header-link" href="../index.html">
+          ParseSwift 1.0 Docs
+        </a>
+         (79% documented)
+      </p>
+    
+      <p class="header-col--secondary">
+        <form role="search" action="../search.json">
+          <input type="text" placeholder="Search documentation" data-typeahead>
+        </form>
+      </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="https://github.com/parse-community/Parse-Swift">
+            <img class="header-icon" src="../img/gh.png"/>
+            View on GitHub
+          </a>
+        </p>
+    
+        <p class="header-col header-col--secondary">
+          <a class="header-link" href="dash-feed://http%3A%2F%2Fparseplatform.org%2FParse-Swift%2Fapi%2Fdocsets%2FParseSwift.xml">
+            <img class="header-icon" src="../img/dash.png"/>
+            Install in Dash
+          </a>
+        </p>
+    </header>
+
+    <p class="breadcrumbs">
+      <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
+      <img class="carat" src="../img/carat.png" />
+      ParseFile Structure Reference
+    </p>
+
+    <div class="content-wrapper">
+      <nav class="navigation">
+        <ul class="nav-groups">
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Classes.html">Classes</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Query.html">Query</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Query/Order.html">– Order</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Extensions.html">Extensions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Extensions/Sequence.html">Sequence</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Functions.html">Functions</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_AA0D0CyxGtAA0A6ObjectRzlF">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA0D0CyxGtAA0A6ObjectRzlF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0CyxGG_tAA0A6ObjectRzlF">and(queries:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containedIn(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containsAll(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift14containsString3key9substringAA15QueryConstraintVSS_SStF">containsString(key:substring:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift12doesNotExist3keyAA15QueryConstraintVSS_tF">doesNotExist(key:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0CyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift9hasPrefix3key6prefixAA15QueryConstraintVSS_SStF">hasPrefix(key:prefix:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift9hasSuffix3key6suffixAA15QueryConstraintVSS_SStF">hasSuffix(key:suffix:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift17matchesKeyInQuery3key05queryD00H0AA0F10ConstraintVSS_SSAA0F0CyxGtAA0A6ObjectRzlF">matchesKeyInQuery(key:queryKey:query:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift12matchesRegex3key5regexAA15QueryConstraintVSS_SStF">matchesRegex(key:regex:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift12matchesRegex3key5regex9modifiersAA15QueryConstraintVSS_S2StF">matchesRegex(key:regex:modifiers:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11matchesText3key4textAA15QueryConstraintVSS_SStF">matchesText(key:text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift4near3key8geoPointAA15QueryConstraintVSS_AA0a3GeoF0VtF">near(key:geoPoint:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">notContainedIn(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2or7queriesAA15QueryConstraintVSayAA0E0CyxGG_tAA0A6ObjectRzlF">or(queries:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift15polygonContains3key5pointAA15QueryConstraintVSS_AA0A8GeoPointVtF">polygonContains(key:point:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7related3key6parentAA15QueryConstraintVSS_xtAA0A6ObjectRzlF">related(key:parent:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift12withinGeoBox3key13fromSouthWest11toNortheastAA15QueryConstraintVSS_AA0aD5PointVAItF">withinGeoBox(key:fromSouthWest:toNortheast:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift16withinKilometers3key8geoPoint8distanceSayAA15QueryConstraintVGSS_AA0a3GeoG0VSdtF">withinKilometers(key:geoPoint:distance:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11withinMiles3key8geoPoint8distanceSayAA15QueryConstraintVGSS_AA0a3GeoG0VSdtF">withinMiles(key:geoPoint:distance:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift13withinPolygon3key6pointsAA15QueryConstraintVSS_SayAA0A8GeoPointVGtF">withinPolygon(key:points:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift13withinRadians3key8geoPoint8distanceSayAA15QueryConstraintVGSS_AA0a3GeoG0VSdtF">withinRadians(key:geoPoint:distance:)</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseInstallation.html">ParseInstallation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseObject.html">ParseObject</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseUser.html">ParseUser</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Structs.html">Structures</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AnyCodable.html">AnyCodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AnyDecodable.html">AnyDecodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/AnyEncodable.html">AnyEncodable</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseACL.html">ParseACL</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseACL/Access.html">– Access</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseFile.html">ParseFile</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseGeoPoint.html">ParseGeoPoint</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/QueryConstraint.html">QueryConstraint</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <article class="main-content">
+
+        <section class="section">
+          <div class="section-content top-matter">
+            <h1>ParseFile</h1>
+              <div class="declaration">
+                <div class="language">
+                  
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseFile</span> <span class="p">:</span> <span class="kt">Fileable</span><span class="p">,</span> <span class="kt">Savable</span><span class="p">,</span> <span class="kt">Fetchable</span><span class="p">,</span> <span class="kt">Deletable</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
+
+                </div>
+              </div>
+            <p>A <code>ParseFile</code> object representes a file of binary data stored on the Parse server.
+This can be a image, video, or anything else that an application needs to reference in a non-relational way.</p>
+
+          </div>
+        </section>
+
+        <section class="section">
+          <div class="section-content">
+            <div class="task-group">
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV4nameSSvp"></a>
+                    <a name="//apple_ref/swift/Property/name" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV4nameSSvp">name</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The name of the file.
+Before the file is saved, this is the filename given by the user.
+After the file is saved, that name gets prefixed with a unique identifier.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV3url10Foundation3URLVSgvp"></a>
+                    <a name="//apple_ref/swift/Property/url" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV3url10Foundation3URLVSgvp">url</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The Parse Server url of the file.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">url</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV8localURL10Foundation0E0VSgvp"></a>
+                    <a name="//apple_ref/swift/Property/localURL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV8localURL10Foundation0E0VSgvp">localURL</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The local file path.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">localURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV8cloudURL10Foundation0E0VSgvp"></a>
+                    <a name="//apple_ref/swift/Property/cloudURL" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV8cloudURL10Foundation0E0VSgvp">cloudURL</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The link to the file online that should be downloaded.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV4data10Foundation4DataVSgvp"></a>
+                    <a name="//apple_ref/swift/Property/data" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV4data10Foundation4DataVSgvp">data</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The contents of the file.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV8mimeTypeSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/mimeType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV8mimeTypeSSSgvp">mimeType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The Content-Type header to use for the file.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">mimeType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV8metadataSDyS2SGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/metadata" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV8metadataSDyS2SGSgvp">metadata</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Key value pairs to be stored with file object</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">metadata</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV4tagsSDyS2SGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/tags" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV4tagsSDyS2SGSgvp">tags</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Key value pairs to be stored with file object</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">tags</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">String</span><span class="p">]?</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV7optionsShyAA3APIV6OptionOGvp"></a>
+                    <a name="//apple_ref/swift/Property/options" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV7optionsShyAA3APIV6OptionOGvp">options</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A set of options used to delete files.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV4name4data8mimeType8metadata4tags7optionsACSS_10Foundation4DataVSgSSSgSDyS2SGSgAPShyAA3APIV6OptionOGtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(name:data:mimeType:metadata:tags:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV4name4data8mimeType8metadata4tags7optionsACSS_10Foundation4DataVSgSSSgSDyS2SGSgAPShyAA3APIV6OptionOGtcfc">init(name:<wbr>data:<wbr>mimeType:<wbr>metadata:<wbr>tags:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a file with given data and name.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"file"</span><span class="p">,</span> <span class="nv">data</span><span class="p">:</span> <span class="kt">Data</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">mimeType</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">metadata</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">tags</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of the new <code>ParseFile</code>. The file name must begin with and
+alphanumeric character, and consist of alphanumeric characters, periods, spaces, underscores,
+or dashes. The default value is &ldquo;file&rdquo;.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>data</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The contents of the new <code>ParseFile</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mimeType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Specify the Content-Type header to use for the file,  for example
+&ldquo;application/pdf&rdquo;. The default is nil. If no value is specified the file type will be inferred from the file
+extention of <code><a href="../Structs/ParseFile.html#/s:10ParseSwift0A4FileV4nameSSvp">name</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>metadata</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional key value pairs to be stored with file object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tags</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional key value pairs to be stored with file object</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV4name8localURL8metadata4tags7optionsACSS_10Foundation0F0VSDyS2SGSgAMShyAA3APIV6OptionOGtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(name:localURL:metadata:tags:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV4name8localURL8metadata4tags7optionsACSS_10Foundation0F0VSDyS2SGSgAMShyAA3APIV6OptionOGtcfc">init(name:<wbr>localURL:<wbr>metadata:<wbr>tags:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a file from a local file path and name.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"file"</span><span class="p">,</span> <span class="nv">localURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span>
+            <span class="nv">metadata</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">tags</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of the new <code>ParseFile</code>. The file name must begin with and
+alphanumeric character, and consist of alphanumeric characters, periods, spaces, underscores,
+or dashes. The default value is &ldquo;file&rdquo;.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>localURL</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The local file path of the<code>ParseFile</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mimeType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Specify the Content-Type header to use for the file,  for example
+&ldquo;application/pdf&rdquo;. The default is nil. If no value is specified the file type will be inferred from the file
+extention of <code><a href="../Structs/ParseFile.html#/s:10ParseSwift0A4FileV4nameSSvp">name</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>metadata</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional key value pairs to be stored with file object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tags</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional key value pairs to be stored with file object</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV4name8cloudURL8metadata4tags7optionsACSS_10Foundation0F0VSDyS2SGSgAMShyAA3APIV6OptionOGtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(name:cloudURL:metadata:tags:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV4name8cloudURL8metadata4tags7optionsACSS_10Foundation0F0VSDyS2SGSgAMShyAA3APIV6OptionOGtcfc">init(name:<wbr>cloudURL:<wbr>metadata:<wbr>tags:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a file from a link online and name.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="kt">String</span> <span class="o">=</span> <span class="s">"file"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span>
+            <span class="nv">metadata</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">tags</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+            <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>name</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The name of the new <code>ParseFile</code>. The file name must begin with and
+alphanumeric character, and consist of alphanumeric characters, periods, spaces, underscores,
+or dashes. The default value is &ldquo;file&rdquo;.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>cloudURL</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The online link of the<code>ParseFile</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>mimeType</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Specify the Content-Type header to use for the file,  for example
+&ldquo;application/pdf&rdquo;. The default is nil. If no value is specified the file type will be inferred from the file
+extention of <code><a href="../Structs/ParseFile.html#/s:10ParseSwift0A4FileV4nameSSvp">name</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>metadata</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional key value pairs to be stored with file object</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>tags</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Optional key value pairs to be stored with file object</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Deleting"></a>
+                <a name="//apple_ref/swift/Section/Deleting" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Deleting"></a>
+                  <h3 class="section-name"><p>Deleting</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV6delete7optionsyShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="//apple_ref/swift/Method/delete(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV6delete7optionsyShyAA3APIV6OptionOG_tKF">delete(options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Deletes the file from the Parse cloud.</p>
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    <code>.useMasterKey</code> has to be available and passed as one of the set of <code><a href="../Structs/ParseFile.html#/s:10ParseSwift0A4FileV7optionsShyAA3APIV6OptionOGvp">options</a></code>.
+
+</div><div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    A <code>ParseError</code> if there was an issue deleting the file. Otherwise it was successful.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to delete files.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV6delete7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCyAA0A5ErrorVSgctF"></a>
+                    <a name="//apple_ref/swift/Method/delete(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV6delete7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCyAA0A5ErrorVSgctF">delete(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Deletes the file from the Parse cloud. Completes with <code>nil</code> if successful.</p>
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    <code>.useMasterKey</code> has to be available and passed as one of the set of <code><a href="../Structs/ParseFile.html#/s:10ParseSwift0A4FileV7optionsShyAA3APIV6OptionOGvp">options</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span><span class="p">,</span>
+                   <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                   <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ParseError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to delete files.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when file deletes or fails.
+It should have the following argument signature: <code>(ParseError?)</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Saving"></a>
+                <a name="//apple_ref/swift/Section/Saving" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Saving"></a>
+                  <h3 class="section-name"><p>Saving</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV4save7options6stream8progressyShyAA3APIV6OptionOG_So13NSInputStreamCySo16NSURLSessionTaskC_s5Int64VA2RtcSgtKF"></a>
+                    <a name="//apple_ref/swift/Method/save(options:stream:progress:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV4save7options6stream8progressyShyAA3APIV6OptionOG_So13NSInputStreamCySo16NSURLSessionTaskC_s5Int64VA2RtcSgtKF">save(options:<wbr>stream:<wbr>progress:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a file with given stream <em>synchronously</em>. A name will be assigned to it by the server.</p>
+
+<p><em>Checking progress</em>*</p>
+<pre class="highlight swift"><code> <span class="k">guard</span> <span class="k">let</span> <span class="nv">parseFileURL</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://parseplatform.org/img/logo.svg"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+   <span class="k">return</span>
+ <span class="p">}</span>
+
+ <span class="k">let</span> <span class="nv">parseFile</span> <span class="o">=</span> <span class="kt">ParseFile</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"logo.svg"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="n">parseFileURL</span><span class="p">)</span>
+ <span class="k">let</span> <span class="nv">fetchedFile</span> <span class="o">=</span> <span class="k">try</span> <span class="n">parseFile</span><span class="o">.</span><span class="nf">fetch</span><span class="p">(</span><span class="nv">stream</span><span class="p">:</span> <span class="kt">InputStream</span><span class="p">(</span><span class="nv">fileAtPath</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="s">"parse.org"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+ <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">totalWritten</span><span class="p">,</span> <span class="n">totalExpected</span><span class="p">)</span> <span class="k">in</span>
+   <span class="k">let</span> <span class="nv">currentProgess</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">totalWritten</span><span class="p">)</span><span class="o">/</span><span class="kt">Double</span><span class="p">(</span><span class="n">totalExpected</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+   <span class="nf">print</span><span class="p">(</span><span class="n">currentProgess</span><span class="p">)</span>
+ <span class="p">}</span>
+</code></pre>
+
+<p><em>Cancelling</em>*</p>
+<pre class="highlight swift"><code>  <span class="k">guard</span> <span class="k">let</span> <span class="nv">parseFileURL</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://parseplatform.org/img/logo.svg"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+
+  <span class="k">let</span> <span class="nv">parseFile</span> <span class="o">=</span> <span class="kt">ParseFile</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"logo.svg"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="n">parseFileURL</span><span class="p">)</span>
+  <span class="k">let</span> <span class="nv">fetchedFile</span> <span class="o">=</span> <span class="k">try</span> <span class="n">parseFile</span><span class="o">.</span><span class="nf">fetch</span><span class="p">(</span><span class="nv">stream</span><span class="p">:</span> <span class="kt">InputStream</span><span class="p">(</span><span class="nv">fileAtPath</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="s">"parse.org"</span><span class="p">)</span><span class="o">!</span><span class="p">){</span>
+  <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">totalWritten</span><span class="p">,</span> <span class="n">totalExpected</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">currentProgess</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">totalWritten</span><span class="p">)</span><span class="o">/</span><span class="kt">Double</span><span class="p">(</span><span class="n">totalExpected</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="c1">//Cancel when data exceeds 10%</span>
+    <span class="k">if</span> <span class="n">currentProgess</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="p">{</span>
+      <span class="n">task</span><span class="o">.</span><span class="nf">cancel</span><span class="p">()</span>
+      <span class="nf">print</span><span class="p">(</span><span class="s">"task has been cancelled"</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">currentProgess</span><span class="p">)</span>
+  <span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                 <span class="nv">stream</span><span class="p">:</span> <span class="kt">InputStream</span><span class="p">,</span>
+                 <span class="nv">progress</span><span class="p">:</span> <span class="p">((</span><span class="kt">URLSessionTask</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to save files. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>progress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when file updates it&rsquo;s progress.
+It should have the following argument signature: <code>(task: URLSessionDownloadTask,
+bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>stream</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An input file stream.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A saved <code>ParseFile</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV4save7optionsACShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="//apple_ref/swift/Method/save(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV4save7optionsACShyAA3APIV6OptionOG_tKF">save(options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a file with given data <em>synchronously</em>. A name will be assigned to it by the server.
+If the file hasn&rsquo;t been downloaded, it will automatically be downloaded before saved.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ParseFile</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to save files. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A saved <code>ParseFile</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV4save7options8progressACShyAA3APIV6OptionOG_ySo16NSURLSessionTaskC_s5Int64VA2OtcSgtKF"></a>
+                    <a name="//apple_ref/swift/Method/save(options:progress:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV4save7options8progressACShyAA3APIV6OptionOG_ySo16NSURLSessionTaskC_s5Int64VA2OtcSgtKF">save(options:<wbr>progress:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a file with given data <em>synchronously</em>. A name will be assigned to it by the server.
+If the file hasn&rsquo;t been downloaded, it will automatically be downloaded before saved.</p>
+
+<p><em>Checking progress</em>*</p>
+<pre class="highlight swift"><code> <span class="k">guard</span> <span class="k">let</span> <span class="nv">parseFileURL</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://parseplatform.org/img/logo.svg"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+   <span class="k">return</span>
+ <span class="p">}</span>
+
+ <span class="k">let</span> <span class="nv">parseFile</span> <span class="o">=</span> <span class="kt">ParseFile</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"logo.svg"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="n">parseFileURL</span><span class="p">)</span>
+ <span class="k">let</span> <span class="nv">fetchedFile</span> <span class="o">=</span> <span class="k">try</span> <span class="n">parseFile</span><span class="o">.</span><span class="n">save</span> <span class="p">{</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">totalWritten</span><span class="p">,</span> <span class="n">totalExpected</span><span class="p">)</span> <span class="k">in</span>
+   <span class="k">let</span> <span class="nv">currentProgess</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">totalWritten</span><span class="p">)</span><span class="o">/</span><span class="kt">Double</span><span class="p">(</span><span class="n">totalExpected</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+   <span class="nf">print</span><span class="p">(</span><span class="n">currentProgess</span><span class="p">)</span>
+ <span class="p">}</span>
+</code></pre>
+
+<p><em>Cancelling</em>*</p>
+<pre class="highlight swift"><code>  <span class="k">guard</span> <span class="k">let</span> <span class="nv">parseFileURL</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://parseplatform.org/img/logo.svg"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+
+  <span class="k">let</span> <span class="nv">parseFile</span> <span class="o">=</span> <span class="kt">ParseFile</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"logo.svg"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="n">parseFileURL</span><span class="p">)</span>
+  <span class="k">let</span> <span class="nv">fetchedFile</span> <span class="o">=</span> <span class="k">try</span> <span class="n">parseFile</span><span class="o">.</span><span class="n">save</span> <span class="p">{</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">totalWritten</span><span class="p">,</span> <span class="n">totalExpected</span><span class="p">)</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">currentProgess</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">totalWritten</span><span class="p">)</span><span class="o">/</span><span class="kt">Double</span><span class="p">(</span><span class="n">totalExpected</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="c1">//Cancel when data exceeds 10%</span>
+    <span class="k">if</span> <span class="n">currentProgess</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="p">{</span>
+      <span class="n">task</span><span class="o">.</span><span class="nf">cancel</span><span class="p">()</span>
+      <span class="nf">print</span><span class="p">(</span><span class="s">"task has been cancelled"</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">currentProgess</span><span class="p">)</span>
+  <span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                 <span class="nv">progress</span><span class="p">:</span> <span class="p">((</span><span class="kt">URLSessionTask</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ParseFile</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to save files. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>progress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when file updates it&rsquo;s progress.
+It should have the following argument signature: <code>(task: URLSessionDownloadTask,
+bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A saved <code>ParseFile</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV4save7options13callbackQueue8progress10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCySo16NSURLSessionTaskC_s5Int64VA2StcSgys6ResultOyAcA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/save(options:callbackQueue:progress:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV4save7options13callbackQueue8progress10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCySo16NSURLSessionTaskC_s5Int64VA2StcSgys6ResultOyAcA0A5ErrorVGctF">save(options:<wbr>callbackQueue:<wbr>progress:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a file with given data <em>asynchronously</em> and executes the given callback block.
+A name will be assigned to it by the server. If the file hasn&rsquo;t been downloaded, it will automatically
+be downloaded before saved.</p>
+
+<p><em>Checking progress</em>*</p>
+<pre class="highlight swift"><code> <span class="k">guard</span> <span class="k">let</span> <span class="nv">parseFileURL</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://parseplatform.org/img/logo.svg"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+   <span class="k">return</span>
+ <span class="p">}</span>
+
+ <span class="k">let</span> <span class="nv">parseFile</span> <span class="o">=</span> <span class="kt">ParseFile</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"logo.svg"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="n">parseFileURL</span><span class="p">)</span>
+ <span class="k">let</span> <span class="nv">fetchedFile</span> <span class="o">=</span> <span class="k">try</span> <span class="n">parseFile</span><span class="o">.</span><span class="n">save</span> <span class="p">{</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">totalWritten</span><span class="p">,</span> <span class="n">totalExpected</span><span class="p">)</span> <span class="k">in</span>
+   <span class="k">let</span> <span class="nv">currentProgess</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">totalWritten</span><span class="p">)</span><span class="o">/</span><span class="kt">Double</span><span class="p">(</span><span class="n">totalExpected</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+   <span class="nf">print</span><span class="p">(</span><span class="n">currentProgess</span><span class="p">)</span>
+ <span class="p">}</span>
+</code></pre>
+
+<p><em>Cancelling</em>*</p>
+<pre class="highlight swift"><code>  <span class="k">guard</span> <span class="k">let</span> <span class="nv">parseFileURL</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://parseplatform.org/img/logo.svg"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+
+  <span class="k">let</span> <span class="nv">parseFile</span> <span class="o">=</span> <span class="kt">ParseFile</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"logo.svg"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="n">parseFileURL</span><span class="p">)</span>
+  <span class="k">let</span> <span class="nv">fetchedFile</span> <span class="o">=</span> <span class="k">try</span> <span class="n">parseFile</span><span class="o">.</span><span class="nf">save</span><span class="p">(</span><span class="nv">progress</span><span class="p">:</span> <span class="p">{(</span><span class="n">task</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">totalWritten</span><span class="p">,</span> <span class="n">totalExpected</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+      <span class="k">let</span> <span class="nv">currentProgess</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">totalWritten</span><span class="p">)</span><span class="o">/</span><span class="kt">Double</span><span class="p">(</span><span class="n">totalExpected</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+        <span class="c1">//Cancel when data exceeds 10%</span>
+        <span class="k">if</span> <span class="n">currentProgess</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="p">{</span>
+          <span class="n">task</span><span class="o">.</span><span class="nf">cancel</span><span class="p">()</span>
+          <span class="nf">print</span><span class="p">(</span><span class="s">"task has been cancelled"</span><span class="p">)</span>
+        <span class="p">}</span>
+        <span class="nf">print</span><span class="p">(</span><span class="n">currentProgess</span><span class="p">)</span>
+      <span class="p">})</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+        <span class="o">...</span>
+  <span class="p">})</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                 <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                 <span class="nv">progress</span><span class="p">:</span> <span class="p">((</span><span class="kt">URLSessionTask</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                 <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to save files. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>progress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when file updates it&rsquo;s progress.
+It should have the following argument signature: <code>(task: URLSessionDownloadTask,
+bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when file saves or fails.
+It should have the following argument signature: <code>(Result&lt;Self, ParseError&gt;)</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Downloading"></a>
+                <a name="//apple_ref/swift/Section/Downloading" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Downloading"></a>
+                  <h3 class="section-name"><p>Downloading</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV5fetch7options6streamyShyAA3APIV6OptionOG_So13NSInputStreamCtKF"></a>
+                    <a name="//apple_ref/swift/Method/fetch(options:stream:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV5fetch7options6streamyShyAA3APIV6OptionOG_So13NSInputStreamCtKF">fetch(options:<wbr>stream:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Fetches a file with given url <em>synchronously</em>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                  <span class="nv">stream</span><span class="p">:</span> <span class="kt">InputStream</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to fetch the file. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>stream</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An input file stream.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A saved <code>ParseFile</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV5fetch7optionsACShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="//apple_ref/swift/Method/fetch(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV5fetch7optionsACShyAA3APIV6OptionOG_tKF">fetch(options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Fetches a file with given url <em>synchronously</em>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ParseFile</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to fetch the file. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A saved <code>ParseFile</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV5fetch7options8progressACShyAA3APIV6OptionOG_ySo24NSURLSessionDownloadTaskC_s5Int64VA2OtctKF"></a>
+                    <a name="//apple_ref/swift/Method/fetch(options:progress:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV5fetch7options8progressACShyAA3APIV6OptionOG_ySo24NSURLSessionDownloadTaskC_s5Int64VA2OtctKF">fetch(options:<wbr>progress:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Fetches a file with given url <em>synchronously</em>.</p>
+
+<p><em>Checking progress</em>*</p>
+<pre class="highlight swift"><code><span class="k">guard</span> <span class="k">let</span> <span class="nv">parseFileURL</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://parseplatform.org/img/logo.svg"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="k">return</span>
+<span class="p">}</span>
+
+<span class="k">let</span> <span class="nv">parseFile</span> <span class="o">=</span> <span class="kt">ParseFile</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"logo.svg"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="n">parseFileURL</span><span class="p">)</span>
+<span class="k">let</span> <span class="nv">fetchedFile</span> <span class="o">=</span> <span class="k">try</span> <span class="n">parseFile</span><span class="o">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">totalDownloaded</span><span class="p">,</span> <span class="n">totalExpected</span><span class="p">)</span> <span class="k">in</span>
+  <span class="k">let</span> <span class="nv">currentProgess</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">totalWritten</span><span class="p">)</span><span class="o">/</span><span class="kt">Double</span><span class="p">(</span><span class="n">totalExpected</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+  <span class="nf">print</span><span class="p">(</span><span class="n">currentProgess</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><em>Cancelling</em>*</p>
+<pre class="highlight swift"><code> <span class="k">guard</span> <span class="k">let</span> <span class="nv">parseFileURL</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://parseplatform.org/img/logo.svg"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+   <span class="k">return</span>
+ <span class="p">}</span>
+
+ <span class="k">let</span> <span class="nv">parseFile</span> <span class="o">=</span> <span class="kt">ParseFile</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"logo.svg"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="n">parseFileURL</span><span class="p">)</span>
+ <span class="k">let</span> <span class="nv">fetchedFile</span> <span class="o">=</span> <span class="k">try</span> <span class="n">parseFile</span><span class="o">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">totalDownloaded</span><span class="p">,</span> <span class="n">totalExpected</span><span class="p">)</span> <span class="k">in</span>
+   <span class="k">let</span> <span class="nv">currentProgess</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">totalDownloaded</span><span class="p">)</span><span class="o">/</span><span class="kt">Double</span><span class="p">(</span><span class="n">totalExpected</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+   <span class="c1">//Cancel when data exceeds 10%</span>
+   <span class="k">if</span> <span class="n">currentProgess</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="p">{</span>
+     <span class="n">task</span><span class="o">.</span><span class="nf">cancel</span><span class="p">()</span>
+     <span class="nf">print</span><span class="p">(</span><span class="s">"task has been cancelled"</span><span class="p">)</span>
+   <span class="p">}</span>
+   <span class="nf">print</span><span class="p">(</span><span class="n">currentProgess</span><span class="p">)</span>
+ <span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                  <span class="nv">progress</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">((</span><span class="kt">URLSessionDownloadTask</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">))</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ParseFile</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to fetch the file. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>progress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when file updates it&rsquo;s progress.
+It should have the following argument signature: <code>(task: URLSessionDownloadTask,
+bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A saved <code>ParseFile</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4FileV5fetch7options13callbackQueue8progress10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCySo24NSURLSessionDownloadTaskC_s5Int64VA2StcSgys6ResultOyAcA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/fetch(options:callbackQueue:progress:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4FileV5fetch7options13callbackQueue8progress10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCySo24NSURLSessionDownloadTaskC_s5Int64VA2StcSgys6ResultOyAcA0A5ErrorVGctF">fetch(options:<wbr>callbackQueue:<wbr>progress:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Fetches a file with given url <em>asynchronously</em>.</p>
+
+<p><em>Checking progress</em>*</p>
+<pre class="highlight swift"><code> <span class="k">guard</span> <span class="k">let</span> <span class="nv">parseFileURL</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://parseplatform.org/img/logo.svg"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+   <span class="k">return</span>
+ <span class="p">}</span>
+
+ <span class="k">let</span> <span class="nv">parseFile</span> <span class="o">=</span> <span class="kt">ParseFile</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"logo.svg"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="n">parseFileURL</span><span class="p">)</span>
+ <span class="k">let</span> <span class="nv">fetchedFile</span> <span class="o">=</span> <span class="k">try</span> <span class="n">parseFile</span><span class="o">.</span><span class="n">fetch</span> <span class="p">{</span> <span class="p">(</span><span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">totalDownloaded</span><span class="p">,</span> <span class="n">totalExpected</span><span class="p">)</span> <span class="k">in</span>
+   <span class="k">let</span> <span class="nv">currentProgess</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">totalDownloaded</span><span class="p">)</span><span class="o">/</span><span class="kt">Double</span><span class="p">(</span><span class="n">totalExpected</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+   <span class="nf">print</span><span class="p">(</span><span class="n">currentProgess</span><span class="p">)</span>
+ <span class="p">}</span>
+</code></pre>
+
+<p><em>Cancelling</em>*</p>
+<pre class="highlight swift"><code>  <span class="k">guard</span> <span class="k">let</span> <span class="nv">parseFileURL</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://parseplatform.org/img/logo.svg"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+
+  <span class="k">let</span> <span class="nv">parseFile</span> <span class="o">=</span> <span class="kt">ParseFile</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"logo.svg"</span><span class="p">,</span> <span class="nv">cloudURL</span><span class="p">:</span> <span class="n">parseFileURL</span><span class="p">)</span>
+  <span class="k">let</span> <span class="nv">fetchedFile</span> <span class="o">=</span> <span class="k">try</span> <span class="n">parseFile</span><span class="o">.</span><span class="nf">fetch</span><span class="p">(</span><span class="nv">progress</span><span class="p">:</span> <span class="p">{(</span><span class="n">task</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">totalDownloaded</span><span class="p">,</span> <span class="n">totalExpected</span><span class="p">)</span><span class="o">-&gt;</span> <span class="kt">Void</span> <span class="k">in</span>
+    <span class="k">let</span> <span class="nv">currentProgess</span> <span class="o">=</span> <span class="kt">Double</span><span class="p">(</span><span class="n">totalDownloaded</span><span class="p">)</span><span class="o">/</span><span class="kt">Double</span><span class="p">(</span><span class="n">totalExpected</span><span class="p">)</span> <span class="o">*</span> <span class="mi">100</span>
+    <span class="c1">//Cancel when data exceeds 10%</span>
+    <span class="k">if</span> <span class="n">currentProgess</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="p">{</span>
+      <span class="n">task</span><span class="o">.</span><span class="nf">cancel</span><span class="p">()</span>
+      <span class="nf">print</span><span class="p">(</span><span class="s">"task has been cancelled"</span><span class="p">)</span>
+    <span class="p">}</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">currentProgess</span><span class="p">)</span>
+  <span class="p">})</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+    <span class="o">...</span>
+  <span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                  <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                  <span class="nv">progress</span><span class="p">:</span> <span class="p">((</span><span class="kt">URLSessionDownloadTask</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">,</span> <span class="kt">Int64</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                  <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to fetch the file. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>progress</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when file updates it&rsquo;s progress.
+It should have the following argument signature: <code>(task: URLSessionDownloadTask,
+bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when file fetches or fails.
+It should have the following argument signature: <code>(Result&lt;Self, ParseError&gt;)</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+      </article>
+    </div>
+    <section class="footer">
+      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-12-30)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+    </section>
+  </body>
+</div>
+</html>

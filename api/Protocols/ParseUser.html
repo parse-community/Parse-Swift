@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           ParseSwift 1.0 Docs
         </a>
-         (77% documented)
+         (79% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -182,13 +182,13 @@
                 <a class="nav-group-task-link" href="../Structs/AnyEncodable.html">AnyEncodable</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/File.html">File</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseACL.html">ParseACL</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseACL/Access.html">– Access</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseFile.html">ParseFile</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseGeoPoint.html">ParseGeoPoint</a>
@@ -381,7 +381,7 @@ It is only meant to be set.</p>
                         <p>Gets the currently logged in user from the Keychain and returns an instance of it.</p>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    Only use <code>current</code> objects on the main thread as as modifications to <code>current</code> have to be unique.
+    Only use <code>current</code> users on the main thread as as modifications to <code>current</code> have to be unique.
 
 </div>
 
@@ -643,9 +643,9 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE6logoutyyKFZ"></a>
-                    <a name="//apple_ref/swift/Method/logout()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6logoutyyKFZ">logout()</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE6logout7optionsyShyAA3APIV6OptionOG_tKFZ"></a>
+                    <a name="//apple_ref/swift/Method/logout(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6logout7optionsyShyAA3APIV6OptionOG_tKFZ">logout(options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -663,7 +663,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">logout</span><span class="p">()</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">logout</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -673,9 +673,9 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE6logout13callbackQueue10completionySo17OS_dispatch_queueC_ys6ResultOySbAA0A5ErrorVGctFZ"></a>
-                    <a name="//apple_ref/swift/Method/logout(callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6logout13callbackQueue10completionySo17OS_dispatch_queueC_ys6ResultOySbAA0A5ErrorVGctFZ">logout(callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE6logout7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySbAA0A5ErrorVGctFZ"></a>
+                    <a name="//apple_ref/swift/Method/logout(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6logout7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySbAA0A5ErrorVGctFZ">logout(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -697,7 +697,7 @@ unless your code is already running from a background thread.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">logout</span><span class="p">(</span><span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">logout</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -752,9 +752,9 @@ unless your code is already running from a background thread.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE6signup8username8passwordxSS_SStKFZ"></a>
-                    <a name="//apple_ref/swift/Method/signup(username:password:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6signup8username8passwordxSS_SStKFZ">signup(username:<wbr>password:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE6signup8username8password7optionsxSS_SSShyAA3APIV6OptionOGtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/signup(username:password:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6signup8username8password7optionsxSS_SSShyAA3APIV6OptionOGtKFZ">signup(username:<wbr>password:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -770,7 +770,7 @@ unless your code is already running from a background thread.</p>
 <p>This will also enforce that the username isn&rsquo;t already taken.</p>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    <p>Make sure that password and username are set before calling this method.</p>
+    Make sure that password and username are set before calling this method.
 
 </div>
 
@@ -780,9 +780,52 @@ unless your code is already running from a background thread.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span><span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                          <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>username</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The username of the user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>password</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The password of the user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to sign up users. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -794,9 +837,9 @@ unless your code is already running from a background thread.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE6signupxyKF"></a>
-                    <a name="//apple_ref/swift/Method/signup()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6signupxyKF">signup()</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE6signup7optionsxShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="//apple_ref/swift/Method/signup(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6signup7optionsxShyAA3APIV6OptionOG_tKF">signup(options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -812,7 +855,7 @@ unless your code is already running from a background thread.</p>
 <p>This will also enforce that the username isn&rsquo;t already taken.</p>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    <p>Make sure that password and username are set before calling this method.</p>
+    Make sure that password and username are set before calling this method.
 
 </div>
 
@@ -821,9 +864,28 @@ unless your code is already running from a background thread.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to sign up users. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                       <div>
                         <h4>Return Value</h4>
@@ -835,9 +897,9 @@ unless your code is already running from a background thread.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE6signup13callbackQueue10completionySo17OS_dispatch_queueC_ys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/signup(callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6signup13callbackQueue10completionySo17OS_dispatch_queueC_ys6ResultOyxAA0A5ErrorVGctF">signup(callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE6signup7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/signup(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6signup7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">signup(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -862,7 +924,7 @@ unless your code is already running from a background thread.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span><span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -871,6 +933,18 @@ unless your code is already running from a background thread.</p>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to sign up users. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -905,9 +979,9 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE6signup8username8password13callbackQueue10completionySS_SSSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctFZ"></a>
-                    <a name="//apple_ref/swift/Method/signup(username:password:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6signup8username8password13callbackQueue10completionySS_SSSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctFZ">signup(username:<wbr>password:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE6signup8username8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctFZ"></a>
+                    <a name="//apple_ref/swift/Method/signup(username:password:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6signup8username8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctFZ">signup(username:<wbr>password:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -923,7 +997,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
 <p>This will also enforce that the username isn&rsquo;t already taken.</p>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    <p>Make sure that password and username are set before calling this method.</p>
+    Make sure that password and username are set before calling this method.
 
 </div>
 
@@ -935,6 +1009,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span>
     <span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
     <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
@@ -966,6 +1041,18 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               <td>
                                 <div>
                                   <p>The password of the user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of options used to sign up users. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1061,7 +1148,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of options used to save users. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1119,7 +1206,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of options used to save users. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1159,11 +1246,11 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
             </div>
             <div class="task-group">
               <div class="task-name-container">
-                <a name="/Saveable"></a>
-                <a name="//apple_ref/swift/Section/Saveable" class="dashAnchor"></a>
+                <a name="/Savable"></a>
+                <a name="//apple_ref/swift/Section/Savable" class="dashAnchor"></a>
                 <div class="section-name-container">
-                  <a class="section-name-link" href="#/Saveable"></a>
-                  <h3 class="section-name"><p>Saveable</p>
+                  <a class="section-name-link" href="#/Savable"></a>
+                  <h3 class="section-name"><p>Savable</p>
 </h3>
                 </div>
               </div>
@@ -1216,7 +1303,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of options used to save users. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1278,7 +1365,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of options used to save users. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1374,7 +1461,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of options used to save users. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1432,7 +1519,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of options used to save users. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1476,7 +1563,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-12-24)</p>
+      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-12-30)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
