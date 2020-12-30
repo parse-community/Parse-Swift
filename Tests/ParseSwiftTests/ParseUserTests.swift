@@ -1389,7 +1389,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     return
             }
 
-            let userOnServer = [BatchResponseItem<ParseError?>(success: nil, error: nil)]
+            let error: ParseError? = nil
+            let userOnServer = [error]
 
             let encoded: Data!
             do {
@@ -1431,7 +1432,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return
             }
 
-            let userOnServer = [BatchResponseItem<ParseError?>(success: nil, error: nil)]
+            let error: ParseError? = nil
+            let userOnServer = [error]
 
             let encoded: Data!
             do {

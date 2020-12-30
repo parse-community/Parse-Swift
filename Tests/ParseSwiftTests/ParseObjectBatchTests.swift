@@ -1215,9 +1215,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     func testDeleteAll() {
         let score = GameScore(score: 10)
+        let error: ParseError? = nil
+        let response = [error]
 
-        let response = [BatchResponseItem<ParseError?>(success: nil, error: nil),
-        BatchResponseItem<ParseError?>(success: nil, error: nil)]
         let encoded: Data!
         do {
            encoded = try score.getEncoder(skipKeys: false).encode(response)
@@ -1232,18 +1232,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         do {
             let fetched = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
 
-            XCTAssertEqual(fetched.count, 2)
-            guard let firstObject = fetched.first,
-                let secondObject = fetched.last else {
+            XCTAssertEqual(fetched.count, 1)
+            guard let firstObject = fetched.first else {
                     XCTFail("Should unwrap")
                     return
             }
 
             if let error = firstObject {
-                XCTFail(error.localizedDescription)
-            }
-
-            if let error = secondObject {
                 XCTFail(error.localizedDescription)
             }
 
@@ -1255,8 +1250,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     func testDeleteAllError() {
         let score = GameScore(score: 10)
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
-        let response = [BatchResponseItem<ParseError?>(success: parseError, error: nil),
-        BatchResponseItem<ParseError?>(success: parseError, error: nil)]
+        let response = [parseError]
         let encoded: Data!
         do {
            encoded = try score.getEncoder(skipKeys: false).encode(response)
@@ -1271,20 +1265,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         do {
             let fetched = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
 
-            XCTAssertEqual(fetched.count, 2)
-            guard let firstObject = fetched.first,
-                let secondObject = fetched.last else {
+            XCTAssertEqual(fetched.count, 1)
+            guard let firstObject = fetched.first else {
                     XCTFail("Should have thrown ParseError")
                     return
             }
 
             if let error = firstObject {
-                XCTAssertEqual(error.code, parseError.code)
-            } else {
-                XCTFail("Should have thrown ParseError")
-            }
-
-            if let error = secondObject {
                 XCTAssertEqual(error.code, parseError.code)
             } else {
                 XCTFail("Should have thrown ParseError")
@@ -1305,19 +1292,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch result {
 
             case .success(let fetched):
-                XCTAssertEqual(fetched.count, 2)
-                guard let firstObject = fetched.first,
-                    let secondObject = fetched.last else {
-                        XCTFail("Should unwrap")
-                        expectation1.fulfill()
-                        return
+                XCTAssertEqual(fetched.count, 1)
+                guard let firstObject = fetched.first else {
+                    XCTFail("Should unwrap")
+                    expectation1.fulfill()
+                    return
                 }
 
                 if let error = firstObject {
-                    XCTFail(error.localizedDescription)
-                }
-
-                if let error = secondObject {
                     XCTFail(error.localizedDescription)
                 }
 
@@ -1332,9 +1314,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     func testDeleteAllAsyncMainQueue() {
         let score = GameScore(score: 10)
-
-        let response = [BatchResponseItem<ParseError?>(success: nil, error: nil),
-        BatchResponseItem<ParseError?>(success: nil, error: nil)]
+        let error: ParseError? = nil
+        let response = [error]
 
         do {
             let encoded = try score.getEncoder(skipKeys: false).encode(response)
@@ -1359,21 +1340,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch result {
 
             case .success(let fetched):
-                XCTAssertEqual(fetched.count, 2)
-                guard let firstObject = fetched.first,
-                    let secondObject = fetched.last else {
-                        XCTFail("Should have thrown ParseError")
-                        expectation1.fulfill()
-                        return
+                XCTAssertEqual(fetched.count, 1)
+                guard let firstObject = fetched.first else {
+                    XCTFail("Should have thrown ParseError")
+                    expectation1.fulfill()
+                    return
                 }
 
                 if let error = firstObject {
-                    XCTAssertEqual(error.code, parseError.code)
-                } else {
-                    XCTFail("Should have thrown ParseError")
-                }
-
-                if let error = secondObject {
                     XCTAssertEqual(error.code, parseError.code)
                 } else {
                     XCTFail("Should have thrown ParseError")
@@ -1392,8 +1366,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let score = GameScore(score: 10)
 
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
-        let response = [BatchResponseItem<ParseError?>(success: parseError, error: nil),
-        BatchResponseItem<ParseError?>(success: parseError, error: nil)]
+        let response = [parseError]
 
         do {
             let encoded = try score.getEncoder(skipKeys: false).encode(response)

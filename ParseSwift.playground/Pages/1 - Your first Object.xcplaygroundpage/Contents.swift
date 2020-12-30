@@ -235,14 +235,12 @@ do {
 [scoreToFetch, score2ToFetch].deleteAll { result in
     switch result {
     case .success(let deletedScores):
-
-        deletedScores.forEach { result in
-            switch result {
-            case .success(let deleted):
-                print("Successfully deleted: \(deleted)")
-            case .failure(let error):
-                print("Error deleting: \(error)")
+        deletedScores.forEach { error in
+            guard let error = error else {
+                print("Successfully deleted scores")
+                return
             }
+            print("Error deleting: \(error)")
         }
     case .failure(let error):
         assertionFailure("Error deleting: \(error)")

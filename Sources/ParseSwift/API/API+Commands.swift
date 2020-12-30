@@ -527,27 +527,22 @@ extension API.Command where T: ParseObject {
 
         let mapper = { (data: Data) -> [ParseError?] in
 
-            let decodingType = [BatchResponseItem<ParseError?>].self
+            let decodingType = [ParseError?].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
                 return responses.enumerated().map({ (object) -> ParseError? in
                     let response = responses[object.offset]
-                    if response.success == nil {
-                        return nil
-                    } else if let error = response.success as? ParseError {
+                    if let error = response {
                         return error
                     } else {
-                        guard let parseError = response.error else {
-                            return ParseError(code: .unknownError, message: "unknown error")
-                        }
-                        return parseError
+                        return nil
                     }
                 })
             } catch {
-                guard let parseError = error as? ParseError else {
+                guard (try? ParseCoding.jsonDecoder().decode(NoBody.self, from: data)) != nil else {
                     return [ParseError(code: .unknownError, message: "decoding error: \(error)")]
                 }
-                return [parseError]
+                return [nil]
             }
         }
 

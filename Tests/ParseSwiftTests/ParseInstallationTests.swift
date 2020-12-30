@@ -1035,7 +1035,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     return
             }
 
-            let installationOnServer = [BatchResponseItem<ParseError?>(success: nil, error: nil)]
+            let error: ParseError? = nil
+            let installationOnServer = [error]
 
             let encoded: Data!
             do {
@@ -1077,7 +1078,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 return
             }
 
-            let installationOnServer = [BatchResponseItem<ParseError?>(success: nil, error: nil)]
+            let error: ParseError? = nil
+            let installationOnServer = [error]
 
             let encoded: Data!
             do {
