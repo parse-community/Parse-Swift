@@ -79,24 +79,30 @@ extension URLSession {
                                 mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .unknownError,
+                return .failure(ParseError(code: .invalidServerResponse,
                                            message: "Unable to sync with parse-server: \(responseError)"))
             }
             return .failure(parseError)
-        } else if let responseData = responseData {
+        }
+
+        if let responseData = responseData {
+            if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
+                return .failure(error)
+            }
             do {
                 return try .success(mapper(responseData))
             } catch {
-                let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData)
-                return .failure(parseError ?? ParseError(code: .unknownError,
-                                                         // swiftlint:disable:next line_length
-                                                         message: "Error decoding parse-server response: \(error.localizedDescription)"))
+                guard let parseError = error as? ParseError else {
+                    return .failure(ParseError(code: .unknownError,
+                                               // swiftlint:disable:next line_length
+                                               message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription)"))
+                }
+                return .failure(parseError)
             }
-        } else {
-            return .failure(ParseError(code: .unknownError,
-                                       // swiftlint:disable:next line_length
-                                       message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
         }
+
+        return .failure(ParseError(code: .unknownError,
+                                   message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
     }
 
     internal func makeResult<U>(location: URL?,
@@ -105,24 +111,28 @@ extension URLSession {
                                 mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .unknownError,
+                return .failure(ParseError(code: .invalidServerResponse,
                                            message: "Unable to sync with parse-server: \(responseError)"))
             }
             return .failure(parseError)
-        } else if let location = location {
+        }
+
+        if let location = location {
             do {
                 let data = try ParseCoding.jsonEncoder().encode(location)
                 return try .success(mapper(data))
             } catch {
-                return .failure(ParseError(code: .unknownError,
-                                           // swiftlint:disable:next line_length
-                                           message: "Error decoding parse-server response: \(error.localizedDescription)"))
+                guard let parseError = error as? ParseError else {
+                    return .failure(ParseError(code: .unknownError,
+                                               // swiftlint:disable:next line_length
+                                               message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription)"))
+                }
+                return .failure(parseError)
             }
-        } else {
-            return .failure(ParseError(code: .unknownError,
-                                       // swiftlint:disable:next line_length
-                                       message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
         }
+
+        return .failure(ParseError(code: .unknownError,
+                                   message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
     }
 
     internal func dataTask<U>(

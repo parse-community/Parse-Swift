@@ -103,7 +103,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFunction() {
-        let response = AnyResultsResponse(result: nil)
+        let response = AnyResultResponse(result: nil)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -124,7 +124,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFunction2() {
         var result: AnyCodable = ["hello": "world"]
-        let response = AnyResultsResponse(result: result)
+        let response = AnyResultResponse(result: result)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -205,7 +205,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFunctionMainQueue() {
-        let response = AnyResultsResponse(result: nil)
+        let response = AnyResultResponse(result: nil)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -221,7 +221,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFunctionMainQueue2() {
         let result: AnyCodable = ["hello": "world"]
-        let response = AnyResultsResponse(result: result)
+        let response = AnyResultResponse(result: result)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -292,7 +292,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testJob() {
-        let response = AnyResultsResponse(result: nil)
+        let response = AnyResultResponse(result: nil)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -313,7 +313,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testJob2() {
         let result: AnyCodable = ["hello": "world"]
-        let response = AnyResultsResponse(result: result)
+        let response = AnyResultResponse(result: result)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -392,7 +392,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testJobMainQueue() {
-        let response = AnyResultsResponse(result: nil)
+        let response = AnyResultResponse(result: nil)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -408,7 +408,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testJobMainQueue2() {
         let result: AnyCodable = ["hello": "world"]
-        let response = AnyResultsResponse(result: result)
+        let response = AnyResultResponse(result: result)
 
         MockURLProtocol.mockRequests { _ in
             do {

@@ -53,7 +53,7 @@ extension ParseCloud {
         return API.Command(method: .POST,
                            path: .functions(name: functionJobName),
                            body: self) { (data) -> AnyCodable in
-            let response = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: data)
+            let response = try ParseCoding.jsonDecoder().decode(AnyResultResponse.self, from: data)
             guard let result = response.result else {
                 if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) {
                     throw error
@@ -95,7 +95,7 @@ extension ParseCloud {
         return API.Command(method: .POST,
                            path: .jobs(name: functionJobName),
                            body: self) { (data) -> AnyCodable in
-            let response = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: data)
+            let response = try ParseCoding.jsonDecoder().decode(AnyResultResponse.self, from: data)
             guard let result = response.result else {
                 if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) {
                     throw error

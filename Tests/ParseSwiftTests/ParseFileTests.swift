@@ -79,7 +79,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
         XCTAssertNil(command.body)
-        XCTAssertNil(command.data)
 
         let file2 = ParseFile(cloudURL: url)
 
@@ -89,7 +88,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command2.method, API.Method.POST)
         XCTAssertNil(command2.params)
         XCTAssertNil(command2.body)
-        XCTAssertNil(command2.data)
     }
 
     func testDeleteCommand() {
@@ -105,7 +103,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.DELETE)
         XCTAssertNil(command.params)
         XCTAssertNil(command.body)
-        XCTAssertNil(command.data)
 
         var file2 = ParseFile(cloudURL: url)
         file2.url = url
@@ -115,7 +112,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command2.method, API.Method.DELETE)
         XCTAssertNil(command2.params)
         XCTAssertNil(command2.body)
-        XCTAssertNil(command2.data)
     }
 
     func testDownloadCommand() {
@@ -131,7 +127,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.GET)
         XCTAssertNil(command.params)
         XCTAssertNil(command.body)
-        XCTAssertNil(command.data)
 
         let file2 = ParseFile(cloudURL: url)
         let command2 = file2.downloadFileCommand()
@@ -140,7 +135,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command2.method, API.Method.GET)
         XCTAssertNil(command2.params)
         XCTAssertNil(command2.body)
-        XCTAssertNil(command2.data)
     }
 
     func testLocalUUID() throws {

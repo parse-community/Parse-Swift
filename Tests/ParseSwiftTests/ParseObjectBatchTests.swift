@@ -1214,7 +1214,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAll() {
-        let score = GameScore(score: 10)
         let error: ParseError? = nil
         let response = [error]
 
@@ -1313,7 +1312,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAllAsyncMainQueue() {
-        let score = GameScore(score: 10)
         let error: ParseError? = nil
         let response = [error]
 

@@ -133,7 +133,14 @@ internal struct FileUploadResponse: Decodable {
         _ = file.localUUID //Ensure file has a localUUID
         return file
     }
+}
+
+// MARK: AnyResultResponse
+internal struct AnyResultResponse: Codable {
+    let result: AnyCodable?
+}
+
 // MARK: AnyResultsResponse
 internal struct AnyResultsResponse: Codable {
-    let result: AnyCodable?
+    let results: AnyCodable?
 }

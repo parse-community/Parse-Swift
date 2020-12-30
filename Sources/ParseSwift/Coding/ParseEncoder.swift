@@ -75,7 +75,7 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
         }
-        return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil).encoded
+        return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil).encoded
     }
 
     public func encode<T: ParseObject>(_ value: T) throws -> Data {

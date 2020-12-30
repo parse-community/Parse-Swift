@@ -702,7 +702,6 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
 extension Query: Queryable {
 
     public typealias ResultType = T
-    public typealias AnyResultType = [String: AnyCodable]
 
     /**
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
@@ -726,7 +725,7 @@ extension Query: Queryable {
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
     */
-    public func find(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyResultType {
+    public func find(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyCodable {
         try findCommand(explain: explain, hint: hint).execute(options: options)
     }
 
@@ -755,7 +754,7 @@ extension Query: Queryable {
     */
     public func find(explain: Bool, hint: String? = nil, options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
-                     completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+                     completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
         findCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                callbackQueue: callbackQueue, completion: completion)
     }
@@ -784,7 +783,7 @@ extension Query: Queryable {
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
     */
-    public func first(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyResultType {
+    public func first(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyCodable {
         try firstCommand(explain: explain, hint: hint).execute(options: options)
     }
 
@@ -827,7 +826,7 @@ extension Query: Queryable {
     */
     public func first(explain: Bool, hint: String? = nil, options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+                      completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
         firstCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                 callbackQueue: callbackQueue, completion: completion)
     }
@@ -854,7 +853,7 @@ extension Query: Queryable {
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
     */
-    public func count(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyResultType {
+    public func count(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyCodable {
         try countCommand(explain: explain, hint: hint).execute(options: options)
     }
 
@@ -882,7 +881,7 @@ extension Query: Queryable {
     */
     public func count(explain: Bool, hint: String? = nil, options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+                      completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
         countCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                 callbackQueue: callbackQueue, completion: completion)
     }
@@ -912,33 +911,42 @@ private extension Query {
         }
     }
 
-    private func findCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
+    private func findCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyCodable> {
         let query = self
         query.explain = explain
         query.hint = hint
         return API.Command(method: .POST, path: endpoint, body: query) {
-            try JSONDecoder().decode(AnyResultType.self, from: $0)
+            if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
+                return results
+            }
+            return AnyCodable()
         }
     }
 
-    private func firstCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
+    private func firstCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyCodable> {
         let query = self
         query.limit = 1
         query.explain = explain
         query.hint = hint
         return API.Command(method: .POST, path: endpoint, body: query) {
-            try JSONDecoder().decode(AnyResultType.self, from: $0)
+            if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
+                return results
+            }
+            return AnyCodable()
         }
     }
 
-    private func countCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
+    private func countCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyCodable> {
         let query = self
         query.limit = 1
         query.isCount = true
         query.explain = explain
         query.hint = hint
         return API.Command(method: .POST, path: endpoint, body: query) {
-            try JSONDecoder().decode(AnyResultType.self, from: $0)
+            if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
+                return results
+            }
+            return AnyCodable()
         }
     }
 }

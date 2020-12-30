@@ -336,7 +336,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFirstNoObjectFound() {
 
-        let results = FindResult<GameScore>(results: [GameScore](), count: 0)
+        let results = QueryResponse<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try ParseCoding.jsonEncoder().encode(results)
@@ -1617,7 +1617,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     // MARK: JSON Responses
     func testExplainFindSynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1634,19 +1634,19 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         do {
             let queryResult = try query.find(explain: true)
-            XCTAssertEqual(queryResult.keys.first, json.keys.first)
-            guard let valueString = queryResult.values.first?.value as? String else {
+            guard let response = queryResult.value as? [String: String],
+                let expected = json.results?.value as? [String: String] else {
                 XCTFail("Error: Should cast to string")
                 return
             }
-            XCTAssertEqual(valueString, json.values.first)
+            XCTAssertEqual(response, expected)
         } catch {
             XCTFail("Error: \(error)")
         }
     }
 
     func testExplainFindAsynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1666,13 +1666,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let queryResult):
-                XCTAssertEqual(queryResult.keys.first, json.keys.first)
-                guard let valueString = queryResult.values.first?.value as? String else {
+                guard let response = queryResult.value as? [String: String],
+                    let expected = json.results?.value as? [String: String] else {
                     XCTFail("Error: Should cast to string")
                     expectation.fulfill()
                     return
                 }
-                XCTAssertEqual(valueString, json.values.first)
+                XCTAssertEqual(response, expected)
             case .failure(let error):
                 XCTFail("Error: \(error)")
             }
@@ -1682,7 +1682,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testExplainFirstSynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1699,19 +1699,19 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         do {
             let queryResult = try query.first(explain: true)
-            XCTAssertEqual(queryResult.keys.first, json.keys.first)
-            guard let valueString = queryResult.values.first?.value as? String else {
+            guard let response = queryResult.value as? [String: String],
+                let expected = json.results?.value as? [String: String] else {
                 XCTFail("Error: Should cast to string")
                 return
             }
-            XCTAssertEqual(valueString, json.values.first)
+            XCTAssertEqual(response, expected)
         } catch {
             XCTFail("Error: \(error)")
         }
     }
 
     func testExplainFirstAsynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1731,13 +1731,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let queryResult):
-                XCTAssertEqual(queryResult.keys.first, json.keys.first)
-                guard let valueString = queryResult.values.first?.value as? String else {
+                guard let response = queryResult.value as? [String: String],
+                    let expected = json.results?.value as? [String: String] else {
                     XCTFail("Error: Should cast to string")
                     expectation.fulfill()
                     return
                 }
-                XCTAssertEqual(valueString, json.values.first)
+                XCTAssertEqual(response, expected)
             case .failure(let error):
                 XCTFail("Error: \(error)")
             }
@@ -1747,7 +1747,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testExplainCountSynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1764,19 +1764,19 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         do {
             let queryResult = try query.count(explain: true)
-            XCTAssertEqual(queryResult.keys.first, json.keys.first)
-            guard let valueString = queryResult.values.first?.value as? String else {
+            guard let response = queryResult.value as? [String: String],
+                let expected = json.results?.value as? [String: String] else {
                 XCTFail("Error: Should cast to string")
                 return
             }
-            XCTAssertEqual(valueString, json.values.first)
+            XCTAssertEqual(response, expected)
         } catch {
             XCTFail("Error: \(error)")
         }
     }
 
     func testExplainCountAsynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1796,13 +1796,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let queryResult):
-                XCTAssertEqual(queryResult.keys.first, json.keys.first)
-                guard let valueString = queryResult.values.first?.value as? String else {
+                guard let response = queryResult.value as? [String: String],
+                    let expected = json.results?.value as? [String: String] else {
                     XCTFail("Error: Should cast to string")
                     expectation.fulfill()
                     return
                 }
-                XCTAssertEqual(valueString, json.values.first)
+                XCTAssertEqual(response, expected)
             case .failure(let error):
                 XCTFail("Error: \(error)")
             }
@@ -1812,7 +1812,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testHintFindSynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1829,19 +1829,19 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         do {
             let queryResult = try query.find(explain: false, hint: "_id_")
-            XCTAssertEqual(queryResult.keys.first, json.keys.first)
-            guard let valueString = queryResult.values.first?.value as? String else {
+            guard let response = queryResult.value as? [String: String],
+                let expected = json.results?.value as? [String: String] else {
                 XCTFail("Error: Should cast to string")
                 return
             }
-            XCTAssertEqual(valueString, json.values.first)
+            XCTAssertEqual(response, expected)
         } catch {
             XCTFail("Error: \(error)")
         }
     }
 
     func testHintFindAsynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1861,13 +1861,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let queryResult):
-                XCTAssertEqual(queryResult.keys.first, json.keys.first)
-                guard let valueString = queryResult.values.first?.value as? String else {
+                guard let response = queryResult.value as? [String: String],
+                    let expected = json.results?.value as? [String: String] else {
                     XCTFail("Error: Should cast to string")
                     expectation.fulfill()
                     return
                 }
-                XCTAssertEqual(valueString, json.values.first)
+                XCTAssertEqual(response, expected)
             case .failure(let error):
                 XCTFail("Error: \(error)")
             }
@@ -1877,7 +1877,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testHintFirstSynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1894,19 +1894,19 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         do {
             let queryResult = try query.first(explain: false, hint: "_id_")
-            XCTAssertEqual(queryResult.keys.first, json.keys.first)
-            guard let valueString = queryResult.values.first?.value as? String else {
+            guard let response = queryResult.value as? [String: String],
+                let expected = json.results?.value as? [String: String] else {
                 XCTFail("Error: Should cast to string")
                 return
             }
-            XCTAssertEqual(valueString, json.values.first)
+            XCTAssertEqual(response, expected)
         } catch {
             XCTFail("Error: \(error)")
         }
     }
 
     func testHintFirstAsynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1926,13 +1926,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let queryResult):
-                XCTAssertEqual(queryResult.keys.first, json.keys.first)
-                guard let valueString = queryResult.values.first?.value as? String else {
+                guard let response = queryResult.value as? [String: String],
+                    let expected = json.results?.value as? [String: String] else {
                     XCTFail("Error: Should cast to string")
                     expectation.fulfill()
                     return
                 }
-                XCTAssertEqual(valueString, json.values.first)
+                XCTAssertEqual(response, expected)
             case .failure(let error):
                 XCTFail("Error: \(error)")
             }
@@ -1942,7 +1942,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testHintCountSynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1959,19 +1959,19 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         do {
             let queryResult = try query.count(explain: false, hint: "_id_")
-            XCTAssertEqual(queryResult.keys.first, json.keys.first)
-            guard let valueString = queryResult.values.first?.value as? String else {
+            guard let response = queryResult.value as? [String: String],
+                let expected = json.results?.value as? [String: String] else {
                 XCTFail("Error: Should cast to string")
                 return
             }
-            XCTAssertEqual(valueString, json.values.first)
+            XCTAssertEqual(response, expected)
         } catch {
             XCTFail("Error: \(error)")
         }
     }
 
     func testHintCountAsynchronous() {
-        let json = ["yolo": "yarr"]
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
 
         let encoded: Data!
         do {
@@ -1991,13 +1991,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             switch result {
 
             case .success(let queryResult):
-                XCTAssertEqual(queryResult.keys.first, json.keys.first)
-                guard let valueString = queryResult.values.first?.value as? String else {
+                guard let response = queryResult.value as? [String: String],
+                    let expected = json.results?.value as? [String: String] else {
                     XCTFail("Error: Should cast to string")
                     expectation.fulfill()
                     return
                 }
-                XCTAssertEqual(valueString, json.values.first)
+                XCTAssertEqual(response, expected)
             case .failure(let error):
                 XCTFail("Error: \(error)")
             }

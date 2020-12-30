@@ -512,20 +512,20 @@
 			children = (
 				4AA8076D1F794C1C008CD551 /* Info.plist */,
 				9194657724F16E330070296B /* ACLTests.swift */,
-				705726ED2592C91C00F0ADD5 /* HashTests.swift */,
 				911DB12D24C4837E0027F3C7 /* APICommandTests.swift */,
+				705726ED2592C91C00F0ADD5 /* HashTests.swift */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
+				916786EF259BC59600BB5B4E /* ParseCloudTests.swift */,
 				F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */,
+				705A99F8259807F900B3547F /* ParseFileManagerTests.swift */,
+				705727882593FF8000F0ADD5 /* ParseFileTests.swift */,
 				70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */,
 				70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */,
 				70C7DC2024D20F190050419B /* ParseObjectBatchTests.swift */,
 				911DB13524C4FC100027F3C7 /* ParseObjectTests.swift */,
 				70CE1D882545BF730018D572 /* ParsePointerTests.swift */,
 				70C7DC1F24D20F180050419B /* ParseQueryTests.swift */,
-				705727882593FF8000F0ADD5 /* ParseFileTests.swift */,
-				705A99F8259807F900B3547F /* ParseFileManagerTests.swift */,
 				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
-				916786EF259BC59600BB5B4E /* ParseCloudTests.swift */,
 				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
 			);
@@ -574,8 +574,8 @@
 				F97B45C924D9C6F200F4A88B /* API */,
 				F97B45B324D9C6F200F4A88B /* Coding */,
 				F97B463F24D9C78B00F4A88B /* Mutation Operations */,
-				F97B45C324D9C6F200F4A88B /* Object Protocols */,
-				F97B45BA24D9C6F200F4A88B /* Parse Types */,
+				F97B45C324D9C6F200F4A88B /* Objects */,
+				F97B45BA24D9C6F200F4A88B /* Types */,
 				F97B45CB24D9C6F200F4A88B /* Storage */,
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
 				70110D51250680140091CC1D /* ParseConstants.swift */,
@@ -608,10 +608,10 @@
 			children = (
 				708D035125215F9B00646C70 /* Deletable.swift */,
 				F97B45C524D9C6F200F4A88B /* Fetchable.swift */,
+				705A9A2E25991C1400B3547F /* Fileable.swift */,
 				70BC988F252A5B5C00FF3074 /* Objectable.swift */,
 				F97B45C824D9C6F200F4A88B /* Queryable.swift */,
 				F97B45C724D9C6F200F4A88B /* Savable.swift */,
-				705A9A2E25991C1400B3547F /* Fileable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -703,22 +703,22 @@
 			path = Coding;
 			sourceTree = "<group>";
 		};
-		F97B45BA24D9C6F200F4A88B /* Parse Types */ = {
+		F97B45BA24D9C6F200F4A88B /* Types */ = {
 			isa = PBXGroup;
 			children = (
 				F97B45C024D9C6F200F4A88B /* ParseACL.swift */,
+				916786E1259B7DDA00BB5B4E /* ParseCloud.swift */,
 				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
 				F97B45C124D9C6F200F4A88B /* ParseFile.swift */,
 				F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */,
-				916786E1259B7DDA00BB5B4E /* ParseCloud.swift */,
 				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
 				F97B45BB24D9C6F200F4A88B /* Query.swift */,
 				70110D5D250849B30091CC1D /* Internal */,
 			);
-			path = "Parse Types";
+			path = Types;
 			sourceTree = "<group>";
 		};
-		F97B45C324D9C6F200F4A88B /* Object Protocols */ = {
+		F97B45C324D9C6F200F4A88B /* Objects */ = {
 			isa = PBXGroup;
 			children = (
 				70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */,
@@ -726,7 +726,7 @@
 				F97B45C424D9C6F200F4A88B /* ParseUser.swift */,
 				70110D5E25084AF80091CC1D /* Protocols */,
 			);
-			path = "Object Protocols";
+			path = Objects;
 			sourceTree = "<group>";
 		};
 		F97B45C924D9C6F200F4A88B /* API */ = {

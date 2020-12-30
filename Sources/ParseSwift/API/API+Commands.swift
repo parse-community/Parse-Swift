@@ -282,16 +282,14 @@ internal extension API {
                 } else {
                     if (urlBody as? ParseCloud) != nil {
                         guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody) else {
-                            completion(.failure(ParseError(code: .unknownError,
-                                                           message: "couldn't encode body \(urlBody)")))
-                            return
+                            return .failure(ParseError(code: .unknownError,
+                                                           message: "couldn't encode body \(urlBody)"))
                         }
                         urlRequest.httpBody = bodyData
                     } else {
                         guard let bodyData = try? ParseCoding.jsonEncoder().encode(urlBody) else {
-                            completion(.failure(ParseError(code: .unknownError,
-                                                           message: "couldn't encode body \(urlBody)")))
-                            return
+                            return .failure(ParseError(code: .unknownError,
+                                                           message: "couldn't encode body \(urlBody)"))
                         }
                         urlRequest.httpBody = bodyData
                     }
@@ -614,4 +612,4 @@ extension API.Command where T: Encodable {
         let batchCommand = BatchCommand(requests: commands)
         return RESTBatchCommandTypeEncodable<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
-}*/
+}*/ // swiftlint:disable:this file_length
