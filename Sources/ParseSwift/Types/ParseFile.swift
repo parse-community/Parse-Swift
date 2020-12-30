@@ -437,7 +437,7 @@ extension ParseFile {
     }
 }
 
-// MARK: Downloading
+// MARK: Fetching
 extension ParseFile {
     /**
      Fetches a file with given url *synchronously*.

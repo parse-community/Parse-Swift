@@ -40,7 +40,7 @@ public struct API {
             case .signup:
                 return "/users"
             case .logout:
-                return "/users/logout"
+                return "/logout"
             case .file(let fileName):
                 return "/files/\(fileName)"
             case .passwordReset:

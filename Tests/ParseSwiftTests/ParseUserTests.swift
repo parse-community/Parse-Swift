@@ -917,7 +917,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testLogutCommand() {
         let command = User.logoutCommand()
         XCTAssertNotNil(command)
-        XCTAssertEqual(command.path.urlComponent, "/users/logout")
+        XCTAssertEqual(command.path.urlComponent, "/logout")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
         XCTAssertNil(command.body)
