@@ -15,7 +15,7 @@ import Foundation
 */
 public protocol ParseCloud: Encodable, CustomDebugStringConvertible {
     /**
-    The name of the function or job.
+     The name of the function or job.
     */
     var functionJobName: String { get set }
 
@@ -23,36 +23,41 @@ public protocol ParseCloud: Encodable, CustomDebugStringConvertible {
 
 // MARK: Functions
 extension ParseCloud {
-    public typealias AnyResultType = [String: AnyCodable]
 
     /**
-     *Synchronously* Calls a Cloud Code function and returns a result of it's execution.
-     *     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     Calls *synchronously* a Cloud Code function and returns a result of it's execution.
+          - parameter options: A set of header options sent to the server. Defaults to an empty set.
+          - returns: Returns a JSON response of `AnyCodable` type.
     */
-    public func callFunction(options: API.Options = []) throws -> AnyResultType {
+    public func callFunction(options: API.Options = []) throws -> AnyCodable {
         try callFunctionCommand().execute(options: options)
     }
 
     /**
-     *Asynchronously* Calls a Cloud Code function and returns a result of it's execution.
-     *     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     *     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     *     - parameter completion: A block that will be called when logging out, completes or fails.
+     Calls *asynchronously* a Cloud Code function and returns a result of it's execution.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+        - parameter completion: A block that will be called when logging out, completes or fails.
+        It should have the following argument signature: `(Result<AnyCodable, ParseError>, ParseError>)`.
     */
     public func callFunction(options: API.Options = [],
                              callbackQueue: DispatchQueue = .main,
-                             completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+                             completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
         callFunctionCommand()
             .executeAsync(options: options,
                           callbackQueue: callbackQueue, completion: completion)
     }
 
-    internal func callFunctionCommand() -> API.Command<Self, AnyResultType> {
+    internal func callFunctionCommand() -> API.Command<Self, AnyCodable> {
 
         return API.Command(method: .POST,
                            path: .functions(name: functionJobName),
-                           body: self) { (data) -> AnyResultType in
-            try ParseCoding.jsonDecoder().decode(AnyResultType.self, from: data)
+                           body: self) { (data) -> AnyCodable in
+            let response = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: data)
+            guard let result = response.result else {
+                return AnyCodable()
+            }
+            return result
         }
     }
 }
@@ -60,32 +65,38 @@ extension ParseCloud {
 // MARK: Jobs
 extension ParseCloud {
     /**
-     *Synchronously* Calls a Cloud Code job and returns a result of it's execution.
-     *     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     Calls *synchronously* a Cloud Code job and returns a result of it's execution.
+          - parameter options: A set of header options sent to the server. Defaults to an empty set.
+          - returns: Returns a JSON response of `AnyCodable` type.
     */
-    public func callJob(options: API.Options = []) throws -> AnyResultType {
+    public func callJob(options: API.Options = []) throws -> AnyCodable {
         try callJobCommand().execute(options: options)
     }
 
     /**
-     *Asynchronously* Calls a Cloud Code job and returns a result of it's execution.
-     *     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     *     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     *     - parameter completion: A block that will be called when logging out, completes or fails.
+     Calls *asynchronously* a Cloud Code job and returns a result of it's execution.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+        - parameter completion: A block that will be called when logging out, completes or fails.
+        It should have the following argument signature: `(Result<AnyCodable, ParseError>, ParseError>)`.
     */
     public func callJob(options: API.Options = [],
                         callbackQueue: DispatchQueue = .main,
-                        completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+                        completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
         callJobCommand()
             .executeAsync(options: options,
                           callbackQueue: callbackQueue, completion: completion)
     }
 
-    internal func callJobCommand() -> API.Command<Self, AnyResultType> {
+    internal func callJobCommand() -> API.Command<Self, AnyCodable> {
         return API.Command(method: .POST,
                            path: .jobs(name: functionJobName),
-                           body: self) { (data) -> AnyResultType in
-            try ParseCoding.jsonDecoder().decode(AnyResultType.self, from: data)
+                           body: self) { (data) -> AnyCodable in
+            let response = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: data)
+            guard let result = response.result else {
+                return AnyCodable()
+            }
+            return result
         }
     }
 }

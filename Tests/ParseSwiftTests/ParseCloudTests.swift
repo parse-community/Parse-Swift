@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseCloudTests: XCTestCase {
+class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct Cloud: ParseCloud {
         // Those are required for Object
@@ -103,7 +103,7 @@ class ParseCloudTests: XCTestCase {
     }
 
     func testFunction() {
-        let response = [String: AnyCodable]()
+        let response = AnyResultsResponse(result: nil)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -116,18 +116,21 @@ class ParseCloudTests: XCTestCase {
         do {
             let cloud = Cloud(functionJobName: "test")
             let functionResponse = try cloud.callFunction()
-            XCTAssertEqual(functionResponse, response)
+            XCTAssertEqual(functionResponse, AnyCodable())
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
 
     func testFunction2() {
-        let response: [String: AnyCodable] = ["hello": "world"]
+        var result: AnyCodable = ["hello": "world"]
+        let response = AnyResultsResponse(result: result)
 
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try ParseCoding.jsonEncoder().encode(response)
+                let encodedResult = try ParseCoding.jsonEncoder().encode(result)
+                result = try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: encodedResult)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -136,13 +139,17 @@ class ParseCloudTests: XCTestCase {
         do {
             let cloud = Cloud(functionJobName: "test")
             let functionResponse = try cloud.callFunction()
-            XCTAssertEqual(functionResponse, response)
+            guard let resultAsDictionary = functionResponse.value as? [String: String] else {
+                XCTFail("Should have casted result to dictionary")
+                return
+            }
+            XCTAssertEqual(resultAsDictionary, ["hello": "world"])
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
 
-    func functionAsync(serverResponse: [String: AnyCodable], callbackQueue: DispatchQueue) {
+    func functionAsync(serverResponse: AnyCodable, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
         let cloud = Cloud(functionJobName: "test")
@@ -151,7 +158,15 @@ class ParseCloudTests: XCTestCase {
             switch result {
 
             case .success(let response):
-                XCTAssertEqual(response, serverResponse)
+                if serverResponse == AnyCodable() {
+                    XCTAssertEqual(response, serverResponse)
+                } else {
+                    guard let resultAsDictionary = serverResponse.value as? [String: String] else {
+                        XCTFail("Should have casted result to dictionary")
+                        return
+                    }
+                    XCTAssertEqual(resultAsDictionary, ["hello": "world"])
+                }
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -161,7 +176,7 @@ class ParseCloudTests: XCTestCase {
     }
 
     func testFunctionMainQueue() {
-        let response = [String: AnyCodable]()
+        let response = AnyResultsResponse(result: nil)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -172,11 +187,12 @@ class ParseCloudTests: XCTestCase {
             }
         }
 
-        self.functionAsync(serverResponse: response, callbackQueue: .main)
+        self.functionAsync(serverResponse: AnyCodable(), callbackQueue: .main)
     }
 
     func testFunctionMainQueue2() {
-        let response: [String: AnyCodable] = ["hello": "world"]
+        let result: AnyCodable = ["hello": "world"]
+        let response = AnyResultsResponse(result: result)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -187,7 +203,7 @@ class ParseCloudTests: XCTestCase {
             }
         }
 
-        self.functionAsync(serverResponse: response, callbackQueue: .main)
+        self.functionAsync(serverResponse: result, callbackQueue: .main)
     }
 
     func testCallJobCommand() throws {
@@ -212,7 +228,7 @@ class ParseCloudTests: XCTestCase {
     }
 
     func testJob() {
-        let response = [String: AnyCodable]()
+        let response = AnyResultsResponse(result: nil)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -225,14 +241,15 @@ class ParseCloudTests: XCTestCase {
         do {
             let cloud = Cloud(functionJobName: "test")
             let functionResponse = try cloud.callJob()
-            XCTAssertEqual(functionResponse, response)
+            XCTAssertEqual(functionResponse, AnyCodable())
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
 
     func testJob2() {
-        let response: [String: AnyCodable] = ["hello": "world"]
+        let result: AnyCodable = ["hello": "world"]
+        let response = AnyResultsResponse(result: result)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -245,13 +262,17 @@ class ParseCloudTests: XCTestCase {
         do {
             let cloud = Cloud(functionJobName: "test")
             let functionResponse = try cloud.callJob()
-            XCTAssertEqual(functionResponse, response)
+            guard let resultAsDictionary = functionResponse.value as? [String: String] else {
+                XCTFail("Should have casted result to dictionary")
+                return
+            }
+            XCTAssertEqual(resultAsDictionary, ["hello": "world"])
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
 
-    func jobAsync(serverResponse: [String: AnyCodable], callbackQueue: DispatchQueue) {
+    func jobAsync(serverResponse: AnyCodable, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
         let cloud = Cloud(functionJobName: "test")
@@ -260,7 +281,15 @@ class ParseCloudTests: XCTestCase {
             switch result {
 
             case .success(let response):
-                XCTAssertEqual(response, serverResponse)
+                if serverResponse == AnyCodable() {
+                    XCTAssertEqual(response, serverResponse)
+                } else {
+                    guard let resultAsDictionary = serverResponse.value as? [String: String] else {
+                        XCTFail("Should have casted result to dictionary")
+                        return
+                    }
+                    XCTAssertEqual(resultAsDictionary, ["hello": "world"])
+                }
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -270,7 +299,7 @@ class ParseCloudTests: XCTestCase {
     }
 
     func testJobMainQueue() {
-        let response = [String: AnyCodable]()
+        let response = AnyResultsResponse(result: nil)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -281,11 +310,12 @@ class ParseCloudTests: XCTestCase {
             }
         }
 
-        self.jobAsync(serverResponse: response, callbackQueue: .main)
+        self.jobAsync(serverResponse: AnyCodable(), callbackQueue: .main)
     }
 
     func testJobMainQueue2() {
-        let response: [String: AnyCodable] = ["hello": "world"]
+        let result: AnyCodable = ["hello": "world"]
+        let response = AnyResultsResponse(result: result)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -296,6 +326,6 @@ class ParseCloudTests: XCTestCase {
             }
         }
 
-        self.jobAsync(serverResponse: response, callbackQueue: .main)
+        self.jobAsync(serverResponse: result, callbackQueue: .main)
     }
 }

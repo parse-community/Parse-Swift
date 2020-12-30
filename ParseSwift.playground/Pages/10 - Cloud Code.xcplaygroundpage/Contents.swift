@@ -33,4 +33,6 @@ cloud.callFunction { result in
     }
 }
 
+//: Jobs can be run the same way by using the method `callJob()`
+
 //: [Next](@next)

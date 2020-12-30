@@ -76,3 +76,8 @@ internal struct LoginSignupResponse: Codable {
     let sessionToken: String
     var updatedAt: Date?
 }
+
+// MARK: AnyResultsResponse
+internal struct AnyResultsResponse: Codable {
+    let result: AnyCodable?
+}
