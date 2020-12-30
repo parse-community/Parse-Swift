@@ -76,6 +76,14 @@ do {
     assertionFailure("Error logging out: \(error)")
 }
 
+//: Password Reset Request - synchronously
+do {
+    try User.passwordReset(email: "hello@parse.org")
+    print("Successfully requested password reset")
+} catch let error {
+    print("Error requesting password reset: \(error)")
+}
+
 //: Another way to sign up
 var newUser = User()
 newUser.username = "hello10"

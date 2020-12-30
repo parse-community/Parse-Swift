@@ -220,7 +220,9 @@ extension ParseUser {
         - parameter options: A set of options used to reset the password. Defaults to an empty set.
     */
     public static func passwordReset(email: String, options: API.Options = []) throws {
-        _ = try passwordResetCommand(email: email).execute(options: options)
+        if let error = try passwordResetCommand(email: email).execute(options: options) {
+            throw error
+        }
     }
 
     /**
@@ -232,23 +234,24 @@ extension ParseUser {
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when logging out, completes or fails.
     */
-    public static func passwordReset(email: String, options: API.Options = [], callbackQueue: DispatchQueue = .main,
+    public static func passwordReset(email: String, options: API.Options = [],
+                                     callbackQueue: DispatchQueue = .main,
                                      completion: @escaping (ParseError?) -> Void) {
         passwordResetCommand(email: email).executeAsync(options: options, callbackQueue: callbackQueue) { result in
             switch result {
 
-            case .success:
-                completion(nil)
+            case .success(let error):
+                completion(error)
             case .failure(let error):
                 completion(error)
             }
         }
     }
 
-    internal static func passwordResetCommand(email: String) -> API.Command<PasswordResetBody, NoBody> {
+    internal static func passwordResetCommand(email: String) -> API.Command<PasswordResetBody, ParseError?> {
         let resetBody = PasswordResetBody(email: email)
-        return API.Command(method: .POST, path: .passwordReset, body: resetBody) { (data) -> NoBody in
-            try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+        return API.Command(method: .POST, path: .passwordReset, body: resetBody) { (data) -> ParseError? in
+            try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
         }
     }
 }
