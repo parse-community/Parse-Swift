@@ -38,7 +38,7 @@ extension ParseCloud {
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when logging out, completes or fails.
-        It should have the following argument signature: `(Result<AnyCodable, ParseError>, ParseError>)`.
+        It should have the following argument signature: `(Result<AnyCodable, ParseError>)`.
     */
     public func callFunction(options: API.Options = [],
                              callbackQueue: DispatchQueue = .main,
@@ -78,7 +78,7 @@ extension ParseCloud {
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when logging out, completes or fails.
-        It should have the following argument signature: `(Result<AnyCodable, ParseError>, ParseError>)`.
+        It should have the following argument signature: `(Result<AnyCodable, ParseError>)`.
     */
     public func callJob(options: API.Options = [],
                         callbackQueue: DispatchQueue = .main,
@@ -104,7 +104,7 @@ extension ParseCloud {
 // MARK: CustomDebugStringConvertible
 extension ParseCloud {
     public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.parseEncoder(skipKeys: false).encode(self),
+        guard let descriptionData = try? ParseCoding.parseEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
                 return "\(functionJobName)"
         }

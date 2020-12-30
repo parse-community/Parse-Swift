@@ -335,7 +335,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFirstNoObjectFound() {
-        let scoreOnServer = GameScore(score: 10)
+
         let results = FindResult<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {

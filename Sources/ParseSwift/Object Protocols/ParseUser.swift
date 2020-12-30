@@ -213,26 +213,24 @@ extension ParseUser {
 extension ParseUser {
 
     /**
-     *Synchronously* requests a password reset email to be sent to the specified email address
+     Requests *synchronously* a password reset email to be sent to the specified email address
      associated with the user account. This email allows the user to securely.
      reset their password on the Parse site.
-     *     - parameter email: The email address associated with the user that
-     *     forgot their password.
-     *     - parameter options: A set of options used to reset the password. Defaults to an empty set.
+        - parameter email: The email address associated with the user that forgot their password.
+        - parameter options: A set of options used to reset the password. Defaults to an empty set.
     */
     public static func passwordReset(email: String, options: API.Options = []) throws {
         _ = try passwordResetCommand(email: email).execute(options: options)
     }
 
     /**
-     *Asynchronously* requests a password reset email to be sent to the specified email address
+     Requests *asynchronously* a password reset email to be sent to the specified email address
      associated with the user account. This email allows the user to securely.
      reset their password on the Parse site.
-     *     - parameter email: The email address associated with the user that
-     *     forgot their password.
-     *     - parameter options: A set of options used to reset the password. Defaults to an empty set.
-     *     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     *     - parameter completion: A block that will be called when logging out, completes or fails.
+        - parameter email: The email address associated with the user that forgot their password.
+        - parameter options: A set of options used to reset the password. Defaults to an empty set.
+        - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+        - parameter completion: A block that will be called when logging out, completes or fails.
     */
     public static func passwordReset(email: String, options: API.Options = [], callbackQueue: DispatchQueue = .main,
                                      completion: @escaping (ParseError?) -> Void) {

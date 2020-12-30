@@ -316,7 +316,7 @@ extension ParseACL {
 
 extension ParseACL: CustomDebugStringConvertible {
     public var debugDescription: String {
-        guard let descriptionData = try? JSONEncoder().encode(self),
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
             return "ACL ()"
         }

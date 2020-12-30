@@ -1320,7 +1320,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAllAsyncMainQueue() {
-        let score = GameScore(score: 10)
 
         let response = [BatchResponseItem<Bool>(success: true, error: nil),
         BatchResponseItem<Bool>(success: true, error: nil)]
