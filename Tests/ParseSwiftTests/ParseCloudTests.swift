@@ -149,6 +149,34 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testFunctionError() {
+
+        let parseError = ParseError(code: .scriptError, message: "Error: Invalid function")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(parseError)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let cloud = Cloud(functionJobName: "test")
+            _ = try cloud.callFunction()
+            XCTFail("Should have thrown ParseError")
+        } catch {
+            if let error = error as? ParseError {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+        }
+    }
+
     func functionAsync(serverResponse: AnyCodable, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
@@ -163,6 +191,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
                 } else {
                     guard let resultAsDictionary = serverResponse.value as? [String: String] else {
                         XCTFail("Should have casted result to dictionary")
+                        expectation1.fulfill()
                         return
                     }
                     XCTAssertEqual(resultAsDictionary, ["hello": "world"])
@@ -204,6 +233,41 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         self.functionAsync(serverResponse: result, callbackQueue: .main)
+    }
+
+    func functionAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        let cloud = Cloud(functionJobName: "test")
+        cloud.callFunction(callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success:
+                XCTFail("Should have thrown ParseError")
+                expectation1.fulfill()
+
+            case .failure(let error):
+                XCTAssertEqual(error.code, parseError.code)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testFunctionMainQueueError() {
+        let parseError = ParseError(code: .scriptError, message: "Error: Invalid function")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.functionAsyncError(parseError: parseError, callbackQueue: .main)
     }
 
     func testCallJobCommand() throws {
@@ -272,6 +336,34 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testJobError() {
+
+        let parseError = ParseError(code: .scriptError, message: "Error: Invalid function")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(parseError)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let cloud = Cloud(functionJobName: "test")
+            _ = try cloud.callJob()
+            XCTFail("Should have thrown ParseError")
+        } catch {
+            if let error = error as? ParseError {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+        }
+    }
+
     func jobAsync(serverResponse: AnyCodable, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
@@ -286,6 +378,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
                 } else {
                     guard let resultAsDictionary = serverResponse.value as? [String: String] else {
                         XCTFail("Should have casted result to dictionary")
+                        expectation1.fulfill()
                         return
                     }
                     XCTAssertEqual(resultAsDictionary, ["hello": "world"])
@@ -328,4 +421,39 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         self.jobAsync(serverResponse: result, callbackQueue: .main)
     }
-}
+
+    func jobAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        let cloud = Cloud(functionJobName: "test")
+        cloud.callJob(callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success:
+                XCTFail("Should have thrown ParseError")
+                expectation1.fulfill()
+
+            case .failure(let error):
+                XCTAssertEqual(error.code, parseError.code)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testJobMainQueueError() {
+        let parseError = ParseError(code: .scriptError, message: "Error: Invalid function")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.jobAsyncError(parseError: parseError, callbackQueue: .main)
+    }
+} // swiftlint:disable:this file_length
