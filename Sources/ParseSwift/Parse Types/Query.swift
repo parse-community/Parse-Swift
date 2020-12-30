@@ -891,7 +891,7 @@ extension Query: Queryable {
 private extension Query {
     private func findCommand() -> API.Command<Query<ResultType>, [ResultType]> {
         return API.Command(method: .POST, path: endpoint, body: self) {
-            try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).results
+            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
 
@@ -899,7 +899,7 @@ private extension Query {
         let query = self
         query.limit = 1
         return API.Command(method: .POST, path: endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).results.first
+            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first
         }
     }
 
@@ -908,7 +908,7 @@ private extension Query {
         query.limit = 1
         query.isCount = true
         return API.Command(method: .POST, path: endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(FindResult<T>.self, from: $0).count ?? 0
+            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
         }
     }
 

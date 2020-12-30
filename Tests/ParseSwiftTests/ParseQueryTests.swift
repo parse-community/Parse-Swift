@@ -177,7 +177,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -259,7 +259,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testThreadSafeFindAsync() {
@@ -269,7 +269,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -291,7 +291,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -310,7 +310,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -336,7 +336,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFirstNoObjectFound() {
         let scoreOnServer = GameScore(score: 10)
-        let results = FindResult<GameScore>(results: [GameScore](), count: 0)
+        let results = QueryResponse<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -378,7 +378,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func firstAsync(scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
@@ -396,7 +396,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testThreadSafeFirstAsync() {
@@ -406,7 +406,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -428,7 +428,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -442,7 +442,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testThreadSafeFirstAsyncNoObjectFound() {
         let scoreOnServer = GameScore(score: 10)
-        let results = FindResult<GameScore>(results: [GameScore](), count: 0)
+        let results = QueryResponse<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -459,7 +459,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFirstAsyncNoObjectFoundMainQueue() {
         let scoreOnServer = GameScore(score: 10)
-        let results = FindResult<GameScore>(results: [GameScore](), count: 0)
+        let results = QueryResponse<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -478,7 +478,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -513,7 +513,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testThreadSafeCountAsync() {
@@ -523,7 +523,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -545,7 +545,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 
-        let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
@@ -1678,7 +1678,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testExplainFirstSynchronous() {
@@ -1743,7 +1743,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testExplainCountSynchronous() {
@@ -1808,7 +1808,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testHintFindSynchronous() {
@@ -1873,7 +1873,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testHintFirstSynchronous() {
@@ -1938,7 +1938,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testHintCountSynchronous() {
@@ -2003,7 +2003,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             expectation.fulfill()
         }
-        wait(for: [expectation], timeout: 10.0)
+        wait(for: [expectation], timeout: 20.0)
     }
 }
 // swiftlint:disable:this file_length

@@ -144,7 +144,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertEqual(installationIdFromContainer, installationIdFromCurrent)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInstallationMutableValuesCanBeChangedInMemory() {
@@ -160,7 +160,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertNotEqual(originalInstallation.customKey, Installation.current?.customKey)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInstallationCustomValuesNotSavedToKeychain() {
@@ -213,7 +213,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertEqual(originalLocaleIdentifier, Installation.current?.localeIdentifier)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -264,7 +264,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertEqual(originalLocaleIdentifier, keychainInstallation.currentInstallation?.localeIdentifier)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInstallationHasApplicationBadge() {
@@ -289,7 +289,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         #endif
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUpdate() {
@@ -318,19 +318,16 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         DispatchQueue.main.async {
             do {
                 let saved = try installation.save()
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
+                guard let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
                         expectation1.fulfill()
                         return
                 }
-                guard let originalCreatedAt = installation.createdAt,
-                    let originalUpdatedAt = installation.updatedAt else {
+                guard let originalUpdatedAt = installation.updatedAt else {
                         XCTFail("Should unwrap dates")
                         expectation1.fulfill()
                         return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
             } catch {
@@ -338,7 +335,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             }
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUpdateToCurrentInstallation() {
@@ -353,7 +350,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertEqual(savedObjectId, self.testInstallationObjectId)
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -365,55 +362,46 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             switch result {
 
             case .success(let saved):
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
+                guard let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
                 }
-                guard let originalCreatedAt = installation.createdAt,
-                    let originalUpdatedAt = installation.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
+                guard let originalUpdatedAt = installation.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
 
                 if callbackQueue != .main {
                     DispatchQueue.main.async {
-                        guard let savedCreatedAt = Installation.current?.createdAt,
-                            let savedUpdatedAt = Installation.current?.updatedAt else {
-                                XCTFail("Should unwrap dates")
-                                expectation1.fulfill()
-                                return
+                        guard let savedUpdatedAt = Installation.current?.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
+                            return
                         }
-                        guard let originalCreatedAt = installation.createdAt,
-                            let originalUpdatedAt = installation.updatedAt else {
-                                XCTFail("Should unwrap dates")
-                                expectation1.fulfill()
-                                return
+                        guard let originalUpdatedAt = installation.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
+                            return
                         }
-                        XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                         XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                         XCTAssertNil(Installation.current?.ACL)
                         expectation1.fulfill()
                     }
                 } else {
-                    guard let savedCreatedAt = Installation.current?.createdAt,
-                        let savedUpdatedAt = Installation.current?.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation1.fulfill()
-                            return
+                    guard let savedUpdatedAt = Installation.current?.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
                     }
-                    guard let originalCreatedAt = installation.createdAt,
-                        let originalUpdatedAt = installation.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation1.fulfill()
-                            return
+                    guard let originalUpdatedAt = installation.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
                     }
-                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                     XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                     XCTAssertNil(Installation.current?.ACL)
                     expectation1.fulfill()
@@ -424,7 +412,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUpdateAsyncMainQueue() {
@@ -536,7 +524,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testFetchUpdatedCurrentInstallationAsync() { // swiftlint:disable:this function_body_length
@@ -615,7 +603,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDelete() {
@@ -642,7 +630,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAsyncMainQueue() {
@@ -679,7 +667,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -698,7 +686,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
             installation.customKey = "newValue"
-            let installationOnServer = FindResult<Installation>(results: [installation], count: 1)
+            let installationOnServer = QueryResponse<Installation>(results: [installation], count: 1)
 
             let encoded: Data!
             do {
@@ -766,7 +754,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -784,7 +772,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
             installation.customKey = "newValue"
-            let installationOnServer = FindResult<Installation>(results: [installation], count: 1)
+            let installationOnServer = QueryResponse<Installation>(results: [installation], count: 1)
 
             let encoded: Data!
             do {
@@ -855,7 +843,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -942,7 +930,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
@@ -1031,7 +1019,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAll() {
@@ -1047,7 +1035,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     return
             }
 
-            let installationOnServer = [BatchResponseItem<Bool>(success: true, error: nil)]
+            let error: ParseError? = nil
+            let installationOnServer = [error]
 
             let encoded: Data!
             do {
@@ -1064,10 +1053,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             do {
                 let deleted = try [installation].deleteAll()
                 deleted.forEach {
-                    switch $0 {
-                    case .success:
-                        return
-                    case .failure(let error):
+                    if let error = $0 {
                         XCTFail("Should have deleted: \(error.localizedDescription)")
                     }
                 }
@@ -1077,7 +1063,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAllAsyncMainQueue() {
@@ -1092,7 +1078,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 return
             }
 
-            let installationOnServer = [BatchResponseItem<Bool>(success: true, error: nil)]
+            let error: ParseError? = nil
+            let installationOnServer = [error]
 
             let encoded: Data!
             do {
@@ -1111,10 +1098,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
                 case .success(let deleted):
                     deleted.forEach {
-                        switch $0 {
-                        case .success:
-                            return
-                        case .failure(let error):
+                        if let error = $0 {
                             XCTFail("Should have deleted: \(error.localizedDescription)")
                         }
                     }
@@ -1124,7 +1108,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 expectation1.fulfill()
             }
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 }
 // swiftlint:disable:this file_length

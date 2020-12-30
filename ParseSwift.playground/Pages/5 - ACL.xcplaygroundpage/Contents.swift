@@ -30,12 +30,14 @@ struct GameScore: ParseObject {
     //: a custom initializer
     init(score: Int) {
         self.score = score
-        self.ACL = try? ParseACL.defaultACL()
     }
 }
 
 //: Define initial GameScores
-let score = GameScore(score: 40)
+var score = GameScore(score: 40)
+
+//: Set the ACL to default for your GameScore
+score.ACL = try? ParseACL.defaultACL()
 
 /*: Save asynchronously (preferred way) - Performs work on background
     queue and returns to designated on designated callbackQueue.
@@ -47,8 +49,10 @@ score.save { result in
         assert(savedScore.objectId != nil)
         assert(savedScore.createdAt != nil)
         assert(savedScore.updatedAt != nil)
-        assert(savedScore.ACL != nil)
         assert(savedScore.score == 40)
+        assert(savedScore.ACL != nil)
+
+        print("Saved score with ACL: \(savedScore)")
 
     case .failure(let error):
         assertionFailure("Error saving: \(error)")

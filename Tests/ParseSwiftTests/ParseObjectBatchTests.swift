@@ -278,18 +278,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             case .success(let first):
 
-                guard let savedCreatedAt = first.createdAt,
-                    let savedUpdatedAt = first.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let savedUpdatedAt = first.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-                guard let originalCreatedAt = score.createdAt,
-                    let originalUpdatedAt = score.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let originalUpdatedAt = score.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(first.ACL)
 
@@ -301,18 +297,15 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             case .success(let second):
 
-                guard let savedCreatedAt2 = second.createdAt,
-                    let savedUpdatedAt2 = second.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let savedUpdatedAt2 = second.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-                guard let originalCreatedAt2 = score2.createdAt,
-                    let originalUpdatedAt2 = score2.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let originalUpdatedAt2 = score2.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
 
-                XCTAssertEqual(savedCreatedAt2, originalCreatedAt2)
                 XCTAssertGreaterThan(savedUpdatedAt2, originalUpdatedAt2)
                 XCTAssertNil(second.ACL)
 
@@ -331,18 +324,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch saved[0] {
 
             case .success(let first):
-                guard let savedCreatedAt = first.createdAt,
-                    let savedUpdatedAt = first.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let savedUpdatedAt = first.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-                guard let originalCreatedAt = score.createdAt,
-                    let originalUpdatedAt = score.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let originalUpdatedAt = score.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(first.ACL)
             case .failure(let error):
@@ -352,20 +341,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch saved[1] {
 
             case .success(let second):
-                guard let savedCreatedAt2 = second.createdAt,
-                    let savedUpdatedAt2 = second.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let savedUpdatedAt2 = second.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-                guard let originalCreatedAt2 = score2.createdAt,
-                    let originalUpdatedAt2 = score2.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
+                guard let originalUpdatedAt2 = score2.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
                 }
-                /*Date's are not exactly as their original because the URLMocking doesn't use the same dateEncoding
-                 strategy, so we only compare the day*/
-                XCTAssertTrue(Calendar.current.isDate(savedCreatedAt2,
-                                                      equalTo: originalCreatedAt2, toGranularity: .day))
                 XCTAssertGreaterThan(savedUpdatedAt2, originalUpdatedAt2)
                 XCTAssertNil(second.ACL)
             case .failure(let error):
@@ -679,7 +662,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeSaveAllAsync() {
@@ -789,13 +772,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         expectation1.fulfill()
                         return
                     }
-                    guard let originalUpdatedAt = scoresOnServer.first?.updatedAt else {
+                    guard let originalUpdatedAt = scores.first?.updatedAt else {
                             XCTFail("Should unwrap dates")
                             expectation1.fulfill()
                             return
                     }
 
-                    XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                    XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                     XCTAssertNil(first.ACL)
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -805,17 +788,17 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
                 case .success(let second):
                     guard let savedUpdatedAt2 = second.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation1.fulfill()
-                            return
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
                     }
-                    guard let originalUpdatedAt2 = scoresOnServer.last?.updatedAt else {
+                    guard let originalUpdatedAt2 = scores.last?.updatedAt else {
                         XCTFail("Should unwrap dates")
                         expectation1.fulfill()
                         return
                     }
 
-                    XCTAssertEqual(savedUpdatedAt2,
+                    XCTAssertGreaterThan(savedUpdatedAt2,
                                          originalUpdatedAt2)
                     XCTAssertNil(second.ACL)
                 case .failure(let error):
@@ -849,13 +832,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         expectation2.fulfill()
                         return
                     }
-                    guard let originalUpdatedAt = scoresOnServer.first?.updatedAt else {
+                    guard let originalUpdatedAt = scores.first?.updatedAt else {
                         XCTFail("Should unwrap dates")
                         expectation2.fulfill()
                         return
                     }
 
-                    XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                    XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                     XCTAssertNil(first.ACL)
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
@@ -869,13 +852,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         expectation2.fulfill()
                         return
                     }
-                    guard let originalUpdatedAt2 = scoresOnServer.last?.updatedAt else {
+                    guard let originalUpdatedAt2 = scores.last?.updatedAt else {
                         XCTFail("Should unwrap dates")
                         expectation2.fulfill()
                         return
                     }
 
-                    XCTAssertEqual(savedUpdatedAt2,
+                    XCTAssertGreaterThan(savedUpdatedAt2,
                                          originalUpdatedAt2)
                     XCTAssertNil(second.ACL)
                 case .failure(let error):
@@ -887,7 +870,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation2.fulfill()
         }
-        wait(for: [expectation1, expectation2], timeout: 10.0)
+        wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
     func testThreadSafeUpdateAllAsync() {
@@ -994,7 +977,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
-        let response = FindResult<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
+        let response = QueryResponse<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
         let encoded: Data!
         do {
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
@@ -1150,7 +1133,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             expectation1.fulfill()
         }
 
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testThreadSafeFetchAllAsync() {
@@ -1169,7 +1152,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer2.updatedAt = Date()
         scoreOnServer2.ACL = nil
 
-        let response = FindResult<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
+        let response = QueryResponse<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
         let encoded: Data!
         do {
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
@@ -1209,7 +1192,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
-        let response = FindResult<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
+        let response = QueryResponse<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
         let encoded: Data!
         do {
            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
@@ -1232,9 +1215,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     func testDeleteAll() {
         let score = GameScore(score: 10)
+        let error: ParseError? = nil
+        let response = [error]
 
-        let response = [BatchResponseItem<Bool>(success: true, error: nil),
-        BatchResponseItem<Bool>(success: true, error: nil)]
         let encoded: Data!
         do {
            encoded = try score.getEncoder(skipKeys: false).encode(response)
@@ -1249,27 +1232,49 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         do {
             let fetched = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
 
-            XCTAssertEqual(fetched.count, 2)
-            guard let firstObject = fetched.first,
-                let secondObject = fetched.last else {
+            XCTAssertEqual(fetched.count, 1)
+            guard let firstObject = fetched.first else {
                     XCTFail("Should unwrap")
                     return
             }
 
-            switch firstObject {
-
-            case .success(let first):
-                XCTAssertTrue(first)
-            case .failure(let error):
+            if let error = firstObject {
                 XCTFail(error.localizedDescription)
             }
 
-            switch secondObject {
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
 
-            case .success(let second):
-                XCTAssertTrue(second)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
+    func testDeleteAllError() {
+        let score = GameScore(score: 10)
+        let parseError = ParseError(code: .objectNotFound, message: "Object not found")
+        let response = [parseError]
+        let encoded: Data!
+        do {
+           encoded = try score.getEncoder(skipKeys: false).encode(response)
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+           return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let fetched = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
+
+            XCTAssertEqual(fetched.count, 1)
+            guard let firstObject = fetched.first else {
+                    XCTFail("Should have thrown ParseError")
+                    return
+            }
+
+            if let error = firstObject {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
             }
 
         } catch {
@@ -1287,27 +1292,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             switch result {
 
             case .success(let fetched):
-                XCTAssertEqual(fetched.count, 2)
-                guard let firstObject = fetched.first,
-                    let secondObject = fetched.last else {
-                        XCTFail("Should unwrap")
-                        expectation1.fulfill()
-                        return
+                XCTAssertEqual(fetched.count, 1)
+                guard let firstObject = fetched.first else {
+                    XCTFail("Should unwrap")
+                    expectation1.fulfill()
+                    return
                 }
 
-                switch firstObject {
-
-                case .success(let first):
-                    XCTAssertTrue(first)
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
-                }
-
-                switch secondObject {
-
-                case .success(let second):
-                    XCTAssertTrue(second)
-                case .failure(let error):
+                if let error = firstObject {
                     XCTFail(error.localizedDescription)
                 }
 
@@ -1317,14 +1309,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             expectation1.fulfill()
         }
 
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAllAsyncMainQueue() {
         let score = GameScore(score: 10)
-
-        let response = [BatchResponseItem<Bool>(success: true, error: nil),
-        BatchResponseItem<Bool>(success: true, error: nil)]
+        let error: ParseError? = nil
+        let response = [error]
 
         do {
             let encoded = try score.getEncoder(skipKeys: false).encode(response)
@@ -1337,5 +1328,56 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         self.deleteAllAsync(callbackQueue: .main)
+    }
+
+    func deleteAllAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Delete object1")
+
+        [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll(options: [],
+                                                                            callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success(let fetched):
+                XCTAssertEqual(fetched.count, 1)
+                guard let firstObject = fetched.first else {
+                    XCTFail("Should have thrown ParseError")
+                    expectation1.fulfill()
+                    return
+                }
+
+                if let error = firstObject {
+                    XCTAssertEqual(error.code, parseError.code)
+                } else {
+                    XCTFail("Should have thrown ParseError")
+                }
+
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testDeleteAllAsyncMainQueueError() {
+        let score = GameScore(score: 10)
+
+        let parseError = ParseError(code: .objectNotFound, message: "Object not found")
+        let response = [parseError]
+
+        do {
+            let encoded = try score.getEncoder(skipKeys: false).encode(response)
+            MockURLProtocol.mockRequests { _ in
+               return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+
+        self.deleteAllAsyncError(parseError: parseError, callbackQueue: .main)
     }
 }// swiftlint:disable:this file_length

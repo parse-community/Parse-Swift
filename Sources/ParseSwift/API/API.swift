@@ -21,6 +21,7 @@ public struct API {
         case login
         case signup
         case logout
+        case file(fileName: String)
         case any(String)
 
         var urlComponent: String {
@@ -37,6 +38,8 @@ public struct API {
                 return "/users"
             case .logout:
                 return "/users/logout"
+            case .file(let fileName):
+                return "/files/\(fileName)"
             case .any(let path):
                 return path
             }
@@ -54,8 +57,12 @@ public struct API {
         case useMasterKey // swiftlint:disable:this inclusive_language
         case sessionToken(String)
         case installationId(String)
+        case mimeType(String)
+        case fileSize(String)
+        case removeMimeType
+        case metadata([String: String])
+        case tags([String: String])
 
-        // use HashValue so we can use in a sets
         public func hash(into hasher: inout Hasher) {
             switch self {
             case .useMasterKey:
@@ -64,10 +71,21 @@ public struct API {
                 hasher.combine(2)
             case .installationId:
                 hasher.combine(3)
+            case .mimeType:
+                hasher.combine(4)
+            case .fileSize:
+                hasher.combine(5)
+            case .removeMimeType:
+                hasher.combine(6)
+            case .metadata:
+                hasher.combine(7)
+            case .tags:
+                hasher.combine(8)
             }
         }
     }
 
+    // swiftlint:disable:next cyclomatic_complexity
     internal static func getHeaders(options: API.Options) -> [String: String] {
         var headers: [String: String] = ["X-Parse-Application-Id": ParseConfiguration.applicationId,
                                          "Content-Type": "application/json"]
@@ -88,9 +106,23 @@ public struct API {
             case .useMasterKey:
                 headers["X-Parse-Master-Key"] = ParseConfiguration.masterKey
             case .sessionToken(let sessionToken):
-                 headers["X-Parse-Session-Token"] = sessionToken
+                headers["X-Parse-Session-Token"] = sessionToken
             case .installationId(let installationId):
                 headers["X-Parse-Installation-Id"] = installationId
+            case .mimeType(let mimeType):
+                headers["Content-Type"] = mimeType
+            case .fileSize(let fileSize):
+                headers["Content-Length"] = fileSize
+            case .removeMimeType:
+                headers.removeValue(forKey: "Content-Type")
+            case .metadata(let metadata):
+                metadata.forEach {(key, value) -> Void in
+                    headers[key] = value
+                }
+            case .tags(let tags):
+                tags.forEach {(key, value) -> Void in
+                    headers[key] = value
+                }
             }
         }
 

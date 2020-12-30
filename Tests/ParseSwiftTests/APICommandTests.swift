@@ -115,28 +115,6 @@ class APICommandTests: XCTestCase {
 
     //This is less common as the HTTP won't be able to produce ParseErrors directly, but used for testing
     func testErrorHTTPReturnsParseError1() {
-        let originalError = ParseError(code: .connectionFailed, message: "no connection")
-        MockURLProtocol.mockRequests { response in
-            let response = MockURLResponse(error: originalError)
-            return response
-        }
-        do {
-            _ = try API.Command<ParseError, ParseError>(method: .GET, path: .login, params: nil,
-                                                    mapper: { (data) -> ParseError in
-                    return try JSONDecoder().decode(ParseError.self, from: data)
-            }).execute(options: [])
-            XCTFail("Should have thrown an error")
-        } catch {
-            guard let error = error as? ParseError else {
-                XCTFail("should be able unwrap final error to ParseError")
-                return
-            }
-            XCTAssertTrue(error.code == .unknownError)
-        }
-    }
-
-    //This is less common as the HTTP won't be able to produce ParseErrors directly, but used for testing
-    func testErrorHTTPReturnsParseError2() {
         let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(error: originalError)
