@@ -71,10 +71,6 @@ public struct ParseEncoder {
     }
 
     public func encode<T: Encodable>(_ value: T) throws -> Data {
-        try jsonEncoder.encode(value)
-    }
-
-    public func encode<T: ParseCloud>(_ value: T) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedCloudKeys)
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)

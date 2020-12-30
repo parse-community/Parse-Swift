@@ -43,7 +43,7 @@ class ParseEncoderTests: XCTestCase {
         let nicknames: [Name]
         let phoneNumbers: [String]
     }
-
+/*
     func parseEncoding<T: Encodable>(for object: T) -> Data {
         let encoder = ParseEncoder()
         encoder.jsonEncoder.outputFormatting = .sortedKeys
@@ -54,7 +54,7 @@ class ParseEncoderTests: XCTestCase {
         }
 
         return encoding
-    }
+    }*/
 
     func referenceEncoding<T: Encodable>(for object: T) -> Data {
         let encoder = JSONEncoder()
@@ -67,7 +67,7 @@ class ParseEncoderTests: XCTestCase {
 
         return encoding
     }
-
+/*
     func test_encodingScalarValue() {
         let encoded = parseEncoding(for: ["<root>": 5])
         let reference = referenceEncoding(for: ["<root>": 5])
@@ -112,7 +112,7 @@ class ParseEncoderTests: XCTestCase {
         XCTAssertEqual(jsonDecoded["*"]?["read"], true)
         XCTAssertEqual(parseDecoded["*"]?["read"], true)
     }
-
+*/
     func testSkipKeysDefaultCodingKeys() throws {
         var score = GameScore(score: 10)
         score.objectId = "yarr"

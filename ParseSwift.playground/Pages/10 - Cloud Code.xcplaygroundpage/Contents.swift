@@ -1,0 +1,36 @@
+//: [Previous](@previous)
+
+import PlaygroundSupport
+import Foundation
+import ParseSwift
+
+PlaygroundPage.current.needsIndefiniteExecution = true
+initializeParse()
+
+//: Create your own ValueTyped ParseCloud type
+struct Cloud: ParseCloud {
+    //: These are required for Object
+    var functionJobName: String
+
+    //: If your cloud function takes arguments, they can be passed by creating properties
+    //var argument1: [String: Int] = ["test": 5]
+}
+
+/*: Assuming you have the Cloud Function named "hello" on your parse-server:
+     // main.js
+     Parse.Cloud.define('hello', async () => {
+       return 'Hello world!';
+     });
+ */
+let cloud = Cloud(functionJobName: "hello")
+
+cloud.callFunction { result in
+    switch result {
+    case .success(let response):
+        print("Response from cloud function: \(response)")
+    case .failure(let error):
+        assertionFailure("Error calling cloud function: \(error)")
+    }
+}
+
+//: [Next](@next)

@@ -551,7 +551,6 @@
 				F97B463F24D9C78B00F4A88B /* Mutation Operations */,
 				F97B45C324D9C6F200F4A88B /* Object Protocols */,
 				F97B45BA24D9C6F200F4A88B /* Parse Types */,
-				916786E0259B7D0100BB5B4E /* Cloud */,
 				F97B45CB24D9C6F200F4A88B /* Storage */,
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
 				70110D51250680140091CC1D /* ParseConstants.swift */,
@@ -665,14 +664,6 @@
 			path = "ParseSwift-tvOS";
 			sourceTree = "<group>";
 		};
-		916786E0259B7D0100BB5B4E /* Cloud */ = {
-			isa = PBXGroup;
-			children = (
-				916786E1259B7DDA00BB5B4E /* ParseCloud.swift */,
-			);
-			path = Cloud;
-			sourceTree = "<group>";
-		};
 		F97B45B324D9C6F200F4A88B /* Coding */ = {
 			isa = PBXGroup;
 			children = (
@@ -693,6 +684,7 @@
 				F97B45C124D9C6F200F4A88B /* File.swift */,
 				F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */,
 				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
+				916786E1259B7DDA00BB5B4E /* ParseCloud.swift */,
 				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
 				F97B45BB24D9C6F200F4A88B /* Query.swift */,
 				70110D5D250849B30091CC1D /* Internal */,

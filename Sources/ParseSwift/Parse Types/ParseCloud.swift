@@ -27,7 +27,7 @@ extension ParseCloud {
 
     /**
      *Synchronously* Calls a Cloud Code function and returns a result of it's execution.
-     *     - parameter options: A set of options used to reset the password. Defaults to an empty set.
+     *     - parameter options: A set of header options sent to the server. Defaults to an empty set.
     */
     public func callFunction(options: API.Options = []) throws -> AnyResultType {
         try callFunctionCommand().execute(options: options)
@@ -35,7 +35,7 @@ extension ParseCloud {
 
     /**
      *Asynchronously* Calls a Cloud Code function and returns a result of it's execution.
-     *     - parameter options: A set of options used to reset the password. Defaults to an empty set.
+     *     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      *     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      *     - parameter completion: A block that will be called when logging out, completes or fails.
     */
@@ -60,29 +60,28 @@ extension ParseCloud {
 // MARK: Jobs
 extension ParseCloud {
     /**
-     *Synchronously* Calls a Cloud Code function and returns a result of it's execution.
-     *     - parameter options: A set of options used to reset the password. Defaults to an empty set.
+     *Synchronously* Calls a Cloud Code job and returns a result of it's execution.
+     *     - parameter options: A set of header options sent to the server. Defaults to an empty set.
     */
     public func callJob(options: API.Options = []) throws -> AnyResultType {
-        try callFunctionCommand().execute(options: options)
+        try callJobCommand().execute(options: options)
     }
 
     /**
-     *Asynchronously* Calls a Cloud Code function and returns a result of it's execution.
-     *     - parameter options: A set of options used to reset the password. Defaults to an empty set.
+     *Asynchronously* Calls a Cloud Code job and returns a result of it's execution.
+     *     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      *     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      *     - parameter completion: A block that will be called when logging out, completes or fails.
     */
     public func callJob(options: API.Options = [],
                         callbackQueue: DispatchQueue = .main,
                         completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
-        callFunctionCommand()
+        callJobCommand()
             .executeAsync(options: options,
                           callbackQueue: callbackQueue, completion: completion)
     }
 
     internal func callJobCommand() -> API.Command<Self, AnyResultType> {
-
         return API.Command(method: .POST,
                            path: .jobs(name: functionJobName),
                            body: self) { (data) -> AnyResultType in

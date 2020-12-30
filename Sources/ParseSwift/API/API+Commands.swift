@@ -51,7 +51,7 @@ internal extension API {
             return try response.get()
         }
 
-        // swiftlint:disable:next function_body_length
+        // swiftlint:disable:next function_body_length cyclomatic_complexity
         func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
                           childObjects: [NSDictionary: PointerType]? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
@@ -86,12 +86,21 @@ internal extension API {
                     }
                     urlRequest.httpBody = bodyData.encoded
                 } else {
-                    guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody) else {
-                        completion(.failure(ParseError(code: .unknownError,
-                                                       message: "couldn't encode body \(urlBody)")))
-                        return
+                    if (urlBody as? ParseCloud) != nil {
+                        guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody) else {
+                            completion(.failure(ParseError(code: .unknownError,
+                                                           message: "couldn't encode body \(urlBody)")))
+                            return
+                        }
+                        urlRequest.httpBody = bodyData
+                    } else {
+                        guard let bodyData = try? ParseCoding.jsonEncoder().encode(urlBody) else {
+                            completion(.failure(ParseError(code: .unknownError,
+                                                           message: "couldn't encode body \(urlBody)")))
+                            return
+                        }
+                        urlRequest.httpBody = bodyData
                     }
-                    urlRequest.httpBody = bodyData
                 }
             }
             urlRequest.httpMethod = method.rawValue
@@ -143,7 +152,7 @@ internal extension API.Command {
     }
 
     private static func updateCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
-        let mapper = { (data: Data) -> T in
+        let mapper = { (data) -> T in
             try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
         }
         return API.Command<T, T>(method: .PUT,
@@ -315,11 +324,14 @@ extension API.Command where T: ParseObject {
     }
 }
 
+//This has been disabled, looking into getting it working in the future.
+//It's only needed for sending batches of childObjects which currently isn't being used.
+/*
 extension API.Command where T: Encodable {
 
     internal var data: Data? {
         guard let body = body else { return nil }
-        return try? ParseCoding.parseEncoder().encode(body)
+        return try? ParseCoding.jsonEncoder().encode(body)
     }
 
     static func batch(commands: [API.Command<T, PointerType>]) -> RESTBatchCommandTypeEncodable<T> {
@@ -366,4 +378,4 @@ extension API.Command where T: Encodable {
         let batchCommand = BatchCommand(requests: commands)
         return RESTBatchCommandTypeEncodable<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
-}
+}*/

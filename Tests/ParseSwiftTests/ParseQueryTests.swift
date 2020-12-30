@@ -180,7 +180,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -207,7 +207,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query("createdAt" > afterDate)
         let encodedJSON = try ParseCoding.jsonEncoder().encode(query)
         let decodedJSON = try ParseCoding.jsonDecoder().decode([String: AnyCodable].self, from: encodedJSON)
-        let encodedParse = try ParseCoding.parseEncoder().encode(query)
+        let encodedParse = try ParseCoding.jsonEncoder().encode(query)
         let decodedParse = try ParseCoding.jsonDecoder().decode([String: AnyCodable].self, from: encodedParse)
 
         guard let jsonSkipAny = decodedJSON["skip"],
@@ -272,7 +272,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -294,7 +294,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -313,7 +313,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -339,7 +339,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -409,7 +409,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -431,7 +431,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -445,7 +445,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -462,7 +462,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -481,7 +481,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -526,7 +526,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -548,7 +548,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let results = FindResult<GameScore>(results: [scoreOnServer], count: 1)
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(results)
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -567,7 +567,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -593,7 +593,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -618,7 +618,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -643,7 +643,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -668,7 +668,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -693,7 +693,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -718,7 +718,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -743,7 +743,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -769,7 +769,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -795,7 +795,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -824,7 +824,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -850,7 +850,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -876,7 +876,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -902,7 +902,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -933,7 +933,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -964,7 +964,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -996,7 +996,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1042,7 +1042,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1086,7 +1086,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1125,7 +1125,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1160,7 +1160,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1186,7 +1186,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1212,7 +1212,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1242,7 +1242,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1280,7 +1280,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1321,7 +1321,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1367,7 +1367,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1413,7 +1413,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1463,7 +1463,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1521,7 +1521,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
@@ -1583,7 +1583,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let queryWhere = query.`where`
 
         do {
-            let encoded = try ParseCoding.parseEncoder().encode(queryWhere)
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 

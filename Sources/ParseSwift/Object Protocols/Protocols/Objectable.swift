@@ -57,7 +57,7 @@ extension Objectable {
     }
 
     internal func getUniqueObject() throws -> UniqueObject {
-        let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(self)
+        let encoded = try ParseCoding.jsonEncoder().encode(self)
         return try ParseCoding.jsonDecoder().decode(UniqueObject.self, from: encoded)
     }
 }

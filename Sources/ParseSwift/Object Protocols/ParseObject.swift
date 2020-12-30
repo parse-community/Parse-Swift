@@ -227,7 +227,7 @@ public extension Sequence where Element: ParseObject {
 }
 
 // MARK: Batch Support
-internal extension Sequence where Element: Encodable {
+/*internal extension Sequence where Element: Encodable {
 
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
@@ -243,7 +243,7 @@ internal extension Sequence where Element: Encodable {
                 .batch(commands: commands)
                 .execute(options: options)
     }
-}
+}*/
 
 // MARK: CustomDebugStringConvertible
 extension ParseObject {
@@ -449,14 +449,14 @@ internal extension Encodable {
     func saveCommand() throws -> API.Command<Self, PointerType> {
         try API.Command<Self, PointerType>.saveCommand(self)
     }
-
+/*
     func saveAll<T: Encodable>(options: API.Options = [],
                                encodableObjects: [T]) throws -> [(Result<PointerType, ParseError>)] {
         let commands = try encodableObjects.map { try $0.saveCommand() }
         return try API.Command<T, BaseObjectable>
                 .batch(commands: commands)
                 .execute(options: options)
-    }
+    }*/
 }
 
 // MARK: Deletable

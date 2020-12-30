@@ -441,7 +441,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         installationOnServer.updatedAt = Date()
         let encoded: Data!
         do {
-            let encodedOriginal = try installation.getEncoder(skipKeys: false).encode(installation)
+            let encodedOriginal = try ParseCoding.jsonEncoder().encode(installation)
             //Get dates in correct format from ParseDecoding strategy
             installation = try installation.getDecoder().decode(Installation.self, from: encodedOriginal)
 
@@ -702,9 +702,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(installation)
                 installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -788,9 +788,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(installation)
                 installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -878,9 +878,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(installation)
                 installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -964,9 +964,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(installation)
                 installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -1051,7 +1051,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
                 expectation1.fulfill()
@@ -1096,7 +1096,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
                 expectation1.fulfill()

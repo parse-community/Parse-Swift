@@ -716,7 +716,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(command.params)
         XCTAssertEqual(command.body?.username, body.username)
         XCTAssertEqual(command.body?.password, body.password)
-        XCTAssertNotNil(command.data)
     }
 
     func testUserSignUp() {
@@ -827,7 +826,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.GET)
         XCTAssertEqual(command.params, params)
         XCTAssertNil(command.body)
-        XCTAssertNil(command.data)
     }
 
     func testLogin() {
@@ -935,7 +933,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
         XCTAssertNil(command.body)
-        XCTAssertNil(command.data)
     }
 
     func testLogout() {
@@ -1002,7 +999,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
         XCTAssertEqual(command.body?.email, body.email)
-        XCTAssertNotNil(command.data)
     }
 
     func testPasswordReset() {
@@ -1149,9 +1145,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try user.getEncoder(skipKeys: false).encode(user)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
                 user = try user.getDecoder().decode(User.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -1235,9 +1231,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try user.getEncoder(skipKeys: false).encode(user)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
                 user = try user.getDecoder().decode(User.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -1324,9 +1320,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try user.getEncoder(skipKeys: false).encode(user)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
                 user = try user.getDecoder().decode(User.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -1410,9 +1406,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try user.getEncoder(skipKeys: false).encode(user)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
                 user = try user.getDecoder().decode(User.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -1496,7 +1492,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
                 expectation1.fulfill()
@@ -1541,7 +1537,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
                 expectation1.fulfill()

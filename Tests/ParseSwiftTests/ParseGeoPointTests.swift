@@ -52,7 +52,7 @@ class ParseGeoPointTests: XCTestCase {
         let point = ParseGeoPoint(latitude: 10, longitude: 20)
 
         do {
-            let encoded = try ParseEncoder().encode(point)
+            let encoded = try ParseCoding.jsonEncoder().encode(point)
             let decoded = try JSONDecoder().decode(ParseGeoPoint.self, from: encoded)
             XCTAssertEqual(point, decoded)
         } catch {

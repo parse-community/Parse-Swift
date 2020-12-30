@@ -89,7 +89,6 @@ class ParseCloudTests: XCTestCase {
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
         XCTAssertEqual(command.body?.functionJobName, "test")
-        XCTAssertNotNil(command.data)
     }
 
     func testCallFunctionWithArgsCommand() throws {
@@ -101,7 +100,6 @@ class ParseCloudTests: XCTestCase {
         XCTAssertNil(command.params)
         XCTAssertEqual(command.body?.functionJobName, "test")
         XCTAssertEqual(command.body?.customKey, "parse")
-        XCTAssertNotNil(command.data)
     }
 
     func testFunction() {
@@ -200,7 +198,6 @@ class ParseCloudTests: XCTestCase {
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
         XCTAssertEqual(command.body?.functionJobName, "test")
-        XCTAssertNotNil(command.data)
     }
 
     func testCallJobWithArgsCommand() throws {
@@ -212,7 +209,6 @@ class ParseCloudTests: XCTestCase {
         XCTAssertNil(command.params)
         XCTAssertEqual(command.body?.functionJobName, "test")
         XCTAssertEqual(command.body?.customKey, "parse")
-        XCTAssertNotNil(command.data)
     }
 
     func testJob() {

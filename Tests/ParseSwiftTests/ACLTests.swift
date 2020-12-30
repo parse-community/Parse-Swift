@@ -130,7 +130,7 @@ class ACLTests: XCTestCase {
 
         var encoded: Data?
         do {
-            encoded = try ParseCoding.parseEncoder().encode(acl)
+            encoded = try ParseCoding.jsonEncoder().encode(acl)
         } catch {
             XCTFail(error.localizedDescription)
         }
