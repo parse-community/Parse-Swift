@@ -101,10 +101,10 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
      "application/pdf". The default is nil. If no value is specified the file type will be inferred from the file
      extention of `name`.
      - parameter metadata: Optional key value pairs to be stored with file object.
-     - parameter tags: Optional key value pairs to be stored with file object
+     - parameter tags: Optional key value pairs to be stored with file object.
      - note: `metadata` and `tags` is file adapter specific and not supported by all file adapters.
      For more, see details on the
-     [S3 adapter](https://github.com/parse-community/parse-server-s3-adapter#adding-metadata-and-tags)
+     [S3 adapter](https://github.com/parse-community/parse-server-s3-adapter#adding-metadata-and-tags).
      */
     public init(name: String = "file", localURL: URL,
                 metadata: [String: String]? = nil, tags: [String: String]? = nil,
