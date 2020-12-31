@@ -217,7 +217,7 @@ extension ParseUser {
      associated with the user account. This email allows the user to securely.
      reset their password on the Parse site.
         - parameter email: The email address associated with the user that forgot their password.
-        - parameter options: A set of options used to reset the password. Defaults to an empty set.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
     */
     public static func passwordReset(email: String, options: API.Options = []) throws {
         if let error = try passwordResetCommand(email: email).execute(options: options) {
@@ -230,7 +230,7 @@ extension ParseUser {
      associated with the user account. This email allows the user to securely.
      reset their password on the Parse site.
         - parameter email: The email address associated with the user that forgot their password.
-        - parameter options: A set of options used to reset the password. Defaults to an empty set.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when logging out, completes or fails.
     */
@@ -266,7 +266,7 @@ extension ParseUser {
      - warning: Make sure that password and username are set before calling this method.
      - parameter username: The username of the user.
      - parameter password: The password of the user.
-     - parameter options: A set of options used to sign up users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns whether the sign up was successful.
     */
     public static func signup(username: String,
@@ -280,7 +280,7 @@ extension ParseUser {
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
-     - parameter options: A set of options used to sign up users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns whether the sign up was successful.
     */
     public func signup(options: API.Options = []) throws -> Self {
@@ -293,7 +293,7 @@ extension ParseUser {
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
-     - parameter options: A set of options used to sign up users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -311,7 +311,7 @@ extension ParseUser {
      - warning: Make sure that password and username are set before calling this method.
      - parameter username: The username of the user.
      - parameter password: The password of the user.
-     - parameter options: A set of options used to sign up users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -393,7 +393,7 @@ extension ParseUser {
     /**
      Fetches the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
 
-     - parameter options: A set of options used to save users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
@@ -406,7 +406,7 @@ extension ParseUser {
     /**
      Fetches the `ParseUser` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -439,7 +439,7 @@ extension ParseUser {
     /**
      Saves the `ParseUser` *synchronously* and throws an error if there's an issue.
 
-     - parameter options: A set of options used to save users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: A Error of type `ParseError`.
      - returns: Returns saved `ParseUser`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
@@ -473,7 +473,7 @@ extension ParseUser {
     /**
      Saves the `ParseUser` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -507,7 +507,7 @@ extension ParseUser {
     /**
      Deletes the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
 
-     - parameter options: A set of options used to save users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
@@ -519,7 +519,7 @@ extension ParseUser {
     /**
      Deletes the `ParseUser` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -556,7 +556,7 @@ public extension Sequence where Element: ParseUser {
     /**
      Saves a collection of users *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to save users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
@@ -574,7 +574,7 @@ public extension Sequence where Element: ParseUser {
     /**
      Saves a collection of users all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to save users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
@@ -603,7 +603,7 @@ public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to fetch users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: `ParseError`
@@ -639,7 +639,7 @@ public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to fetch users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
@@ -686,7 +686,7 @@ public extension Sequence where Element: ParseUser {
     /**
      Deletes a collection of users *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to delete users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
         1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
@@ -712,7 +712,7 @@ public extension Sequence where Element: ParseUser {
     /**
      Deletes a collection of users all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to delete users. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[ParseError?], ParseError>)`.

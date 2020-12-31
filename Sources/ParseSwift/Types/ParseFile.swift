@@ -43,7 +43,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
     public var localURL: URL?
 
     /**
-     The link to the file online that should be downloaded.
+     The link to the file online that should be fetched before uploading to the parse server.
      */
     public var cloudURL: URL?
 
@@ -55,13 +55,13 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
     /// The Content-Type header to use for the file.
     public var mimeType: String?
 
-    /// Key value pairs to be stored with file object
+    /// Key value pairs to be stored with the file object.
     public var metadata: [String: String]?
 
-    /// Key value pairs to be stored with file object
+    /// Key value pairs to be stored with the file object.
     public var tags: [String: String]?
 
-    /// A set of options used to delete files.
+    /// A set of header options sent to the server.
     public var options: API.Options = []
 
     /**
@@ -75,6 +75,9 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
      extention of `name`.
      - parameter metadata: Optional key value pairs to be stored with file object
      - parameter tags: Optional key value pairs to be stored with file object
+     - note: `metadata` and `tags` is file adapter specific and not supported by all file adapters.
+     For more, see details on the
+     [S3 adapter](https://github.com/parse-community/parse-server-s3-adapter#adding-metadata-and-tags)
      */
     public init(name: String = "file", data: Data? = nil, mimeType: String? = nil,
                 metadata: [String: String]? = nil, tags: [String: String]? = nil,
@@ -97,8 +100,11 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
      - parameter mimeType: Specify the Content-Type header to use for the file,  for example
      "application/pdf". The default is nil. If no value is specified the file type will be inferred from the file
      extention of `name`.
-     - parameter metadata: Optional key value pairs to be stored with file object
+     - parameter metadata: Optional key value pairs to be stored with file object.
      - parameter tags: Optional key value pairs to be stored with file object
+     - note: `metadata` and `tags` is file adapter specific and not supported by all file adapters.
+     For more, see details on the
+     [S3 adapter](https://github.com/parse-community/parse-server-s3-adapter#adding-metadata-and-tags)
      */
     public init(name: String = "file", localURL: URL,
                 metadata: [String: String]? = nil, tags: [String: String]? = nil,
@@ -122,6 +128,9 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
      extention of `name`.
      - parameter metadata: Optional key value pairs to be stored with file object
      - parameter tags: Optional key value pairs to be stored with file object
+     - note: `metadata` and `tags` is file adapter specific and not supported by all file adapters.
+     For more, see details on the
+     [S3 adapter](https://github.com/parse-community/parse-server-s3-adapter#adding-metadata-and-tags)
      */
     public init(name: String = "file", cloudURL: URL,
                 metadata: [String: String]? = nil, tags: [String: String]? = nil,
@@ -146,7 +155,7 @@ extension ParseFile {
     /**
      Deletes the file from the Parse cloud.
      - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
-     - parameter options: A set of options used to delete files.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
      */
     public func delete(options: API.Options) throws {
@@ -163,7 +172,7 @@ extension ParseFile {
     /**
      Deletes the file from the Parse cloud. Completes with `nil` if successful.
      - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
-     - parameter options: A set of options used to delete files.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
      It should have the following argument signature: `(ParseError?)`
@@ -233,7 +242,7 @@ extension ParseFile {
              print(currentProgess)
            }
       
-     - parameter options: A set of options used to save files. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
@@ -262,7 +271,7 @@ extension ParseFile {
     /**
      Creates a file with given data *synchronously*. A name will be assigned to it by the server.
      If the file hasn't been downloaded, it will automatically be downloaded before saved.
-     - parameter options: A set of options used to save files. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A saved `ParseFile`.
      */
     public func save(options: API.Options = []) throws -> ParseFile {
@@ -319,7 +328,7 @@ extension ParseFile {
              print(currentProgess)
            }
       
-     - parameter options: A set of options used to save files. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
@@ -383,7 +392,7 @@ extension ParseFile {
                  ...
            })
       
-     - parameter options: A set of options used to save files. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
@@ -441,7 +450,7 @@ extension ParseFile {
 extension ParseFile {
     /**
      Fetches a file with given url *synchronously*.
-     - parameter options: A set of options used to fetch the file. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter stream: An input file stream.
      - returns: A saved `ParseFile`.
      */
@@ -465,7 +474,7 @@ extension ParseFile {
 
     /**
      Fetches a file with given url *synchronously*.
-     - parameter options: A set of options used to fetch the file. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A saved `ParseFile`.
      */
     public func fetch(options: API.Options = []) throws -> ParseFile {
@@ -517,7 +526,7 @@ extension ParseFile {
             print(currentProgess)
           }
      
-     - parameter options: A set of options used to fetch the file. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
@@ -575,7 +584,7 @@ extension ParseFile {
              ...
            }
       
-     - parameter options: A set of options used to fetch the file. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,

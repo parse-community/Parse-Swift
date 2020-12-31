@@ -55,7 +55,7 @@ public extension Sequence where Element: ParseObject {
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
@@ -70,7 +70,7 @@ public extension Sequence where Element: ParseObject {
     /**
      Saves a collection of objects all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
@@ -89,7 +89,7 @@ public extension Sequence where Element: ParseObject {
     /**
      Fetches a collection of objects *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to fetch objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: `ParseError`
@@ -123,7 +123,7 @@ public extension Sequence where Element: ParseObject {
     /**
      Fetches a collection of objects all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to fetch objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
@@ -168,7 +168,7 @@ public extension Sequence where Element: ParseObject {
     /**
      Deletes a collection of objects *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to delete objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
         1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
@@ -190,7 +190,7 @@ public extension Sequence where Element: ParseObject {
     /**
      Deletes a collection of objects all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to delete objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[ParseError?], ParseError>)`.
@@ -232,7 +232,7 @@ public extension Sequence where Element: ParseObject {
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
@@ -263,7 +263,7 @@ extension ParseObject {
     /**
      Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
     */
     public func fetch(options: API.Options = []) throws -> Self {
@@ -273,7 +273,7 @@ extension ParseObject {
     /**
      Fetches the `ParseObject` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -327,7 +327,7 @@ extension ParseObject {
     /**
      Saves the `ParseObject` *synchronously* and throws an error if there's an issue.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: A Error of type `ParseError`.
 
      - returns: Returns saved `ParseObject`.
@@ -356,7 +356,7 @@ extension ParseObject {
     /**
      Saves the `ParseObject` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -489,7 +489,7 @@ extension ParseObject {
     /**
      Deletes the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
     */
     public func delete(options: API.Options = []) throws {
@@ -501,7 +501,7 @@ extension ParseObject {
     /**
      Deletes the `ParseObject` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.

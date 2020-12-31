@@ -706,7 +706,7 @@ extension Query: Queryable {
     /**
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
 
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns an array of `ParseObject`s that were found.
@@ -720,7 +720,7 @@ extension Query: Queryable {
 
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
@@ -732,7 +732,7 @@ extension Query: Queryable {
     /**
       Finds objects *asynchronously* and calls the given block with the results.
 
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ResultType], ParseError>)`
@@ -747,7 +747,7 @@ extension Query: Queryable {
 
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[AnyResultType], ParseError>)`
@@ -763,7 +763,7 @@ extension Query: Queryable {
       Gets an object *synchronously* based on the constructed query and sets an error if any occurred.
 
       - warning: This method mutates the query. It will reset the limit to `1`.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a `ParseObject`, or `nil` if none was found.
@@ -778,7 +778,7 @@ extension Query: Queryable {
       - warning: This method mutates the query. It will reset the limit to `1`.
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
@@ -791,7 +791,7 @@ extension Query: Queryable {
       Gets an object *asynchronously* and calls the given block with the result.
 
       - warning: This method mutates the query. It will reset the limit to `1`.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
@@ -819,7 +819,7 @@ extension Query: Queryable {
       - warning: This method mutates the query. It will reset the limit to `1`.
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
@@ -834,7 +834,7 @@ extension Query: Queryable {
     /**
       Counts objects *synchronously* based on the constructed query and sets an error if there was one.
 
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns the number of `ParseObject`s that match the query, or `-1` if there is an error.
@@ -848,7 +848,7 @@ extension Query: Queryable {
 
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
@@ -860,7 +860,7 @@ extension Query: Queryable {
     /**
       Counts objects *asynchronously* and calls the given block with the counts.
 
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Int, ParseError>)`
@@ -874,7 +874,7 @@ extension Query: Queryable {
       Counts objects *asynchronously* and calls the given block with the counts.
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Int, ParseError>)`
