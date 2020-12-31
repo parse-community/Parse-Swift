@@ -8,11 +8,11 @@
 
 import Foundation
 
-protocol LocallyIdentifiable: Encodable, Hashable {
+public protocol LocallyIdentifiable: Encodable, Hashable {
     var __localUUID: UUID? { get set } // swiftlint:disable:this identifier_name
 }
 
-extension LocallyIdentifiable {
+public extension LocallyIdentifiable {
     var localUUID: UUID {
         mutating get {
             if self.__localUUID == nil {
@@ -23,7 +23,7 @@ extension LocallyIdentifiable {
     }
 
     // Equatable
-    public static func == (lhs: Self, rhs: Self) -> Bool {
+    static func == (lhs: Self, rhs: Self) -> Bool {
         var lhs = lhs
         var rhs = rhs
         return lhs.localUUID == rhs.localUUID

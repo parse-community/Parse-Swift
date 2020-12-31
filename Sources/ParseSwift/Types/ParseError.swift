@@ -8,7 +8,7 @@
 
 import Foundation
 
-public struct ParseError: Swift.Error, Codable {
+public struct ParseError: ParseType, Decodable, Swift.Error {
     public let code: Code
     public let message: String
 

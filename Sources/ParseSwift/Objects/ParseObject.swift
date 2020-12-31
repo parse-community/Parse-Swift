@@ -248,7 +248,7 @@ public extension Sequence where Element: ParseObject {
 // MARK: CustomDebugStringConvertible
 extension ParseObject {
     public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.parseEncoder(skipKeys: false).encode(self),
+        guard let descriptionData = try? ParseCoding.parseEncoder().encode(self, skipKeys: .none),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
                 return "\(className) ()"
         }
@@ -403,9 +403,9 @@ extension ParseObject {
                 var waitingToBeSaved = object.unsavedChildren
 
                 while waitingToBeSaved.count > 0 {
-                    var savableObjects = [Encodable]()
+                    var savableObjects = [ParseType]()
                     var savableFiles = [ParseFile]()
-                    var nextBatch = [Encodable]()
+                    var nextBatch = [ParseType]()
                     try waitingToBeSaved.forEach { parseType in
 
                         if let parseFile = parseType as? ParseFile {
@@ -466,7 +466,7 @@ extension ParseObject {
 }
 
 // MARK: Savable Encodable Version
-internal extension Encodable {
+internal extension ParseType {
     func save(options: API.Options = []) throws -> PointerType {
         try saveCommand().execute(options: options)
     }
@@ -529,7 +529,7 @@ extension ParseObject {
          }
     }
 
-    internal func deleteCommand() throws -> API.Command<NoBody, ParseError?> {
-        try API.Command<NoBody, ParseError?>.deleteCommand(self)
+    internal func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, ParseError?> {
+        try API.NonParseBodyCommand<NoBody, ParseError?>.deleteCommand(self)
     }
 }// swiftlint:disable:this file_length

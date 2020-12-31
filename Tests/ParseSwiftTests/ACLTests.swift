@@ -184,7 +184,7 @@ class ACLTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -227,7 +227,7 @@ class ACLTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil

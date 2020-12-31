@@ -15,7 +15,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
             && data == nil
     }
 
-    internal var __localUUID: UUID? // swiftlint:disable:this identifier_name
+    public var __localUUID: UUID? // swiftlint:disable:this identifier_name
 
     /**
       The name of the file.

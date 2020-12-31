@@ -66,7 +66,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testParseEncoding() throws {
         let expected = [String: String]()
         let cloud = Cloud(functionJobName: "test")
-        let encoded = try ParseCoding.parseEncoder().encode(cloud)
+        let encoded = try ParseCoding.parseEncoder().encode(cloud, skipKeys: .cloud)
         let decoded = try JSONDecoder().decode([String: String].self, from: encoded)
         XCTAssertEqual(decoded, expected, "\"functionJobName\" key should be skipped by ParseEncoder")
     }
@@ -76,7 +76,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
             "customKey": "parse"
         ]
         let cloud = Cloud2(functionJobName: "test", customKey: "parse")
-        let encoded = try ParseCoding.parseEncoder().encode(cloud)
+        let encoded = try ParseCoding.parseEncoder().encode(cloud, skipKeys: .cloud)
         let decoded = try JSONDecoder().decode([String: String].self, from: encoded)
         XCTAssertEqual(decoded, expected, "\"functionJobName\" key should be skipped by ParseEncoder")
     }

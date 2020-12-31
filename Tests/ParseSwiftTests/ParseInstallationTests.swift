@@ -108,7 +108,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -304,7 +304,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         let encoded: Data!
         do {
-            encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
         } catch {
@@ -433,7 +433,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             //Get dates in correct format from ParseDecoding strategy
             installation = try installation.getDecoder().decode(Installation.self, from: encodedOriginal)
 
-            encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
         } catch {
@@ -486,7 +486,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
                 //Get dates in correct format from ParseDecoding strategy
                 installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
             } catch {
@@ -564,7 +564,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
                 //Get dates in correct format from ParseDecoding strategy
                 installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
             } catch {
@@ -688,7 +688,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
                 //Get dates in correct format from ParseDecoding strategy
                 installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
             } catch {

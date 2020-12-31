@@ -8,7 +8,7 @@ import CoreLocation
    It could be used to perform queries in a geospatial manner using `ParseQuery.-whereKey:nearGeoPoint:`.
    Currently, instances of `ParseObject` may only have one key associated with a `ParseGeoPoint` type.
 */
-public struct ParseGeoPoint: Codable, Hashable, Equatable {
+public struct ParseGeoPoint: ParseType, Decodable, Hashable {
     private let __type: String = "GeoPoint" // swiftlint:disable:this identifier_name
     static let earthRadiusMiles = 3958.8
     static let earthRadiusKilometers = 6371.0

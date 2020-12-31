@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol Objectable: Codable {
+public protocol Objectable: ParseType, Decodable {
     /**
     The class name of the object.
     */

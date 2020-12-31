@@ -481,7 +481,7 @@ internal struct QueryWhere: Encodable, Equatable {
 /**
   The `Query` class defines a query that is used to query for `ParseObject`s.
 */
-public class Query<T>: Encodable, Equatable where T: ParseObject {
+public class Query<T>: ParseType, Equatable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     internal var limit: Int = 100

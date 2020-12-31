@@ -13,7 +13,7 @@ import Foundation
  An object should be should be instantiated for each function and job type. When conforming to
  `ParseCloud`, any properties added will be passed as parameters to your Cloud Function or Job.
 */
-public protocol ParseCloud: Encodable, CustomDebugStringConvertible {
+public protocol ParseCloud: ParseType, Decodable, CustomDebugStringConvertible {
     /**
      The name of the function or job.
     */
@@ -110,7 +110,7 @@ extension ParseCloud {
 // MARK: CustomDebugStringConvertible
 extension ParseCloud {
     public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.parseEncoder().encode(self),
+        guard let descriptionData = try? ParseCoding.parseEncoder().encode(self, skipKeys: .none),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
                 return "\(functionJobName)"
         }

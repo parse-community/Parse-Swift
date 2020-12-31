@@ -13,7 +13,7 @@ import FoundationNetworking
 
 internal extension API {
     // swiftlint:disable:next type_body_length
-    struct Command<T, U>: Encodable where T: Encodable {
+    struct Command<T, U>: Encodable where T: ParseType {
         typealias ReturnType = U // swiftlint:disable:this nesting
         let method: API.Method
         let path: API.Endpoint
@@ -270,7 +270,13 @@ internal extension API {
             var urlRequest = URLRequest(url: urlComponents)
             urlRequest.allHTTPHeaderFields = headers
             if let urlBody = body {
-                if let childObjects = childObjects {
+                if (urlBody as? ParseCloud) != nil {
+                    guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody, skipKeys: .cloud) else {
+                        return .failure(ParseError(code: .unknownError,
+                                                       message: "couldn't encode body \(urlBody)"))
+                    }
+                    urlRequest.httpBody = bodyData
+                } else {
                     guard let bodyData = try? ParseCoding
                             .parseEncoder()
                             .encode(urlBody, collectChildren: false,
@@ -279,20 +285,6 @@ internal extension API {
                                                        message: "couldn't encode body \(urlBody)"))
                     }
                     urlRequest.httpBody = bodyData.encoded
-                } else {
-                    if (urlBody as? ParseCloud) != nil {
-                        guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody) else {
-                            return .failure(ParseError(code: .unknownError,
-                                                           message: "couldn't encode body \(urlBody)"))
-                        }
-                        urlRequest.httpBody = bodyData
-                    } else {
-                        guard let bodyData = try? ParseCoding.jsonEncoder().encode(urlBody) else {
-                            return .failure(ParseError(code: .unknownError,
-                                                           message: "couldn't encode body \(urlBody)"))
-                        }
-                        urlRequest.httpBody = bodyData
-                    }
                 }
             }
             urlRequest.httpMethod = method.rawValue
@@ -452,14 +444,122 @@ internal extension API.Command {
             try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }
     }
+}
 
+internal extension API {
+    struct NonParseBodyCommand<T, U>: Encodable where T: Encodable {
+        typealias ReturnType = U // swiftlint:disable:this nesting
+        let method: API.Method
+        let path: API.Endpoint
+        let body: T?
+        let mapper: ((Data) throws -> U)
+        let params: [String: String?]?
+
+        init(method: API.Method,
+             path: API.Endpoint,
+             params: [String: String]? = nil,
+             body: T? = nil,
+             mapper: @escaping ((Data) throws -> U)) {
+            self.method = method
+            self.path = path
+            self.body = body
+            self.mapper = mapper
+            self.params = params
+        }
+
+        func execute(options: API.Options) throws -> U {
+            var responseResult: Result<U, ParseError>?
+            let group = DispatchGroup()
+            group.enter()
+            self.executeAsync(options: options,
+                              callbackQueue: nil) { result in
+                responseResult = result
+                group.leave()
+            }
+            group.wait()
+
+            guard let response = responseResult else {
+                throw ParseError(code: .unknownError,
+                                 message: "couldn't unrwrap server response")
+            }
+            return try response.get()
+        }
+
+        // MARK: Asynchronous Execution
+        func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
+                          completion: @escaping(Result<U, ParseError>) -> Void) {
+
+            switch self.prepareURLRequest(options: options) {
+            case .success(let urlRequest):
+                URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
+                    switch result {
+
+                    case .success(let decoded):
+                        if let callbackQueue = callbackQueue {
+                            callbackQueue.async { completion(.success(decoded)) }
+                        } else {
+                            completion(.success(decoded))
+                        }
+
+                    case .failure(let error):
+                        if let callbackQueue = callbackQueue {
+                            callbackQueue.async { completion(.failure(error)) }
+                        } else {
+                            completion(.failure(error))
+                        }
+                    }
+                }
+            case .failure(let error):
+                completion(.failure(error))
+            }
+        }
+
+        // MARK: URL Preperation
+        func prepareURLRequest(options: API.Options) -> Result<URLRequest, ParseError> {
+            let params = self.params?.getQueryItems()
+            let headers = API.getHeaders(options: options)
+            let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
+
+            guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+                return .failure(ParseError(code: .unknownError,
+                                           message: "couldn't unrwrap url components for \(url)"))
+            }
+            components.queryItems = params
+
+            guard let urlComponents = components.url else {
+                return .failure(ParseError(code: .unknownError,
+                                           message: "couldn't create url from components for \(components)"))
+            }
+
+            var urlRequest = URLRequest(url: urlComponents)
+            urlRequest.allHTTPHeaderFields = headers
+            if let urlBody = body {
+                guard let bodyData = try? ParseCoding.jsonEncoder().encode(urlBody) else {
+                    return .failure(ParseError(code: .unknownError,
+                                                   message: "couldn't encode body \(urlBody)"))
+                }
+                urlRequest.httpBody = bodyData
+            }
+            urlRequest.httpMethod = method.rawValue
+
+            return .success(urlRequest)
+        }
+
+        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
+            case method, body, path
+        }
+    }
+}
+
+internal extension API.NonParseBodyCommand {
     // MARK: Deleting
-    static func deleteCommand<T>(_ object: T) throws -> API.Command<NoBody, ParseError?> where T: ParseObject {
+    // swiftlint:disable:next line_length
+    static func deleteCommand<T>(_ object: T) throws -> API.NonParseBodyCommand<NoBody, ParseError?> where T: ParseObject {
         guard object.isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
         }
 
-        return API.Command<NoBody, ParseError?>(
+        return API.NonParseBodyCommand<NoBody, ParseError?>(
             method: .DELETE,
             path: object.endpoint
         ) { (data) -> ParseError? in
@@ -473,7 +573,7 @@ extension API.Command where T: ParseObject {
 
     internal var data: Data? {
         guard let body = body else { return nil }
-        return try? body.getEncoder().encode(body)
+        return try? body.getEncoder().encode(body, skipKeys: .object)
     }
 
     static func batch(commands: [API.Command<T, T>]) -> RESTBatchCommandType<T> {
@@ -523,10 +623,11 @@ extension API.Command where T: ParseObject {
     }
 
     // MARK: Batch - Deleting
-    static func batch(commands: [API.Command<NoBody, ParseError?>]) -> RESTBatchCommandNoBodyType<ParseError?> {
-        let commands = commands.compactMap { (command) -> API.Command<NoBody, ParseError?>? in
+    // swiftlint:disable:next line_length
+    static func batch(commands: [API.NonParseBodyCommand<NoBody, ParseError?>]) -> RESTBatchCommandNoBodyType<ParseError?> {
+        let commands = commands.compactMap { (command) -> API.NonParseBodyCommand<NoBody, ParseError?>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
-            return API.Command<NoBody, ParseError?>(
+            return API.NonParseBodyCommand<NoBody, ParseError?>(
                 method: command.method,
                 path: .any(path), mapper: command.mapper)
         }
@@ -552,7 +653,7 @@ extension API.Command where T: ParseObject {
             }
         }
 
-        let batchCommand = BatchCommand(requests: commands)
+        let batchCommand = BatchCommandNoBody(requests: commands)
         return RESTBatchCommandNoBodyType<ParseError?>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 }

@@ -521,12 +521,12 @@ extension ParseInstallation {
          }
     }
 
-    func deleteCommand() throws -> API.Command<NoBody, ParseError?> {
+    func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, ParseError?> {
         guard isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
         }
 
-        return API.Command<NoBody, ParseError?>(
+        return API.NonParseBodyCommand<NoBody, ParseError?>(
             method: .DELETE,
             path: endpoint
         ) { (data) -> ParseError? in

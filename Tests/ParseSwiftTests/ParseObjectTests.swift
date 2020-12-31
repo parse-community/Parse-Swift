@@ -850,7 +850,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -883,7 +883,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let encoded: Data!
         do {
-            encoded = try score.getEncoder(skipKeys: false).encode(parseError)
+            encoded = try ParseCoding.jsonEncoder().encode(parseError)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -953,7 +953,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -981,7 +981,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -1031,7 +1031,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
         let encoded: Data!
         do {
-            encoded = try score.getEncoder(skipKeys: false).encode(parseError)
+            encoded = try ParseCoding.jsonEncoder().encode(parseError)
         } catch {
             XCTFail("Should have encoded/decoded: Error: \(error)")
             return
@@ -1055,7 +1055,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.objectId = "yarr"
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -1083,10 +1083,15 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             XCTAssertNil(parseError)
 
+            guard let savedChild = savedChildObject else {
+                XCTFail("Should have unwrapped child object")
+                return
+            }
+
             //Saved updated info for game
             let encodedScore: Data
             do {
-                encodedScore = try game.getEncoder(skipKeys: false).encode(savedChildObject)
+                encodedScore = try ParseCoding.jsonEncoder().encode(savedChild)
                 //Decode Pointer as GameScore
                 game.score = try game.getDecoder().decode(GameScore.self, from: encodedScore)
             } catch {
@@ -1104,7 +1109,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encodedGamed: Data
             do {
-                encodedGamed = try game.getEncoder(skipKeys: false).encode(gameOnServer)
+                encodedGamed = try game.getEncoder().encode(gameOnServer, skipKeys: .none)
                 //Get dates in correct format from ParseDecoding strategy
                 gameOnServer = try game.getDecoder().decode(Game.self, from: encodedGamed)
             } catch {
@@ -1214,7 +1219,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.objectId = "yarr"
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
             XCTFail("Should have thrown encode/decode error because child objects can't have the same objectId")
@@ -1233,7 +1238,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         score.levels = [level1, level2]
 
         do {
-            let encoded = try score.getEncoder(skipKeys: false).encode(score)
+            let encoded = try score.getEncoder().encode(score, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             guard let scoreOnServer = try (score.getDecoder()
                                             .decode([String: AnyCodable].self,
@@ -1274,7 +1279,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let encoded: Data!
         do {
-            encoded = try game.getEncoder(skipKeys: false).encode(response)
+            encoded = try ParseCoding.jsonEncoder().encode(response)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -1314,7 +1319,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encodedGamed: Data
             do {
-                encodedGamed = try game.getEncoder(skipKeys: false).encode(gameOnServer)
+                encodedGamed = try game.getEncoder().encode(gameOnServer, skipKeys: .none)
                 //Get dates in correct format from ParseDecoding strategy
                 gameOnServer = try game.getDecoder().decode(Game2.self, from: encodedGamed)
             } catch {

@@ -42,7 +42,10 @@ class APICommandTests: XCTestCase {
         }
         do {
             let returnedObject =
-                try API.Command<NoBody, String>(method: .GET, path: .login, params: nil, mapper: { (data) -> String in
+                try API.NonParseBodyCommand<NoBody, String>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (data) -> String in
                     return try JSONDecoder().decode(String.self, from: data)
                 }).execute(options: [])
             XCTAssertEqual(originalObject, returnedObject)
@@ -66,7 +69,10 @@ class APICommandTests: XCTestCase {
         }
 
         do {
-            _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (_) -> NoBody in
+            _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (_) -> NoBody in
                 throw originalError
             }).execute(options: [])
             XCTFail("Should have thrown an error")
@@ -102,7 +108,10 @@ class APICommandTests: XCTestCase {
         }
 
         do {
-            _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (_) -> NoBody in
+            _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (_) -> NoBody in
                 throw parseError
             }).execute(options: [])
 
@@ -123,7 +132,10 @@ class APICommandTests: XCTestCase {
             return MockURLResponse(error: originalError)
         }
         do {
-            _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (_) -> NoBody in
+            _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (_) -> NoBody in
                 throw originalError
             }).execute(options: [])
             XCTFail("Should have thrown an error")

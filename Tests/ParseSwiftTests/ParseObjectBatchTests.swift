@@ -1247,12 +1247,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAllError() {
-        let score = GameScore(score: 10)
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
         let response = [parseError]
         let encoded: Data!
         do {
-           encoded = try score.getEncoder(skipKeys: false).encode(response)
+            encoded = try ParseCoding.jsonEncoder().encode(response)
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
             return
@@ -1361,13 +1360,12 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAllAsyncMainQueueError() {
-        let score = GameScore(score: 10)
 
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
         let response = [parseError]
 
         do {
-            let encoded = try score.getEncoder(skipKeys: false).encode(response)
+            let encoded = try ParseCoding.jsonEncoder().encode(response)
             MockURLProtocol.mockRequests { _ in
                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             }

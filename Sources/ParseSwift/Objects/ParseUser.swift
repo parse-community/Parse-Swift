@@ -26,13 +26,13 @@ public protocol ParseUser: ParseObject {
 }
 
 // MARK: SignupBody
-struct SignupBody: Codable {
+struct SignupBody: ParseType {
     let username: String
     let password: String
 }
 
 // MARK: EmailBody
-struct EmailBody: Codable {
+struct EmailBody: ParseType {
     let email: String
 }
 
@@ -153,13 +153,13 @@ extension ParseUser {
     }
 
     internal static func loginCommand(username: String,
-                                      password: String) -> API.Command<NoBody, Self> {
+                                      password: String) -> API.NonParseBodyCommand<NoBody, Self> {
         let params = [
             "username": username,
             "password": password
         ]
 
-        return API.Command<NoBody, Self>(method: .GET,
+        return API.NonParseBodyCommand<NoBody, Self>(method: .GET,
                                          path: .login,
                                          params: params) { (data) -> Self in
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
@@ -210,8 +210,8 @@ extension ParseUser {
         }
     }
 
-    internal static func logoutCommand() -> API.Command<NoBody, NoBody> {
-        return API.Command(method: .POST, path: .logout) { (data) -> NoBody in
+    internal static func logoutCommand() -> API.NonParseBodyCommand<NoBody, NoBody> {
+        return API.NonParseBodyCommand(method: .POST, path: .logout) { (data) -> NoBody in
             var parseError: ParseError?
             var serverResponse = NoBody()
             do {
@@ -660,12 +660,12 @@ extension ParseUser {
          }
     }
 
-    func deleteCommand() throws -> API.Command<NoBody, ParseError?> {
+    func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, ParseError?> {
         guard isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
         }
 
-        return API.Command<NoBody, ParseError?>(
+        return API.NonParseBodyCommand<NoBody, ParseError?>(
             method: .DELETE,
             path: endpoint
         ) { (data) -> ParseError? in
