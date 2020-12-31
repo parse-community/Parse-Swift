@@ -239,7 +239,7 @@ extension ParseUser {
 
     /**
      Requests *synchronously* a password reset email to be sent to the specified email address
-     associated with the user account. This email allows the user to securely reset their password on the Parse site.
+     associated with the user account. This email allows the user to securely reset their password on the web.
         - parameter email: The email address associated with the user that forgot their password.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
     */
@@ -251,7 +251,7 @@ extension ParseUser {
 
     /**
      Requests *asynchronously* a password reset email to be sent to the specified email address
-     associated with the user account. This email allows the user to securely reset their password on the Parse site.
+     associated with the user account. This email allows the user to securely reset their password on the web.
         - parameter email: The email address associated with the user that forgot their password.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
