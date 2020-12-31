@@ -18,11 +18,15 @@ public struct API {
         case batch
         case objects(className: String)
         case object(className: String, objectId: String)
+        case users
+        case user(objectId: String)
+        case installations
+        case installation(objectId: String)
         case login
-        case signup
         case logout
         case file(fileName: String)
         case passwordReset
+        case verificationEmailRequest
         case functions(name: String)
         case jobs(name: String)
         case any(String)
@@ -35,16 +39,24 @@ public struct API {
                 return "/classes/\(className)"
             case .object(let className, let objectId):
                 return "/classes/\(className)/\(objectId)"
+            case .users:
+                return "/users"
+            case .user(let objectId):
+                return "/users/\(objectId)"
+            case .installations:
+                return "/installations"
+            case .installation(let objectId):
+                return "/installations/\(objectId)"
             case .login:
                 return "/login"
-            case .signup:
-                return "/users"
             case .logout:
                 return "/logout"
             case .file(let fileName):
                 return "/files/\(fileName)"
             case .passwordReset:
                 return "/requestPasswordReset"
+            case .verificationEmailRequest:
+                return "/verificationEmailRequest"
             case .functions(name: let name):
                 return "/functions/\(name)"
             case .jobs(name: let name):

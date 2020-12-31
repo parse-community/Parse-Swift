@@ -477,8 +477,9 @@ internal struct QueryWhere: Encodable, Equatable {
     }
 }
 
+// MARK: Query
 /**
-  The `Query` struct defines a query that is used to query for `ParseObject`s.
+  The `Query` class defines a query that is used to query for `ParseObject`s.
 */
 public class Query<T>: Encodable, Equatable where T: ParseObject {
     // interpolate as GET
@@ -699,6 +700,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     }
 }
 
+// MARK: Queryable
 extension Query: Queryable {
 
     public typealias ResultType = T
@@ -948,6 +950,20 @@ private extension Query {
             }
             return AnyCodable()
         }
+    }
+}
+
+// MARK: ParseUser
+extension Query where T: ParseUser {
+    var endpoint: API.Endpoint {
+        return .users
+    }
+}
+
+// MARK: ParseInstallation
+extension Query where T: ParseInstallation {
+    var endpoint: API.Endpoint {
+        return .installations
     }
 }
 

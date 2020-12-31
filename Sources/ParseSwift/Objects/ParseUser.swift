@@ -31,8 +31,8 @@ struct SignupBody: Codable {
     let password: String
 }
 
-// MARK: PasswordResetBody
-struct PasswordResetBody: Codable {
+// MARK: EmailBody
+struct EmailBody: Codable {
     let email: String
 }
 
@@ -40,6 +40,17 @@ struct PasswordResetBody: Codable {
 public extension ParseUser {
     static var className: String {
         return "_User"
+    }
+}
+
+// MARK: Convenience
+extension ParseUser {
+    var endpoint: API.Endpoint {
+        if let objectId = objectId {
+            return .user(objectId: objectId)
+        }
+
+        return .users
     }
 }
 
@@ -200,11 +211,25 @@ extension ParseUser {
     }
 
     internal static func logoutCommand() -> API.Command<NoBody, NoBody> {
-       return API.Command(method: .POST, path: .logout) { (data) -> NoBody in
-            let serverResponse = try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+        return API.Command(method: .POST, path: .logout) { (data) -> NoBody in
+            var parseError: ParseError?
+            var serverResponse = NoBody()
+            do {
+                serverResponse = try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+            } catch {
+                if let foundError = error as? ParseError {
+                    parseError = foundError
+                } else {
+                    parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                }
+            }
+            //Always let user logout locally, no matter the error.
             deleteCurrentContainerFromKeychain()
             currentUserContainer = nil
-            return serverResponse
+            guard let error = parseError else {
+                return serverResponse
+            }
+            throw error
        }
     }
 }
@@ -214,8 +239,7 @@ extension ParseUser {
 
     /**
      Requests *synchronously* a password reset email to be sent to the specified email address
-     associated with the user account. This email allows the user to securely.
-     reset their password on the Parse site.
+     associated with the user account. This email allows the user to securely reset their password on the Parse site.
         - parameter email: The email address associated with the user that forgot their password.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
     */
@@ -227,12 +251,11 @@ extension ParseUser {
 
     /**
      Requests *asynchronously* a password reset email to be sent to the specified email address
-     associated with the user account. This email allows the user to securely.
-     reset their password on the Parse site.
+     associated with the user account. This email allows the user to securely reset their password on the Parse site.
         - parameter email: The email address associated with the user that forgot their password.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-        - parameter completion: A block that will be called when logging out, completes or fails.
+        - parameter completion: A block that will be called when the password reset completes or fails.
     */
     public static func passwordReset(email: String, options: API.Options = [],
                                      callbackQueue: DispatchQueue = .main,
@@ -248,9 +271,58 @@ extension ParseUser {
         }
     }
 
-    internal static func passwordResetCommand(email: String) -> API.Command<PasswordResetBody, ParseError?> {
-        let resetBody = PasswordResetBody(email: email)
-        return API.Command(method: .POST, path: .passwordReset, body: resetBody) { (data) -> ParseError? in
+    internal static func passwordResetCommand(email: String) -> API.Command<EmailBody, ParseError?> {
+        let emailBody = EmailBody(email: email)
+        return API.Command(method: .POST, path: .passwordReset, body: emailBody) { (data) -> ParseError? in
+            try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+        }
+    }
+}
+
+// MARK: Verification Email Request
+extension ParseUser {
+
+    /**
+     Requests *synchronously* a verification email be sent to the specified email address
+     associated with the user account.
+        - parameter email: The email address associated with the user.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+    */
+    public static func verificationEmailRequest(email: String,
+                                                options: API.Options = []) throws {
+        if let error = try verificationEmailRequestCommand(email: email).execute(options: options) {
+            throw error
+        }
+    }
+
+    /**
+     Requests *asynchronously* a verification email be sent to the specified email address
+     associated with the user account.
+        - parameter email: The email address associated with the user.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+        - parameter completion: A block that will be called when the verification request completes or fails.
+    */
+    public static func verificationEmailRequest(email: String,
+                                                options: API.Options = [],
+                                                callbackQueue: DispatchQueue = .main,
+                                                completion: @escaping (ParseError?) -> Void) {
+        verificationEmailRequestCommand(email: email)
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue) { result in
+            switch result {
+
+            case .success(let error):
+                completion(error)
+            case .failure(let error):
+                completion(error)
+            }
+        }
+    }
+
+    internal static func verificationEmailRequestCommand(email: String) -> API.Command<EmailBody, ParseError?> {
+        let emailBody = EmailBody(email: email)
+        return API.Command(method: .POST, path: .verificationEmailRequest, body: emailBody) { (data) -> ParseError? in
             try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
         }
     }
@@ -331,7 +403,7 @@ extension ParseUser {
                                        password: String) -> API.Command<SignupBody, Self> {
 
         let body = SignupBody(username: username, password: password)
-        return API.Command(method: .POST, path: .signup, body: body) { (data) -> Self in
+        return API.Command(method: .POST, path: .users, body: body) { (data) -> Self in
 
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
@@ -348,7 +420,7 @@ extension ParseUser {
     }
 
     internal func signupCommand() -> API.Command<Self, Self> {
-        return API.Command(method: .POST, path: .signup, body: self) { (data) -> Self in
+        return API.Command(method: .POST, path: .users, body: self) { (data) -> Self in
 
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
@@ -431,6 +503,17 @@ extension ParseUser {
              completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
          }
     }
+
+    func fetchCommand() throws -> API.Command<Self, Self> {
+        guard isSaved else {
+            throw ParseError(code: .unknownError, message: "Cannot fetch an object without id")
+        }
+
+        return API.Command(method: .GET,
+                    path: endpoint) { (data) -> Self in
+            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+        }
+    }
 }
 
 // MARK: Savable
@@ -500,6 +583,34 @@ extension ParseUser {
             completion(.failure(parseError))
         }
     }
+
+    func saveCommand() -> API.Command<Self, Self> {
+        if isSaved {
+            return updateCommand()
+        }
+        return createCommand()
+    }
+
+    // MARK: Saving ParseObjects - private
+    private func createCommand() -> API.Command<Self, Self> {
+        let mapper = { (data) -> Self in
+            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: self)
+        }
+        return API.Command<Self, Self>(method: .POST,
+                                 path: endpoint,
+                                 body: self,
+                                 mapper: mapper)
+    }
+
+    private func updateCommand() -> API.Command<Self, Self> {
+        let mapper = { (data) -> Self in
+            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
+        }
+        return API.Command<Self, Self>(method: .PUT,
+                                 path: endpoint,
+                                 body: self,
+                                 mapper: mapper)
+    }
 }
 
 // MARK: Deletable
@@ -547,6 +658,19 @@ extension ParseUser {
          } catch {
              completion(ParseError(code: .unknownError, message: error.localizedDescription))
          }
+    }
+
+    func deleteCommand() throws -> API.Command<NoBody, ParseError?> {
+        guard isSaved else {
+            throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
+        }
+
+        return API.Command<NoBody, ParseError?>(
+            method: .DELETE,
+            path: endpoint
+        ) { (data) -> ParseError? in
+            try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+        }
     }
 }
 

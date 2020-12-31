@@ -77,6 +77,15 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query4.`where`.constraints.values.count, 2)
     }
 
+    func testEndPoints() {
+        let query = Query<GameScore>()
+        let userQuery = Query<BaseParseUser>()
+        let installationQuery = Query<BaseParseInstallation>()
+        XCTAssertEqual(query.endpoint.urlComponent, "/classes/GameScore")
+        XCTAssertEqual(userQuery.endpoint.urlComponent, "/users")
+        XCTAssertEqual(installationQuery.endpoint.urlComponent, "/installations")
+    }
+
     func testStaticProperties() {
         XCTAssertEqual(Query<GameScore>.className, GameScore.className)
     }

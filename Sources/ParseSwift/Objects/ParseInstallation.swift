@@ -84,6 +84,17 @@ public extension ParseInstallation {
     }
 }
 
+// MARK: Convenience
+extension ParseInstallation {
+    var endpoint: API.Endpoint {
+        if let objectId = objectId {
+            return .installation(objectId: objectId)
+        }
+
+        return .installations
+    }
+}
+
 // MARK: CurrentInstallationContainer
 struct CurrentInstallationContainer<T: ParseInstallation>: Codable {
     var currentInstallation: T?
@@ -352,6 +363,17 @@ extension ParseInstallation {
              completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
          }
     }
+
+    func fetchCommand() throws -> API.Command<Self, Self> {
+        guard isSaved else {
+            throw ParseError(code: .unknownError, message: "Cannot fetch an object without id")
+        }
+
+        return API.Command(method: .GET,
+                    path: endpoint) { (data) -> Self in
+            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+        }
+    }
 }
 
 // MARK: Savable
@@ -421,6 +443,34 @@ extension ParseInstallation {
             completion(.failure(parseError))
         }
     }
+
+    func saveCommand() -> API.Command<Self, Self> {
+        if isSaved {
+            return updateCommand()
+        }
+        return createCommand()
+    }
+
+    // MARK: Saving ParseObjects - private
+    private func createCommand() -> API.Command<Self, Self> {
+        let mapper = { (data) -> Self in
+            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: self)
+        }
+        return API.Command<Self, Self>(method: .POST,
+                                 path: endpoint,
+                                 body: self,
+                                 mapper: mapper)
+    }
+
+    private func updateCommand() -> API.Command<Self, Self> {
+        let mapper = { (data) -> Self in
+            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
+        }
+        return API.Command<Self, Self>(method: .PUT,
+                                 path: endpoint,
+                                 body: self,
+                                 mapper: mapper)
+    }
 }
 
 // MARK: Deletable
@@ -469,6 +519,19 @@ extension ParseInstallation {
          } catch {
              completion(ParseError(code: .unknownError, message: error.localizedDescription))
          }
+    }
+
+    func deleteCommand() throws -> API.Command<NoBody, ParseError?> {
+        guard isSaved else {
+            throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
+        }
+
+        return API.Command<NoBody, ParseError?>(
+            method: .DELETE,
+            path: endpoint
+        ) { (data) -> ParseError? in
+            try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+        }
     }
 }
 

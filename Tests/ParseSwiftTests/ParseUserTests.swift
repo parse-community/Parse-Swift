@@ -79,13 +79,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFetchCommand() {
         var user = User()
-        let className = user.className
         let objectId = "yarr"
         user.objectId = objectId
         do {
             let command = try user.fetchCommand()
             XCTAssertNotNil(command)
-            XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+            XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
@@ -93,6 +92,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         } catch {
             XCTFail(error.localizedDescription)
         }
+
+        let user2 = User()
+        XCTAssertThrowsError(try user2.fetchCommand())
     }
 
     func testFetch() { // swiftlint:disable:this function_body_length
@@ -379,11 +381,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testSaveCommand() {
         let user = User()
-        let className = user.className
 
         let command = user.saveCommand()
         XCTAssertNotNil(command)
-        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)")
+        XCTAssertEqual(command.path.urlComponent, "/users")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
@@ -392,13 +393,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testUpdateCommand() {
         var user = User()
-        let className = user.className
         let objectId = "yarr"
         user.objectId = objectId
 
         let command = user.saveCommand()
         XCTAssertNotNil(command)
-        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+        XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
@@ -980,7 +980,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testPasswordResetCommand() throws {
-        let body = PasswordResetBody(email: "hello@parse.org")
+        let body = EmailBody(email: "hello@parse.org")
         let command = User.passwordResetCommand(email: body.email)
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/requestPasswordReset")
@@ -1095,6 +1095,122 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.passwordResetAsyncError(parseError: parseError, callbackQueue: .main)
     }
 
+    func testVerificationEmailRequestCommand() throws {
+        let body = EmailBody(email: "hello@parse.org")
+        let command = User.verificationEmailRequestCommand(email: body.email)
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/verificationEmailRequest")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertEqual(command.body?.email, body.email)
+    }
+
+    func testVerificationEmailRequestReset() {
+        let response = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            try User.verificationEmailRequest(email: "hello@parse.org")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testVerificationEmailRequestError() {
+
+        let parseError = ParseError(code: .internalServer, message: "Object not found")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(parseError)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            try User.verificationEmailRequest(email: "hello@parse.org")
+            XCTFail("Should have thrown ParseError")
+        } catch {
+            if let error = error as? ParseError {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+        }
+    }
+
+    func verificationEmailRequestAsync(callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        User.verificationEmailRequest(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                expectation1.fulfill()
+                return
+            }
+            XCTFail(error.localizedDescription)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testVerificationEmailRequestMainQueue() {
+        let response = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.verificationEmailRequestAsync(callbackQueue: .main)
+    }
+
+    func verificationEmailRequestAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        User.verificationEmailRequest(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                XCTFail("Should have thrown ParseError")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(error.code, parseError.code)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testVerificationEmailRequestMainQueueError() {
+        let parseError = ParseError(code: .internalServer, message: "Object not found")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.verificationEmailRequestAsyncError(parseError: parseError, callbackQueue: .main)
+    }
+
     func testUserCustomValuesNotSavedToKeychain() {
         testLogin()
         User.current?.customKey = "Changed"
@@ -1105,6 +1221,25 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
         XCTAssertNil(keychainUser.currentUser?.customKey)
+    }
+
+    func testDeleteCommand() {
+        var user = User()
+        let objectId = "yarr"
+        user.objectId = objectId
+        do {
+            let command = try user.deleteCommand()
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
+            XCTAssertEqual(command.method, API.Method.DELETE)
+            XCTAssertNil(command.params)
+            XCTAssertNil(command.body)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        let user2 = User()
+        XCTAssertThrowsError(try user2.deleteCommand())
     }
 
     func testDelete() {
