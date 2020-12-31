@@ -68,6 +68,7 @@ jobs:
       run: bash <(curl https://codecov.io/bash)
 
   spm-test-5_2:
+    needs: spm-test
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
