@@ -43,7 +43,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
     public var localURL: URL?
 
     /**
-     The link to the file online that should be fetched before uploading to the parse server.
+     The link to the file online that should be fetched before uploading to the Parse Server.
      */
     public var cloudURL: URL?
 
