@@ -106,7 +106,7 @@ internal struct ParseFileManager {
                     completion(ParseError(code: .unknownError, message: "Couldn't convert string to utf8"))
                     return
                 }
-                try data.write(to: filePath, options: defaultDataWritingOptions)
+                try data.write(to: filePath, options: self.defaultDataWritingOptions)
                 completion(nil)
             } catch {
                 completion(error)
@@ -117,7 +117,7 @@ internal struct ParseFileManager {
     func writeData(_ data: Data, filePath: URL, completion: @escaping(Error?) -> Void) {
         synchronizationQueue.async {
             do {
-                try data.write(to: filePath, options: defaultDataWritingOptions)
+                try data.write(to: filePath, options: self.defaultDataWritingOptions)
                 completion(nil)
             } catch {
                 completion(error)
@@ -155,7 +155,7 @@ internal struct ParseFileManager {
                     return
                 }
 
-                try createDirectoryIfNeeded(toPath.path)
+                try self.createDirectoryIfNeeded(toPath.path)
                 let contents = try FileManager.default.contentsOfDirectory(atPath: fromPath.path)
                 if contents.count == 0 {
                     completion(nil)
