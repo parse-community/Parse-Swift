@@ -86,12 +86,12 @@ extension URLSession {
         }
 
         if let responseData = responseData {
-            if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
-                return .failure(error)
-            }
             do {
                 return try .success(mapper(responseData))
             } catch {
+                if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
+                    return .failure(error)
+                }
                 guard let parseError = error as? ParseError else {
                     return .failure(ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
