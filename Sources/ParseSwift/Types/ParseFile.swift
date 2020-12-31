@@ -4,7 +4,7 @@ import Foundation
   A `ParseFile` object representes a file of binary data stored on the Parse server.
   This can be a image, video, or anything else that an application needs to reference in a non-relational way.
  */
-public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
+public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
 
     internal let __type: String = "File" // swiftlint:disable:this identifier_name
 
@@ -15,15 +15,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
             && data == nil
     }
 
-    internal var _localUUID: UUID? // swiftlint:disable:this identifier_name
-    internal var localUUID: UUID {
-        mutating get {
-            if self._localUUID == nil {
-                self._localUUID = UUID()
-            }
-            return _localUUID!
-        }
-    }
+    internal var __localUUID: UUID? // swiftlint:disable:this identifier_name
 
     /**
       The name of the file.

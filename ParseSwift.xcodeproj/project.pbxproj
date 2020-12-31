@@ -52,6 +52,10 @@
 		705A9A3025991C1400B3547F /* Fileable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705A9A2E25991C1400B3547F /* Fileable.swift */; };
 		705A9A3125991C1400B3547F /* Fileable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705A9A2E25991C1400B3547F /* Fileable.swift */; };
 		705A9A3225991C1400B3547F /* Fileable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705A9A2E25991C1400B3547F /* Fileable.swift */; };
+		70647E8E259E3375004C1004 /* LocallyIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */; };
+		70647E8F259E3375004C1004 /* LocallyIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */; };
+		70647E90259E3375004C1004 /* LocallyIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */; };
+		70647E91259E3375004C1004 /* LocallyIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */; };
 		708D035225215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035325215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035425215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
@@ -333,6 +337,7 @@
 		705727882593FF8000F0ADD5 /* ParseFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFileTests.swift; sourceTree = "<group>"; };
 		705A99F8259807F900B3547F /* ParseFileManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFileManagerTests.swift; sourceTree = "<group>"; };
 		705A9A2E25991C1400B3547F /* Fileable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fileable.swift; sourceTree = "<group>"; };
+		70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocallyIdentifiable.swift; sourceTree = "<group>"; };
 		708D035125215F9B00646C70 /* Deletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deletable.swift; sourceTree = "<group>"; };
 		709B98302556EC7400507778 /* ParseSwiftTeststvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParseSwiftTeststvOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		709B98342556EC7400507778 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -612,6 +617,7 @@
 				70BC988F252A5B5C00FF3074 /* Objectable.swift */,
 				F97B45C824D9C6F200F4A88B /* Queryable.swift */,
 				F97B45C724D9C6F200F4A88B /* Savable.swift */,
+				70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1178,6 +1184,7 @@
 				F97B464624D9C78B00F4A88B /* ParseMutationContainer.swift in Sources */,
 				705A9A2F25991C1400B3547F /* Fileable.swift in Sources */,
 				F97B464A24D9C78B00F4A88B /* DeleteOperation.swift in Sources */,
+				70647E8E259E3375004C1004 /* LocallyIdentifiable.swift in Sources */,
 				F97B460624D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				F97B465A24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
 				F97B45E224D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
@@ -1256,6 +1263,7 @@
 				F97B464724D9C78B00F4A88B /* ParseMutationContainer.swift in Sources */,
 				705A9A3025991C1400B3547F /* Fileable.swift in Sources */,
 				F97B464B24D9C78B00F4A88B /* DeleteOperation.swift in Sources */,
+				70647E8F259E3375004C1004 /* LocallyIdentifiable.swift in Sources */,
 				F97B460724D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				F97B465B24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
 				F97B45E324D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
@@ -1370,6 +1378,7 @@
 				F97B45ED24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				705A9A3225991C1400B3547F /* Fileable.swift in Sources */,
 				F97B45F524D9C6F200F4A88B /* Pointer.swift in Sources */,
+				70647E91259E3375004C1004 /* LocallyIdentifiable.swift in Sources */,
 				F97B460924D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				F97B463A24D9C74400F4A88B /* Responses.swift in Sources */,
 				F97B45DD24D9C6F200F4A88B /* Extensions.swift in Sources */,
@@ -1421,6 +1430,7 @@
 				F97B45EC24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				705A9A3125991C1400B3547F /* Fileable.swift in Sources */,
 				F97B45F424D9C6F200F4A88B /* Pointer.swift in Sources */,
+				70647E90259E3375004C1004 /* LocallyIdentifiable.swift in Sources */,
 				F97B460824D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				F97B463924D9C74400F4A88B /* Responses.swift in Sources */,
 				F97B45DC24D9C6F200F4A88B /* Extensions.swift in Sources */,

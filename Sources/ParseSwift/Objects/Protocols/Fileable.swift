@@ -8,11 +8,10 @@
 
 import Foundation
 
-protocol Fileable: Encodable {
+protocol Fileable: LocallyIdentifiable {
     var __type: String { get } // swiftlint:disable:this identifier_name
     var name: String { get set }
     var url: URL? { get set }
-    var localUUID: UUID { mutating get }
 }
 
 extension Fileable {
@@ -29,11 +28,5 @@ extension Fileable {
             return lhs.localUUID == rhs.localUUID
         }
         return lURL == rURL
-    }
-
-    //Hashable
-    public func hash(into hasher: inout Hasher) {
-        var fileable = self
-        hasher.combine(fileable.localUUID)
     }
 }
