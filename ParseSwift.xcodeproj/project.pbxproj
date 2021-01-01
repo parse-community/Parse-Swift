@@ -31,6 +31,10 @@
 		7033ECB825584A83009770F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECB625584A83009770F3 /* Main.storyboard */; };
 		7033ECBA25584A85009770F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECB925584A85009770F3 /* Assets.xcassets */; };
 		7033ECBD25584A85009770F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECBB25584A85009770F3 /* LaunchScreen.storyboard */; };
+		70510AAC259EE25E00FEA700 /* ParseLiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510AAB259EE25E00FEA700 /* ParseLiveQuery.swift */; };
+		70510AAD259EE25E00FEA700 /* ParseLiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510AAB259EE25E00FEA700 /* ParseLiveQuery.swift */; };
+		70510AAE259EE25E00FEA700 /* ParseLiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510AAB259EE25E00FEA700 /* ParseLiveQuery.swift */; };
+		70510AAF259EE25E00FEA700 /* ParseLiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510AAB259EE25E00FEA700 /* ParseLiveQuery.swift */; };
 		70572671259033A700F0ADD5 /* ParseFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70572670259033A700F0ADD5 /* ParseFileManager.swift */; };
 		70572672259033A700F0ADD5 /* ParseFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70572670259033A700F0ADD5 /* ParseFileManager.swift */; };
 		70572673259033A700F0ADD5 /* ParseFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70572670259033A700F0ADD5 /* ParseFileManager.swift */; };
@@ -320,6 +324,7 @@
 		7033ECB925584A85009770F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7033ECBC25584A85009770F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7033ECBE25584A85009770F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		70510AAB259EE25E00FEA700 /* ParseLiveQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQuery.swift; sourceTree = "<group>"; };
 		70572670259033A700F0ADD5 /* ParseFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFileManager.swift; sourceTree = "<group>"; };
 		705726DF2592C2A800F0ADD5 /* ParseHash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHash.swift; sourceTree = "<group>"; };
 		705726ED2592C91C00F0ADD5 /* HashTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HashTests.swift; sourceTree = "<group>"; };
@@ -562,6 +567,7 @@
 			isa = PBXGroup;
 			children = (
 				F97B45C924D9C6F200F4A88B /* API */,
+				70510AAA259EE23700FEA700 /* LiveQuery */,
 				F97B45B324D9C6F200F4A88B /* Coding */,
 				F97B463F24D9C78B00F4A88B /* Mutation Operations */,
 				F97B45C324D9C6F200F4A88B /* Object Protocols */,
@@ -617,6 +623,14 @@
 				7033ECBE25584A85009770F3 /* Info.plist */,
 			);
 			path = TestHostTV;
+			sourceTree = "<group>";
+		};
+		70510AAA259EE23700FEA700 /* LiveQuery */ = {
+			isa = PBXGroup;
+			children = (
+				70510AAB259EE25E00FEA700 /* ParseLiveQuery.swift */,
+			);
+			path = LiveQuery;
 			sourceTree = "<group>";
 		};
 		709B98312556EC7400507778 /* ParseSwiftTeststvOS */ = {
@@ -1160,6 +1174,7 @@
 				F97B465224D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */,
 				F97B45D624D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				F97B45F224D9C6F200F4A88B /* Pointer.swift in Sources */,
+				70510AAC259EE25E00FEA700 /* ParseLiveQuery.swift in Sources */,
 				F97B461E24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B45D224D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
 				F97B463B24D9C74400F4A88B /* API+Commands.swift in Sources */,
@@ -1236,6 +1251,7 @@
 				F97B465324D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */,
 				F97B45D724D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				F97B45F324D9C6F200F4A88B /* Pointer.swift in Sources */,
+				70510AAD259EE25E00FEA700 /* ParseLiveQuery.swift in Sources */,
 				F97B461F24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B45D324D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
 				F97B463C24D9C74400F4A88B /* API+Commands.swift in Sources */,
@@ -1347,6 +1363,7 @@
 				F97B45E524D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				F97B465D24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
 				F97B45FD24D9C6F200F4A88B /* ParseACL.swift in Sources */,
+				70510AAF259EE25E00FEA700 /* ParseLiveQuery.swift in Sources */,
 				F97B465124D9C78C00F4A88B /* AddOperation.swift in Sources */,
 				F97B461124D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				F97B460D24D9C6F200F4A88B /* Fetchable.swift in Sources */,
@@ -1397,6 +1414,7 @@
 				F97B45E424D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				F97B465C24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
 				F97B45FC24D9C6F200F4A88B /* ParseACL.swift in Sources */,
+				70510AAE259EE25E00FEA700 /* ParseLiveQuery.swift in Sources */,
 				F97B465024D9C78B00F4A88B /* AddOperation.swift in Sources */,
 				F97B461024D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				F97B460C24D9C6F200F4A88B /* Fetchable.swift in Sources */,
