@@ -687,10 +687,54 @@ public extension Sequence where Element: ParseUser {
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+        var childObjects = [NSDictionary: PointerType]()
+        var childFiles = [UUID: ParseFile]()
+        var error: ParseError?
+        let users = map { $0 }
+        for user in users {
+            let group = DispatchGroup()
+            group.enter()
+            user.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                //If an error occurs, everything should be skipped
+                if parseError != nil {
+                    error = parseError
+                }
+                savedChildObjects.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childObjects[key] == nil {
+                        childObjects[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                savedChildFiles.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childFiles[key] == nil {
+                        childFiles[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                group.leave()
+            }
+            group.wait()
+            if let error = error {
+                throw error
+            }
+        }
+
         let commands = map { $0.saveCommand() }
         let returnResults = try API.Command<Self.Element, Self.Element>
-            .batch(commands: commands)
-            .execute(options: options)
+                .batch(commands: commands)
+                .execute(options: options,
+                         childObjects: childObjects,
+                         childFiles: childFiles)
         try? Self.Element.updateKeychainIfNeeded(compactMap {$0})
         return returnResults
     }
@@ -704,24 +748,71 @@ public extension Sequence where Element: ParseUser {
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
-    func saveAll(
+    func saveAll( // swiftlint:disable:this function_body_length
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        var childObjects = [NSDictionary: PointerType]()
+        var childFiles = [UUID: ParseFile]()
+        var error: ParseError?
+
+        let users = map { $0 }
+        for user in users {
+            let group = DispatchGroup()
+            group.enter()
+            user.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                //If an error occurs, everything should be skipped
+                if parseError != nil {
+                    error = parseError
+                }
+                savedChildObjects.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childObjects[key] == nil {
+                        childObjects[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                savedChildFiles.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childFiles[key] == nil {
+                        childFiles[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                group.leave()
+            }
+            group.wait()
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+        }
+
         let commands = map { $0.saveCommand() }
         API.Command<Self.Element, Self.Element>
                 .batch(commands: commands)
-            .executeAsync(options: options, callbackQueue: callbackQueue) { results in
-                switch results {
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue,
+                              childObjects: childObjects,
+                              childFiles: childFiles) { results in
+            switch results {
 
-                case .success(let saved):
-                    try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
-                    completion(.success(saved))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+            case .success(let saved):
+                try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
+                completion(.success(saved))
+            case .failure(let error):
+                completion(.failure(error))
             }
+        }
     }
 
     /**

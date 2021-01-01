@@ -61,10 +61,55 @@ public extension Sequence where Element: ParseObject {
      - throws: `ParseError`
     */
     func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+        var childObjects = [NSDictionary: PointerType]()
+        var childFiles = [UUID: ParseFile]()
+        var error: ParseError?
+
+        let objects = map { $0 }
+        for object in objects {
+            let group = DispatchGroup()
+            group.enter()
+            object.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                //If an error occurs, everything should be skipped
+                if parseError != nil {
+                    error = parseError
+                }
+                savedChildObjects.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childObjects[key] == nil {
+                        childObjects[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                savedChildFiles.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childFiles[key] == nil {
+                        childFiles[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                group.leave()
+            }
+            group.wait()
+            if let error = error {
+                throw error
+            }
+        }
+
         let commands = map { $0.saveCommand() }
         return try API.Command<Self.Element, Self.Element>
                 .batch(commands: commands)
-                .execute(options: options)
+                .execute(options: options,
+                         childObjects: childObjects,
+                         childFiles: childFiles)
     }
 
     /**
@@ -80,10 +125,58 @@ public extension Sequence where Element: ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        var childObjects = [NSDictionary: PointerType]()
+        var childFiles = [UUID: ParseFile]()
+        var error: ParseError?
+
+        let objects = map { $0 }
+        for object in objects {
+            let group = DispatchGroup()
+            group.enter()
+            object.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                //If an error occurs, everything should be skipped
+                if parseError != nil {
+                    error = parseError
+                }
+                savedChildObjects.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childObjects[key] == nil {
+                        childObjects[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                savedChildFiles.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childFiles[key] == nil {
+                        childFiles[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                group.leave()
+            }
+            group.wait()
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+        }
+
         let commands = map { $0.saveCommand() }
         API.Command<Self.Element, Self.Element>
                 .batch(commands: commands)
-                .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue,
+                              childObjects: childObjects,
+                              childFiles: childFiles,
+                              completion: completion)
     }
 
     /**
@@ -227,7 +320,7 @@ public extension Sequence where Element: ParseObject {
 }
 
 // MARK: Batch Support
-/*internal extension Sequence where Element: Encodable {
+/*internal extension Sequence where Element: ParseType {
 
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
@@ -440,7 +533,7 @@ extension ParseObject {
                     }
 
                     //Currently, batch isn't working for Encodable
-                    //savableObjects.saveAll(encodableObjects: savable)
+                    //Self.saveAll(encodableObjects: savableObjects)
                     try savableObjects.forEach {
                         let hash = BaseObjectable.createHash($0)
                         objectsFinishedSaving[hash] = try $0.save(options: options)
@@ -475,7 +568,7 @@ internal extension ParseType {
         try API.Command<Self, PointerType>.saveCommand(self)
     }
 /*
-    func saveAll<T: Encodable>(options: API.Options = [],
+    static func saveAll<T: Encodable>(options: API.Options = [],
                                encodableObjects: [T]) throws -> [(Result<PointerType, ParseError>)] {
         let commands = try encodableObjects.map { try $0.saveCommand() }
         return try API.Command<T, BaseObjectable>

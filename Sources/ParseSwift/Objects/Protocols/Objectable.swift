@@ -81,7 +81,7 @@ extension Objectable {
     }
 }
 
-internal struct UniqueObject: Hashable, Codable {
+internal struct UniqueObject: ParseType, Decodable, Hashable {
     let objectId: String
 
     init?(target: Objectable) {

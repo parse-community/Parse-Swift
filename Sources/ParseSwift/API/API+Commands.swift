@@ -660,9 +660,9 @@ extension API.Command where T: ParseObject {
 
 //This has been disabled, looking into getting it working in the future.
 //It's only needed for sending batches of childObjects which currently isn't being used.
-/*
+
 // MARK: Batch - Child Objects
-extension API.Command where T: Encodable {
+/*extension API.Command where T: ParseType {
 
     internal var data: Data? {
         guard let body = body else { return nil }

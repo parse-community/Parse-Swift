@@ -87,6 +87,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         do {
+
             let saved = try [score, score2].saveAll()
 
             XCTAssertEqual(saved.count, 2)

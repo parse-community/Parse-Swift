@@ -267,7 +267,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
                 }
             } else if let pointerForCurrentObject = self.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
                 valueToEncode = pointerForCurrentObject
-            } else if codingPath.count > 0 {
+            } else if dictionary.count > 0 {
                 //Only top level objects can be saved without a pointer
                 throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved object while encoding.")
             }
@@ -297,7 +297,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
                 }
             } else if let currentFile = self.filesSavedBeforeThisOne?[uuid] {
                 valueToEncode = currentFile
-            } else if codingPath.count > 0 {
+            } else if dictionary.count > 0 {
                 //Only top level objects can be saved without a pointer
                 throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved file while encoding.")
             }
