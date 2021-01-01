@@ -281,7 +281,8 @@ internal extension API {
                     guard let bodyData = try? ParseCoding
                             .parseEncoder()
                             .encode(urlBody, collectChildren: false,
-                                    objectsSavedBeforeThisOne: childObjects, filesSavedBeforeThisOne: childFiles) else {
+                                    objectsSavedBeforeThisOne: childObjects,
+                                    filesSavedBeforeThisOne: childFiles) else {
                             return .failure(ParseError(code: .unknownError,
                                                        message: "couldn't encode body \(urlBody)"))
                     }

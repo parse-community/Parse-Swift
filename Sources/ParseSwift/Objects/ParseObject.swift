@@ -24,7 +24,12 @@ import Foundation
  and relying on that for `Equatable` and `Hashable`, otherwise it's possible you will get "circular dependency errors"
  depending on your implementation.
 */
-public protocol ParseObject: Objectable, Fetchable, Savable, Deletable, Hashable, CustomDebugStringConvertible {}
+public protocol ParseObject: LocallyIdentifiable,
+                             Objectable,
+                             Fetchable,
+                             Savable,
+                             Deletable,
+                             CustomDebugStringConvertible {}
 
 // MARK: Default Implementations
 extension ParseObject {
@@ -490,13 +495,14 @@ extension ParseObject {
 
             do {
                 let object = try ParseCoding.parseEncoder()
-                    .encode(self, collectChildren: true,
-                            objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil)
+                    .encode(self,
+                            objectsSavedBeforeThisOne: nil,
+                            filesSavedBeforeThisOne: nil)
 
                 var waitingToBeSaved = object.unsavedChildren
 
                 while waitingToBeSaved.count > 0 {
-                    var savableObjects = [ParseType]()
+                    var savableObjects = [Objectable]()
                     var savableFiles = [ParseFile]()
                     var nextBatch = [ParseType]()
                     try waitingToBeSaved.forEach { parseType in
@@ -504,18 +510,18 @@ extension ParseObject {
                         if let parseFile = parseType as? ParseFile {
                             //ParseFiles can be saved now
                             savableFiles.append(parseFile)
-                        } else {
+                        } else if let parseObject = parseType as? Objectable {
                             //This is a ParseObject
                             let waitingObjectInfo = try ParseCoding
                                 .parseEncoder()
-                                .encode(parseType,
+                                .encode(parseObject,
                                         collectChildren: true,
                                         objectsSavedBeforeThisOne: objectsFinishedSaving,
                                         filesSavedBeforeThisOne: filesFinishedSaving)
 
                             if waitingObjectInfo.unsavedChildren.count == 0 {
                                 //If this ParseObject has no additional children, it can be saved now
-                                savableObjects.append(parseType)
+                                savableObjects.append(parseObject)
                             } else {
                                 //Else this ParseObject needs to wait until it's children are saved
                                 nextBatch.append(parseType)

@@ -481,7 +481,7 @@ internal struct QueryWhere: Encodable, Equatable {
 /**
   The `Query` class defines a query that is used to query for `ParseObject`s.
 */
-public class Query<T>: ParseType, Equatable where T: ParseObject {
+public class Query<T>: Encodable, Equatable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     internal var limit: Int = 100
@@ -890,34 +890,34 @@ extension Query: Queryable {
 }
 
 private extension Query {
-    private func findCommand() -> API.Command<Query<ResultType>, [ResultType]> {
-        return API.Command(method: .POST, path: endpoint, body: self) {
+    private func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: self) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
 
-    private func firstCommand() -> API.Command<Query<ResultType>, ResultType?> {
+    private func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType?> {
         let query = self
         query.limit = 1
-        return API.Command(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first
         }
     }
 
-    private func countCommand() -> API.Command<Query<ResultType>, Int> {
+    private func countCommand() -> API.NonParseBodyCommand<Query<ResultType>, Int> {
         let query = self
         query.limit = 1
         query.isCount = true
-        return API.Command(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
         }
     }
 
-    private func findCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyCodable> {
+    private func findCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
         let query = self
         query.explain = explain
         query.hint = hint
-        return API.Command(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
                 return results
             }
@@ -925,12 +925,12 @@ private extension Query {
         }
     }
 
-    private func firstCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyCodable> {
+    private func firstCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
         let query = self
         query.limit = 1
         query.explain = explain
         query.hint = hint
-        return API.Command(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
                 return results
             }
@@ -938,13 +938,13 @@ private extension Query {
         }
     }
 
-    private func countCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyCodable> {
+    private func countCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
         let query = self
         query.limit = 1
         query.isCount = true
         query.explain = explain
         query.hint = hint
-        return API.Command(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
                 return results
             }

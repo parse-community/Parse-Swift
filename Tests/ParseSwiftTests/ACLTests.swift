@@ -31,6 +31,8 @@ class ACLTests: XCTestCase {
     }
 
     struct User: ParseUser {
+        var localUUID: UUID?
+
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -47,6 +49,7 @@ class ACLTests: XCTestCase {
     }
 
     struct LoginSignupResponse: ParseUser {
+        var localUUID: UUID?
         var objectId: String?
         var createdAt: Date?
         var sessionToken: String

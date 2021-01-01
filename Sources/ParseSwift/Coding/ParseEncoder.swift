@@ -62,9 +62,9 @@ public struct ParseEncoder {
             switch self {
 
             case .object:
-                return Set(["createdAt", "updatedAt", "objectId", "className"])
+                return Set(["createdAt", "updatedAt", "objectId", "className", "localUUID"])
             case .cloud:
-                return Set(["functionJobName"])
+                return Set(["functionJobName", "localUUID"])
             case .none:
                 return .init()
             case .custom(let keys):
@@ -85,6 +85,17 @@ public struct ParseEncoder {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
         }
         return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil).encoded
+    }
+
+    // swiftlint:disable large_tuple
+    internal func encode<T: ParseObject>(_ value: T,
+                                         objectsSavedBeforeThisOne: [NSDictionary: PointerType]?,
+                                         filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [ParseType]) {
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.object.keys())
+        if let dateEncodingStrategy = dateEncodingStrategy {
+            encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+        }
+        return try encoder.encodeObject(value, collectChildren: true, objectsSavedBeforeThisOne: objectsSavedBeforeThisOne, filesSavedBeforeThisOne: filesSavedBeforeThisOne)
     }
 
     // swiftlint:disable large_tuple
@@ -158,7 +169,6 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         throw ParseError(code: .unknownError, message: "This method shouldn't be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
     }
 
-    // swiftlint:disable large_tuple
     func encodeObject(_ value: ParseType, collectChildren: Bool,
                       objectsSavedBeforeThisOne: [NSDictionary: PointerType]?,
                       filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [ParseType]) {

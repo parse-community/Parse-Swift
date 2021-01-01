@@ -9,6 +9,7 @@
 import Foundation
 
 internal struct BaseParseInstallation: ParseInstallation {
+    var localUUID: UUID?
     var deviceType: String?
     var installationId: String?
     var deviceToken: String?

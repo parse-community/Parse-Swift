@@ -33,6 +33,8 @@ public protocol Objectable: ParseType, Decodable {
     The ACL for this object.
     */
     var ACL: ParseACL? { get set }
+
+    var localUUID: UUID? { get set }
 }
 
 extension Objectable {
@@ -60,6 +62,11 @@ extension Objectable {
         let encoded = try ParseCoding.jsonEncoder().encode(self)
         return try ParseCoding.jsonDecoder().decode(UniqueObject.self, from: encoded)
     }
+
+    internal func getLocalUniqueObject() throws -> LocalUniqueObject {
+        let encoded = try ParseCoding.jsonEncoder().encode(self)
+        return try ParseCoding.jsonDecoder().decode(LocalUniqueObject.self, from: encoded)
+    }
 }
 
 // MARK: Convenience
@@ -81,7 +88,7 @@ extension Objectable {
     }
 }
 
-internal struct UniqueObject: ParseType, Decodable, Hashable {
+internal struct UniqueObject: Encodable, Decodable, Hashable {
     let objectId: String
 
     init?(target: Objectable) {
@@ -94,6 +101,8 @@ internal struct UniqueObject: ParseType, Decodable, Hashable {
 }
 
 internal struct BaseObjectable: Objectable {
+    var localUUID: UUID?
+
     var objectId: String?
 
     var createdAt: Date?

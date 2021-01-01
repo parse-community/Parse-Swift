@@ -9,6 +9,7 @@ import Foundation
 
 /// Used internally to form a concrete type representing `ParseUser`.
 internal struct BaseParseUser: ParseUser {
+    var localUUID: UUID?
     var username: String?
     var email: String?
     var password: String?

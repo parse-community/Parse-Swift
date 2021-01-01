@@ -14,6 +14,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct GameScore: ParseObject {
         //: Those are required for Object
+        var localUUID: UUID?
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
@@ -30,6 +31,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct GameType: ParseObject {
         //: Those are required for Object
+        var localUUID: UUID?
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?

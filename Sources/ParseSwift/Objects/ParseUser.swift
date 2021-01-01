@@ -26,13 +26,13 @@ public protocol ParseUser: ParseObject {
 }
 
 // MARK: SignupBody
-struct SignupBody: ParseType {
+struct SignupBody: Encodable {
     let username: String
     let password: String
 }
 
 // MARK: EmailBody
-struct EmailBody: ParseType {
+struct EmailBody: Encodable {
     let email: String
 }
 
@@ -271,9 +271,9 @@ extension ParseUser {
         }
     }
 
-    internal static func passwordResetCommand(email: String) -> API.Command<EmailBody, ParseError?> {
+    internal static func passwordResetCommand(email: String) -> API.NonParseBodyCommand<EmailBody, ParseError?> {
         let emailBody = EmailBody(email: email)
-        return API.Command(method: .POST, path: .passwordReset, body: emailBody) { (data) -> ParseError? in
+        return API.NonParseBodyCommand(method: .POST, path: .passwordReset, body: emailBody) { (data) -> ParseError? in
             try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
         }
     }
@@ -320,9 +320,12 @@ extension ParseUser {
         }
     }
 
-    internal static func verificationEmailRequestCommand(email: String) -> API.Command<EmailBody, ParseError?> {
+    // swiftlint:disable:next line_length
+    internal static func verificationEmailRequestCommand(email: String) -> API.NonParseBodyCommand<EmailBody, ParseError?> {
         let emailBody = EmailBody(email: email)
-        return API.Command(method: .POST, path: .verificationEmailRequest, body: emailBody) { (data) -> ParseError? in
+        return API.NonParseBodyCommand(method: .POST,
+                                       path: .verificationEmailRequest,
+                                       body: emailBody) { (data) -> ParseError? in
             try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
         }
     }
@@ -400,10 +403,10 @@ extension ParseUser {
     }
 
     internal static func signupCommand(username: String,
-                                       password: String) -> API.Command<SignupBody, Self> {
+                                       password: String) -> API.NonParseBodyCommand<SignupBody, Self> {
 
         let body = SignupBody(username: username, password: password)
-        return API.Command(method: .POST, path: .users, body: body) { (data) -> Self in
+        return API.NonParseBodyCommand(method: .POST, path: .users, body: body) { (data) -> Self in
 
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
