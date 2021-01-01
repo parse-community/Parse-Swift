@@ -58,7 +58,7 @@ public struct ParseEncoder {
         case none
         case custom(Set<String>)
 
-        func use() -> Set<String> {
+        func keys() -> Set<String> {
             switch self {
 
             case .object:
@@ -80,8 +80,7 @@ public struct ParseEncoder {
     }
 
     public func encode<T: ParseType>(_ value: T, skipKeys: SkippedKeys) throws -> Data {
-        let skippedKeys = skipKeys.use()
-        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skipKeys.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
         }
@@ -92,8 +91,7 @@ public struct ParseEncoder {
     internal func encode(_ value: ParseType, collectChildren: Bool,
                          objectsSavedBeforeThisOne: [NSDictionary: PointerType]?,
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [ParseType]) {
-        let skippedKeys = SkippedKeys.object.use()
-        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.object.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
         }
