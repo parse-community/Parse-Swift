@@ -51,8 +51,6 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
 // MARK: ParseEncoder
 public struct ParseEncoder {
     let dateEncodingStrategy: AnyCodable.DateEncodingStrategy?
-    let jsonEncoder: JSONEncoder
-    //var skippedKeys: SkippedKeys
 
     public enum SkippedKeys {
         case object
@@ -76,14 +74,9 @@ public struct ParseEncoder {
     }
 
     init(
-        dateEncodingStrategy: AnyCodable.DateEncodingStrategy? = nil,
-        jsonEncoder: JSONEncoder = JSONEncoder()
+        dateEncodingStrategy: AnyCodable.DateEncodingStrategy? = nil
     ) {
         self.dateEncodingStrategy = dateEncodingStrategy
-        self.jsonEncoder = jsonEncoder
-        if let dateEncodingStrategy = dateEncodingStrategy {
-            self.jsonEncoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
-        }
     }
 
     public func encode<T: ParseType>(_ value: T, skipKeys: SkippedKeys) throws -> Data {

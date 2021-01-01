@@ -44,18 +44,6 @@ class ParseEncoderTests: XCTestCase {
         let phoneNumbers: [String]
     }
 
-    func parseEncoding<T: ParseType>(for object: T) -> Data {
-        let encoder = ParseEncoder()
-        encoder.jsonEncoder.outputFormatting = .sortedKeys
-
-        guard let encoding = try? encoder.encode(object, skipKeys: .object) else {
-            XCTFail("Couldn't get a Parse encoding.")
-            return Data()
-        }
-
-        return encoding
-    }
-
     func referenceEncoding<T: Encodable>(for object: T) -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .sortedKeys
@@ -67,35 +55,6 @@ class ParseEncoderTests: XCTestCase {
 
         return encoding
     }
-/*
-    func test_encodingScalarValue() {
-        let encoded = parseEncoding(for: ["<root>": 5])
-        let reference = referenceEncoding(for: ["<root>": 5])
-        XCTAssertEqual(encoded, reference)
-    }
-
-    func test_encodingComplexValue() {
-        let value = Person(
-            addresses: [
-                "home": Address(street: "Parse St.", city: "San Francisco"),
-                "work": Address(street: "Server Ave.", city: "Seattle")
-            ],
-            age: 21,
-            name: Name(first: "Parse", last: "User"),
-            nicknames: [
-                Name(first: "Swift", last: "Developer"),
-                Name(first: "iOS", last: "Engineer")
-            ],
-            phoneNumbers: [
-                "1-800-PARSE",
-                "1-999-SWIFT"
-            ]
-        )
-
-        let encoded = parseEncoding(for: value)
-        let reference = referenceEncoding(for: value)
-        XCTAssertEqual(encoded.count, reference.count)
-    }*/
 
     func testNestedContatiner() throws {
         var newACL = ParseACL()

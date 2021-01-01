@@ -27,7 +27,7 @@ extension ParseCoding {
         return decoder
     }
 
-    static func parseEncoder(skipKeys: Bool = true) -> ParseEncoder {
+    static func parseEncoder() -> ParseEncoder {
         ParseEncoder(
             dateEncodingStrategy: parseDateEncodingStrategy
         )
