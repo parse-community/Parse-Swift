@@ -278,7 +278,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
             }
         } else {
             var mutableValue = value
-            let uuid = mutableValue.localUUID
+            let uuid = mutableValue.establishedLocalUUID
             if self.collectChildren {
                 if let updatedFile = self.filesSavedBeforeThisOne?[uuid] {
                     valueToEncode = updatedFile

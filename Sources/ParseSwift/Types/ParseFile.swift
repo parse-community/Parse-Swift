@@ -15,7 +15,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
             && data == nil
     }
 
-    public var __localUUID: UUID? // swiftlint:disable:this identifier_name
+    public var localUUID: UUID?
 
     /**
       The name of the file.
@@ -80,7 +80,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        _ = self.localUUID //Need to ensure this creates a uuid
+        _ = self.establishedLocalUUID //Need to ensure this creates a uuid
     }
 
     /**
@@ -106,7 +106,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        _ = self.localUUID //Need to ensure this creates a uuid
+        _ = self.establishedLocalUUID //Need to ensure this creates a uuid
     }
 
     /**
@@ -132,7 +132,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        _ = self.localUUID //Need to ensure this creates a uuid
+        _ = self.establishedLocalUUID //Need to ensure this creates a uuid
     }
 
     enum CodingKeys: String, CodingKey {

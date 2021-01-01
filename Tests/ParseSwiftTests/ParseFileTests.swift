@@ -141,8 +141,8 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         guard let sampleData = "Hello World".data(using: .utf8) else {
             throw ParseError(code: .unknownError, message: "Should have converted to data")
         }
-        var parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
-        let localUUID = parseFile.__localUUID
+        let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
+        let localUUID = parseFile.localUUID
         XCTAssertNotNil(localUUID)
         XCTAssertEqual(localUUID,
                        parseFile.localUUID,
@@ -171,8 +171,8 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         parseFile2.url = nil
         XCTAssertNotEqual(parseFile1, parseFile2, "no urls, but localUUIDs shoud be different")
         let uuid = UUID()
-        parseFile1.__localUUID = uuid
-        parseFile2.__localUUID = uuid
+        parseFile1.localUUID = uuid
+        parseFile2.localUUID = uuid
         XCTAssertEqual(parseFile1, parseFile2, "no urls, but localUUIDs shoud be the same")
     }
 

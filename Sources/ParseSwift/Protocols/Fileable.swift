@@ -19,13 +19,23 @@ extension Fileable {
         return url != nil
     }
 
-    // Equatable
+    mutating func hash(into hasher: inout Hasher) {
+        if let url = url {
+            hasher.combine(url)
+        } else {
+            hasher.combine(self.establishedLocalUUID)
+        }
+    }
+
     public static func == (lhs: Self, rhs: Self) -> Bool {
         guard let lURL = lhs.url,
               let rURL = rhs.url else {
-            var lhs = lhs
-            var rhs = rhs
-            return lhs.localUUID == rhs.localUUID
+            guard let lhsUUID = lhs.localUUID,
+                  let rhsUUID = rhs.localUUID else {
+                //Can only compare objects that have a localUUID
+                return false
+            }
+            return lhsUUID == rhsUUID
         }
         return lURL == rURL
     }
