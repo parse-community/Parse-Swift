@@ -9,6 +9,6 @@ coverage:
     changes: false
     project:
       default:
-        target: 77
+        target: 76
 comment:
   require_changes: true
