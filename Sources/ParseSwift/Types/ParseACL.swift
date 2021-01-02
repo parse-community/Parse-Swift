@@ -16,7 +16,6 @@ import Foundation
  particular set of users could write to that object.
 */
 public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
-    public var localUUID: UUID?
     private static let publicScope = "*"
     private var acl: [String: [Access: Bool]]?
 

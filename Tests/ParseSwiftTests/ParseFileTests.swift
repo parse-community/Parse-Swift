@@ -378,7 +378,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         try sampleData.write(to: tempFilePath)
 
-        let parseFile = ParseFile(name: "sampleData.data")
+        let parseFile = ParseFile(name: "sampleData.data", localURL: tempFilePath)
 
         // swiftlint:disable:next line_length
         guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {
@@ -410,7 +410,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         try sampleData.write(to: tempFilePath)
 
-        let parseFile = ParseFile(name: "sampleData.data")
+        let parseFile = ParseFile(name: "sampleData.data", localURL: tempFilePath)
 
         // swiftlint:disable:next line_length
         guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {
@@ -446,7 +446,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         try sampleData.write(to: tempFilePath)
 
-        let parseFile = ParseFile(name: "sampleData.data")
+        let parseFile = ParseFile(name: "sampleData.data", localURL: tempFilePath)
 
         // swiftlint:disable:next line_length
         guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {
@@ -543,7 +543,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         try sampleData.write(to: tempFilePath)
 
-        let parseFile = ParseFile(name: "sampleData.data")
+        let parseFile = ParseFile(name: "sampleData.data", localURL: tempFilePath)
 
         // swiftlint:disable:next line_length
         guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_sampleData.txt") else {

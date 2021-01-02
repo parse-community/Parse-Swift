@@ -24,11 +24,11 @@ import Foundation
  and relying on that for `Equatable` and `Hashable`, otherwise it's possible you will get "circular dependency errors"
  depending on your implementation.
 */
-public protocol ParseObject: LocallyIdentifiable,
-                             Objectable,
+public protocol ParseObject: Objectable,
                              Fetchable,
                              Savable,
                              Deletable,
+                             Equatable,
                              CustomDebugStringConvertible {}
 
 // MARK: Default Implementations
@@ -66,7 +66,7 @@ public extension Sequence where Element: ParseObject {
      - throws: `ParseError`
     */
     func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
-        var childObjects = [NSDictionary: PointerType]()
+        var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
 
@@ -130,7 +130,7 @@ public extension Sequence where Element: ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        var childObjects = [NSDictionary: PointerType]()
+        var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
 
@@ -337,7 +337,7 @@ public extension Sequence where Element: ParseObject {
     */
     func saveAll(options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         let commands = try map { try $0.saveCommand() }
-        return try API.Command<Self.Element, BaseObjectable>
+        return try API.Command<Self.Element, PointerType>
                 .batch(commands: commands)
                 .execute(options: options)
     }
@@ -431,7 +431,7 @@ extension ParseObject {
      - returns: Returns saved `ParseObject`.
     */
     public func save(options: API.Options = []) throws -> Self {
-        var childObjects: [NSDictionary: PointerType]?
+        var childObjects: [String: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
         let group = DispatchGroup()
@@ -483,14 +483,14 @@ extension ParseObject {
 
     // swiftlint:disable:next function_body_length
     internal func ensureDeepSave(options: API.Options = [],
-                                 completion: @escaping ([NSDictionary: PointerType],
+                                 completion: @escaping ([String: PointerType],
                                                         [UUID: ParseFile], ParseError?) -> Void) {
 
         let queue = DispatchQueue(label: "com.parse.deepSave", qos: .default,
                                   attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
 
         queue.sync {
-            var objectsFinishedSaving = [NSDictionary: PointerType]()
+            var objectsFinishedSaving = [String: PointerType]()
             var filesFinishedSaving = [UUID: ParseFile]()
 
             do {
@@ -502,7 +502,7 @@ extension ParseObject {
                 var waitingToBeSaved = object.unsavedChildren
 
                 while waitingToBeSaved.count > 0 {
-                    var savableObjects = [Objectable]()
+                    var savableObjects = [Encodable]()
                     var savableFiles = [ParseFile]()
                     var nextBatch = [ParseType]()
                     try waitingToBeSaved.forEach { parseType in
@@ -524,7 +524,7 @@ extension ParseObject {
                                 savableObjects.append(parseObject)
                             } else {
                                 //Else this ParseObject needs to wait until it's children are saved
-                                nextBatch.append(parseType)
+                                nextBatch.append(parseObject)
                             }
                         }
                     }
@@ -539,15 +539,19 @@ extension ParseObject {
                     }
 
                     //Currently, batch isn't working for Encodable
-                    //Self.saveAll(encodableObjects: savableObjects)
+                    /*if let parseTypes = savableObjects as? [ParseType] {
+                        let savedChildObjects = try self.saveAll(options: options, objects: parseTypes)
+                    }*/
                     try savableObjects.forEach {
-                        let hash = BaseObjectable.createHash($0)
-                        objectsFinishedSaving[hash] = try $0.save(options: options)
+                        let hash = try BaseObjectable.createHash($0)
+                        if let parseType = $0 as? ParseType {
+                            objectsFinishedSaving[hash] = try parseType.save(options: options)
+                        }
                     }
 
                     try savableFiles.forEach {
-                        var file = $0
-                        filesFinishedSaving[file.establishedLocalUUID] = try $0.save(options: options)
+                        let file = $0
+                        filesFinishedSaving[file.localUUID] = try $0.save(options: options)
                     }
                 }
                 completion(objectsFinishedSaving, filesFinishedSaving, nil)
@@ -574,10 +578,9 @@ internal extension ParseType {
         try API.Command<Self, PointerType>.saveCommand(self)
     }
 /*
-    static func saveAll<T: Encodable>(options: API.Options = [],
-                               encodableObjects: [T]) throws -> [(Result<PointerType, ParseError>)] {
-        let commands = try encodableObjects.map { try $0.saveCommand() }
-        return try API.Command<T, BaseObjectable>
+    func saveAll<T: ParseType>(options: API.Options = [], objects: [T]) throws -> [(Result<PointerType, ParseError>)] {
+        let commands = try objects.map { try API.Command<T, PointerType>.saveCommand($0) }
+        return try API.Command<T, PointerType>
                 .batch(commands: commands)
                 .execute(options: options)
     }*/

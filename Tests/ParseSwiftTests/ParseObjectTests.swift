@@ -12,8 +12,6 @@ import XCTest
 
 class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct Level: ParseObject {
-        var localUUID: UUID?
-
         var objectId: String?
 
         var createdAt: Date?
@@ -26,8 +24,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     struct GameScore: ParseObject {
-        var localUUID: UUID?
-
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -56,7 +52,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct Game: ParseObject {
         //: Those are required for Object
-        var localUUID: UUID?
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
@@ -76,7 +71,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct Game2: ParseObject {
         //: Those are required for Object
-        var localUUID: UUID?
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
@@ -90,7 +84,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     class GameScoreClass: ParseObject {
 
         //: Those are required for Object
-        var localUUID: UUID?
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
@@ -145,7 +138,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     class GameClass: ParseObject {
 
         //: Those are required for Object
-        var localUUID: UUID?
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
@@ -1167,12 +1159,12 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var game = Game(score: score)
         game.objectId = "nice"
 
-        var scoreOnServer = score
-        scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
-        scoreOnServer.ACL = nil
-        scoreOnServer.objectId = "yarr"
-        let pointer = scoreOnServer.toPointer()
+        var levelOnServer = score
+        levelOnServer.createdAt = Date()
+        levelOnServer.updatedAt = Date()
+        levelOnServer.ACL = nil
+        levelOnServer.objectId = "yarr"
+        let pointer = levelOnServer.toPointer()
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(pointer)

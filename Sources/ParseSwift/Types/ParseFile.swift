@@ -15,7 +15,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
             && data == nil
     }
 
-    public var localUUID: UUID?
+    public var localUUID: UUID
 
     /**
       The name of the file.
@@ -71,7 +71,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
      For more, see details on the
      [S3 adapter](https://github.com/parse-community/parse-server-s3-adapter#adding-metadata-and-tags)
      */
-    public init(name: String = "file", data: Data? = nil, mimeType: String? = nil,
+    public init(name: String = "file", data: Data, mimeType: String? = nil,
                 metadata: [String: String]? = nil, tags: [String: String]? = nil,
                 options: API.Options = []) {
         self.name = name
@@ -80,7 +80,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        _ = self.establishedLocalUUID //Need to ensure this creates a uuid
+        self.localUUID = UUID()
     }
 
     /**
@@ -106,7 +106,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        _ = self.establishedLocalUUID //Need to ensure this creates a uuid
+        self.localUUID = UUID()
     }
 
     /**
@@ -132,13 +132,22 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        _ = self.establishedLocalUUID //Need to ensure this creates a uuid
+        self.localUUID = UUID()
     }
 
     enum CodingKeys: String, CodingKey {
         case url
         case name
         case __type // swiftlint:disable:this identifier_name
+    }
+}
+
+extension ParseFile {
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        url = try values.decode(URL.self, forKey: .url)
+        name = try values.decode(String.self, forKey: .name)
+        localUUID = UUID()
     }
 }
 

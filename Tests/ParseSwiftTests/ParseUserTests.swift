@@ -13,7 +13,6 @@ import XCTest
 class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
-        var localUUID: UUID?
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -30,7 +29,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     struct LoginSignupResponse: ParseUser {
-        var localUUID: UUID?
         var objectId: String?
         var createdAt: Date?
         var sessionToken: String

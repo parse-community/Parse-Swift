@@ -130,7 +130,6 @@ internal struct FileUploadResponse: Decodable {
         var file = file
         file.name = name
         file.url = url
-        _ = file.localUUID //Ensure file has a localUUID
         return file
     }
 }

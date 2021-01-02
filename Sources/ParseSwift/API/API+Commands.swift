@@ -51,7 +51,7 @@ internal extension API {
 
         // MARK: Synchronous Execution
         func executeStream(options: API.Options,
-                           childObjects: [NSDictionary: PointerType]? = nil,
+                           childObjects: [String: PointerType]? = nil,
                            childFiles: [UUID: ParseFile]? = nil,
                            uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                            stream: InputStream) throws {
@@ -78,7 +78,7 @@ internal extension API {
         }
 
         func execute(options: API.Options,
-                     childObjects: [NSDictionary: PointerType]? = nil,
+                     childObjects: [String: PointerType]? = nil,
                      childFiles: [UUID: ParseFile]? = nil,
                      uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                      downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) throws -> U {
@@ -106,7 +106,7 @@ internal extension API {
         // MARK: Asynchronous Execution
         // swiftlint:disable:next function_body_length cyclomatic_complexity
         func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
-                          childObjects: [NSDictionary: PointerType]? = nil,
+                          childObjects: [String: PointerType]? = nil,
                           childFiles: [UUID: ParseFile]? = nil,
                           uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                           downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
@@ -250,7 +250,7 @@ internal extension API {
 
         // MARK: URL Preperation
         func prepareURLRequest(options: API.Options,
-                               childObjects: [NSDictionary: PointerType]? = nil,
+                               childObjects: [String: PointerType]? = nil,
                                childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
             let headers = API.getHeaders(options: options)
@@ -347,7 +347,6 @@ internal extension API.Command {
             try FileManager.default.moveItem(at: tempFileLocation, to: fileLocation)
             var object = object
             object.localURL = fileLocation
-            _ = object.localUUID //Ensure downloaded file has a localUUID
             return object
         }
     }
@@ -540,9 +539,9 @@ extension API.Command where T: ParseObject {
 
 //This has been disabled, looking into getting it working in the future.
 //It's only needed for sending batches of childObjects which currently isn't being used.
-
+/*
 // MARK: Batch - Child Objects
-/*extension API.Command where T: ParseType {
+extension API.Command where T: ParseType {
 
     internal var data: Data? {
         guard let body = body else { return nil }

@@ -9,7 +9,6 @@
 import Foundation
 
 public struct ParseError: ParseType, Decodable, Swift.Error {
-    public var localUUID: UUID?
     public let code: Code
     public let message: String
 

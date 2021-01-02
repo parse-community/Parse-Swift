@@ -531,7 +531,7 @@ extension ParseUser {
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     public func save(options: API.Options = []) throws -> Self {
-        var childObjects: [NSDictionary: PointerType]?
+        var childObjects: [String: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
         let group = DispatchGroup()
@@ -690,7 +690,7 @@ public extension Sequence where Element: ParseUser {
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
-        var childObjects = [NSDictionary: PointerType]()
+        var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
         let users = map { $0 }
@@ -756,7 +756,7 @@ public extension Sequence where Element: ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        var childObjects = [NSDictionary: PointerType]()
+        var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
 
