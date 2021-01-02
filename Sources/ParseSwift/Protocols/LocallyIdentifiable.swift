@@ -9,16 +9,16 @@
 import Foundation
 
 public protocol LocallyIdentifiable: Encodable, Hashable {
-    var localUUID: UUID { get set }
+    var localId: UUID { get set }
 }
 
 extension LocallyIdentifiable {
 
     mutating func hash(into hasher: inout Hasher) {
-        hasher.combine(self.localUUID)
+        hasher.combine(self.localId)
     }
 
     static func == (lhs: Self, rhs: Self) -> Bool {
-        return lhs.localUUID == rhs.localUUID
+        return lhs.localId == rhs.localId
     }
 }

@@ -23,14 +23,14 @@ extension Fileable {
         if let url = url {
             hasher.combine(url)
         } else {
-            hasher.combine(self.localUUID)
+            hasher.combine(self.localId)
         }
     }
 
     public static func == (lhs: Self, rhs: Self) -> Bool {
         guard let lURL = lhs.url,
               let rURL = rhs.url else {
-            return lhs.localUUID == rhs.localUUID
+            return lhs.localId == rhs.localId
         }
         return lURL == rURL
     }

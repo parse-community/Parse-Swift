@@ -142,11 +142,11 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             throw ParseError(code: .unknownError, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
-        let localUUID = parseFile.localUUID
-        XCTAssertNotNil(localUUID)
-        XCTAssertEqual(localUUID,
-                       parseFile.localUUID,
-                       "localUUID should remain the same no matter how many times the getter is called")
+        let localId = parseFile.localId
+        XCTAssertNotNil(localId)
+        XCTAssertEqual(localId,
+                       parseFile.localId,
+                       "localId should remain the same no matter how many times the getter is called")
     }
 
     func testFileEquality() throws {
@@ -165,15 +165,15 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         parseFile2.url = url2
         var parseFile3 = ParseFile(name: "sampleData3.txt", data: sampleData)
         parseFile3.url = url1
-        XCTAssertNotEqual(parseFile1, parseFile2, "different urls, url takes precedence over localUUID")
+        XCTAssertNotEqual(parseFile1, parseFile2, "different urls, url takes precedence over localId")
         XCTAssertEqual(parseFile1, parseFile3, "same urls")
         parseFile1.url = nil
         parseFile2.url = nil
-        XCTAssertNotEqual(parseFile1, parseFile2, "no urls, but localUUIDs shoud be different")
+        XCTAssertNotEqual(parseFile1, parseFile2, "no urls, but localIds shoud be different")
         let uuid = UUID()
-        parseFile1.localUUID = uuid
-        parseFile2.localUUID = uuid
-        XCTAssertEqual(parseFile1, parseFile2, "no urls, but localUUIDs shoud be the same")
+        parseFile1.localId = uuid
+        parseFile2.localId = uuid
+        XCTAssertEqual(parseFile1, parseFile2, "no urls, but localIds shoud be the same")
     }
 
     func testSave() throws {

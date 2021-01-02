@@ -551,7 +551,7 @@ extension ParseObject {
 
                     try savableFiles.forEach {
                         let file = $0
-                        filesFinishedSaving[file.localUUID] = try $0.save(options: options)
+                        filesFinishedSaving[file.localId] = try $0.save(options: options)
                     }
                 }
                 completion(objectsFinishedSaving, filesFinishedSaving, nil)

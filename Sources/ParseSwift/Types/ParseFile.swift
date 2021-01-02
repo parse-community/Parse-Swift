@@ -15,7 +15,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
             && data == nil
     }
 
-    public var localUUID: UUID
+    public var localId: UUID
 
     /**
       The name of the file.
@@ -80,7 +80,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        self.localUUID = UUID()
+        self.localId = UUID()
     }
 
     /**
@@ -106,7 +106,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        self.localUUID = UUID()
+        self.localId = UUID()
     }
 
     /**
@@ -132,7 +132,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        self.localUUID = UUID()
+        self.localId = UUID()
     }
 
     enum CodingKeys: String, CodingKey {
@@ -147,7 +147,7 @@ extension ParseFile {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         url = try values.decode(URL.self, forKey: .url)
         name = try values.decode(String.self, forKey: .name)
-        localUUID = UUID()
+        localId = UUID()
     }
 }
 

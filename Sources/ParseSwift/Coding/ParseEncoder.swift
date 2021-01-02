@@ -296,13 +296,13 @@ private class _ParseEncoder: JSONEncoder, Encoder {
             }
         } else {
             if self.collectChildren {
-                if let updatedFile = self.filesSavedBeforeThisOne?[value.localUUID] {
+                if let updatedFile = self.filesSavedBeforeThisOne?[value.localId] {
                     valueToEncode = updatedFile
                 } else {
                     //New object needs to be saved before it can be stored
                     self.newObjects.append(value)
                 }
-            } else if let currentFile = self.filesSavedBeforeThisOne?[value.localUUID] {
+            } else if let currentFile = self.filesSavedBeforeThisOne?[value.localId] {
                 valueToEncode = currentFile
             } else if dictionary.count > 0 {
                 //Only top level objects can be saved without a pointer
