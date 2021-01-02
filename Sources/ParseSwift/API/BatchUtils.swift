@@ -30,3 +30,21 @@ internal struct BatchCommand<T, U>: ParseType where T: ParseType {
 internal struct BatchCommandNoBody<T, U>: Encodable where T: Encodable {
     let requests: [API.NonParseBodyCommand<T, U>]
 }
+
+struct BatchUtils {
+    static func splitArray<U>(_ array: [U], valuesPerSegment: Int) -> [[U]] {
+        if array.count < valuesPerSegment {
+            return [array]
+        }
+
+        var returnArray = [[U]]()
+        var index = 0
+        while index < array.count {
+            let length = Swift.min(array.count - index, valuesPerSegment)
+            let subArray = Array(array[index..<index+length])
+            returnArray.append(subArray)
+            index += length
+        }
+        return returnArray
+    }
+}

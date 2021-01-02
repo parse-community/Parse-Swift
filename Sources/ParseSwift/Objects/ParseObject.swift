@@ -59,13 +59,17 @@ public extension Sequence where Element: ParseObject {
 
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
-
+     - parameter batchLimit: The amount of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
     */
-    func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+    func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
+                 options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
@@ -109,27 +113,37 @@ public extension Sequence where Element: ParseObject {
             }
         }
 
+        var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = map { $0.saveCommand() }
-        return try API.Command<Self.Element, Self.Element>
-                .batch(commands: commands)
+        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+        try batches.forEach {
+            let currentBatch = try API.Command<Self.Element, Self.Element>
+                .batch(commands: $0)
                 .execute(options: options,
                          childObjects: childObjects,
                          childFiles: childFiles)
+            returnBatch.append(contentsOf: currentBatch)
+        }
+        return returnBatch
     }
 
     /**
      Saves a collection of objects all at once *asynchronously* and executes the completion block when done.
-
+     - parameter batchLimit: The amount of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
     */
-    func saveAll(
+    func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
+        batchLimit limit: Int? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
@@ -174,14 +188,31 @@ public extension Sequence where Element: ParseObject {
             }
         }
 
+        var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = map { $0.saveCommand() }
-        API.Command<Self.Element, Self.Element>
-                .batch(commands: commands)
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue,
-                              childObjects: childObjects,
-                              childFiles: childFiles,
-                              completion: completion)
+        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+        var completed = 0
+        for batch in batches {
+            API.Command<Self.Element, Self.Element>
+                    .batch(commands: batch)
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue,
+                                  childObjects: childObjects,
+                                  childFiles: childFiles) { results in
+                switch results {
+
+                case .success(let saved):
+                    returnBatch.append(contentsOf: saved)
+                    if completed == (batches.count - 1) {
+                        completion(.success(returnBatch))
+                    }
+                    completed += 1
+                case .failure(let error):
+                    completion(.failure(error))
+                    return
+                }
+            }
+        }
     }
 
     /**
@@ -265,7 +296,9 @@ public extension Sequence where Element: ParseObject {
 
     /**
      Deletes a collection of objects *synchronously* all at once and throws an error if necessary.
-
+     - parameter batchLimit: The amount of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
@@ -278,16 +311,26 @@ public extension Sequence where Element: ParseObject {
         instance, a connection failure in the middle of the delete).
      - throws: `ParseError`
     */
-    func deleteAll(options: API.Options = []) throws -> [ParseError?] {
+    func deleteAll(batchLimit limit: Int? = nil,
+                   options: API.Options = []) throws -> [ParseError?] {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        var returnBatch = [ParseError?]()
         let commands = try map { try $0.deleteCommand() }
-        return try API.Command<Self.Element, ParseError?>
-            .batch(commands: commands)
-            .execute(options: options)
+        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+        try batches.forEach {
+            let currentBatch = try API.Command<Self.Element, ParseError?>
+                .batch(commands: $0)
+                .execute(options: options)
+            returnBatch.append(contentsOf: currentBatch)
+        }
+        return returnBatch
     }
 
     /**
      Deletes a collection of objects all at once *asynchronously* and executes the completion block when done.
-
+     - parameter batchLimit: The amount of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -302,17 +345,36 @@ public extension Sequence where Element: ParseObject {
      instance, a connection failure in the middle of the delete).
     */
     func deleteAll(
+        batchLimit limit: Int? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[ParseError?], ParseError>) -> Void
     ) {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         do {
+            var returnBatch = [ParseError?]()
             let commands = try map({ try $0.deleteCommand() })
-            API.Command<Self.Element, ParseError?>
-                .batch(commands: commands)
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue,
-                              completion: completion)
+            let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+            var completed = 0
+            for batch in batches {
+                API.Command<Self.Element, ParseError?>
+                        .batch(commands: batch)
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue) { results in
+                    switch results {
+
+                    case .success(let saved):
+                        returnBatch.append(contentsOf: saved)
+                        if completed == (batches.count - 1) {
+                            completion(.success(returnBatch))
+                        }
+                        completed += 1
+                    case .failure(let error):
+                        completion(.failure(error))
+                        return
+                    }
+                }
+            }
         } catch {
             guard let parseError = error as? ParseError else {
                 completion(.failure(ParseError(code: .unknownError,
