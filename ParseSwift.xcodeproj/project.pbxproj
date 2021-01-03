@@ -17,14 +17,14 @@
 		4AB8B5051F254AE10070F682 /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
 		4AFDA7391F26DAF8002AE4FC /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		7003959525A10DFC0052CB31 /* LiveQueryResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003959425A10DFC0052CB31 /* LiveQueryResponses.swift */; };
-		7003959625A10DFC0052CB31 /* LiveQueryResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003959425A10DFC0052CB31 /* LiveQueryResponses.swift */; };
-		7003959725A10DFC0052CB31 /* LiveQueryResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003959425A10DFC0052CB31 /* LiveQueryResponses.swift */; };
-		7003959825A10DFC0052CB31 /* LiveQueryResponses.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003959425A10DFC0052CB31 /* LiveQueryResponses.swift */; };
-		700395A325A119430052CB31 /* LiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395A225A119430052CB31 /* LiveQuery.swift */; };
-		700395A425A119430052CB31 /* LiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395A225A119430052CB31 /* LiveQuery.swift */; };
-		700395A525A119430052CB31 /* LiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395A225A119430052CB31 /* LiveQuery.swift */; };
-		700395A625A119430052CB31 /* LiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395A225A119430052CB31 /* LiveQuery.swift */; };
+		7003959525A10DFC0052CB31 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003959425A10DFC0052CB31 /* Messages.swift */; };
+		7003959625A10DFC0052CB31 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003959425A10DFC0052CB31 /* Messages.swift */; };
+		7003959725A10DFC0052CB31 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003959425A10DFC0052CB31 /* Messages.swift */; };
+		7003959825A10DFC0052CB31 /* Messages.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003959425A10DFC0052CB31 /* Messages.swift */; };
+		700395A325A119430052CB31 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395A225A119430052CB31 /* Operations.swift */; };
+		700395A425A119430052CB31 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395A225A119430052CB31 /* Operations.swift */; };
+		700395A525A119430052CB31 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395A225A119430052CB31 /* Operations.swift */; };
+		700395A625A119430052CB31 /* Operations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395A225A119430052CB31 /* Operations.swift */; };
 		700395BA25A1470F0052CB31 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395B925A1470F0052CB31 /* Subscription.swift */; };
 		700395BB25A1470F0052CB31 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395B925A1470F0052CB31 /* Subscription.swift */; };
 		700395BC25A1470F0052CB31 /* Subscription.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395B925A1470F0052CB31 /* Subscription.swift */; };
@@ -33,10 +33,10 @@
 		700395D225A147BE0052CB31 /* SubscriptionHandlable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395D025A147BE0052CB31 /* SubscriptionHandlable.swift */; };
 		700395D325A147BE0052CB31 /* SubscriptionHandlable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395D025A147BE0052CB31 /* SubscriptionHandlable.swift */; };
 		700395D425A147BE0052CB31 /* SubscriptionHandlable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395D025A147BE0052CB31 /* SubscriptionHandlable.swift */; };
-		700395F225A171320052CB31 /* LiveQuery+Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395F125A171320052CB31 /* LiveQuery+Commands.swift */; };
-		700395F325A171320052CB31 /* LiveQuery+Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395F125A171320052CB31 /* LiveQuery+Commands.swift */; };
-		700395F425A171320052CB31 /* LiveQuery+Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395F125A171320052CB31 /* LiveQuery+Commands.swift */; };
-		700395F525A171320052CB31 /* LiveQuery+Commands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395F125A171320052CB31 /* LiveQuery+Commands.swift */; };
+		700395F225A171320052CB31 /* LiveQueryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395F125A171320052CB31 /* LiveQueryable.swift */; };
+		700395F325A171320052CB31 /* LiveQueryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395F125A171320052CB31 /* LiveQueryable.swift */; };
+		700395F425A171320052CB31 /* LiveQueryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395F125A171320052CB31 /* LiveQueryable.swift */; };
+		700395F525A171320052CB31 /* LiveQueryable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700395F125A171320052CB31 /* LiveQueryable.swift */; };
 		7003960925A184EF0052CB31 /* ParseLiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003960825A184EF0052CB31 /* ParseLiveQuery.swift */; };
 		7003960A25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003960825A184EF0052CB31 /* ParseLiveQuery.swift */; };
 		7003960B25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003960825A184EF0052CB31 /* ParseLiveQuery.swift */; };
@@ -338,11 +338,11 @@
 		4ACFC2E21F3CA21F0046F3A3 /* ParseSwift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = ParseSwift.playground; sourceTree = "<group>"; };
 		4AFDA7121F26D9A5002AE4FC /* ParseSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ParseSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AFDA7151F26D9A5002AE4FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7003959425A10DFC0052CB31 /* LiveQueryResponses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveQueryResponses.swift; sourceTree = "<group>"; };
-		700395A225A119430052CB31 /* LiveQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveQuery.swift; sourceTree = "<group>"; };
+		7003959425A10DFC0052CB31 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
+		700395A225A119430052CB31 /* Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
 		700395B925A1470F0052CB31 /* Subscription.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Subscription.swift; sourceTree = "<group>"; };
 		700395D025A147BE0052CB31 /* SubscriptionHandlable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionHandlable.swift; sourceTree = "<group>"; };
-		700395F125A171320052CB31 /* LiveQuery+Commands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LiveQuery+Commands.swift"; sourceTree = "<group>"; };
+		700395F125A171320052CB31 /* LiveQueryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveQueryable.swift; sourceTree = "<group>"; };
 		7003960825A184EF0052CB31 /* ParseLiveQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQuery.swift; sourceTree = "<group>"; };
 		70110D51250680140091CC1D /* ParseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		70110D562506CE890091CC1D /* BaseParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseParseInstallation.swift; sourceTree = "<group>"; };
@@ -622,6 +622,7 @@
 			isa = PBXGroup;
 			children = (
 				700395D025A147BE0052CB31 /* SubscriptionHandlable.swift */,
+				700395F125A171320052CB31 /* LiveQueryable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -666,12 +667,11 @@
 		70510AAA259EE23700FEA700 /* LiveQuery */ = {
 			isa = PBXGroup;
 			children = (
-				700395DE25A147C40052CB31 /* Protocols */,
 				70510AAB259EE25E00FEA700 /* LiveQuerySocket.swift */,
+				7003959425A10DFC0052CB31 /* Messages.swift */,
+				700395A225A119430052CB31 /* Operations.swift */,
 				7003960825A184EF0052CB31 /* ParseLiveQuery.swift */,
-				700395A225A119430052CB31 /* LiveQuery.swift */,
-				700395F125A171320052CB31 /* LiveQuery+Commands.swift */,
-				7003959425A10DFC0052CB31 /* LiveQueryResponses.swift */,
+				700395DE25A147C40052CB31 /* Protocols */,
 				700395B925A1470F0052CB31 /* Subscription.swift */,
 			);
 			path = LiveQuery;
@@ -1217,8 +1217,8 @@
 				70110D52250680140091CC1D /* ParseConstants.swift in Sources */,
 				F97B465224D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */,
 				F97B45D624D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
-				700395A325A119430052CB31 /* LiveQuery.swift in Sources */,
-				700395F225A171320052CB31 /* LiveQuery+Commands.swift in Sources */,
+				700395A325A119430052CB31 /* Operations.swift in Sources */,
+				700395F225A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45F224D9C6F200F4A88B /* Pointer.swift in Sources */,
 				70510AAC259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				F97B461E24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
@@ -1236,7 +1236,7 @@
 				F97B45E624D9C6F200F4A88B /* Query.swift in Sources */,
 				708D035225215F9B00646C70 /* Deletable.swift in Sources */,
 				F97B466424D9C88600F4A88B /* SecureStorage.swift in Sources */,
-				7003959525A10DFC0052CB31 /* LiveQueryResponses.swift in Sources */,
+				7003959525A10DFC0052CB31 /* Messages.swift in Sources */,
 				F97B462F24D9C74400F4A88B /* BatchUtils.swift in Sources */,
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
 				F97B45EA24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
@@ -1300,8 +1300,8 @@
 				70110D53250680140091CC1D /* ParseConstants.swift in Sources */,
 				F97B465324D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */,
 				F97B45D724D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
-				700395A425A119430052CB31 /* LiveQuery.swift in Sources */,
-				700395F325A171320052CB31 /* LiveQuery+Commands.swift in Sources */,
+				700395A425A119430052CB31 /* Operations.swift in Sources */,
+				700395F325A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45F324D9C6F200F4A88B /* Pointer.swift in Sources */,
 				70510AAD259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				F97B461F24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
@@ -1319,7 +1319,7 @@
 				F97B45E724D9C6F200F4A88B /* Query.swift in Sources */,
 				708D035325215F9B00646C70 /* Deletable.swift in Sources */,
 				F97B466524D9C88600F4A88B /* SecureStorage.swift in Sources */,
-				7003959625A10DFC0052CB31 /* LiveQueryResponses.swift in Sources */,
+				7003959625A10DFC0052CB31 /* Messages.swift in Sources */,
 				F97B463024D9C74400F4A88B /* BatchUtils.swift in Sources */,
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
 				F97B45EB24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
@@ -1418,8 +1418,8 @@
 				F97B45E124D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				F97B45E524D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				F97B465D24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
-				700395A625A119430052CB31 /* LiveQuery.swift in Sources */,
-				700395F525A171320052CB31 /* LiveQuery+Commands.swift in Sources */,
+				700395A625A119430052CB31 /* Operations.swift in Sources */,
+				700395F525A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FD24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70510AAF259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				F97B465124D9C78C00F4A88B /* AddOperation.swift in Sources */,
@@ -1437,7 +1437,7 @@
 				F97B466724D9C88600F4A88B /* SecureStorage.swift in Sources */,
 				708D035525215F9B00646C70 /* Deletable.swift in Sources */,
 				70110D55250680140091CC1D /* ParseConstants.swift in Sources */,
-				7003959825A10DFC0052CB31 /* LiveQueryResponses.swift in Sources */,
+				7003959825A10DFC0052CB31 /* Messages.swift in Sources */,
 				70BDA2B6250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B465924D9C78C00F4A88B /* RemoveOperation.swift in Sources */,
 				70110D5A2506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
@@ -1475,8 +1475,8 @@
 				F97B45E024D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				F97B45E424D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				F97B465C24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
-				700395A525A119430052CB31 /* LiveQuery.swift in Sources */,
-				700395F425A171320052CB31 /* LiveQuery+Commands.swift in Sources */,
+				700395A525A119430052CB31 /* Operations.swift in Sources */,
+				700395F425A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FC24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70510AAE259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				F97B465024D9C78B00F4A88B /* AddOperation.swift in Sources */,
@@ -1494,7 +1494,7 @@
 				F97B466624D9C88600F4A88B /* SecureStorage.swift in Sources */,
 				708D035425215F9B00646C70 /* Deletable.swift in Sources */,
 				70110D54250680140091CC1D /* ParseConstants.swift in Sources */,
-				7003959725A10DFC0052CB31 /* LiveQueryResponses.swift in Sources */,
+				7003959725A10DFC0052CB31 /* Messages.swift in Sources */,
 				70BDA2B5250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B465824D9C78C00F4A88B /* RemoveOperation.swift in Sources */,
 				70110D592506CE890091CC1D /* BaseParseInstallation.swift in Sources */,

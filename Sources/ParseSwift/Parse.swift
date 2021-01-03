@@ -7,6 +7,8 @@ internal struct ParseConfiguration {
     static var serverURL: URL!
     static var liveQuerysServerURL: URL!
     static var mountPath: String!
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    static var liveQuery: ParseLiveQuery!
     static var isTestingSDK = false //Enable this only for certain tests like ParseFile
 }
 
@@ -27,11 +29,16 @@ public func initialize(
     ParseConfiguration.mountPath = "/" + serverURL.pathComponents
                                             .filter { $0 != "/" }
                                             .joined(separator: "/")
-
     ParseStorage.shared.use(primitiveObjectStore ?? CodableInMemoryPrimitiveObjectStore())
     DispatchQueue.main.async {
         _ = BaseParseInstallation()
     }
+}
+
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public var liveQuery: ParseLiveQuery {
+    ParseConfiguration.liveQuery = ParseLiveQuery()
+    return ParseConfiguration.liveQuery
 }
 
 internal func setupForTesting() {
