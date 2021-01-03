@@ -496,6 +496,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     internal var readPreference: String?
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
+    internal var fields: [String]?
 
     /**
       An enum that determines the order to sort the results based on a given key.
@@ -663,6 +664,36 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
         return self
     }
 
+    /**
+     A list of fields to receive when receiving a `LiveQuerySocket`.
+     
+     Suppose the `ParseObject` Player contains three fields name, id and age.
+     If you are only interested in the change of the name field, you can set query.fields to "name".
+     In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
+     name field will be sent to the clients instead of the full Player `ParseObject`.
+     - warning: This is only for `LiveQuerySocket`.
+     - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
+     */
+    public func fields(_ keys: String...) -> Query<T> {
+        self.fields = keys
+        return self
+    }
+
+    /**
+     A list of fields to receive when receiving a `LiveQuerySocket`.
+     
+     Suppose the `ParseObject` Player contains three fields name, id and age.
+     If you are only interested in the change of the name field, you can set query.fields to "name".
+     In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
+     name field will be sent to the clients instead of the full Player `ParseObject`.
+     - warning: This is only for `LiveQuerySocket`.
+     - parameter keys: An array of fields to receive back instead of the whole `ParseObject`.
+     */
+    public func fields(_ keys: [String]) -> Query<T> {
+        self.fields = keys
+        return self
+    }
+    
     /**
       The className of a `ParseObject` to query.
     */

@@ -2,15 +2,14 @@
 //  ParseLiveQuery.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 12/31/20.
-//  Copyright © 2020 Parse Community. All rights reserved.
+//  Created by Corey Baker on 1/2/21.
+//  Copyright © 2021 Parse Community. All rights reserved.
 //
 
 import Foundation
-import Network
 
-@available(macOS 10.14, iOS 12.0, watchOS 5.0, tvOS 12.0, *)
-struct ParseLiveQuery {
-    init() {
-    }
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+class ParseLiveQuery: NSObject {
+    
 }
+
