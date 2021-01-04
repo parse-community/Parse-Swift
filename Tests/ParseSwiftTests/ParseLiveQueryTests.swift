@@ -54,7 +54,8 @@ class ParseLiveQueryTests: XCTestCase {
         if #available(iOS 13.0, *) {
             let query = GameScore.query("score" > 9)
             let subscription = Subscription(query: query)
-            let subscribed = try ParseSwift.liveQuery.subscribe(query, handler: subscription)
+            let liveQuery = ParseLiveQuery()
+            let subscribed = try liveQuery.subscribe(query, handler: subscription)
             let expectation1 = XCTestExpectation(description: "Fetch user1")
             subscribed.handleEvent { query, score in
                 print(query)

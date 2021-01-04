@@ -10,11 +10,11 @@ import Foundation
 
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public final class ParseLiveQuery {
-    private let requestIdGenerator: () -> RequestId
-    private var subscriptions = [SubscriptionRecord]()
-    private var pendingSubscriptionData = [RequestId: Data]()
+    let requestIdGenerator: () -> RequestId
+    var subscriptions = [SubscriptionRecord]()
+    var pendingSubscriptionData = [RequestId: Data]()
 
-    init() {
+    public init(server: URL? = nil) {
         // Simple incrementing generator
         var currentRequestId = 0
         requestIdGenerator = {
@@ -22,6 +22,10 @@ public final class ParseLiveQuery {
             return RequestId(value: currentRequestId)
         }
         URLSession.liveQuery.delegate = self
+    }
+
+    deinit {
+        URLSession.liveQuery.delegate = nil
     }
 }
 

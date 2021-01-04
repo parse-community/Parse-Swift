@@ -21,12 +21,25 @@ protocol LiveQuerySocketDelegate: AnyObject {
 
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 final class LiveQuerySocket: NSObject {
-    private var session: URLSession?
-    private var task: URLSessionWebSocketTask?
+    private var session: URLSession? {
+        willSet {
+            if newValue == nil {
+                task?.cancel()
+                task = nil
+            }
+        }
+    }
+    private var task: URLSessionWebSocketTask? {
+        willSet {
+            if newValue == nil {
+                isSocketEstablished = false
+            }
+        }
+    }
     var delegate: LiveQuerySocketDelegate? {
         willSet {
             if newValue != nil && isSocketEstablished {
-                try? connect { _ in }
+                try? connect(isUserWantsToConnect: true) { _ in }
             } else if newValue == nil {
                 diconnect()
             }
@@ -62,7 +75,14 @@ final class LiveQuerySocket: NSObject {
 
     override init() {
         super.init()
+        configureServerConnection()
+    }
 
+    func configureServerConnection() {
+        //Clean up task and session
+        session = nil
+
+        //Reconfigure
         if ParseConfiguration.liveQuerysServerURL == nil {
             ParseConfiguration.liveQuerysServerURL = ParseConfiguration.serverURL
         }
@@ -80,6 +100,10 @@ final class LiveQuerySocket: NSObject {
 
     func setupSocket() {
         if task != nil {
+            return
+        }
+        if session == nil {
+            configureServerConnection() //This will call setup socket after config is complete
             return
         }
         self.task = session?.webSocketTask(with: ParseConfiguration.liveQuerysServerURL!)
@@ -159,8 +183,7 @@ extension LiveQuerySocket {
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
     func diconnect() {
-        task?.cancel()
-        task = nil
+        session = nil
         isDisconnectedByUser = true
     }
 }

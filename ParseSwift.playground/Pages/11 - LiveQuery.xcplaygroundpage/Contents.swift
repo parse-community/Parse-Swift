@@ -28,10 +28,11 @@ struct GameScore: ParseObject {
     }
 }
 
-if #available(iOS 13.0, *) {
+if #available(iOS 13.0, macOS 10.15, *) {
     let query = GameScore.query("score" > 9)
     let subscription = Subscription(query: query)
-    let subscribed = try ParseSwift.liveQuery.subscribe(query, handler: subscription)
+    let liveQuery = ParseLiveQuery()
+    let subscribed = try liveQuery.subscribe(query, handler: subscription)
     subscribed.handleEvent { query, score in
         print(query)
         print(score)
