@@ -9,17 +9,6 @@
 import Foundation
 
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-protocol LiveQuerySocketDelegate: AnyObject {
-    func connected()
-    func receivedError(_ error: ParseError)
-    func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?)
-    func received(_ data: Data)
-    #if !os(watchOS)
-    func receivedMetrics(_ metrics: URLSessionTaskTransactionMetrics)
-    #endif
-}
-
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 final class LiveQuerySocket: NSObject {
     private var session: URLSession? {
         willSet {
@@ -131,6 +120,14 @@ extension LiveQuerySocket: URLSessionWebSocketDelegate {
                     didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
                     reason: Data?) {
         self.isSocketEstablished = false
+    }
+
+    func urlSession(_ session: URLSession,
+                    didReceive challenge: URLAuthenticationChallenge,
+                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        if session == self.session {
+            delegate?.receivedChallenge(challenge: challenge, completionHandler: completionHandler)
+        }
     }
 
     #if !os(watchOS)

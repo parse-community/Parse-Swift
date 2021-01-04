@@ -47,6 +47,14 @@
 		7003963B25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */; };
 		7003963C25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */; };
 		7003963D25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */; };
+		700396EA25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700396E925A3892D0052CB31 /* LiveQuerySocketDelegate.swift */; };
+		700396EB25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700396E925A3892D0052CB31 /* LiveQuerySocketDelegate.swift */; };
+		700396EC25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700396E925A3892D0052CB31 /* LiveQuerySocketDelegate.swift */; };
+		700396ED25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700396E925A3892D0052CB31 /* LiveQuerySocketDelegate.swift */; };
+		700396F825A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700396F725A394AE0052CB31 /* ParseLiveQueryDelegate.swift */; };
+		700396F925A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700396F725A394AE0052CB31 /* ParseLiveQueryDelegate.swift */; };
+		700396FA25A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700396F725A394AE0052CB31 /* ParseLiveQueryDelegate.swift */; };
+		700396FB25A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700396F725A394AE0052CB31 /* ParseLiveQueryDelegate.swift */; };
 		70110D52250680140091CC1D /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D51250680140091CC1D /* ParseConstants.swift */; };
 		70110D53250680140091CC1D /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D51250680140091CC1D /* ParseConstants.swift */; };
 		70110D54250680140091CC1D /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D51250680140091CC1D /* ParseConstants.swift */; };
@@ -367,6 +375,8 @@
 		700395F125A171320052CB31 /* LiveQueryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveQueryable.swift; sourceTree = "<group>"; };
 		7003960825A184EF0052CB31 /* ParseLiveQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQuery.swift; sourceTree = "<group>"; };
 		7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQueryTests.swift; sourceTree = "<group>"; };
+		700396E925A3892D0052CB31 /* LiveQuerySocketDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveQuerySocketDelegate.swift; sourceTree = "<group>"; };
+		700396F725A394AE0052CB31 /* ParseLiveQueryDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQueryDelegate.swift; sourceTree = "<group>"; };
 		70110D51250680140091CC1D /* ParseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		70110D562506CE890091CC1D /* BaseParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseParseInstallation.swift; sourceTree = "<group>"; };
 		70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallationTests.swift; sourceTree = "<group>"; };
@@ -654,6 +664,8 @@
 			isa = PBXGroup;
 			children = (
 				700395F125A171320052CB31 /* LiveQueryable.swift */,
+				700396E925A3892D0052CB31 /* LiveQuerySocketDelegate.swift */,
+				700396F725A394AE0052CB31 /* ParseLiveQueryDelegate.swift */,
 				700395D025A147BE0052CB31 /* SubscriptionHandlable.swift */,
 			);
 			path = Protocols;
@@ -1263,9 +1275,11 @@
 				F97B464A24D9C78B00F4A88B /* DeleteOperation.swift in Sources */,
 				70647E8E259E3375004C1004 /* LocallyIdentifiable.swift in Sources */,
 				F97B460624D9C6F200F4A88B /* ParseUser.swift in Sources */,
+				700396F825A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */,
 				F97B465A24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
 				7003960925A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
 				F97B45E224D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
+				700396EA25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
 				70572671259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462224D9C6F200F4A88B /* PrimitiveObjectStore.swift in Sources */,
 				F97B45E624D9C6F200F4A88B /* Query.swift in Sources */,
@@ -1352,9 +1366,11 @@
 				F97B464B24D9C78B00F4A88B /* DeleteOperation.swift in Sources */,
 				70647E8F259E3375004C1004 /* LocallyIdentifiable.swift in Sources */,
 				F97B460724D9C6F200F4A88B /* ParseUser.swift in Sources */,
+				700396F925A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */,
 				F97B465B24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
 				7003960A25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
 				F97B45E324D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
+				700396EB25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
 				70572672259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462324D9C6F200F4A88B /* PrimitiveObjectStore.swift in Sources */,
 				F97B45E724D9C6F200F4A88B /* Query.swift in Sources */,
@@ -1479,9 +1495,11 @@
 				F97B45F524D9C6F200F4A88B /* Pointer.swift in Sources */,
 				70647E91259E3375004C1004 /* LocallyIdentifiable.swift in Sources */,
 				F97B460924D9C6F200F4A88B /* ParseUser.swift in Sources */,
+				700396FB25A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */,
 				F97B463A24D9C74400F4A88B /* Responses.swift in Sources */,
 				7003960C25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
 				F97B45DD24D9C6F200F4A88B /* Extensions.swift in Sources */,
+				700396ED25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
 				70572674259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462124D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B466724D9C88600F4A88B /* SecureStorage.swift in Sources */,
@@ -1539,9 +1557,11 @@
 				F97B45F424D9C6F200F4A88B /* Pointer.swift in Sources */,
 				70647E90259E3375004C1004 /* LocallyIdentifiable.swift in Sources */,
 				F97B460824D9C6F200F4A88B /* ParseUser.swift in Sources */,
+				700396FA25A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */,
 				F97B463924D9C74400F4A88B /* Responses.swift in Sources */,
 				7003960B25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
 				F97B45DC24D9C6F200F4A88B /* Extensions.swift in Sources */,
+				700396EC25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
 				70572673259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462024D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B466624D9C88600F4A88B /* SecureStorage.swift in Sources */,

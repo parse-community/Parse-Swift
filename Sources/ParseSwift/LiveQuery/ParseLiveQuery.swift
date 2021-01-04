@@ -9,10 +9,11 @@
 import Foundation
 
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public final class ParseLiveQuery {
+public final class ParseLiveQuery: NSObject {
     let requestIdGenerator: () -> RequestId
     var subscriptions = [SubscriptionRecord]()
     var pendingSubscriptionData = [RequestId: Data]()
+    public weak var delegate: ParseLiveQueryDelegate?
 
     public init(server: URL? = nil) {
         // Simple incrementing generator
@@ -21,17 +22,24 @@ public final class ParseLiveQuery {
             currentRequestId += 1
             return RequestId(value: currentRequestId)
         }
+        super.init()
         URLSession.liveQuery.delegate = self
     }
 
     deinit {
-        URLSession.liveQuery.delegate = nil
+        if let currentDelegate = URLSession.liveQuery.delegate as? ParseLiveQuery {
+            // Only remove delegate if in control of socket
+            if currentDelegate == self {
+                URLSession.liveQuery.delegate = nil
+            }
+        }
     }
 }
 
 // MARK: Delegate
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery: LiveQuerySocketDelegate {
+
     func connected() {
         //Try to send all pending data
         self.pendingSubscriptionData.forEach {(_, value) -> Void in
@@ -54,6 +62,16 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?) {
         print("\(String(describing: data)) \(String(describing: socketMessage))")
+    }
+
+    func receivedChallenge(challenge: URLAuthenticationChallenge,
+                           completionHandler: @escaping (URLSession.AuthChallengeDisposition,
+                                                         URLCredential?) -> Void) {
+        if let delegate = delegate {
+            delegate.receivedChallenge(challenge, completionHandler: completionHandler)
+        } else {
+            completionHandler(.performDefaultHandling, nil)
+        }
     }
 
     #if !os(watchOS)
