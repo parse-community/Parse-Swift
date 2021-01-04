@@ -49,7 +49,7 @@ class ParseLiveQueryTests: XCTestCase {
         try? KeychainStore.shared.deleteAll()
         try? ParseStorage.shared.deleteAll()
     }
-
+/*
     func testSubscribe() throws {
         if #available(iOS 13.0, *) {
             let query = GameScore.query("score" > 9)
@@ -65,5 +65,5 @@ class ParseLiveQueryTests: XCTestCase {
         } else {
             // Fallback on earlier versions
         }
-    }
+    }*/
 }
