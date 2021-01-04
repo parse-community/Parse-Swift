@@ -35,7 +35,7 @@ User.current?.save { results in
     case .success(let updatedUser):
         print("Successfully save myCustomKey to ParseServer: \(updatedUser)")
     case .failure(let error):
-        assertionFailure("Failed to update user: \(error)")
+        print("Failed to update user: \(error)")
     }
 }
 
@@ -44,7 +44,7 @@ do {
     try User.logout()
     print("Successfully logged out")
 } catch let error {
-    assertionFailure("Error logging out: \(error)")
+    print("Error logging out: \(error)")
 }
 
 /*: Login - asynchronously - Performs work on background
@@ -64,7 +64,7 @@ User.login(username: "hello", password: "world") { results in
         print("Successfully logged in as user: \(user)")
 
     case .failure(let error):
-        assertionFailure("Error logging in: \(error)")
+        print("Error logging in: \(error)")
     }
 }
 
@@ -73,7 +73,23 @@ do {
     try User.logout()
     print("Successfully logged out")
 } catch let error {
-    assertionFailure("Error logging out: \(error)")
+    print("Error logging out: \(error)")
+}
+
+//: Password Reset Request - synchronously
+do {
+    try User.verificationEmailRequest(email: "hello@parse.org")
+    print("Successfully requested verification email be sent")
+} catch let error {
+    print("Error requesting verification email be sent: \(error)")
+}
+
+//: Password Reset Request - synchronously
+do {
+    try User.passwordReset(email: "hello@parse.org")
+    print("Successfully requested password reset")
+} catch let error {
+    print("Error requesting password reset: \(error)")
 }
 
 //: Another way to sign up
@@ -88,7 +104,7 @@ newUser.signup { result in
         print("Parse signup successful: \(user)")
 
     case .failure(let error):
-        assertionFailure("Error logging in: \(error)")
+        print("Error logging in: \(error)")
     }
 }
 

@@ -130,7 +130,7 @@ class ACLTests: XCTestCase {
 
         var encoded: Data?
         do {
-            encoded = try ParseCoding.parseEncoder().encode(acl)
+            encoded = try ParseCoding.jsonEncoder().encode(acl)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -184,7 +184,7 @@ class ACLTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -227,7 +227,7 @@ class ACLTests: XCTestCase {
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil

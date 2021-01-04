@@ -90,7 +90,7 @@ score.save { result in
     }
 }
 
-/*: Files can also be saved from data. Below is how to do it synchrously, but async is similar to above
+/*: Files can also be saved from data. Below is how to do it synchronously, but async is similar to above
  Create a new ParseFile for your data
  */
 let sampleData = "Hello World".data(using: .utf8)!
@@ -116,7 +116,7 @@ do {
         print("The file is saved to your Parse Server at: \(url)")
         print("The full details of your data file are: \(myData)")
 
-        //: If you need to download your profilePicture
+        //: If you need to download your file
         let fetchedFile = try myData.fetch()
         if fetchedFile.localURL != nil {
             print("The file is now saved at: \(fetchedFile.localURL!)")

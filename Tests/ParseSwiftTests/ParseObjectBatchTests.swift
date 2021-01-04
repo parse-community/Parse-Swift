@@ -71,11 +71,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
+           encoded = try scoreOnServer.getJSONEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
+           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -87,6 +87,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         do {
+
             let saved = try [score, score2].saveAll()
 
             XCTAssertEqual(saved.count, 2)
@@ -203,7 +204,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode([scoreOnServer, scoreOnServer2])
+                let encoded = try ParseCoding.jsonEncoder().encode([scoreOnServer, scoreOnServer2])
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -255,11 +256,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
+           encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
+           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -380,7 +381,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try scoreOnServer.getEncoder(skipKeys: false).encode([scoreOnServer, scoreOnServer2])
+                let encoded = try ParseCoding.jsonEncoder().encode([scoreOnServer, scoreOnServer2])
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -430,11 +431,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
+           encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
+           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -685,11 +686,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
+           encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
+           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -726,11 +727,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
+           encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
+           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -896,11 +897,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
+           encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
+           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -941,11 +942,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
+           encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
+           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -980,11 +981,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let response = QueryResponse<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
+           encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
+           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -1155,11 +1156,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let response = QueryResponse<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
+           encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
+           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -1195,11 +1196,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let response = QueryResponse<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
         let encoded: Data!
         do {
-           encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(response)
+           encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer2)
+           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
@@ -1214,13 +1215,12 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAll() {
-        let score = GameScore(score: 10)
         let error: ParseError? = nil
         let response = [error]
 
         let encoded: Data!
         do {
-           encoded = try score.getEncoder(skipKeys: false).encode(response)
+           encoded = try ParseCoding.jsonEncoder().encode(response)
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
             return
@@ -1248,12 +1248,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAllError() {
-        let score = GameScore(score: 10)
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
         let response = [parseError]
         let encoded: Data!
         do {
-           encoded = try score.getEncoder(skipKeys: false).encode(response)
+            encoded = try ParseCoding.jsonEncoder().encode(response)
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
             return
@@ -1313,12 +1312,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAllAsyncMainQueue() {
-        let score = GameScore(score: 10)
         let error: ParseError? = nil
         let response = [error]
 
         do {
-            let encoded = try score.getEncoder(skipKeys: false).encode(response)
+            let encoded = try ParseCoding.jsonEncoder().encode(response)
             MockURLProtocol.mockRequests { _ in
                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             }
@@ -1363,13 +1361,12 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAllAsyncMainQueueError() {
-        let score = GameScore(score: 10)
 
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
         let response = [parseError]
 
         do {
-            let encoded = try score.getEncoder(skipKeys: false).encode(response)
+            let encoded = try ParseCoding.jsonEncoder().encode(response)
             MockURLProtocol.mockRequests { _ in
                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             }

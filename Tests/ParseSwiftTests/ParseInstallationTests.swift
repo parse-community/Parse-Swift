@@ -108,7 +108,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -304,7 +304,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         let encoded: Data!
         do {
-            encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
         } catch {
@@ -429,11 +429,11 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         installationOnServer.updatedAt = Date()
         let encoded: Data!
         do {
-            let encodedOriginal = try installation.getEncoder(skipKeys: false).encode(installation)
+            let encodedOriginal = try ParseCoding.jsonEncoder().encode(installation)
             //Get dates in correct format from ParseDecoding strategy
             installation = try installation.getDecoder().decode(Installation.self, from: encodedOriginal)
 
-            encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
         } catch {
@@ -445,6 +445,25 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
 
         self.updateAsync(installation: installation, installationOnServer: installationOnServer, callbackQueue: .main)
+    }
+
+    func testFetchCommand() {
+        var installation = Installation()
+        let objectId = "yarr"
+        installation.objectId = objectId
+        do {
+            let command = try installation.fetchCommand()
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
+            XCTAssertEqual(command.method, API.Method.GET)
+            XCTAssertNil(command.params)
+            XCTAssertNil(command.body)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        let installation2 = Installation()
+        XCTAssertThrowsError(try installation2.fetchCommand())
     }
 
     func testFetchUpdatedCurrentInstallation() { // swiftlint:disable:this function_body_length
@@ -467,7 +486,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
                 //Get dates in correct format from ParseDecoding strategy
                 installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
             } catch {
@@ -545,7 +564,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
                 //Get dates in correct format from ParseDecoding strategy
                 installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
             } catch {
@@ -606,6 +625,25 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    func testDeleteCommand() {
+        var installation = Installation()
+        let objectId = "yarr"
+        installation.objectId = objectId
+        do {
+            let command = try installation.deleteCommand()
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
+            XCTAssertEqual(command.method, API.Method.DELETE)
+            XCTAssertNil(command.params)
+            XCTAssertNil(command.body)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        let installation2 = Installation()
+        XCTAssertThrowsError(try installation2.deleteCommand())
+    }
+
     func testDelete() {
         testUpdate()
         let expectation1 = XCTestExpectation(description: "Delete installation1")
@@ -650,7 +688,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installationOnServer.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
                 //Get dates in correct format from ParseDecoding strategy
                 installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
             } catch {
@@ -690,9 +728,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(installation)
                 installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -776,9 +814,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(installation)
                 installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -846,6 +884,29 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    func testSaveCommand() {
+        let installation = Installation()
+        let command = installation.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/installations")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+    }
+
+    func testUpdateCommand() {
+        var installation = Installation()
+        let objectId = "yarr"
+        installation.objectId = objectId
+
+        let command = installation.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+    }
+
     // swiftlint:disable:next function_body_length
     func testSaveAll() {
         testUpdate()
@@ -866,9 +927,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(installation)
                 installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -952,9 +1013,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try installation.getEncoder(skipKeys: false).encode(installation)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(installation)
                 installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -1040,7 +1101,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
                 expectation1.fulfill()
@@ -1083,7 +1144,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             let encoded: Data!
             do {
-                encoded = try installation.getEncoder(skipKeys: false).encode(installationOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
                 expectation1.fulfill()

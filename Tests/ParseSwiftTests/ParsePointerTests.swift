@@ -71,7 +71,7 @@ class ParsePointerTests: XCTestCase {
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -195,7 +195,7 @@ class ParsePointerTests: XCTestCase {
 
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -224,7 +224,7 @@ class ParsePointerTests: XCTestCase {
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder(skipKeys: false).encode(scoreOnServer)
+            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {

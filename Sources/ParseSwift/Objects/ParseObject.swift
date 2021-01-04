@@ -24,7 +24,12 @@ import Foundation
  and relying on that for `Equatable` and `Hashable`, otherwise it's possible you will get "circular dependency errors"
  depending on your implementation.
 */
-public protocol ParseObject: Objectable, Fetchable, Savable, Deletable, Hashable, CustomDebugStringConvertible {}
+public protocol ParseObject: Objectable,
+                             Fetchable,
+                             Savable,
+                             Deletable,
+                             Equatable,
+                             CustomDebugStringConvertible {}
 
 // MARK: Default Implementations
 extension ParseObject {
@@ -54,42 +59,166 @@ public extension Sequence where Element: ParseObject {
 
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
-
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
     */
-    func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+    func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
+                 options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        var childObjects = [String: PointerType]()
+        var childFiles = [UUID: ParseFile]()
+        var error: ParseError?
+
+        let objects = map { $0 }
+        for object in objects {
+            let group = DispatchGroup()
+            group.enter()
+            object.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                //If an error occurs, everything should be skipped
+                if parseError != nil {
+                    error = parseError
+                }
+                savedChildObjects.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childObjects[key] == nil {
+                        childObjects[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                savedChildFiles.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childFiles[key] == nil {
+                        childFiles[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                group.leave()
+            }
+            group.wait()
+            if let error = error {
+                throw error
+            }
+        }
+
+        var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = map { $0.saveCommand() }
-        return try API.Command<Self.Element, Self.Element>
-                .batch(commands: commands)
-                .execute(options: options)
+        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+        try batches.forEach {
+            let currentBatch = try API.Command<Self.Element, Self.Element>
+                .batch(commands: $0)
+                .execute(options: options,
+                         childObjects: childObjects,
+                         childFiles: childFiles)
+            returnBatch.append(contentsOf: currentBatch)
+        }
+        return returnBatch
     }
 
     /**
      Saves a collection of objects all at once *asynchronously* and executes the completion block when done.
-
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
     */
-    func saveAll(
+    func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
+        batchLimit limit: Int? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        var childObjects = [String: PointerType]()
+        var childFiles = [UUID: ParseFile]()
+        var error: ParseError?
+
+        let objects = map { $0 }
+        for object in objects {
+            let group = DispatchGroup()
+            group.enter()
+            object.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                //If an error occurs, everything should be skipped
+                if parseError != nil {
+                    error = parseError
+                }
+                savedChildObjects.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childObjects[key] == nil {
+                        childObjects[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                savedChildFiles.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childFiles[key] == nil {
+                        childFiles[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                group.leave()
+            }
+            group.wait()
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+        }
+
+        var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = map { $0.saveCommand() }
-        API.Command<Self.Element, Self.Element>
-                .batch(commands: commands)
-                .executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+        var completed = 0
+        for batch in batches {
+            API.Command<Self.Element, Self.Element>
+                    .batch(commands: batch)
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue,
+                                  childObjects: childObjects,
+                                  childFiles: childFiles) { results in
+                switch results {
+
+                case .success(let saved):
+                    returnBatch.append(contentsOf: saved)
+                    if completed == (batches.count - 1) {
+                        completion(.success(returnBatch))
+                    }
+                    completed += 1
+                case .failure(let error):
+                    completion(.failure(error))
+                    return
+                }
+            }
+        }
     }
 
     /**
      Fetches a collection of objects *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to fetch objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: `ParseError`
@@ -123,7 +252,7 @@ public extension Sequence where Element: ParseObject {
     /**
      Fetches a collection of objects all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to fetch objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
@@ -167,8 +296,10 @@ public extension Sequence where Element: ParseObject {
 
     /**
      Deletes a collection of objects *synchronously* all at once and throws an error if necessary.
-
-     - parameter options: A set of options used to delete objects. Defaults to an empty set.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
         1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
@@ -180,17 +311,27 @@ public extension Sequence where Element: ParseObject {
         instance, a connection failure in the middle of the delete).
      - throws: `ParseError`
     */
-    func deleteAll(options: API.Options = []) throws -> [ParseError?] {
+    func deleteAll(batchLimit limit: Int? = nil,
+                   options: API.Options = []) throws -> [ParseError?] {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        var returnBatch = [ParseError?]()
         let commands = try map { try $0.deleteCommand() }
-        return try API.Command<Self.Element, ParseError?>
-            .batch(commands: commands)
-            .execute(options: options)
+        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+        try batches.forEach {
+            let currentBatch = try API.Command<Self.Element, ParseError?>
+                .batch(commands: $0)
+                .execute(options: options)
+            returnBatch.append(contentsOf: currentBatch)
+        }
+        return returnBatch
     }
 
     /**
      Deletes a collection of objects all at once *asynchronously* and executes the completion block when done.
-
-     - parameter options: A set of options used to delete objects. Defaults to an empty set.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[ParseError?], ParseError>)`.
@@ -204,17 +345,36 @@ public extension Sequence where Element: ParseObject {
      instance, a connection failure in the middle of the delete).
     */
     func deleteAll(
+        batchLimit limit: Int? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[ParseError?], ParseError>) -> Void
     ) {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         do {
+            var returnBatch = [ParseError?]()
             let commands = try map({ try $0.deleteCommand() })
-            API.Command<Self.Element, ParseError?>
-                .batch(commands: commands)
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue,
-                              completion: completion)
+            let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+            var completed = 0
+            for batch in batches {
+                API.Command<Self.Element, ParseError?>
+                        .batch(commands: batch)
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue) { results in
+                    switch results {
+
+                    case .success(let saved):
+                        returnBatch.append(contentsOf: saved)
+                        if completed == (batches.count - 1) {
+                            completion(.success(returnBatch))
+                        }
+                        completed += 1
+                    case .failure(let error):
+                        completion(.failure(error))
+                        return
+                    }
+                }
+            }
         } catch {
             guard let parseError = error as? ParseError else {
                 completion(.failure(ParseError(code: .unknownError,
@@ -227,28 +387,28 @@ public extension Sequence where Element: ParseObject {
 }
 
 // MARK: Batch Support
-internal extension Sequence where Element: Encodable {
+/*internal extension Sequence where Element: ParseType {
 
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
     */
     func saveAll(options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         let commands = try map { try $0.saveCommand() }
-        return try API.Command<Self.Element, BaseObjectable>
+        return try API.Command<Self.Element, PointerType>
                 .batch(commands: commands)
                 .execute(options: options)
     }
-}
+}*/
 
 // MARK: CustomDebugStringConvertible
 extension ParseObject {
     public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.parseEncoder(skipKeys: false).encode(self),
+        guard let descriptionData = try? ParseCoding.parseEncoder().encode(self, skipKeys: .none),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
                 return "\(className) ()"
         }
@@ -263,7 +423,7 @@ extension ParseObject {
     /**
      Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
     */
     public func fetch(options: API.Options = []) throws -> Self {
@@ -273,7 +433,7 @@ extension ParseObject {
     /**
      Fetches the `ParseObject` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -327,13 +487,13 @@ extension ParseObject {
     /**
      Saves the `ParseObject` *synchronously* and throws an error if there's an issue.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: A Error of type `ParseError`.
 
      - returns: Returns saved `ParseObject`.
     */
     public func save(options: API.Options = []) throws -> Self {
-        var childObjects: [NSDictionary: PointerType]?
+        var childObjects: [String: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
         let group = DispatchGroup()
@@ -356,7 +516,7 @@ extension ParseObject {
     /**
      Saves the `ParseObject` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -385,47 +545,48 @@ extension ParseObject {
 
     // swiftlint:disable:next function_body_length
     internal func ensureDeepSave(options: API.Options = [],
-                                 completion: @escaping ([NSDictionary: PointerType],
+                                 completion: @escaping ([String: PointerType],
                                                         [UUID: ParseFile], ParseError?) -> Void) {
 
         let queue = DispatchQueue(label: "com.parse.deepSave", qos: .default,
                                   attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
 
         queue.sync {
-            var objectsFinishedSaving = [NSDictionary: PointerType]()
+            var objectsFinishedSaving = [String: PointerType]()
             var filesFinishedSaving = [UUID: ParseFile]()
 
             do {
                 let object = try ParseCoding.parseEncoder()
-                    .encode(self, collectChildren: true,
-                            objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil)
+                    .encode(self,
+                            objectsSavedBeforeThisOne: nil,
+                            filesSavedBeforeThisOne: nil)
 
                 var waitingToBeSaved = object.unsavedChildren
 
                 while waitingToBeSaved.count > 0 {
                     var savableObjects = [Encodable]()
                     var savableFiles = [ParseFile]()
-                    var nextBatch = [Encodable]()
+                    var nextBatch = [ParseType]()
                     try waitingToBeSaved.forEach { parseType in
 
                         if let parseFile = parseType as? ParseFile {
                             //ParseFiles can be saved now
                             savableFiles.append(parseFile)
-                        } else {
+                        } else if let parseObject = parseType as? Objectable {
                             //This is a ParseObject
                             let waitingObjectInfo = try ParseCoding
                                 .parseEncoder()
-                                .encode(parseType,
+                                .encode(parseObject,
                                         collectChildren: true,
                                         objectsSavedBeforeThisOne: objectsFinishedSaving,
                                         filesSavedBeforeThisOne: filesFinishedSaving)
 
                             if waitingObjectInfo.unsavedChildren.count == 0 {
                                 //If this ParseObject has no additional children, it can be saved now
-                                savableObjects.append(parseType)
+                                savableObjects.append(parseObject)
                             } else {
                                 //Else this ParseObject needs to wait until it's children are saved
-                                nextBatch.append(parseType)
+                                nextBatch.append(parseObject)
                             }
                         }
                     }
@@ -440,15 +601,19 @@ extension ParseObject {
                     }
 
                     //Currently, batch isn't working for Encodable
-                    //savableObjects.saveAll(encodableObjects: savable)
+                    /*if let parseTypes = savableObjects as? [ParseType] {
+                        let savedChildObjects = try self.saveAll(options: options, objects: parseTypes)
+                    }*/
                     try savableObjects.forEach {
-                        let hash = BaseObjectable.createHash($0)
-                        objectsFinishedSaving[hash] = try $0.save(options: options)
+                        let hash = try BaseObjectable.createHash($0)
+                        if let parseType = $0 as? ParseType {
+                            objectsFinishedSaving[hash] = try parseType.save(options: options)
+                        }
                     }
 
                     try savableFiles.forEach {
-                        var file = $0
-                        filesFinishedSaving[file.localUUID] = try $0.save(options: options)
+                        let file = $0
+                        filesFinishedSaving[file.localId] = try $0.save(options: options)
                     }
                 }
                 completion(objectsFinishedSaving, filesFinishedSaving, nil)
@@ -466,7 +631,7 @@ extension ParseObject {
 }
 
 // MARK: Savable Encodable Version
-internal extension Encodable {
+internal extension ParseType {
     func save(options: API.Options = []) throws -> PointerType {
         try saveCommand().execute(options: options)
     }
@@ -474,14 +639,13 @@ internal extension Encodable {
     func saveCommand() throws -> API.Command<Self, PointerType> {
         try API.Command<Self, PointerType>.saveCommand(self)
     }
-
-    func saveAll<T: Encodable>(options: API.Options = [],
-                               encodableObjects: [T]) throws -> [(Result<PointerType, ParseError>)] {
-        let commands = try encodableObjects.map { try $0.saveCommand() }
-        return try API.Command<T, BaseObjectable>
+/*
+    func saveAll<T: ParseType>(options: API.Options = [], objects: [T]) throws -> [(Result<PointerType, ParseError>)] {
+        let commands = try objects.map { try API.Command<T, PointerType>.saveCommand($0) }
+        return try API.Command<T, PointerType>
                 .batch(commands: commands)
                 .execute(options: options)
-    }
+    }*/
 }
 
 // MARK: Deletable
@@ -489,7 +653,7 @@ extension ParseObject {
     /**
      Deletes the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
     */
     public func delete(options: API.Options = []) throws {
@@ -501,7 +665,7 @@ extension ParseObject {
     /**
      Deletes the `ParseObject` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save objects. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -529,7 +693,7 @@ extension ParseObject {
          }
     }
 
-    internal func deleteCommand() throws -> API.Command<NoBody, ParseError?> {
-        try API.Command<NoBody, ParseError?>.deleteCommand(self)
+    internal func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, ParseError?> {
+        try API.NonParseBodyCommand<NoBody, ParseError?>.deleteCommand(self)
     }
 }// swiftlint:disable:this file_length
