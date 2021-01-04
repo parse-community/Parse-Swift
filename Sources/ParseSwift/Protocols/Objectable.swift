@@ -8,7 +8,7 @@
 
 import Foundation
 
-public protocol Objectable: Codable {
+public protocol Objectable: ParseType, Decodable {
     /**
     The class name of the object.
     */
@@ -51,14 +51,9 @@ extension Objectable {
         return Self.className
     }
 
-    static func createHash(_ object: Encodable) -> NSDictionary {
-        let hash: NSDictionary = [ParseConstants.hashingKey: object]
-        return hash
-    }
-
-    internal func getUniqueObject() throws -> UniqueObject {
-        let encoded = try ParseCoding.parseEncoder(skipKeys: false).encode(self)
-        return try ParseCoding.jsonDecoder().decode(UniqueObject.self, from: encoded)
+    static func createHash(_ object: Encodable) throws -> String {
+        let encoded = try ParseCoding.parseEncoder().encode(object)
+        return ParseHash.md5HashFromData(encoded)
     }
 }
 
@@ -81,8 +76,16 @@ extension Objectable {
     }
 }
 
-internal struct UniqueObject: Hashable, Codable {
+internal struct UniqueObject: Encodable, Decodable, Hashable {
     let objectId: String
+
+    init?(target: Encodable) {
+        guard let objectable = target as? Objectable,
+              let objectId = objectable.objectId else {
+            return nil
+        }
+        self.objectId = objectId
+    }
 
     init?(target: Objectable) {
         if let objectId = target.objectId {

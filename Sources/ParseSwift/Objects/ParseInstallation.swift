@@ -84,6 +84,17 @@ public extension ParseInstallation {
     }
 }
 
+// MARK: Convenience
+extension ParseInstallation {
+    var endpoint: API.Endpoint {
+        if let objectId = objectId {
+            return .installation(objectId: objectId)
+        }
+
+        return .installations
+    }
+}
+
 // MARK: CurrentInstallationContainer
 struct CurrentInstallationContainer<T: ParseInstallation>: Codable {
     var currentInstallation: T?
@@ -314,7 +325,7 @@ extension ParseInstallation {
      Fetches the `ParseInstallation` *synchronously* with the current data from the server
      and sets an error if one occurs.
 
-     - parameter options: A set of options used to save installations. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
@@ -327,7 +338,7 @@ extension ParseInstallation {
     /**
      Fetches the `ParseInstallation` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save installations. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -352,6 +363,17 @@ extension ParseInstallation {
              completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
          }
     }
+
+    func fetchCommand() throws -> API.Command<Self, Self> {
+        guard isSaved else {
+            throw ParseError(code: .unknownError, message: "Cannot fetch an object without id")
+        }
+
+        return API.Command(method: .GET,
+                    path: endpoint) { (data) -> Self in
+            try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+        }
+    }
 }
 
 // MARK: Savable
@@ -360,13 +382,13 @@ extension ParseInstallation {
     /**
      Saves the `ParseInstallation` *synchronously* and throws an error if there's an issue.
 
-     - parameter options: A set of options used to save installations. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: A Error of type `ParseError`.
      - returns: Returns saved `ParseInstallation`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     public func save(options: API.Options = []) throws -> Self {
-        var childObjects: [NSDictionary: PointerType]?
+        var childObjects: [String: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
         let group = DispatchGroup()
@@ -394,7 +416,7 @@ extension ParseInstallation {
     /**
      Saves the `ParseInstallation` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save installations. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -421,6 +443,34 @@ extension ParseInstallation {
             completion(.failure(parseError))
         }
     }
+
+    func saveCommand() -> API.Command<Self, Self> {
+        if isSaved {
+            return updateCommand()
+        }
+        return createCommand()
+    }
+
+    // MARK: Saving ParseObjects - private
+    private func createCommand() -> API.Command<Self, Self> {
+        let mapper = { (data) -> Self in
+            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: self)
+        }
+        return API.Command<Self, Self>(method: .POST,
+                                 path: endpoint,
+                                 body: self,
+                                 mapper: mapper)
+    }
+
+    private func updateCommand() -> API.Command<Self, Self> {
+        let mapper = { (data) -> Self in
+            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
+        }
+        return API.Command<Self, Self>(method: .PUT,
+                                 path: endpoint,
+                                 body: self,
+                                 mapper: mapper)
+    }
 }
 
 // MARK: Deletable
@@ -429,7 +479,7 @@ extension ParseInstallation {
      Deletes the `ParseInstallation` *synchronously* with the current data from the server
      and sets an error if one occurs.
 
-     - parameter options: A set of options used to save installations. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
@@ -441,7 +491,7 @@ extension ParseInstallation {
     /**
      Deletes the `ParseInstallation` *asynchronously* and executes the given callback block.
 
-     - parameter options: A set of options used to save installations. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
@@ -470,6 +520,19 @@ extension ParseInstallation {
              completion(ParseError(code: .unknownError, message: error.localizedDescription))
          }
     }
+
+    func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, ParseError?> {
+        guard isSaved else {
+            throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
+        }
+
+        return API.NonParseBodyCommand<NoBody, ParseError?>(
+            method: .DELETE,
+            path: endpoint
+        ) { (data) -> ParseError? in
+            try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+        }
+    }
 }
 
 // MARK: Batch Support
@@ -477,55 +540,170 @@ public extension Sequence where Element: ParseInstallation {
 
     /**
      Saves a collection of installations *synchronously* all at once and throws an error if necessary.
-
-     - parameter options: A set of options used to save installations. Defaults to an empty set.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
-    func saveAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+    func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
+                 options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        var childObjects = [String: PointerType]()
+        var childFiles = [UUID: ParseFile]()
+        var error: ParseError?
+
+        let installations = map { $0 }
+        for installation in installations {
+            let group = DispatchGroup()
+            group.enter()
+            installation.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                //If an error occurs, everything should be skipped
+                if parseError != nil {
+                    error = parseError
+                }
+                savedChildObjects.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childObjects[key] == nil {
+                        childObjects[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                savedChildFiles.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childFiles[key] == nil {
+                        childFiles[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                group.leave()
+            }
+            group.wait()
+            if let error = error {
+                throw error
+            }
+        }
+
+        var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = map { $0.saveCommand() }
-        let returnResults = try API.Command<Self.Element, Self.Element>
-            .batch(commands: commands)
-            .execute(options: options)
-        try? Self.Element.updateKeychainIfNeeded(compactMap {$0})
-        return returnResults
+        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+        try batches.forEach {
+            let currentBatch = try API.Command<Self.Element, Self.Element>
+                .batch(commands: $0)
+                .execute(options: options,
+                         childObjects: childObjects,
+                         childFiles: childFiles)
+            returnBatch.append(contentsOf: currentBatch)
+        }
+        try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
+        return returnBatch
     }
 
     /**
      Saves a collection of installations all at once *asynchronously* and executes the completion block when done.
-
-     - parameter options: A set of options used to save installations. Defaults to an empty set.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
-    func saveAll(
+    func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
+        batchLimit limit: Int? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        var childObjects = [String: PointerType]()
+        var childFiles = [UUID: ParseFile]()
+        var error: ParseError?
+
+        let installations = map { $0 }
+        for installation in installations {
+            let group = DispatchGroup()
+            group.enter()
+            installation.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                //If an error occurs, everything should be skipped
+                if parseError != nil {
+                    error = parseError
+                }
+                savedChildObjects.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childObjects[key] == nil {
+                        childObjects[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                savedChildFiles.forEach {(key, value) in
+                    if error != nil {
+                        return
+                    }
+                    if childFiles[key] == nil {
+                        childFiles[key] = value
+                    } else {
+                        error = ParseError(code: .unknownError, message: "circular dependency")
+                        return
+                    }
+                }
+                group.leave()
+            }
+            group.wait()
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+        }
+
+        var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = map { $0.saveCommand() }
-        API.Command<Self.Element, Self.Element>
-                .batch(commands: commands)
-            .executeAsync(options: options, callbackQueue: callbackQueue) { results in
+        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+        var completed = 0
+        for batch in batches {
+            API.Command<Self.Element, Self.Element>
+                    .batch(commands: batch)
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue,
+                                  childObjects: childObjects,
+                                  childFiles: childFiles) { results in
                 switch results {
 
                 case .success(let saved):
-                    try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
-                    completion(.success(saved))
+                    returnBatch.append(contentsOf: saved)
+                    if completed == (batches.count - 1) {
+                        try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
+                        completion(.success(returnBatch))
+                    }
+                    completed += 1
                 case .failure(let error):
                     completion(.failure(error))
+                    return
                 }
             }
+        }
     }
 
     /**
      Fetches a collection of installations *synchronously* all at once and throws an error if necessary.
 
-     - parameter options: A set of options used to fetch installations. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: `ParseError`
@@ -561,7 +739,7 @@ public extension Sequence where Element: ParseInstallation {
     /**
      Fetches a collection of installations all at once *asynchronously* and executes the completion block when done.
 
-     - parameter options: A set of options used to fetch installations. Defaults to an empty set.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
@@ -607,8 +785,10 @@ public extension Sequence where Element: ParseInstallation {
 
     /**
      Deletes a collection of installations *synchronously* all at once and throws an error if necessary.
-
-     - parameter options: A set of options used to delete installations. Defaults to an empty set.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
         1. A `ParseError.Code.aggregateError`. This object's "errors" property is an
@@ -621,20 +801,29 @@ public extension Sequence where Element: ParseInstallation {
      - throws: `ParseError`
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
-    func deleteAll(options: API.Options = []) throws -> [ParseError?] {
+    func deleteAll(batchLimit limit: Int? = nil,
+                   options: API.Options = []) throws -> [ParseError?] {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        var returnBatch = [ParseError?]()
         let commands = try map { try $0.deleteCommand() }
-        let returnResults = try API.Command<Self.Element, ParseError?>
-            .batch(commands: commands)
-            .execute(options: options)
+        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+        try batches.forEach {
+            let currentBatch = try API.Command<Self.Element, ParseError?>
+                .batch(commands: $0)
+                .execute(options: options)
+            returnBatch.append(contentsOf: currentBatch)
+        }
 
         try? Self.Element.updateKeychainIfNeeded(compactMap {$0})
-        return returnResults
+        return returnBatch
     }
 
     /**
      Deletes a collection of installations all at once *asynchronously* and executes the completion block when done.
-
-     - parameter options: A set of options used to delete installations. Defaults to an empty set.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[ParseError?], ParseError>)`.
@@ -649,25 +838,37 @@ public extension Sequence where Element: ParseInstallation {
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func deleteAll(
+        batchLimit limit: Int? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[ParseError?], ParseError>) -> Void
     ) {
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         do {
+            var returnBatch = [ParseError?]()
             let commands = try map({ try $0.deleteCommand() })
-            API.Command<Self.Element, ParseError?>
-                .batch(commands: commands)
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue) { results in
+            let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+            var completed = 0
+            for batch in batches {
+                API.Command<Self.Element, ParseError?>
+                        .batch(commands: batch)
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue) { results in
                     switch results {
 
-                    case .success(let deleted):
-                        try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
-                        completion(.success(deleted))
+                    case .success(let saved):
+                        returnBatch.append(contentsOf: saved)
+                        if completed == (batches.count - 1) {
+                            try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
+                            completion(.success(returnBatch))
+                        }
+                        completed += 1
                     case .failure(let error):
                         completion(.failure(error))
+                        return
                     }
                 }
+            }
         } catch {
             guard let parseError = error as? ParseError else {
                 completion(.failure(ParseError(code: .unknownError,

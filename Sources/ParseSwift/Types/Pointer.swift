@@ -14,7 +14,7 @@ private func getObjectId(target: Objectable) -> String {
     return objectId
 }
 
-public struct Pointer<T: ParseObject>: Fetchable, Codable {
+public struct Pointer<T: ParseObject>: Fetchable, Encodable {
     public typealias FetchingType = T
 
     private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
@@ -34,12 +34,18 @@ public struct Pointer<T: ParseObject>: Fetchable, Codable {
     private enum CodingKeys: String, CodingKey {
         case __type, objectId, className // swiftlint:disable:this identifier_name
     }
+
+    public init(from decoder: Decoder) throws {
+        let values = try decoder.container(keyedBy: CodingKeys.self)
+        objectId = try values.decode(String.self, forKey: .objectId)
+        className = try values.decode(String.self, forKey: .className)
+    }
 }
 
 extension Pointer {
     public func fetch(options: API.Options = []) throws -> T {
         let path = API.Endpoint.object(className: className, objectId: objectId)
-        return try API.Command<NoBody, T>(method: .GET,
+        return try API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
                     try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }.execute(options: options)
@@ -48,14 +54,14 @@ extension Pointer {
     public func fetch(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<T, ParseError>) -> Void) {
         let path = API.Endpoint.object(className: className, objectId: objectId)
-        API.Command<NoBody, T>(method: .GET,
+        API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
                     try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }.executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
     }
 }
 
-internal struct PointerType: Codable {
+internal struct PointerType: Encodable {
 
     var __type: String = "Pointer" // swiftlint:disable:this identifier_name
     public var objectId: String

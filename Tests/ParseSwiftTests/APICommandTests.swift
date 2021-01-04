@@ -42,7 +42,10 @@ class APICommandTests: XCTestCase {
         }
         do {
             let returnedObject =
-                try API.Command<NoBody, String>(method: .GET, path: .login, params: nil, mapper: { (data) -> String in
+                try API.NonParseBodyCommand<NoBody, String>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (data) -> String in
                     return try JSONDecoder().decode(String.self, from: data)
                 }).execute(options: [])
             XCTAssertEqual(originalObject, returnedObject)
@@ -66,7 +69,10 @@ class APICommandTests: XCTestCase {
         }
 
         do {
-            _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (_) -> NoBody in
+            _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (_) -> NoBody in
                 throw originalError
             }).execute(options: [])
             XCTFail("Should have thrown an error")
@@ -81,6 +87,7 @@ class APICommandTests: XCTestCase {
 
     //This is how errors HTTP errors should typically come in
     func testErrorHTTPJSON() {
+        let parseError = ParseError(code: .connectionFailed, message: "Connection failed")
         let errorKey = "error"
         let errorValue = "yarr"
         let codeKey = "code"
@@ -89,6 +96,7 @@ class APICommandTests: XCTestCase {
             errorKey: errorValue,
             codeKey: codeValue
         ]
+
         MockURLProtocol.mockRequests { _ in
             do {
                 let json = try JSONSerialization.data(withJSONObject: responseDictionary, options: [])
@@ -98,29 +106,36 @@ class APICommandTests: XCTestCase {
                 return nil
             }
         }
+
         do {
-            _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (_) -> NoBody in
-                    throw ParseError(code: .connectionFailed, message: "Connection failed")
+            _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (_) -> NoBody in
+                throw parseError
             }).execute(options: [])
+
             XCTFail("Should have thrown an error")
         } catch {
             guard let error = error as? ParseError else {
                 XCTFail("should be able unwrap final error to ParseError")
                 return
             }
-            let unknownError = ParseError(code: .unknownError, message: "")
-            XCTAssertEqual(unknownError.code, error.code)
+            XCTAssertEqual(error.code, parseError.code)
         }
     }
 
     //This is less common as the HTTP won't be able to produce ParseErrors directly, but used for testing
     func testErrorHTTPReturnsParseError1() {
-        let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
+        let originalError = ParseError(code: .invalidServerResponse, message: "Couldn't decode")
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(error: originalError)
         }
         do {
-            _ = try API.Command<NoBody, NoBody>(method: .GET, path: .login, params: nil, mapper: { (_) -> NoBody in
+            _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (_) -> NoBody in
                 throw originalError
             }).execute(options: [])
             XCTFail("Should have thrown an error")

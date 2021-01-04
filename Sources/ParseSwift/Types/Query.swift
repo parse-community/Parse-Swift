@@ -477,8 +477,9 @@ internal struct QueryWhere: Encodable, Equatable {
     }
 }
 
+// MARK: Query
 /**
-  The `Query` struct defines a query that is used to query for `ParseObject`s.
+  The `Query` class defines a query that is used to query for `ParseObject`s.
 */
 public class Query<T>: Encodable, Equatable where T: ParseObject {
     // interpolate as GET
@@ -730,15 +731,15 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     }
 }
 
+// MARK: Queryable
 extension Query: Queryable {
 
     public typealias ResultType = T
-    public typealias AnyResultType = [String: AnyCodable]
 
     /**
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
 
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns an array of `ParseObject`s that were found.
@@ -752,19 +753,19 @@ extension Query: Queryable {
 
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
     */
-    public func find(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyResultType {
+    public func find(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyCodable {
         try findCommand(explain: explain, hint: hint).execute(options: options)
     }
 
     /**
       Finds objects *asynchronously* and calls the given block with the results.
 
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ResultType], ParseError>)`
@@ -779,14 +780,14 @@ extension Query: Queryable {
 
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[AnyResultType], ParseError>)`
     */
     public func find(explain: Bool, hint: String? = nil, options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
-                     completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+                     completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
         findCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                callbackQueue: callbackQueue, completion: completion)
     }
@@ -795,7 +796,7 @@ extension Query: Queryable {
       Gets an object *synchronously* based on the constructed query and sets an error if any occurred.
 
       - warning: This method mutates the query. It will reset the limit to `1`.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a `ParseObject`, or `nil` if none was found.
@@ -810,12 +811,12 @@ extension Query: Queryable {
       - warning: This method mutates the query. It will reset the limit to `1`.
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
     */
-    public func first(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyResultType {
+    public func first(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyCodable {
         try firstCommand(explain: explain, hint: hint).execute(options: options)
     }
 
@@ -823,7 +824,7 @@ extension Query: Queryable {
       Gets an object *asynchronously* and calls the given block with the result.
 
       - warning: This method mutates the query. It will reset the limit to `1`.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
@@ -851,14 +852,14 @@ extension Query: Queryable {
       - warning: This method mutates the query. It will reset the limit to `1`.
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
     */
     public func first(explain: Bool, hint: String? = nil, options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+                      completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
         firstCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                 callbackQueue: callbackQueue, completion: completion)
     }
@@ -866,7 +867,7 @@ extension Query: Queryable {
     /**
       Counts objects *synchronously* based on the constructed query and sets an error if there was one.
 
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns the number of `ParseObject`s that match the query, or `-1` if there is an error.
@@ -880,19 +881,19 @@ extension Query: Queryable {
 
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
     */
-    public func count(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyResultType {
+    public func count(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyCodable {
         try countCommand(explain: explain, hint: hint).execute(options: options)
     }
 
     /**
       Counts objects *asynchronously* and calls the given block with the counts.
 
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Int, ParseError>)`
@@ -906,71 +907,94 @@ extension Query: Queryable {
       Counts objects *asynchronously* and calls the given block with the counts.
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter options: A set of options used to save objects.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Int, ParseError>)`
     */
     public func count(explain: Bool, hint: String? = nil, options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<AnyResultType, ParseError>) -> Void) {
+                      completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
         countCommand(explain: explain, hint: hint).executeAsync(options: options,
                                                                 callbackQueue: callbackQueue, completion: completion)
     }
 }
 
 private extension Query {
-    private func findCommand() -> API.Command<Query<ResultType>, [ResultType]> {
-        return API.Command(method: .POST, path: endpoint, body: self) {
+    private func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: self) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
 
-    private func firstCommand() -> API.Command<Query<ResultType>, ResultType?> {
+    private func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType?> {
         let query = self
         query.limit = 1
-        return API.Command(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first
         }
     }
 
-    private func countCommand() -> API.Command<Query<ResultType>, Int> {
+    private func countCommand() -> API.NonParseBodyCommand<Query<ResultType>, Int> {
         let query = self
         query.limit = 1
         query.isCount = true
-        return API.Command(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
         }
     }
 
-    private func findCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
+    private func findCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
         let query = self
         query.explain = explain
         query.hint = hint
-        return API.Command(method: .POST, path: endpoint, body: query) {
-            try JSONDecoder().decode(AnyResultType.self, from: $0)
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+            if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
+                return results
+            }
+            return AnyCodable()
         }
     }
 
-    private func firstCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
+    private func firstCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
         let query = self
         query.limit = 1
         query.explain = explain
         query.hint = hint
-        return API.Command(method: .POST, path: endpoint, body: query) {
-            try JSONDecoder().decode(AnyResultType.self, from: $0)
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+            if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
+                return results
+            }
+            return AnyCodable()
         }
     }
 
-    private func countCommand(explain: Bool, hint: String?) -> API.Command<Query<ResultType>, AnyResultType> {
+    private func countCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
         let query = self
         query.limit = 1
         query.isCount = true
         query.explain = explain
         query.hint = hint
-        return API.Command(method: .POST, path: endpoint, body: query) {
-            try JSONDecoder().decode(AnyResultType.self, from: $0)
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+            if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
+                return results
+            }
+            return AnyCodable()
         }
+    }
+}
+
+// MARK: ParseUser
+extension Query where T: ParseUser {
+    var endpoint: API.Endpoint {
+        return .users
+    }
+}
+
+// MARK: ParseInstallation
+extension Query where T: ParseInstallation {
+    var endpoint: API.Endpoint {
+        return .installations
     }
 }
 

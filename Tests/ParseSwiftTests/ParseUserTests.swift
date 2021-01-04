@@ -79,13 +79,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFetchCommand() {
         var user = User()
-        let className = user.className
         let objectId = "yarr"
         user.objectId = objectId
         do {
             let command = try user.fetchCommand()
             XCTAssertNotNil(command)
-            XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+            XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
@@ -93,6 +92,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         } catch {
             XCTFail(error.localizedDescription)
         }
+
+        let user2 = User()
+        XCTAssertThrowsError(try user2.fetchCommand())
     }
 
     func testFetch() { // swiftlint:disable:this function_body_length
@@ -106,7 +108,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         userOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
@@ -159,7 +161,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFetchAndUpdateCurrentUser() { // swiftlint:disable:this function_body_length
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
         XCTAssertNotNil(User.current?.objectId)
 
@@ -175,7 +177,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
@@ -223,7 +225,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFetchAsyncAndUpdateCurrentUser() { // swiftlint:disable:this function_body_length
         XCTAssertNil(User.current?.objectId)
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
         XCTAssertNotNil(User.current?.objectId)
 
@@ -239,7 +241,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
@@ -361,7 +363,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         userOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
@@ -379,11 +381,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testSaveCommand() {
         let user = User()
-        let className = user.className
 
         let command = user.saveCommand()
         XCTAssertNotNil(command)
-        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)")
+        XCTAssertEqual(command.path.urlComponent, "/users")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
@@ -392,13 +393,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testUpdateCommand() {
         var user = User()
-        let className = user.className
         let objectId = "yarr"
         user.objectId = objectId
 
         let command = user.saveCommand()
         XCTAssertNotNil(command)
-        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+        XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
@@ -407,7 +407,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testSaveAndUpdateCurrentUser() { // swiftlint:disable:this function_body_length
         XCTAssertNil(User.current?.objectId)
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
         XCTAssertNotNil(User.current?.objectId)
 
@@ -422,7 +422,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
@@ -468,7 +468,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testSaveAsyncAndUpdateCurrentUser() { // swiftlint:disable:this function_body_length
         XCTAssertNil(User.current?.objectId)
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
         XCTAssertNotNil(User.current?.objectId)
 
@@ -483,7 +483,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
@@ -545,7 +545,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
@@ -653,7 +653,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         userOnServer.updatedAt = Date()
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
@@ -681,7 +681,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         userOnServer.updatedAt = Date()
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
         } catch {
@@ -695,12 +695,23 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.updateAsync(user: user, userOnServer: userOnServer, callbackQueue: .main)
     }
 
+    func testSignupCommandWithBody() {
+        let body = SignupBody(username: "test", password: "user")
+        let command = User.signupCommand(username: "test", password: "user")
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/users")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertEqual(command.body?.username, body.username)
+        XCTAssertEqual(command.body?.password, body.password)
+    }
+
     func testUserSignUp() {
         let loginResponse = LoginSignupResponse()
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -782,7 +793,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -792,12 +803,25 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.signUpAsync(loginResponse: loginResponse, callbackQueue: .main)
     }
 
-    func testUserLogin() {
+    func testLoginCommand() {
+        let params = [
+            "username": "test",
+            "password": "user"
+        ]
+        let command = User.loginCommand(username: "test", password: "user")
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/login")
+        XCTAssertEqual(command.method, API.Method.GET)
+        XCTAssertEqual(command.params, params)
+        XCTAssertNil(command.body)
+    }
+
+    func testLogin() {
         let loginResponse = LoginSignupResponse()
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -835,7 +859,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func userLoginAsync(loginResponse: LoginSignupResponse, callbackQueue: DispatchQueue) {
+    func loginAsync(loginResponse: LoginSignupResponse, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Login user")
         User.login(username: loginUserName, password: loginPassword,
@@ -880,22 +904,31 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
             }
         }
 
-        self.userLoginAsync(loginResponse: loginResponse, callbackQueue: .main)
+        self.loginAsync(loginResponse: loginResponse, callbackQueue: .main)
     }
 
-    func testUserLogout() {
-        let loginResponse = LoginSignupResponse()
+    func testLogutCommand() {
+        let command = User.logoutCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/logout")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertNil(command.body)
+    }
+
+    func testLogout() {
+        let logoutResponse = NoBody()
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try ParseCoding.jsonEncoder().encode(logoutResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -916,31 +949,27 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func logoutAsync(callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        User.logout(callbackQueue: callbackQueue) { result in
+        User.logout(callbackQueue: callbackQueue) { error in
 
-            switch result {
-
-            case .success(let success):
-                XCTAssertTrue(success)
+            guard let error = error else {
                 if let userFromKeychain = BaseParseUser.current {
                     XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
-                    expectation1.fulfill()
-                    return
                 }
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
+                expectation1.fulfill()
+                return
             }
+            XCTFail(error.localizedDescription)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
     }
 
     func testLogoutAsyncMainQueue() {
-        let loginResponse = LoginSignupResponse()
+        let logoutResponse = NoBody()
 
         MockURLProtocol.mockRequests { _ in
             do {
-                let encoded = try loginResponse.getEncoder(skipKeys: false).encode(loginResponse)
+                let encoded = try ParseCoding.jsonEncoder().encode(logoutResponse)
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             } catch {
                 return nil
@@ -950,8 +979,240 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.logoutAsync(callbackQueue: .main)
     }
 
+    func testPasswordResetCommand() throws {
+        let body = EmailBody(email: "hello@parse.org")
+        let command = User.passwordResetCommand(email: body.email)
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/requestPasswordReset")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertEqual(command.body?.email, body.email)
+    }
+
+    func testPasswordReset() {
+        let response = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            try User.passwordReset(email: "hello@parse.org")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testPasswordResetError() {
+
+        let parseError = ParseError(code: .internalServer, message: "Object not found")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(parseError)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            try User.passwordReset(email: "hello@parse.org")
+            XCTFail("Should have thrown ParseError")
+        } catch {
+            if let error = error as? ParseError {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+        }
+    }
+
+    func passwordResetAsync(callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        User.passwordReset(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                expectation1.fulfill()
+                return
+            }
+            XCTFail(error.localizedDescription)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testPasswordResetMainQueue() {
+        let response = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.passwordResetAsync(callbackQueue: .main)
+    }
+
+    func passwordResetAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        User.passwordReset(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                XCTFail("Should have thrown ParseError")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(error.code, parseError.code)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testPasswordResetMainQueueError() {
+        let parseError = ParseError(code: .internalServer, message: "Object not found")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.passwordResetAsyncError(parseError: parseError, callbackQueue: .main)
+    }
+
+    func testVerificationEmailRequestCommand() throws {
+        let body = EmailBody(email: "hello@parse.org")
+        let command = User.verificationEmailRequestCommand(email: body.email)
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/verificationEmailRequest")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertEqual(command.body?.email, body.email)
+    }
+
+    func testVerificationEmailRequestReset() {
+        let response = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            try User.verificationEmailRequest(email: "hello@parse.org")
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testVerificationEmailRequestError() {
+
+        let parseError = ParseError(code: .internalServer, message: "Object not found")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(parseError)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            try User.verificationEmailRequest(email: "hello@parse.org")
+            XCTFail("Should have thrown ParseError")
+        } catch {
+            if let error = error as? ParseError {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+        }
+    }
+
+    func verificationEmailRequestAsync(callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        User.verificationEmailRequest(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                expectation1.fulfill()
+                return
+            }
+            XCTFail(error.localizedDescription)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testVerificationEmailRequestMainQueue() {
+        let response = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(response)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.verificationEmailRequestAsync(callbackQueue: .main)
+    }
+
+    func verificationEmailRequestAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        User.verificationEmailRequest(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+
+            guard let error = error else {
+                XCTFail("Should have thrown ParseError")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(error.code, parseError.code)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
+    func testVerificationEmailRequestMainQueueError() {
+        let parseError = ParseError(code: .internalServer, message: "Object not found")
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        self.verificationEmailRequestAsyncError(parseError: parseError, callbackQueue: .main)
+    }
+
     func testUserCustomValuesNotSavedToKeychain() {
-        testUserLogin()
+        testLogin()
         User.current?.customKey = "Changed"
         User.saveCurrentContainerToKeychain()
         guard let keychainUser: CurrentUserContainer<User>
@@ -962,8 +1223,27 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(keychainUser.currentUser?.customKey)
     }
 
+    func testDeleteCommand() {
+        var user = User()
+        let objectId = "yarr"
+        user.objectId = objectId
+        do {
+            let command = try user.deleteCommand()
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
+            XCTAssertEqual(command.method, API.Method.DELETE)
+            XCTAssertNil(command.params)
+            XCTAssertNil(command.body)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        let user2 = User()
+        XCTAssertThrowsError(try user2.deleteCommand())
+    }
+
     func testDelete() {
-        testUserLogin()
+        testLogin()
         let expectation1 = XCTestExpectation(description: "Delete installation1")
         DispatchQueue.main.async {
             guard let user = User.current else {
@@ -990,7 +1270,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDeleteAsyncMainQueue() {
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Delete installation1")
@@ -1006,7 +1286,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try userOnServer.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
                 //Get dates in correct format from ParseDecoding strategy
                 userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
             } catch {
@@ -1028,7 +1308,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     // swiftlint:disable:next function_body_length
     func testFetchAll() {
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Fetch user1")
@@ -1046,9 +1326,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try user.getEncoder(skipKeys: false).encode(user)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
                 user = try user.getDecoder().decode(User.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -1115,7 +1395,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     // swiftlint:disable:next function_body_length
     func testFetchAllAsyncMainQueue() {
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Fetch user1")
@@ -1132,9 +1412,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try user.getEncoder(skipKeys: false).encode(user)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
                 user = try user.getDecoder().decode(User.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -1203,7 +1483,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     // swiftlint:disable:next function_body_length
     func testSaveAll() {
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Fetch user1")
@@ -1221,9 +1501,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try user.getEncoder(skipKeys: false).encode(user)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
                 user = try user.getDecoder().decode(User.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -1290,7 +1570,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     // swiftlint:disable:next function_body_length
     func testSaveAllAsyncMainQueue() {
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Fetch user1")
@@ -1307,9 +1587,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
                 //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try user.getEncoder(skipKeys: false).encode(user)
+                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
                 user = try user.getDecoder().decode(User.self, from: encoded1)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
@@ -1377,7 +1657,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDeleteAll() {
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Delete user1")
@@ -1394,7 +1674,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
                 expectation1.fulfill()
@@ -1421,7 +1701,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDeleteAllAsyncMainQueue() {
-        testUserLogin()
+        testLogin()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Delete user1")
@@ -1437,7 +1717,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             let encoded: Data!
             do {
-                encoded = try user.getEncoder(skipKeys: false).encode(userOnServer)
+                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
                 expectation1.fulfill()

@@ -51,28 +51,44 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
 // MARK: ParseEncoder
 public struct ParseEncoder {
     let dateEncodingStrategy: AnyCodable.DateEncodingStrategy?
-    let jsonEncoder: JSONEncoder
-    let skippedKeys: Set<String>
 
-    init(
-        dateEncodingStrategy: AnyCodable.DateEncodingStrategy? = nil,
-        jsonEncoder: JSONEncoder = JSONEncoder(),
-        skippingKeys: Set<String> = []
-    ) {
-        self.dateEncodingStrategy = dateEncodingStrategy
-        self.jsonEncoder = jsonEncoder
-        self.skippedKeys = skippingKeys
-        if let dateEncodingStrategy = dateEncodingStrategy {
-            self.jsonEncoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+    public enum SkippedKeys {
+        case object
+        case cloud
+        case none
+        case custom(Set<String>)
+
+        func keys() -> Set<String> {
+            switch self {
+
+            case .object:
+                return Set(["createdAt", "updatedAt", "objectId", "className"])
+            case .cloud:
+                return Set(["functionJobName"])
+            case .none:
+                return .init()
+            case .custom(let keys):
+                return keys
+            }
         }
     }
 
-    public func encode<T: Encodable>(_ value: T) throws -> Data {
-        try jsonEncoder.encode(value)
+    init(
+        dateEncodingStrategy: AnyCodable.DateEncodingStrategy? = nil
+    ) {
+        self.dateEncodingStrategy = dateEncodingStrategy
     }
 
-    public func encode<T: ParseObject>(_ value: T) throws -> Data {
-        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
+    func encode(_ value: Encodable) throws -> Data {
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.none.keys())
+        if let dateEncodingStrategy = dateEncodingStrategy {
+            encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+        }
+        return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil).encoded
+    }
+
+    public func encode<T: ParseType>(_ value: T, skipKeys: SkippedKeys) throws -> Data {
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skipKeys.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
         }
@@ -80,10 +96,21 @@ public struct ParseEncoder {
     }
 
     // swiftlint:disable large_tuple
-    internal func encode(_ value: Encodable, collectChildren: Bool,
-                         objectsSavedBeforeThisOne: [NSDictionary: PointerType]?,
+    internal func encode<T: ParseObject>(_ value: T,
+                                         objectsSavedBeforeThisOne: [String: PointerType]?,
+                                         filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.object.keys())
+        if let dateEncodingStrategy = dateEncodingStrategy {
+            encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+        }
+        return try encoder.encodeObject(value, collectChildren: true, objectsSavedBeforeThisOne: objectsSavedBeforeThisOne, filesSavedBeforeThisOne: filesSavedBeforeThisOne)
+    }
+
+    // swiftlint:disable large_tuple
+    internal func encode(_ value: ParseType, collectChildren: Bool,
+                         objectsSavedBeforeThisOne: [String: PointerType]?,
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
-        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skippedKeys)
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.object.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
         }
@@ -100,7 +127,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
     var uniqueFiles = Set<ParseFile>()
     var newObjects = [Encodable]()
     var collectChildren = false
-    var objectsSavedBeforeThisOne: [NSDictionary: PointerType]?
+    var objectsSavedBeforeThisOne: [String: PointerType]?
     var filesSavedBeforeThisOne: [UUID: ParseFile]?
     /// The encoder's storage.
     var storage: _ParseEncodingStorage
@@ -150,9 +177,8 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         throw ParseError(code: .unknownError, message: "This method shouldn't be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
     }
 
-    // swiftlint:disable large_tuple
     func encodeObject(_ value: Encodable, collectChildren: Bool,
-                      objectsSavedBeforeThisOne: [NSDictionary: PointerType]?,
+                      objectsSavedBeforeThisOne: [String: PointerType]?,
                       filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
 
         let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
@@ -240,7 +266,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
                 valueToEncode = value.toPointer()
             }
         } else {
-            let hashOfCurrentObject = BaseObjectable.createHash(value)
+            let hashOfCurrentObject = try BaseObjectable.createHash(value)
             if self.collectChildren {
                 if let pointerForCurrentObject = self.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
                     valueToEncode = pointerForCurrentObject
@@ -250,7 +276,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
                 }
             } else if let pointerForCurrentObject = self.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
                 valueToEncode = pointerForCurrentObject
-            } else if codingPath.count > 0 {
+            } else if dictionary.count > 0 {
                 //Only top level objects can be saved without a pointer
                 throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved object while encoding.")
             }
@@ -269,18 +295,16 @@ private class _ParseEncoder: JSONEncoder, Encoder {
                 valueToEncode = value
             }
         } else {
-            var mutableValue = value
-            let uuid = mutableValue.localUUID
             if self.collectChildren {
-                if let updatedFile = self.filesSavedBeforeThisOne?[uuid] {
+                if let updatedFile = self.filesSavedBeforeThisOne?[value.localId] {
                     valueToEncode = updatedFile
                 } else {
                     //New object needs to be saved before it can be stored
                     self.newObjects.append(value)
                 }
-            } else if let currentFile = self.filesSavedBeforeThisOne?[uuid] {
+            } else if let currentFile = self.filesSavedBeforeThisOne?[value.localId] {
                 valueToEncode = currentFile
-            } else if codingPath.count > 0 {
+            } else if dictionary.count > 0 {
                 //Only top level objects can be saved without a pointer
                 throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved file while encoding.")
             }
@@ -879,7 +903,7 @@ private class _ParseReferencingEncoder: _ParseEncoder {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given array container in the given encoder.
-    init(referencing encoder: _ParseEncoder, at index: Int, wrapping array: NSMutableArray, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerType]?, filesSavedBeforeThisOne: [UUID: ParseFile]?) {
+    init(referencing encoder: _ParseEncoder, at index: Int, wrapping array: NSMutableArray, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [String: PointerType]?, filesSavedBeforeThisOne: [UUID: ParseFile]?) {
         self.encoder = encoder
         self.reference = .array(array, index)
         super.init(codingPath: encoder.codingPath, dictionary: NSMutableDictionary(), skippingKeys: skippingKeys)
@@ -890,7 +914,7 @@ private class _ParseReferencingEncoder: _ParseEncoder {
     }
 
     /// Initializes `self` by referencing the given dictionary container in the given encoder.
-    init(referencing encoder: _ParseEncoder, key: CodingKey, wrapping dictionary: NSMutableDictionary, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [NSDictionary: PointerType]?, filesSavedBeforeThisOne: [UUID: ParseFile]?) {
+    init(referencing encoder: _ParseEncoder, key: CodingKey, wrapping dictionary: NSMutableDictionary, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [String: PointerType]?, filesSavedBeforeThisOne: [UUID: ParseFile]?) {
         self.encoder = encoder
         self.reference = .dictionary(dictionary, key.stringValue)
         super.init(codingPath: encoder.codingPath, dictionary: dictionary, skippingKeys: skippingKeys)

@@ -13,7 +13,6 @@ public enum ParseCoding {}
 
 // MARK: Coders
 extension ParseCoding {
-    private static let forbiddenKeys = Set(["createdAt", "updatedAt", "objectId", "className"])
 
     ///This should only be used for Unit tests, don't use in SDK
     static func jsonEncoder() -> JSONEncoder {
@@ -28,10 +27,9 @@ extension ParseCoding {
         return decoder
     }
 
-    static func parseEncoder(skipKeys: Bool = true) -> ParseEncoder {
+    static func parseEncoder() -> ParseEncoder {
         ParseEncoder(
-            dateEncodingStrategy: parseDateEncodingStrategy,
-            skippingKeys: skipKeys ? forbiddenKeys : []
+            dateEncodingStrategy: parseDateEncodingStrategy
         )
     }
 }

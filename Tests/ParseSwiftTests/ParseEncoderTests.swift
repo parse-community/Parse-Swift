@@ -44,18 +44,6 @@ class ParseEncoderTests: XCTestCase {
         let phoneNumbers: [String]
     }
 
-    func parseEncoding<T: Encodable>(for object: T) -> Data {
-        let encoder = ParseEncoder()
-        encoder.jsonEncoder.outputFormatting = .sortedKeys
-
-        guard let encoding = try? encoder.encode(object) else {
-            XCTFail("Couldn't get a Parse encoding.")
-            return Data()
-        }
-
-        return encoding
-    }
-
     func referenceEncoding<T: Encodable>(for object: T) -> Data {
         let encoder = JSONEncoder()
         encoder.outputFormatting = .sortedKeys
@@ -68,35 +56,6 @@ class ParseEncoderTests: XCTestCase {
         return encoding
     }
 
-    func test_encodingScalarValue() {
-        let encoded = parseEncoding(for: ["<root>": 5])
-        let reference = referenceEncoding(for: ["<root>": 5])
-        XCTAssertEqual(encoded, reference)
-    }
-
-    func test_encodingComplexValue() {
-        let value = Person(
-            addresses: [
-                "home": Address(street: "Parse St.", city: "San Francisco"),
-                "work": Address(street: "Server Ave.", city: "Seattle")
-            ],
-            age: 21,
-            name: Name(first: "Parse", last: "User"),
-            nicknames: [
-                Name(first: "Swift", last: "Developer"),
-                Name(first: "iOS", last: "Engineer")
-            ],
-            phoneNumbers: [
-                "1-800-PARSE",
-                "1-999-SWIFT"
-            ]
-        )
-
-        let encoded = parseEncoding(for: value)
-        let reference = referenceEncoding(for: value)
-        XCTAssertEqual(encoded.count, reference.count)
-    }
-
     func testNestedContatiner() throws {
         var newACL = ParseACL()
         newACL.publicRead = true
@@ -104,7 +63,7 @@ class ParseEncoderTests: XCTestCase {
         let jsonEncoded = try JSONEncoder().encode(newACL)
         let jsonDecoded = try ParseCoding.jsonDecoder().decode([String: [String: Bool]].self, from: jsonEncoded)
 
-        let parseEncoded = try ParseCoding.parseEncoder().encode(newACL)
+        let parseEncoded = try ParseCoding.parseEncoder().encode(newACL, skipKeys: .object)
         let parseDecoded = try ParseCoding.jsonDecoder().decode([String: [String: Bool]].self, from: parseEncoded)
 
         XCTAssertEqual(jsonDecoded.keys.count, parseDecoded.keys.count)
@@ -126,7 +85,7 @@ class ParseEncoderTests: XCTestCase {
         XCTAssertNotNil(decodedJSON["updatedAt"])
 
         //ParseEncoder
-        let encoded = try ParseCoding.parseEncoder().encode(score)
+        let encoded = try ParseCoding.parseEncoder().encode(score, skipKeys: .object)
         let decoded = try ParseCoding.jsonDecoder().decode([String: AnyCodable].self, from: encoded)
         XCTAssertEqual(decoded["score"]?.value as? Int, score.score)
         XCTAssertNil(decoded["createdAt"])
