@@ -13,7 +13,6 @@ import FoundationNetworking
 
 // MARK: API.Command
 internal extension API {
-    // swiftlint:disable:next type_body_length
     struct Command<T, U>: Encodable where T: ParseType {
         typealias ReturnType = U // swiftlint:disable:this nesting
         let method: API.Method
@@ -59,17 +58,11 @@ internal extension API {
 
             case .success(let urlRequest):
                 if method == .POST || method == .PUT {
-                    if !ParseConfiguration.isTestingSDK {
-                        let delegate = ParseURLSessionDelegate(callbackQueue: nil,
-                                                               uploadProgress: uploadProgress,
-                                                               stream: stream)
-                        let session = URLSession(configuration: .default,
-                                                 delegate: delegate,
-                                                 delegateQueue: nil)
-                        session.uploadTask(withStreamedRequest: urlRequest).resume()
-                    } else {
-                        URLSession.testing.uploadTask(withStreamedRequest: urlRequest).resume()
-                    }
+                    let networkSession = !ParseConfiguration.isTestingSDK ? URLSession.parse : URLSession.shared
+                    let task = networkSession.uploadTask(withStreamedRequest: urlRequest)
+                    ParseConfiguration.sessionDelegate.uploadDelegates[task] = uploadProgress
+                    ParseConfiguration.sessionDelegate.streamDelegates[task] = stream
+                    task.resume()
                     return
                 }
             case .failure(let error):
@@ -112,13 +105,15 @@ internal extension API {
                           downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
 
+            let networkSession = !ParseConfiguration.isTestingSDK ? URLSession.parse : URLSession.shared
+
             if !path.urlComponent.contains("/files/") {
                 //All ParseObjects use the shared URLSession
                 switch self.prepareURLRequest(options: options,
                                               childObjects: childObjects,
                                               childFiles: childFiles) {
                 case .success(let urlRequest):
-                    URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
+                    networkSession.dataTask(with: urlRequest, mapper: mapper) { result in
                         switch result {
 
                         case .success(let decoded):
@@ -141,26 +136,18 @@ internal extension API {
                 }
             } else {
                 //ParseFiles are handled with a dedicated URLSession
-                let session: URLSession!
-                let delegate: URLSessionDelegate!
+                let networkSession = !ParseConfiguration.isTestingSDK ? URLSession.parse : URLSession.shared
                 if method == .POST || method == .PUT {
                     switch self.prepareURLRequest(options: options,
                                                   childObjects: childObjects,
                                                   childFiles: childFiles) {
 
                     case .success(let urlRequest):
-                        if !ParseConfiguration.isTestingSDK {
-                            delegate = ParseURLSessionDelegate(callbackQueue: callbackQueue,
-                                                               uploadProgress: uploadProgress)
-                            session = URLSession(configuration: .default,
-                                                 delegate: delegate,
-                                                 delegateQueue: nil)
-                        } else {
-                            session = URLSession.testing
-                        }
-                        session.uploadTask(with: urlRequest,
+
+                        networkSession.uploadTask(with: urlRequest,
                                            from: uploadData,
                                            from: uploadFile,
+                                           progress: uploadProgress,
                                            mapper: mapper) { result in
                             switch result {
 
@@ -184,22 +171,15 @@ internal extension API {
                     }
                 } else {
 
-                    if !ParseConfiguration.isTestingSDK {
-                        delegate = ParseURLSessionDelegate(callbackQueue: callbackQueue,
-                                                           downloadProgress: downloadProgress)
-                        session = URLSession(configuration: .default,
-                                             delegate: delegate,
-                                             delegateQueue: nil)
-                    } else {
-                        session = URLSession.testing
-                    }
                     if parseURL != nil {
                         switch self.prepareURLRequest(options: options,
                                                       childObjects: childObjects,
                                                       childFiles: childFiles) {
 
                         case .success(let urlRequest):
-                            session.downloadTask(with: urlRequest, mapper: mapper) { result in
+                            networkSession.downloadTask(with: urlRequest,
+                                                        progress: downloadProgress,
+                                                        mapper: mapper) { result in
                                 switch result {
 
                                 case .success(let decoded):
@@ -222,7 +202,7 @@ internal extension API {
                         }
                     } else if let otherURL = self.otherURL {
                         //Non-parse servers don't receive any parse dedicated request info
-                        session.downloadTask(with: otherURL, mapper: mapper) { result in
+                        networkSession.downloadTask(with: otherURL, mapper: mapper) { result in
                             switch result {
 
                             case .success(let decoded):
@@ -638,9 +618,10 @@ internal extension API {
         func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
 
+            let networkSession = !ParseConfiguration.isTestingSDK ? URLSession.parse : URLSession.shared
             switch self.prepareURLRequest(options: options) {
             case .success(let urlRequest):
-                URLSession.shared.dataTask(with: urlRequest, mapper: mapper) { result in
+                networkSession.dataTask(with: urlRequest, mapper: mapper) { result in
                     switch result {
 
                     case .success(let decoded):

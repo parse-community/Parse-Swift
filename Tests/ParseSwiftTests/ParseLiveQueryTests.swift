@@ -41,6 +41,7 @@ class ParseLiveQueryTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url)
+        ParseSwift.setupForTesting()
     }
 
     override func tearDownWithError() throws {

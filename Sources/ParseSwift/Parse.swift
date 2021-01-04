@@ -7,8 +7,7 @@ internal struct ParseConfiguration {
     static var serverURL: URL!
     static var liveQuerysServerURL: URL?
     static var mountPath: String!
-    //@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-    //static var liveQuery: ParseLiveQuery!
+    static var sessionDelegate: ParseURLSessionDelegate!
     static var isTestingSDK = false //Enable this only for certain tests like ParseFile
 }
 
@@ -19,7 +18,10 @@ public func initialize(
     masterKey: String? = nil,
     serverURL: URL,
     liveQueryServerURL: URL? = nil,
-    primitiveObjectStore: PrimitiveObjectStore? = nil
+    primitiveObjectStore: PrimitiveObjectStore? = nil,
+    authentication: ((URLAuthenticationChallenge,
+                      (URLSession.AuthChallengeDisposition,
+                       URLCredential?) -> Void) -> Void)? = nil
 ) {
     ParseConfiguration.applicationId = applicationId
     ParseConfiguration.clientKey = clientKey
@@ -30,18 +32,13 @@ public func initialize(
                                             .filter { $0 != "/" }
                                             .joined(separator: "/")
     ParseStorage.shared.use(primitiveObjectStore ?? CodableInMemoryPrimitiveObjectStore())
+    ParseConfiguration.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main, authentication: authentication)
+    _ = URLSession.parse //Initialize Parse URLSession now
     DispatchQueue.main.async {
         _ = BaseParseInstallation()
     }
 }
-/*
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public var liveQuery: ParseLiveQuery {
-    ParseConfiguration.liveQuery = ParseLiveQuery()
-    return ParseConfiguration.liveQuery
-}*/
 
 internal func setupForTesting() {
     ParseConfiguration.isTestingSDK = true
-    _ = URLSession.testing
 }

@@ -42,6 +42,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url)
+        ParseSwift.setupForTesting()
     }
 
     override func tearDown() {

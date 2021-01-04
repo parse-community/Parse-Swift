@@ -22,6 +22,7 @@ class ACLTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url)
+        ParseSwift.setupForTesting()
     }
 
     override func tearDown() {

@@ -12,11 +12,11 @@ import XCTest
 
 class BatchUtilsTests: XCTestCase {
     override func setUpWithError() throws {
-        super.setUp()
+        try super.setUpWithError()
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
     }
 
     func testSplitArrayLessSegments() throws {

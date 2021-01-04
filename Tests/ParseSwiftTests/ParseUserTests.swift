@@ -68,6 +68,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url)
+        ParseSwift.setupForTesting()
     }
 
     override func tearDown() {
