@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           ParseSwift 1.0 Docs
         </a>
-         (79% documented)
+         (80% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -159,6 +159,9 @@
             <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseCloud.html">ParseCloud</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseInstallation.html">ParseInstallation</a>
               </li>
               <li class="nav-group-task">
@@ -208,7 +211,12 @@
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseObject</span> <span class="p">:</span> <span class="kt">Deletable</span><span class="p">,</span> <span class="kt">Fetchable</span><span class="p">,</span> <span class="kt">Objectable</span><span class="p">,</span> <span class="kt">Savable</span><span class="p">,</span> <span class="kt">CustomDebugStringConvertible</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseObject</span><span class="p">:</span> <span class="kt">Objectable</span><span class="p">,</span>
+                             <span class="kt">Fetchable</span><span class="p">,</span>
+                             <span class="kt">Savable</span><span class="p">,</span>
+                             <span class="kt">Deletable</span><span class="p">,</span>
+                             <span class="kt">Equatable</span><span class="p">,</span>
+                             <span class="kt">CustomDebugStringConvertible</span></code></pre>
 
                 </div>
               </div>
@@ -435,7 +443,7 @@ depending on your implementation.
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -488,7 +496,7 @@ depending on your implementation.
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -581,7 +589,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -638,7 +646,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -730,7 +738,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -783,7 +791,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save objects. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -827,7 +835,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-12-30)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

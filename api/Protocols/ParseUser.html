@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           ParseSwift 1.0 Docs
         </a>
-         (79% documented)
+         (80% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -158,6 +158,9 @@
           <li class="nav-group-name">
             <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseCloud.html">ParseCloud</a>
+              </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseInstallation.html">ParseInstallation</a>
               </li>
@@ -449,9 +452,9 @@ It is only meant to be set.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE5login8username8passwordxSS_SStKFZ"></a>
-                    <a name="//apple_ref/swift/Method/login(username:password:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE5login8username8passwordxSS_SStKFZ">login(username:<wbr>password:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE5login8username8password7optionsxSS_SSShyAA3APIV6OptionOGtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/login(username:password:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE5login8username8password7optionsxSS_SSShyAA3APIV6OptionOGtKFZ">login(username:<wbr>password:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -478,7 +481,7 @@ This also caches the user locally so that calls to <code>+current</code> will us
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                         <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                         <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -536,9 +539,9 @@ If login failed due to either an incorrect password or incorrect username, it th
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE5login8username8password13callbackQueue10completionySS_SSSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctFZ"></a>
-                    <a name="//apple_ref/swift/Method/login(username:password:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE5login8username8password13callbackQueue10completionySS_SSSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctFZ">login(username:<wbr>password:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A4UserPAAE5login8username8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctFZ"></a>
+                    <a name="//apple_ref/swift/Method/login(username:password:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE5login8username8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctFZ">login(username:<wbr>password:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -562,6 +565,7 @@ Returns an instance of the successfully logged in <code>ParseUser</code>.</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">login</span><span class="p">(</span>
     <span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
     <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
@@ -673,9 +677,9 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE6logout7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySbAA0A5ErrorVGctFZ"></a>
+                    <a name="/s:10ParseSwift0A4UserPAAE6logout7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCyAA0A5ErrorVSgctFZ"></a>
                     <a name="//apple_ref/swift/Method/logout(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6logout7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySbAA0A5ErrorVGctFZ">logout(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6logout7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCyAA0A5ErrorVSgctFZ">logout(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -698,7 +702,7 @@ unless your code is already running from a background thread.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">logout</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                          <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Bool</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                          <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ParseError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -727,6 +731,334 @@ unless your code is already running from a background thread.</p>
                               <td>
                                 <div>
                                   <p>A block that will be called when logging out, completes or fails.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Password%20Reset"></a>
+                <a name="//apple_ref/swift/Section/Password Reset" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Password%20Reset"></a>
+                  <h3 class="section-name"><p>Password Reset</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE13passwordReset5email7optionsySS_ShyAA3APIV6OptionOGtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/passwordReset(email:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE13passwordReset5email7optionsySS_ShyAA3APIV6OptionOGtKFZ">passwordReset(email:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Requests <em>synchronously</em> a password reset email to be sent to the specified email address
+associated with the user account. This email allows the user to securely reset their password on the web.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">passwordReset</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>email</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The email address associated with the user that forgot their password.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE13passwordReset5email7options13callbackQueue10completionySS_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCyAA0A5ErrorVSgctFZ"></a>
+                    <a name="//apple_ref/swift/Method/passwordReset(email:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE13passwordReset5email7options13callbackQueue10completionySS_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCyAA0A5ErrorVSgctFZ">passwordReset(email:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Requests <em>asynchronously</em> a password reset email to be sent to the specified email address
+associated with the user account. This email allows the user to securely reset their password on the web.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">passwordReset</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                                 <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                                 <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ParseError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>email</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The email address associated with the user that forgot their password.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when the password reset completes or fails.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Verification%20Email%20Request"></a>
+                <a name="//apple_ref/swift/Section/Verification Email Request" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Verification%20Email%20Request"></a>
+                  <h3 class="section-name"><p>Verification Email Request</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE24verificationEmailRequest5email7optionsySS_ShyAA3APIV6OptionOGtKFZ"></a>
+                    <a name="//apple_ref/swift/Method/verificationEmailRequest(email:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE24verificationEmailRequest5email7optionsySS_ShyAA3APIV6OptionOGtKFZ">verificationEmailRequest(email:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Requests <em>synchronously</em> a verification email be sent to the specified email address
+associated with the user account.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">verificationEmailRequest</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                            <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>email</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The email address associated with the user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE24verificationEmailRequest5email7options13callbackQueue10completionySS_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCyAA0A5ErrorVSgctFZ"></a>
+                    <a name="//apple_ref/swift/Method/verificationEmailRequest(email:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE24verificationEmailRequest5email7options13callbackQueue10completionySS_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCyAA0A5ErrorVSgctFZ">verificationEmailRequest(email:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Requests <em>asynchronously</em> a verification email be sent to the specified email address
+associated with the user account.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">verificationEmailRequest</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                            <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                                            <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                                            <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ParseError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>email</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The email address associated with the user.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when the verification request completes or fails.</p>
                                 </div>
                               </td>
                             </tr>
@@ -820,7 +1152,7 @@ unless your code is already running from a background thread.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to sign up users. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -880,7 +1212,7 @@ unless your code is already running from a background thread.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to sign up users. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -941,7 +1273,7 @@ unless your code is already running from a background thread.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to sign up users. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1052,7 +1384,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to sign up users. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1148,7 +1480,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save users. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1206,7 +1538,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save users. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1303,7 +1635,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save users. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1365,7 +1697,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save users. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1461,7 +1793,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save users. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1519,7 +1851,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of options used to save users. Defaults to an empty set.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1563,7 +1895,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2020 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2020-12-30)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
