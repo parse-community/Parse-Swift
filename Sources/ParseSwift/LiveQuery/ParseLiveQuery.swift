@@ -69,6 +69,8 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                                                          URLCredential?) -> Void) {
         if let delegate = delegate {
             delegate.receivedChallenge(challenge, completionHandler: completionHandler)
+        } else if let parseAuthentication = ParseConfiguration.sessionDelegate.authentication {
+            parseAuthentication(challenge, completionHandler)
         } else {
             completionHandler(.performDefaultHandling, nil)
         }
