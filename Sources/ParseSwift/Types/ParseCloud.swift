@@ -25,30 +25,30 @@ public protocol ParseCloud: ParseType, Decodable, CustomDebugStringConvertible {
 extension ParseCloud {
 
     /**
-     Calls *synchronously* a Cloud Code function and returns a result of it's execution.
+     Calls a Cloud Code function *synchronously* and returns a result of it's execution.
           - parameter options: A set of header options sent to the server. Defaults to an empty set.
           - returns: Returns a JSON response of `AnyCodable` type.
     */
-    public func callFunction(options: API.Options = []) throws -> AnyCodable {
-        try callFunctionCommand().execute(options: options)
+    public func runFunction(options: API.Options = []) throws -> AnyCodable {
+        try runFunctionCommand().execute(options: options)
     }
 
     /**
-     Calls *asynchronously* a Cloud Code function and returns a result of it's execution.
+     Calls a Cloud Code function *asynchronously* and returns a result of it's execution.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when logging out, completes or fails.
         It should have the following argument signature: `(Result<AnyCodable, ParseError>)`.
     */
-    public func callFunction(options: API.Options = [],
-                             callbackQueue: DispatchQueue = .main,
-                             completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
-        callFunctionCommand()
+    public func runFunction(options: API.Options = [],
+                            callbackQueue: DispatchQueue = .main,
+                            completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
+        runFunctionCommand()
             .executeAsync(options: options,
                           callbackQueue: callbackQueue, completion: completion)
     }
 
-    internal func callFunctionCommand() -> API.Command<Self, AnyCodable> {
+    internal func runFunctionCommand() -> API.Command<Self, AnyCodable> {
 
         return API.Command(method: .POST,
                            path: .functions(name: functionJobName),
@@ -68,30 +68,30 @@ extension ParseCloud {
 // MARK: Jobs
 extension ParseCloud {
     /**
-     Calls *synchronously* a Cloud Code job and returns a result of it's execution.
+     Starts a Cloud Code job *synchronously* and returns a result with the jobStatusId of the job.
           - parameter options: A set of header options sent to the server. Defaults to an empty set.
           - returns: Returns a JSON response of `AnyCodable` type.
     */
-    public func callJob(options: API.Options = []) throws -> AnyCodable {
-        try callJobCommand().execute(options: options)
+    public func startJob(options: API.Options = []) throws -> AnyCodable {
+        try startJobCommand().execute(options: options)
     }
 
     /**
-     Calls *asynchronously* a Cloud Code job and returns a result of it's execution.
+     Starts a Cloud Code job *asynchronously* and returns a result with the jobStatusId of the job.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when logging out, completes or fails.
         It should have the following argument signature: `(Result<AnyCodable, ParseError>)`.
     */
-    public func callJob(options: API.Options = [],
-                        callbackQueue: DispatchQueue = .main,
-                        completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
-        callJobCommand()
+    public func startJob(options: API.Options = [],
+                         callbackQueue: DispatchQueue = .main,
+                         completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
+        startJobCommand()
             .executeAsync(options: options,
                           callbackQueue: callbackQueue, completion: completion)
     }
 
-    internal func callJobCommand() -> API.Command<Self, AnyCodable> {
+    internal func startJobCommand() -> API.Command<Self, AnyCodable> {
         return API.Command(method: .POST,
                            path: .jobs(name: functionJobName),
                            body: self) { (data) -> AnyCodable in

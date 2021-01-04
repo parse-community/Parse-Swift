@@ -83,7 +83,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testCallFunctionCommand() throws {
         let cloud = Cloud(functionJobName: "test")
-        let command = cloud.callFunctionCommand()
+        let command = cloud.runFunctionCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/functions/test")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -93,7 +93,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testCallFunctionWithArgsCommand() throws {
         let cloud = Cloud2(functionJobName: "test", customKey: "parse")
-        let command = cloud.callFunctionCommand()
+        let command = cloud.runFunctionCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/functions/test")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -115,7 +115,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         do {
             let cloud = Cloud(functionJobName: "test")
-            let functionResponse = try cloud.callFunction()
+            let functionResponse = try cloud.runFunction()
             XCTAssertEqual(functionResponse, AnyCodable())
         } catch {
             XCTFail(error.localizedDescription)
@@ -138,7 +138,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         do {
             let cloud = Cloud(functionJobName: "test")
-            let functionResponse = try cloud.callFunction()
+            let functionResponse = try cloud.runFunction()
             guard let resultAsDictionary = functionResponse.value as? [String: String] else {
                 XCTFail("Should have casted result to dictionary")
                 return
@@ -166,7 +166,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         do {
             let cloud = Cloud(functionJobName: "test")
-            _ = try cloud.callFunction()
+            _ = try cloud.runFunction()
             XCTFail("Should have thrown ParseError")
         } catch {
             if let error = error as? ParseError {
@@ -181,7 +181,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
         let cloud = Cloud(functionJobName: "test")
-        cloud.callFunction(callbackQueue: callbackQueue) { result in
+        cloud.runFunction(callbackQueue: callbackQueue) { result in
 
             switch result {
 
@@ -239,7 +239,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
         let cloud = Cloud(functionJobName: "test")
-        cloud.callFunction(callbackQueue: callbackQueue) { result in
+        cloud.runFunction(callbackQueue: callbackQueue) { result in
 
             switch result {
 
@@ -272,7 +272,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testCallJobCommand() throws {
         let cloud = Cloud(functionJobName: "test")
-        let command = cloud.callJobCommand()
+        let command = cloud.startJobCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/jobs/test")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -282,7 +282,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testCallJobWithArgsCommand() throws {
         let cloud = Cloud2(functionJobName: "test", customKey: "parse")
-        let command = cloud.callJobCommand()
+        let command = cloud.startJobCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/jobs/test")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -304,7 +304,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         do {
             let cloud = Cloud(functionJobName: "test")
-            let functionResponse = try cloud.callJob()
+            let functionResponse = try cloud.startJob()
             XCTAssertEqual(functionResponse, AnyCodable())
         } catch {
             XCTFail(error.localizedDescription)
@@ -325,7 +325,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         do {
             let cloud = Cloud(functionJobName: "test")
-            let functionResponse = try cloud.callJob()
+            let functionResponse = try cloud.startJob()
             guard let resultAsDictionary = functionResponse.value as? [String: String] else {
                 XCTFail("Should have casted result to dictionary")
                 return
@@ -353,7 +353,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         do {
             let cloud = Cloud(functionJobName: "test")
-            _ = try cloud.callJob()
+            _ = try cloud.startJob()
             XCTFail("Should have thrown ParseError")
         } catch {
             if let error = error as? ParseError {
@@ -368,7 +368,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
         let cloud = Cloud(functionJobName: "test")
-        cloud.callJob(callbackQueue: callbackQueue) { result in
+        cloud.startJob(callbackQueue: callbackQueue) { result in
 
             switch result {
 
@@ -426,7 +426,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
         let cloud = Cloud(functionJobName: "test")
-        cloud.callJob(callbackQueue: callbackQueue) { result in
+        cloud.startJob(callbackQueue: callbackQueue) { result in
 
             switch result {
 
