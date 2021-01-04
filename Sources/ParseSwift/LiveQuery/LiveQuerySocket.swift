@@ -14,7 +14,9 @@ protocol LiveQuerySocketDelegate: AnyObject {
     func receivedError(_ error: ParseError)
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?)
     func received(_ data: Data)
+    #if !os(watchOS)
     func receivedMetrics(_ metrics: URLSessionTaskTransactionMetrics)
+    #endif
 }
 
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
@@ -107,6 +109,7 @@ extension LiveQuerySocket: URLSessionWebSocketDelegate {
         self.isSocketEstablished = false
     }
 
+    #if !os(watchOS)
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         if task == self.task {
             if let transactionMetrics = metrics.transactionMetrics.last {
@@ -114,6 +117,7 @@ extension LiveQuerySocket: URLSessionWebSocketDelegate {
             }
         }
     }
+    #endif
 }
 
 // MARK: Connect

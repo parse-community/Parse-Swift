@@ -52,9 +52,11 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
         print("\(String(describing: data)) \(String(describing: socketMessage))")
     }
 
+    #if !os(watchOS)
     func receivedMetrics(_ metrics: URLSessionTaskTransactionMetrics) {
         print()
     }
+    #endif
 }
 
 // MARK: Connection

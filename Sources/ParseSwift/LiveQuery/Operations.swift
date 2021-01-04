@@ -18,21 +18,6 @@ enum Operation: String, Encodable {
     case delete
     case unsubscribe
 }
-/*
-enum Operation: Encodable {
-    func encode(to encoder: Encoder) throws {
-        <#code#>
-    }
-    
-    static let connect = "connect"
-    static let subscribe = ""
-    static let create = ""
-    static let enter = ""
-    static let update = ""
-    static let leave = ""
-    static let delete = ""
-    static let unsubscribe = ""
-}*/
 
 enum OperationResponses: String, Decodable {
     case connected, subscribed, unsubscribed, error
