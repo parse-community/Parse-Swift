@@ -41,6 +41,9 @@
 		7003960A25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003960825A184EF0052CB31 /* ParseLiveQuery.swift */; };
 		7003960B25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003960825A184EF0052CB31 /* ParseLiveQuery.swift */; };
 		7003960C25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003960825A184EF0052CB31 /* ParseLiveQuery.swift */; };
+		7003963B25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */; };
+		7003963C25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */; };
+		7003963D25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */; };
 		70110D52250680140091CC1D /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D51250680140091CC1D /* ParseConstants.swift */; };
 		70110D53250680140091CC1D /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D51250680140091CC1D /* ParseConstants.swift */; };
 		70110D54250680140091CC1D /* ParseConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D51250680140091CC1D /* ParseConstants.swift */; };
@@ -344,6 +347,7 @@
 		700395D025A147BE0052CB31 /* SubscriptionHandlable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionHandlable.swift; sourceTree = "<group>"; };
 		700395F125A171320052CB31 /* LiveQueryable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveQueryable.swift; sourceTree = "<group>"; };
 		7003960825A184EF0052CB31 /* ParseLiveQuery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQuery.swift; sourceTree = "<group>"; };
+		7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQueryTests.swift; sourceTree = "<group>"; };
 		70110D51250680140091CC1D /* ParseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		70110D562506CE890091CC1D /* BaseParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseParseInstallation.swift; sourceTree = "<group>"; };
 		70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallationTests.swift; sourceTree = "<group>"; };
@@ -551,6 +555,7 @@
 				705727882593FF8000F0ADD5 /* ParseFileTests.swift */,
 				705A99F8259807F900B3547F /* ParseFileManagerTests.swift */,
 				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
+				7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */,
 				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
 			);
@@ -621,8 +626,8 @@
 		700395DE25A147C40052CB31 /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
-				700395D025A147BE0052CB31 /* SubscriptionHandlable.swift */,
 				700395F125A171320052CB31 /* LiveQueryable.swift */,
+				700395D025A147BE0052CB31 /* SubscriptionHandlable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -671,8 +676,8 @@
 				7003959425A10DFC0052CB31 /* Messages.swift */,
 				700395A225A119430052CB31 /* Operations.swift */,
 				7003960825A184EF0052CB31 /* ParseLiveQuery.swift */,
-				700395DE25A147C40052CB31 /* Protocols */,
 				700395B925A1470F0052CB31 /* Subscription.swift */,
+				700395DE25A147C40052CB31 /* Protocols */,
 			);
 			path = LiveQuery;
 			sourceTree = "<group>";
@@ -1274,6 +1279,7 @@
 				705727B12593FF8800F0ADD5 /* ParseFileTests.swift in Sources */,
 				70BC0B33251903D1001556DB /* ParseGeoPointTests.swift in Sources */,
 				705A99F9259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
+				7003963B25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */,
 				7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */,
 				7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */,
 				70C7DC2224D20F190050419B /* ParseObjectBatchTests.swift in Sources */,
@@ -1366,6 +1372,7 @@
 				705727BC2593FF8C00F0ADD5 /* ParseFileTests.swift in Sources */,
 				709B984F2556ECAA00507778 /* AnyCodableTests.swift in Sources */,
 				705A99FB259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
+				7003963D25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */,
 				709B98592556ECAA00507778 /* MockURLResponse.swift in Sources */,
 				709B98522556ECAA00507778 /* ParseUserTests.swift in Sources */,
 				709B984E2556ECAA00507778 /* ParseGeoPointTests.swift in Sources */,
@@ -1392,6 +1399,7 @@
 				705727BB2593FF8B00F0ADD5 /* ParseFileTests.swift in Sources */,
 				70F2E2BD254F283000B2EA5C /* AnyDecodableTests.swift in Sources */,
 				705A99FA259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
+				7003963C25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */,
 				70F2E2C1254F283000B2EA5C /* AnyCodableTests.swift in Sources */,
 				70F2E2B3254F283000B2EA5C /* ParseUserTests.swift in Sources */,
 				70F2E2C0254F283000B2EA5C /* MockURLResponse.swift in Sources */,

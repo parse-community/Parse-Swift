@@ -10,5 +10,6 @@
         <page name='7 - GeoPoint'/>
         <page name='8 - Pointers'/>
         <page name='9 - Files'/>
+        <page name='11 - LiveQuery'/>
     </pages>
 </playground>

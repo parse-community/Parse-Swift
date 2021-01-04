@@ -693,7 +693,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
         self.fields = keys
         return self
     }
-    
+
     /**
       The className of a `ParseObject` to query.
     */

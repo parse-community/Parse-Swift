@@ -8,5 +8,4 @@
 
 import Foundation
 
-protocol LiveQueryable: Encodable {}
-
+protocol LiveQueryable {}

@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 1/2/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
-// Ripped from: https://github.com/parse-community/LiveQuerySocket-iOS-OSX/blob/main/Sources/LiveQuerySocket/Subscription.swift
+//
 
 import Foundation
 
@@ -59,8 +59,8 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
 /**
  A default implementation of the  SubscriptionHandlable protocol, using closures for callbacks.
  */
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-open class Subscription<T: ParseObject>:  SubscriptionHandlable  {
+open class Subscription<T: ParseObject>: SubscriptionHandlable {
+    public var query: Query<T>
     public typealias SubscribedObject = T
     fileprivate var errorHandlers: [(Query<T>, Error) -> Void] = []
     fileprivate var eventHandlers: [(Query<T>, Event<T>) -> Void] = []
@@ -70,7 +70,8 @@ open class Subscription<T: ParseObject>:  SubscriptionHandlable  {
     /**
      Creates a new subscription that can be used to handle updates.
      */
-    public init() {
+    public init(query: Query<T>) {
+        self.query = query
     }
 
     /**
@@ -130,7 +131,6 @@ open class Subscription<T: ParseObject>:  SubscriptionHandlable  {
     }
 }
 
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension Subscription {
     /**
      Register a callback for when an error occcurs of a specific type
@@ -164,7 +164,8 @@ extension Subscription {
      - parameter handler:   The callback to register
      - returns: The same subscription, for easy chaining
      */
-    @discardableResult public func handle(_ eventType: @escaping (T) -> Event<T>, _ handler: @escaping (Query<T>, T) -> Void) -> Subscription {
+    @discardableResult public func handle(_ eventType: @escaping (T) -> Event<T>,
+                                          _ handler: @escaping (Query<T>, T) -> Void) -> Subscription {
         return handleEvent { query, event in
             switch event {
             case .entered(let obj) where eventType(obj) == event: handler(query, obj)

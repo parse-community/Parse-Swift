@@ -5,7 +5,7 @@ internal struct ParseConfiguration {
     static var masterKey: String? // swiftlint:disable:this inclusive_language
     static var clientKey: String?
     static var serverURL: URL!
-    static var liveQuerysServerURL: URL!
+    static var liveQuerysServerURL: URL?
     static var mountPath: String!
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     static var liveQuery: ParseLiveQuery!
@@ -18,7 +18,7 @@ public func initialize(
     clientKey: String? = nil,
     masterKey: String? = nil,
     serverURL: URL,
-    liveQueryServerURL: URL,
+    liveQueryServerURL: URL? = nil,
     primitiveObjectStore: PrimitiveObjectStore? = nil
 ) {
     ParseConfiguration.applicationId = applicationId
