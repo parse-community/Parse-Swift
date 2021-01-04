@@ -177,4 +177,5 @@ print(explain)
 let hint = try query2.find(explain: false, hint: "objectId")
 print(hint)
 
+PlaygroundPage.current.finishExecution()
 //: [Next](@next)

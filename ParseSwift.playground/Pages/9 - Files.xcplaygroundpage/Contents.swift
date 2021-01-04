@@ -151,4 +151,6 @@ do {
 /*: Files can also be saved from files located on your device by using:
  let localFile = ParseFile(name: "hello.txt", localURL: URL)
 */
+
+PlaygroundPage.current.finishExecution()
 //: [Next](@next)
