@@ -13,15 +13,60 @@ import Foundation
  Server.
  
  In most cases, you will only need to create a singleton of `ParseLiveQuery`. Initializing
- new instances will take over the LiveQuery socket, disconnecting any previous LiveQuery
- connections.
+ new instances will create a new task/connection to the `ParseLiveQuery` server. When
+ an instance is deinitialized it will automatically close it's connection gracefully.
  */
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public final class ParseLiveQuery: NSObject {
+    //Task
+    var task: URLSessionWebSocketTask!
+    var url: URL!
+    var isDisconnectedByUser = false {
+        willSet {
+            if newValue == true {
+                isConnected = false
+            }
+        }
+    }
+    public weak var authenticationDelegate: ParseLiveQueryDelegate? {
+        willSet {
+            if newValue != nil {
+                URLSession.liveQuery.authenticationDelegate = self
+            } else {
+                if let delegate = URLSession.liveQuery.authenticationDelegate as? ParseLiveQuery {
+                    if delegate == self {
+                        URLSession.liveQuery.authenticationDelegate = nil
+                    }
+                }
+            }
+        }
+    }
+    public weak var metricsDelegate: ParseLiveQueryDelegate?
+    public internal(set) var isSocketEstablished = false { //URLSession has an established socket
+        willSet {
+            if newValue == false {
+                isConnected = newValue
+            }
+        }
+    }
+    public internal(set) var isConnected = false {
+        willSet {
+            isConnecting = false
+            if newValue == true {
+                if let task = task {
+                    self.pendingSubscriptionData.forEach {(_, value) -> Void in
+                        URLSession.liveQuery.send(value, task: task) { _ in }
+                    }
+                }
+            }
+        }
+    }
+    public internal(set) var isConnecting = false
+
+    //Subscription
     let requestIdGenerator: () -> RequestId
     var subscriptions = [SubscriptionRecord]()
     var pendingSubscriptionData = [RequestId: Data]()
-    public weak var delegate: ParseLiveQueryDelegate?
 
     /**
      - parameter serverURL: The URL of the Parse Live Query Server to connect to.
@@ -29,7 +74,8 @@ public final class ParseLiveQuery: NSObject {
      `ParseSwift.initialize(...liveQueryServerURL: URL)`. If no URL was passed,
      this assumes the current Parse Server URL is also the LiveQuery server.
      */
-    public init(serverURL: URL? = nil) {
+    public init?(serverURL: URL? = nil) {
+
         // Simple incrementing generator
         var currentRequestId = 0
         requestIdGenerator = {
@@ -37,47 +83,46 @@ public final class ParseLiveQuery: NSObject {
             return RequestId(value: currentRequestId)
         }
         super.init()
-        URLSession.liveQuery.delegate = self
+
+        if let userSuppliedURL = serverURL {
+            url = userSuppliedURL
+        } else if let liveQueryConfigURL = ParseConfiguration.liveQuerysServerURL {
+            url = liveQueryConfigURL
+        } else if let parseServerConfigURL = ParseConfiguration.serverURL {
+            url = parseServerConfigURL
+        } else {
+            return nil
+        }
+
+        guard var components = URLComponents(url: url,
+                                             resolvingAgainstBaseURL: false) else {
+            return
+        }
+        components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
+        url = components.url
+        setupTask(true)
     }
 
     /// Gracefully disconnects from the ParseLiveQuery Server.
     deinit {
-        // Only remove delegate if in control of socket
-        if isControllingSocket {
-            URLSession.liveQuery.delegate = nil
+        if let task = self.task {
+            try? disconnect()
+            authenticationDelegate = nil
+            metricsDelegate = nil
+            URLSession.liveQuery.delegates.removeValue(forKey: task)
         }
     }
-}
 
-// MARK: LiveQuery Socket
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension ParseLiveQuery {
-
-    /// Is this instance currently connected to the `ParseLiveQuery` server.
-    var isConnected: Bool {
-        if isControllingSocket {
-            return URLSession.liveQuery.isLiveQueryConnected
-        }
-        return false
-    }
-
-    /// Returns true if this instance is controlling the `ParseLiveQuery` socket.
-    /// Otherwise returns false.
-    var isControllingSocket: Bool {
-        if let currentDelegate = URLSession.liveQuery.delegate as? ParseLiveQuery {
-            if currentDelegate == self {
-                return true
+    func setupTask(_ forFirstTime: Bool = false) {
+        if !forFirstTime {
+            if task != nil {
+                return
             }
         }
-        return false
-    }
-
-    /// Takes over the `ParseLiveQuery` socket if it's currently not in control.
-    func reclaimSocket() {
-        if !isControllingSocket {
-            URLSession.liveQuery.delegate = nil
-            URLSession.liveQuery.delegate = self
-        }
+        task = URLSession.liveQuery.setupTask(url)
+        task.resume()
+        URLSession.liveQuery.receive(task)
+        URLSession.liveQuery.delegates[task] = self
     }
 }
 
@@ -85,20 +130,68 @@ extension ParseLiveQuery {
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery: LiveQuerySocketDelegate {
 
-    func connected() {
-        //Try to send all pending data
-        self.pendingSubscriptionData.forEach {(_, value) -> Void in
-            URLSession.liveQuery.send(value) { _ in }
+    func status(_ status: LiveQuerySocketStatus) {
+        switch status {
+
+        case .open:
+            isSocketEstablished = true
+            try? connect(isUserWantsToConnect: false) { _ in }
+        case .closed:
+            isConnected = false
         }
     }
 
     func received(_ data: Data) {
-        //Decode
-        guard let decoded = try? ParseCoding.jsonDecoder().decode(NoBody.self, from: data) else {
-            print("Couldn't decode \(data)")
-            return
+
+        if !self.isConnected {
+            //Check if this is a connected response
+            guard let response = try? ParseCoding.jsonDecoder().decode(ConnectionResponse.self, from: data),
+                  response.op == .connected else {
+                //If not connected, shouldn't be receiving anything other than connection response
+                guard let outOfOrderMessage = try? ParseCoding
+                        .jsonDecoder()
+                        .decode(NoBody.self, from: data) else {
+                    print("LiveQuery: Received message out of order, but couldn't decode it")
+                    return
+                }
+                print("LiveQuery: Received message out of order: \(outOfOrderMessage)")
+                return
+            }
+            self.isConnected = true
+        } else {
+
+            //Check if this is a error response
+            if let error = try? ParseCoding.jsonDecoder().decode(ErrorResponse.self, from: data) {
+                if !error.reconnect {
+                    //Treat this as a user disconnect because the server doesn't want to hear from us anymore
+                    try? self.disconnect()
+                    return
+                }
+                guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
+                    //Turn LiveQuery error into ParseError
+                    let parseError = ParseError(code: .unknownError,
+                                                message: "LiveQuery error code: \(error.code) message: \(error.error)")
+                    print(parseError)
+                    return
+                }
+                print(parseError)
+            } else if let preliminaryMessage = try? ParseCoding.jsonDecoder()
+                        .decode(PreliminaryMessageResponse.self,
+                                from: data) {
+
+                //Delegate all other messages to ParseLiveQuery to interpret
+                print(preliminaryMessage)
+                if let message = try? ParseCoding.jsonDecoder().decode(AnyCodable.self, from: data) {
+                    print(message)
+                }
+            } else {
+                print("Something went wrong")
+                if let message = try? ParseCoding.jsonDecoder().decode(AnyCodable.self, from: data) {
+                    print(message)
+                }
+
+            }
         }
-        print(decoded)
     }
 
     func receivedError(_ error: ParseError) {
@@ -112,7 +205,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
     func receivedChallenge(challenge: URLAuthenticationChallenge,
                            completionHandler: @escaping (URLSession.AuthChallengeDisposition,
                                                          URLCredential?) -> Void) {
-        if let delegate = delegate {
+        if let delegate = authenticationDelegate {
             delegate.receivedChallenge(challenge, completionHandler: completionHandler)
         } else if let parseAuthentication = ParseConfiguration.sessionDelegate.authentication {
             parseAuthentication(challenge, completionHandler)
@@ -123,7 +216,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 
     #if !os(watchOS)
     func receivedMetrics(_ metrics: URLSessionTaskTransactionMetrics) {
-        print()
+        metricsDelegate?.receivedMetrics(metrics)
     }
     #endif
 }
@@ -133,34 +226,43 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 extension ParseLiveQuery {
 
     ///Manually establish a connection to the `ParseLiveQuery` server.
-    public func connect(completion: @escaping (Error?) -> Void) throws {
-        if isControllingSocket {
-            try URLSession.liveQuery.connect(isUserWantsToConnect: true, completion: completion)
-        } else {
-            throw ParseError(code: .unknownError,
-                             // swiftlint:disable:next line_length
-                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+    public func connect(isUserWantsToConnect: Bool = true, completion: @escaping (Error?) -> Void) throws {
+        if isUserWantsToConnect {
+            isDisconnectedByUser = false
+        }
+        if isConnected || isDisconnectedByUser {
+            completion(nil)
+            return
+        }
+        if isConnecting {
+            completion(nil)
+            return
+        }
+        try URLSession.liveQuery.connect(isUserWantsToConnect: true, task: task) { error in
+            if error == nil {
+                self.isConnecting = true
+            }
         }
     }
 
     ///Manually disconnect from the `ParseLiveQuery` server.
     public func disconnect() throws {
-        if isControllingSocket {
-            URLSession.liveQuery.diconnect()
-        } else {
-            throw ParseError(code: .unknownError,
-                             // swiftlint:disable:next line_length
-                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+        if isConnected {
+            task.cancel()
+            isDisconnectedByUser = true
         }
+        URLSession.liveQuery.delegates.removeValue(forKey: task)
     }
 
     private func send(data: Data, requestId: RequestId, completion: @escaping (Error?) -> Void) {
-        if isControllingSocket {
-            self.pendingSubscriptionData[requestId] = data
-            if URLSession.liveQuery.isLiveQueryConnected {
-                URLSession.liveQuery.send(data, completion: completion)
-            }
+        if !isConnected {
+            let error = ParseError(code: .unknownError, message: "LiveQuery: Not connected")
+            completion(error)
+            return
         }
+        self.setupTask()
+        self.pendingSubscriptionData[requestId] = data
+        URLSession.liveQuery.send(data, task: task, completion: completion)
     }
 }
 
@@ -257,10 +359,9 @@ public extension ParseLiveQuery {
     func subscribe<T>(
         _ query: Query<T.SubscribedObject>,
         handler: T) throws -> T where T: SubscriptionHandlable {
-        if !isControllingSocket {
+        if !isConnected {
             throw ParseError(code: .unknownError,
-                             // swiftlint:disable:next line_length
-                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+                             message: "Currently not connected to the ParseLiveQueryServer.")
         }
         let requestId = requestIdGenerator()
         let subscriptionRecord = SubscriptionRecord(
@@ -300,10 +401,9 @@ public extension ParseLiveQuery {
     }*/
 
     internal func unsubscribe(matching matcher: @escaping (SubscriptionRecord) -> Bool) throws {
-        if !isControllingSocket {
+        if !isConnected {
             throw ParseError(code: .unknownError,
-                             // swiftlint:disable:next line_length
-                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+                             message: "Currently not connected to the ParseLiveQueryServer.")
         }
         var temp = [SubscriptionRecord]()
         try subscriptions.forEach {
@@ -334,10 +434,9 @@ public extension ParseLiveQuery {
         _ handler: T,
         toQuery query: Query<T.SubscribedObject>
         ) throws where T: SubscriptionHandlable {
-        if !isControllingSocket {
+        if !isConnected {
             throw ParseError(code: .unknownError,
-                             // swiftlint:disable:next line_length
-                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+                             message: "Currently not connected to the ParseLiveQueryServer.")
         }
         subscriptions = try subscriptions.compactMap {
             if $0.subscriptionHandler === handler {
@@ -356,10 +455,9 @@ public extension ParseLiveQuery {
     }
 
     func update<T: ParseObject>(_ query: Query<T>, requestId: Int) throws -> Data {
-        if !isControllingSocket {
+        if !isConnected {
             throw ParseError(code: .unknownError,
-                             // swiftlint:disable:next line_length
-                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+                             message: "Currently not connected to the ParseLiveQueryServer.")
         }
         var message = ParseMessage<T>(operation: .subscribe, requestId: requestId)
         message.query = query

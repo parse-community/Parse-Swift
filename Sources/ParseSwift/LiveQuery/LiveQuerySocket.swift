@@ -8,102 +8,25 @@
 
 import Foundation
 
+enum LiveQuerySocketStatus: String {
+    case open
+    case closed
+}
+
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 final class LiveQuerySocket: NSObject {
-    private var session: URLSession? {
-        willSet {
-            if newValue == nil {
-                task?.cancel()
-                task = nil
-            }
-        }
-    }
-    private var task: URLSessionWebSocketTask? {
-        willSet {
-            if newValue == nil {
-                isSocketEstablished = false
-            }
-        }
-    }
-    var delegate: LiveQuerySocketDelegate? {
-        willSet {
-            if newValue != nil {
-                configureServerConnection()
-            } else {
-                diconnect()
-            }
-        }
-    }
-    private var isSocketEstablished = false { //URLSession has an established socket
-        willSet {
-            if newValue == false {
-                isConnected = newValue
-            }
-        }
-    }
-    private var isConnecting = false //Parse liveQuery server connecting
-    private var isConnected = false { //Parse liveQuery server connected
-        willSet {
-            isConnecting = false
-            if newValue == true {
-                self.delegate?.connected()
-            }
-        }
-    }
-    private var isDisconnectedByUser = false {
-        willSet {
-            if newValue == true {
-                isConnected = false
-            }
-        }
-    }
-    private var isConfiguring = false
-
-    var isLiveQueryConnected: Bool {
-        isConnected
-    }
+    private var session: URLSession!
+    var delegates = [URLSessionWebSocketTask: LiveQuerySocketDelegate]()
+    weak var authenticationDelegate: LiveQuerySocketDelegate?
 
     override init() {
         super.init()
-        configureServerConnection()
-    }
-
-    func configureServerConnection() {
-        if !isConfiguring {
-            isConfiguring = true
-        } else {
-            return
-        }
-
-        //Clean up task and session
-        session = nil
-
-        //Reconfigure
-        if ParseConfiguration.liveQuerysServerURL == nil {
-            ParseConfiguration.liveQuerysServerURL = ParseConfiguration.serverURL
-        }
-
-        guard var components = URLComponents(url: ParseConfiguration.liveQuerysServerURL!,
-                                             resolvingAgainstBaseURL: false) else {
-            return
-        }
-        components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
-        ParseConfiguration.liveQuerysServerURL = components.url
         session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
-        setupSocket()
-        self.receive()
     }
 
-    func setupSocket() {
-        if task != nil {
-            return
-        }
-        if session == nil {
-            configureServerConnection() //This will call setup socket after config is complete
-            return
-        }
-        self.task = session?.webSocketTask(with: ParseConfiguration.liveQuerysServerURL!)
-        task?.resume()
+    func setupTask(_ url: URL) -> URLSessionWebSocketTask {
+        let task = session.webSocketTask(with: url)
+        return task
     }
 }
 
@@ -118,30 +41,33 @@ extension LiveQuerySocket: URLSessionWebSocketDelegate {
     func urlSession(_ session: URLSession,
                     webSocketTask: URLSessionWebSocketTask,
                     didOpenWithProtocol protocol: String?) {
-        self.isSocketEstablished = true
-        try? connect {_ in}
+        delegates[webSocketTask]?.status(.open)
     }
 
     func urlSession(_ session: URLSession,
                     webSocketTask: URLSessionWebSocketTask,
                     didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
                     reason: Data?) {
-        self.isSocketEstablished = false
+        self.delegates.forEach { (_, value) -> Void in
+            value.status(.closed)
+        }
     }
 
     func urlSession(_ session: URLSession,
                     didReceive challenge: URLAuthenticationChallenge,
                     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if session == self.session {
-            delegate?.receivedChallenge(challenge: challenge, completionHandler: completionHandler)
+        if let authenticationDelegate = authenticationDelegate {
+            authenticationDelegate.receivedChallenge(challenge: challenge, completionHandler: completionHandler)
+        } else {
+            completionHandler(.performDefaultHandling, nil)
         }
     }
 
     #if !os(watchOS)
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
-        if task == self.task {
+        if let socketTask = task as? URLSessionWebSocketTask {
             if let transactionMetrics = metrics.transactionMetrics.last {
-                self.delegate?.receivedMetrics(transactionMetrics)
+                delegates[socketTask]?.receivedMetrics(transactionMetrics)
             }
         }
     }
@@ -151,67 +77,37 @@ extension LiveQuerySocket: URLSessionWebSocketDelegate {
 // MARK: Connect
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
-    func connect(isUserWantsToConnect: Bool = false, completion: @escaping (Error?) -> Void) throws {
-        if isUserWantsToConnect {
-            isDisconnectedByUser = false
-        }
-        if isConnected || isDisconnectedByUser {
-            completion(nil)
+    func connect(isUserWantsToConnect: Bool = false,
+                 task: URLSessionWebSocketTask,
+                 completion: @escaping (Error?) -> Void) throws {
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(StandardMessage(operation: .connect,
+                                    addStandardKeys: true))
+        guard let encodedAsString = String(data: encoded, encoding: .utf8) else {
+            print("Error")
             return
         }
-        if isConnecting {
-            completion(nil)
-            return
-        } else {
-            isConnecting = true
-            let encoded = try ParseCoding.jsonEncoder()
-                .encode(StandardMessage(operation: .connect,
-                                        addStandardKeys: true))
-            guard let encodedAsString = String(data: encoded, encoding: .utf8) else {
-                print("Error")
-                return
-            }
-            self.setupSocket()
-            self.task?.send(.string(encodedAsString)) { error in
-                if error == nil {
-                    self.isConnecting = false
-                }
-                completion(error)
-            }
-            self.receive()
-        }
-    }
-}
 
-// MARK: Disconnect
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension LiveQuerySocket {
-    func diconnect() {
-        if isConnected {
-            session = nil
-            isDisconnectedByUser = true
+        task.send(.string(encodedAsString)) { error in
+            completion(error)
         }
+        self.receive(task)
     }
 }
 
 // MARK: Send
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
-    func send(_ data: Data, completion: @escaping (Error?) -> Void) {
-        if !isConnected {
-            let error = ParseError(code: .unknownError, message: "LiveQuery: Not connected")
-            completion(error)
-            return
-        }
-        self.setupSocket()
+    func send(_ data: Data, task: URLSessionWebSocketTask, completion: @escaping (Error?) -> Void) {
+
         guard let encodedAsString = String(data: data, encoding: .utf8) else {
             completion(nil)
             return
         }
-        task?.send(.string(encodedAsString)) { error in
+        task.send(.string(encodedAsString)) { error in
             completion(error)
         }
-        self.receive()
+        self.receive(task)
     }
 }
 
@@ -219,72 +115,25 @@ extension LiveQuerySocket {
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
     // swiftlint:disable:next cyclomatic_complexity function_body_length
-    private func receive() {
-        guard let task = self.task else {
-            return
-        }
+    func receive(_ task: URLSessionWebSocketTask) {
 
         task.receive { result in
             switch result {
 
             case .success(.string(let message)):
-
                 guard let data = message.data(using: .utf8) else {
                     return
                 }
-
-                if !self.isConnected {
-                    //Check if this is a connected response
-                    guard let response = try? ParseCoding.jsonDecoder().decode(ConnectionResponse.self, from: data),
-                          response.op == .connected else {
-                        //If not connected, shouldn't be receiving anything other than connection response
-                        guard let outOfOrderMessage = try? ParseCoding
-                                .jsonDecoder()
-                                .decode(NoBody.self, from: data) else {
-                            print("LiveQuery: Received message out of order, but couldn't decode it")
-                            self.receive()
-                            return
-                        }
-                        print("LiveQuery: Received message out of order: \(outOfOrderMessage)")
-                        self.receive()
-                        return
-                    }
-                    self.isConnected = true
-                } else {
-
-                    //Check if this is a error response
-                    if let error = try? ParseCoding.jsonDecoder().decode(ErrorResponse.self, from: data) {
-                        if !error.reconnect {
-                            //Treat this as a user disconnect because the server doesn't want to hear from us anymore
-                            self.diconnect()
-                            return
-                        }
-                        guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
-                            //Turn LiveQuery error into ParseError
-                            let parseError = ParseError(code: .unknownError,
-                                                        // swiftlint:disable:next line_length
-                                                        message: "LiveQuery error code: \(error.code) message: \(error.error)")
-                            self.delegate?.receivedError(parseError)
-                            self.receive()
-                            return
-                        }
-                        self.delegate?.receivedError(parseError)
-
-                    } else {
-                        //Delegate all other messages to ParseLiveQuery to interpret
-                        self.delegate?.received(data)
-                    }
-                }
-                //Fall through and keep receiving messages
-                self.receive()
+                self.delegates[task]?.received(data)
+                self.receive(task)
 
             case .success(.data(let data)):
-                self.delegate?.receivedUnsupported(data, socketMessage: nil)
+                self.delegates[task]?.receivedUnsupported(data, socketMessage: nil)
             case .success(let message):
-                self.delegate?.receivedUnsupported(nil, socketMessage: message)
+                self.delegates[task]?.receivedUnsupported(nil, socketMessage: message)
             case .failure(let error):
                 let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                self.delegate?.receivedError(parseError)
+                self.delegates[task]?.receivedError(parseError)
             }
         }
     }

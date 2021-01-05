@@ -69,3 +69,8 @@ struct ErrorResponse: LiveQueryable, Decodable {
     let error: String
     let reconnect: Bool
 }
+
+struct PreliminaryMessageResponse: LiveQueryable, Decodable {
+    let op: OperationResponses // swiftlint:disable:this identifier_name
+    let code: Int
+}
