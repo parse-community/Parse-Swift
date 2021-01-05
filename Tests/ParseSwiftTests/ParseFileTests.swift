@@ -28,13 +28,13 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url)
-        ParseSwift.setupForTesting()
+                              serverURL: url,
+                              testing: true)
+
         guard let fileManager = ParseFileManager() else {
             throw ParseError(code: .unknownError, message: "Should have initialized file manage")
         }
         try fileManager.createDirectoryIfNeeded(temporaryDirectory)
-        ParseSwift.setupForTesting()
     }
 
     override func tearDownWithError() throws {

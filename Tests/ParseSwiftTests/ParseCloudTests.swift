@@ -34,8 +34,8 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url)
-        ParseSwift.setupForTesting()
+                              serverURL: url,
+                              testing: true)
     }
 
     override func tearDownWithError() throws {

@@ -39,6 +39,23 @@ public func initialize(
     }
 }
 
-internal func setupForTesting() {
-    ParseConfiguration.isTestingSDK = true
+// swiftlint:disable:next inclusive_language
+internal func initialize(applicationId: String,
+                         clientKey: String? = nil,
+                         masterKey: String? = nil,
+                         serverURL: URL,
+                         liveQueryServerURL: URL? = nil,
+                         primitiveObjectStore: PrimitiveObjectStore? = nil,
+                         testing: Bool = false,
+                         authentication: ((URLAuthenticationChallenge,
+                                           (URLSession.AuthChallengeDisposition,
+                                            URLCredential?) -> Void) -> Void)? = nil) {
+    ParseConfiguration.isTestingSDK = testing
+    initialize(applicationId: applicationId,
+               clientKey: clientKey,
+               masterKey: masterKey,
+               serverURL: serverURL,
+               liveQueryServerURL: liveQueryServerURL,
+               primitiveObjectStore: primitiveObjectStore,
+               authentication: authentication)
 }

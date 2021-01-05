@@ -58,8 +58,7 @@ internal extension API {
 
             case .success(let urlRequest):
                 if method == .POST || method == .PUT {
-                    let networkSession = !ParseConfiguration.isTestingSDK ? URLSession.parse : URLSession.shared
-                    let task = networkSession.uploadTask(withStreamedRequest: urlRequest)
+                    let task = URLSession.parse.uploadTask(withStreamedRequest: urlRequest)
                     ParseConfiguration.sessionDelegate.uploadDelegates[task] = uploadProgress
                     ParseConfiguration.sessionDelegate.streamDelegates[task] = stream
                     task.resume()
@@ -105,15 +104,13 @@ internal extension API {
                           downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
 
-            let networkSession = !ParseConfiguration.isTestingSDK ? URLSession.parse : URLSession.shared
-
             if !path.urlComponent.contains("/files/") {
                 //All ParseObjects use the shared URLSession
                 switch self.prepareURLRequest(options: options,
                                               childObjects: childObjects,
                                               childFiles: childFiles) {
                 case .success(let urlRequest):
-                    networkSession.dataTask(with: urlRequest, mapper: mapper) { result in
+                    URLSession.parse.dataTask(with: urlRequest, mapper: mapper) { result in
                         switch result {
 
                         case .success(let decoded):
@@ -136,7 +133,6 @@ internal extension API {
                 }
             } else {
                 //ParseFiles are handled with a dedicated URLSession
-                let networkSession = !ParseConfiguration.isTestingSDK ? URLSession.parse : URLSession.shared
                 if method == .POST || method == .PUT {
                     switch self.prepareURLRequest(options: options,
                                                   childObjects: childObjects,
@@ -144,7 +140,7 @@ internal extension API {
 
                     case .success(let urlRequest):
 
-                        networkSession.uploadTask(with: urlRequest,
+                        URLSession.parse.uploadTask(with: urlRequest,
                                            from: uploadData,
                                            from: uploadFile,
                                            progress: uploadProgress,
@@ -177,9 +173,9 @@ internal extension API {
                                                       childFiles: childFiles) {
 
                         case .success(let urlRequest):
-                            networkSession.downloadTask(with: urlRequest,
-                                                        progress: downloadProgress,
-                                                        mapper: mapper) { result in
+                            URLSession.parse.downloadTask(with: urlRequest,
+                                                          progress: downloadProgress,
+                                                          mapper: mapper) { result in
                                 switch result {
 
                                 case .success(let decoded):
@@ -202,7 +198,7 @@ internal extension API {
                         }
                     } else if let otherURL = self.otherURL {
                         //Non-parse servers don't receive any parse dedicated request info
-                        networkSession.downloadTask(with: otherURL, mapper: mapper) { result in
+                        URLSession.parse.downloadTask(with: otherURL, mapper: mapper) { result in
                             switch result {
 
                             case .success(let decoded):
@@ -618,10 +614,9 @@ internal extension API {
         func executeAsync(options: API.Options, callbackQueue: DispatchQueue?,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
 
-            let networkSession = !ParseConfiguration.isTestingSDK ? URLSession.parse : URLSession.shared
             switch self.prepareURLRequest(options: options) {
             case .success(let urlRequest):
-                networkSession.dataTask(with: urlRequest, mapper: mapper) { result in
+                URLSession.parse.dataTask(with: urlRequest, mapper: mapper) { result in
                     switch result {
 
                     case .success(let decoded):

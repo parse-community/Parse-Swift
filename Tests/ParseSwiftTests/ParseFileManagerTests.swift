@@ -26,8 +26,9 @@ class ParseFileManagerTests: XCTestCase {
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url)
-        ParseSwift.setupForTesting()
+                              serverURL: url,
+                              testing: true)
+
         guard let fileManager = ParseFileManager(),
               let defaultDirectory = fileManager.defaultDataDirectoryPath else {
             throw ParseError(code: .unknownError, message: "Should have initialized file manage")

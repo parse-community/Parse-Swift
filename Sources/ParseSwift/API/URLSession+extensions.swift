@@ -14,9 +14,13 @@ import FoundationNetworking
 
 extension URLSession {
     static let parse: URLSession = {
-        URLSession(configuration: .default,
+        if !ParseConfiguration.isTestingSDK {
+            return URLSession(configuration: .default,
                    delegate: ParseConfiguration.sessionDelegate,
                    delegateQueue: nil)
+        } else {
+            return URLSession.shared
+        }
     }()
 
     internal func makeResult<U>(responseData: Data?,
