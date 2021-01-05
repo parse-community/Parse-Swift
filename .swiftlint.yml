@@ -1,0 +1,6 @@
+disabled_rules:
+  - file_length
+  - cyclomatic_complexity
+  - function_body_length
+  - type_body_length
+  - inclusive_language
