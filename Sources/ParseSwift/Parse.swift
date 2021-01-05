@@ -33,7 +33,7 @@ public func initialize(
                                             .joined(separator: "/")
     ParseStorage.shared.use(primitiveObjectStore ?? CodableInMemoryPrimitiveObjectStore())
     ParseConfiguration.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main, authentication: authentication)
-    _ = URLSession.parse //Initialize Parse URLSession now
+    //Prepare installation
     DispatchQueue.main.async {
         _ = BaseParseInstallation()
     }
