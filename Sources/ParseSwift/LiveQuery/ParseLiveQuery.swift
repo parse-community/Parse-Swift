@@ -8,6 +8,14 @@
 
 import Foundation
 
+/**
+ The `ParseLiveQuery` class enables two-way communication to a Parse Live Query
+ Server.
+ 
+ In most cases, you will only need to create a singleton of `ParseLiveQuery`. Initializing
+ new instances will take over the LiveQuery socket, disconnecting any previous LiveQuery
+ connections.
+ */
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public final class ParseLiveQuery: NSObject {
     let requestIdGenerator: () -> RequestId
@@ -15,7 +23,13 @@ public final class ParseLiveQuery: NSObject {
     var pendingSubscriptionData = [RequestId: Data]()
     public weak var delegate: ParseLiveQueryDelegate?
 
-    public init(server: URL? = nil) {
+    /**
+     - parameter serverURL: The URL of the Parse Live Query Server to connect to.
+     Defaults to `nil` in which case, it will use the URL passed in
+     `ParseSwift.initialize(...liveQueryServerURL: URL)`. If no URL was passed,
+     this assumes the current Parse Server URL is also the LiveQuery server.
+     */
+    public init(serverURL: URL? = nil) {
         // Simple incrementing generator
         var currentRequestId = 0
         requestIdGenerator = {
@@ -26,12 +40,43 @@ public final class ParseLiveQuery: NSObject {
         URLSession.liveQuery.delegate = self
     }
 
+    /// Gracefully disconnects from the ParseLiveQuery Server.
     deinit {
+        // Only remove delegate if in control of socket
+        if isControllingSocket {
+            URLSession.liveQuery.delegate = nil
+        }
+    }
+}
+
+// MARK: LiveQuery Socket
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension ParseLiveQuery {
+
+    /// Is this instance currently connected to the `ParseLiveQuery` server.
+    var isConnected: Bool {
+        if isControllingSocket {
+            return URLSession.liveQuery.isLiveQueryConnected
+        }
+        return false
+    }
+
+    /// Returns true if this instance is controlling the `ParseLiveQuery` socket.
+    /// Otherwise returns false.
+    var isControllingSocket: Bool {
         if let currentDelegate = URLSession.liveQuery.delegate as? ParseLiveQuery {
-            // Only remove delegate if in control of socket
             if currentDelegate == self {
-                URLSession.liveQuery.delegate = nil
+                return true
             }
+        }
+        return false
+    }
+
+    /// Takes over the `ParseLiveQuery` socket if it's currently not in control.
+    func reclaimSocket() {
+        if !isControllingSocket {
+            URLSession.liveQuery.delegate = nil
+            URLSession.liveQuery.delegate = self
         }
     }
 }
@@ -86,18 +131,35 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 // MARK: Connection
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
+
+    ///Manually establish a connection to the `ParseLiveQuery` server.
     public func connect(completion: @escaping (Error?) -> Void) throws {
-        try URLSession.liveQuery.connect(isUserWantsToConnect: true, completion: completion)
+        if isControllingSocket {
+            try URLSession.liveQuery.connect(isUserWantsToConnect: true, completion: completion)
+        } else {
+            throw ParseError(code: .unknownError,
+                             // swiftlint:disable:next line_length
+                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+        }
     }
 
-    public func disconnect() {
-        URLSession.liveQuery.diconnect()
+    ///Manually disconnect from the `ParseLiveQuery` server.
+    public func disconnect() throws {
+        if isControllingSocket {
+            URLSession.liveQuery.diconnect()
+        } else {
+            throw ParseError(code: .unknownError,
+                             // swiftlint:disable:next line_length
+                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+        }
     }
 
     private func send(data: Data, requestId: RequestId, completion: @escaping (Error?) -> Void) {
-        self.pendingSubscriptionData[requestId] = data
-        if URLSession.liveQuery.isLiveQueryConnected {
-            URLSession.liveQuery.send(data, completion: completion)
+        if isControllingSocket {
+            self.pendingSubscriptionData[requestId] = data
+            if URLSession.liveQuery.isLiveQueryConnected {
+                URLSession.liveQuery.send(data, completion: completion)
+            }
         }
     }
 }
@@ -195,7 +257,11 @@ public extension ParseLiveQuery {
     func subscribe<T>(
         _ query: Query<T.SubscribedObject>,
         handler: T) throws -> T where T: SubscriptionHandlable {
-
+        if !isControllingSocket {
+            throw ParseError(code: .unknownError,
+                             // swiftlint:disable:next line_length
+                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+        }
         let requestId = requestIdGenerator()
         let subscriptionRecord = SubscriptionRecord(
             query: query,
@@ -234,6 +300,11 @@ public extension ParseLiveQuery {
     }*/
 
     internal func unsubscribe(matching matcher: @escaping (SubscriptionRecord) -> Bool) throws {
+        if !isControllingSocket {
+            throw ParseError(code: .unknownError,
+                             // swiftlint:disable:next line_length
+                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+        }
         var temp = [SubscriptionRecord]()
         try subscriptions.forEach {
             if matcher($0) {
@@ -263,6 +334,11 @@ public extension ParseLiveQuery {
         _ handler: T,
         toQuery query: Query<T.SubscribedObject>
         ) throws where T: SubscriptionHandlable {
+        if !isControllingSocket {
+            throw ParseError(code: .unknownError,
+                             // swiftlint:disable:next line_length
+                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+        }
         subscriptions = try subscriptions.compactMap {
             if $0.subscriptionHandler === handler {
                 var message = ParseMessage<T.SubscribedObject>(operation: .subscribe, requestId: $0.requestId.value)
@@ -280,6 +356,11 @@ public extension ParseLiveQuery {
     }
 
     func update<T: ParseObject>(_ query: Query<T>, requestId: Int) throws -> Data {
+        if !isControllingSocket {
+            throw ParseError(code: .unknownError,
+                             // swiftlint:disable:next line_length
+                             message: "Currently not in control of the ParseLiveQuery socket. Please use \"reclaimSocket\" first.")
+        }
         var message = ParseMessage<T>(operation: .subscribe, requestId: requestId)
         message.query = query
         message.sessionToken = BaseParseUser.currentUserContainer?.sessionToken

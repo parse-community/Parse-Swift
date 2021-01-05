@@ -21,6 +21,11 @@ func getKeychainQueryTemplate(forService service: String) -> [String: String] {
     return query
 }
 
+/**
+ KeychainStore is UserDefaults-like wrapper on top of Keychain.
+ It supports any object, with Coding support. All objects are available after the
+ first device unlock and are not backed up.
+ */
 struct KeychainStore: SecureStorage {
     private let synchronizationQueue: DispatchQueue
     private let keychainQueryTemplate: [String: String]

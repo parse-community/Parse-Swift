@@ -27,9 +27,9 @@ final class LiveQuerySocket: NSObject {
     }
     var delegate: LiveQuerySocketDelegate? {
         willSet {
-            if newValue != nil && isSocketEstablished {
-                try? connect(isUserWantsToConnect: true) { _ in }
-            } else if newValue == nil {
+            if newValue != nil {
+                configureServerConnection()
+            } else {
                 diconnect()
             }
         }
@@ -57,6 +57,7 @@ final class LiveQuerySocket: NSObject {
             }
         }
     }
+    private var isConfiguring = false
 
     var isLiveQueryConnected: Bool {
         isConnected
@@ -68,6 +69,12 @@ final class LiveQuerySocket: NSObject {
     }
 
     func configureServerConnection() {
+        if !isConfiguring {
+            isConfiguring = true
+        } else {
+            return
+        }
+
         //Clean up task and session
         session = nil
 
@@ -180,8 +187,10 @@ extension LiveQuerySocket {
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
     func diconnect() {
-        session = nil
-        isDisconnectedByUser = true
+        if isConnected {
+            session = nil
+            isDisconnectedByUser = true
+        }
     }
 }
 

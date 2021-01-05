@@ -39,7 +39,7 @@ class HandleLiveQueryNotifications: ParseLiveQueryDelegate {
 if #available(iOS 13.0, macOS 10.15, *) {
     let query = GameScore.query("score" > 9)
     let subscription = Subscription(query: query)
-    let notifications = HandleLiveQueryNotifications()
+    //let notifications = HandleLiveQueryNotifications()
     let liveQuery = ParseLiveQuery()
     //liveQuery.delegate = notifications
     let subscribed = try liveQuery.subscribe(query, handler: subscription)
