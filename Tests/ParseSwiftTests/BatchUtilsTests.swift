@@ -65,6 +65,15 @@ class BatchUtilsTests: XCTestCase {
         XCTAssertEqual(splitArray.count, 5)
         XCTAssertEqual(firstSplit, [1])
         XCTAssertEqual(lastSplit, [5])
+
+        guard splitArray.count == 5 else {
+            XCTFail("Should have 5 items")
+            return
+        }
+
+        XCTAssertEqual(splitArray[1], [2])
+        XCTAssertEqual(splitArray[2], [3])
+        XCTAssertEqual(splitArray[3], [4])
     }
 
     func testSplitArrayComplexSegments() throws {
@@ -78,5 +87,13 @@ class BatchUtilsTests: XCTestCase {
         XCTAssertEqual(splitArray.count, 4)
         XCTAssertEqual(firstSplit, [1, 2])
         XCTAssertEqual(lastSplit, [7])
+
+        guard splitArray.count == 4 else {
+            XCTFail("Should have 4 items")
+            return
+        }
+
+        XCTAssertEqual(splitArray[1], [3, 4])
+        XCTAssertEqual(splitArray[2], [5, 6])
     }
 }
