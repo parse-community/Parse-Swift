@@ -11,14 +11,24 @@ import Foundation
 enum Operation: String, Encodable {
     case connect
     case subscribe
-    case create
-    case enter
-    case update
-    case leave
-    case delete
     case unsubscribe
 }
 
 enum OperationResponses: String, Decodable {
-    case connected, subscribed, unsubscribed, error
+    case connected, subscribed, unsubscribed,
+         create, enter, update, leave, delete
+}
+
+enum OperationErrorResponse: String, Decodable {
+    case error
+}
+
+// An opaque placeholder structed used to ensure that we type-safely create request IDs and don't shoot ourself in
+// the foot with array indexes.
+struct RequestId: Hashable, Equatable, Codable {
+    let value: Int
+
+    init(value: Int) {
+        self.value = value
+    }
 }

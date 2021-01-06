@@ -28,10 +28,16 @@ struct StandardMessage: LiveQueryable, Encodable {
         }
     }
 
-    init(operation: Operation, requestId: Int) {
+    init(operation: Operation, requestId: RequestId) {
         self.init(operation: operation)
-        self.requestId = requestId
+        self.requestId = requestId.value
     }
+}
+
+struct ParseMessageQueryValue: Encodable {
+    let className: String
+    let `where`: QueryWhere
+    let fields: [String]?
 }
 
 struct ParseMessage<T: ParseObject>: LiveQueryable, Encodable {
@@ -41,10 +47,17 @@ struct ParseMessage<T: ParseObject>: LiveQueryable, Encodable {
     var sessionToken: String?
     var installationId: String?
     var requestId: Int?
-    var query: Query<T>?
+    var query: ParseMessageQueryValue?
 
-    init(operation: Operation, requestId: Int, addStandardKeys: Bool = false) {
+    init(operation: Operation,
+         requestId: RequestId,
+         query: Query<T>? = nil,
+         addStandardKeys: Bool = false) {
         self.op = operation
+        self.requestId = requestId.value
+        if let query = query {
+            self.query = ParseMessageQueryValue(className: query.className, where: query.where, fields: query.fields)
+        }
         if addStandardKeys {
             self.applicationId = ParseConfiguration.applicationId
             self.clientKey = ParseConfiguration.clientKey
@@ -64,7 +77,7 @@ struct UnsubscribedResponse: LiveQueryable, Decodable {
 }
 
 struct ErrorResponse: LiveQueryable, Decodable {
-    let op: OperationResponses // swiftlint:disable:this identifier_name
+    let op: OperationErrorResponse // swiftlint:disable:this identifier_name
     let code: Int
     let error: String
     let reconnect: Bool
@@ -72,5 +85,5 @@ struct ErrorResponse: LiveQueryable, Decodable {
 
 struct PreliminaryMessageResponse: LiveQueryable, Decodable {
     let op: OperationResponses // swiftlint:disable:this identifier_name
-    let code: Int
+    let requestId: Int
 }

@@ -54,8 +54,15 @@ public final class ParseLiveQuery: NSObject {
             isConnecting = false
             if newValue == true {
                 if let task = task {
-                    self.pendingSubscriptionData.forEach {(_, value) -> Void in
-                        URLSession.liveQuery.send(value, task: task) { _ in }
+                    //Resubscribe to all subscriptions
+
+                    //Send all pending messages
+                    self.pendingQueue.forEach {
+                        let messageToSend = $0
+                        if let message = try? ParseCoding.jsonDecoder().decode(AnyCodable.self, from: messageToSend.1.data) {
+                            print(message)
+                        }
+                        URLSession.liveQuery.send(messageToSend.1.data, task: task) { _ in }
                     }
                 }
             }
@@ -65,8 +72,8 @@ public final class ParseLiveQuery: NSObject {
 
     //Subscription
     let requestIdGenerator: () -> RequestId
-    var subscriptions = [SubscriptionRecord]()
-    var pendingSubscriptionData = [RequestId: Data]()
+    var subscriptions = [RequestId: SubscriptionRecord]()
+    var pendingQueue = [(RequestId, SubscriptionRecord)]()
 
     /**
      - parameter serverURL: The URL of the Parse Live Query Server to connect to.
@@ -179,11 +186,43 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                         .decode(PreliminaryMessageResponse.self,
                                 from: data) {
 
-                //Delegate all other messages to ParseLiveQuery to interpret
                 print(preliminaryMessage)
                 if let message = try? ParseCoding.jsonDecoder().decode(AnyCodable.self, from: data) {
                     print(message)
                 }
+
+                switch preliminaryMessage.op {
+                case .subscribed:
+                    if let subscribed = pendingQueue.first(where: {(requestId, _) -> Bool in
+                        if requestId.value == preliminaryMessage.requestId {
+                            return true
+                        } else {
+                            return false
+                        }
+                    }) {
+                        subscriptions[subscribed.0] = subscribed.1
+                        pendingQueue.removeAll(where: {(requstId, _) -> Bool in
+                            if requstId.value == preliminaryMessage.requestId {
+                                return true
+                            } else {
+                                return false
+                            }
+                        })
+                    }
+                case .unsubscribed:
+                    let requestIdToRemove = RequestId(value: preliminaryMessage.requestId)
+                    subscriptions.removeValue(forKey: requestIdToRemove)
+                    pendingQueue.removeAll(where: {(requstId, _) -> Bool in
+                        if requstId.value == preliminaryMessage.requestId {
+                            return true
+                        } else {
+                            return false
+                        }
+                    })
+                default:
+                    print()
+                }
+
             } else {
                 print("Something went wrong")
                 if let message = try? ParseCoding.jsonDecoder().decode(AnyCodable.self, from: data) {
@@ -254,28 +293,11 @@ extension ParseLiveQuery {
         URLSession.liveQuery.delegates.removeValue(forKey: task)
     }
 
-    private func send(data: Data, requestId: RequestId, completion: @escaping (Error?) -> Void) {
-        if !isConnected {
-            let error = ParseError(code: .unknownError, message: "LiveQuery: Not connected")
-            completion(error)
-            return
-        }
+    private func send(record: SubscriptionRecord, requestId: RequestId, completion: @escaping (Error?) -> Void) {
         self.setupTask()
-        self.pendingSubscriptionData[requestId] = data
-        URLSession.liveQuery.send(data, task: task, completion: completion)
-    }
-}
-
-// MARK: RequestId Generator
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension ParseLiveQuery {
-    // An opaque placeholder structed used to ensure that we type-safely create request IDs and don't shoot ourself in
-    // the foot with array indexes.
-    struct RequestId: Hashable, Equatable {
-        let value: Int
-
-        init(value: Int) {
-            self.value = value
+        self.pendingQueue.append((requestId, record))
+        if isConnected {
+            URLSession.liveQuery.send(record.data, task: task, completion: completion)
         }
     }
 }
@@ -285,19 +307,19 @@ extension ParseLiveQuery {
 extension ParseLiveQuery {
     class SubscriptionRecord {
 
-        let requestId: RequestId
-
-        //let query: Query<T.SubscribedObject>
+        //let requestId: RequestId
+        var data: Data
+        let query: AnyObject//Query<T.SubscribedObject>
 
         var subscriptionHandler: AnyObject
-        //var eventHandlerClosure: ((Event<ParseObject>, LiveQuerySocket) -> Void)?
+        //var eventHandlerClosure: ((Event<ParseObject>, ParseLiveQuery) -> Void)?
         var errorHandlerClosure: ((Error, LiveQuerySocket) -> Void)?
         var subscribeHandlerClosure: ((LiveQuerySocket) -> Void)?
         var unsubscribeHandlerClosure: ((LiveQuerySocket) -> Void)?
 
-        init<T: SubscriptionHandlable>(query: Query<T.SubscribedObject>, requestId: RequestId, handler: T) {
-            //self.query = query
-            self.requestId = requestId
+        init<T: SubscriptionHandlable>(query: Query<T.SubscribedObject>, data: Data, handler: T) {
+            self.query = query
+            self.data = data
             self.subscriptionHandler = handler
 
             /*
@@ -338,17 +360,12 @@ extension ParseLiveQuery {
 public extension ParseLiveQuery {
     /**
      Registers a query for live updates, using the default subscription handler
-     - parameter query:        The query to register for updates.
-     - parameter subclassType: The subclass of ParseObject to be used as the type of the Subscription.
-     This parameter can be automatically inferred from context most of the time
+     - parameter query: The query to register for updates.
      - returns: The subscription that has just been registered
      */
-    /*func subscribe<T>(
-        _ query: Query<T>,
-        subclassType: T.Type = T.self
-        ) -> Subscription<T> {
-        return subscribe(query, handler: Subscription<T>())
-    }*/
+    func subscribe<T>(_ query: Query<T>) throws -> Subscription<T> {
+        try subscribe(query, handler: Subscription(query: query))
+    }
 
     /**
      Registers a query for live updates, using a custom subscription handler
@@ -359,23 +376,19 @@ public extension ParseLiveQuery {
     func subscribe<T>(
         _ query: Query<T.SubscribedObject>,
         handler: T) throws -> T where T: SubscriptionHandlable {
-        if !isConnected {
-            throw ParseError(code: .unknownError,
-                             message: "Currently not connected to the ParseLiveQueryServer.")
-        }
         let requestId = requestIdGenerator()
-        let subscriptionRecord = SubscriptionRecord(
-            query: query,
-            requestId: requestId,
-            handler: handler
-        )
-        self.subscriptions.append(subscriptionRecord)
 
-        var message = ParseMessage<T.SubscribedObject>(operation: .subscribe, requestId: requestId.value)
-        message.query = query
+        var message = ParseMessage<T.SubscribedObject>(operation: .subscribe, requestId: requestId, query: query)
         message.sessionToken = BaseParseUser.currentUserContainer?.sessionToken
         let encoded = try ParseCoding.jsonEncoder().encode(message)
-        self.send(data: encoded, requestId: requestId) { _ in }
+
+        let subscriptionRecord = SubscriptionRecord(
+            query: query,
+            data: encoded,
+            handler: handler
+        )
+
+        self.send(record: subscriptionRecord, requestId: requestId) { _ in }
         return handler
     }
 }
@@ -387,8 +400,9 @@ public extension ParseLiveQuery {
      Unsubscribes all current subscriptions for a given query.
      - parameter query: The query to unsubscribe from.
      */
-    /*func unsubscribe<T>(_ query: Query<T>) where T: SubscriptionHandlable {
-        unsubscribe { $0.query == query }
+    func unsubscribe<T>(_ query: Query<T>) throws where T: ParseObject {
+        let unsubscribeQuery = query as AnyObject
+        try unsubscribe { $0.query === unsubscribeQuery }
     }
 
     /**
@@ -396,25 +410,24 @@ public extension ParseLiveQuery {
      - parameter query:   The query to unsubscribe from.
      - parameter handler: The specific handler to unsubscribe from.
      */
-    func unsubscribe<T>(_ query: Query<T.SubscribedObject>, handler: T) where T:  SubscriptionHandlable {
-        unsubscribe { $0.query == query && $0.subscriptionHandler === handler }
-    }*/
+    func unsubscribe<T>(_ query: Query<T.SubscribedObject>, handler: T) throws where T: SubscriptionHandlable {
+        let unsubscribeQuery = query as AnyObject
+        try unsubscribe { $0.query === unsubscribeQuery && $0.subscriptionHandler === handler }
+    }
 
     internal func unsubscribe(matching matcher: @escaping (SubscriptionRecord) -> Bool) throws {
-        if !isConnected {
-            throw ParseError(code: .unknownError,
-                             message: "Currently not connected to the ParseLiveQueryServer.")
-        }
-        var temp = [SubscriptionRecord]()
-        try subscriptions.forEach {
-            if matcher($0) {
+        var temp = [RequestId: SubscriptionRecord]()
+        try subscriptions.forEach { (key, value) -> Void in
+            if matcher(value) {
                 let encoded = try ParseCoding
                     .jsonEncoder()
                     .encode(StandardMessage(operation: .unsubscribe,
-                                            requestId: $0.requestId.value))
-                self.send(data: encoded, requestId: $0.requestId) { _ in }
+                                            requestId: key))
+                let updatedRecord = value
+                updatedRecord.data = encoded
+                self.send(record: updatedRecord, requestId: key) { _ in }
             } else {
-                temp.append($0)
+                temp[key] = value
             }
         }
         subscriptions = temp
@@ -434,34 +447,19 @@ public extension ParseLiveQuery {
         _ handler: T,
         toQuery query: Query<T.SubscribedObject>
         ) throws where T: SubscriptionHandlable {
-        if !isConnected {
-            throw ParseError(code: .unknownError,
-                             message: "Currently not connected to the ParseLiveQueryServer.")
-        }
-        subscriptions = try subscriptions.compactMap {
-            if $0.subscriptionHandler === handler {
-                var message = ParseMessage<T.SubscribedObject>(operation: .subscribe, requestId: $0.requestId.value)
-                message.query = query
+        try subscriptions.forEach {(key, value) -> Void in
+            if value.subscriptionHandler === handler {
+                var message = ParseMessage<T.SubscribedObject>(operation: .subscribe, requestId: key, query: query)
                 message.sessionToken = BaseParseUser.currentUserContainer?.sessionToken
                 let encoded = try ParseCoding.jsonEncoder().encode(message)
-                self.send(data: encoded, requestId: $0.requestId) { _ in }
-                guard let handler = $0.subscriptionHandler as? T else {
-                    return nil
-                }
-                return SubscriptionRecord(query: query, requestId: $0.requestId, handler: handler)
+                let updatedRecord = value
+                updatedRecord.data = encoded
+                self.send(record: updatedRecord, requestId: key) { _ in }
+                /*guard let handler = value.subscriptionHandler as? T else {
+                    return
+                }*/
             }
-            return $0
         }
-    }
 
-    func update<T: ParseObject>(_ query: Query<T>, requestId: Int) throws -> Data {
-        if !isConnected {
-            throw ParseError(code: .unknownError,
-                             message: "Currently not connected to the ParseLiveQueryServer.")
-        }
-        var message = ParseMessage<T>(operation: .subscribe, requestId: requestId)
-        message.query = query
-        message.sessionToken = BaseParseUser.currentUserContainer?.sessionToken
-        return try ParseCoding.jsonEncoder().encode(message)
     }
 }

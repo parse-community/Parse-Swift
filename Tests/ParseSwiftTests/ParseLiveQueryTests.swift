@@ -58,11 +58,16 @@ class ParseLiveQueryTests: XCTestCase {
             let liveQuery = ParseLiveQuery()!
             let subscribed = try liveQuery.subscribe(query, handler: subscription)
             let expectation1 = XCTestExpectation(description: "Fetch user1")
-            subscribed.handleEvent { query, score in
-                print(query)
-                print(score)
-                expectation1.fulfill()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                let unsubscribe = try? liveQuery.unsubscribe(query)
+
+                subscribed.handleEvent { query, score in
+                    print(query)
+                    print(score)
+                    expectation1.fulfill()
+                }
             }
+
             wait(for: [expectation1], timeout: 50.0)
         } else {
             // Fallback on earlier versions

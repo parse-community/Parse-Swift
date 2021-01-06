@@ -16,7 +16,6 @@ public protocol  SubscriptionHandlable: AnyObject {
     /// The type of the `ParseObject` subclass that this handler uses.
     associatedtype SubscribedObject: ParseObject
 
-    var query: Query<SubscribedObject> {get set}
     /**
      Tells the handler that an event has been received from the live query server.
      - parameter event: The event that has been recieved from the server.
