@@ -54,18 +54,22 @@ class ParseLiveQueryTests: XCTestCase {
     func testSubscribe() throws {
         if #available(iOS 13.0, *) {
             let query = GameScore.query("score" > 9)
-            let subscription = Subscription(query: query)
-            let liveQuery = ParseLiveQuery()!
-            let subscribed = try liveQuery.subscribe(query, handler: subscription)
-            let expectation1 = XCTestExpectation(description: "Fetch user1")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                let unsubscribe = try? liveQuery.unsubscribe(query)
+            guard let subscription = query.subscribe else {
+                return
+            }
 
-                subscribed.handleEvent { query, score in
-                    print(query)
-                    print(score)
-                    expectation1.fulfill()
-                }
+            let expectation1 = XCTestExpectation(description: "Fetch user1")
+            subscription.handleEvent { query, score in
+                print(query)
+                print(score)
+                expectation1.fulfill()
+            }
+            //let subscription = Subscription(query: query)
+            //let liveQuery = ParseLiveQuery()!
+            //let subscribed = try liveQuery.subscribe(query, handler: subscription)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
+                try? query.unsubscribe()
             }
 
             wait(for: [expectation1], timeout: 50.0)

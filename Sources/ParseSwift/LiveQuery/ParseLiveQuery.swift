@@ -78,7 +78,7 @@ public final class ParseLiveQuery: NSObject {
      `ParseSwift.initialize(...liveQueryServerURL: URL)`. If no URL was passed,
      this assumes the current Parse Server URL is also the LiveQuery server.
      */
-    public init?(serverURL: URL? = nil) {
+    public init?(serverURL: URL? = nil, isDefault: Bool = false) {
 
         // Simple incrementing generator
         var currentRequestId = 0
@@ -104,7 +104,10 @@ public final class ParseLiveQuery: NSObject {
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
         url = components.url
-        setupTask()
+        createTask()
+        if isDefault {
+            setDefault(self)
+        }
     }
 
     /// Gracefully disconnects from the ParseLiveQuery Server.
@@ -121,13 +124,28 @@ public final class ParseLiveQuery: NSObject {
 // MARK: Helpers
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
-    func setupTask() {
+
+    static var client = ParseLiveQuery()
+
+    func createTask() {
         if task == nil {
-            task = URLSession.liveQuery.setupTask(url)
+            task = URLSession.liveQuery.createTask(url)
         }
         task.resume()
         URLSession.liveQuery.receive(task)
         URLSession.liveQuery.delegates[task] = self
+    }
+
+    /// Set a specific ParseLiveQuery client to be the default for all LiveQuery connections.
+    /// - parameter client: The client to set as the default.
+    public func setDefault(_ client: ParseLiveQuery) {
+        ParseLiveQuery.client = nil
+        ParseLiveQuery.client = client
+    }
+
+    /// Get the default ParseLiveQuery client for all LiveQuery connections.
+    public func getDefault() -> ParseLiveQuery? {
+        ParseLiveQuery.client
     }
 
     /// Removes a pending subscription from the list.
@@ -155,7 +173,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             isSocketEstablished = false
             if !isDisconnectedByUser {
                 //Try to reconnect
-                self.setupTask()
+                self.createTask()
             }
         }
     }
@@ -184,7 +202,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                 if !error.reconnect {
                     //Treat this as a user disconnect because the server doesn't want to hear from us anymore
                     try? self.disconnect()
-                    return
+
                 }
                 guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
                     //Turn LiveQuery error into ParseError
@@ -194,6 +212,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                     return
                 }
                 print(parseError)
+                return
             } else if let preliminaryMessage = try? ParseCoding.jsonDecoder()
                         .decode(PreliminaryMessageResponse.self,
                                 from: data) {
@@ -209,8 +228,14 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                         .first(where: { $0.0.value == preliminaryMessage.requestId }) {
                         removePendingSubscription(subscribed.0.value)
                         subscriptions[subscribed.0] = subscribed.1
+                        subscribed.1.subscribeHandlerClosure?(self)
                     }
                 case .unsubscribed:
+                    let requestId = RequestId(value: preliminaryMessage.requestId)
+                    guard let subscription = subscriptions[requestId] else {
+                        return
+                    }
+                    subscription.unsubscribeHandlerClosure?(self)
                     removePendingSubscription(preliminaryMessage.requestId)
                 default:
                     print()
@@ -305,9 +330,9 @@ extension ParseLiveQuery {
 
         var subscriptionHandler: AnyObject
         //var eventHandlerClosure: ((Event<T>, ParseLiveQuery) -> Void)?
-        var errorHandlerClosure: ((Error, LiveQuerySocket) -> Void)?
-        var subscribeHandlerClosure: ((LiveQuerySocket) -> Void)?
-        var unsubscribeHandlerClosure: ((LiveQuerySocket) -> Void)?
+        var errorHandlerClosure: ((Error, ParseLiveQuery) -> Void)?
+        var subscribeHandlerClosure: ((ParseLiveQuery) -> Void)?
+        var unsubscribeHandlerClosure: ((ParseLiveQuery) -> Void)?
 
         init<T: SubscriptionHandlable>(query: Query<T.SubscribedObject>, data: Data, handler: T) {
             self.query = query
@@ -355,8 +380,8 @@ public extension ParseLiveQuery {
      - parameter query: The query to register for updates.
      - returns: The subscription that has just been registered
      */
-    func subscribe<T>(_ query: Query<T>) throws -> Subscription<T> {
-        try subscribe(query, handler: Subscription(query: query))
+    func subscribe<T>(_ query: Query<T>) throws -> Subscription<Query<T>, T> {
+        try subscribe(query, handler: Subscription())
     }
 
     /**

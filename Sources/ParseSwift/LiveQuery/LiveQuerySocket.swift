@@ -19,7 +19,7 @@ final class LiveQuerySocket: NSObject {
         session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
     }
 
-    func setupTask(_ url: URL) -> URLSessionWebSocketTask {
+    func createTask(_ url: URL) -> URLSessionWebSocketTask {
         let task = session.webSocketTask(with: url)
         return task
     }
@@ -44,10 +44,8 @@ extension LiveQuerySocket {
             .encode(StandardMessage(operation: .connect,
                                     addStandardKeys: true))
         guard let encodedAsString = String(data: encoded, encoding: .utf8) else {
-            print("Error")
             return
         }
-
         task.send(.string(encodedAsString)) { error in
             completion(error)
         }
@@ -59,34 +57,32 @@ extension LiveQuerySocket {
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
     func send(_ data: Data, task: URLSessionWebSocketTask, completion: @escaping (Error?) -> Void) {
-
         guard let encodedAsString = String(data: data, encoding: .utf8) else {
             completion(nil)
             return
         }
         task.send(.string(encodedAsString)) { error in
+            if error == nil {
+                self.receive(task)
+            }
             completion(error)
         }
-        self.receive(task)
     }
 }
 
 // MARK: Receive
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
-    // swiftlint:disable:next cyclomatic_complexity function_body_length
-    func receive(_ task: URLSessionWebSocketTask) {
 
+    func receive(_ task: URLSessionWebSocketTask) {
         task.receive { result in
             switch result {
-
             case .success(.string(let message)):
                 guard let data = message.data(using: .utf8) else {
                     return
                 }
                 self.delegates[task]?.received(data)
                 self.receive(task)
-
             case .success(.data(let data)):
                 self.delegates[task]?.receivedUnsupported(data, socketMessage: nil)
             case .success(let message):

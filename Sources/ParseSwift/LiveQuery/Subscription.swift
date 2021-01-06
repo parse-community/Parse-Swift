@@ -59,8 +59,8 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
 /**
  A default implementation of the  SubscriptionHandlable protocol, using closures for callbacks.
  */
-open class Subscription<T: ParseObject>: SubscriptionHandlable {
-    public var query: Query<T>
+open class Subscription<Q: Query<T>, T: ParseObject>: SubscriptionHandlable {
+    //public var query: Query<T>
     public typealias SubscribedObject = T
     fileprivate var errorHandlers: [(Query<T>, Error) -> Void] = []
     fileprivate var eventHandlers: [(Query<T>, Event<T>) -> Void] = []
@@ -70,9 +70,12 @@ open class Subscription<T: ParseObject>: SubscriptionHandlable {
     /**
      Creates a new subscription that can be used to handle updates.
      */
-    public init(query: Query<T>) {
-        self.query = query
+    public init() {
+
     }
+    /*public init(query: Query<T>) {
+        self.query = query
+    }*/
 
     /**
      Register a callback for when an error occurs.
@@ -176,5 +179,21 @@ extension Subscription {
             default: return
             }
         }
+    }
+}
+
+// MARK: Query
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public extension Query {
+    var subscribe: Subscription<Query<T>, ResultType>? {
+        try? ParseLiveQuery.client?.subscribe(self)
+    }
+/*
+    func subscribe<H: SubscriptionHandlable>(_ handler: H) throws -> Subscription<Query<T>, ResultType>? {
+        try ParseLiveQuery.client?.subscribe(self, handler: handler)
+    }
+*/
+    func unsubscribe() throws {
+        try ParseLiveQuery.client?.unsubscribe(self)
     }
 }
