@@ -59,9 +59,6 @@ public final class ParseLiveQuery: NSObject {
                     //Send all pending messages
                     self.pendingQueue.forEach {
                         let messageToSend = $0
-                        if let message = try? ParseCoding.jsonDecoder().decode(AnyCodable.self, from: messageToSend.1.data) {
-                            print(message)
-                        }
                         URLSession.liveQuery.send(messageToSend.1.data, task: task) { _ in }
                     }
                 }
@@ -73,7 +70,7 @@ public final class ParseLiveQuery: NSObject {
     //Subscription
     let requestIdGenerator: () -> RequestId
     var subscriptions = [RequestId: SubscriptionRecord]()
-    var pendingQueue = [(RequestId, SubscriptionRecord)]()
+    var pendingQueue = [(RequestId, SubscriptionRecord)]() // Behave as FIFO to maintain sending order
 
     /**
      - parameter serverURL: The URL of the Parse Live Query Server to connect to.
@@ -107,7 +104,7 @@ public final class ParseLiveQuery: NSObject {
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
         url = components.url
-        setupTask(true)
+        setupTask()
     }
 
     /// Gracefully disconnects from the ParseLiveQuery Server.
@@ -119,17 +116,28 @@ public final class ParseLiveQuery: NSObject {
             URLSession.liveQuery.delegates.removeValue(forKey: task)
         }
     }
+}
 
-    func setupTask(_ forFirstTime: Bool = false) {
-        if !forFirstTime {
-            if task != nil {
-                return
-            }
+// MARK: Helpers
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension ParseLiveQuery {
+    func setupTask() {
+        if task == nil {
+            task = URLSession.liveQuery.setupTask(url)
         }
-        task = URLSession.liveQuery.setupTask(url)
         task.resume()
         URLSession.liveQuery.receive(task)
         URLSession.liveQuery.delegates[task] = self
+    }
+
+    /// Removes a pending subscription from the list.
+    /// - parameter requestId: The id of the subscription to remove.
+    public func removePendingSubscription(_ requestId: Int) {
+        let requestIdToRemove = RequestId(value: requestId)
+        pendingQueue.removeAll(where: { $0.0.value == requestId })
+        //Remove in subscriptions just in case the server
+        //responded before this was called
+        subscriptions.removeValue(forKey: requestIdToRemove)
     }
 }
 
@@ -144,7 +152,11 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             isSocketEstablished = true
             try? connect(isUserWantsToConnect: false) { _ in }
         case .closed:
-            isConnected = false
+            isSocketEstablished = false
+            if !isDisconnectedByUser {
+                //Try to reconnect
+                self.setupTask()
+            }
         }
     }
 
@@ -193,32 +205,13 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 
                 switch preliminaryMessage.op {
                 case .subscribed:
-                    if let subscribed = pendingQueue.first(where: {(requestId, _) -> Bool in
-                        if requestId.value == preliminaryMessage.requestId {
-                            return true
-                        } else {
-                            return false
-                        }
-                    }) {
+                    if let subscribed = pendingQueue
+                        .first(where: { $0.0.value == preliminaryMessage.requestId }) {
+                        removePendingSubscription(subscribed.0.value)
                         subscriptions[subscribed.0] = subscribed.1
-                        pendingQueue.removeAll(where: {(requstId, _) -> Bool in
-                            if requstId.value == preliminaryMessage.requestId {
-                                return true
-                            } else {
-                                return false
-                            }
-                        })
                     }
                 case .unsubscribed:
-                    let requestIdToRemove = RequestId(value: preliminaryMessage.requestId)
-                    subscriptions.removeValue(forKey: requestIdToRemove)
-                    pendingQueue.removeAll(where: {(requstId, _) -> Bool in
-                        if requstId.value == preliminaryMessage.requestId {
-                            return true
-                        } else {
-                            return false
-                        }
-                    })
+                    removePendingSubscription(preliminaryMessage.requestId)
                 default:
                     print()
                 }
@@ -294,7 +287,6 @@ extension ParseLiveQuery {
     }
 
     private func send(record: SubscriptionRecord, requestId: RequestId, completion: @escaping (Error?) -> Void) {
-        self.setupTask()
         self.pendingQueue.append((requestId, record))
         if isConnected {
             URLSession.liveQuery.send(record.data, task: task, completion: completion)
@@ -312,7 +304,7 @@ extension ParseLiveQuery {
         let query: AnyObject//Query<T.SubscribedObject>
 
         var subscriptionHandler: AnyObject
-        //var eventHandlerClosure: ((Event<ParseObject>, ParseLiveQuery) -> Void)?
+        //var eventHandlerClosure: ((Event<T>, ParseLiveQuery) -> Void)?
         var errorHandlerClosure: ((Error, LiveQuerySocket) -> Void)?
         var subscribeHandlerClosure: ((LiveQuerySocket) -> Void)?
         var unsubscribeHandlerClosure: ((LiveQuerySocket) -> Void)?
