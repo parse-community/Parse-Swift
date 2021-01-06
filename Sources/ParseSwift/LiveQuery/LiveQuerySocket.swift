@@ -8,11 +8,6 @@
 
 import Foundation
 
-enum LiveQuerySocketStatus: String {
-    case open
-    case closed
-}
-
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 final class LiveQuerySocket: NSObject {
     private var session: URLSession!
@@ -30,48 +25,13 @@ final class LiveQuerySocket: NSObject {
     }
 }
 
-// MARK: URLSession
+// MARK: Status
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension URLSession {
-    static let liveQuery = LiveQuerySocket()
-}
-
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-extension LiveQuerySocket: URLSessionWebSocketDelegate {
-    func urlSession(_ session: URLSession,
-                    webSocketTask: URLSessionWebSocketTask,
-                    didOpenWithProtocol protocol: String?) {
-        delegates[webSocketTask]?.status(.open)
+extension LiveQuerySocket {
+    enum Status: String {
+        case open
+        case closed
     }
-
-    func urlSession(_ session: URLSession,
-                    webSocketTask: URLSessionWebSocketTask,
-                    didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
-                    reason: Data?) {
-        self.delegates.forEach { (_, value) -> Void in
-            value.status(.closed)
-        }
-    }
-
-    func urlSession(_ session: URLSession,
-                    didReceive challenge: URLAuthenticationChallenge,
-                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
-        if let authenticationDelegate = authenticationDelegate {
-            authenticationDelegate.receivedChallenge(challenge: challenge, completionHandler: completionHandler)
-        } else {
-            completionHandler(.performDefaultHandling, nil)
-        }
-    }
-
-    #if !os(watchOS)
-    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
-        if let socketTask = task as? URLSessionWebSocketTask {
-            if let transactionMetrics = metrics.transactionMetrics.last {
-                delegates[socketTask]?.receivedMetrics(transactionMetrics)
-            }
-        }
-    }
-    #endif
 }
 
 // MARK: Connect
@@ -137,4 +97,49 @@ extension LiveQuerySocket {
             }
         }
     }
+}
+
+// MARK: URLSession
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension URLSession {
+    static let liveQuery = LiveQuerySocket()
+}
+
+// MARK: URLSessionWebSocketDelegate
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+extension LiveQuerySocket: URLSessionWebSocketDelegate {
+    func urlSession(_ session: URLSession,
+                    webSocketTask: URLSessionWebSocketTask,
+                    didOpenWithProtocol protocol: String?) {
+        delegates[webSocketTask]?.status(.open)
+    }
+
+    func urlSession(_ session: URLSession,
+                    webSocketTask: URLSessionWebSocketTask,
+                    didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
+                    reason: Data?) {
+        self.delegates.forEach { (_, value) -> Void in
+            value.status(.closed)
+        }
+    }
+
+    func urlSession(_ session: URLSession,
+                    didReceive challenge: URLAuthenticationChallenge,
+                    completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
+        if let authenticationDelegate = authenticationDelegate {
+            authenticationDelegate.receivedChallenge(challenge: challenge, completionHandler: completionHandler)
+        } else {
+            completionHandler(.performDefaultHandling, nil)
+        }
+    }
+
+    #if !os(watchOS)
+    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
+        if let socketTask = task as? URLSessionWebSocketTask {
+            if let transactionMetrics = metrics.transactionMetrics.last {
+                delegates[socketTask]?.receivedMetrics(transactionMetrics)
+            }
+        }
+    }
+    #endif
 }

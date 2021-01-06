@@ -145,7 +145,7 @@ extension ParseLiveQuery {
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery: LiveQuerySocketDelegate {
 
-    func status(_ status: LiveQuerySocketStatus) {
+    func status(_ status: LiveQuerySocket.Status) {
         switch status {
 
         case .open:
