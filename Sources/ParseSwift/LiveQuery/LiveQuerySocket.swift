@@ -42,7 +42,7 @@ extension LiveQuerySocket {
                  completion: @escaping (Error?) -> Void) throws {
         let encoded = try ParseCoding.jsonEncoder()
             .encode(StandardMessage(operation: .connect,
-                                    addStandardKeys: true))
+                                    additionalProperties: true))
         guard let encodedAsString = String(data: encoded, encoding: .utf8) else {
             return
         }

@@ -17,9 +17,9 @@ struct StandardMessage: LiveQueryable, Encodable {
     var installationId: String?
     var requestId: Int?
 
-    init(operation: Operation, addStandardKeys: Bool = false) {
+    init(operation: Operation, additionalProperties: Bool = false) {
         self.op = operation
-        if addStandardKeys {
+        if additionalProperties {
             self.applicationId = ParseConfiguration.applicationId
             self.masterKey = ParseConfiguration.masterKey
             self.clientKey = ParseConfiguration.clientKey
@@ -52,13 +52,13 @@ struct ParseMessage<T: ParseObject>: LiveQueryable, Encodable {
     init(operation: Operation,
          requestId: RequestId,
          query: Query<T>? = nil,
-         addStandardKeys: Bool = false) {
+         additionalProperties: Bool = false) {
         self.op = operation
         self.requestId = requestId.value
         if let query = query {
             self.query = ParseMessageQueryValue(className: query.className, where: query.where, fields: query.fields)
         }
-        if addStandardKeys {
+        if additionalProperties {
             self.applicationId = ParseConfiguration.applicationId
             self.clientKey = ParseConfiguration.clientKey
             self.sessionToken = BaseParseUser.currentUserContainer?.sessionToken

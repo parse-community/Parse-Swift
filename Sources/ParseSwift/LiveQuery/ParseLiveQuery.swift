@@ -113,7 +113,7 @@ public final class ParseLiveQuery: NSObject {
     /// Gracefully disconnects from the ParseLiveQuery Server.
     deinit {
         if let task = self.task {
-            try? disconnect()
+            try? close()
             authenticationDelegate = nil
             metricsDelegate = nil
             URLSession.liveQuery.delegates.removeValue(forKey: task)
@@ -168,7 +168,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 
         case .open:
             isSocketEstablished = true
-            try? connect(isUserWantsToConnect: false) { _ in }
+            try? open(isUserWantsToConnect: false) { _ in }
         case .closed:
             isSocketEstablished = false
             if !isDisconnectedByUser {
@@ -201,7 +201,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             if let error = try? ParseCoding.jsonDecoder().decode(ErrorResponse.self, from: data) {
                 if !error.reconnect {
                     //Treat this as a user disconnect because the server doesn't want to hear from us anymore
-                    try? self.disconnect()
+                    try? self.close()
 
                 }
                 guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
@@ -283,7 +283,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 extension ParseLiveQuery {
 
     ///Manually establish a connection to the `ParseLiveQuery` server.
-    public func connect(isUserWantsToConnect: Bool = true, completion: @escaping (Error?) -> Void) throws {
+    public func open(isUserWantsToConnect: Bool = true, completion: @escaping (Error?) -> Void) throws {
         if isUserWantsToConnect {
             isDisconnectedByUser = false
         }
@@ -303,7 +303,7 @@ extension ParseLiveQuery {
     }
 
     ///Manually disconnect from the `ParseLiveQuery` server.
-    public func disconnect() throws {
+    public func close() throws {
         if isConnected {
             task.cancel()
             isDisconnectedByUser = true
