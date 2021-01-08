@@ -262,7 +262,9 @@ private class _ParseEncoder: JSONEncoder, Encoder {
                 throw ParseError(code: .unknownError, message: "Found a circular dependency when encoding.")
             }
             self.uniqueObjects.insert(object)
-            if !self.collectChildren {
+            if !self.collectChildren && codingPath.count > 0 {
+                valueToEncode = value
+            } else if !self.collectChildren {
                 valueToEncode = value.toPointer()
             }
         } else {
