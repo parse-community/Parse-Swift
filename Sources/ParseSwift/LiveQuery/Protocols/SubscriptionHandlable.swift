@@ -28,7 +28,7 @@ public protocol  SubscriptionHandlable: AnyObject {
      Tells the handler that a query has been successfully registered with the server.
      - note: This may be invoked multiple times if the client disconnects/reconnects.
      */
-    func didSubscribe()
+    func didSubscribe(_ new: Bool)
 
     /**
      Tells the handler that a query has been successfully deregistered from the server.

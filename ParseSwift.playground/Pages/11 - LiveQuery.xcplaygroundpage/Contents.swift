@@ -38,18 +38,13 @@ let subscription = query.subscribe!
 
 //: This is how you receive notifications about the success
 //: of your subscription.
-subscription.handleSubscribe { _ in
-    print("Successfully subscribed to query")
+subscription.handleSubscribe { subscribedQuery, isNew in
 
-    //: You can check this subscription is for this query
-    do {
-        if try ParseLiveQuery.getDefault()!.isSubscribed(query) {
-            print("Subscribed")
-        } else {
-            print("Not Subscribed")
-        }
-    } catch {
-        fatalError("Error checking if subscribed...")
+    //: You can check this subscription is for this query\
+    if isNew {
+        print("Successfully subscribed to new query \(subscribedQuery)")
+    } else {
+        print("Successfully updated subscription to new query \(subscribedQuery)")
     }
 }
 
@@ -73,17 +68,17 @@ subscription.handleEvent { _, event in
 //: Now go to your dashboard, goto the GameScore table and add, update, remove rows.
 //: You should receive notifications for each.
 
-//: To update the query for your subscription.
-query = GameScore.query("score" > 40)
-query.update(subscription)
-
 //: This is how you register to receive notificaitons about being unsubscribed.
 subscription.handleUnsubscribe { query in
     print("Unsubscribed from \(query)")
 }
 
 //: To unsubscribe from your query.
-query.unsubscribe()
+do {
+    try query.unsubscribe()
+} catch {
+    print(error)
+}
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

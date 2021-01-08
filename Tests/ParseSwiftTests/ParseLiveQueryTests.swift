@@ -53,12 +53,23 @@ class ParseLiveQueryTests: XCTestCase {
 /*
     func testSubscribe() throws {
         if #available(iOS 13.0, *) {
-            let query = GameScore.query("score" > 9)
+            var query = GameScore.query("score" > 9)
             guard let subscription = query.subscribe else {
                 return
             }
 
             let expectation1 = XCTestExpectation(description: "Fetch user1")
+
+            subscription.handleSubscribe { subscribedQuery, isNew in
+
+                //: You can check this subscription is for this query\
+                if isNew {
+                    print("Successfully subscribed to new query \(subscribedQuery)")
+                } else {
+                    print("Successfully updated subscription to new query \(subscribedQuery)")
+                }
+            }
+
             subscription.handleEvent { query, event in
                 print(query)
                 print(event)
@@ -75,17 +86,26 @@ class ParseLiveQueryTests: XCTestCase {
                 case .deleted(let delete):
                     print(delete)
                 }
-                expectation1.fulfill()
             }
-/*
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
-                try? query.unsubscribe()
-            }*/
+
+            subscription.handleUnsubscribe { query in
+                print("Unsubscribed from \(query)")
+            }
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 20) {
+                //try? query.unsubscribe()
+                query = GameScore.query("score" > 40)
+                do {
+                    try query.update(subscription)
+                } catch {
+                    print(error)
+                }
+            }
 
             wait(for: [expectation1], timeout: 200.0)
         } else {
             // Fallback on earlier versions
         }
     }
- */
+*/
 }

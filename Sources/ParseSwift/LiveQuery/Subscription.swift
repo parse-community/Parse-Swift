@@ -66,7 +66,7 @@ open class Subscription<Q: Query<T>, T: ParseObject>: SubscriptionHandlable {
     public typealias Object = T
     fileprivate var errorHandlers: [(Query<T>, Error) -> Void] = []
     fileprivate var eventHandlers: [(Query<T>, Event<T>) -> Void] = []
-    fileprivate var subscribeHandlers: [(Query<T>) -> Void] = []
+    fileprivate var subscribeHandlers: [(Query<T>, Bool) -> Void] = []
     fileprivate var unsubscribeHandlers: [(Query<T>) -> Void] = []
 
     /**
@@ -91,7 +91,7 @@ open class Subscription<Q: Query<T>, T: ParseObject>: SubscriptionHandlable {
      - parameter handler: The callback to register.
      - returns: The same subscription, for easy chaining.
      */
-    @discardableResult open func handleSubscribe(_ handler: @escaping (Query<T>) -> Void) -> Subscription {
+    @discardableResult open func handleSubscribe(_ handler: @escaping (Query<T>, Bool) -> Void) -> Subscription {
         subscribeHandlers.append(handler)
         return self
     }
@@ -115,8 +115,8 @@ open class Subscription<Q: Query<T>, T: ParseObject>: SubscriptionHandlable {
         eventHandlers.forEach { $0(query, event) }
     }
 
-    open func didSubscribe() {
-        subscribeHandlers.forEach { $0(query) }
+    open func didSubscribe(_ new: Bool) {
+        subscribeHandlers.forEach { $0(query, new) }
     }
 
     open func didUnsubscribe() {

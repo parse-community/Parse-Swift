@@ -8,14 +8,15 @@
 
 import Foundation
 
-enum Operation: String, Encodable {
+enum ClientOperation: String, Encodable {
     case connect
     case subscribe
     case unsubscribe
+    case update
 }
 
-enum OperationResponses: String, Decodable {
-    case connected, subscribed, unsubscribed,
+enum ServerResponse: String, Decodable {
+    case connected, subscribed, unsubscribed, redirect,
          create, enter, update, leave, delete
 }
 
