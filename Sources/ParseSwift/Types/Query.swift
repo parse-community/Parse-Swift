@@ -666,30 +666,32 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-     A list of fields to receive when receiving a `LiveQuerySocket`.
+     A variadic list of fields to receive when receiving a `ParseLiveQuery`.
      
      Suppose the `ParseObject` Player contains three fields name, id and age.
      If you are only interested in the change of the name field, you can set query.fields to "name".
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
-     - warning: This is only for `LiveQuerySocket`.
+     - warning: This is only for `ParseLiveQuery`.
      - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
      */
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: String...) -> Query<T> {
         self.fields = keys
         return self
     }
 
     /**
-     A list of fields to receive when receiving a `LiveQuerySocket`.
+     A list of fields to receive when receiving a `ParseLiveQuery`.
      
      Suppose the `ParseObject` Player contains three fields name, id and age.
      If you are only interested in the change of the name field, you can set query.fields to "name".
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
-     - warning: This is only for `LiveQuerySocket`.
+     - warning: This is only for `ParseLiveQuery`.
      - parameter keys: An array of fields to receive back instead of the whole `ParseObject`.
      */
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: [String]) -> Query<T> {
         self.fields = keys
         return self

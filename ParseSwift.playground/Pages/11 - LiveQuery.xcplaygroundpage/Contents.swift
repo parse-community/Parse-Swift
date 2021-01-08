@@ -27,30 +27,65 @@ struct GameScore: ParseObject {
         self.objectId = objectId
     }
 }
-/*
-class HandleLiveQueryNotifications: ParseLiveQueryDelegate {
-    func receivedChallenge(_ challenge: URLAuthenticationChallenge,
-                           completionHandler: @escaping (URLSession.AuthChallengeDisposition,
-                                                         URLCredential?) -> Void) {
-        completionHandler(.performDefaultHandling, nil)
-    }
-}*/
 
-if #available(iOS 13.0, macOS 10.15, *) {
-    let query = GameScore.query("score" > 9)
-    let subscription = Subscription(query: query)
-    //let notifications = HandleLiveQueryNotifications()
-    let liveQuery = ParseLiveQuery()!
-    //liveQuery.delegate = notifications
-    let subscribed = try liveQuery.subscribe(query, handler: subscription)
-    subscribed.handleEvent { query, score in
-        print(query)
-        print(score)
+//: Be sure you have LiveQuery enabled on your server.
+
+//: Create a query just as you normally would.
+var query = GameScore.query("score" > 9)
+
+//: This is how you subscribe your created query
+let subscription = query.subscribe!
+
+//: This is how you receive notifications about the success
+//: of your subscription.
+subscription.handleSubscribe { _ in
+    print("Successfully subscribed to query")
+
+    //: You can check this subscription is for this query
+    do {
+        if try ParseLiveQuery.getDefault()!.isSubscribed(query) {
+            print("Subscribed")
+        } else {
+            print("Not Subscribed")
+        }
+    } catch {
+        fatalError("Error checking if subscribed...")
     }
-} else {
-    // Fallback on earlier versions
-    print("Can't run")
 }
+
+//: This is how you register to receive notificaitons of events related to your LiveQuery.
+subscription.handleEvent { query, event in
+    print(query)
+    print(event)
+    switch event {
+
+    case .entered(let object):
+        print("Entered: \(object)")
+    case .left(let object):
+        print("Left: \(object)")
+    case .created(let object):
+        print("Created: \(object)")
+    case .updated(let object):
+        print("Updated: \(object)")
+    case .deleted(let object):
+        print("Deleted: \(object)")
+    }
+}
+
+//: Now go to your dashboard, goto the GameScore table and add, update, remove rows.
+//: You should receive notifications for each.
+
+//: To update the query for your subscription.
+query = GameScore.query("score" > 40)
+query.update(subscription)
+
+//: This is how you register to receive notificaitons about being unsubscribed.
+subscription.handleUnsubscribe { query in
+    print("Unsubscribed from \(query)")
+}
+
+//: To unsubscribe from your query.
+query.unsubscribe()
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

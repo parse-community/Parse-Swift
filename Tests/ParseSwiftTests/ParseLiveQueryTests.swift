@@ -59,22 +59,33 @@ class ParseLiveQueryTests: XCTestCase {
             }
 
             let expectation1 = XCTestExpectation(description: "Fetch user1")
-            subscription.handleEvent { query, score in
+            subscription.handleEvent { query, event in
                 print(query)
-                print(score)
+                print(event)
+                switch event {
+
+                case .entered(let enter):
+                    print(enter)
+                case .left(let leave):
+                    print(leave)
+                case .created(let create):
+                    print(create)
+                case .updated(let update):
+                    print(update)
+                case .deleted(let delete):
+                    print(delete)
+                }
                 expectation1.fulfill()
             }
-            //let subscription = Subscription(query: query)
-            //let liveQuery = ParseLiveQuery()!
-            //let subscribed = try liveQuery.subscribe(query, handler: subscription)
-
+/*
             DispatchQueue.main.asyncAfter(deadline: .now() + 5) {
                 try? query.unsubscribe()
-            }
+            }*/
 
-            wait(for: [expectation1], timeout: 50.0)
+            wait(for: [expectation1], timeout: 200.0)
         } else {
             // Fallback on earlier versions
         }
-    }*/
+    }
+ */
 }

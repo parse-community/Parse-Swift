@@ -13,10 +13,10 @@ protocol LiveQuerySocketDelegate: AnyObject {
     func status(_ status: LiveQuerySocket.Status)
     func receivedError(_ error: ParseError)
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?)
-    func receivedChallenge(challenge: URLAuthenticationChallenge,
-                           completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
+    func received(challenge: URLAuthenticationChallenge,
+                  completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
     func received(_ data: Data)
     #if !os(watchOS)
-    func receivedMetrics(_ metrics: URLSessionTaskTransactionMetrics)
+    func received(_ metrics: URLSessionTaskTransactionMetrics)
     #endif
 }

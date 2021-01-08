@@ -10,7 +10,7 @@
 import Foundation
 
 /**
- Represents an update on a specific object from the live query server.
+ Represents an update on a specific object from the `ParseLiveQuery` server.
  - Entered: The object has been updated, and is now included in the query.
  - Left:    The object has been updated, and is no longer included in the query.
  - Created: The object has been created, and is a part of the query.
@@ -18,28 +18,28 @@ import Foundation
  - Deleted: The object has been deleted, and is no longer included in the query.
  */
 public enum Event<T: ParseObject> {
-    /// The object has been updated, and is now included in the query
+    /// The object has been updated, and is now included in the query.
     case entered(T)
 
-    /// The object has been updated, and is no longer included in the query
+    /// The object has been updated, and is no longer included in the query.
     case left(T)
 
-    /// The object has been created, and is a part of the query
+    /// The object has been created, and is a part of the query.
     case created(T)
 
-    /// The object has been updated, and is still a part of the query
+    /// The object has been updated, and is still a part of the query.
     case updated(T)
 
-    /// The object has been deleted, and is no longer included in the query
+    /// The object has been deleted, and is no longer included in the query.
     case deleted(T)
 
-    init<V>(event: Event<V>) {
-        switch event {
-        case .entered(let value as T): self = .entered(value)
-        case .left(let value as T):    self = .left(value)
-        case .created(let value as T): self = .created(value)
-        case .updated(let value as T): self = .updated(value)
-        case .deleted(let value as T): self = .deleted(value)
+    init?(event: EventResponse<T>) {
+        switch event.op {
+        case .enter: self = .entered(event.object)
+        case .leave: self = .left(event.object)
+        case .create: self = .created(event.object)
+        case .update: self = .updated(event.object)
+        case .delete: self = .deleted(event.object)
         default: fatalError()
         }
     }
@@ -60,8 +60,10 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
  A default implementation of the  SubscriptionHandlable protocol, using closures for callbacks.
  */
 open class Subscription<Q: Query<T>, T: ParseObject>: SubscriptionHandlable {
-    //public var query: Query<T>
-    public typealias SubscribedObject = T
+    //The query subscribed to.
+    public var query: Query<T>
+    //The ParseObject
+    public typealias Object = T
     fileprivate var errorHandlers: [(Query<T>, Error) -> Void] = []
     fileprivate var eventHandlers: [(Query<T>, Event<T>) -> Void] = []
     fileprivate var subscribeHandlers: [(Query<T>) -> Void] = []
@@ -70,21 +72,8 @@ open class Subscription<Q: Query<T>, T: ParseObject>: SubscriptionHandlable {
     /**
      Creates a new subscription that can be used to handle updates.
      */
-    public init() {
-
-    }
-    /*public init(query: Query<T>) {
+    public init(query: Query<T>) {
         self.query = query
-    }*/
-
-    /**
-     Register a callback for when an error occurs.
-     - parameter handler: The callback to register.
-     - returns: The same subscription, for easy chaining
-     */
-    @discardableResult open func handleError(_ handler: @escaping (Query<T>, Error) -> Void) -> Subscription {
-        errorHandlers.append(handler)
-        return self
     }
 
     /**
@@ -117,45 +106,25 @@ open class Subscription<Q: Query<T>, T: ParseObject>: SubscriptionHandlable {
         return self
     }
 
-    open func didReceive(_ event: Event<T>, forQuery query: Query<T>) {
+    open func didReceive(_ eventData: Data) throws {
+        // Need to decode the event with respect to the `ParseObject`.
+        let eventMessage = try ParseCoding.jsonDecoder().decode(EventResponse<T>.self, from: eventData)
+        guard let event = Event(event: eventMessage) else {
+            throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: couldn't create event.")
+        }
         eventHandlers.forEach { $0(query, event) }
     }
 
-    open func didEncounter(_ error: Error, forQuery query: Query<T>) {
-        errorHandlers.forEach { $0(query, error) }
-    }
-
-    open func didSubscribe(toQuery query: Query<T>) {
+    open func didSubscribe() {
         subscribeHandlers.forEach { $0(query) }
     }
 
-    open func didUnsubscribe(fromQuery query: Query<T>) {
+    open func didUnsubscribe() {
         unsubscribeHandlers.forEach { $0(query) }
     }
 }
 
 extension Subscription {
-    /**
-     Register a callback for when an error occcurs of a specific type
-     Example:
-         subscription.handle(LiveQueryErrors.InvalidJSONError.self) { query, error in
-             print(error)
-          }
-     - parameter errorType: The error type to register for
-     - parameter handler:   The callback to register
-     - returns: The same subscription, for easy chaining
-     */
-    @discardableResult public func handle<E: Error>(
-        _ errorType: E.Type = E.self,
-        _ handler: @escaping (Query<T>, E) -> Void
-        ) -> Subscription {
-            errorHandlers.append { query, error in
-                if let error = error as? E {
-                    handler(query, error)
-                }
-            }
-            return self
-    }
 
     /**
      Register a callback for when an event occurs of a specific type
@@ -179,21 +148,5 @@ extension Subscription {
             default: return
             }
         }
-    }
-}
-
-// MARK: Query
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-public extension Query {
-    var subscribe: Subscription<Query<T>, ResultType>? {
-        try? ParseLiveQuery.client?.subscribe(self)
-    }
-/*
-    func subscribe<H: SubscriptionHandlable>(_ handler: H) throws -> Subscription<Query<T>, ResultType>? {
-        try ParseLiveQuery.client?.subscribe(self, handler: handler)
-    }
-*/
-    func unsubscribe() throws {
-        try ParseLiveQuery.client?.unsubscribe(self)
     }
 }

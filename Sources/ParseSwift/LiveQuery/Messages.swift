@@ -8,6 +8,7 @@
 
 import Foundation
 
+// MARK: Sending
 struct StandardMessage: LiveQueryable, Encodable {
     var op: Operation // swiftlint:disable:this identifier_name
     var applicationId: String?
@@ -34,20 +35,20 @@ struct StandardMessage: LiveQueryable, Encodable {
     }
 }
 
-struct ParseMessageQueryValue: Encodable {
+struct SubscribeQuery: Encodable {
     let className: String
     let `where`: QueryWhere
     let fields: [String]?
 }
 
-struct ParseMessage<T: ParseObject>: LiveQueryable, Encodable {
+struct SubscribeMessage<T: ParseObject>: LiveQueryable, Encodable {
     var op: Operation // swiftlint:disable:this identifier_name
     var applicationId: String?
     var clientKey: String?
     var sessionToken: String?
     var installationId: String?
     var requestId: Int?
-    var query: ParseMessageQueryValue?
+    var query: SubscribeQuery?
 
     init(operation: Operation,
          requestId: RequestId,
@@ -56,17 +57,13 @@ struct ParseMessage<T: ParseObject>: LiveQueryable, Encodable {
         self.op = operation
         self.requestId = requestId.value
         if let query = query {
-            self.query = ParseMessageQueryValue(className: query.className, where: query.where, fields: query.fields)
+            self.query = SubscribeQuery(className: query.className, where: query.where, fields: query.fields)
         }
-        if additionalProperties {
-            self.applicationId = ParseConfiguration.applicationId
-            self.clientKey = ParseConfiguration.clientKey
-            self.sessionToken = BaseParseUser.currentUserContainer?.sessionToken
-            self.installationId = BaseParseInstallation.currentInstallationContainer.installationId
-        }
+        self.sessionToken = BaseParseUser.currentUserContainer?.sessionToken
     }
 }
 
+// MARK: Receiving
 struct ConnectionResponse: LiveQueryable, Decodable {
     let op: OperationResponses // swiftlint:disable:this identifier_name
 }
@@ -74,6 +71,12 @@ struct ConnectionResponse: LiveQueryable, Decodable {
 struct UnsubscribedResponse: LiveQueryable, Decodable {
     let op: OperationResponses // swiftlint:disable:this identifier_name
     let requestId: Int
+}
+
+struct EventResponse<T: ParseObject>: LiveQueryable, Decodable {
+    let op: OperationResponses // swiftlint:disable:this identifier_name
+    let requestId: Int
+    let object: T
 }
 
 struct ErrorResponse: LiveQueryable, Decodable {

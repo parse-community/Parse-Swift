@@ -123,7 +123,7 @@ extension LiveQuerySocket: URLSessionWebSocketDelegate {
                     didReceive challenge: URLAuthenticationChallenge,
                     completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) {
         if let authenticationDelegate = authenticationDelegate {
-            authenticationDelegate.receivedChallenge(challenge: challenge, completionHandler: completionHandler)
+            authenticationDelegate.received(challenge: challenge, completionHandler: completionHandler)
         } else {
             completionHandler(.performDefaultHandling, nil)
         }
@@ -133,7 +133,7 @@ extension LiveQuerySocket: URLSessionWebSocketDelegate {
     func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
         if let socketTask = task as? URLSessionWebSocketTask {
             if let transactionMetrics = metrics.transactionMetrics.last {
-                delegates[socketTask]?.receivedMetrics(transactionMetrics)
+                delegates[socketTask]?.received(transactionMetrics)
             }
         }
     }
