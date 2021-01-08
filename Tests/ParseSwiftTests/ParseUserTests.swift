@@ -697,7 +697,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testSignupCommandWithBody() {
-        let body = SignupBody(username: "test", password: "user")
+        let body = SignupLoginBody(username: "test", password: "user")
         let command = User.signupCommand(username: "test", password: "user")
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/users")
@@ -805,16 +805,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testLoginCommand() {
-        let params = [
-            "username": "test",
-            "password": "user"
-        ]
         let command = User.loginCommand(username: "test", password: "user")
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/login")
-        XCTAssertEqual(command.method, API.Method.GET)
-        XCTAssertEqual(command.params, params)
-        XCTAssertNil(command.body)
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
     }
 
     func testLogin() {
