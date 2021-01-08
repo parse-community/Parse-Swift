@@ -71,17 +71,23 @@ struct RedirectResponse: LiveQueryable, Decodable {
 
 struct ConnectionResponse: LiveQueryable, Decodable {
     let op: ServerResponse // swiftlint:disable:this identifier_name
+    let clientId: String
+    let installationId: String?
 }
 
 struct UnsubscribedResponse: LiveQueryable, Decodable {
     let op: ServerResponse // swiftlint:disable:this identifier_name
     let requestId: Int
+    let clientId: String
+    let installationId: String?
 }
 
 struct EventResponse<T: ParseObject>: LiveQueryable, Decodable {
     let op: ServerResponse // swiftlint:disable:this identifier_name
     let requestId: Int
     let object: T
+    let clientId: String
+    let installationId: String?
 }
 
 struct ErrorResponse: LiveQueryable, Decodable {
@@ -94,4 +100,6 @@ struct ErrorResponse: LiveQueryable, Decodable {
 struct PreliminaryMessageResponse: LiveQueryable, Decodable {
     let op: ServerResponse // swiftlint:disable:this identifier_name
     let requestId: Int
+    let clientId: String
+    let installationId: String?
 }

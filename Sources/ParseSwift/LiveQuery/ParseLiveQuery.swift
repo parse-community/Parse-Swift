@@ -21,6 +21,7 @@ public final class ParseLiveQuery: NSObject {
     //Task
     var task: URLSessionWebSocketTask!
     var url: URL!
+    var clientId: String!
     var isDisconnectedByUser = false {
         willSet {
             if newValue == true {
@@ -62,6 +63,8 @@ public final class ParseLiveQuery: NSObject {
                         URLSession.liveQuery.send(messageToSend.1.messageData, task: task) { _ in }
                     }
                 }
+            } else {
+                clientId = nil
             }
         }
     }
@@ -233,7 +236,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             //Check if this is a connected response
             guard let response = try? ParseCoding.jsonDecoder().decode(ConnectionResponse.self, from: data),
                   response.op == .connected else {
-                //If not connected, shouldn't be receiving anything other than connection response
+                //If not connected, shouldn't receive anything other than a connection response
                 guard let outOfOrderMessage = try? ParseCoding
                         .jsonDecoder()
                         .decode(NoBody.self, from: data) else {
@@ -249,6 +252,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                 receiveDelegate?.received(error)
                 return
             }
+            self.clientId = response.clientId
             self.isConnected = true
         } else {
 
@@ -270,6 +274,22 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             } else if let preliminaryMessage = try? ParseCoding.jsonDecoder()
                         .decode(PreliminaryMessageResponse.self,
                                 from: data) {
+
+                if preliminaryMessage.clientId != self.clientId {
+                    let error = ParseError(code: .unknownError,
+                                           // swiftlint:disable:next line_length
+                                           message: "ParseLiveQuery Error: Received a message from a server who sent clientId \(preliminaryMessage.clientId) while it should be \(self.clientId!). Not accepting message...")
+                    receiveDelegate?.received(error)
+                }
+
+                if let installationId = BaseParseInstallation.currentInstallationContainer.installationId {
+                    if installationId != preliminaryMessage.installationId {
+                        let error = ParseError(code: .unknownError,
+                                               // swiftlint:disable:next line_length
+                                               message: "ParseLiveQuery Error: Received a message from a server who sent an installationId of \(String(describing: preliminaryMessage.installationId)) while it should be \(installationId). Not accepting message...")
+                        receiveDelegate?.received(error)
+                    }
+                }
 
                 switch preliminaryMessage.op {
                 case .subscribed:
