@@ -54,9 +54,7 @@ subscription.handleSubscribe { _ in
 }
 
 //: This is how you register to receive notificaitons of events related to your LiveQuery.
-subscription.handleEvent { query, event in
-    print(query)
-    print(event)
+subscription.handleEvent { _, event in
     switch event {
 
     case .entered(let object):
