@@ -26,7 +26,7 @@ public final class ParseLiveQuery: NSObject {
     var task: URLSessionWebSocketTask!
     var url: URL!
     var clientId: String!
-    var attempts : Int = 1 {
+    var attempts: Int = 1 {
         willSet {
             if newValue == ParseLiveQueryConstants.maxConnectionAttempts + 1 {
                 close(true) // Quit trying to reconnect
@@ -66,20 +66,26 @@ public final class ParseLiveQuery: NSObject {
     public internal(set) var isConnected = false {
         willSet {
             isConnecting = false
-            if newValue == true {
+            if newValue {
                 synchronizationQueue.sync {
-                    if let task = self.task {
-                        attempts = 1
+                    if isSocketEstablished {
+                        if let task = self.task {
+                            attempts = 1
 
-                        //Resubscribe to all subscriptions
-                        self.subscriptions.forEach { (_, value) -> Void in
-                            URLSession.liveQuery.send(value.messageData, task: self.task) { _ in }
+                            //Resubscribe to all subscriptions
+                            self.subscriptions.forEach { (_, value) -> Void in
+                                URLSession.liveQuery.send(value.messageData, task: self.task) { _ in }
+                            }
+
+                            //Send all pending messages in order
+                            self.pendingQueue.forEach {
+                                let messageToSend = $0
+                                URLSession.liveQuery.send(messageToSend.1.messageData, task: task) { _ in }
+                            }
                         }
-
-                        //Send all pending messages in order
-                        self.pendingQueue.forEach {
-                            let messageToSend = $0
-                            URLSession.liveQuery.send(messageToSend.1.messageData, task: task) { _ in }
+                    } else {
+                        synchronizationQueue.asyncAfter(deadline: .now() + 1) {
+                            self.isConnected = false
                         }
                     }
                 }
@@ -88,7 +94,17 @@ public final class ParseLiveQuery: NSObject {
             }
         }
     }
-    public internal(set) var isConnecting = false
+    public internal(set) var isConnecting = false {
+        willSet {
+            if newValue {
+                if !isSocketEstablished {
+                    synchronizationQueue.asyncAfter(deadline: .now() + 1) {
+                        self.isConnecting = false
+                    }
+                }
+            }
+        }
+    }
 
     //Subscription
     let requestIdGenerator: () -> RequestId

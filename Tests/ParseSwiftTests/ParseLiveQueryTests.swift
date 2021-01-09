@@ -10,6 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseLiveQueryTests: XCTestCase {
     struct GameScore: ParseObject {
         //: Those are required for Object
@@ -42,6 +43,7 @@ class ParseLiveQueryTests: XCTestCase {
                               masterKey: "masterKey",
                               serverURL: url,
                               testing: true)
+        ParseLiveQuery.client = ParseLiveQuery()
     }
 
     override func tearDownWithError() throws {
@@ -49,7 +51,111 @@ class ParseLiveQueryTests: XCTestCase {
         MockURLProtocol.removeAll()
         try? KeychainStore.shared.deleteAll()
         try? ParseStorage.shared.deleteAll()
+        ParseLiveQuery.client = nil
     }
+
+    func testSocketNotOpenState() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        client.isConnecting = true
+        let expectation1 = XCTestExpectation(description: "Socket change")
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
+            XCTAssertEqual(client.isConnecting, false)
+            client.isConnected = true
+            client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
+                XCTAssertEqual(client.isConnecting, false)
+                XCTAssertEqual(client.isConnected, false)
+                expectation1.fulfill()
+            }
+        }
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testConnectedState() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        client.isSocketEstablished = true // Socket neets to be true
+        client.isConnecting = true
+        client.attempts = 50
+        client.isConnected = true
+        client.clientId = "yolo"
+
+        XCTAssertEqual(client.isSocketEstablished, true)
+        XCTAssertEqual(client.isConnecting, false)
+        XCTAssertEqual(client.clientId, "yolo")
+        XCTAssertEqual(client.attempts, 1)
+    }
+
+    func testDisconnectedState() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        client.isSocketEstablished = true // Socket neets to be true
+        client.isConnecting = true
+        client.isConnected = true
+        client.clientId = "yolo"
+
+        XCTAssertEqual(client.isConnected, true)
+        XCTAssertEqual(client.isConnecting, false)
+        XCTAssertEqual(client.clientId, "yolo")
+        client.isConnected = false
+
+        XCTAssertEqual(client.isSocketEstablished, true)
+        XCTAssertEqual(client.isConnected, false)
+        XCTAssertEqual(client.isConnecting, false)
+        XCTAssertNil(client.clientId)
+    }
+
+    func testSocketDisconnectedState() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        client.isSocketEstablished = true // Socket neets to be true
+        client.isConnecting = true
+        client.isConnected = true
+        client.clientId = "yolo"
+
+        XCTAssertEqual(client.isConnected, true)
+        XCTAssertEqual(client.isConnecting, false)
+        XCTAssertEqual(client.clientId, "yolo")
+        client.isSocketEstablished = false
+
+        XCTAssertEqual(client.isConnected, false)
+        XCTAssertEqual(client.isConnecting, false)
+        XCTAssertNil(client.clientId)
+    }
+
+    func testUserClosedConnectionState() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        client.isSocketEstablished = true // Socket neets to be true
+        client.isConnecting = true
+        client.isConnected = true
+        client.clientId = "yolo"
+        client.isDisconnectedByUser = false
+
+        XCTAssertEqual(client.isConnected, true)
+        XCTAssertEqual(client.isConnecting, false)
+        XCTAssertEqual(client.isDisconnectedByUser, false)
+        XCTAssertEqual(client.clientId, "yolo")
+        client.close()
+
+        XCTAssertEqual(client.isSocketEstablished, true)
+        XCTAssertEqual(client.isConnected, false)
+        XCTAssertEqual(client.isConnecting, false)
+        XCTAssertNil(client.clientId)
+        XCTAssertEqual(client.isDisconnectedByUser, true)
+    }
+
 /*
     func testSubscribe() throws {
         if #available(iOS 13.0, *) {
