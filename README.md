@@ -66,7 +66,7 @@ github "parse-community/Parse-Swift" "main"
 ```
 Run `carthage update`, and you should now have the latest version of ParseSwift SDK in your Carthage folder.
 
-## iOS Usage Guide
+## Usage Guide
 
 After installing ParseSwift, to use it first `import ParseSwift` in your AppDelegate.swift and then add the following code in your `application:didFinishLaunchingWithOptions:` method:
 ```swift
