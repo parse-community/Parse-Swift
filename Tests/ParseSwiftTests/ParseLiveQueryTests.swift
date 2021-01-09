@@ -54,6 +54,72 @@ class ParseLiveQueryTests: XCTestCase {
         ParseLiveQuery.client = nil
     }
 
+    func testWebsocketURL() throws {
+        guard let originalURL = URL(string: "http://localhost:1337/1"),
+            var components = URLComponents(url: originalURL,
+                                             resolvingAgainstBaseURL: false) else {
+            return
+        }
+        components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
+        let webSocketURL = components.url
+
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+
+        XCTAssertEqual(client.url, webSocketURL)
+        XCTAssertTrue(client.url.absoluteString.contains("ws"))
+    }
+
+    func testInitializeWithNewURL() throws {
+        guard let originalURL = URL(string: "http://parse:1337/1"),
+            var components = URLComponents(url: originalURL,
+                                             resolvingAgainstBaseURL: false) else {
+            return
+        }
+        components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
+        let webSocketURL = components.url
+
+        guard let client = ParseLiveQuery(serverURL: originalURL),
+              let defaultClient = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to initialize a new client")
+            return
+        }
+
+        XCTAssertEqual(client.url, webSocketURL)
+        XCTAssertTrue(client.url.absoluteString.contains("ws"))
+        XCTAssertNotEqual(client, defaultClient)
+    }
+
+    func testInitializeNewDefault() throws {
+
+        guard let client = ParseLiveQuery(isDefault: true),
+              let defaultClient = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to initialize a new client")
+            return
+        }
+
+        XCTAssertTrue(client.url.absoluteString.contains("ws"))
+        XCTAssertEqual(client, defaultClient)
+    }
+
+    func testDeinitializingNewShouldEffectDefault() throws {
+        guard let defaultClient = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to initialize a new client")
+            return
+        }
+        var client = ParseLiveQuery()
+        if let client = client {
+            XCTAssertTrue(client.url.absoluteString.contains("ws"))
+        } else {
+            XCTFail("Should have initialized client and contained ws")
+        }
+        XCTAssertNotEqual(client, defaultClient)
+        client = nil
+        XCTAssertNotNil(ParseLiveQuery.getDefault())
+    }
+
     func testSocketNotOpenState() throws {
         guard let client = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to get client")
@@ -137,7 +203,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should be able to get client")
             return
         }
-        client.isSocketEstablished = true // Socket neets to be true
+        client.isSocketEstablished = true // Socket needs to be true
         client.isConnecting = true
         client.isConnected = true
         client.clientId = "yolo"
@@ -156,6 +222,29 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.isDisconnectedByUser, true)
     }
 
+    func testReconnectInterval() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        for index in 0 ..< 50 {
+            let time = client.reconnectInterval
+            XCTAssertLessThan(time, 30)
+            XCTAssertGreaterThan(time, -1)
+            client.attempts += index
+        }
+    }
+
+    func testRandomIdGenerator() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        for index in 1 ..< 50 {
+            let idGenerated = client.requestIdGenerator()
+            XCTAssertEqual(idGenerated.value, index)
+        }
+    }
 /*
     func testSubscribe() throws {
         if #available(iOS 13.0, *) {

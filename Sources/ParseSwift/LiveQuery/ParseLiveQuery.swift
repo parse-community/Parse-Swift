@@ -178,7 +178,7 @@ extension ParseLiveQuery {
 
     var reconnectInterval: Int {
         let min = NSDecimalNumber(decimal: Swift.min(30, pow(2, attempts) - 1))
-        return Int.random(in: 0..<Int(truncating: min))
+        return Int.random(in: 0 ..< Int(truncating: min))
     }
 
     func createTask() {
