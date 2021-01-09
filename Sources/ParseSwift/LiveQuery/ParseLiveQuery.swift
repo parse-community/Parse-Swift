@@ -18,10 +18,21 @@ import Foundation
  */
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public final class ParseLiveQuery: NSObject {
+    // Queues
+    let synchronizationQueue: DispatchQueue
+    let notificationQueue: DispatchQueue
+
     //Task
     var task: URLSessionWebSocketTask!
     var url: URL!
     var clientId: String!
+    var attempts : Int = 1 {
+        willSet {
+            if newValue == ParseLiveQueryConstants.maxConnectionAttempts + 1 {
+                close(true) // Quit trying to reconnect
+            }
+        }
+    }
     var isDisconnectedByUser = false {
         willSet {
             if newValue == true {
@@ -31,12 +42,14 @@ public final class ParseLiveQuery: NSObject {
     }
     public weak var authenticationDelegate: ParseLiveQueryDelegate? {
         willSet {
-            if newValue != nil {
-                URLSession.liveQuery.authenticationDelegate = self
-            } else {
-                if let delegate = URLSession.liveQuery.authenticationDelegate as? ParseLiveQuery {
-                    if delegate == self {
-                        URLSession.liveQuery.authenticationDelegate = nil
+            synchronizationQueue.sync {
+                if newValue != nil {
+                    URLSession.liveQuery.authenticationDelegate = self
+                } else {
+                    if let delegate = URLSession.liveQuery.authenticationDelegate as? ParseLiveQuery {
+                        if delegate == self {
+                            URLSession.liveQuery.authenticationDelegate = nil
+                        }
                     }
                 }
             }
@@ -54,13 +67,20 @@ public final class ParseLiveQuery: NSObject {
         willSet {
             isConnecting = false
             if newValue == true {
-                if let task = task {
-                    //Resubscribe to all subscriptions
+                synchronizationQueue.sync {
+                    if let task = self.task {
+                        attempts = 1
 
-                    //Send all pending messages
-                    self.pendingQueue.forEach {
-                        let messageToSend = $0
-                        URLSession.liveQuery.send(messageToSend.1.messageData, task: task) { _ in }
+                        //Resubscribe to all subscriptions
+                        self.subscriptions.forEach { (_, value) -> Void in
+                            URLSession.liveQuery.send(value.messageData, task: self.task) { _ in }
+                        }
+
+                        //Send all pending messages in order
+                        self.pendingQueue.forEach {
+                            let messageToSend = $0
+                            URLSession.liveQuery.send(messageToSend.1.messageData, task: task) { _ in }
+                        }
                     }
                 }
             } else {
@@ -80,8 +100,17 @@ public final class ParseLiveQuery: NSObject {
      Defaults to `nil` in which case, it will use the URL passed in
      `ParseSwift.initialize(...liveQueryServerURL: URL)`. If no URL was passed,
      this assumes the current Parse Server URL is also the LiveQuery server.
+     - parameter isDefault: Set this `ParseLiveQuery` client as the default client for all LiveQuery connections.
+     Defaults value of false.
+     - parameter notificationQueue: The queue to return to for all delegate notifications. Default value of .main.
      */
-    public init?(serverURL: URL? = nil, isDefault: Bool = false) {
+    public init?(serverURL: URL? = nil, isDefault: Bool = false, notificationQueue: DispatchQueue = .main) {
+        self.notificationQueue = notificationQueue
+        synchronizationQueue = DispatchQueue(label: "com.parse.liveQuery.\(UUID().uuidString)",
+                                             qos: .default,
+                                             attributes: .concurrent,
+                                             autoreleaseFrequency: .inherit,
+                                             target: nil)
 
         // Simple incrementing generator
         var currentRequestId = 0
@@ -107,7 +136,8 @@ public final class ParseLiveQuery: NSObject {
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
         url = components.url
-        createTask()
+        self.createTask()
+
         if isDefault {
             Self.setDefault(self)
         }
@@ -116,7 +146,7 @@ public final class ParseLiveQuery: NSObject {
     /// Gracefully disconnects from the ParseLiveQuery Server.
     deinit {
         if let task = self.task {
-            try? close()
+            close()
             authenticationDelegate = nil
             receiveDelegate = nil
             URLSession.liveQuery.delegates.removeValue(forKey: task)
@@ -130,21 +160,30 @@ extension ParseLiveQuery {
 
     static var client = ParseLiveQuery()
 
+    var reconnectInterval: Int {
+        let min = NSDecimalNumber(decimal: Swift.min(30, pow(2, attempts) - 1))
+        return Int.random(in: 0..<Int(truncating: min))
+    }
+
     func createTask() {
-        if task == nil {
-            task = URLSession.liveQuery.createTask(url)
+        synchronizationQueue.sync {
+            if self.task == nil {
+                self.task = URLSession.liveQuery.createTask(self.url)
+            }
+            self.task.resume()
+            URLSession.liveQuery.receive(self.task)
+            URLSession.liveQuery.delegates[self.task] = self
         }
-        task.resume()
-        URLSession.liveQuery.receive(task)
-        URLSession.liveQuery.delegates[task] = self
     }
 
     func removePendingSubscription(_ requestId: Int) {
-        let requestIdToRemove = RequestId(value: requestId)
-        pendingQueue.removeAll(where: { $0.0.value == requestId })
-        //Remove in subscriptions just in case the server
-        //responded before this was called
-        subscriptions.removeValue(forKey: requestIdToRemove)
+        synchronizationQueue.sync {
+            let requestIdToRemove = RequestId(value: requestId)
+            self.pendingQueue.removeAll(where: { $0.0.value == requestId })
+            //Remove in subscriptions just in case the server
+            //responded before this was called
+            self.subscriptions.removeValue(forKey: requestIdToRemove)
+        }
     }
 
     /// Set a specific ParseLiveQuery client to be the default for all `ParseLiveQuery` connections.
@@ -207,11 +246,11 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
         switch status {
 
         case .open:
-            isSocketEstablished = true
-            try? open(isUserWantsToConnect: false) { _ in }
+            self.isSocketEstablished = true
+            self.open(isUserWantsToConnect: false) { _ in }
         case .closed:
-            isSocketEstablished = false
-            if !isDisconnectedByUser {
+            self.isSocketEstablished = false
+            if !self.isDisconnectedByUser {
                 //Try to reconnect
                 self.createTask()
             }
@@ -219,12 +258,11 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
     }
 
     func received(_ data: Data) {
-
         if let redirect = try? ParseCoding.jsonDecoder().decode(RedirectResponse.self, from: data) {
             if redirect.op == .redirect {
-                url = redirect.url
-                if isConnected {
-                    try? self.close(false)
+                self.url = redirect.url
+                if self.isConnected {
+                    self.close(false)
                     //Try to reconnect
                     self.createTask()
                 }
@@ -243,13 +281,17 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                     let error = ParseError(code: .unknownError,
                                            // swiftlint:disable:next line_length
                                            message: "ParseLiveQuery Error: Received message out of order, but couldn't decode it")
-                    receiveDelegate?.received(error)
+                    self.notificationQueue.async {
+                        self.receiveDelegate?.received(error)
+                    }
                     return
                 }
                 let error = ParseError(code: .unknownError,
                                        // swiftlint:disable:next line_length
                                        message: "ParseLiveQuery Error: Received message out of order: \(outOfOrderMessage)")
-                receiveDelegate?.received(error)
+                self.notificationQueue.async {
+                    self.receiveDelegate?.received(error)
+                }
                 return
             }
             self.clientId = response.clientId
@@ -260,16 +302,20 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             if let error = try? ParseCoding.jsonDecoder().decode(ErrorResponse.self, from: data) {
                 if !error.reconnect {
                     //Treat this as a user disconnect because the server doesn't want to hear from us anymore
-                    try? self.close()
+                    self.close()
                 }
                 guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
                     //Turn LiveQuery error into ParseError
                     let parseError = ParseError(code: .unknownError,
                                                 message: "LiveQuery error code: \(error.code) message: \(error.error)")
-                    receiveDelegate?.received(parseError)
+                    self.notificationQueue.async {
+                        self.receiveDelegate?.received(parseError)
+                    }
                     return
                 }
-                receiveDelegate?.received(parseError)
+                self.notificationQueue.async {
+                    self.receiveDelegate?.received(parseError)
+                }
                 return
             } else if let preliminaryMessage = try? ParseCoding.jsonDecoder()
                         .decode(PreliminaryMessageResponse.self,
@@ -279,7 +325,9 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                     let error = ParseError(code: .unknownError,
                                            // swiftlint:disable:next line_length
                                            message: "ParseLiveQuery Error: Received a message from a server who sent clientId \(preliminaryMessage.clientId) while it should be \(self.clientId!). Not accepting message...")
-                    receiveDelegate?.received(error)
+                    self.notificationQueue.async {
+                        self.receiveDelegate?.received(error)
+                    }
                 }
 
                 if let installationId = BaseParseInstallation.currentInstallationContainer.installationId {
@@ -287,78 +335,95 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                         let error = ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
                                                message: "ParseLiveQuery Error: Received a message from a server who sent an installationId of \(String(describing: preliminaryMessage.installationId)) while it should be \(installationId). Not accepting message...")
-                        receiveDelegate?.received(error)
+                        self.notificationQueue.async {
+                            self.receiveDelegate?.received(error)
+                        }
                     }
                 }
 
                 switch preliminaryMessage.op {
                 case .subscribed:
 
-                    if let subscribed = pendingQueue
+                    if let subscribed = self.pendingQueue
                         .first(where: { $0.0.value == preliminaryMessage.requestId }) {
                         let requestId = RequestId(value: preliminaryMessage.requestId)
                         let isNew: Bool!
-                        if subscriptions[requestId] != nil {
+                        if self.subscriptions[requestId] != nil {
                             isNew = false
-                            /*pendingQueue.removeAll(where: { $0.0.value == preliminaryMessage.requestId })
-                            subscriptions[subscribed.0] = subscribed.1
-                            subscribed.1.subscribeHandlerClosure?(false)*/
                         } else {
                             isNew = true
                         }
-                        removePendingSubscription(subscribed.0.value)
-                        subscriptions[subscribed.0] = subscribed.1
-                        subscribed.1.subscribeHandlerClosure?(isNew)
+                        self.removePendingSubscription(subscribed.0.value)
+                        self.subscriptions[subscribed.0] = subscribed.1
+                        self.notificationQueue.async {
+                            subscribed.1.subscribeHandlerClosure?(isNew)
+                        }
                     }
                 case .unsubscribed:
                     let requestId = RequestId(value: preliminaryMessage.requestId)
-                    guard let subscription = subscriptions[requestId] else {
+                    guard let subscription = self.subscriptions[requestId] else {
                         return
                     }
-                    subscription.unsubscribeHandlerClosure?()
-                    removePendingSubscription(preliminaryMessage.requestId)
+                    self.removePendingSubscription(preliminaryMessage.requestId)
+                    self.notificationQueue.async {
+                        subscription.unsubscribeHandlerClosure?()
+                    }
                 case .create, .update, .delete, .enter, .leave:
                     let requestId = RequestId(value: preliminaryMessage.requestId)
-                    guard let subscription = subscriptions[requestId] else {
+                    guard let subscription = self.subscriptions[requestId] else {
                         return
                     }
-                    subscription.eventHandlerClosure?(data)
+                    self.notificationQueue.async {
+                        subscription.eventHandlerClosure?(data)
+                    }
                 default:
                     let error = ParseError(code: .unknownError,
                                            message: "ParseLiveQuery Error: Hit an undefined state.")
-                    receiveDelegate?.received(error)
+                    self.notificationQueue.async {
+                        self.receiveDelegate?.received(error)
+                    }
                 }
 
             } else {
                 let error = ParseError(code: .unknownError, message: "ParseLiveQuery Error: Hit an undefined state.")
-                receiveDelegate?.received(error)
+                self.notificationQueue.async {
+                    self.receiveDelegate?.received(error)
+                }
             }
         }
     }
 
     func receivedError(_ error: ParseError) {
-        receiveDelegate?.received(error)
+        notificationQueue.async {
+            self.receiveDelegate?.received(error)
+        }
     }
 
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?) {
-        receiveDelegate?.receivedUnsupported(data, socketMessage: socketMessage)
+        notificationQueue.async {
+            self.receiveDelegate?.receivedUnsupported(data, socketMessage: socketMessage)
+        }
     }
 
     func received(challenge: URLAuthenticationChallenge,
                   completionHandler: @escaping (URLSession.AuthChallengeDisposition,
                                                 URLCredential?) -> Void) {
-        if let delegate = authenticationDelegate {
-            delegate.received(challenge, completionHandler: completionHandler)
-        } else if let parseAuthentication = ParseConfiguration.sessionDelegate.authentication {
-            parseAuthentication(challenge, completionHandler)
-        } else {
-            completionHandler(.performDefaultHandling, nil)
+        notificationQueue.async {
+            if let delegate = self.authenticationDelegate {
+                delegate.received(challenge, completionHandler: completionHandler)
+            } else if let parseAuthentication = ParseConfiguration.sessionDelegate.authentication {
+                parseAuthentication(challenge, completionHandler)
+            } else {
+                completionHandler(.performDefaultHandling, nil)
+            }
         }
     }
 
     #if !os(watchOS)
     func received(_ metrics: URLSessionTaskTransactionMetrics) {
-        receiveDelegate?.received(metrics)
+        notificationQueue.async {
+            self.receiveDelegate?.received(metrics)
+        }
     }
     #endif
 }
@@ -367,43 +432,58 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
-    ///Manually establish a connection to the `ParseLiveQuery` server.
+    /// Manually establish a connection to the `ParseLiveQuery` server.
     /// - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to `true`.
     /// - parameter completion: Returns `nil` if successful, an `Error` otherwise.
-    public func open(isUserWantsToConnect: Bool = true, completion: @escaping (Error?) -> Void) throws {
-        if isUserWantsToConnect {
-            isDisconnectedByUser = false
-        }
-        if isConnected || isDisconnectedByUser {
-            completion(nil)
-            return
-        }
-        if isConnecting {
-            completion(nil)
-            return
-        }
-        try URLSession.liveQuery.connect(isUserWantsToConnect: true, task: task) { error in
-            if error == nil {
-                self.isConnecting = true
+    public func open(isUserWantsToConnect: Bool = true, completion: @escaping (Error?) -> Void) {
+        synchronizationQueue.sync {
+            if isUserWantsToConnect {
+                self.isDisconnectedByUser = false
+            }
+            if self.isConnected || self.isDisconnectedByUser {
+                completion(nil)
+                return
+            }
+            if self.isConnecting {
+                completion(nil)
+                return
+            }
+            if isSocketEstablished {
+                try? URLSession.liveQuery.connect(task: self.task) { error in
+                    if error == nil {
+                        self.isConnecting = true
+                    }
+                }
+            } else {
+                self.synchronizationQueue
+                    .asyncAfter(deadline: .now() + DispatchTimeInterval
+                                    .seconds(reconnectInterval)) {
+                    self.createTask()
+                    self.attempts += 1
+                }
             }
         }
     }
 
-    ///Manually disconnect from the `ParseLiveQuery` server.
-    public func close(_ isUser: Bool = true) throws {
-        if isConnected {
-            task.cancel()
-            if isUser {
-                isDisconnectedByUser = true
+    /// Manually disconnect from the `ParseLiveQuery` server.
+    public func close(_ isUser: Bool = true) {
+        synchronizationQueue.sync {
+            if self.isConnected {
+                self.task.cancel()
+                if isUser {
+                    self.isDisconnectedByUser = true
+                }
             }
+            URLSession.liveQuery.delegates.removeValue(forKey: self.task)
         }
-        URLSession.liveQuery.delegates.removeValue(forKey: task)
     }
 
     func send(record: SubscriptionRecord, requestId: RequestId, completion: @escaping (Error?) -> Void) {
-        self.pendingQueue.append((requestId, record))
-        if isConnected {
-            URLSession.liveQuery.send(record.messageData, task: task, completion: completion)
+        synchronizationQueue.sync {
+            self.pendingQueue.append((requestId, record))
+            if self.isConnected {
+                URLSession.liveQuery.send(record.messageData, task: self.task, completion: completion)
+            }
         }
     }
 }

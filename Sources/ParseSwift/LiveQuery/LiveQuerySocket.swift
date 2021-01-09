@@ -37,8 +37,7 @@ extension LiveQuerySocket {
 // MARK: Connect
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
-    func connect(isUserWantsToConnect: Bool = false,
-                 task: URLSessionWebSocketTask,
+    func connect(task: URLSessionWebSocketTask,
                  completion: @escaping (Error?) -> Void) throws {
         let encoded = try ParseCoding.jsonEncoder()
             .encode(StandardMessage(operation: .connect,
