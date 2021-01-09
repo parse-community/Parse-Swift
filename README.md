@@ -88,7 +88,7 @@ To solve this problem, we introduce Parse LiveQuery. This tool allows you to sub
 
 ### Setup Server
 
-Parse LiveQuery contains two parts, the LiveQuery server and the LiveQuery clients. In order to use live queries, you need to set up both of them.
+Parse LiveQuery contains two parts, the LiveQuery server and the LiveQuery clients (this SDK). In order to use live queries, you need to at least setup the server.
 
 The easiest way to setup the LiveQuery server is to make it run with the [Open Source Parse Server](https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery#server-setup).
 
@@ -119,7 +119,7 @@ subscription.handleSubscribe { subscribedQuery, isNew in
 }
 ```
 
-You can handle any event listed in the LiveQuery spec:
+You can handle any event listed in the LiveQuery [spec](https://github.com/parse-community/parse-server/wiki/Parse-LiveQuery-Protocol-Specification#event-message):
 ```swift
 subscription.handleEvent { _, event in
     // Called whenever an object was created
