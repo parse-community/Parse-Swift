@@ -53,7 +53,7 @@ public final class ParseLiveQuery: NSObject {
     var clientId: String!
     var attempts: Int = 1 {
         willSet {
-            if newValue == ParseLiveQueryConstants.maxConnectionAttempts + 1 {
+            if newValue >= ParseLiveQueryConstants.maxConnectionAttempts + 1 {
                 close() // Quit trying to reconnect
             }
         }
@@ -65,7 +65,7 @@ public final class ParseLiveQuery: NSObject {
             }
         }
     }
-    
+
     /// Have all `ParseLiveQuery` authentication challenges delegated to you. There can only
     /// be one of these for all `ParseLiveQuery` connections. The default is to
     /// delegate to the `authentication` call block passed to `ParseSwift.initialize`
@@ -87,7 +87,7 @@ public final class ParseLiveQuery: NSObject {
     /// Have `ParseLiveQuery` connection metrics, errors, etc. delegated to you. A delegate
     /// can be assigned to individual connections. Conforms to `ParseLiveQueryDelegate`.
     public weak var receiveDelegate: ParseLiveQueryDelegate?
-    
+
     /// True if the connection to the url is up and available. False otherwise.
     public internal(set) var isSocketEstablished = false { //URLSession has an established socket
         willSet {
@@ -96,7 +96,7 @@ public final class ParseLiveQuery: NSObject {
             }
         }
     }
-    
+
     /// True if this client is connected. False otherwise.
     public internal(set) var isConnected = false {
         willSet {
@@ -106,13 +106,17 @@ public final class ParseLiveQuery: NSObject {
                     if let task = self.task {
                         attempts = 1
 
-                        //Resubscribe to all subscriptions
-                        self.subscriptions.forEach { (_, value) -> Void in
-                            URLSession.liveQuery.send(value.messageData, task: self.task) { _ in }
+                        //Resubscribe to all subscriptions by moving them in front of pending
+                        var tempPendingSubscriptions = [(RequestId, SubscriptionRecord)]()
+                        self.subscriptions.forEach { (key, value) -> Void in
+                            tempPendingSubscriptions.append((key, value))
                         }
+                        self.subscriptions.removeAll()
+                        tempPendingSubscriptions.append(contentsOf: pendingSubscriptions)
+                        pendingSubscriptions = tempPendingSubscriptions
 
                         //Send all pending messages in order
-                        self.pendingQueue.forEach {
+                        self.pendingSubscriptions.forEach {
                             let messageToSend = $0
                             URLSession.liveQuery.send(messageToSend.1.messageData, task: task) { _ in }
                         }
@@ -141,7 +145,7 @@ public final class ParseLiveQuery: NSObject {
     //Subscription
     let requestIdGenerator: () -> RequestId
     var subscriptions = [RequestId: SubscriptionRecord]()
-    var pendingQueue = [(RequestId, SubscriptionRecord)]() // Behave as FIFO to maintain sending order
+    var pendingSubscriptions = [(RequestId, SubscriptionRecord)]() // Behave as FIFO to maintain sending order
 
     /**
      - parameter serverURL: The URL of the Parse Live Query Server to connect to.
@@ -152,7 +156,7 @@ public final class ParseLiveQuery: NSObject {
      Defaults value of false.
      - parameter notificationQueue: The queue to return to for all delegate notifications. Default value of .main.
      */
-    public init?(serverURL: URL? = nil, isDefault: Bool = false, notificationQueue: DispatchQueue = .main) {
+    public init(serverURL: URL? = nil, isDefault: Bool = false, notificationQueue: DispatchQueue = .main) throws {
         self.notificationQueue = notificationQueue
         synchronizationQueue = DispatchQueue(label: "com.parse.liveQuery.\(UUID().uuidString)",
                                              qos: .default,
@@ -175,12 +179,15 @@ public final class ParseLiveQuery: NSObject {
         } else if let parseServerConfigURL = ParseConfiguration.serverURL {
             url = parseServerConfigURL
         } else {
-            return nil
+            let error = ParseError(code: .unknownError, message: "ParseLiveQuery Error: no url specified.")
+            throw error
         }
 
         guard var components = URLComponents(url: url,
                                              resolvingAgainstBaseURL: false) else {
-            return
+            let error = ParseError(code: .unknownError,
+                                   message: "ParseLiveQuery Error: couldn't create components from url: \(url!)")
+            throw error
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
         url = components.url
@@ -204,7 +211,7 @@ public final class ParseLiveQuery: NSObject {
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
-    static var client = ParseLiveQuery()
+    static var client = try? ParseLiveQuery()
 
     var reconnectInterval: Int {
         let min = NSDecimalNumber(decimal: Swift.min(30, pow(2, attempts) - 1))
@@ -224,7 +231,7 @@ extension ParseLiveQuery {
 
     func removePendingSubscription(_ requestId: Int) {
         let requestIdToRemove = RequestId(value: requestId)
-        self.pendingQueue.removeAll(where: { $0.0.value == requestId })
+        self.pendingSubscriptions.removeAll(where: { $0.0.value == requestId })
         //Remove in subscriptions just in case the server
         //responded before this was called
         self.subscriptions.removeValue(forKey: requestIdToRemove)
@@ -259,7 +266,7 @@ extension ParseLiveQuery {
     /// - parameter query: Query to verify.
     public func isPendingSubscription<T: ParseObject>(_ query: Query<T>) throws -> Bool {
         let queryData = try ParseCoding.jsonEncoder().encode(query)
-        return pendingQueue.contains(where: { (_, value) -> Bool in
+        return pendingSubscriptions.contains(where: { (_, value) -> Bool in
             if queryData == value.queryData {
                 return true
             } else {
@@ -272,7 +279,7 @@ extension ParseLiveQuery {
     /// - parameter query: Query to remove.
     public func removePendingSubscription<T: ParseObject>(_ query: Query<T>) throws {
         let queryData = try ParseCoding.jsonEncoder().encode(query)
-        pendingQueue.removeAll(where: { (_, value) -> Bool in
+        pendingSubscriptions.removeAll(where: { (_, value) -> Bool in
             if queryData == value.queryData {
                 return true
             } else {
@@ -368,7 +375,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                 if preliminaryMessage.clientId != self.clientId {
                     let error = ParseError(code: .unknownError,
                                            // swiftlint:disable:next line_length
-                                           message: "ParseLiveQuery Error: Received a message from a server who sent clientId \(preliminaryMessage.clientId) while it should be \(self.clientId!). Not accepting message...")
+                                           message: "ParseLiveQuery Error: Received a message from a server who sent clientId \(preliminaryMessage.clientId) while it should be \(String(describing: self.clientId)). Not accepting message...")
                     self.notificationQueue.async {
                         self.receiveDelegate?.received(error)
                     }
@@ -388,7 +395,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                 switch preliminaryMessage.op {
                 case .subscribed:
 
-                    if let subscribed = self.pendingQueue
+                    if let subscribed = self.pendingSubscriptions
                         .first(where: { $0.0.value == preliminaryMessage.requestId }) {
                         let requestId = RequestId(value: preliminaryMessage.requestId)
                         let isNew: Bool!
@@ -538,7 +545,7 @@ extension ParseLiveQuery {
 
     func send(record: SubscriptionRecord, requestId: RequestId, completion: @escaping (Error?) -> Void) {
         synchronizationQueue.sync {
-            self.pendingQueue.append((requestId, record))
+            self.pendingSubscriptions.append((requestId, record))
             if self.isConnected {
                 URLSession.liveQuery.send(record.messageData, task: self.task, completion: completion)
             }
