@@ -31,7 +31,7 @@ import Foundation
          }
      }
  
- The above creates a `ParseLiveQuery` using either the `liveQueryServerURL`(if it has been set)
+ The above creates a `ParseLiveQuery` using either the `liveQueryServerURL` (if it has been set)
  or `serverURL` when using `ParseSwift.initialize`. All additional queries will be
  created in the same way. The times you will want to initialize a new `ParseLiveQuery` instance
  are: 1) If you want to become a `ParseLiveQueryDelegate` to respond to authentification challenges
@@ -69,7 +69,7 @@ public final class ParseLiveQuery: NSObject {
     /// Have all `ParseLiveQuery` authentication challenges delegated to you. There can only
     /// be one of these for all `ParseLiveQuery` connections. The default is to
     /// delegate to the `authentication` call block passed to `ParseSwift.initialize`
-    /// of if there is not one, delegate to the OS. Conforms to `ParseLiveQueryDelegate`.
+    /// or if there is not one, delegate to the OS. Conforms to `ParseLiveQueryDelegate`.
     public weak var authenticationDelegate: ParseLiveQueryDelegate? {
         willSet {
             if newValue != nil {
@@ -84,7 +84,7 @@ public final class ParseLiveQuery: NSObject {
         }
     }
 
-    /// Have `ParseLiveQuery` connection metrics, errors, etc. delegated to you. A delegate
+    /// Have `ParseLiveQuery` connection metrics, errors, etc delegated to you. A delegate
     /// can be assigned to individual connections. Conforms to `ParseLiveQueryDelegate`.
     public weak var receiveDelegate: ParseLiveQueryDelegate?
 
@@ -148,7 +148,7 @@ public final class ParseLiveQuery: NSObject {
     var pendingSubscriptions = [(RequestId, SubscriptionRecord)]() // Behave as FIFO to maintain sending order
 
     /**
-     - parameter serverURL: The URL of the Parse Live Query Server to connect to.
+     - parameter serverURL: The URL of the `ParseLiveQuery` Server to connect to.
      Defaults to `nil` in which case, it will use the URL passed in
      `ParseSwift.initialize(...liveQueryServerURL: URL)`. If no URL was passed,
      this assumes the current Parse Server URL is also the LiveQuery server.
@@ -483,7 +483,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
-    /// Manually establish a connection to the `ParseLiveQuery` server.
+    /// Manually establish a connection to the `ParseLiveQuery` Server.
     /// - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to `true`.
     /// - parameter completion: Returns `nil` if successful, an `Error` otherwise.
     public func open(isUserWantsToConnect: Bool = true, completion: @escaping (Error?) -> Void) {
@@ -516,7 +516,7 @@ extension ParseLiveQuery {
         }
     }
 
-    /// Manually disconnect from the `ParseLiveQuery` server.
+    /// Manually disconnect from the `ParseLiveQuery` Server.
     public func close() {
         synchronizationQueue.sync {
             if self.isConnected {
