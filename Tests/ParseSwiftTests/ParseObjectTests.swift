@@ -491,6 +491,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let className = score.className
         let objectId = "yarr"
         score.objectId = objectId
+        score.createdAt = Date()
+        score.updatedAt = Date()
 
         let command = score.saveCommand()
         XCTAssertNotNil(command)

@@ -269,7 +269,11 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         var score2 = GameScore(score: 20)
 
         score.objectId = "yarr"
+        score.createdAt = Date()
+        score.updatedAt = Date()
         score2.objectId = "yolo"
+        score2.createdAt = Date()
+        score2.updatedAt = Date()
 
         let objects = [score, score2]
         let initialCommands = objects.map { $0.saveCommand() }
