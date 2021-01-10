@@ -25,8 +25,8 @@ public protocol ParseUser: ParseObject {
     var password: String? { get set }
 }
 
-// MARK: SignupBody
-struct SignupBody: Encodable {
+// MARK: SignupLoginBody
+struct SignupLoginBody: Encodable {
     let username: String
     let password: String
 }
@@ -153,15 +153,12 @@ extension ParseUser {
     }
 
     internal static func loginCommand(username: String,
-                                      password: String) -> API.NonParseBodyCommand<NoBody, Self> {
-        let params = [
-            "username": username,
-            "password": password
-        ]
+                                      password: String) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
 
-        return API.NonParseBodyCommand<NoBody, Self>(method: .GET,
+        let body = SignupLoginBody(username: username, password: password)
+        return API.NonParseBodyCommand<SignupLoginBody, Self>(method: .POST,
                                          path: .login,
-                                         params: params) { (data) -> Self in
+                                         body: body) { (data) -> Self in
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             user.username = username
@@ -403,9 +400,9 @@ extension ParseUser {
     }
 
     internal static func signupCommand(username: String,
-                                       password: String) -> API.NonParseBodyCommand<SignupBody, Self> {
+                                       password: String) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
 
-        let body = SignupBody(username: username, password: password)
+        let body = SignupLoginBody(username: username, password: password)
         return API.NonParseBodyCommand(method: .POST, path: .users, body: body) { (data) -> Self in
 
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)

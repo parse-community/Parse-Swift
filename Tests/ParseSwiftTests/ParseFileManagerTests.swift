@@ -18,7 +18,7 @@ struct FileUploadResponse: Codable {
 class ParseFileManagerTests: XCTestCase {
 
     override func setUpWithError() throws {
-        super.setUp()
+        try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -26,7 +26,8 @@ class ParseFileManagerTests: XCTestCase {
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url)
+                              serverURL: url,
+                              testing: true)
 
         guard let fileManager = ParseFileManager(),
               let defaultDirectory = fileManager.defaultDataDirectoryPath else {
@@ -36,7 +37,7 @@ class ParseFileManagerTests: XCTestCase {
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         try KeychainStore.shared.deleteAll()
         try ParseStorage.shared.deleteAll()

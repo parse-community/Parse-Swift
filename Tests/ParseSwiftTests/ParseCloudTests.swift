@@ -26,7 +26,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     override func setUpWithError() throws {
-        super.setUp()
+        try super.setUpWithError()
         guard let url = URL(string: "https://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -34,7 +34,8 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url)
+                              serverURL: url,
+                              testing: true)
     }
 
     override func tearDownWithError() throws {

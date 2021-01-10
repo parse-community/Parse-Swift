@@ -8,10 +8,22 @@
 import Foundation
 
 // MARK: PrimitiveObjectStore
+/**
+ A store that supports key/value storage. It should be able
+ to handle any object that conforms to encodable and decodable.
+ */
 public protocol PrimitiveObjectStore {
+    /// Delete an object from the store.
+    /// - parameter key: The unique key value of the object.
     mutating func delete(valueFor key: String) throws
+    /// Delete all objects from the store.
     mutating func deleteAll() throws
+    /// Gets an object from the store based on its `key`.
+    /// - parameter key: The unique key value of the object.
     mutating func get<T: Decodable>(valueFor key: String) throws -> T?
+    /// Stores an object in the store with a given `key`.
+    /// - parameter object: The object to store.
+    /// - parameter key: The unique key value of the object.
     mutating func set<T: Encodable>(_ object: T, for key: String) throws
 }
 

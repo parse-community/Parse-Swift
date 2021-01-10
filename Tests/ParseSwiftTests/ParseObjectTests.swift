@@ -195,7 +195,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url)
+                              serverURL: url,
+                              testing: true)
     }
 
     override func tearDownWithError() throws {
@@ -1262,7 +1263,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     // swiftlint:disable:next function_body_length
     func testDeepSaveObjectWithFile() throws {
-        ParseSwift.setupForTesting()
         var game = Game2()
 
         guard let cloudPath = URL(string: "https://parseplatform.org/img/logo.svg"),
