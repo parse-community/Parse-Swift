@@ -50,7 +50,7 @@ class ParseLiveQueryTests: XCTestCase {
                               masterKey: "masterKey",
                               serverURL: url,
                               testing: true)
-        ParseLiveQuery.client = ParseLiveQuery(isDefault: true)
+        ParseLiveQuery.client = try? ParseLiveQuery(isDefault: true)
     }
 
     override func tearDownWithError() throws {
@@ -96,7 +96,7 @@ class ParseLiveQueryTests: XCTestCase {
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
         let webSocketURL = components.url
 
-        guard let client = ParseLiveQuery(serverURL: originalURL),
+        guard let client = try? ParseLiveQuery(serverURL: originalURL),
               let defaultClient = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to initialize a new client")
             return
@@ -116,7 +116,7 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testInitializeNewDefault() throws {
 
-        guard let client = ParseLiveQuery(isDefault: true),
+        guard let client = try? ParseLiveQuery(isDefault: true),
               let defaultClient = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to initialize a new client")
             return
@@ -138,7 +138,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should be able to initialize a new client")
             return
         }
-        var client = ParseLiveQuery()
+        var client = try? ParseLiveQuery()
         if let client = client {
             XCTAssertTrue(client.url.absoluteString.contains("ws"))
         } else {
