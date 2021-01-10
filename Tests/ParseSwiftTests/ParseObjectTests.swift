@@ -461,7 +461,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.fetchAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
-    func testSaveCommand() {
+    func testSaveCommand() throws {
         let score = GameScore(score: 10)
         let className = score.className
 
@@ -470,23 +470,49 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.body)
         XCTAssertNotNil(command.data)
+
+        guard let body = command.body else {
+            XCTFail("Should be able to unwrap")
+            return
+        }
+
+        let expected = "{\"score\":10,\"player\":\"Jen\"}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(body, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
     }
 
-    func testUpdateCommand() {
+    func testUpdateCommand() throws {
         var score = GameScore(score: 10)
         let className = score.className
         let objectId = "yarr"
         score.objectId = objectId
+        score.createdAt = Date()
+        score.updatedAt = Date()
 
         let command = score.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.body)
         XCTAssertNotNil(command.data)
+
+        guard let body = command.body else {
+            XCTFail("Should be able to unwrap")
+            return
+        }
+
+        let expected = "{\"score\":10,\"player\":\"Jen\"}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(body, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
     }
 
     func testSave() { // swiftlint:disable:this function_body_length

@@ -52,6 +52,35 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         try? ParseStorage.shared.deleteAll()
     }
 
+    func testSaveAllCommand() throws {
+        let score = GameScore(score: 10)
+        let score2 = GameScore(score: 20)
+
+        var scoreOnServer = score
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        var scoreOnServer2 = score2
+        scoreOnServer2.objectId = "yolo"
+        scoreOnServer2.createdAt = Date()
+        scoreOnServer2.updatedAt = scoreOnServer2.createdAt
+        scoreOnServer2.ACL = nil
+
+        let objects = [score, score2]
+        let commands = objects.map { $0.saveCommand() }
+        let body = BatchCommand(requests: commands)
+        // swiftlint:disable:next line_length
+        let expected = "{\"requests\":[{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"score\":10}},{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"score\":20}}]}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(body, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
     func testSaveAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
@@ -233,6 +262,39 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         } catch {
             XCTFail(error.localizedDescription)
         }
+    }
+
+    func testUpdateAllCommand() throws {
+        var score = GameScore(score: 10)
+        var score2 = GameScore(score: 20)
+
+        score.objectId = "yarr"
+        score.createdAt = Date()
+        score.updatedAt = Date()
+        score2.objectId = "yolo"
+        score2.createdAt = Date()
+        score2.updatedAt = Date()
+
+        let objects = [score, score2]
+        let initialCommands = objects.map { $0.saveCommand() }
+        let commands = initialCommands.compactMap { (command) -> API.Command<GameScore, GameScore>? in
+            let path = ParseConfiguration.mountPath + command.path.urlComponent
+            guard let body = command.body else {
+                return nil
+            }
+            return API.Command<GameScore, GameScore>(method: command.method, path: .any(path),
+                                     body: body, mapper: command.mapper)
+        }
+        let body = BatchCommand(requests: commands)
+        // swiftlint:disable:next line_length
+        let expected = "{\"requests\":[{\"path\":\"\\/1\\/classes\\/GameScore\\/yarr\",\"method\":\"PUT\",\"body\":{\"score\":10}},{\"path\":\"\\/1\\/classes\\/GameScore\\/yolo\",\"method\":\"PUT\",\"body\":{\"score\":20}}]}"
+
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(body, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
     }
 
     func testUpdateAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity

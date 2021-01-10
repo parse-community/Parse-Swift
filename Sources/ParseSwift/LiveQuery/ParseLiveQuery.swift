@@ -683,7 +683,7 @@ extension ParseLiveQuery {
     }
 }
 
-// MARK: Query - Subscribe
+// MARK: ParseLiveQuery - Subscribe
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
     /**
@@ -728,7 +728,7 @@ public extension Query {
     }
 }
 
-// MARK: Query - Unsubscribe
+// MARK: ParseLiveQuery - Unsubscribe
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
     /**
@@ -768,7 +768,7 @@ public extension Query {
     }
 }
 
-// MARK: Query - Update
+// MARK: ParseLiveQuery - Update
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
     /**
