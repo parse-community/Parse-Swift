@@ -90,7 +90,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url)
+                              serverURL: url,
+                              testing: true)
         userLogin()
     }
 

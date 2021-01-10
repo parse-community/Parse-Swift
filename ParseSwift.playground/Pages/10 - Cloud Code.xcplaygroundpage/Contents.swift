@@ -24,7 +24,7 @@ struct Cloud: ParseCloud {
  */
 let cloud = Cloud(functionJobName: "hello")
 
-cloud.callFunction { result in
+cloud.runFunction { result in
     switch result {
     case .success(let response):
         print("Response from cloud function: \(response)")
@@ -33,6 +33,7 @@ cloud.callFunction { result in
     }
 }
 
-//: Jobs can be run the same way by using the method `callJob()`
+//: Jobs can be run the same way by using the method `startJob()`
+PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)

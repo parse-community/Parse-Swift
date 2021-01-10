@@ -497,6 +497,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     internal var readPreference: String?
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
+    internal var fields: [String]?
 
     /**
       An enum that determines the order to sort the results based on a given key.
@@ -661,6 +662,38 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     */
     public func order(_ keys: [Order]?) -> Query<T> {
         self.order = keys
+        return self
+    }
+
+    /**
+     A variadic list of fields to receive when receiving a `ParseLiveQuery`.
+     
+     Suppose the `ParseObject` Player contains three fields name, id and age.
+     If you are only interested in the change of the name field, you can set `query.fields` to "name".
+     In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
+     name field will be sent to the clients instead of the full Player `ParseObject`.
+     - warning: This is only for `ParseLiveQuery`.
+     - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
+     */
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func fields(_ keys: String...) -> Query<T> {
+        self.fields = keys
+        return self
+    }
+
+    /**
+     A list of fields to receive when receiving a `ParseLiveQuery`.
+     
+     Suppose the `ParseObject` Player contains three fields name, id and age.
+     If you are only interested in the change of the name field, you can set `query.fields` to "name".
+     In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
+     name field will be sent to the clients instead of the full Player `ParseObject`.
+     - warning: This is only for `ParseLiveQuery`.
+     - parameter keys: An array of fields to receive back instead of the whole `ParseObject`.
+     */
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    public func fields(_ keys: [String]) -> Query<T> {
+        self.fields = keys
         return self
     }
 

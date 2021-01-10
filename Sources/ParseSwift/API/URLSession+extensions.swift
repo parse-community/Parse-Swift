@@ -12,66 +12,16 @@ import Foundation
 import FoundationNetworking
 #endif
 
-class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDelegate, URLSessionDownloadDelegate
-{
-
-    var downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)?
-    var uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)?
-    var stream: InputStream?
-    var callbackQueue: DispatchQueue?
-
-    init (callbackQueue: DispatchQueue?, uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
-          downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
-          stream: InputStream? = nil) {
-        super.init()
-        self.callbackQueue = callbackQueue
-        self.uploadProgress = uploadProgress
-        self.downloadProgress = downloadProgress
-        self.stream = stream
-    }
-
-    func urlSession(_ session: URLSession,
-                    task: URLSessionTask,
-                    didSendBodyData bytesSent: Int64,
-                    totalBytesSent: Int64,
-                    totalBytesExpectedToSend: Int64) {
-        if let callbackQueue = callbackQueue {
-            callbackQueue.async {
-                self.uploadProgress?(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
-            }
-        } else {
-            uploadProgress?(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
-        }
-    }
-
-    func urlSession(_ session: URLSession,
-                    downloadTask: URLSessionDownloadTask,
-                    didFinishDownloadingTo location: URL) {
-        downloadProgress = nil
-    }
-
-    func urlSession(_ session: URLSession,
-                    downloadTask: URLSessionDownloadTask,
-                    didWriteData bytesWritten: Int64,
-                    totalBytesWritten: Int64,
-                    totalBytesExpectedToWrite: Int64) {
-        if let callbackQueue = callbackQueue {
-            callbackQueue.async {
-                self.downloadProgress?(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
-            }
-        } else {
-            downloadProgress?(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
-        }
-    }
-
-    func urlSession(_ session: URLSession,
-                    task: URLSessionTask,
-                    needNewBodyStream completionHandler: @escaping (InputStream?) -> Void) {
-        completionHandler(stream)
-    }
-}
-
 extension URLSession {
+    static let parse: URLSession = {
+        if !ParseConfiguration.isTestingSDK {
+            return URLSession(configuration: .default,
+                   delegate: ParseConfiguration.sessionDelegate,
+                   delegateQueue: nil)
+        } else {
+            return URLSession.shared
+        }
+    }()
 
     internal func makeResult<U>(responseData: Data?,
                                 urlResponse: URLResponse?,
@@ -150,43 +100,49 @@ extension URLSession {
 }
 
 extension URLSession {
-
-    internal func uploadTask<U>(
+    internal func uploadTask<U>( // swiftlint:disable:this function_parameter_count
         with request: URLRequest,
         from data: Data?,
         from file: URL?,
+        progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)?,
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-
+        var task: URLSessionTask?
         if let data = data {
-            uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
+            task = uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
                 completion(self.makeResult(responseData: responseData,
                                       urlResponse: urlResponse,
                                       responseError: responseError, mapper: mapper))
-            }.resume()
+            }
         } else if let file = file {
-            uploadTask(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
+            task = uploadTask(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
                 completion(self.makeResult(responseData: responseData,
                                       urlResponse: urlResponse,
                                       responseError: responseError, mapper: mapper))
-            }.resume()
+            }
         } else {
             completion(.failure(ParseError(code: .unknownError, message: "data and file both can't be nil")))
+        }
+        if let task = task {
+            ParseConfiguration.sessionDelegate.uploadDelegates[task] = progress
+            task.resume()
         }
     }
 
     internal func downloadTask<U>(
         with request: URLRequest,
+        progress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)?,
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-
-        downloadTask(with: request) { (location, urlResponse, responseError) in
+        let task = downloadTask(with: request) { (location, urlResponse, responseError) in
             completion(self.makeResult(location: location,
                                   urlResponse: urlResponse,
                                   responseError: responseError, mapper: mapper))
-        }.resume()
+        }
+        ParseConfiguration.sessionDelegate.downloadDelegates[task] = progress
+        task.resume()
     }
 
     internal func downloadTask<U>(
@@ -202,8 +158,4 @@ extension URLSession {
                                        mapper: mapper))
         }.resume()
     }
-}
-
-internal extension URLSession {
-    static var testing = URLSession.shared
 }

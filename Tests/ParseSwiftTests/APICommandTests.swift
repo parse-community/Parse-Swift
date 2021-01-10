@@ -21,7 +21,8 @@ class APICommandTests: XCTestCase {
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url)
+                              serverURL: url,
+                              testing: true)
     }
 
     override func tearDown() {
