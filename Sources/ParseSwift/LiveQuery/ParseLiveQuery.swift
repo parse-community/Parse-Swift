@@ -12,9 +12,32 @@ import Foundation
  The `ParseLiveQuery` class enables two-way communication to a Parse Live Query
  Server.
  
- In most cases, you will only need to create a singleton of `ParseLiveQuery`. Initializing
- new instances will create a new task/connection to the `ParseLiveQuery` server. When
- an instance is deinitialized it will automatically close it's connection gracefully.
+ In most cases, you won't need to call this class directly as a LiveQuery can be directly
+ created from `Query` using:
+    
+     // If "Message" is a "ParseObject"
+     let myQuery = Message.query("from" == "parse")
+     guard let subscription = myQuery.subscribe else {
+         "Error subscribing..."
+         return
+     }
+     subscription.handleSubscribe { subscribedQuery, isNew in
+
+         //Handle the subscription however you like.
+         if isNew {
+             print("Successfully subscribed to new query \(subscribedQuery)")
+         } else {
+             print("Successfully updated subscription to new query \(subscribedQuery)")
+         }
+     }
+ 
+ The above creates a `ParseLiveQuery` using either the `liveQueryServerURL`(if it has been set)
+ or `serverURL` when using `ParseSwift.initialize`. All additional queries will be
+ created in the same way. The times you will want to initialize a new `ParseLiveQuery` instance
+ are: 1) You have specific LiveQueries that need to subscribe to a server that have a different url than
+ the default. 2) You want to change the default url for all LiveQuery connections when the app is already
+ running. Initializing new instances will create a new task/connection to the `ParseLiveQuery` server.
+ When an instance is deinitialized it will automatically close it's connection gracefully.
  */
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public final class ParseLiveQuery: NSObject {
