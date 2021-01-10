@@ -64,7 +64,6 @@ open class Subscription<Q: Query<T>, T: ParseObject>: SubscriptionHandlable {
     public var query: Query<T>
     //The ParseObject
     public typealias Object = T
-    fileprivate var errorHandlers: [(Query<T>, Error) -> Void] = []
     fileprivate var eventHandlers: [(Query<T>, Event<T>) -> Void] = []
     fileprivate var subscribeHandlers: [(Query<T>, Bool) -> Void] = []
     fileprivate var unsubscribeHandlers: [(Query<T>) -> Void] = []

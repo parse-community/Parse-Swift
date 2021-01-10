@@ -65,8 +65,8 @@ public final class ParseLiveQuery: NSObject {
         willSet {
             isConnecting = false
             if newValue {
-                synchronizationQueue.sync {
-                    if isSocketEstablished {
+                if isSocketEstablished {
+                    synchronizationQueue.sync {
                         if let task = self.task {
                             attempts = 1
 
@@ -81,10 +81,10 @@ public final class ParseLiveQuery: NSObject {
                                 URLSession.liveQuery.send(messageToSend.1.messageData, task: task) { _ in }
                             }
                         }
-                    } else {
-                        synchronizationQueue.asyncAfter(deadline: .now() + 1) {
-                            self.isConnected = false
-                        }
+                    }
+                } else {
+                    synchronizationQueue.async {
+                        self.isConnected = false
                     }
                 }
             } else {
@@ -96,7 +96,7 @@ public final class ParseLiveQuery: NSObject {
         willSet {
             if newValue {
                 if !isSocketEstablished {
-                    synchronizationQueue.asyncAfter(deadline: .now() + 1) {
+                    synchronizationQueue.async {
                         self.isConnecting = false
                     }
                 }
@@ -189,13 +189,11 @@ extension ParseLiveQuery {
     }
 
     func removePendingSubscription(_ requestId: Int) {
-        synchronizationQueue.sync {
-            let requestIdToRemove = RequestId(value: requestId)
-            self.pendingQueue.removeAll(where: { $0.0.value == requestId })
-            //Remove in subscriptions just in case the server
-            //responded before this was called
-            self.subscriptions.removeValue(forKey: requestIdToRemove)
-        }
+        let requestIdToRemove = RequestId(value: requestId)
+        self.pendingQueue.removeAll(where: { $0.0.value == requestId })
+        //Remove in subscriptions just in case the server
+        //responded before this was called
+        self.subscriptions.removeValue(forKey: requestIdToRemove)
     }
 
     /// Set a specific ParseLiveQuery client to be the default for all `ParseLiveQuery` connections.
@@ -282,14 +280,33 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             return
         }
 
-        if !self.isConnected {
+        //Check if this is a error response
+        if let error = try? ParseCoding.jsonDecoder().decode(ErrorResponse.self, from: data) {
+            if !error.reconnect {
+                //Treat this as a user disconnect because the server doesn't want to hear from us anymore
+                self.close()
+            }
+            guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
+                //Turn LiveQuery error into ParseError
+                let parseError = ParseError(code: .unknownError,
+                                            message: "LiveQuery error code: \(error.code) message: \(error.error)")
+                self.notificationQueue.async {
+                    self.receiveDelegate?.received(parseError)
+                }
+                return
+            }
+            self.notificationQueue.async {
+                self.receiveDelegate?.received(parseError)
+            }
+            return
+        } else if !self.isConnected {
             //Check if this is a connected response
             guard let response = try? ParseCoding.jsonDecoder().decode(ConnectionResponse.self, from: data),
                   response.op == .connected else {
                 //If not connected, shouldn't receive anything other than a connection response
                 guard let outOfOrderMessage = try? ParseCoding
                         .jsonDecoder()
-                        .decode(NoBody.self, from: data) else {
+                        .decode(AnyCodable.self, from: data) else {
                     let error = ParseError(code: .unknownError,
                                            // swiftlint:disable:next line_length
                                            message: "ParseLiveQuery Error: Received message out of order, but couldn't decode it")
@@ -310,26 +327,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             self.isConnected = true
         } else {
 
-            //Check if this is a error response
-            if let error = try? ParseCoding.jsonDecoder().decode(ErrorResponse.self, from: data) {
-                if !error.reconnect {
-                    //Treat this as a user disconnect because the server doesn't want to hear from us anymore
-                    self.close()
-                }
-                guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
-                    //Turn LiveQuery error into ParseError
-                    let parseError = ParseError(code: .unknownError,
-                                                message: "LiveQuery error code: \(error.code) message: \(error.error)")
-                    self.notificationQueue.async {
-                        self.receiveDelegate?.received(parseError)
-                    }
-                    return
-                }
-                self.notificationQueue.async {
-                    self.receiveDelegate?.received(parseError)
-                }
-                return
-            } else if let preliminaryMessage = try? ParseCoding.jsonDecoder()
+            if let preliminaryMessage = try? ParseCoding.jsonDecoder()
                         .decode(PreliminaryMessageResponse.self,
                                 from: data) {
 
