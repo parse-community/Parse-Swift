@@ -142,7 +142,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/ParseEncoder.swift",
-      "line": 556,
+      "line": 558,
       "symbol": "_ParseEncoder",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
