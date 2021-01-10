@@ -34,8 +34,10 @@ import Foundation
  The above creates a `ParseLiveQuery` using either the `liveQueryServerURL`(if it has been set)
  or `serverURL` when using `ParseSwift.initialize`. All additional queries will be
  created in the same way. The times you will want to initialize a new `ParseLiveQuery` instance
- are: 1) You have specific LiveQueries that need to subscribe to a server that have a different url than
- the default. 2) You want to change the default url for all LiveQuery connections when the app is already
+ are: 1) If you want to become a `ParseLiveQueryDelegate` to respond to authentification challenges
+ and/or receive metrics and error messages for a `ParseLiveQuery`client.
+ 2) You have specific LiveQueries that need to subscribe to a server that have a different url than
+ the default. 3) You want to change the default url for all LiveQuery connections when the app is already
  running. Initializing new instances will create a new task/connection to the `ParseLiveQuery` server.
  When an instance is deinitialized it will automatically close it's connection gracefully.
  */
@@ -63,6 +65,11 @@ public final class ParseLiveQuery: NSObject {
             }
         }
     }
+    
+    /// Have all `ParseLiveQuery` authentication challenges delegated to you. There can only
+    /// be one of these for all `ParseLiveQuery` connections. The default is to
+    /// delegate to the `authentication` call block passed to `ParseSwift.initialize`
+    /// of if there is not one, delegate to the OS. Conforms to `ParseLiveQueryDelegate`.
     public weak var authenticationDelegate: ParseLiveQueryDelegate? {
         willSet {
             if newValue != nil {
@@ -76,7 +83,12 @@ public final class ParseLiveQuery: NSObject {
             }
         }
     }
+
+    /// Have `ParseLiveQuery` connection metrics, errors, etc. delegated to you. A delegate
+    /// can be assigned to individual connections. Conforms to `ParseLiveQueryDelegate`.
     public weak var receiveDelegate: ParseLiveQueryDelegate?
+    
+    /// True if the connection to the url is up and available. False otherwise.
     public internal(set) var isSocketEstablished = false { //URLSession has an established socket
         willSet {
             if newValue == false {
@@ -84,6 +96,8 @@ public final class ParseLiveQuery: NSObject {
             }
         }
     }
+    
+    /// True if this client is connected. False otherwise.
     public internal(set) var isConnected = false {
         willSet {
             isConnecting = false
@@ -114,6 +128,8 @@ public final class ParseLiveQuery: NSObject {
             }
         }
     }
+
+    /// True if this client is connecting. False otherwise.
     public internal(set) var isConnecting = false {
         didSet {
             if !isSocketEstablished {
