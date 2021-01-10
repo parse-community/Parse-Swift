@@ -76,7 +76,7 @@ ParseSwift.initialize(applicationId: "xxxxxxxxxx", clientKey: "xxxxxxxxxx", serv
 ```
 Please checkout the [Swift Playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground) for more usage information.
 
-[docs]: http://docs.parseplatform.org/ios/guide/
+[docs]: https://docs.parseplatform.org
 
 
 ## LiveQuery
