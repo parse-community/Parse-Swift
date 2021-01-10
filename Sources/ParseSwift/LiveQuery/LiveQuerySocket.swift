@@ -23,6 +23,13 @@ final class LiveQuerySocket: NSObject {
         let task = session.webSocketTask(with: url)
         return task
     }
+
+    func closeAll() {
+        delegates.forEach { (_, client) -> Void in
+            client.close(useDedicatedQueue: false)
+            authenticationDelegate = nil
+        }
+    }
 }
 
 // MARK: Status

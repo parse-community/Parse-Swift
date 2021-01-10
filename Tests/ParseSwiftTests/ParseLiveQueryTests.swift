@@ -32,6 +32,8 @@ class ParseLiveQueryTests: XCTestCase {
         }
     }
 
+    class TestDelegate: ParseLiveQueryDelegate { }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -43,7 +45,7 @@ class ParseLiveQueryTests: XCTestCase {
                               masterKey: "masterKey",
                               serverURL: url,
                               testing: true)
-        ParseLiveQuery.client = ParseLiveQuery()
+        ParseLiveQuery.client = ParseLiveQuery(isDefault: true)
     }
 
     override func tearDownWithError() throws {
@@ -51,7 +53,7 @@ class ParseLiveQueryTests: XCTestCase {
         MockURLProtocol.removeAll()
         try? KeychainStore.shared.deleteAll()
         try? ParseStorage.shared.deleteAll()
-        ParseLiveQuery.client = nil
+        URLSession.liveQuery.closeAll()
     }
 
     func testWebsocketURL() throws {
@@ -70,6 +72,14 @@ class ParseLiveQueryTests: XCTestCase {
 
         XCTAssertEqual(client.url, webSocketURL)
         XCTAssertTrue(client.url.absoluteString.contains("ws"))
+
+        let expectation1 = XCTestExpectation(description: "Socket delegate")
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 1) {
+            let socketDelegates = URLSession.liveQuery.delegates
+            XCTAssertNotNil(socketDelegates[client.task])
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInitializeWithNewURL() throws {
@@ -90,6 +100,13 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.url, webSocketURL)
         XCTAssertTrue(client.url.absoluteString.contains("ws"))
         XCTAssertNotEqual(client, defaultClient)
+        let expectation1 = XCTestExpectation(description: "Socket delegate")
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 1) {
+            let socketDelegates = URLSession.liveQuery.delegates
+            XCTAssertNotNil(socketDelegates[client.task])
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInitializeNewDefault() throws {
@@ -102,9 +119,16 @@ class ParseLiveQueryTests: XCTestCase {
 
         XCTAssertTrue(client.url.absoluteString.contains("ws"))
         XCTAssertEqual(client, defaultClient)
+        let expectation1 = XCTestExpectation(description: "Socket delegate")
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 1) {
+            let socketDelegates = URLSession.liveQuery.delegates
+            XCTAssertNotNil(socketDelegates[client.task])
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testDeinitializingNewShouldEffectDefault() throws {
+    func testDeinitializingNewShouldNotEffectDefault() throws {
         guard let defaultClient = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to initialize a new client")
             return
@@ -118,6 +142,27 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertNotEqual(client, defaultClient)
         client = nil
         XCTAssertNotNil(ParseLiveQuery.getDefault())
+        let expectation1 = XCTestExpectation(description: "Socket delegate")
+        defaultClient.synchronizationQueue.asyncAfter(deadline: .now() + 1) {
+            let socketDelegates = URLSession.liveQuery.delegates
+            XCTAssertNotNil(socketDelegates[defaultClient.task])
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testBecomingSocketAuthDelegate() throws {
+        let delegate = TestDelegate()
+        let client = ParseLiveQuery.getDefault()
+        XCTAssertNil(URLSession.liveQuery.authenticationDelegate)
+        client?.authenticationDelegate = delegate
+        guard let authDelegate = URLSession
+                .liveQuery
+                .authenticationDelegate as? ParseLiveQuery else {
+            XCTFail("Should be able to cast")
+            return
+        }
+        XCTAssertEqual(client, authDelegate)
     }
 
     func testSocketNotOpenState() throws {

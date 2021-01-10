@@ -29,7 +29,7 @@ public final class ParseLiveQuery: NSObject {
     var attempts: Int = 1 {
         willSet {
             if newValue == ParseLiveQueryConstants.maxConnectionAttempts + 1 {
-                close(true) // Quit trying to reconnect
+                close() // Quit trying to reconnect
             }
         }
     }
@@ -42,14 +42,12 @@ public final class ParseLiveQuery: NSObject {
     }
     public weak var authenticationDelegate: ParseLiveQueryDelegate? {
         willSet {
-            synchronizationQueue.sync {
-                if newValue != nil {
-                    URLSession.liveQuery.authenticationDelegate = self
-                } else {
-                    if let delegate = URLSession.liveQuery.authenticationDelegate as? ParseLiveQuery {
-                        if delegate == self {
-                            URLSession.liveQuery.authenticationDelegate = nil
-                        }
+            if newValue != nil {
+                URLSession.liveQuery.authenticationDelegate = self
+            } else {
+                if let delegate = URLSession.liveQuery.authenticationDelegate as? ParseLiveQuery {
+                    if delegate == self {
+                        URLSession.liveQuery.authenticationDelegate = nil
                     }
                 }
             }
@@ -161,12 +159,10 @@ public final class ParseLiveQuery: NSObject {
 
     /// Gracefully disconnects from the ParseLiveQuery Server.
     deinit {
-        if let task = self.task {
-            close()
-            authenticationDelegate = nil
-            receiveDelegate = nil
-            URLSession.liveQuery.delegates.removeValue(forKey: task)
-        }
+        close(useDedicatedQueue: false)
+        authenticationDelegate = nil
+        receiveDelegate = nil
+        URLSession.liveQuery.delegates.removeValue(forKey: task)
     }
 }
 
@@ -278,7 +274,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             if redirect.op == .redirect {
                 self.url = redirect.url
                 if self.isConnected {
-                    self.close(false)
+                    self.close(useDedicatedQueue: true)
                     //Try to reconnect
                     self.createTask()
                 }
@@ -482,13 +478,27 @@ extension ParseLiveQuery {
     }
 
     /// Manually disconnect from the `ParseLiveQuery` server.
-    public func close(_ isUser: Bool = true) {
+    public func close() {
         synchronizationQueue.sync {
             if self.isConnected {
                 self.task.cancel()
-                if isUser {
-                    self.isDisconnectedByUser = true
+                self.isDisconnectedByUser = true
+            }
+            URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+        }
+    }
+
+    func close(useDedicatedQueue: Bool) {
+        if useDedicatedQueue {
+            synchronizationQueue.async {
+                if self.isConnected {
+                    self.task.cancel()
                 }
+                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            }
+        } else {
+            if self.isConnected {
+                self.task.cancel()
             }
             URLSession.liveQuery.delegates.removeValue(forKey: self.task)
         }
