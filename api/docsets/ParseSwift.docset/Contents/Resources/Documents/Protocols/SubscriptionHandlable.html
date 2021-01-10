@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ParseCloud Protocol Reference</title>
+    <title>SubscriptionHandlable Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Protocol/ParseCloud" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Protocol/SubscriptionHandlable" class="dashAnchor"></a>
 
-    <a title="ParseCloud Protocol Reference"></a>
+    <a title="SubscriptionHandlable Protocol Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ParseCloud Protocol Reference
+      SubscriptionHandlable Protocol Reference
     </p>
 
     <div class="content-wrapper">
@@ -233,17 +233,16 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>ParseCloud</h1>
+            <h1>SubscriptionHandlable</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseCloud</span> <span class="p">:</span> <span class="kt">ParseType</span><span class="p">,</span> <span class="kt">CustomDebugStringConvertible</span><span class="p">,</span> <span class="kt">Decodable</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">SubscriptionHandlable</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
 
                 </div>
               </div>
-            <p>Objects that conform to the <code>ParseCloud</code> protocol are able to call Parse Cloud Functions and Jobs.
-An object should be should be instantiated for each function and job type. When conforming to
-<code>ParseCloud</code>, any properties added will be passed as parameters to your Cloud Function or Job.</p>
+            <p>This protocol describes the interface for handling events from a <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> client.
+You can use this protocol on any custom class of yours, instead of Subscription, if it fits your use case better.</p>
 
           </div>
         </section>
@@ -255,9 +254,9 @@ An object should be should be instantiated for each function and job type. When 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A5CloudP15functionJobNameSSvp"></a>
-                    <a name="//apple_ref/swift/Property/functionJobName" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A5CloudP15functionJobNameSSvp">functionJobName</a>
+                    <a name="/s:10ParseSwift21SubscriptionHandlableP6ObjectQa"></a>
+                    <a name="//apple_ref/swift/Alias/Object" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift21SubscriptionHandlableP6ObjectQa">Object</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -265,59 +264,14 @@ An object should be should be instantiated for each function and job type. When 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The name of the function or job.</p>
+                        <p>The type of the <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> that this handler uses.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">functionJobName</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Functions"></a>
-                <a name="//apple_ref/swift/Section/Functions" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Functions"></a>
-                  <h3 class="section-name"><p>Functions</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A5CloudPAAE11runFunction7optionsAA10AnyCodableVShyAA3APIV6OptionOG_tKF"></a>
-                    <a name="//apple_ref/swift/Method/runFunction(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A5CloudPAAE11runFunction7optionsAA10AnyCodableVShyAA3APIV6OptionOG_tKF">runFunction(options:<wbr>)</a>
-                    </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Calls a Cloud Code function <em>synchronously</em> and returns a result of it&rsquo;s execution.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: Returns a JSON response of <code><a href="../Structs/AnyCodable.html">AnyCodable</a></code> type.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">runFunction</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/AnyCodable.html">AnyCodable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Object</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
                       </div>
@@ -327,29 +281,24 @@ An object should be should be instantiated for each function and job type. When 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A5CloudPAAE11runFunction7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/runFunction(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A5CloudPAAE11runFunction7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF">runFunction(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift21SubscriptionHandlableP10didReceiveyy10Foundation4DataVKF"></a>
+                    <a name="//apple_ref/swift/Method/didReceive(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift21SubscriptionHandlableP10didReceiveyy10Foundation4DataVKF">didReceive(_:<wbr>)</a>
                     </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Calls a Cloud Code function <em>asynchronously</em> and returns a result of it&rsquo;s execution.</p>
+                        <p>Tells the handler that an event has been received from the <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> Server.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">runFunction</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
-                        <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                        <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/AnyCodable.html">AnyCodable</a></span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didReceive</span><span class="p">(</span><span class="n">_</span> <span class="nv">eventData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -360,37 +309,12 @@ An object should be should be instantiated for each function and job type. When 
                             <tr>
                               <td>
                                 <code>
-                                <em>options</em>
+                                <em>eventData</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>callbackQueue</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The queue to return to after completion. Default value of .main.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A block that will be called when logging out, completes or fails.
-It should have the following argument signature: <code>(Result&lt;AnyCodable, ParseError&gt;)</code>.</p>
+                                  <p>The event data that has been recieved from the server.</p>
                                 </div>
                               </td>
                             </tr>
@@ -400,45 +324,32 @@ It should have the following argument signature: <code>(Result&lt;AnyCodable, Pa
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Jobs"></a>
-                <a name="//apple_ref/swift/Section/Jobs" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Jobs"></a>
-                  <h3 class="section-name"><p>Jobs</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A5CloudPAAE8startJob7optionsAA10AnyCodableVShyAA3APIV6OptionOG_tKF"></a>
-                    <a name="//apple_ref/swift/Method/startJob(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A5CloudPAAE8startJob7optionsAA10AnyCodableVShyAA3APIV6OptionOG_tKF">startJob(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift21SubscriptionHandlableP12didSubscribeyySbF"></a>
+                    <a name="//apple_ref/swift/Method/didSubscribe(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift21SubscriptionHandlableP12didSubscribeyySbF">didSubscribe(_:<wbr>)</a>
                     </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Starts a Cloud Code job <em>synchronously</em> and returns a result with the jobStatusId of the job.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: Returns a JSON response of <code><a href="../Structs/AnyCodable.html">AnyCodable</a></code> type.</p>
+                        <p>Tells the handler that a query has been successfully registered with the server.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This may be invoked multiple times if the client disconnects/reconnects.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">startJob</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/AnyCodable.html">AnyCodable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didSubscribe</span><span class="p">(</span><span class="n">_</span> <span class="nv">new</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -448,115 +359,29 @@ It should have the following argument signature: <code>(Result&lt;AnyCodable, Pa
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A5CloudPAAE8startJob7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/startJob(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A5CloudPAAE8startJob7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF">startJob(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift21SubscriptionHandlableP14didUnsubscribeyyF"></a>
+                    <a name="//apple_ref/swift/Method/didUnsubscribe()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift21SubscriptionHandlableP14didUnsubscribeyyF">didUnsubscribe()</a>
                     </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Starts a Cloud Code job <em>asynchronously</em> and returns a result with the jobStatusId of the job.</p>
+                        <p>Tells the handler that a query has been successfully deregistered from the server.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This is not called unless <code>unsubscribe()</code> is explicitly called.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">startJob</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
-                     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/AnyCodable.html">AnyCodable</a></span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>callbackQueue</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The queue to return to after completion. Default value of .main.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A block that will be called when logging out, completes or fails.
-It should have the following argument signature: <code>(Result&lt;AnyCodable, ParseError&gt;)</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/CustomDebugStringConvertible"></a>
-                <a name="//apple_ref/swift/Section/CustomDebugStringConvertible" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/CustomDebugStringConvertible"></a>
-                  <h3 class="section-name"><p>CustomDebugStringConvertible</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:s28CustomDebugStringConvertibleP16debugDescriptionSSvp"></a>
-                    <a name="//apple_ref/swift/Property/debugDescription" class="dashAnchor"></a>
-                    <a class="token" href="#/s:s28CustomDebugStringConvertibleP16debugDescriptionSSvp">debugDescription</a>
-                    </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">debugDescription</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didUnsubscribe</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>

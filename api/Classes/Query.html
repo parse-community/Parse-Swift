@@ -23,7 +23,7 @@
         <a class="header-link" href="../index.html">
           ParseSwift 1.0 Docs
         </a>
-         (80% documented)
+         (83% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -60,10 +60,24 @@
             <a class="nav-group-name-link" href="../Classes.html">Classes</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Query.html">Query</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Query/Order.html">– Order</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Classes/Subscription.html">Subscription</a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-group-name">
+            <a class="nav-group-name-link" href="../Enums.html">Enumerations</a>
+            <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
               </li>
             </ul>
           </li>
@@ -110,6 +124,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift9hasSuffix3key6suffixAA15QueryConstraintVSS_SStF">hasSuffix(key:suffix:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift10initialize13applicationId9clientKey06masterG09serverURL015liveQueryServerJ020primitiveObjectStore14authenticationySS_SSSgAJ10Foundation0J0VAMSgAA09PrimitiveoP0_pSgySo28NSURLAuthenticationChallengeC_ySo016NSURLSessionAuthU11DispositionV_So15NSURLCredentialCSgtXEtcSgtF">initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:primitiveObjectStore:authentication:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift17matchesKeyInQuery3key05queryD00H0AA0F10ConstraintVSS_SSAA0F0CyxGtAA0A6ObjectRzlF">matchesKeyInQuery(key:queryKey:query:)</a>
@@ -165,10 +182,19 @@
                 <a class="nav-group-task-link" href="../Protocols/ParseInstallation.html">ParseInstallation</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseLiveQueryDelegate.html">ParseLiveQueryDelegate</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseObject.html">ParseObject</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseUser.html">ParseUser</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/PrimitiveObjectStore.html">PrimitiveObjectStore</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a>
               </li>
             </ul>
           </li>
@@ -908,6 +934,637 @@ If this is called multiple times, then all of the keys specified in each of the 
                               <td>
                                 <div>
                                   <p>An array of keys to order by.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC6fieldsyACyxGSSd_tF"></a>
+                    <a name="//apple_ref/swift/Method/fields(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC6fieldsyACyxGSSd_tF">fields(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A variadic list of fields to receive when receiving a <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code>.</p>
+
+<p>Suppose the <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> Player contains three fields name, id and age.
+If you are only interested in the change of the name field, you can set <code>query.fields</code> to &ldquo;name&rdquo;.
+In this situation, when the change of a Player <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> fulfills the subscription, only the
+name field will be sent to the clients instead of the full Player <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    This is only for <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">fields</span><span class="p">(</span><span class="n">_</span> <span class="nv">keys</span><span class="p">:</span> <span class="kt">String</span><span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A variadic list of fields to receive back instead of the whole <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC6fieldsyACyxGSaySSGF"></a>
+                    <a name="//apple_ref/swift/Method/fields(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC6fieldsyACyxGSaySSGF">fields(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A list of fields to receive when receiving a <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code>.</p>
+
+<p>Suppose the <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> Player contains three fields name, id and age.
+If you are only interested in the change of the name field, you can set <code>query.fields</code> to &ldquo;name&rdquo;.
+In this situation, when the change of a Player <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> fulfills the subscription, only the
+name field will be sent to the clients instead of the full Player <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    This is only for <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">public</span> <span class="kd">func</span> <span class="nf">fields</span><span class="p">(</span><span class="n">_</span> <span class="nv">keys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An array of fields to receive back instead of the whole <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Query%20-%20Subscribe"></a>
+                <a name="//apple_ref/swift/Section/Query - Subscribe" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Query%20-%20Subscribe"></a>
+                  <h3 class="section-name"><p>Query - Subscribe</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC9subscribeAA12SubscriptionCyACyxGxGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/subscribe" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC9subscribeAA12SubscriptionCyACyxGxGSgvp">subscribe</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Registers the query for live updates, using the default subscription handler,
+and the default <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> client.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">subscribe</span><span class="p">:</span> <span class="kt"><a href="../Classes/Subscription.html">Subscription</a></span><span class="o">&lt;</span><span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">ResultType</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC9subscribeyAA12SubscriptionCyACyxGxGAA0a4LiveC0CKF"></a>
+                    <a name="//apple_ref/swift/Method/subscribe(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC9subscribeyAA12SubscriptionCyACyxGxGAA0a4LiveC0CKF">subscribe(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Registers the query for live updates, using the default subscription handler,
+and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> client.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">subscribe</span><span class="p">(</span><span class="n">_</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Subscription.html">Subscription</a></span><span class="o">&lt;</span><span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">ResultType</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>client</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A specific client.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The subscription that has just been registered</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC9subscribeyqd__qd__KAA21SubscriptionHandlableRd__lFZ"></a>
+                    <a name="//apple_ref/swift/Method/subscribe(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC9subscribeyqd__qd__KAA21SubscriptionHandlableRd__lFZ">subscribe(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Registers a query for live updates, using a custom subscription handler.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="n"><a href="../Classes/Query.html#/s:10ParseSwift5QueryC9subscribeAA12SubscriptionCyACyxGxGSgvp">subscribe</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>handler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A custom subscription handler.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Your subscription handler, for easy chaining.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC9subscribe_6clientqd__qd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lFZ"></a>
+                    <a name="//apple_ref/swift/Method/subscribe(_:client:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC9subscribe_6clientqd__qd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lFZ">subscribe(_:<wbr>client:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Registers a query for live updates, using a custom subscription handler.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="n"><a href="../Classes/Query.html#/s:10ParseSwift5QueryC9subscribeAA12SubscriptionCyACyxGxGSgvp">subscribe</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>handler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A custom subscription handler.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>client</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A specific client.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Your subscription handler, for easy chaining.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Query%20-%20Unsubscribe"></a>
+                <a name="//apple_ref/swift/Section/Query - Unsubscribe" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Query%20-%20Unsubscribe"></a>
+                  <h3 class="section-name"><p>Query - Unsubscribe</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC11unsubscribeyyKF"></a>
+                    <a name="//apple_ref/swift/Method/unsubscribe()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC11unsubscribeyyKF">unsubscribe()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unsubscribes all current subscriptions for a given query on the default
+<code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> client.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">unsubscribe</span><span class="p">()</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC11unsubscribe6clientyAA0a4LiveC0C_tKF"></a>
+                    <a name="//apple_ref/swift/Method/unsubscribe(client:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC11unsubscribe6clientyAA0a4LiveC0C_tKF">unsubscribe(client:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unsubscribes all current subscriptions for a given query on a specific
+<code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> client.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">unsubscribe</span><span class="p">(</span><span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>client</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A specific client.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC11unsubscribeyyqd__KAA21SubscriptionHandlableRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/unsubscribe(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC11unsubscribeyyqd__KAA21SubscriptionHandlableRd__lF">unsubscribe(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unsubscribes from a specific query-handler on the default
+<code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> client.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">unsubscribe</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>handler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The specific handler to unsubscribe from.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC11unsubscribe_6clientyqd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/unsubscribe(_:client:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC11unsubscribe_6clientyqd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lF">unsubscribe(_:<wbr>client:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unsubscribes from a specific query-handler on a specific
+<code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> client.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">unsubscribe</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>handler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The specific handler to unsubscribe from.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>client</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A specific client.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Query%20-%20Update"></a>
+                <a name="//apple_ref/swift/Section/Query - Update" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Query%20-%20Update"></a>
+                  <h3 class="section-name"><p>Query - Update</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC6updateyyqd__KAA21SubscriptionHandlableRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/update(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC6updateyyqd__KAA21SubscriptionHandlableRd__lF">update(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Updates an existing subscription with a new query on the default <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> client.
+Upon completing the registration, the subscribe handler will be called with the new query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">update</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>handler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The specific handler to update.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryC6update_6clientyqd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/update(_:client:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryC6update_6clientyqd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lF">update(_:<wbr>client:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Updates an existing subscription with a new query on a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> client.
+Upon completing the registration, the subscribe handler will be called with the new query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">update</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>handler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The specific handler to update.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>client</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A specific client.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1865,7 +2522,7 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-04)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-10)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

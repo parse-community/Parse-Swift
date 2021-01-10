@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Extensions  Reference</title>
+    <title>Enumerations  Reference</title>
     <link rel="stylesheet" type="text/css" href="css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Section/Extensions" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Section/Enumerations" class="dashAnchor"></a>
 
-    <a title="Extensions  Reference"></a>
+    <a title="Enumerations  Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="index.html">ParseSwift Reference</a>
       <img class="carat" src="img/carat.png" />
-      Extensions  Reference
+      Enumerations  Reference
     </p>
 
     <div class="content-wrapper">
@@ -233,8 +233,8 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>Extensions</h1>
-            <p>The following extensions are available globally.</p>
+            <h1>Enumerations</h1>
+            <p>The following enumerations are available globally.</p>
 
           </div>
         </section>
@@ -242,22 +242,13 @@
         <section class="section">
           <div class="section-content">
             <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Batch%20Support"></a>
-                <a name="//apple_ref/swift/Section/Batch Support" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Batch%20Support"></a>
-                  <h3 class="section-name"><p>Batch Support</p>
-</h3>
-                </div>
-              </div>
               <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:ST"></a>
-                    <a name="//apple_ref/swift/Extension/Sequence" class="dashAnchor"></a>
-                    <a class="token" href="#/s:ST">Sequence</a>
+                    <a name="/s:10ParseSwift5EventO"></a>
+                    <a name="//apple_ref/swift/Enum/Event" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5EventO">Event</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -265,16 +256,23 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
-                        <a href="Extensions/Sequence.html" class="slightly-smaller">See more</a>
+                        <p>Represents an update on a specific object from the <code><a href="Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> Server.</p>
+
+<ul>
+<li>Entered: The object has been updated, and is now included in the query.</li>
+<li>Left:    The object has been updated, and is no longer included in the query.</li>
+<li>Created: The object has been created, and is a part of the query.</li>
+<li>Updated: The object has been updated, and is still a part of the query.</li>
+<li>Deleted: The object has been deleted, and is no longer included in the query.</li>
+</ul>
+
+                        <a href="Enums/Event.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">Sequence</span> <span class="k">where</span> <span class="kt">Element</span><span class="p">:</span> <span class="kt"><a href="Protocols/ParseInstallation.html">ParseInstallation</a></span></code></pre>
-<pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">Sequence</span> <span class="k">where</span> <span class="kt">Element</span><span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
-<pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">Sequence</span> <span class="k">where</span> <span class="kt">Element</span><span class="p">:</span> <span class="kt"><a href="Protocols/ParseUser.html">ParseUser</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Event</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
                       </div>
