@@ -14,7 +14,7 @@ import Foundation
  */
 public protocol PrimitiveObjectStore {
     /// Delete an object from the store.
-    /// - parameter key: The unique key value of the object
+    /// - parameter key: The unique key value of the object.
     mutating func delete(valueFor key: String) throws
     /// Delete all objects from the store.
     mutating func deleteAll() throws

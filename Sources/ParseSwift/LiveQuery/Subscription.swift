@@ -10,7 +10,7 @@
 import Foundation
 
 /**
- Represents an update on a specific object from the `ParseLiveQuery` server.
+ Represents an update on a specific object from the `ParseLiveQuery` Server.
  - Entered: The object has been updated, and is now included in the query.
  - Left:    The object has been updated, and is no longer included in the query.
  - Created: The object has been created, and is a part of the query.
@@ -131,9 +131,9 @@ extension Subscription {
          subscription.handle(Event.Created) { query, object in
             // Called whenever an object is creaated
          }
-     - parameter eventType: The event type to handle. You should pass one of the enum cases in `Event`
-     - parameter handler:   The callback to register
-     - returns: The same subscription, for easy chaining
+     - parameter eventType: The event type to handle. You should pass one of the enum cases in `Event`.
+     - parameter handler: The callback to register.
+     - returns: The same subscription, for easy chaining.
      */
     @discardableResult public func handle(_ eventType: @escaping (T) -> Event<T>,
                                           _ handler: @escaping (Query<T>, T) -> Void) -> Subscription {

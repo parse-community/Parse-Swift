@@ -9,7 +9,7 @@ initializeParse()
 
 //: Create your own ValueTyped ParseObject
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: These are required for any Object
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
@@ -64,7 +64,7 @@ subscription.handleEvent { _, event in
     }
 }
 
-//: Now go to your dashboard, goto the GameScore table and add, update, remove rows.
+//: Now go to your dashboard, go to the GameScore table and add, update or remove rows.
 //: You should receive notifications for each.
 
 //: This is how you register to receive notificaitons about being unsubscribed.
@@ -88,10 +88,10 @@ query2.fields("score")
 //: Subscribe to your new query.
 let subscription2 = query2.subscribe!
 
-//: As before, setup your subscription and event handlers
+//: As before, setup your subscription and event handlers.
 subscription2.handleSubscribe { subscribedQuery, isNew in
 
-    //: You can check this subscription is for this query\
+    //: You can check this subscription is for this query.
     if isNew {
         print("Successfully subscribed to new query \(subscribedQuery)")
     } else {
@@ -115,7 +115,7 @@ subscription2.handleEvent { _, event in
     }
 }
 
-//: Now go to your dashboard, goto the GameScore table and add, update, remove rows.
+//: Now go to your dashboard, go to the GameScore table and add, update or remove rows.
 //: You should receive notifications for each, but only with your fields information.
 
 //: This is how you register to receive notificaitons about being unsubscribed.

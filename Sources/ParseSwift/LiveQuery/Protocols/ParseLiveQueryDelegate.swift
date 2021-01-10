@@ -15,7 +15,7 @@ import Foundation
 public protocol ParseLiveQueryDelegate: AnyObject {
 
     /**
-     Respond to authentication requests from a ParseLiveQuery server. If you become a delegate
+     Respond to authentication requests from a ParseLiveQuery Server. If you become a delegate
      and implement this method you will need to with
      `completionHandler(.performDefaultHandling, nil)` to accept all connections approved
      by the OS. Becoming a delegate allows you to make authentication decisions for all connections in

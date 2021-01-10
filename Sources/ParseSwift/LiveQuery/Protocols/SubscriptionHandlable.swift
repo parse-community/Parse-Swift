@@ -19,7 +19,7 @@ public protocol  SubscriptionHandlable: AnyObject {
     var query: Query<Object> {get set}
 
     /**
-     Tells the handler that an event has been received from the `ParseLiveQuery` server.
+     Tells the handler that an event has been received from the `ParseLiveQuery` Server.
      - parameter eventData: The event data that has been recieved from the server.
      */
     func didReceive(_ eventData: Data) throws

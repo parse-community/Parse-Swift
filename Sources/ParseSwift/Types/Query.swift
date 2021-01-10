@@ -669,7 +669,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      A variadic list of fields to receive when receiving a `ParseLiveQuery`.
      
      Suppose the `ParseObject` Player contains three fields name, id and age.
-     If you are only interested in the change of the name field, you can set query.fields to "name".
+     If you are only interested in the change of the name field, you can set `query.fields` to "name".
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
      - warning: This is only for `ParseLiveQuery`.
@@ -685,7 +685,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      A list of fields to receive when receiving a `ParseLiveQuery`.
      
      Suppose the `ParseObject` Player contains three fields name, id and age.
-     If you are only interested in the change of the name field, you can set query.fields to "name".
+     If you are only interested in the change of the name field, you can set `query.fields` to "name".
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
      - warning: This is only for `ParseLiveQuery`.
