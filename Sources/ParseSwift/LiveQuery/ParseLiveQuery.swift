@@ -66,40 +66,35 @@ public final class ParseLiveQuery: NSObject {
             isConnecting = false
             if newValue {
                 if isSocketEstablished {
-                    synchronizationQueue.sync {
-                        if let task = self.task {
-                            attempts = 1
+                    if let task = self.task {
+                        attempts = 1
 
-                            //Resubscribe to all subscriptions
-                            self.subscriptions.forEach { (_, value) -> Void in
-                                URLSession.liveQuery.send(value.messageData, task: self.task) { _ in }
-                            }
-
-                            //Send all pending messages in order
-                            self.pendingQueue.forEach {
-                                let messageToSend = $0
-                                URLSession.liveQuery.send(messageToSend.1.messageData, task: task) { _ in }
-                            }
+                        //Resubscribe to all subscriptions
+                        self.subscriptions.forEach { (_, value) -> Void in
+                            URLSession.liveQuery.send(value.messageData, task: self.task) { _ in }
                         }
-                    }
-                } else {
-                    synchronizationQueue.async {
-                        self.isConnected = false
+
+                        //Send all pending messages in order
+                        self.pendingQueue.forEach {
+                            let messageToSend = $0
+                            URLSession.liveQuery.send(messageToSend.1.messageData, task: task) { _ in }
+                        }
                     }
                 }
             } else {
                 clientId = nil
             }
         }
+        didSet {
+            if !isSocketEstablished {
+                self.isConnected = false
+            }
+        }
     }
     public internal(set) var isConnecting = false {
-        willSet {
-            if newValue {
-                if !isSocketEstablished {
-                    synchronizationQueue.async {
-                        self.isConnecting = false
-                    }
-                }
+        didSet {
+            if !isSocketEstablished {
+                self.isConnecting = false
             }
         }
     }
