@@ -265,7 +265,7 @@ class ParseLiveQueryTests: XCTestCase {
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
-/*
+
     func testSocketNotOpenState() throws {
         guard let client = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to get client")
@@ -275,7 +275,9 @@ class ParseLiveQueryTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Socket change")
         client.synchronizationQueue.async {
             XCTAssertEqual(client.isConnecting, false)
-            client.isConnected = true
+            DispatchQueue.main.async {
+                client.isConnected = true
+            }
             client.synchronizationQueue.asyncAfter(deadline: .now() + 1) {
                 XCTAssertEqual(client.isConnecting, false)
                 XCTAssertEqual(client.isConnected, false)
@@ -285,7 +287,7 @@ class ParseLiveQueryTests: XCTestCase {
 
         wait(for: [expectation1], timeout: 20.0)
     }
-*/
+
     func testConnectedState() throws {
         guard let client = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to get client")

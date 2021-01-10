@@ -37,11 +37,6 @@
                BlueprintName = "ParseSwiftTestsmacOS"
                ReferencedContainer = "container:ParseSwift.xcodeproj">
             </BuildableReference>
-            <SkippedTests>
-               <Test
-                  Identifier = "ParseLiveQueryTests/testSocketNotOpenState()">
-               </Test>
-            </SkippedTests>
          </TestableReference>
       </Testables>
    </TestAction>
