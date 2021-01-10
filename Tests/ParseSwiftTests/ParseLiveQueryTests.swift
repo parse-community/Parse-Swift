@@ -277,11 +277,11 @@ class ParseLiveQueryTests: XCTestCase {
             XCTAssertEqual(client.isConnecting, false)
             DispatchQueue.main.async {
                 client.isConnected = true
-            }
-            client.synchronizationQueue.asyncAfter(deadline: .now() + 1) {
-                XCTAssertEqual(client.isConnecting, false)
-                XCTAssertEqual(client.isConnected, false)
-                expectation1.fulfill()
+                client.synchronizationQueue.async {
+                    XCTAssertEqual(client.isConnecting, false)
+                    XCTAssertEqual(client.isConnected, false)
+                    expectation1.fulfill()
+                }
             }
         }
 
