@@ -621,23 +621,17 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereKeyEqualTo() {
-        let expected: [String: AnyCodable] = [
-            "yolo": ["$eq": "yarr"]
+        let expected: [String: String] = [
+            "yolo": "yarr"
         ]
         let query = GameScore.query("yolo" == "yarr")
         let queryWhere = query.`where`
 
         do {
             let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
-            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
-            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+            let decoded = try JSONDecoder().decode([String: String].self, from: encoded)
 
-            guard let expectedValues = expected.values.first?.value as? [String: String],
-                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
-                XCTFail("Should have casted")
-                return
-            }
-            XCTAssertEqual(expectedValues, decodedValues)
+            XCTAssertEqual(expected, decoded)
 
         } catch {
             XCTFail(error.localizedDescription)
@@ -932,12 +926,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testOrQuery() {
         let expected: [String: AnyCodable] = [
             "$or": [
-                ["score": ["$eq": 50]],
-                ["score": ["$eq": 200]]
+                ["score": ["$lte": 50]],
+                ["score": ["$lte": 200]]
             ]
         ]
-        let query1 = GameScore.query("score" == 50)
-        let query2 = GameScore.query("score" == 200)
+        let query1 = GameScore.query("score" <= 50)
+        let query2 = GameScore.query("score" <= 200)
         let constraint = or(queries: [query1, query2])
         let query = Query<GameScore>(constraint)
         let queryWhere = query.`where`
@@ -963,12 +957,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testAndQuery() {
         let expected: [String: AnyCodable] = [
             "$and": [
-                ["score": ["$eq": 50]],
-                ["score": ["$eq": 200]]
+                ["score": ["$lte": 50]],
+                ["score": ["$lte": 200]]
             ]
         ]
-        let query1 = GameScore.query("score" == 50)
-        let query2 = GameScore.query("score" == 200)
+        let query1 = GameScore.query("score" <= 50)
+        let query2 = GameScore.query("score" <= 200)
         let constraint = and(queries: [query1, query2])
         let query = Query<GameScore>(constraint)
         let queryWhere = query.`where`
@@ -995,12 +989,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected: [String: AnyCodable] = [
             "yolo": [
                 "$select": [
-                    "query": ["where": ["test": ["$eq": "awk"]]],
+                    "query": ["where": ["test": ["$lte": "awk"]]],
                     "key": "yolo1"
                 ]
             ]
         ]
-        let inQuery = GameScore.query("test" == "awk")
+        let inQuery = GameScore.query("test" <= "awk")
         let constraint = matchesKeyInQuery(key: "yolo", queryKey: "yolo1", query: inQuery)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1041,12 +1035,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected: [String: AnyCodable] = [
             "yolo": [
                 "$dontSelect": [
-                    "query": ["where": ["test": ["$eq": "awk"]]],
+                    "query": ["where": ["test": ["$lte": "awk"]]],
                     "key": "yolo1"
                 ]
             ]
         ]
-        let inQuery = GameScore.query("test" == "awk")
+        let inQuery = GameScore.query("test" <= "awk")
         let constraint = doesNotMatchKeyInQuery(key: "yolo", queryKey: "yolo1", query: inQuery)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1087,11 +1081,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected: [String: AnyCodable] = [
             "yolo": [
                 "$inQuery": [
-                    "where": ["test": ["$eq": "awk"]]
+                    "where": ["test": ["$lte": "awk"]]
                 ]
             ]
         ]
-        let inQuery = GameScore.query("test" == "awk")
+        let inQuery = GameScore.query("test" <= "awk")
         let query = GameScore.query("yolo" == inQuery)
         let queryWhere = query.`where`
 
@@ -1126,11 +1120,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected: [String: AnyCodable] = [
             "yolo": [
                 "$notInQuery": [
-                    "where": ["test": ["$eq": "awk"]]
+                    "where": ["test": ["$lte": "awk"]]
                 ]
             ]
         ]
-        let inQuery = GameScore.query("test" == "awk")
+        let inQuery = GameScore.query("test" <= "awk")
         let query = GameScore.query("yolo" != inQuery)
         let queryWhere = query.`where`
 
