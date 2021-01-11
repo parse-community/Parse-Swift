@@ -17,7 +17,6 @@ public struct QueryConstraint: Encodable, Equatable {
         case lessThanOrEqualTo = "$lte"
         case greaterThan = "$gt"
         case greaterThanOrEqualTo = "$gte"
-        case equals = "$eq"
         case notEqualTo = "$ne"
         case containedIn = "$in"
         case notContainedIn = "$nin"
@@ -87,7 +86,7 @@ public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
 }
 
 public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .equals)
+    return QueryConstraint(key: key, value: value)
 }
 
 public func != <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
