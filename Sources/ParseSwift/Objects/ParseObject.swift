@@ -120,6 +120,7 @@ public extension Sequence where Element: ParseObject {
             let currentBatch = try API.Command<Self.Element, Self.Element>
                 .batch(commands: $0)
                 .execute(options: options,
+                         callbackQueue: .main,
                          childObjects: childObjects,
                          childFiles: childFiles)
             returnBatch.append(contentsOf: currentBatch)
@@ -143,73 +144,84 @@ public extension Sequence where Element: ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-        var childObjects = [String: PointerType]()
-        var childFiles = [UUID: ParseFile]()
-        var error: ParseError?
+        let queue = DispatchQueue(label: "com.parse.saveAll", qos: .default,
+                                  attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        queue.sync {
 
-        let objects = map { $0 }
-        for object in objects {
-            let group = DispatchGroup()
-            group.enter()
-            object.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
-                //If an error occurs, everything should be skipped
-                if parseError != nil {
-                    error = parseError
-                }
-                savedChildObjects.forEach {(key, value) in
-                    if error != nil {
-                        return
-                    }
-                    if childObjects[key] == nil {
-                        childObjects[key] = value
-                    } else {
-                        error = ParseError(code: .unknownError, message: "circular dependency")
-                        return
-                    }
-                }
-                savedChildFiles.forEach {(key, value) in
-                    if error != nil {
-                        return
-                    }
-                    if childFiles[key] == nil {
-                        childFiles[key] = value
-                    } else {
-                        error = ParseError(code: .unknownError, message: "circular dependency")
-                        return
-                    }
-                }
-                group.leave()
-            }
-            group.wait()
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-        }
+            let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            var childObjects = [String: PointerType]()
+            var childFiles = [UUID: ParseFile]()
+            var error: ParseError?
 
-        var returnBatch = [(Result<Self.Element, ParseError>)]()
-        let commands = map { $0.saveCommand() }
-        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
-        var completed = 0
-        for batch in batches {
-            API.Command<Self.Element, Self.Element>
-                    .batch(commands: batch)
-                    .executeAsync(options: options,
-                                  callbackQueue: callbackQueue,
-                                  childObjects: childObjects,
-                                  childFiles: childFiles) { results in
-                switch results {
-
-                case .success(let saved):
-                    returnBatch.append(contentsOf: saved)
-                    if completed == (batches.count - 1) {
-                        completion(.success(returnBatch))
+            let objects = map { $0 }
+            for object in objects {
+                let group = DispatchGroup()
+                group.enter()
+                object.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                    //If an error occurs, everything should be skipped
+                    if parseError != nil {
+                        error = parseError
                     }
-                    completed += 1
-                case .failure(let error):
-                    completion(.failure(error))
+                    savedChildObjects.forEach {(key, value) in
+                        if error != nil {
+                            return
+                        }
+                        if childObjects[key] == nil {
+                            childObjects[key] = value
+                        } else {
+                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            return
+                        }
+                    }
+                    savedChildFiles.forEach {(key, value) in
+                        if error != nil {
+                            return
+                        }
+                        if childFiles[key] == nil {
+                            childFiles[key] = value
+                        } else {
+                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            return
+                        }
+                    }
+                    group.leave()
+                }
+                group.wait()
+                if let error = error {
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
                     return
+                }
+            }
+
+            var returnBatch = [(Result<Self.Element, ParseError>)]()
+            let commands = map { $0.saveCommand() }
+            let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+            var completed = 0
+            for batch in batches {
+                API.Command<Self.Element, Self.Element>
+                        .batch(commands: batch)
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue,
+                                      childObjects: childObjects,
+                                      childFiles: childFiles) { results in
+                    switch results {
+
+                    case .success(let saved):
+                        returnBatch.append(contentsOf: saved)
+                        if completed == (batches.count - 1) {
+                            callbackQueue.async {
+                                completion(.success(returnBatch))
+                            }
+                        }
+                        completed += 1
+                    case .failure(let error):
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
+                        return
+                    }
                 }
             }
         }
@@ -283,14 +295,20 @@ public extension Sequence where Element: ParseObject {
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }
-                    completion(.success(fetchedObjectsToReturn))
+                    callbackQueue.async {
+                        completion(.success(fetchedObjectsToReturn))
+                    }
                 case .failure(let error):
-                    completion(.failure(error))
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
                 }
             }
         } else {
-            completion(.failure(ParseError(code: .unknownError,
-                                           message: "all items to fetch must be of the same class")))
+            callbackQueue.async {
+                completion(.failure(ParseError(code: .unknownError,
+                                               message: "all items to fetch must be of the same class")))
+            }
         }
     }
 
@@ -359,29 +377,34 @@ public extension Sequence where Element: ParseObject {
             for batch in batches {
                 API.Command<Self.Element, ParseError?>
                         .batch(commands: batch)
-                        .executeAsync(options: options,
-                                      callbackQueue: callbackQueue) { results in
+                        .executeAsync(options: options) { results in
                     switch results {
 
                     case .success(let saved):
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
-                            completion(.success(returnBatch))
+                            callbackQueue.async {
+                                completion(.success(returnBatch))
+                            }
                         }
                         completed += 1
                     case .failure(let error):
-                        completion(.failure(error))
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
                         return
                     }
                 }
             }
         } catch {
-            guard let parseError = error as? ParseError else {
-                completion(.failure(ParseError(code: .unknownError,
-                                               message: error.localizedDescription)))
-                return
+            callbackQueue.async {
+                guard let parseError = error as? ParseError else {
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: error.localizedDescription)))
+                    return
+                }
+                completion(.failure(parseError))
             }
-            completion(.failure(parseError))
         }
     }
 }
@@ -427,7 +450,8 @@ extension ParseObject {
      - throws: An Error of `ParseError` type.
     */
     public func fetch(options: API.Options = []) throws -> Self {
-        try fetchCommand().execute(options: options)
+        try fetchCommand().execute(options: options,
+                                   callbackQueue: .main)
     }
 
     /**
@@ -445,11 +469,21 @@ extension ParseObject {
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
          do {
-            try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+            try fetchCommand()
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { result in
+                callbackQueue.async {
+                    completion(result)
+                }
+            }
          } catch let error as ParseError {
-             completion(.failure(error))
+            callbackQueue.async {
+                completion(.failure(error))
+            }
          } catch {
-             completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+            callbackQueue.async {
+                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+            }
          }
     }
 
@@ -510,7 +544,11 @@ extension ParseObject {
             throw error
         }
 
-        return try saveCommand().execute(options: options, childObjects: childObjects, childFiles: childFiles)
+        return try saveCommand()
+            .execute(options: options,
+                     callbackQueue: .main,
+                     childObjects: childObjects,
+                     childFiles: childFiles)
     }
 
     /**
@@ -531,11 +569,16 @@ extension ParseObject {
                 self.saveCommand().executeAsync(options: options,
                                                 callbackQueue: callbackQueue,
                                                 childObjects: savedChildObjects,
-                                                childFiles: savedChildFiles,
-                                                completion: completion)
+                                                childFiles: savedChildFiles) { result in
+                    callbackQueue.async {
+                        completion(result)
+                    }
+                }
                 return
             }
-            completion(.failure(parseError))
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -633,7 +676,9 @@ extension ParseObject {
 // MARK: Savable Encodable Version
 internal extension ParseType {
     func save(options: API.Options = []) throws -> PointerType {
-        try saveCommand().execute(options: options)
+        try saveCommand()
+            .execute(options: options,
+                     callbackQueue: .main)
     }
 
     func saveCommand() throws -> API.Command<Self, PointerType> {
@@ -669,7 +714,7 @@ extension ParseObject {
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
-     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     It should have the following argument signature: `(ParseError?)`.
     */
     public func delete(
         options: API.Options = [],
@@ -677,19 +722,25 @@ extension ParseObject {
         completion: @escaping (ParseError?) -> Void
     ) {
          do {
-            try deleteCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                switch result {
+            try deleteCommand().executeAsync(options: options) { result in
+                callbackQueue.async {
+                    switch result {
 
-                case .success(let error):
-                    completion(error)
-                case .failure(let error):
-                    completion(error)
+                    case .success(let error):
+                        completion(error)
+                    case .failure(let error):
+                        completion(error)
+                    }
                 }
             }
          } catch let error as ParseError {
-             completion(error)
+            callbackQueue.async {
+                completion(error)
+            }
          } catch {
-             completion(ParseError(code: .unknownError, message: error.localizedDescription))
+            callbackQueue.async {
+                completion(ParseError(code: .unknownError, message: error.localizedDescription))
+            }
          }
     }
 

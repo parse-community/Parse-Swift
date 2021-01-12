@@ -101,6 +101,7 @@ extension URLSession {
 
 extension URLSession {
     internal func uploadTask<U>( // swiftlint:disable:this function_parameter_count
+        callbackQueue: DispatchQueue,
         with request: URLRequest,
         from data: Data?,
         from file: URL?,
@@ -126,11 +127,13 @@ extension URLSession {
         }
         if let task = task {
             ParseConfiguration.sessionDelegate.uploadDelegates[task] = progress
+            ParseConfiguration.sessionDelegate.taskCallbackQueues[task] = callbackQueue
             task.resume()
         }
     }
 
     internal func downloadTask<U>(
+        callbackQueue: DispatchQueue,
         with request: URLRequest,
         progress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)?,
         mapper: @escaping (Data) throws -> U,
@@ -142,6 +145,7 @@ extension URLSession {
                                   responseError: responseError, mapper: mapper))
         }
         ParseConfiguration.sessionDelegate.downloadDelegates[task] = progress
+        ParseConfiguration.sessionDelegate.taskCallbackQueues[task] = callbackQueue
         task.resume()
     }
 
