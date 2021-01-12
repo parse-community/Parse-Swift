@@ -212,28 +212,28 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseObject.swift",
-      "line": 463,
+      "line": 497,
       "symbol": "ParseObject.mutationContainer",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseObject.swift",
-      "line": 471,
+      "line": 505,
       "symbol": "ParseObject.query()",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseObject.swift",
-      "line": 475,
+      "line": 509,
       "symbol": "ParseObject.query(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseObject.swift",
-      "line": 479,
+      "line": 513,
       "symbol": "ParseObject.query(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
