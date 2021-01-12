@@ -773,7 +773,11 @@ extension Query: Queryable {
     */
     public func find(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
-        findCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+        findCommand().executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
     }
 
     /**
@@ -789,8 +793,11 @@ extension Query: Queryable {
     public func find(explain: Bool, hint: String? = nil, options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
-        findCommand(explain: explain, hint: hint).executeAsync(options: options,
-                                                               callbackQueue: callbackQueue, completion: completion)
+        findCommand(explain: explain, hint: hint).executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
     }
 
     /**
@@ -832,17 +839,20 @@ extension Query: Queryable {
     */
     public func first(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<ResultType, ParseError>) -> Void) {
-        firstCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
+        firstCommand().executeAsync(options: options) { result in
 
-            switch result {
-            case .success(let first):
-                guard let first = first else {
-                    completion(.failure(ParseError(code: .objectNotFound, message: "Object not found on the server.")))
-                    return
+            callbackQueue.async {
+                switch result {
+                case .success(let first):
+                    guard let first = first else {
+                        completion(.failure(ParseError(code: .objectNotFound,
+                                                       message: "Object not found on the server.")))
+                        return
+                    }
+                    completion(.success(first))
+                case .failure(let error):
+                    completion(.failure(error))
                 }
-                completion(.success(first))
-            case .failure(let error):
-                completion(.failure(error))
             }
         }
     }
@@ -861,8 +871,11 @@ extension Query: Queryable {
     public func first(explain: Bool, hint: String? = nil, options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
-        firstCommand(explain: explain, hint: hint).executeAsync(options: options,
-                                                                callbackQueue: callbackQueue, completion: completion)
+        firstCommand(explain: explain, hint: hint).executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
     }
 
     /**
@@ -901,7 +914,11 @@ extension Query: Queryable {
     */
     public func count(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Int, ParseError>) -> Void) {
-        countCommand().executeAsync(options: options, callbackQueue: callbackQueue, completion: completion)
+        countCommand().executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
     }
 
     /**
@@ -916,8 +933,11 @@ extension Query: Queryable {
     public func count(explain: Bool, hint: String? = nil, options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
-        countCommand(explain: explain, hint: hint).executeAsync(options: options,
-                                                                callbackQueue: callbackQueue, completion: completion)
+        countCommand(explain: explain, hint: hint).executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
     }
 }
 

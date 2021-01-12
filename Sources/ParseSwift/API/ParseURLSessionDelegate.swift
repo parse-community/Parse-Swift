@@ -20,6 +20,7 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
     var downloadDelegates = [URLSessionDownloadTask: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)]()
     var uploadDelegates = [URLSessionTask: ((URLSessionTask, Int64, Int64, Int64) -> Void)]()
     var streamDelegates = [URLSessionTask: InputStream]()
+    var taskCallbackQueues = [URLSessionTask: DispatchQueue]()
 
     init (callbackQueue: DispatchQueue,
           authentication: ((URLAuthenticationChallenge,
@@ -35,7 +36,9 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     completionHandler: @escaping (URLSession.AuthChallengeDisposition,
                                                   URLCredential?) -> Void) {
         if let authentication = authentication {
-            authentication(challenge, completionHandler)
+            callbackQueue.async {
+                authentication(challenge, completionHandler)
+            }
         } else {
             completionHandler(.performDefaultHandling, nil)
         }
@@ -46,8 +49,10 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     didSendBodyData bytesSent: Int64,
                     totalBytesSent: Int64,
                     totalBytesExpectedToSend: Int64) {
-        if let callBack = uploadDelegates[task] {
-            callbackQueue.async {
+        if let callBack = uploadDelegates[task],
+           let queue = taskCallbackQueues[task] {
+
+            queue.async {
                 callBack(task, bytesSent, totalBytesSent, totalBytesExpectedToSend)
 
                 if totalBytesSent == totalBytesExpectedToSend {
@@ -63,8 +68,9 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     totalBytesWritten: Int64,
                     totalBytesExpectedToWrite: Int64) {
 
-        if let callBack = downloadDelegates[downloadTask] {
-            callbackQueue.async {
+        if let callBack = downloadDelegates[downloadTask],
+           let queue = taskCallbackQueues[downloadTask] {
+            queue.async {
                 callBack(downloadTask, bytesWritten, totalBytesWritten, totalBytesExpectedToWrite)
                 if totalBytesWritten == totalBytesExpectedToWrite {
                     self.downloadDelegates.removeValue(forKey: downloadTask)
@@ -77,6 +83,7 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
                     downloadTask: URLSessionDownloadTask,
                     didFinishDownloadingTo location: URL) {
         downloadDelegates.removeValue(forKey: downloadTask)
+        taskCallbackQueues.removeValue(forKey: downloadTask)
     }
 
     func urlSession(_ session: URLSession,
@@ -85,5 +92,11 @@ class ParseURLSessionDelegate: NSObject, URLSessionDelegate, URLSessionDataDeleg
         if let stream = streamDelegates[task] {
             completionHandler(stream)
         }
+    }
+
+    func urlSession(_ session: URLSession, task: URLSessionTask, didCompleteWithError error: Error?) {
+        uploadDelegates.removeValue(forKey: task)
+        streamDelegates.removeValue(forKey: task)
+        taskCallbackQueues.removeValue(forKey: task)
     }
 }

@@ -167,7 +167,7 @@ extension ParseFile {
             throw ParseError(code: .unknownError,
                              message: "You must specify \"useMasterKey\" in \"options\" in order to delete a file.")
         }
-        _ = try deleteFileCommand().execute(options: options)
+        _ = try deleteFileCommand().execute(options: options, callbackQueue: .main)
     }
 
     /**
@@ -185,19 +185,22 @@ extension ParseFile {
         options = options.union(self.options)
 
         if !options.contains(.useMasterKey) {
-            completion(ParseError(code: .unknownError,
-                                  // swiftlint:disable:next line_length
-                                  message: "You must specify \"useMasterKey\" in \"options\" in order to delete a file."))
+            callbackQueue.async {
+                completion(ParseError(code: .unknownError,
+                                      // swiftlint:disable:next line_length
+                                      message: "You must specify \"useMasterKey\" in \"options\" in order to delete a file."))
+            }
             return
         }
-        deleteFileCommand().executeAsync(options: options,
-                                         callbackQueue: callbackQueue) { result in
-            switch result {
+        deleteFileCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
+            callbackQueue.async {
+                switch result {
 
-            case .success:
-                completion(nil)
-            case .failure(let error):
-                completion(error)
+                case .success:
+                    completion(nil)
+                case .failure(let error):
+                    completion(error)
+                }
             }
         }
     }
@@ -266,7 +269,11 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
         options = options.union(self.options)
-        return try uploadFileCommand().executeStream(options: options, uploadProgress: progress, stream: stream)
+        return try uploadFileCommand()
+            .executeStream(options: options,
+                           callbackQueue: .main,
+                           uploadProgress: progress,
+                           stream: stream)
     }
 
     /**
@@ -291,9 +298,9 @@ extension ParseFile {
         options = options.union(self.options)
         if isDownloadNeeded {
             let fetched = try fetch(options: options)
-            return try fetched.uploadFileCommand().execute(options: options)
+            return try fetched.uploadFileCommand().execute(options: options, callbackQueue: .main)
         }
-        return try uploadFileCommand().execute(options: options)
+        return try uploadFileCommand().execute(options: options, callbackQueue: .main)
     }
 
     /**
@@ -352,9 +359,13 @@ extension ParseFile {
         options = options.union(self.options)
         if isDownloadNeeded {
             let fetched = try fetch(options: options)
-            return try fetched.uploadFileCommand().execute(options: options, uploadProgress: progress)
+            return try fetched
+                .uploadFileCommand()
+                .execute(options: options,
+                         callbackQueue: .main,
+                         uploadProgress: progress)
         }
-        return try uploadFileCommand().execute(options: options, uploadProgress: progress)
+        return try uploadFileCommand().execute(options: options, callbackQueue: .main, uploadProgress: progress)
     }
 
     /**
@@ -426,18 +437,26 @@ extension ParseFile {
                     fetched.uploadFileCommand()
                         .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
-                                      uploadProgress: progress,
-                                      completion: completion)
+                                      uploadProgress: progress) { result in
+                            callbackQueue.async {
+                                completion(result)
+                            }
+                        }
                 case .failure(let error):
-                    completion(.failure(error))
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
                 }
             }
         } else {
             uploadFileCommand()
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue,
-                              uploadProgress: progress,
-                              completion: completion)
+                              uploadProgress: progress) { result in
+                    callbackQueue.async {
+                        completion(result)
+                    }
+                }
         }
 
     }
@@ -470,7 +489,10 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
         options = options.union(self.options)
-        return try downloadFileCommand().executeStream(options: options, stream: stream)
+        return try downloadFileCommand()
+            .executeStream(options: options,
+                           callbackQueue: .main,
+                           stream: stream)
     }
 
     /**
@@ -492,7 +514,9 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
         options = options.union(self.options)
-        return try downloadFileCommand().execute(options: options)
+        return try downloadFileCommand()
+            .execute(options: options,
+                     callbackQueue: .main)
     }
 
     /**
@@ -548,7 +572,10 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
         options = options.union(self.options)
-        return try downloadFileCommand().execute(options: options, downloadProgress: progress)
+        return try downloadFileCommand()
+            .execute(options: options,
+                     callbackQueue: .main,
+                     downloadProgress: progress)
     }
 
     /**
@@ -610,9 +637,14 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
         options = options.union(self.options)
-        downloadFileCommand().executeAsync(options: options,
-                                     callbackQueue: callbackQueue,
-                                     downloadProgress: progress, completion: completion)
+        downloadFileCommand()
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue,
+                          downloadProgress: progress) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
     }
 
     internal func downloadFileCommand() -> API.Command<Self, Self> {

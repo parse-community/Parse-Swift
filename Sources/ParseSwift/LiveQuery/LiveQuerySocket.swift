@@ -27,8 +27,8 @@ final class LiveQuerySocket: NSObject {
     func closeAll() {
         delegates.forEach { (_, client) -> Void in
             client.close(useDedicatedQueue: false)
-            authenticationDelegate = nil
         }
+        authenticationDelegate = nil
     }
 }
 

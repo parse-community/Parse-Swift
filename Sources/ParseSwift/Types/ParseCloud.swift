@@ -30,7 +30,7 @@ extension ParseCloud {
           - returns: Returns a JSON response of `AnyCodable` type.
     */
     public func runFunction(options: API.Options = []) throws -> AnyCodable {
-        try runFunctionCommand().execute(options: options)
+        try runFunctionCommand().execute(options: options, callbackQueue: .main)
     }
 
     /**
@@ -44,8 +44,11 @@ extension ParseCloud {
                             callbackQueue: DispatchQueue = .main,
                             completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
         runFunctionCommand()
-            .executeAsync(options: options,
-                          callbackQueue: callbackQueue, completion: completion)
+            .executeAsync(options: options, callbackQueue: callbackQueue) { result in
+                callbackQueue.async {
+                    completion(result)
+                }
+            }
     }
 
     internal func runFunctionCommand() -> API.Command<Self, AnyCodable> {
@@ -73,7 +76,7 @@ extension ParseCloud {
           - returns: Returns a JSON response of `AnyCodable` type.
     */
     public func startJob(options: API.Options = []) throws -> AnyCodable {
-        try startJobCommand().execute(options: options)
+        try startJobCommand().execute(options: options, callbackQueue: .main)
     }
 
     /**
@@ -87,8 +90,11 @@ extension ParseCloud {
                          callbackQueue: DispatchQueue = .main,
                          completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
         startJobCommand()
-            .executeAsync(options: options,
-                          callbackQueue: callbackQueue, completion: completion)
+            .executeAsync(options: options, callbackQueue: callbackQueue) { result in
+                callbackQueue.async {
+                    completion(result)
+                }
+            }
     }
 
     internal func startJobCommand() -> API.Command<Self, AnyCodable> {

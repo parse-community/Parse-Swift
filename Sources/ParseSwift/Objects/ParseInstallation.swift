@@ -297,7 +297,7 @@ extension ParseInstallation {
 
 // MARK: Fetchable
 extension ParseInstallation {
-    internal static func updateKeychainIfNeeded(_ results: [Self], deleting: Bool = false) throws {
+    internal static func updateKeychainIfNeeded(_ results: [Self], deleting: Bool = false) {
         guard BaseParseUser.current != nil,
               let currentInstallation = BaseParseInstallation.current else {
             return
@@ -330,8 +330,9 @@ extension ParseInstallation {
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     public func fetch(options: API.Options = []) throws -> Self {
-        let result: Self = try fetchCommand().execute(options: options)
-        try? Self.updateKeychainIfNeeded([result])
+        let result: Self = try fetchCommand()
+            .execute(options: options, callbackQueue: .main)
+        Self.updateKeychainIfNeeded([result])
         return result
     }
 
@@ -351,16 +352,24 @@ extension ParseInstallation {
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
          do {
-            try fetchCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                if case .success(let foundResult) = result {
-                    try? Self.updateKeychainIfNeeded([foundResult])
+            try fetchCommand()
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { result in
+                    callbackQueue.async {
+                        if case .success(let foundResult) = result {
+                            Self.updateKeychainIfNeeded([foundResult])
+                        }
+                        completion(result)
+                    }
                 }
-                completion(result)
-            }
          } catch let error as ParseError {
-             completion(.failure(error))
+            callbackQueue.async {
+                completion(.failure(error))
+            }
          } catch {
-             completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+            callbackQueue.async {
+                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+            }
          }
     }
 
@@ -407,9 +416,10 @@ extension ParseInstallation {
 
         let result: Self = try saveCommand()
             .execute(options: options,
+                     callbackQueue: .main,
                      childObjects: childObjects,
                      childFiles: childFiles)
-        try? Self.updateKeychainIfNeeded([result])
+        Self.updateKeychainIfNeeded([result])
         return result
     }
 
@@ -429,18 +439,24 @@ extension ParseInstallation {
     ) {
         self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
             guard let parseError = error else {
-                self.saveCommand().executeAsync(options: options,
-                                                callbackQueue: callbackQueue,
-                                                childObjects: savedChildObjects,
-                                                childFiles: savedChildFiles) { result in
-                    if case .success(let foundResults) = result {
-                        try? Self.updateKeychainIfNeeded([foundResults])
+                self.saveCommand()
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue,
+                                  childObjects: savedChildObjects,
+                                  childFiles: savedChildFiles) { result in
+                        callbackQueue.async {
+                            if case .success(let foundResults) = result {
+                                Self.updateKeychainIfNeeded([foundResults])
+                            }
+
+                            completion(result)
+                        }
                     }
-                    completion(result)
-                }
                 return
             }
-            completion(.failure(parseError))
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
         }
     }
 
@@ -485,7 +501,7 @@ extension ParseInstallation {
     */
     public func delete(options: API.Options = []) throws {
         _ = try deleteCommand().execute(options: options)
-        try? Self.updateKeychainIfNeeded([self], deleting: true)
+        Self.updateKeychainIfNeeded([self], deleting: true)
     }
 
     /**
@@ -495,7 +511,7 @@ extension ParseInstallation {
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
-     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     It should have the following argument signature: `(ParseError?)`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(
@@ -504,20 +520,27 @@ extension ParseInstallation {
         completion: @escaping (ParseError?) -> Void
     ) {
          do {
-            try deleteCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                switch result {
+            try deleteCommand()
+                .executeAsync(options: options) { result in
+                    callbackQueue.async {
+                        switch result {
 
-                case .success:
-                    try? Self.updateKeychainIfNeeded([self], deleting: true)
-                    completion(nil)
-                case .failure(let error):
-                    completion(error)
+                        case .success(let error):
+                            Self.updateKeychainIfNeeded([self], deleting: true)
+                            completion(error)
+                        case .failure(let error):
+                            completion(error)
+                        }
+                    }
                 }
-            }
          } catch let error as ParseError {
-             completion(error)
+            callbackQueue.async {
+                completion(error)
+            }
          } catch {
-             completion(ParseError(code: .unknownError, message: error.localizedDescription))
+            callbackQueue.async {
+                completion(ParseError(code: .unknownError, message: error.localizedDescription))
+            }
          }
     }
 
@@ -602,11 +625,12 @@ public extension Sequence where Element: ParseInstallation {
             let currentBatch = try API.Command<Self.Element, Self.Element>
                 .batch(commands: $0)
                 .execute(options: options,
+                         callbackQueue: .main,
                          childObjects: childObjects,
                          childFiles: childFiles)
             returnBatch.append(contentsOf: currentBatch)
         }
-        try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
+        Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
         return returnBatch
     }
 
@@ -627,74 +651,85 @@ public extension Sequence where Element: ParseInstallation {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-        var childObjects = [String: PointerType]()
-        var childFiles = [UUID: ParseFile]()
-        var error: ParseError?
+        let queue = DispatchQueue(label: "com.parse.saveAll", qos: .default,
+                                  attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        queue.sync {
+            let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            var childObjects = [String: PointerType]()
+            var childFiles = [UUID: ParseFile]()
+            var error: ParseError?
 
-        let installations = map { $0 }
-        for installation in installations {
-            let group = DispatchGroup()
-            group.enter()
-            installation.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
-                //If an error occurs, everything should be skipped
-                if parseError != nil {
-                    error = parseError
+            let installations = map { $0 }
+            for installation in installations {
+                let group = DispatchGroup()
+                group.enter()
+                installation
+                    .ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                    //If an error occurs, everything should be skipped
+                    if parseError != nil {
+                        error = parseError
+                    }
+                    savedChildObjects.forEach {(key, value) in
+                        if error != nil {
+                            return
+                        }
+                        if childObjects[key] == nil {
+                            childObjects[key] = value
+                        } else {
+                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            return
+                        }
+                    }
+                    savedChildFiles.forEach {(key, value) in
+                        if error != nil {
+                            return
+                        }
+                        if childFiles[key] == nil {
+                            childFiles[key] = value
+                        } else {
+                            error = ParseError(code: .unknownError, message: "circular dependency")
+                            return
+                        }
+                    }
+                    group.leave()
                 }
-                savedChildObjects.forEach {(key, value) in
-                    if error != nil {
-                        return
+                group.wait()
+                if let error = error {
+                    callbackQueue.async {
+                        completion(.failure(error))
                     }
-                    if childObjects[key] == nil {
-                        childObjects[key] = value
-                    } else {
-                        error = ParseError(code: .unknownError, message: "circular dependency")
-                        return
-                    }
-                }
-                savedChildFiles.forEach {(key, value) in
-                    if error != nil {
-                        return
-                    }
-                    if childFiles[key] == nil {
-                        childFiles[key] = value
-                    } else {
-                        error = ParseError(code: .unknownError, message: "circular dependency")
-                        return
-                    }
-                }
-                group.leave()
-            }
-            group.wait()
-            if let error = error {
-                completion(.failure(error))
-                return
-            }
-        }
-
-        var returnBatch = [(Result<Self.Element, ParseError>)]()
-        let commands = map { $0.saveCommand() }
-        let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
-        var completed = 0
-        for batch in batches {
-            API.Command<Self.Element, Self.Element>
-                    .batch(commands: batch)
-                    .executeAsync(options: options,
-                                  callbackQueue: callbackQueue,
-                                  childObjects: childObjects,
-                                  childFiles: childFiles) { results in
-                switch results {
-
-                case .success(let saved):
-                    returnBatch.append(contentsOf: saved)
-                    if completed == (batches.count - 1) {
-                        try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
-                        completion(.success(returnBatch))
-                    }
-                    completed += 1
-                case .failure(let error):
-                    completion(.failure(error))
                     return
+                }
+            }
+
+            var returnBatch = [(Result<Self.Element, ParseError>)]()
+            let commands = map { $0.saveCommand() }
+            let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+            var completed = 0
+            for batch in batches {
+                API.Command<Self.Element, Self.Element>
+                        .batch(commands: batch)
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue,
+                                      childObjects: childObjects,
+                                      childFiles: childFiles) { results in
+                    switch results {
+
+                    case .success(let saved):
+                        returnBatch.append(contentsOf: saved)
+                        if completed == (batches.count - 1) {
+                            callbackQueue.async {
+                                Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
+                                completion(.success(returnBatch))
+                            }
+                        }
+                        completed += 1
+                    case .failure(let error):
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
+                        return
+                    }
                 }
             }
         }
@@ -729,7 +764,7 @@ public extension Sequence where Element: ParseInstallation {
                                                                       message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                 }
             }
-            try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
+            Self.Element.updateKeychainIfNeeded(fetchedObjects)
             return fetchedObjectsToReturn
         } else {
             throw ParseError(code: .unknownError, message: "all items to fetch must be of the same class")
@@ -771,15 +806,21 @@ public extension Sequence where Element: ParseInstallation {
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }
-                    try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
-                    completion(.success(fetchedObjectsToReturn))
+                    callbackQueue.async {
+                        Self.Element.updateKeychainIfNeeded(fetchedObjects)
+                        completion(.success(fetchedObjectsToReturn))
+                    }
                 case .failure(let error):
-                    completion(.failure(error))
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
                 }
             }
         } else {
-            completion(.failure(ParseError(code: .unknownError,
-                                           message: "all items to fetch must be of the same class")))
+            callbackQueue.async {
+                completion(.failure(ParseError(code: .unknownError,
+                                               message: "all items to fetch must be of the same class")))
+            }
         }
     }
 
@@ -814,7 +855,7 @@ public extension Sequence where Element: ParseInstallation {
             returnBatch.append(contentsOf: currentBatch)
         }
 
-        try? Self.Element.updateKeychainIfNeeded(compactMap {$0})
+        Self.Element.updateKeychainIfNeeded(compactMap {$0})
         return returnBatch
     }
 
@@ -852,30 +893,35 @@ public extension Sequence where Element: ParseInstallation {
             for batch in batches {
                 API.Command<Self.Element, ParseError?>
                         .batch(commands: batch)
-                        .executeAsync(options: options,
-                                      callbackQueue: callbackQueue) { results in
+                        .executeAsync(options: options) { results in
                     switch results {
 
                     case .success(let saved):
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
-                            try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
-                            completion(.success(returnBatch))
+                            callbackQueue.async {
+                                Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
+                                completion(.success(returnBatch))
+                            }
                         }
                         completed += 1
                     case .failure(let error):
-                        completion(.failure(error))
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
                         return
                     }
                 }
             }
         } catch {
-            guard let parseError = error as? ParseError else {
-                completion(.failure(ParseError(code: .unknownError,
-                                               message: error.localizedDescription)))
-                return
+            callbackQueue.async {
+                guard let parseError = error as? ParseError else {
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: error.localizedDescription)))
+                    return
+                }
+                completion(.failure(parseError))
             }
-            completion(.failure(parseError))
         }
     }
 } // swiftlint:disable:this file_length
