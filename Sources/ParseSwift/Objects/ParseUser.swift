@@ -85,6 +85,7 @@ extension ParseUser {
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentUser)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
+        BaseParseUser.currentUserContainer = nil
     }
 
     /**
@@ -200,8 +201,9 @@ extension ParseUser {
     */
     public static func logout(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                               completion: @escaping (ParseError?) -> Void) {
-        logoutCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
+        callbackQueue.async {
+            logoutCommand().executeAsync(options: options) { result in
+
                 switch result {
 
                 case .success:
@@ -228,7 +230,7 @@ extension ParseUser {
             }
             //Always let user logout locally, no matter the error.
             deleteCurrentContainerFromKeychain()
-            currentUserContainer = nil
+            BaseParseInstallation.deleteCurrentContainerFromKeychain()
             guard let error = parseError else {
                 return serverResponse
             }
@@ -517,22 +519,24 @@ extension ParseUser {
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
                 if case .success(let foundResult) = result {
-                    do {
-                        try Self.updateKeychainIfNeeded([foundResult])
-                    } catch let error {
-                        let returnError: ParseError!
-                        if let parseError = error as? ParseError {
-                            returnError = parseError
-                        } else {
-                            returnError = ParseError(code: .unknownError, message: error.localizedDescription)
-                        }
-                        callbackQueue.async {
+                    callbackQueue.async {
+                        do {
+                            try Self.updateKeychainIfNeeded([foundResult])
+                            completion(.success(foundResult))
+                        } catch let error {
+                            let returnError: ParseError!
+                            if let parseError = error as? ParseError {
+                                returnError = parseError
+                            } else {
+                                returnError = ParseError(code: .unknownError, message: error.localizedDescription)
+                            }
                             completion(.failure(returnError))
                         }
                     }
-                }
-                callbackQueue.async {
-                    completion(result)
+                } else {
+                    callbackQueue.async {
+                        completion(result)
+                    }
                 }
             }
          } catch let error as ParseError {
@@ -617,12 +621,12 @@ extension ParseUser {
                                   callbackQueue: callbackQueue,
                                   childObjects: savedChildObjects,
                                   childFiles: savedChildFiles) { result in
-                    if case .success(let foundResults) = result {
-                        try? Self.updateKeychainIfNeeded([foundResults])
-                    }
-                    callbackQueue.async {
-                        completion(result)
-                    }
+                        callbackQueue.async {
+                            if case .success(let foundResults) = result {
+                                try? Self.updateKeychainIfNeeded([foundResults])
+                            }
+                            completion(result)
+                        }
                 }
                 return
             }
@@ -695,8 +699,8 @@ extension ParseUser {
                 switch result {
 
                 case .success(let error):
-                    try? Self.updateKeychainIfNeeded([self], deleting: true)
                     callbackQueue.async {
+                        try? Self.updateKeychainIfNeeded([self], deleting: true)
                         completion(error)
                     }
                 case .failure(let error):
@@ -888,8 +892,8 @@ public extension Sequence where Element: ParseUser {
                     case .success(let saved):
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
-                            try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
                             callbackQueue.async {
+                                try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
                                 completion(.success(returnBatch))
                             }
                         }
@@ -976,8 +980,8 @@ public extension Sequence where Element: ParseUser {
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }
-                    try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
                     callbackQueue.async {
+                        try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
                         completion(.success(fetchedObjectsToReturn))
                     }
                 case .failure(let error):
@@ -1068,8 +1072,8 @@ public extension Sequence where Element: ParseUser {
                     case .success(let saved):
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
-                            try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
                             callbackQueue.async {
+                                try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
                                 completion(.success(returnBatch))
                             }
                         }
