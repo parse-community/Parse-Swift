@@ -938,12 +938,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             try User.logout()
             if let userFromKeychain = BaseParseUser.current {
                 XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
-                return
             }
 
             if let installationFromKeychain = BaseParseInstallation.current {
                 XCTFail("\(installationFromKeychain) wasn't deleted from Keychain during logout")
-                return
             }
         } catch {
             XCTFail(error.localizedDescription)
@@ -959,6 +957,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 if let userFromKeychain = BaseParseUser.current {
                     XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
                 }
+
+                if let installationFromKeychain = BaseParseInstallation.current {
+                    XCTFail("\(installationFromKeychain) wasn't deleted from Keychain during logout")
+                }
                 expectation1.fulfill()
                 return
             }
@@ -969,6 +971,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testLogoutAsyncMainQueue() {
+        testLogin()
+        MockURLProtocol.removeAll()
+
         let logoutResponse = NoBody()
 
         MockURLProtocol.mockRequests { _ in

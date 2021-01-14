@@ -85,8 +85,7 @@ extension ParseUser {
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentUser)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
-        try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
-        try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        BaseParseUser.currentUserContainer = nil
     }
 
     /**
@@ -202,8 +201,9 @@ extension ParseUser {
     */
     public static func logout(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                               completion: @escaping (ParseError?) -> Void) {
-        logoutCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
+        callbackQueue.async {
+            logoutCommand().executeAsync(options: options) { result in
+
                 switch result {
 
                 case .success:
@@ -230,7 +230,7 @@ extension ParseUser {
             }
             //Always let user logout locally, no matter the error.
             deleteCurrentContainerFromKeychain()
-            currentUserContainer = nil
+            BaseParseInstallation.deleteCurrentContainerFromKeychain()
             guard let error = parseError else {
                 return serverResponse
             }
@@ -522,6 +522,7 @@ extension ParseUser {
                     callbackQueue.async {
                         do {
                             try Self.updateKeychainIfNeeded([foundResult])
+                            completion(.success(foundResult))
                         } catch let error {
                             let returnError: ParseError!
                             if let parseError = error as? ParseError {
@@ -532,9 +533,10 @@ extension ParseUser {
                             completion(.failure(returnError))
                         }
                     }
-                }
-                callbackQueue.async {
-                    completion(result)
+                } else {
+                    callbackQueue.async {
+                        completion(result)
+                    }
                 }
             }
          } catch let error as ParseError {
