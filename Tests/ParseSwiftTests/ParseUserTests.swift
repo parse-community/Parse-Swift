@@ -921,6 +921,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testLogout() {
+        testLogin()
+        MockURLProtocol.removeAll()
+
         let logoutResponse = NoBody()
 
         MockURLProtocol.mockRequests { _ in
@@ -938,6 +941,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return
             }
 
+            if let installationFromKeychain = BaseParseInstallation.current {
+                XCTFail("\(installationFromKeychain) wasn't deleted from Keychain during logout")
+                return
+            }
         } catch {
             XCTFail(error.localizedDescription)
         }
