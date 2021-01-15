@@ -85,7 +85,7 @@ public protocol ParseAuthenticatable: Codable {
      - parameter user: the `ParseUser` to restore. The user must be logged in on this device.
      - returns: the user whose autentication type was restored. This modified user has not been saved.
      */
-    func restore(_ user: AuthenticatedUser) -> AuthenticatedUser
+    //func restore(_ user: AuthenticatedUser) -> AuthenticatedUser
 
     /**
      Strips the `ParseUser`of a respective authentication type.
@@ -130,7 +130,7 @@ public extension ParseUser {
      Makes a *synchronous* request to login a user with specified credentials.
 
      Returns an instance of the successfully logged in `ParseUser`.
-     This also caches the user locally so that calls to `+current` will use the latest logged in user.
+     This also caches the user locally so that calls to *current* will use the latest logged in user.
 
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
@@ -150,7 +150,7 @@ public extension ParseUser {
      Makes an *asynchronous* request to log in a user with specified credentials.
      Returns an instance of the successfully logged in `ParseUser`.
 
-     This also caches the user locally so that calls to `+current` will use the latest logged in user.
+     This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -209,10 +209,10 @@ public extension ParseUser {
     }
 
     /**
-     Makes a *synchronous* request to link a user with specified credentials.
+     Makes a *synchronous* request to link a user with specified credentials. The user should already be logged in.
 
      Returns an instance of the successfully linked `ParseUser`.
-     This also caches the user locally so that calls to `+current` will use the latest logged in user.
+     This also caches the user locally so that calls to *current* will use the latest logged in user.
 
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
@@ -224,15 +224,18 @@ public extension ParseUser {
     static func link(_ type: String,
                      authData: [String: String],
                      options: API.Options) throws -> Self {
+        if BaseParseUser.current == nil {
+            throw ParseError(code: .unknownError, message: "Must be logged in to link user")
+        }
         let body = AuthLoginBody(authData: [type: authData])
         return try linkCommand(body: body).execute(options: options)
     }
 
     /**
-     Makes an *asynchronous* request to link a user with specified credentials.
+     Makes an *asynchronous* request to link a user with specified credentials. The user should already be logged in.
      Returns an instance of the successfully linked `ParseUser`.
 
-     This also caches the user locally so that calls to `+current` will use the latest logged in user.
+     This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -245,6 +248,11 @@ public extension ParseUser {
                      options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<Self, ParseError>) -> Void) {
+        if BaseParseUser.current == nil {
+            let error = ParseError(code: .unknownError, message: "Must be logged in to link user")
+            completion(.failure(error))
+            return
+        }
         let body = AuthLoginBody(authData: [type: authData])
         linkCommand(body: body)
             .executeAsync(options: options) { result in

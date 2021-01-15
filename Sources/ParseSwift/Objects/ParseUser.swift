@@ -118,7 +118,7 @@ extension ParseUser {
      Makes a *synchronous* request to login a user with specified credentials.
 
      Returns an instance of the successfully logged in `ParseUser`.
-     This also caches the user locally so that calls to `+current` will use the latest logged in user.
+     This also caches the user locally so that calls to *current* will use the latest logged in user.
 
      - parameter username: The username of the user.
      - parameter password: The password of the user.
@@ -136,7 +136,7 @@ extension ParseUser {
      Makes an *asynchronous* request to log in a user with specified credentials.
      Returns an instance of the successfully logged in `ParseUser`.
 
-     This also caches the user locally so that calls to `+current` will use the latest logged in user.
+     This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter username: The username of the user.
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -169,11 +169,94 @@ extension ParseUser {
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             user.username = username
-            user.password = password
 
             Self.currentUserContainer = .init(
                 currentUser: user,
                 sessionToken: response.sessionToken
+            )
+            Self.saveCurrentContainerToKeychain()
+            return user
+        }
+    }
+
+    /**
+     Logs in a `ParseUser` *synchronously* with a session token. On success, this saves the session
+     to the keychain, so you can retrieve the currently logged in user using *current*.
+
+     - parameter sessionToken: The sessionToken of the user to login.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: An Error of `ParseError` type.
+    */
+    public func become(sessionToken: String, options: API.Options = []) throws -> Self {
+        var newUser = self
+        newUser.objectId = "me"
+        var options = options
+        options.insert(.sessionToken(sessionToken))
+        return try newUser.meCommand(sessionToken: sessionToken)
+            .execute(options: options,
+                     callbackQueue: .main)
+    }
+
+    /**
+     Logs in a `ParseUser` *asynchronously* with a session token. On success, this saves the session
+     to the keychain, so you can retrieve the currently logged in user using *current*.
+
+     - parameter sessionToken: The sessionToken of the user to login.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default
+     value of .main.
+     - parameter completion: The block to execute when completed.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - important: If an object fetched has the same objectId as current, it will automatically update the current.
+    */
+    public func become(sessionToken: String,
+                       options: API.Options = [],
+                       callbackQueue: DispatchQueue = .main,
+                       completion: @escaping (Result<Self, ParseError>) -> Void) {
+        var newUser = self
+        newUser.objectId = "me"
+        var options = options
+        options.insert(.sessionToken(sessionToken))
+         do {
+            try newUser.meCommand(sessionToken: sessionToken)
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { result in
+                if case .success(let foundResult) = result {
+                    callbackQueue.async {
+                        completion(.success(foundResult))
+                    }
+                } else {
+                    callbackQueue.async {
+                        completion(result)
+                    }
+                }
+            }
+         } catch let error as ParseError {
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+         } catch {
+            callbackQueue.async {
+                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+            }
+         }
+    }
+
+    internal func meCommand(sessionToken: String) throws -> API.Command<Self, Self> {
+
+        return API.Command(method: .GET,
+                    path: endpoint) { (data) -> Self in
+            let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+
+            if let current = Self.current {
+                if !current.hasSameObjectId(as: user) && anonymous.isLinked(with: current) {
+                    Self.deleteCurrentContainerFromKeychain()
+                }
+            }
+
+            Self.currentUserContainer = .init(
+                currentUser: user,
+                sessionToken: sessionToken
             )
             Self.saveCurrentContainerToKeychain()
             return user
@@ -432,7 +515,6 @@ extension ParseUser {
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             user.username = username
-            user.password = password
 
             Self.currentUserContainer = .init(
                 currentUser: user,
@@ -449,7 +531,6 @@ extension ParseUser {
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             user.username = self.username
-            user.password = self.password
 
             Self.currentUserContainer = .init(
                 currentUser: user,

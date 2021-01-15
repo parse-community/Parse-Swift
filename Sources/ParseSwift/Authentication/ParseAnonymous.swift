@@ -28,53 +28,22 @@ import Foundation
  */
 public struct ParseAnonymous<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
 
+    enum AuthenticationKeys: String, Codable {
+        case id // swiftlint:disable:this identifier_name
+
+        func makeDictionary() -> [String: String] {
+            [AuthenticationKeys.id.rawValue: UUID().uuidString.lowercased()]
+        }
+    }
+
     public var __type: String = "anonymous" // swiftlint:disable:this identifier_name
     public init() { }
 
-    public static func login(authData: [String: String]? = nil,
-                             options: API.Options = []) throws -> AuthenticatedUser {
-        let anonymousUser = Self.init()
-        let authData = [
-            "id": UUID().uuidString.lowercased()
-        ]
-        return try AuthenticatedUser
-            .login(anonymousUser.__type,
-                   authData: authData,
-                   options: options)
-    }
-
-    public static func login(authData: [String: String]? = nil,
-                             options: API.Options = [],
-                             callbackQueue: DispatchQueue = .main,
-                             completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        let anonymousUser = Self.init()
-        let authData = [
-            "id": UUID().uuidString.lowercased()
-        ]
-        AuthenticatedUser.login(anonymousUser.__type,
-                                authData: authData,
-                                options: options,
-                                completion: completion)
-    }
-
-    public static func link(authData: [String: String]? = nil, options: API.Options = []) throws -> AuthenticatedUser {
-        throw ParseError(code: .unknownError, message: "Not supported")
-    }
-
-    public static func link(authData: [String: String]? = nil,
-                            options: API.Options = [],
-                            callbackQueue: DispatchQueue = .main,
-                            completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        completion(.failure(ParseError(code: .unknownError, message: "Not supported")))
-    }
-
-    public func restore(_ user: AuthenticatedUser) -> AuthenticatedUser {
+    func restore(_ user: AuthenticatedUser) -> AuthenticatedUser {
 
         if !user.isLinked(with: __type) {
             var user = user
-            let authData = [
-                "id": UUID().uuidString.lowercased()
-            ]
+            let authData = AuthenticationKeys.id.makeDictionary()
             if user.authData != nil {
                 user.authData![__type] = authData
             } else {
@@ -83,6 +52,43 @@ public struct ParseAnonymous<AuthenticatedUser: ParseUser>: ParseAuthenticatable
             return user
         }
         return user
+    }
+}
+
+// MARK: Login
+public extension ParseAnonymous {
+    static func login(authData: [String: String]? = nil,
+                      options: API.Options = []) throws -> AuthenticatedUser {
+        let anonymousUser = Self.init()
+        return try AuthenticatedUser
+            .login(anonymousUser.__type,
+                   authData: AuthenticationKeys.id.makeDictionary(),
+                   options: options)
+    }
+
+    static func login(authData: [String: String]? = nil,
+                      options: API.Options = [],
+                      callbackQueue: DispatchQueue = .main,
+                      completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+        let anonymousUser = Self.init()
+        AuthenticatedUser.login(anonymousUser.__type,
+                                authData: AuthenticationKeys.id.makeDictionary(),
+                                options: options,
+                                completion: completion)
+    }
+}
+
+// MARK: Link
+public extension ParseAnonymous {
+    static func link(authData: [String: String]? = nil, options: API.Options = []) throws -> AuthenticatedUser {
+        throw ParseError(code: .unknownError, message: "Not supported")
+    }
+
+    static func link(authData: [String: String]? = nil,
+                     options: API.Options = [],
+                     callbackQueue: DispatchQueue = .main,
+                     completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+        completion(.failure(ParseError(code: .unknownError, message: "Not supported")))
     }
 }
 

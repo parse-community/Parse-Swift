@@ -22,7 +22,7 @@ import AppKit
  checks.
 
  A valid `ParseInstallation` can only be instantiated via
- `+current` because the required identifier fields
+ *current* because the required identifier fields
  are readonly. The `timeZone` and `badge` fields are also readonly properties which
  are automatically updated to match the device's time zone and application badge
  when the `ParseInstallation` is saved, thus these fields might not reflect the
