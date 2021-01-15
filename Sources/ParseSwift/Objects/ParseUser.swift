@@ -23,6 +23,8 @@ public protocol ParseUser: ParseObject {
      It is only meant to be set.
     */
     var password: String? { get set }
+
+    var authData: [String: [String: String]]? { get set }
 }
 
 // MARK: SignupLoginBody
@@ -120,9 +122,8 @@ extension ParseUser {
 
      - parameter username: The username of the user.
      - parameter password: The password of the user.
-     - parameter error: The error object to set on error.
-
-     - throws: An error of type `ParseUser`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: An error of type `ParseError`.
      - returns: An instance of the logged in `ParseUser`.
      If login failed due to either an incorrect password or incorrect username, it throws a `ParseError`.
     */
@@ -138,6 +139,7 @@ extension ParseUser {
      This also caches the user locally so that calls to `+current` will use the latest logged in user.
      - parameter username: The username of the user.
      - parameter password: The password of the user.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
@@ -195,7 +197,7 @@ extension ParseUser {
      This will also remove the session from the Keychain, log out of linked services
      and all future calls to `current` will return `nil`. This is preferable to using `logout`,
      unless your code is already running from a background thread.
-
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when logging out, completes or fails.
     */
