@@ -9,7 +9,6 @@ initializeParse()
 
 struct User: ParseUser {
     //: These are required for ParseObject
-    var authData: [String: [String: String]?]?
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
@@ -19,6 +18,7 @@ struct User: ParseUser {
     var username: String?
     var email: String?
     var password: String?
+    var authData: [String: [String: String]?]?
 
     //: Your custom keys
     var customKey: String?

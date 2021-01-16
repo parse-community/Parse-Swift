@@ -31,7 +31,6 @@ class ACLTests: XCTestCase {
     }
 
     struct User: ParseUser {
-        var authData: [String: [String: String]?]?
 
         //: Those are required for Object
         var objectId: String?
@@ -43,13 +42,13 @@ class ACLTests: XCTestCase {
         var username: String?
         var email: String?
         var password: String?
+        var authData: [String: [String: String]?]?
 
         // Your custom keys
         var customKey: String?
     }
 
     struct LoginSignupResponse: ParseUser {
-        var authData: [String: [String: String]?]?
 
         var objectId: String?
         var createdAt: Date?
@@ -61,6 +60,7 @@ class ACLTests: XCTestCase {
         var username: String?
         var email: String?
         var password: String?
+        var authData: [String: [String: String]?]?
 
         // Your custom keys
         var customKey: String?

@@ -18,7 +18,6 @@ import XCTest
 class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
-        var authData: [String: [String: String]?]?
 
         //: Those are required for Object
         var objectId: String?
@@ -30,13 +29,13 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         var username: String?
         var email: String?
         var password: String?
+        var authData: [String: [String: String]?]?
 
         // Your custom keys
         var customKey: String?
     }
 
     struct LoginSignupResponse: ParseUser {
-        var authData: [String: [String: String]?]?
 
         var objectId: String?
         var createdAt: Date?
@@ -48,6 +47,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         var username: String?
         var email: String?
         var password: String?
+        var authData: [String: [String: String]?]?
 
         // Your custom keys
         var customKey: String?

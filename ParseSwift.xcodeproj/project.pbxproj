@@ -753,9 +753,9 @@
 		707A3BEF25B0A3B8000D215C /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				70A2D81325B358FA001BEB7D /* 3rd Party */,
+				70A2D81425B35905001BEB7D /* Internal */,
 				707A3C1E25B14BAE000D215C /* Protocols */,
-				707A3C1025B0A8E8000D215C /* ParseAnonymous.swift */,
-				707A3C1F25B14BCF000D215C /* ParseApple.swift */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -774,6 +774,22 @@
 				709B98342556EC7400507778 /* Info.plist */,
 			);
 			path = ParseSwiftTeststvOS;
+			sourceTree = "<group>";
+		};
+		70A2D81325B358FA001BEB7D /* 3rd Party */ = {
+			isa = PBXGroup;
+			children = (
+				707A3C1F25B14BCF000D215C /* ParseApple.swift */,
+			);
+			path = "3rd Party";
+			sourceTree = "<group>";
+		};
+		70A2D81425B35905001BEB7D /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				707A3C1025B0A8E8000D215C /* ParseAnonymous.swift */,
+			);
+			path = Internal;
 			sourceTree = "<group>";
 		};
 		70F2E23B254F246000B2EA5C /* ParseSwiftTeststvOS */ = {
