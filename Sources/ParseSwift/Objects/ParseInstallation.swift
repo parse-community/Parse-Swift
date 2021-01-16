@@ -107,6 +107,7 @@ extension ParseInstallation {
         get {
             guard let installationInMemory: CurrentInstallationContainer<Self> =
                 try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                #if !os(Linux)
                     guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
                         try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
                          else {
@@ -119,6 +120,15 @@ extension ParseInstallation {
                             try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
                         return newInstallation
                     }
+                #else
+                    var newInstallation = CurrentInstallationContainer<Self>()
+                    let newInstallationId = UUID().uuidString.lowercased()
+                    newInstallation.installationId = newInstallationId
+                    newInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
+                    newInstallation.currentInstallation?.updateAutomaticInfo()
+                    try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
+                    return newInstallation
+                #endif
                     return installationFromKeyChain
             }
             return installationInMemory
@@ -145,12 +155,16 @@ extension ParseInstallation {
             = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
             return
         }
+        #if !os(Linux)
         try? KeychainStore.shared.set(currentInstallationInMemory, for: ParseStorage.Keys.currentInstallation)
+        #endif
     }
 
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        #if !os(Linux)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        #endif
     }
 
     /**

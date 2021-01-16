@@ -82,7 +82,11 @@ extension ParseUser {
         get {
             guard let currentUserInMemory: CurrentUserContainer<Self>
                 = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+                #if !os(Linux)
                 return try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser)
+                #else
+                return nil
+                #endif
             }
             return currentUserInMemory
         }
@@ -95,12 +99,16 @@ extension ParseUser {
             = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
             return
         }
+        #if !os(Linux)
         try? KeychainStore.shared.set(currentUserInMemory, for: ParseStorage.Keys.currentUser)
+        #endif
     }
 
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentUser)
+        #if !os(Linux)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
+        #endif
         BaseParseUser.currentUserContainer = nil
     }
 

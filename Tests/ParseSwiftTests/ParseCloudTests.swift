@@ -41,7 +41,9 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDownWithError() throws {
         super.tearDown()
         MockURLProtocol.removeAll()
+        #if !os(Linux)
         try KeychainStore.shared.deleteAll()
+        #endif
         try ParseStorage.shared.deleteAll()
     }
 

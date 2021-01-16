@@ -48,7 +48,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
+        #if !os(Linux)
         try? KeychainStore.shared.deleteAll()
+        #endif
         try? ParseStorage.shared.deleteAll()
     }
 

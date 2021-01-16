@@ -78,7 +78,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
+        #if !os(Linux)
         try? KeychainStore.shared.deleteAll()
+        #endif
         try? ParseStorage.shared.deleteAll()
     }
 
@@ -215,13 +217,15 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(User.current?.updatedAt, fetchedUpdatedAt)
             XCTAssertEqual(User.current?.customKey, userOnServer.customKey)
 
-            //Shold be updated in Keychain
+            //Should be updated in Keychain
+            #if !os(Linux)
             guard let keychainUser: CurrentUserContainer<BaseParseUser>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
                     XCTFail("Should get object from Keychain")
                 return
             }
             XCTAssertEqual(keychainUser.currentUser?.updatedAt, fetchedUpdatedAt)
+            #endif
 
         } catch {
             XCTFail(error.localizedDescription)
@@ -281,13 +285,15 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 //Should be updated in memory
                 XCTAssertEqual(User.current?.updatedAt, fetchedUpdatedAt)
 
-                //Shold be updated in Keychain
+                #if !os(Linux)
+                //Should be updated in Keychain
                 guard let keychainUser: CurrentUserContainer<BaseParseUser>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
                         XCTFail("Should get object from Keychain")
                     return
                 }
                 XCTAssertEqual(keychainUser.currentUser?.updatedAt, fetchedUpdatedAt)
+                #endif
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -458,13 +464,15 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             //Should be updated in memory
             XCTAssertEqual(User.current?.updatedAt, fetchedUpdatedAt)
 
-            //Shold be updated in Keychain
+            #if !os(Linux)
+            //Should be updated in Keychain
             guard let keychainUser: CurrentUserContainer<BaseParseUser>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
                     XCTFail("Should get object from Keychain")
                 return
             }
             XCTAssertEqual(keychainUser.currentUser?.updatedAt, fetchedUpdatedAt)
+            #endif
 
         } catch {
             XCTFail(error.localizedDescription)
@@ -522,13 +530,16 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 //Should be updated in memory
                 XCTAssertEqual(User.current?.updatedAt, fetchedUpdatedAt)
 
-                //Shold be updated in Keychain
+                #if !os(Linux)
+                //Should be updated in Keychain
                 guard let keychainUser: CurrentUserContainer<BaseParseUser>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
                         XCTFail("Should get object from Keychain")
                     return
                 }
                 XCTAssertEqual(keychainUser.currentUser?.updatedAt, fetchedUpdatedAt)
+                #endif
+
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -1228,12 +1239,14 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         testLogin()
         User.current?.customKey = "Changed"
         User.saveCurrentContainerToKeychain()
+        #if !os(Linux)
         guard let keychainUser: CurrentUserContainer<User>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
                 XCTFail("Should get object from Keychain")
             return
         }
         XCTAssertNil(keychainUser.currentUser?.customKey)
+        #endif
     }
 
     func testDeleteCommand() {
@@ -1384,7 +1397,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                         }
                         XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                        //Shold be updated in Keychain
+                        #if !os(Linux)
+                        //Should be updated in Keychain
                         guard let keychainUser: CurrentUserContainer<BaseParseUser>
                             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
                             let keychainUpdatedCurrentDate = keychainUser.currentUser?.updatedAt else {
@@ -1393,6 +1407,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                             return
                         }
                         XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                        #endif
                     case .failure(let error):
                         XCTFail("Should have fetched: \(error.localizedDescription)")
                     }
@@ -1472,7 +1487,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                             }
                             XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                            //Shold be updated in Keychain
+                            #if !os(Linux)
+                            //Should be updated in Keychain
                             guard let keychainUser: CurrentUserContainer<BaseParseUser>
                                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
                                 let keychainUpdatedCurrentDate = keychainUser.currentUser?.updatedAt else {
@@ -1481,6 +1497,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                                 return
                             }
                             XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                            #endif
                         case .failure(let error):
                             XCTFail("Should have fetched: \(error.localizedDescription)")
                         }
@@ -1559,7 +1576,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                         }
                         XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                        //Shold be updated in Keychain
+                        #if !os(Linux)
+                        //Should be updated in Keychain
                         guard let keychainUser: CurrentUserContainer<BaseParseUser>
                             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
                             let keychainUpdatedCurrentDate = keychainUser.currentUser?.updatedAt else {
@@ -1568,6 +1586,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                             return
                         }
                         XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                        #endif
                     case .failure(let error):
                         XCTFail("Should have fetched: \(error.localizedDescription)")
                     }
@@ -1647,7 +1666,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                             }
                             XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                            //Shold be updated in Keychain
+                            #if !os(Linux)
+                            //Should be updated in Keychain
                             guard let keychainUser: CurrentUserContainer<BaseParseUser>
                                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
                                 let keychainUpdatedCurrentDate = keychainUser.currentUser?.updatedAt else {
@@ -1656,6 +1676,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                                 return
                             }
                             XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                            #endif
                         case .failure(let error):
                             XCTFail("Should have fetched: \(error.localizedDescription)")
                         }

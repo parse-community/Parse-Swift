@@ -26,7 +26,9 @@ class ACLTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
+        #if !os(Linux)
         try? KeychainStore.shared.deleteAll()
+        #endif
         try? ParseStorage.shared.deleteAll()
     }
 

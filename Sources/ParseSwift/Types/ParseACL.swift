@@ -201,8 +201,13 @@ extension ParseACL {
     public static func defaultACL() throws -> Self {
 
         let currentUser = BaseParseUser.current
-        let aclController: DefaultACL? =
-            try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL)
+        let aclController: DefaultACL?
+
+        #if !os(Linux)
+        aclController = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL)
+        #else
+        aclController = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.defaultACL)
+        #endif
 
         if aclController != nil {
             if !aclController!.useCurrentUser {
@@ -261,8 +266,11 @@ extension ParseACL {
                 DefaultACL(defaultACL: acl, lastCurrentUser: currentUser, useCurrentUser: withAccessForCurrentUser)
         }
 
+        #if !os(Linux)
         try? KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
-
+        #else
+        try? ParseStorage.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
+        #endif
         return aclController.defaultACL
     }
 
