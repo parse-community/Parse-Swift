@@ -51,9 +51,8 @@ public extension ParseAnonymous {
      */
     func login(authData: [String: String]? = nil,
                options: API.Options = []) throws -> AuthenticatedUser {
-        let anonymousUser = Self.init()
         return try AuthenticatedUser
-            .login(anonymousUser.__type,
+            .login(__type,
                    authData: AuthenticationKeys.id.makeDictionary(),
                    options: options)
     }
@@ -62,8 +61,7 @@ public extension ParseAnonymous {
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        let anonymousUser = Self.init()
-        AuthenticatedUser.login(anonymousUser.__type,
+        AuthenticatedUser.login(__type,
                                 authData: AuthenticationKeys.id.makeDictionary(),
                                 options: options,
                                 completion: completion)
