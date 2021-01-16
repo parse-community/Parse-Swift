@@ -570,8 +570,10 @@ extension ParseUser {
             if let username = body.username {
                 user.username = username
             }
-            if let authData = body.authData {
-                user.authData = authData
+            if user.authData == nil {
+                if let authData = body.authData {
+                    user.authData = authData
+                }
             }
 
             Self.currentUserContainer = .init(
