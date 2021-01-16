@@ -110,7 +110,7 @@ extension ParseUser {
         get { Self.currentUserContainer?.currentUser }
         set {
             if Self.currentUserContainer?.currentUser?.username != newValue?.username {
-                Self.currentUserContainer?.currentUser = newValue?.stripAnonymous()
+                Self.currentUserContainer?.currentUser = newValue?.anonymous.strip()
             } else {
                 Self.currentUserContainer?.currentUser = newValue
             }
@@ -265,7 +265,7 @@ extension ParseUser {
             let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
 
             if let current = Self.current {
-                if !current.hasSameObjectId(as: user) && self.anonymous.isLinked(with: current) {
+                if !current.hasSameObjectId(as: user) && self.anonymous.isLinked {
                     Self.deleteCurrentContainerFromKeychain()
                 }
             }
@@ -459,7 +459,7 @@ extension ParseUser {
         if Self.current != nil {
             Self.current!.username = username
             Self.current!.password = password
-            if !Self.current!.anonymous.isLinked(with: Self.current!) {
+            if !Self.current!.anonymous.isLinked {
                 return try Self.current!.save(options: options)
             } else {
                 throw ParseError(code: .usernameTaken, message: "Cannot sign up a user that has already signed up.")
@@ -480,7 +480,7 @@ extension ParseUser {
     */
     public func signup(options: API.Options = []) throws -> Self {
         if let current = Self.current {
-            if !current.anonymous.isLinked(with: current) {
+            if !current.anonymous.isLinked {
                 return try current.save(options: options)
             } else {
                 throw ParseError(code: .usernameTaken, message: "Cannot sign up a user that has already signed up.")
@@ -503,7 +503,7 @@ extension ParseUser {
     public func signup(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
         if let current = Self.current {
-            if !current.anonymous.isLinked(with: current) {
+            if !current.anonymous.isLinked {
                 current.save(options: options, callbackQueue: callbackQueue, completion: completion)
             } else {
                 let error = ParseError(code: .usernameTaken,
@@ -543,7 +543,7 @@ extension ParseUser {
         if Self.current != nil {
             Self.current!.username = username
             Self.current!.password = password
-            if !Self.current!.anonymous.isLinked(with: Self.current!) {
+            if !Self.current!.anonymous.isLinked {
                 Self.current!.save(options: options, callbackQueue: callbackQueue, completion: completion)
             } else {
                 let error = ParseError(code: .usernameTaken,

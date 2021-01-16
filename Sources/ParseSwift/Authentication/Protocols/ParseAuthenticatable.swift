@@ -83,6 +83,17 @@ public protocol ParseAuthenticatable: Codable {
                 completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void)
 
     /**
+     Unlink the *current* `ParseUser` *asynchronously* from the respective authentication type.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     */
+    func unlink(options: API.Options,
+                callbackQueue: DispatchQueue,
+                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void)
+
+    /**
      Strips the *current* user of a respective authentication type.
      - returns: the *current* user whose autentication type was stripped. Returns `nil`
      if there's no current user. This modified user has not been saved.
@@ -97,6 +108,7 @@ public protocol ParseAuthenticatable: Codable {
     func strip(_ user: AuthenticatedUser) -> AuthenticatedUser
 }
 
+// MARK: Convenience Implementations
 public extension ParseAuthenticatable {
 
     var isLinked: Bool {
@@ -115,6 +127,17 @@ public extension ParseAuthenticatable {
                 callbackQueue: DispatchQueue = .main,
                 completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         user.unlink(__type, options: options, callbackQueue: callbackQueue, completion: completion)
+    }
+
+    func unlink(options: API.Options = [],
+                callbackQueue: DispatchQueue = .main,
+                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+        guard let current = AuthenticatedUser.current else {
+            let error = ParseError(code: .invalidLinkedSession, message: "No current ParseUser.")
+            completion(.failure(error))
+            return
+        }
+        unlink(current, options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
     func strip() -> AuthenticatedUser? {
@@ -140,7 +163,7 @@ public extension ParseAuthenticatable {
 
 public extension ParseUser {
 
-    // MARK: 3rd Party - Login
+    // MARK: 3rd Party Authentication - Login
     /**
      Makes a *synchronous* request to login a user with specified credentials.
 
@@ -187,7 +210,7 @@ public extension ParseUser {
             }
     }
 
-    // MARK: 3rd Party - Link
+    // MARK: 3rd Party Authentication - Link
     func isLinked(with type: String) -> Bool {
         authData?[type] != nil
     }

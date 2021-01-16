@@ -187,7 +187,7 @@ public extension ParseApple {
     }
 }
 
-// MARK: 3rd Party - ParseApple
+// MARK: 3rd Party Authentication - ParseApple
 public extension ParseUser {
 
     /// An apple `ParseUser`.
@@ -198,35 +198,5 @@ public extension ParseUser {
     /// An apple `ParseUser`.
     var apple: ParseApple<Self> {
         Self.apple
-    }
-
-    /**
-     Whether the `ParseUser` is logged in with Apple authentication.
-     - returns: `true` if the `ParseUser` is logged in via Apple
-     authentication. `false` if the user is not.
-     */
-    func isLinkedApple() -> Bool {
-        apple.isLinked(with: self)
-    }
-
-    /**
-     Unlink the `ParseUser` *asynchronously* from Apple authentication.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter completion: The block to execute.
-     It should have the following argument signature: `(Result<Self, ParseError>)`.
-     */
-    func unlinkApple(options: API.Options = [],
-                     callbackQueue: DispatchQueue = .main,
-                     completion: @escaping (Result<Self, ParseError>) -> Void) {
-        apple.unlink(self, options: options, callbackQueue: callbackQueue, completion: completion)
-    }
-
-    /**
-     Strips the `ParseUser`of Apple authentication.
-     - returns: the user whose autentication type was stripped. This modified user has not been saved.
-     */
-    func stripApple() -> Self {
-        apple.strip(self)
     }
 }
