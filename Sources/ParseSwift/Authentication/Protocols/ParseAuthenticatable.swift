@@ -17,7 +17,7 @@ public protocol ParseAuthenticatable: Codable {
     init()
 
     /**
-     Login the `ParseUser` *synchronously* using the respective authentication type.
+     Login a `ParseUser` *synchronously* using the respective authentication type.
      - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: `ParseError`.
@@ -27,7 +27,7 @@ public protocol ParseAuthenticatable: Codable {
                       options: API.Options) throws -> AuthenticatedUser
 
     /**
-     Login the `ParseUser` *asynchronously* from the respective authentication type.
+     Login a `ParseUser` *asynchronously* using the respective authentication type.
      - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -39,7 +39,7 @@ public protocol ParseAuthenticatable: Codable {
                       completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void)
 
     /**
-     Link the `ParseUser` *synchronously* using the respective authentication type.
+     Link the *current* `ParseUser` *synchronously* using the respective authentication type.
      - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: `ParseError`.
@@ -48,7 +48,7 @@ public protocol ParseAuthenticatable: Codable {
     static func link(authData: [String: String]?, options: API.Options) throws -> AuthenticatedUser
 
     /**
-     Link the `ParseUser` *asynchronously* using the respective authentication type.
+     Link the *current* `ParseUser` *asynchronously* using the respective authentication type.
      - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.

@@ -44,6 +44,14 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
 
 // MARK: Login
 public extension ParseApple {
+    /**
+     Login a `ParseUser` *asynchronously* using Apple authentication.
+     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
+     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: `ParseError`.
+     - returns the linked `ParseUser`.
+     */
     static func login(user: String,
                       identityToken: String,
                       options: API.Options = []) throws -> AuthenticatedUser {
@@ -52,6 +60,14 @@ public extension ParseApple {
                    options: options)
     }
 
+    /**
+     Login a `ParseUser` *asynchronously* using Apple authentication.
+     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
+     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     */
     static func login(user: String,
                       identityToken: String,
                       options: API.Options = [],
@@ -98,6 +114,14 @@ public extension ParseApple {
 
 // MARK: Link
 public extension ParseApple {
+    /**
+     Link the *current* `ParseUser` *asynchronously* using Apple authentication.
+     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
+     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: `ParseError`.
+     - returns the linked `ParseUser`.
+     */
     static func link(user: String,
                      identityToken: String,
                      options: API.Options = []) throws -> AuthenticatedUser {
@@ -106,6 +130,14 @@ public extension ParseApple {
                   options: options)
     }
 
+    /**
+     Link the *current* `ParseUser` *asynchronously* using Apple authentication.
+     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
+     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     */
     static func link(user: String,
                      identityToken: String,
                      options: API.Options = [],
