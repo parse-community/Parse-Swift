@@ -29,8 +29,18 @@ public protocol ParseUser: ParseObject {
 
 // MARK: SignupLoginBody
 struct SignupLoginBody: Encodable {
-    let username: String
-    let password: String
+    var username: String?
+    var password: String?
+    var authData: [String: [String: String]]?
+
+    init(username: String, password: String) {
+        self.username = username
+        self.password = password
+    }
+
+    init(authData: [String: [String: String]]) {
+        self.authData = authData
+    }
 }
 
 // MARK: EmailBody
@@ -98,7 +108,13 @@ extension ParseUser {
     */
     public static var current: Self? {
         get { Self.currentUserContainer?.currentUser }
-        set { Self.currentUserContainer?.currentUser = newValue }
+        set {
+            if Self.currentUserContainer?.currentUser?.username != newValue?.username {
+                Self.currentUserContainer?.currentUser = newValue?.stripAnonymous()
+            } else {
+                Self.currentUserContainer?.currentUser = newValue
+            }
+        }
     }
 
     /**
@@ -440,7 +456,17 @@ extension ParseUser {
     */
     public static func signup(username: String,
                               password: String, options: API.Options = []) throws -> Self {
-        try signupCommand(username: username, password: password).execute(options: options)
+        if Self.current != nil {
+            Self.current!.username = username
+            Self.current!.password = password
+            if !Self.current!.anonymous.isLinked(with: Self.current!) {
+                return try Self.current!.save(options: options)
+            } else {
+                throw ParseError(code: .usernameTaken, message: "Cannot sign up a user that has already signed up.")
+            }
+        }
+        return try signupCommand(body: SignupLoginBody(username: username, password: password))
+            .execute(options: options)
     }
 
     /**
@@ -453,7 +479,14 @@ extension ParseUser {
      - returns: Returns whether the sign up was successful.
     */
     public func signup(options: API.Options = []) throws -> Self {
-        try signupCommand().execute(options: options, callbackQueue: .main)
+        if let current = Self.current {
+            if !current.anonymous.isLinked(with: current) {
+                return try current.save(options: options)
+            } else {
+                throw ParseError(code: .usernameTaken, message: "Cannot sign up a user that has already signed up.")
+            }
+        }
+        return try signupCommand().execute(options: options, callbackQueue: .main)
     }
 
     /**
@@ -469,6 +502,16 @@ extension ParseUser {
     */
     public func signup(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
+        if let current = Self.current {
+            if !current.anonymous.isLinked(with: current) {
+                current.save(options: options, callbackQueue: callbackQueue, completion: completion)
+            } else {
+                let error = ParseError(code: .usernameTaken,
+                                       message: "Cannot sign up a user that has already signed up.")
+                completion(.failure(error))
+            }
+            return
+        }
         signupCommand()
             .executeAsync(options: options,
                           callbackQueue: callbackQueue) { result in
@@ -496,9 +539,21 @@ extension ParseUser {
         password: String,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (Result<Self, ParseError>) -> Void
-    ) {
-        signupCommand(username: username, password: password)
+        completion: @escaping (Result<Self, ParseError>) -> Void) {
+        if Self.current != nil {
+            Self.current!.username = username
+            Self.current!.password = password
+            if !Self.current!.anonymous.isLinked(with: Self.current!) {
+                Self.current!.save(options: options, callbackQueue: callbackQueue, completion: completion)
+            } else {
+                let error = ParseError(code: .usernameTaken,
+                                       message: "Cannot sign up a user that has already signed up.")
+                completion(.failure(error))
+            }
+            return
+        }
+        let body = SignupLoginBody(username: username, password: password)
+        signupCommand(body: body)
             .executeAsync(options: options) { result in
                 callbackQueue.async {
                     completion(result)
@@ -506,15 +561,18 @@ extension ParseUser {
             }
     }
 
-    internal static func signupCommand(username: String,
-                                       password: String) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
+    internal static func signupCommand(body: SignupLoginBody) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
 
-        let body = SignupLoginBody(username: username, password: password)
         return API.NonParseBodyCommand(method: .POST, path: .users, body: body) { (data) -> Self in
 
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
-            user.username = username
+            if let username = body.username {
+                user.username = username
+            }
+            if let authData = body.authData {
+                user.authData = authData
+            }
 
             Self.currentUserContainer = .init(
                 currentUser: user,

@@ -702,7 +702,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testSignupCommandWithBody() {
         let body = SignupLoginBody(username: "test", password: "user")
-        let command = User.signupCommand(username: "test", password: "user")
+        let command = User.signupCommand(body: body)
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/users")
         XCTAssertEqual(command.method, API.Method.POST)

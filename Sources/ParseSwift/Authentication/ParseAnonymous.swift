@@ -16,11 +16,11 @@ import Foundation
  - Once logged out, an anonymous user cannot be recovered.
  - When the current user is anonymous, the following methods can be used to switch
  to a different user or convert the anonymous user into a regular one:
- - signUp converts an anonymous user to a standard user with the given username and password.
+ - *signup* converts an anonymous user to a standard user with the given username and password.
  Data associated with the anonymous user is retained.
- - logIn switches users without converting the anonymous user.
+ - *login* switches users without converting the anonymous user.
  Data associated with the anonymous user will be lost.
- - Service logIn (e.g. Apple, Facebook, Twitter) will attempt to convert
+ - Service *login* (e.g. Apple, Facebook, Twitter) will attempt to convert
  the anonymous user into a standard user by linking it to the service.
  If a user already exists that is linked to the service, it will instead switch to the existing user.
  - Service linking (e.g. Apple, Facebook, Twitter) will convert the anonymous user
@@ -38,21 +38,6 @@ public struct ParseAnonymous<AuthenticatedUser: ParseUser>: ParseAuthenticatable
 
     public var __type: String = "anonymous" // swiftlint:disable:this identifier_name
     public init() { }
-
-    func restore(_ user: AuthenticatedUser) -> AuthenticatedUser {
-
-        if !user.isLinked(with: __type) {
-            var user = user
-            let authData = AuthenticationKeys.id.makeDictionary()
-            if user.authData != nil {
-                user.authData![__type] = authData
-            } else {
-                user.authData = [__type: authData]
-            }
-            return user
-        }
-        return user
-    }
 }
 
 // MARK: Login
@@ -124,18 +109,14 @@ public extension ParseUser {
     }
 
     /**
-     Restores the respective authentication type to a given `ParseUser`.
-     - returns: the user whose autentication type was restored. This modified user has not been saved.
-     */
-    func restoreAnonymous() -> Self {
-        anonymous.restore(self)
-    }
-
-    /**
      Strips the `ParseUser`of a respective authentication type.
-     - returns: the user whose autentication type was restored. This modified user has not been saved.
+     - returns: the user whose autentication type was stripped. This modified user has not been saved.
      */
     func stripAnonymous() -> Self {
-        anonymous.strip(self)
+        if isLinkedAnonymous() {
+            return anonymous.strip(self)
+        } else {
+            return self
+        }
     }
 }

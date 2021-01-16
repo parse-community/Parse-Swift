@@ -9,6 +9,7 @@ initializeParse()
 
 struct User: ParseUser {
     //: These are required for ParseObject
+    var authData: [String: [String: String]]?
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
@@ -76,6 +77,28 @@ do {
     print("Error logging out: \(error)")
 }
 
+//: Logging in anonymously
+do {
+    try ParseAnonymous<User>.login()
+    print("Successfully logged in \(User.current)")
+} catch let error {
+    print("Error logging in: \(error)")
+}
+
+//: Convert the anonymous user to a real new user.
+User.current?.username = "bye"
+User.current?.password = "world"
+User.current?.signup { result in
+    switch result {
+
+    case .success(let user):
+        print("Parse signup successful: \(user)")
+
+    case .failure(let error):
+        print("Error logging in: \(error)")
+    }
+}
+
 //: Password Reset Request - synchronously
 do {
     try User.verificationEmailRequest(email: "hello@parse.org")
@@ -90,22 +113,6 @@ do {
     print("Successfully requested password reset")
 } catch let error {
     print("Error requesting password reset: \(error)")
-}
-
-//: Another way to sign up
-var newUser = User()
-newUser.username = "hello10"
-newUser.password = "world"
-
-newUser.signup { result in
-    switch result {
-
-    case .success(let user):
-        print("Parse signup successful: \(user)")
-
-    case .failure(let error):
-        print("Error logging in: \(error)")
-    }
 }
 
 PlaygroundPage.current.finishExecution()

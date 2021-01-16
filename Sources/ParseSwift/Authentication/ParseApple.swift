@@ -182,7 +182,7 @@ public extension ParseUser {
 
     /**
      Strips the `ParseUser`of a respective authentication type.
-     - returns: the user whose autentication type was restored. This modified user has not been saved.
+     - returns: the user whose autentication type was stripped. This modified user has not been saved.
      */
     func stripApple() -> Self {
         apple.strip(self)
