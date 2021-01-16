@@ -265,7 +265,7 @@ extension ParseUser {
             let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
 
             if let current = Self.current {
-                if !current.hasSameObjectId(as: user) && anonymous.isLinked(with: current) {
+                if !current.hasSameObjectId(as: user) && self.anonymous.isLinked(with: current) {
                     Self.deleteCurrentContainerFromKeychain()
                 }
             }
