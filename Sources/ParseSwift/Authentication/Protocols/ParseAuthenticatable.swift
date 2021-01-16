@@ -10,11 +10,13 @@ import Foundation
 
 public protocol ParseAuthenticatable: Codable {
     associatedtype AuthenticatedUser: ParseUser
+    init()
 
     /// The type of authentication.
     var __type: String { get } // swiftlint:disable:this identifier_name
 
-    init()
+    /// Returns `true` if the *current* user is linked to the respective authentication type.
+    var isLinked: Bool { get }
 
     /**
      Login a `ParseUser` *synchronously* using the respective authentication type.
@@ -23,8 +25,8 @@ public protocol ParseAuthenticatable: Codable {
      - throws: `ParseError`.
      - returns the linked `ParseUser`.
      */
-    static func login(authData: [String: String]?,
-                      options: API.Options) throws -> AuthenticatedUser
+    func login(authData: [String: String]?,
+               options: API.Options) throws -> AuthenticatedUser
 
     /**
      Login a `ParseUser` *asynchronously* using the respective authentication type.
@@ -33,10 +35,10 @@ public protocol ParseAuthenticatable: Codable {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    static func login(authData: [String: String]?,
-                      options: API.Options,
-                      callbackQueue: DispatchQueue,
-                      completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void)
+    func login(authData: [String: String]?,
+               options: API.Options,
+               callbackQueue: DispatchQueue,
+               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void)
 
     /**
      Link the *current* `ParseUser` *synchronously* using the respective authentication type.
@@ -45,7 +47,7 @@ public protocol ParseAuthenticatable: Codable {
      - throws: `ParseError`.
      - returns the linked `ParseUser`.
      */
-    static func link(authData: [String: String]?, options: API.Options) throws -> AuthenticatedUser
+    func link(authData: [String: String]?, options: API.Options) throws -> AuthenticatedUser
 
     /**
      Link the *current* `ParseUser` *asynchronously* using the respective authentication type.
@@ -54,10 +56,10 @@ public protocol ParseAuthenticatable: Codable {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    static func link(authData: [String: String]?,
-                     options: API.Options,
-                     callbackQueue: DispatchQueue,
-                     completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void)
+    func link(authData: [String: String]?,
+              options: API.Options,
+              callbackQueue: DispatchQueue,
+              completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void)
 
     /**
      Whether the `ParseUser` is logged in with the respective authentication type.
@@ -81,6 +83,13 @@ public protocol ParseAuthenticatable: Codable {
                 completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void)
 
     /**
+     Strips the *current* user of a respective authentication type.
+     - returns: the *current* user whose autentication type was stripped. Returns `nil`
+     if there's no current user. This modified user has not been saved.
+     */
+    func strip() -> AuthenticatedUser?
+
+    /**
      Strips the `ParseUser`of a respective authentication type.
      - parameter user: the `ParseUser` to strip. The user must be logged in on this device.
      - returns: the user whose autentication type was stripped. This modified user has not been saved.
@@ -89,6 +98,13 @@ public protocol ParseAuthenticatable: Codable {
 }
 
 public extension ParseAuthenticatable {
+
+    var isLinked: Bool {
+        guard let current = AuthenticatedUser.current else {
+            return false
+        }
+        return current.isLinked(with: __type)
+    }
 
     func isLinked(with user: AuthenticatedUser) -> Bool {
         user.isLinked(with: __type)
@@ -101,10 +117,21 @@ public extension ParseAuthenticatable {
         user.unlink(__type, options: options, callbackQueue: callbackQueue, completion: completion)
     }
 
+    func strip() -> AuthenticatedUser? {
+        if isLinked {
+            guard var user = AuthenticatedUser.current else {
+                return nil
+            }
+            user.authData?[__type] = nil
+            return user
+        }
+        return nil
+    }
+
     func strip(_ user: AuthenticatedUser) -> AuthenticatedUser {
         if isLinked(with: user) {
             var user = user
-            user.authData?.removeValue(forKey: __type)
+            user.authData?[__type] = nil
             return user
         }
         return user

@@ -9,7 +9,7 @@ initializeParse()
 
 struct User: ParseUser {
     //: These are required for ParseObject
-    var authData: [String: [String: String]]?
+    var authData: [String: [String: String]?]?
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
@@ -79,7 +79,7 @@ do {
 
 //: Logging in anonymously
 do {
-    try ParseAnonymous<User>.login()
+    try User.anonymous.login()
     print("Successfully logged in \(User.current)")
 } catch let error {
     print("Error logging in: \(error)")

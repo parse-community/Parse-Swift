@@ -42,8 +42,8 @@ public struct ParseAnonymous<AuthenticatedUser: ParseUser>: ParseAuthenticatable
 
 // MARK: Login
 public extension ParseAnonymous {
-    static func login(authData: [String: String]? = nil,
-                      options: API.Options = []) throws -> AuthenticatedUser {
+    func login(authData: [String: String]? = nil,
+               options: API.Options = []) throws -> AuthenticatedUser {
         let anonymousUser = Self.init()
         return try AuthenticatedUser
             .login(anonymousUser.__type,
@@ -51,10 +51,10 @@ public extension ParseAnonymous {
                    options: options)
     }
 
-    static func login(authData: [String: String]? = nil,
-                      options: API.Options = [],
-                      callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+    func login(authData: [String: String]? = nil,
+               options: API.Options = [],
+               callbackQueue: DispatchQueue = .main,
+               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         let anonymousUser = Self.init()
         AuthenticatedUser.login(anonymousUser.__type,
                                 authData: AuthenticationKeys.id.makeDictionary(),
@@ -65,14 +65,14 @@ public extension ParseAnonymous {
 
 // MARK: Link
 public extension ParseAnonymous {
-    static func link(authData: [String: String]? = nil, options: API.Options = []) throws -> AuthenticatedUser {
+    func link(authData: [String: String]? = nil, options: API.Options = []) throws -> AuthenticatedUser {
         throw ParseError(code: .unknownError, message: "Not supported")
     }
 
-    static func link(authData: [String: String]? = nil,
-                     options: API.Options = [],
-                     callbackQueue: DispatchQueue = .main,
-                     completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+    func link(authData: [String: String]? = nil,
+              options: API.Options = [],
+              callbackQueue: DispatchQueue = .main,
+              completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         completion(.failure(ParseError(code: .unknownError, message: "Not supported")))
     }
 }
@@ -81,8 +81,13 @@ public extension ParseAnonymous {
 public extension ParseUser {
 
     /// An anonymous `ParseUser`.
-    var anonymous: ParseAnonymous<Self> {
+    static var anonymous: ParseAnonymous<Self> {
         ParseAnonymous<Self>()
+    }
+
+    /// An anonymous `ParseUser`.
+    var anonymous: ParseAnonymous<Self> {
+        Self.anonymous
     }
 
     /**

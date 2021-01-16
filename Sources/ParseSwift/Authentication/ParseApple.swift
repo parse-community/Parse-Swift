@@ -59,11 +59,10 @@ public extension ParseApple {
      - throws: `ParseError`.
      - returns the linked `ParseUser`.
      */
-    static func login(user: String,
-                      identityToken: String,
-                      options: API.Options = []) throws -> AuthenticatedUser {
-        try ParseApple
-            .login(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+    func login(user: String,
+               identityToken: String,
+               options: API.Options = []) throws -> AuthenticatedUser {
+        try login(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
                    options: options)
     }
 
@@ -75,19 +74,19 @@ public extension ParseApple {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    static func login(user: String,
-                      identityToken: String,
-                      options: API.Options = [],
-                      callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        ParseApple.login(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+    func login(user: String,
+               identityToken: String,
+               options: API.Options = [],
+               callbackQueue: DispatchQueue = .main,
+               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+        login(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
                          options: options,
                          callbackQueue: callbackQueue,
                          completion: completion)
     }
 
-    static func login(authData: [String: String]?,
-                      options: API.Options = []) throws -> AuthenticatedUser {
+    func login(authData: [String: String]?,
+               options: API.Options = []) throws -> AuthenticatedUser {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
               let authData = authData else {
             throw ParseError(code: .unknownError,
@@ -100,10 +99,10 @@ public extension ParseApple {
                    options: options)
     }
 
-    static func login(authData: [String: String]?,
-                      options: API.Options = [],
-                      callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+    func login(authData: [String: String]?,
+               options: API.Options = [],
+               callbackQueue: DispatchQueue = .main,
+               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
               let authData = authData else {
             let error = ParseError(code: .unknownError,
@@ -129,11 +128,10 @@ public extension ParseApple {
      - throws: `ParseError`.
      - returns the linked `ParseUser`.
      */
-    static func link(user: String,
-                     identityToken: String,
-                     options: API.Options = []) throws -> AuthenticatedUser {
-        try ParseApple
-            .link(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+    func link(user: String,
+              identityToken: String,
+              options: API.Options = []) throws -> AuthenticatedUser {
+        try link(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
                   options: options)
     }
 
@@ -145,19 +143,19 @@ public extension ParseApple {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    static func link(user: String,
-                     identityToken: String,
-                     options: API.Options = [],
-                     callbackQueue: DispatchQueue = .main,
-                     completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        ParseApple.link(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+    func link(user: String,
+              identityToken: String,
+              options: API.Options = [],
+              callbackQueue: DispatchQueue = .main,
+              completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+        link(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
                         options: options,
                         callbackQueue: callbackQueue,
                         completion: completion)
     }
 
-    static func link(authData: [String: String]?,
-                     options: API.Options = []) throws -> AuthenticatedUser {
+    func link(authData: [String: String]?,
+              options: API.Options = []) throws -> AuthenticatedUser {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
               let authData = authData else {
             throw ParseError(code: .unknownError,
@@ -170,10 +168,10 @@ public extension ParseApple {
                   options: options)
     }
 
-    static func link(authData: [String: String]?,
-                     options: API.Options = [],
-                     callbackQueue: DispatchQueue = .main,
-                     completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+    func link(authData: [String: String]?,
+              options: API.Options = [],
+              callbackQueue: DispatchQueue = .main,
+              completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
               let authData = authData else {
             let error = ParseError(code: .unknownError,
@@ -193,8 +191,13 @@ public extension ParseApple {
 public extension ParseUser {
 
     /// An apple `ParseUser`.
-    var apple: ParseApple<Self> {
+    static var apple: ParseApple<Self> {
         ParseApple<Self>()
+    }
+
+    /// An apple `ParseUser`.
+    var apple: ParseApple<Self> {
+        Self.apple
     }
 
     /**

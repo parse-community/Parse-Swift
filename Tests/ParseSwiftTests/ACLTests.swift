@@ -31,7 +31,7 @@ class ACLTests: XCTestCase {
     }
 
     struct User: ParseUser {
-        var authData: [String: [String: String]]?
+        var authData: [String: [String: String]?]?
 
         //: Those are required for Object
         var objectId: String?
@@ -49,7 +49,7 @@ class ACLTests: XCTestCase {
     }
 
     struct LoginSignupResponse: ParseUser {
-        var authData: [String: [String: String]]?
+        var authData: [String: [String: String]?]?
 
         var objectId: String?
         var createdAt: Date?

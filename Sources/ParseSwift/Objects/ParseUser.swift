@@ -24,7 +24,7 @@ public protocol ParseUser: ParseObject {
     */
     var password: String? { get set }
 
-    var authData: [String: [String: String]]? { get set }
+    var authData: [String: [String: String]?]? { get set }
 }
 
 // MARK: SignupLoginBody
