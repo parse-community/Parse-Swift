@@ -51,20 +51,6 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
 
 // MARK: Login
 public extension ParseApple {
-    /**
-     Login a `ParseUser` *asynchronously* using Apple authentication.
-     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: `ParseError`.
-     - returns the linked `ParseUser`.
-     */
-    func login(user: String,
-               identityToken: String,
-               options: API.Options = []) throws -> AuthenticatedUser {
-        try login(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
-                   options: options)
-    }
 
     /**
      Login a `ParseUser` *asynchronously* using Apple authentication.
@@ -83,20 +69,6 @@ public extension ParseApple {
                          options: options,
                          callbackQueue: callbackQueue,
                          completion: completion)
-    }
-
-    func login(authData: [String: String]?,
-               options: API.Options = []) throws -> AuthenticatedUser {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
-            throw ParseError(code: .unknownError,
-                             message: "Should have authData in consisting of keys \"id\" and \"token\".")
-        }
-        let appleUser = Self.init()
-        return try AuthenticatedUser
-            .login(appleUser.__type,
-                   authData: authData,
-                   options: options)
     }
 
     func login(authData: [String: String]?,

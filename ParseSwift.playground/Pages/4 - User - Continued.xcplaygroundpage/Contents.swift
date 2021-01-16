@@ -78,11 +78,13 @@ do {
 }
 
 //: Logging in anonymously
-do {
-    try User.anonymous.login()
-    print("Successfully logged in \(User.current)")
-} catch let error {
-    print("Error logging in: \(error)")
+User.anonymous.login { result in
+    switch result {
+    case .success:
+        print("Successfully logged in \(User.current)")
+    case .failure(let error):
+        print("Error logging in: \(error)")
+    }
 }
 
 //: Convert the anonymous user to a real new user.

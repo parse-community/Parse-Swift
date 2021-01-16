@@ -113,8 +113,8 @@ extension ParseUser {
     public static var current: Self? {
         get { Self.currentUserContainer?.currentUser }
         set {
-            if Self.currentUserContainer?.currentUser?.username != newValue?.username {
-                Self.currentUserContainer?.currentUser = newValue?.anonymous.strip()
+            if Self.currentUserContainer?.currentUser?.username != newValue?.username && newValue != nil {
+                Self.currentUserContainer?.currentUser = newValue?.anonymous.strip(newValue!)
             } else {
                 Self.currentUserContainer?.currentUser = newValue
             }
@@ -463,11 +463,8 @@ extension ParseUser {
         if Self.current != nil {
             Self.current!.username = username
             Self.current!.password = password
-            if !Self.current!.anonymous.isLinked {
-                return try Self.current!.save(options: options)
-            } else {
-                throw ParseError(code: .usernameTaken, message: "Cannot sign up a user that has already signed up.")
-            }
+            Self.current!.anonymous.strip()
+            return try Self.current!.save(options: options)
         }
         return try signupCommand(body: SignupLoginBody(username: username, password: password))
             .execute(options: options)
@@ -547,13 +544,8 @@ extension ParseUser {
         if Self.current != nil {
             Self.current!.username = username
             Self.current!.password = password
-            if !Self.current!.anonymous.isLinked {
-                Self.current!.save(options: options, callbackQueue: callbackQueue, completion: completion)
-            } else {
-                let error = ParseError(code: .usernameTaken,
-                                       message: "Cannot sign up a user that has already signed up.")
-                completion(.failure(error))
-            }
+            Self.current!.anonymous.strip()
+            Self.current!.save(options: options, callbackQueue: callbackQueue, completion: completion)
             return
         }
         let body = SignupLoginBody(username: username, password: password)
