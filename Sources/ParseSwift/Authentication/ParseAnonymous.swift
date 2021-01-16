@@ -77,9 +77,8 @@ public extension ParseAnonymous {
     }
 }
 
+// MARK: ParseAnonymous
 public extension ParseUser {
-
-    // MARK: ParseAnonymous
 
     /// An anonymous `ParseUser`.
     var anonymous: ParseAnonymous<Self> {
@@ -87,16 +86,16 @@ public extension ParseUser {
     }
 
     /**
-     Whether the `ParseUser` is logged in with the respective authentication type.
-     - returns: `true` if the `ParseUser` is logged in via the repective
-     authentication type. `false` if the user is not.
+     Whether the `ParseUser` is logged in with anonymous authentication.
+     - returns: `true` if the `ParseUser` is logged in via anonymous
+     authentication. `false` if the user is not.
      */
     func isLinkedAnonymous() -> Bool {
         anonymous.isLinked(with: self)
     }
 
     /**
-     Unlink the `ParseUser` *asynchronously* from the respective authentication type.
+     Unlink the `ParseUser` *asynchronously* from anonymous authentication.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -109,7 +108,7 @@ public extension ParseUser {
     }
 
     /**
-     Strips the `ParseUser`of a respective authentication type.
+     Strips the `ParseUser`of anonymous authentication.
      - returns: the user whose autentication type was stripped. This modified user has not been saved.
      */
     func stripAnonymous() -> Self {
