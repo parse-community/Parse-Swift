@@ -22,8 +22,6 @@ public struct API {
         case user(objectId: String)
         case installations
         case installation(objectId: String)
-        case sessions
-        case session(objectId: String)
         case login
         case logout
         case file(fileName: String)
@@ -49,10 +47,6 @@ public struct API {
                 return "/installations"
             case .installation(let objectId):
                 return "/installations/\(objectId)"
-            case .sessions:
-                return "/sessions"
-            case .session(let objectId):
-                return "/sessions/\(objectId)"
             case .login:
                 return "/login"
             case .logout:
