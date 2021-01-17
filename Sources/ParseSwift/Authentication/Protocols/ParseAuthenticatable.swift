@@ -119,7 +119,9 @@ public extension ParseAuthenticatable {
                 completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard let current = AuthenticatedUser.current else {
             let error = ParseError(code: .invalidLinkedSession, message: "No current ParseUser.")
-            completion(.failure(error))
+            callbackQueue.async {
+                completion(.failure(error))
+            }
             return
         }
         unlink(current, options: options, callbackQueue: callbackQueue, completion: completion)
