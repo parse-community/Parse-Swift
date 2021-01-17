@@ -157,6 +157,13 @@
 		70C5502225B3D8F700B5DBC2 /* ParseAppleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5502125B3D8F700B5DBC2 /* ParseAppleTests.swift */; };
 		70C5502325B3D8F700B5DBC2 /* ParseAppleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5502125B3D8F700B5DBC2 /* ParseAppleTests.swift */; };
 		70C5502425B3D8F700B5DBC2 /* ParseAppleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5502125B3D8F700B5DBC2 /* ParseAppleTests.swift */; };
+		70C5503825B406B800B5DBC2 /* ParseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5503725B406B800B5DBC2 /* ParseSession.swift */; };
+		70C5503925B406B800B5DBC2 /* ParseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5503725B406B800B5DBC2 /* ParseSession.swift */; };
+		70C5503A25B406B800B5DBC2 /* ParseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5503725B406B800B5DBC2 /* ParseSession.swift */; };
+		70C5503B25B406B800B5DBC2 /* ParseSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5503725B406B800B5DBC2 /* ParseSession.swift */; };
+		70C5504625B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */; };
+		70C5504725B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */; };
+		70C5504825B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */; };
 		70C5655925AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */; };
 		70C5655A25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */; };
 		70C5655B25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */; };
@@ -438,6 +445,8 @@
 		70BC988F252A5B5C00FF3074 /* Objectable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Objectable.swift; sourceTree = "<group>"; };
 		70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallation.swift; sourceTree = "<group>"; };
 		70C5502125B3D8F700B5DBC2 /* ParseAppleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAppleTests.swift; sourceTree = "<group>"; };
+		70C5503725B406B800B5DBC2 /* ParseSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseSession.swift; sourceTree = "<group>"; };
+		70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseSessionTests.swift; sourceTree = "<group>"; };
 		70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQueryConstants.swift; sourceTree = "<group>"; };
 		70C7DC1D24D20E530050419B /* ParseUserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseUserTests.swift; sourceTree = "<group>"; };
 		70C7DC1F24D20F180050419B /* ParseQueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseQueryTests.swift; sourceTree = "<group>"; };
@@ -633,6 +642,7 @@
 				70CE1D882545BF730018D572 /* ParsePointerTests.swift */,
 				70C7DC1F24D20F180050419B /* ParseQueryTests.swift */,
 				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
+				70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */,
 			);
 			path = ParseSwiftTests;
 			sourceTree = "<group>";
@@ -893,6 +903,7 @@
 				70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */,
 				F97B45C624D9C6F200F4A88B /* ParseObject.swift */,
 				F97B45C424D9C6F200F4A88B /* ParseUser.swift */,
+				70C5503725B406B800B5DBC2 /* ParseSession.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -1335,6 +1346,7 @@
 				916786E2259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				F97B461624D9C6F200F4A88B /* Queryable.swift in Sources */,
 				F97B45DA24D9C6F200F4A88B /* Extensions.swift in Sources */,
+				70C5503825B406B800B5DBC2 /* ParseSession.swift in Sources */,
 				707A3BF125B0A4F0000D215C /* ParseAuthenticatable.swift in Sources */,
 				F97B465F24D9C7B500F4A88B /* KeychainStore.swift in Sources */,
 				705726E02592C2A800F0ADD5 /* ParseHash.swift in Sources */,
@@ -1402,6 +1414,7 @@
 				70CE1D892545BF730018D572 /* ParsePointerTests.swift in Sources */,
 				911DB12E24C4837E0027F3C7 /* APICommandTests.swift in Sources */,
 				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
+				70C5504625B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				70110D5C2506ED0E0091CC1D /* ParseInstallationTests.swift in Sources */,
 				705727B12593FF8800F0ADD5 /* ParseFileTests.swift in Sources */,
 				70BC0B33251903D1001556DB /* ParseGeoPointTests.swift in Sources */,
@@ -1434,6 +1447,7 @@
 				916786E3259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				F97B461724D9C6F200F4A88B /* Queryable.swift in Sources */,
 				F97B45DB24D9C6F200F4A88B /* Extensions.swift in Sources */,
+				70C5503925B406B800B5DBC2 /* ParseSession.swift in Sources */,
 				707A3BF225B0A4F0000D215C /* ParseAuthenticatable.swift in Sources */,
 				F97B466024D9C7B500F4A88B /* KeychainStore.swift in Sources */,
 				705726E12592C2A800F0ADD5 /* ParseHash.swift in Sources */,
@@ -1510,6 +1524,7 @@
 				709B98532556ECAA00507778 /* ParsePointerTests.swift in Sources */,
 				709B984C2556ECAA00507778 /* APICommandTests.swift in Sources */,
 				709B984D2556ECAA00507778 /* AnyDecodableTests.swift in Sources */,
+				70C5504825B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				709B98572556ECAA00507778 /* ACLTests.swift in Sources */,
 				705727BC2593FF8C00F0ADD5 /* ParseFileTests.swift in Sources */,
 				709B984F2556ECAA00507778 /* AnyCodableTests.swift in Sources */,
@@ -1542,6 +1557,7 @@
 				70F2E2B7254F283000B2EA5C /* ParsePointerTests.swift in Sources */,
 				70F2E2B5254F283000B2EA5C /* ParseEncoderTests.swift in Sources */,
 				70F2E2C2254F283000B2EA5C /* APICommandTests.swift in Sources */,
+				70C5504725B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				70F2E2BC254F283000B2EA5C /* ParseObjectTests.swift in Sources */,
 				705727BB2593FF8B00F0ADD5 /* ParseFileTests.swift in Sources */,
 				70F2E2BD254F283000B2EA5C /* AnyDecodableTests.swift in Sources */,
@@ -1574,6 +1590,7 @@
 				916786E5259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				F97B45E924D9C6F200F4A88B /* Query.swift in Sources */,
 				F97B463624D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
+				70C5503B25B406B800B5DBC2 /* ParseSession.swift in Sources */,
 				707A3BF425B0A4F0000D215C /* ParseAuthenticatable.swift in Sources */,
 				F97B460524D9C6F200F4A88B /* NoBody.swift in Sources */,
 				705726E32592C2A800F0ADD5 /* ParseHash.swift in Sources */,
@@ -1641,6 +1658,7 @@
 				916786E4259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				F97B45E824D9C6F200F4A88B /* Query.swift in Sources */,
 				F97B463524D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
+				70C5503A25B406B800B5DBC2 /* ParseSession.swift in Sources */,
 				707A3BF325B0A4F0000D215C /* ParseAuthenticatable.swift in Sources */,
 				F97B460424D9C6F200F4A88B /* NoBody.swift in Sources */,
 				705726E22592C2A800F0ADD5 /* ParseHash.swift in Sources */,
