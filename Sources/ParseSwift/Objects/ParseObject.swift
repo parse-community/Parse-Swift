@@ -494,7 +494,7 @@ extension ParseObject {
 
 // MARK: Mutations
 public extension ParseObject {
-    var mutationContainer: ParseMutationContainer<Self> {
+    var operation: ParseMutationContainer<Self> {
         return ParseMutationContainer(target: self)
     }
 }

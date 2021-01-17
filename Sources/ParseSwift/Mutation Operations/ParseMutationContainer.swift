@@ -8,66 +8,104 @@
 
 import Foundation
 
-public struct ParseMutationContainer<T>: Encodable where T: ParseObject {
+/**
+ A `ParseMutationContainer` represents a modification to a value in a `ParseObject`.
+ For example, setting, deleting, or incrementing a value are all different
+ kinds of `ParseMutationContainer`. `ParseMutationContainer` themselves can
+ be considered to be immutable.
+ */
+public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
     typealias ObjectType = T
 
     var target: T
-    private var operations = [String: Encodable]()
+    var operations = [String: Encodable]()
 
     init(target: T) {
         self.target = target
     }
 
-    public mutating func increment(_ key: String, by amount: Int) {
+    /**
+     An operation that increases a numeric field's value by a given amount.
+     */
+    public func increment(_ key: String, by amount: Int) -> Self {
         operations[key] = IncrementOperation(amount: amount)
+        return self
     }
 
-    public mutating func addUnique<W>(_ key: String, objects: [W]) where W: Encodable, W: Hashable {
+    /**
+     An operation that adds a new element to an array field,
+     only if it wasn't already present.
+     */
+    public func addUnique<W>(_ key: String, objects: [W]) -> Self where W: Encodable, W: Hashable {
         operations[key] = AddUniqueOperation(objects: objects)
+        return self
     }
 
-    public mutating func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                                      objects: [V]) where V: Encodable, V: Hashable {
+    public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]>),
+                             objects: [V]) -> Self where V: Encodable, V: Hashable {
         operations[key.0] = AddUniqueOperation(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
         target[keyPath: key.1] = Array(Set<V>(values))
+        return self
     }
 
-    public mutating func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]?>),
-                                      objects: [V]) where V: Encodable, V: Hashable {
+    public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]?>),
+                             objects: [V]) -> Self where V: Encodable, V: Hashable {
         operations[key.0] = AddUniqueOperation(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
         target[keyPath: key.1] = Array(Set<V>(values))
+        return self
     }
 
-    public mutating func add<W>(_ key: String, objects: [W]) where W: Encodable {
+    /**
+     An operation that adds a new element to an array field.
+     */
+    public func add<W>(_ key: String, objects: [W]) -> Self where W: Encodable {
         operations[key] = AddOperation(objects: objects)
+        return self
     }
 
-    public mutating func add<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                                objects: [V]) where V: Encodable {
+    /**
+     An operation that adds a new element to an array field.
+     */
+    public func add<V>(_ key: (String, WritableKeyPath<T, [V]>),
+                       objects: [V]) -> Self where V: Encodable {
         operations[key.0] = AddOperation(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
         target[keyPath: key.1] = values
+        return self
     }
 
-    public mutating func add<V>(_ key: (String, WritableKeyPath<T, [V]?>),
-                                objects: [V]) where V: Encodable {
+    /**
+     An operation that adds a new element to an array field.
+     */
+    public func add<V>(_ key: (String, WritableKeyPath<T, [V]?>),
+                       objects: [V]) -> Self where V: Encodable {
         operations[key.0] = AddOperation(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
         target[keyPath: key.1] = values
+        return self
     }
 
-    public mutating func remove<W>(_ key: String, objects: [W]) where W: Encodable {
+    /**
+     An operation that removes every instance of an element from
+     an array field.
+     */
+    public func remove<W>(_ key: String, objects: [W]) -> Self where W: Encodable {
         operations[key] = RemoveOperation(objects: objects)
+        return self
     }
 
-    public mutating func remove<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                                   objects: [V]) where V: Encodable, V: Hashable {
+    /**
+     An operation that removes every instance of an element from
+     an array field.
+     */
+    public func remove<V>(_ key: (String, WritableKeyPath<T, [V]>),
+                          objects: [V]) -> Self where V: Encodable, V: Hashable {
         operations[key.0] = RemoveOperation(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values)
@@ -75,10 +113,15 @@ public struct ParseMutationContainer<T>: Encodable where T: ParseObject {
             set.remove($0)
         }
         target[keyPath: key.1] = Array(set)
+        return self
     }
 
-    public mutating func remove<V>(_ key: (String, WritableKeyPath<T, [V]?>),
-                                   objects: [V]) where V: Encodable, V: Hashable {
+    /**
+     An operation that removes every instance of an element from
+     an array field.
+     */
+    public func remove<V>(_ key: (String, WritableKeyPath<T, [V]?>),
+                          objects: [V]) -> Self where V: Encodable, V: Hashable {
         operations[key.0] = RemoveOperation(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values ?? [])
@@ -86,15 +129,24 @@ public struct ParseMutationContainer<T>: Encodable where T: ParseObject {
             set.remove($0)
         }
         target[keyPath: key.1] = Array(set)
+        return self
     }
 
-    public mutating func unset(_ key: String) {
+    /**
+     An operation where a field is deleted from the object.
+     */
+    public func unset(_ key: String) -> Self {
         operations[key] = DeleteOperation()
+        return self
     }
 
-    public mutating func unset<V>(_ key: (String, WritableKeyPath<T, V?>)) where V: Encodable {
+    /**
+     An operation where a field is deleted from the object.
+     */
+    public func unset<V>(_ key: (String, WritableKeyPath<T, V?>)) -> Self where V: Encodable {
         operations[key.0] = DeleteOperation()
         target[keyPath: key.1] = nil
+        return self
     }
 
     public func encode(to encoder: Encoder) throws {
