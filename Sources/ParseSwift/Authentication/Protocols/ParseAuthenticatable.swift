@@ -178,6 +178,7 @@ public extension ParseUser {
                       options: API.Options,
                       callbackQueue: DispatchQueue,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
+
         let body = SignupLoginBody(authData: [type: authData])
         signupCommand(body: body)
             .executeAsync(options: options) { result in
@@ -201,7 +202,7 @@ public extension ParseUser {
                 completion: @escaping (Result<Self, ParseError>) -> Void) {
 
         guard let current = Self.current,
-              let authData = current.authData else {
+              current.authData != nil else {
             let error = ParseError(code: .unknownError, message: "Must be logged in to unlink user")
             callbackQueue.async {
                 completion(.failure(error))
@@ -210,6 +211,13 @@ public extension ParseUser {
         }
 
         if current.isLinked(with: type) {
+            guard let authData = current.apple.strip(current).authData else {
+                let error = ParseError(code: .unknownError, message: "Missing authData.")
+                callbackQueue.async {
+                    completion(.failure(error))
+                }
+                return
+            }
             let body = SignupLoginBody(authData: authData)
             current.linkCommand(body: body)
                 .executeAsync(options: options) { result in
@@ -286,13 +294,24 @@ public extension ParseUser {
                                          path: endpoint,
                                          body: body) { (data) -> Self in
             let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
-            if let authData = user.authData {
-                Self.current?.authData = authData
-            } else {
-                Self.current?.authData = body.authData
+            if let authData = body.authData {
+                Self.current?.anonymous.strip()
+                if Self.current?.authData == nil {
+                    Self.current?.authData = authData
+                } else {
+                    authData.forEach { (key, value) in
+                        Self.current?.authData?[key] = value
+                    }
+                }
+                if let updatedAt = user.updatedAt {
+                    Self.current?.updatedAt = updatedAt
+                }
             }
             Self.saveCurrentContainerToKeychain()
-            return user
+            guard let current = Self.current else {
+                throw ParseError(code: .unknownError, message: "Should have a current user.")
+            }
+            return current
         }
     }
 }

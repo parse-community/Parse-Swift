@@ -27,35 +27,6 @@ class ParseAuthenticationTests: XCTestCase {
         var authData: [String: [String: String]?]?
     }
 
-    struct LoginSignupResponse: ParseUser {
-
-        var objectId: String?
-        var createdAt: Date?
-        var sessionToken: String
-        var updatedAt: Date?
-        var ACL: ParseACL?
-
-        // provided by User
-        var username: String?
-        var email: String?
-        var password: String?
-        var authData: [String: [String: String]?]?
-
-        // Your custom keys
-        var customKey: String?
-
-        init() {
-            self.createdAt = Date()
-            self.updatedAt = Date()
-            self.objectId = "yarr"
-            self.ACL = nil
-            self.customKey = "blah"
-            self.sessionToken = "myToken"
-            self.username = "hello10"
-            self.email = "hello@parse.com"
-        }
-    }
-
     struct TestAuth<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
         var __type: String = "test" // swiftlint:disable:this identifier_name
 
@@ -97,20 +68,6 @@ class ParseAuthenticationTests: XCTestCase {
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
-    }
-
-    func loginNormally() throws -> User {
-        let loginResponse = LoginSignupResponse()
-
-        MockURLProtocol.mockRequests { _ in
-            do {
-                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            } catch {
-                return nil
-            }
-        }
-        return try User.login(username: "parse", password: "user")
     }
 
     func testLinkCommand() {

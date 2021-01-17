@@ -1,5 +1,5 @@
 //
-//  ParseAnonymousTests.swift
+//  ParseAppleTests.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 1/16/21.
@@ -10,8 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseAnonymousTests: XCTestCase {
-
+class ParseAppleTests: XCTestCase {
     struct User: ParseUser {
 
         //: Those are required for Object
@@ -93,33 +92,23 @@ class ParseAnonymousTests: XCTestCase {
         return try User.login(username: "parse", password: "user")
     }
 
-    func testStrip() throws {
-
-        let expectedAuth = ["id": "yolo"]
-        var user = User()
-        user.authData = [user.anonymous.__type: expectedAuth]
-        XCTAssertEqual(user.authData, ["anonymous": expectedAuth])
-        let strippedAuth = user.anonymous.strip(user)
-        XCTAssertEqual(strippedAuth.authData, ["anonymous": nil])
-
-    }
-
     func testAuthenticationKeys() throws {
-        let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
-        XCTAssertEqual(Array(authData.keys), ["id"])
-        XCTAssertNotNil(authData["id"])
-        XCTAssertNotEqual(authData["id"], "")
-        XCTAssertNotEqual(authData["id"], "12345")
+        let authData = ParseApple<User>
+            .AuthenticationKeys.id.makeDictionary(user: "testing",
+                                                  identityToken: "this")
+        XCTAssertEqual(authData, ["id": "testing", "token": "this"])
     }
 
     func testLogin() throws {
         var serverResponse = LoginSignupResponse()
-        let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
+        let authData = ParseApple<User>
+            .AuthenticationKeys.id.makeDictionary(user: "testing",
+                                                  identityToken: "this")
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.anonymous.__type: authData]
+        serverResponse.authData = [serverResponse.apple.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -140,7 +129,7 @@ class ParseAnonymousTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.anonymous.login { result in
+        User.apple.login(user: "testing", identityToken: "this") { result in
             switch result {
 
             case .success(let user):
@@ -148,106 +137,7 @@ class ParseAnonymousTests: XCTestCase {
                 XCTAssertEqual(user, userOnServer)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.anonymous.isLinked)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
-    }
-
-    func testReplaceAnonymousWithUser() throws {
-        let expectedAuth = ["id": "yolo"]
-        var newUser = User()
-        newUser.authData = [newUser.anonymous.__type: expectedAuth]
-        newUser.username = "hello"
-        newUser.password = "world"
-        XCTAssertTrue(newUser.anonymous.isLinked(with: newUser))
-
-        //: Convert the anonymous user to a real new user.
-        var serverResponse = LoginSignupResponse()
-        serverResponse.username = "hello"
-        serverResponse.password = "world"
-        serverResponse.objectId = "yarr"
-        serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.anonymous.__type: nil]
-        serverResponse.createdAt = Date()
-        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
-
-        var userOnServer: User!
-
-        let encoded: Data!
-        do {
-            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
-            //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let expectation1 = XCTestExpectation(description: "Login")
-
-        newUser.anonymous.login { result in
-            switch result {
-
-            case .success(let user):
-                XCTAssertEqual(user, User.current)
-                XCTAssertEqual(user, userOnServer)
-                XCTAssertEqual(user.username, "hello")
-                XCTAssertEqual(user.password, "world")
-                XCTAssertFalse(user.anonymous.isLinked)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
-    }
-
-    func testReplaceAnonymousWithUsernameChange() throws {
-        let expectedAuth = ["id": "yolo"]
-        var user = try loginNormally()
-        user.authData = [user.anonymous.__type: expectedAuth]
-        User.current = user
-        XCTAssertEqual(user, User.current)
-        XCTAssertTrue(user.anonymous.isLinked)
-
-        //Convert the anonymous user to a real new user.
-        User.current?.username = "hello"
-        User.current?.password = "world"
-        User.current?.authData = [user.anonymous.__type: nil]
-        var userOnServer = User.current!
-        userOnServer.updatedAt = user.updatedAt?.addingTimeInterval(+300)
-
-        let encoded: Data!
-        do {
-            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
-            //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.removeAll()
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let expectation1 = XCTestExpectation(description: "Login")
-
-        User.current?.signup { result in
-            switch result {
-
-            case .success(let user):
-                XCTAssertEqual(user, User.current)
-                XCTAssertEqual(user.username, "hello")
-                XCTAssertEqual(user.password, "world")
-                XCTAssertFalse(user.anonymous.isLinked)
+                XCTAssertTrue(user.apple.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -292,24 +182,21 @@ class ParseAnonymousTests: XCTestCase {
         XCTAssertTrue(user.anonymous.isLinked)
     }
 
-    func testReplaceAnonymousWithBecome() throws { // swiftlint:disable:this function_body_length
-        XCTAssertNil(User.current?.objectId)
+    func testReplaceAnonymousWithApple() throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()
-        XCTAssertNotNil(User.current?.objectId)
-        XCTAssertTrue(User.anonymous.isLinked)
-
-        guard let user = User.current else {
-            XCTFail("Should unwrap")
-            return
-        }
+        let authData = ParseApple<User>
+            .AuthenticationKeys.id.makeDictionary(user: "testing",
+                                                  identityToken: "this")
 
         var serverResponse = LoginSignupResponse()
-        serverResponse.createdAt = User.current?.createdAt
-        serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
-        serverResponse.sessionToken = "newValue"
-        serverResponse.username = "stop"
-        serverResponse.password = "this"
+        serverResponse.username = "hello"
+        serverResponse.password = "world"
+        serverResponse.objectId = "yarr"
+        serverResponse.sessionToken = "myToken"
+        serverResponse.authData = [serverResponse.apple.__type: authData]
+        serverResponse.createdAt = Date()
+        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
         var userOnServer: User!
 
@@ -326,39 +213,147 @@ class ParseAnonymousTests: XCTestCase {
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let expectation1 = XCTestExpectation(description: "Fetch user1")
-        user.become(sessionToken: "newValue") { result in
+        let expectation1 = XCTestExpectation(description: "Login")
 
+        User.apple.login(user: "testing", identityToken: "this") { result in
             switch result {
-            case .success(let become):
-                XCTAssert(become.hasSameObjectId(as: userOnServer))
-                guard let becomeCreatedAt = become.createdAt,
-                    let becomeUpdatedAt = become.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                guard let originalCreatedAt = user.createdAt,
-                    let originalUpdatedAt = user.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                XCTAssertEqual(becomeCreatedAt, originalCreatedAt)
-                XCTAssertGreaterThan(becomeUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(become.ACL)
 
-                //Should be updated in memory
-                XCTAssertEqual(User.current?.updatedAt, becomeUpdatedAt)
-                XCTAssertFalse(User.anonymous.isLinked)
+            case .success(let user):
+                XCTAssertEqual(user, User.current)
+                XCTAssertEqual(user, userOnServer)
+                XCTAssertEqual(user.username, "hello")
+                XCTAssertEqual(user.password, "world")
+                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertFalse(user.anonymous.isLinked)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
 
-                #if !os(Linux)
-                //Should be updated in Keychain
-                guard let keychainUser: CurrentUserContainer<BaseParseUser>
-                    = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
-                        XCTFail("Should get object from Keychain")
-                    return
-                }
-                XCTAssertEqual(keychainUser.currentUser?.updatedAt, becomeUpdatedAt)
-                #endif
+    func testReplaceAnonymousWithLinkedApple() throws {
+        try loginAnonymousUser()
+        MockURLProtocol.removeAll()
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = Date()
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Login")
+
+        User.apple.link(user: "testing", identityToken: "this") { result in
+            switch result {
+
+            case .success(let user):
+                XCTAssertEqual(user, User.current)
+                XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+                XCTAssertEqual(user.username, "hello")
+                XCTAssertEqual(user.password, "world")
+                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertFalse(user.anonymous.isLinked)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLinkLoggedInUserWithApple() throws {
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = Date()
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Login")
+
+        User.apple.link(user: "testing", identityToken: "this") { result in
+            switch result {
+
+            case .success(let user):
+                XCTAssertEqual(user, User.current)
+                XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+                XCTAssertEqual(user.username, "parse")
+                XCTAssertNil(user.password)
+                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertFalse(user.anonymous.isLinked)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testUnlink() throws {
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+        let authData = ParseApple<User>
+            .AuthenticationKeys.id.makeDictionary(user: "testing",
+                                              identityToken: "this")
+        User.current?.authData = [User.apple.__type: authData]
+        XCTAssertTrue(User.apple.isLinked)
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = Date()
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Login")
+
+        User.apple.unlink { result in
+            switch result {
+
+            case .success(let user):
+                XCTAssertEqual(user, User.current)
+                XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+                XCTAssertEqual(user.username, "parse")
+                XCTAssertNil(user.password)
+                XCTAssertFalse(user.apple.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }

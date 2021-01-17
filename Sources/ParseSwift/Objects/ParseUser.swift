@@ -571,8 +571,11 @@ extension ParseUser {
 
             let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
-            if let username = body.username {
-                user.username = username
+
+            if user.username == nil {
+                if let username = body.username {
+                    user.username = username
+                }
             }
             if user.authData == nil {
                 if let authData = body.authData {
