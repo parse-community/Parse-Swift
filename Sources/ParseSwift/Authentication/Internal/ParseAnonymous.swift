@@ -35,8 +35,9 @@ public struct ParseAnonymous<AuthenticatedUser: ParseUser>: ParseAuthenticatable
             [AuthenticationKeys.id.rawValue: UUID().uuidString.lowercased()]
         }
     }
-
-    public var __type: String = "anonymous" // swiftlint:disable:this identifier_name
+    public static var __type: String { // swiftlint:disable:this identifier_name
+        "anonymous"
+    }
     public init() { }
 }
 

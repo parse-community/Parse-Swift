@@ -42,6 +42,6 @@ public protocol ParseSession: ParseObject {
 // MARK: Default Implementations
 public extension ParseSession {
     static var className: String {
-        return "_Session"
+        "_Session"
     }
 }

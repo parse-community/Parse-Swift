@@ -80,7 +80,7 @@ public protocol ParseInstallation: ParseObject {
 // MARK: Default Implementations
 public extension ParseInstallation {
     static var className: String {
-        return "_Installation"
+        "_Installation"
     }
 }
 

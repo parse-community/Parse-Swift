@@ -165,7 +165,7 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
     }
 
     private func toRole(roleName: String) -> String {
-        return "role:\(roleName)"
+        "role:\(roleName)"
     }
 
     private mutating func set(_ key: String, access: Access, value: Bool) {

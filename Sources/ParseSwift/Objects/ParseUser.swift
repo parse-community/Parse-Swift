@@ -55,7 +55,7 @@ struct EmailBody: Encodable {
 // MARK: Default Implementations
 public extension ParseUser {
     static var className: String {
-        return "_User"
+        "_User"
     }
 }
 

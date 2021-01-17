@@ -13,7 +13,7 @@ public protocol ParseAuthenticatable: Codable {
     init()
 
     /// The type of authentication.
-    var __type: String { get } // swiftlint:disable:this identifier_name
+    static var __type: String { get } // swiftlint:disable:this identifier_name
 
     /// Returns `true` if the *current* user is linked to the respective authentication type.
     var isLinked: Bool { get }
@@ -91,6 +91,10 @@ public protocol ParseAuthenticatable: Codable {
 
 // MARK: Convenience Implementations
 public extension ParseAuthenticatable {
+
+    var __type: String { // swiftlint:disable:this identifier_name
+        Self.__type
+    }
 
     var isLinked: Bool {
         guard let current = AuthenticatedUser.current else {

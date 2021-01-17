@@ -44,8 +44,9 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
             return true
         }
     }
-
-    public var __type: String = "apple" // swiftlint:disable:this identifier_name
+    public static var __type: String { // swiftlint:disable:this identifier_name
+        "apple"
+    }
     public init() { }
 }
 
@@ -83,8 +84,7 @@ public extension ParseApple {
             }
             return
         }
-        let appleUser = Self.init()
-        AuthenticatedUser.login(appleUser.__type,
+        AuthenticatedUser.login(Self.__type,
                                 authData: authData,
                                 options: options,
                                 callbackQueue: callbackQueue,
@@ -127,7 +127,7 @@ public extension ParseApple {
             }
             return
         }
-        AuthenticatedUser.link(Self.init().__type,
+        AuthenticatedUser.link(Self.__type,
                                authData: authData,
                                options: options,
                                callbackQueue: callbackQueue,
