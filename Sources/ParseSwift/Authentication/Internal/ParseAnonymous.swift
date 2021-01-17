@@ -64,18 +64,21 @@ public extension ParseAnonymous {
         AuthenticatedUser.login(__type,
                                 authData: AuthenticationKeys.id.makeDictionary(),
                                 options: options,
+                                callbackQueue: callbackQueue,
                                 completion: completion)
     }
 }
 
 // MARK: Link
 public extension ParseAnonymous {
-
+    /// Unavailable for `ParseAnonymous`. Will always return an error.
     func link(authData: [String: String]? = nil,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        completion(.failure(ParseError(code: .unknownError, message: "Not supported")))
+        callbackQueue.async {
+            completion(.failure(ParseError(code: .unknownError, message: "Not supported")))
+        }
     }
 }
 

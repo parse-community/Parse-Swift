@@ -51,7 +51,6 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
 
 // MARK: Login
 public extension ParseApple {
-
     /**
      Login a `ParseUser` *asynchronously* using Apple authentication.
      - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
@@ -79,33 +78,22 @@ public extension ParseApple {
               let authData = authData else {
             let error = ParseError(code: .unknownError,
                                    message: "Should have authData in consisting of keys \"id\" and \"token\".")
-            completion(.failure(error))
+            callbackQueue.async {
+                completion(.failure(error))
+            }
             return
         }
         let appleUser = Self.init()
         AuthenticatedUser.login(appleUser.__type,
                                 authData: authData,
                                 options: options,
+                                callbackQueue: callbackQueue,
                                 completion: completion)
     }
 }
 
 // MARK: Link
 public extension ParseApple {
-    /**
-     Link the *current* `ParseUser` *asynchronously* using Apple authentication.
-     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: `ParseError`.
-     - returns the linked `ParseUser`.
-     */
-    func link(user: String,
-              identityToken: String,
-              options: API.Options = []) throws -> AuthenticatedUser {
-        try link(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
-                  options: options)
-    }
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Apple authentication.
@@ -127,20 +115,6 @@ public extension ParseApple {
     }
 
     func link(authData: [String: String]?,
-              options: API.Options = []) throws -> AuthenticatedUser {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
-            throw ParseError(code: .unknownError,
-                             message: "Should have authData in consisting of keys \"id\" and \"token\".")
-        }
-        let appleUser = Self.init()
-        return try AuthenticatedUser
-            .link(appleUser.__type,
-                  authData: authData,
-                  options: options)
-    }
-
-    func link(authData: [String: String]?,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
@@ -148,13 +122,15 @@ public extension ParseApple {
               let authData = authData else {
             let error = ParseError(code: .unknownError,
                                    message: "Should have authData in consisting of keys \"id\" and \"token\".")
-            completion(.failure(error))
+            callbackQueue.async {
+                completion(.failure(error))
+            }
             return
         }
-        let appleUser = Self.init()
-        AuthenticatedUser.link(appleUser.__type,
+        AuthenticatedUser.link(Self.init().__type,
                                authData: authData,
                                options: options,
+                               callbackQueue: callbackQueue,
                                completion: completion)
     }
 }

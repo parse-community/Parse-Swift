@@ -175,8 +175,8 @@ public extension ParseUser {
     */
     static func login(_ type: String,
                       authData: [String: String],
-                      options: API.Options = [],
-                      callbackQueue: DispatchQueue = .main,
+                      options: API.Options,
+                      callbackQueue: DispatchQueue,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
         let body = SignupLoginBody(authData: [type: authData])
         signupCommand(body: body)
@@ -199,12 +199,28 @@ public extension ParseUser {
                 options: API.Options,
                 callbackQueue: DispatchQueue,
                 completion: @escaping (Result<Self, ParseError>) -> Void) {
-        if isLinked(with: type) {
-            var mutableUser = self
-            mutableUser.authData?.updateValue(nil, forKey: type)
-            mutableUser.save(options: options, callbackQueue: callbackQueue, completion: completion)
+
+        guard let current = Self.current,
+              let authData = current.authData else {
+            let error = ParseError(code: .unknownError, message: "Must be logged in to unlink user")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+
+        if current.isLinked(with: type) {
+            let body = SignupLoginBody(authData: authData)
+            current.linkCommand(body: body)
+                .executeAsync(options: options) { result in
+                    callbackQueue.async {
+                        completion(result)
+                    }
+                }
         } else {
-            completion(.success(self))
+            callbackQueue.async {
+                completion(.success(self))
+            }
         }
     }
 
@@ -245,12 +261,14 @@ public extension ParseUser {
     */
     static func link(_ type: String,
                      authData: [String: String],
-                     options: API.Options = [],
-                     callbackQueue: DispatchQueue = .main,
+                     options: API.Options,
+                     callbackQueue: DispatchQueue,
                      completion: @escaping (Result<Self, ParseError>) -> Void) {
         guard let current = Self.current else {
             let error = ParseError(code: .unknownError, message: "Must be logged in to link user")
-            completion(.failure(error))
+            callbackQueue.async {
+                completion(.failure(error))
+            }
             return
         }
         let body = SignupLoginBody(authData: [type: authData])
@@ -265,7 +283,7 @@ public extension ParseUser {
     internal func linkCommand(body: SignupLoginBody) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
 
         return API.NonParseBodyCommand<SignupLoginBody, Self>(method: .PUT,
-                                         path: .users,
+                                         path: endpoint,
                                          body: body) { (data) -> Self in
             let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             if let authData = user.authData {

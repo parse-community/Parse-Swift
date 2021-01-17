@@ -56,6 +56,26 @@ class ParseAuthenticationTests: XCTestCase {
         }
     }
 
+    struct TestAuth<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
+        var __type: String = "test" // swiftlint:disable:this identifier_name
+
+        func login(authData: [String: String]?,
+                   options: API.Options,
+                   callbackQueue: DispatchQueue,
+                   completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+            let error = ParseError(code: .unknownError, message: "Not implemented")
+            completion(.failure(error))
+        }
+
+        func link(authData: [String: String]?,
+                  options: API.Options,
+                  callbackQueue: DispatchQueue,
+                  completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+            let error = ParseError(code: .unknownError, message: "Not implemented")
+            completion(.failure(error))
+        }
+    }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -93,14 +113,40 @@ class ParseAuthenticationTests: XCTestCase {
         return try User.login(username: "parse", password: "user")
     }
 
+    func testLinkCommand() {
+        var user = User()
+        let objectId = "yarr"
+        user.objectId = objectId
+
+        let body = SignupLoginBody(authData: ["test": ["id": "yolo"]])
+
+        let command = user.linkCommand(body: body)
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+        XCTAssertEqual(command.body?.authData, body.authData)
+    }
+
+    func testIsLinkedWithString() throws {
+
+        let expectedAuth = ["id": "yolo"]
+        var user = User()
+        let auth = TestAuth<User>()
+        user.authData = [auth.__type: expectedAuth]
+        XCTAssertEqual(user.authData, ["test": expectedAuth])
+        XCTAssertTrue(user.isLinked(with: "test"))
+    }
+
     func testAuthStrip() throws {
 
         let expectedAuth = ["id": "yolo"]
         var user = User()
-        user.authData = [user.anonymous.__type: expectedAuth]
-        XCTAssertEqual(user.authData, ["anonymous": expectedAuth])
-        let strippedAuth = user.anonymous.strip(user)
-        XCTAssertEqual(strippedAuth.authData, ["anonymous": nil])
-
+        let auth = TestAuth<User>()
+        user.authData = [auth.__type: expectedAuth]
+        XCTAssertEqual(user.authData, ["test": expectedAuth])
+        let strippedAuth = auth.strip(user)
+        XCTAssertEqual(strippedAuth.authData, ["test": nil])
     }
 }

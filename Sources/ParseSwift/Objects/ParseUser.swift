@@ -35,14 +35,14 @@ public protocol ParseUser: ParseObject {
 struct SignupLoginBody: Encodable {
     var username: String?
     var password: String?
-    var authData: [String: [String: String]]?
+    var authData: [String: [String: String]?]?
 
     init(username: String, password: String) {
         self.username = username
         self.password = password
     }
 
-    init(authData: [String: [String: String]]) {
+    init(authData: [String: [String: String]?]) {
         self.authData = authData
     }
 }
