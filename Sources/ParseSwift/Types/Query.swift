@@ -1019,6 +1019,20 @@ extension Query where T: ParseInstallation {
     }
 }
 
+// MARK: ParseSession
+extension Query where T: ParseSession {
+    var endpoint: API.Endpoint {
+        return .sessions
+    }
+}
+
+// MARK: ParseRole
+extension Query where T: ParseRole {
+    var endpoint: API.Endpoint {
+        return .roles
+    }
+}
+
 enum RawCodingKey: CodingKey {
     case key(String)
     var stringValue: String {

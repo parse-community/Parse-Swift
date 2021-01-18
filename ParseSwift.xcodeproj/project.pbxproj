@@ -171,14 +171,14 @@
 		70C5508525B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */; };
 		70C5508625B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */; };
 		70C5508725B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */; };
-		70C5509225B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */; };
-		70C5509325B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */; };
-		70C5509425B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */; };
-		70C5509525B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */; };
-		70C550A025B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */; };
-		70C550A125B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */; };
-		70C550A225B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */; };
-		70C550A325B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */; };
+		70C5509225B4A99100B5DBC2 /* AddRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelation.swift */; };
+		70C5509325B4A99100B5DBC2 /* AddRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelation.swift */; };
+		70C5509425B4A99100B5DBC2 /* AddRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelation.swift */; };
+		70C5509525B4A99100B5DBC2 /* AddRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelation.swift */; };
+		70C550A025B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */; };
+		70C550A125B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */; };
+		70C550A225B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */; };
+		70C550A325B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */; };
 		70C5655925AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */; };
 		70C5655A25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */; };
 		70C5655B25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */; };
@@ -332,26 +332,26 @@
 		F97B464724D9C78B00F4A88B /* ParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464024D9C78B00F4A88B /* ParseOperation.swift */; };
 		F97B464824D9C78B00F4A88B /* ParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464024D9C78B00F4A88B /* ParseOperation.swift */; };
 		F97B464924D9C78B00F4A88B /* ParseOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464024D9C78B00F4A88B /* ParseOperation.swift */; };
-		F97B464A24D9C78B00F4A88B /* DeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464124D9C78B00F4A88B /* DeleteOperation.swift */; };
-		F97B464B24D9C78B00F4A88B /* DeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464124D9C78B00F4A88B /* DeleteOperation.swift */; };
-		F97B464C24D9C78B00F4A88B /* DeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464124D9C78B00F4A88B /* DeleteOperation.swift */; };
-		F97B464D24D9C78B00F4A88B /* DeleteOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464124D9C78B00F4A88B /* DeleteOperation.swift */; };
-		F97B464E24D9C78B00F4A88B /* AddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464224D9C78B00F4A88B /* AddOperation.swift */; };
-		F97B464F24D9C78B00F4A88B /* AddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464224D9C78B00F4A88B /* AddOperation.swift */; };
-		F97B465024D9C78B00F4A88B /* AddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464224D9C78B00F4A88B /* AddOperation.swift */; };
-		F97B465124D9C78C00F4A88B /* AddOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464224D9C78B00F4A88B /* AddOperation.swift */; };
-		F97B465224D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464324D9C78B00F4A88B /* AddUniqueOperation.swift */; };
-		F97B465324D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464324D9C78B00F4A88B /* AddUniqueOperation.swift */; };
-		F97B465424D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464324D9C78B00F4A88B /* AddUniqueOperation.swift */; };
-		F97B465524D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464324D9C78B00F4A88B /* AddUniqueOperation.swift */; };
-		F97B465624D9C78C00F4A88B /* RemoveOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464424D9C78B00F4A88B /* RemoveOperation.swift */; };
-		F97B465724D9C78C00F4A88B /* RemoveOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464424D9C78B00F4A88B /* RemoveOperation.swift */; };
-		F97B465824D9C78C00F4A88B /* RemoveOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464424D9C78B00F4A88B /* RemoveOperation.swift */; };
-		F97B465924D9C78C00F4A88B /* RemoveOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464424D9C78B00F4A88B /* RemoveOperation.swift */; };
-		F97B465A24D9C78C00F4A88B /* IncrementOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464524D9C78B00F4A88B /* IncrementOperation.swift */; };
-		F97B465B24D9C78C00F4A88B /* IncrementOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464524D9C78B00F4A88B /* IncrementOperation.swift */; };
-		F97B465C24D9C78C00F4A88B /* IncrementOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464524D9C78B00F4A88B /* IncrementOperation.swift */; };
-		F97B465D24D9C78C00F4A88B /* IncrementOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464524D9C78B00F4A88B /* IncrementOperation.swift */; };
+		F97B464A24D9C78B00F4A88B /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464124D9C78B00F4A88B /* Delete.swift */; };
+		F97B464B24D9C78B00F4A88B /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464124D9C78B00F4A88B /* Delete.swift */; };
+		F97B464C24D9C78B00F4A88B /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464124D9C78B00F4A88B /* Delete.swift */; };
+		F97B464D24D9C78B00F4A88B /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464124D9C78B00F4A88B /* Delete.swift */; };
+		F97B464E24D9C78B00F4A88B /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464224D9C78B00F4A88B /* Add.swift */; };
+		F97B464F24D9C78B00F4A88B /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464224D9C78B00F4A88B /* Add.swift */; };
+		F97B465024D9C78B00F4A88B /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464224D9C78B00F4A88B /* Add.swift */; };
+		F97B465124D9C78C00F4A88B /* Add.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464224D9C78B00F4A88B /* Add.swift */; };
+		F97B465224D9C78C00F4A88B /* AddUnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464324D9C78B00F4A88B /* AddUnique.swift */; };
+		F97B465324D9C78C00F4A88B /* AddUnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464324D9C78B00F4A88B /* AddUnique.swift */; };
+		F97B465424D9C78C00F4A88B /* AddUnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464324D9C78B00F4A88B /* AddUnique.swift */; };
+		F97B465524D9C78C00F4A88B /* AddUnique.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464324D9C78B00F4A88B /* AddUnique.swift */; };
+		F97B465624D9C78C00F4A88B /* Remove.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464424D9C78B00F4A88B /* Remove.swift */; };
+		F97B465724D9C78C00F4A88B /* Remove.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464424D9C78B00F4A88B /* Remove.swift */; };
+		F97B465824D9C78C00F4A88B /* Remove.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464424D9C78B00F4A88B /* Remove.swift */; };
+		F97B465924D9C78C00F4A88B /* Remove.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464424D9C78B00F4A88B /* Remove.swift */; };
+		F97B465A24D9C78C00F4A88B /* Increment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464524D9C78B00F4A88B /* Increment.swift */; };
+		F97B465B24D9C78C00F4A88B /* Increment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464524D9C78B00F4A88B /* Increment.swift */; };
+		F97B465C24D9C78C00F4A88B /* Increment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464524D9C78B00F4A88B /* Increment.swift */; };
+		F97B465D24D9C78C00F4A88B /* Increment.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B464524D9C78B00F4A88B /* Increment.swift */; };
 		F97B465F24D9C7B500F4A88B /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B465E24D9C7B500F4A88B /* KeychainStore.swift */; };
 		F97B466024D9C7B500F4A88B /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B465E24D9C7B500F4A88B /* KeychainStore.swift */; };
 		F97B466124D9C7B500F4A88B /* KeychainStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B465E24D9C7B500F4A88B /* KeychainStore.swift */; };
@@ -464,8 +464,8 @@
 		70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseSessionTests.swift; sourceTree = "<group>"; };
 		70C5507625B49D3A00B5DBC2 /* ParseRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseRole.swift; sourceTree = "<group>"; };
 		70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseOperationTests.swift; sourceTree = "<group>"; };
-		70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRelationOperation.swift; sourceTree = "<group>"; };
-		70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveRelationOperation.swift; sourceTree = "<group>"; };
+		70C5509125B4A99100B5DBC2 /* AddRelation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRelation.swift; sourceTree = "<group>"; };
+		70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveRelation.swift; sourceTree = "<group>"; };
 		70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQueryConstants.swift; sourceTree = "<group>"; };
 		70C7DC1D24D20E530050419B /* ParseUserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseUserTests.swift; sourceTree = "<group>"; };
 		70C7DC1F24D20F180050419B /* ParseQueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseQueryTests.swift; sourceTree = "<group>"; };
@@ -519,11 +519,11 @@
 		F97B462D24D9C74400F4A88B /* Responses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
 		F97B462E24D9C74400F4A88B /* API+Commands.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Commands.swift"; sourceTree = "<group>"; };
 		F97B464024D9C78B00F4A88B /* ParseOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseOperation.swift; sourceTree = "<group>"; };
-		F97B464124D9C78B00F4A88B /* DeleteOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DeleteOperation.swift; sourceTree = "<group>"; };
-		F97B464224D9C78B00F4A88B /* AddOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddOperation.swift; sourceTree = "<group>"; };
-		F97B464324D9C78B00F4A88B /* AddUniqueOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUniqueOperation.swift; sourceTree = "<group>"; };
-		F97B464424D9C78B00F4A88B /* RemoveOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoveOperation.swift; sourceTree = "<group>"; };
-		F97B464524D9C78B00F4A88B /* IncrementOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IncrementOperation.swift; sourceTree = "<group>"; };
+		F97B464124D9C78B00F4A88B /* Delete.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
+		F97B464224D9C78B00F4A88B /* Add.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Add.swift; sourceTree = "<group>"; };
+		F97B464324D9C78B00F4A88B /* AddUnique.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddUnique.swift; sourceTree = "<group>"; };
+		F97B464424D9C78B00F4A88B /* Remove.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Remove.swift; sourceTree = "<group>"; };
+		F97B464524D9C78B00F4A88B /* Increment.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Increment.swift; sourceTree = "<group>"; };
 		F97B465E24D9C7B500F4A88B /* KeychainStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeychainStore.swift; sourceTree = "<group>"; };
 		F97B466324D9C88600F4A88B /* SecureStorage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SecureStorage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -714,14 +714,11 @@
 				F97B45B324D9C6F200F4A88B /* Coding */,
 				70110D5D250849B30091CC1D /* Internal */,
 				70510AAA259EE23700FEA700 /* LiveQuery */,
-				F97B463F24D9C78B00F4A88B /* Mutation Operations */,
-				F97B463F24D9C78B00F4A88B /* Operations */,
 				F97B45C324D9C6F200F4A88B /* Objects */,
+				F97B463F24D9C78B00F4A88B /* Operations */,
 				70110D5E25084AF80091CC1D /* Protocols */,
 				F97B45CB24D9C6F200F4A88B /* Storage */,
 				F97B45BA24D9C6F200F4A88B /* Types */,
-				4A82B7EE1F254B820063D731 /* Parse.swift */,
-				70110D51250680140091CC1D /* ParseConstants.swift */,
 			);
 			path = ParseSwift;
 			sourceTree = "<group>";
@@ -913,7 +910,6 @@
 				916786E1259B7DDA00BB5B4E /* ParseCloud.swift */,
 				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
 				F97B45C124D9C6F200F4A88B /* ParseFile.swift */,
-				4AB8B4F71F254AE10070F682 /* Parse.h */,
 				F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */,
 				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
 				F97B45BB24D9C6F200F4A88B /* Query.swift */,
@@ -961,14 +957,14 @@
 		F97B463F24D9C78B00F4A88B /* Operations */ = {
 			isa = PBXGroup;
 			children = (
-				F97B464224D9C78B00F4A88B /* AddOperation.swift */,
-				70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */,
-				F97B464324D9C78B00F4A88B /* AddUniqueOperation.swift */,
-				F97B464124D9C78B00F4A88B /* DeleteOperation.swift */,
-				F97B464524D9C78B00F4A88B /* IncrementOperation.swift */,
+				F97B464224D9C78B00F4A88B /* Add.swift */,
+				70C5509125B4A99100B5DBC2 /* AddRelation.swift */,
+				F97B464324D9C78B00F4A88B /* AddUnique.swift */,
+				F97B464124D9C78B00F4A88B /* Delete.swift */,
+				F97B464524D9C78B00F4A88B /* Increment.swift */,
 				F97B464024D9C78B00F4A88B /* ParseOperation.swift */,
-				F97B464424D9C78B00F4A88B /* RemoveOperation.swift */,
-				70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */,
+				F97B464424D9C78B00F4A88B /* Remove.swift */,
+				70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -1378,7 +1374,7 @@
 				F97B465F24D9C7B500F4A88B /* KeychainStore.swift in Sources */,
 				705726E02592C2A800F0ADD5 /* ParseHash.swift in Sources */,
 				70110D52250680140091CC1D /* ParseConstants.swift in Sources */,
-				F97B465224D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */,
+				F97B465224D9C78C00F4A88B /* AddUnique.swift in Sources */,
 				F97B45D624D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				700395A325A119430052CB31 /* Operations.swift in Sources */,
 				700395F225A171320052CB31 /* LiveQueryable.swift in Sources */,
@@ -1386,15 +1382,15 @@
 				70510AAC259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				F97B461E24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B45D224D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
-				70C550A025B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */,
+				70C550A025B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
 				F97B463B24D9C74400F4A88B /* API+Commands.swift in Sources */,
 				F97B464624D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				705A9A2F25991C1400B3547F /* Fileable.swift in Sources */,
-				F97B464A24D9C78B00F4A88B /* DeleteOperation.swift in Sources */,
+				F97B464A24D9C78B00F4A88B /* Delete.swift in Sources */,
 				70647E8E259E3375004C1004 /* LocallyIdentifiable.swift in Sources */,
 				F97B460624D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				700396F825A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */,
-				F97B465A24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
+				F97B465A24D9C78C00F4A88B /* Increment.swift in Sources */,
 				7003960925A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
 				F97B45E224D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				700396EA25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
@@ -1402,7 +1398,7 @@
 				707A3C2025B14BD0000D215C /* ParseApple.swift in Sources */,
 				F97B462224D9C6F200F4A88B /* PrimitiveObjectStore.swift in Sources */,
 				F97B45E624D9C6F200F4A88B /* Query.swift in Sources */,
-				70C5509225B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */,
+				70C5509225B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035225215F9B00646C70 /* Deletable.swift in Sources */,
 				F97B466424D9C88600F4A88B /* SecureStorage.swift in Sources */,
 				7003959525A10DFC0052CB31 /* Messages.swift in Sources */,
@@ -1416,7 +1412,7 @@
 				700395D125A147BE0052CB31 /* SubscriptionHandlable.swift in Sources */,
 				F97B45F624D9C6F200F4A88B /* ParseError.swift in Sources */,
 				F97B463324D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
-				F97B464E24D9C78B00F4A88B /* AddOperation.swift in Sources */,
+				F97B464E24D9C78B00F4A88B /* Add.swift in Sources */,
 				70BC9890252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B45FE24D9C6F200F4A88B /* ParseFile.swift in Sources */,
 				F97B45EE24D9C6F200F4A88B /* BaseParseUser.swift in Sources */,
@@ -1424,7 +1420,7 @@
 				F97B460E24D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				F97B461224D9C6F200F4A88B /* Savable.swift in Sources */,
 				F97B45CE24D9C6F200F4A88B /* ParseCoding.swift in Sources */,
-				F97B465624D9C78C00F4A88B /* RemoveOperation.swift in Sources */,
+				F97B465624D9C78C00F4A88B /* Remove.swift in Sources */,
 				F97B45FA24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70BDA2B3250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B462724D9C72700F4A88B /* API.swift in Sources */,
@@ -1483,7 +1479,7 @@
 				F97B466024D9C7B500F4A88B /* KeychainStore.swift in Sources */,
 				705726E12592C2A800F0ADD5 /* ParseHash.swift in Sources */,
 				70110D53250680140091CC1D /* ParseConstants.swift in Sources */,
-				F97B465324D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */,
+				F97B465324D9C78C00F4A88B /* AddUnique.swift in Sources */,
 				F97B45D724D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				700395A425A119430052CB31 /* Operations.swift in Sources */,
 				700395F325A171320052CB31 /* LiveQueryable.swift in Sources */,
@@ -1491,15 +1487,15 @@
 				70510AAD259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				F97B461F24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B45D324D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
-				70C550A125B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */,
+				70C550A125B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
 				F97B463C24D9C74400F4A88B /* API+Commands.swift in Sources */,
 				F97B464724D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				705A9A3025991C1400B3547F /* Fileable.swift in Sources */,
-				F97B464B24D9C78B00F4A88B /* DeleteOperation.swift in Sources */,
+				F97B464B24D9C78B00F4A88B /* Delete.swift in Sources */,
 				70647E8F259E3375004C1004 /* LocallyIdentifiable.swift in Sources */,
 				F97B460724D9C6F200F4A88B /* ParseUser.swift in Sources */,
 				700396F925A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */,
-				F97B465B24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
+				F97B465B24D9C78C00F4A88B /* Increment.swift in Sources */,
 				7003960A25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
 				F97B45E324D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				700396EB25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
@@ -1507,7 +1503,7 @@
 				707A3C2125B14BD0000D215C /* ParseApple.swift in Sources */,
 				F97B462324D9C6F200F4A88B /* PrimitiveObjectStore.swift in Sources */,
 				F97B45E724D9C6F200F4A88B /* Query.swift in Sources */,
-				70C5509325B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */,
+				70C5509325B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035325215F9B00646C70 /* Deletable.swift in Sources */,
 				F97B466524D9C88600F4A88B /* SecureStorage.swift in Sources */,
 				7003959625A10DFC0052CB31 /* Messages.swift in Sources */,
@@ -1521,7 +1517,7 @@
 				700395D225A147BE0052CB31 /* SubscriptionHandlable.swift in Sources */,
 				F97B45F724D9C6F200F4A88B /* ParseError.swift in Sources */,
 				F97B463424D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
-				F97B464F24D9C78B00F4A88B /* AddOperation.swift in Sources */,
+				F97B464F24D9C78B00F4A88B /* Add.swift in Sources */,
 				70BC9891252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B45FF24D9C6F200F4A88B /* ParseFile.swift in Sources */,
 				F97B45EF24D9C6F200F4A88B /* BaseParseUser.swift in Sources */,
@@ -1529,7 +1525,7 @@
 				F97B460F24D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				F97B461324D9C6F200F4A88B /* Savable.swift in Sources */,
 				F97B45CF24D9C6F200F4A88B /* ParseCoding.swift in Sources */,
-				F97B465724D9C78C00F4A88B /* RemoveOperation.swift in Sources */,
+				F97B465724D9C78C00F4A88B /* Remove.swift in Sources */,
 				F97B45FB24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70BDA2B4250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B462824D9C72700F4A88B /* API.swift in Sources */,
@@ -1632,14 +1628,14 @@
 				705726E32592C2A800F0ADD5 /* ParseHash.swift in Sources */,
 				F97B45E124D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				F97B45E524D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
-				F97B465D24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
+				F97B465D24D9C78C00F4A88B /* Increment.swift in Sources */,
 				700395A625A119430052CB31 /* Operations.swift in Sources */,
 				700395F525A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FD24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70510AAF259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
-				F97B465124D9C78C00F4A88B /* AddOperation.swift in Sources */,
+				F97B465124D9C78C00F4A88B /* Add.swift in Sources */,
 				F97B461124D9C6F200F4A88B /* ParseObject.swift in Sources */,
-				70C550A325B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */,
+				70C550A325B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
 				F97B460D24D9C6F200F4A88B /* Fetchable.swift in Sources */,
 				F97B45ED24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				705A9A3225991C1400B3547F /* Fileable.swift in Sources */,
@@ -1655,13 +1651,13 @@
 				707A3C2325B14BD0000D215C /* ParseApple.swift in Sources */,
 				F97B462124D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B466724D9C88600F4A88B /* SecureStorage.swift in Sources */,
-				70C5509525B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */,
+				70C5509525B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035525215F9B00646C70 /* Deletable.swift in Sources */,
 				70110D55250680140091CC1D /* ParseConstants.swift in Sources */,
 				7003959825A10DFC0052CB31 /* Messages.swift in Sources */,
 				70C5655C25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */,
 				70BDA2B6250536FF00FC2237 /* ParseInstallation.swift in Sources */,
-				F97B465924D9C78C00F4A88B /* RemoveOperation.swift in Sources */,
+				F97B465924D9C78C00F4A88B /* Remove.swift in Sources */,
 				70110D5A2506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45F924D9C6F200F4A88B /* ParseError.swift in Sources */,
 				700395BD25A1470F0052CB31 /* Subscription.swift in Sources */,
@@ -1671,8 +1667,8 @@
 				F97B464924D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				F97B45D124D9C6F200F4A88B /* ParseCoding.swift in Sources */,
 				70BC9893252A5B5C00FF3074 /* Objectable.swift in Sources */,
-				F97B465524D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */,
-				F97B464D24D9C78B00F4A88B /* DeleteOperation.swift in Sources */,
+				F97B465524D9C78C00F4A88B /* AddUnique.swift in Sources */,
+				F97B464D24D9C78B00F4A88B /* Delete.swift in Sources */,
 				F97B461524D9C6F200F4A88B /* Savable.swift in Sources */,
 				F97B462524D9C6F200F4A88B /* PrimitiveObjectStore.swift in Sources */,
 				F97B466224D9C7B500F4A88B /* KeychainStore.swift in Sources */,
@@ -1703,14 +1699,14 @@
 				705726E22592C2A800F0ADD5 /* ParseHash.swift in Sources */,
 				F97B45E024D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				F97B45E424D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
-				F97B465C24D9C78C00F4A88B /* IncrementOperation.swift in Sources */,
+				F97B465C24D9C78C00F4A88B /* Increment.swift in Sources */,
 				700395A525A119430052CB31 /* Operations.swift in Sources */,
 				700395F425A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FC24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70510AAE259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
-				F97B465024D9C78B00F4A88B /* AddOperation.swift in Sources */,
+				F97B465024D9C78B00F4A88B /* Add.swift in Sources */,
 				F97B461024D9C6F200F4A88B /* ParseObject.swift in Sources */,
-				70C550A225B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */,
+				70C550A225B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
 				F97B460C24D9C6F200F4A88B /* Fetchable.swift in Sources */,
 				F97B45EC24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				705A9A3125991C1400B3547F /* Fileable.swift in Sources */,
@@ -1726,13 +1722,13 @@
 				707A3C2225B14BD0000D215C /* ParseApple.swift in Sources */,
 				F97B462024D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B466624D9C88600F4A88B /* SecureStorage.swift in Sources */,
-				70C5509425B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */,
+				70C5509425B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035425215F9B00646C70 /* Deletable.swift in Sources */,
 				70110D54250680140091CC1D /* ParseConstants.swift in Sources */,
 				7003959725A10DFC0052CB31 /* Messages.swift in Sources */,
 				70C5655B25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */,
 				70BDA2B5250536FF00FC2237 /* ParseInstallation.swift in Sources */,
-				F97B465824D9C78C00F4A88B /* RemoveOperation.swift in Sources */,
+				F97B465824D9C78C00F4A88B /* Remove.swift in Sources */,
 				70110D592506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45F824D9C6F200F4A88B /* ParseError.swift in Sources */,
 				700395BC25A1470F0052CB31 /* Subscription.swift in Sources */,
@@ -1742,8 +1738,8 @@
 				F97B464824D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				F97B45D024D9C6F200F4A88B /* ParseCoding.swift in Sources */,
 				70BC9892252A5B5C00FF3074 /* Objectable.swift in Sources */,
-				F97B465424D9C78C00F4A88B /* AddUniqueOperation.swift in Sources */,
-				F97B464C24D9C78B00F4A88B /* DeleteOperation.swift in Sources */,
+				F97B465424D9C78C00F4A88B /* AddUnique.swift in Sources */,
+				F97B464C24D9C78B00F4A88B /* Delete.swift in Sources */,
 				F97B461424D9C6F200F4A88B /* Savable.swift in Sources */,
 				F97B462424D9C6F200F4A88B /* PrimitiveObjectStore.swift in Sources */,
 				F97B466124D9C7B500F4A88B /* KeychainStore.swift in Sources */,

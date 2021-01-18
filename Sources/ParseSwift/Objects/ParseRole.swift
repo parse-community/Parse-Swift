@@ -20,3 +20,14 @@ public extension ParseRole {
         return "_Role"
     }
 }
+
+// MARK: Convenience
+extension ParseRole {
+    var endpoint: API.Endpoint {
+        if let objectId = objectId {
+            return .role(objectId: objectId)
+        }
+
+        return .roles
+    }
+}

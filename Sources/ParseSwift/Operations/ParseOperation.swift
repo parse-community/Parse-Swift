@@ -30,7 +30,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
         - amount: How much to increment by.
      */
     public func increment(_ key: String, by amount: Int) -> Self {
-        operations[key] = IncrementOperation(amount: amount)
+        operations[key] = Increment(amount: amount)
         return self
     }
 
@@ -42,7 +42,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
         - objects: The field of objects.
      */
     public func addUnique<W>(_ key: String, objects: [W]) -> Self where W: Encodable, W: Hashable {
-        operations[key] = AddUniqueOperation(objects: objects)
+        operations[key] = AddUnique(objects: objects)
         return self
     }
 
@@ -55,7 +55,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      */
     public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]>),
                              objects: [V]) -> Self where V: Encodable, V: Hashable {
-        operations[key.0] = AddUniqueOperation(objects: objects)
+        operations[key.0] = AddUnique(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
         target[keyPath: key.1] = Array(Set<V>(values))
@@ -71,7 +71,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      */
     public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                              objects: [V]) -> Self where V: Encodable, V: Hashable {
-        operations[key.0] = AddUniqueOperation(objects: objects)
+        operations[key.0] = AddUnique(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
         target[keyPath: key.1] = Array(Set<V>(values))
@@ -85,7 +85,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
         - objects: The field of objects.
      */
     public func add<W>(_ key: String, objects: [W]) -> Self where W: Encodable {
-        operations[key] = AddOperation(objects: objects)
+        operations[key] = Add(objects: objects)
         return self
     }
 
@@ -97,7 +97,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      */
     public func add<V>(_ key: (String, WritableKeyPath<T, [V]>),
                        objects: [V]) -> Self where V: Encodable {
-        operations[key.0] = AddOperation(objects: objects)
+        operations[key.0] = Add(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
         target[keyPath: key.1] = values
@@ -112,7 +112,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      */
     public func add<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                        objects: [V]) -> Self where V: Encodable {
-        operations[key.0] = AddOperation(objects: objects)
+        operations[key.0] = Add(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
         target[keyPath: key.1] = values
@@ -126,7 +126,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
         - objects: The field of objects.
      */
     public func addRelation<W>(_ key: String, objects: [W]) -> Self where W: ParseObject {
-        operations[key] = AddRelationOperation(objects: objects)
+        operations[key] = AddRelation(objects: objects)
         return self
     }
 
@@ -138,7 +138,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      */
     public func addRelation<V>(_ key: (String, WritableKeyPath<T, [V]>),
                                objects: [V]) -> Self where V: ParseObject {
-        operations[key.0] = AddRelationOperation(objects: objects)
+        operations[key.0] = AddRelation(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
         target[keyPath: key.1] = values
@@ -153,7 +153,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      */
     public func addRelation<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                                objects: [V]) -> Self where V: ParseObject {
-        operations[key.0] = AddRelationOperation(objects: objects)
+        operations[key.0] = AddRelation(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
         target[keyPath: key.1] = values
@@ -168,7 +168,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
         - objects: The field of objects.
      */
     public func remove<W>(_ key: String, objects: [W]) -> Self where W: Encodable {
-        operations[key] = RemoveOperation(objects: objects)
+        operations[key] = Remove(objects: objects)
         return self
     }
 
@@ -181,7 +181,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      */
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]>),
                           objects: [V]) -> Self where V: Encodable, V: Hashable {
-        operations[key.0] = RemoveOperation(objects: objects)
+        operations[key.0] = Remove(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values)
         objects.forEach {
@@ -200,7 +200,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      */
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                           objects: [V]) -> Self where V: Encodable, V: Hashable {
-        operations[key.0] = RemoveOperation(objects: objects)
+        operations[key.0] = Remove(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values ?? [])
         objects.forEach {
@@ -218,7 +218,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
         - objects: The field of objects.
      */
     public func removeRelation<W>(_ key: String, objects: [W]) -> Self where W: ParseObject {
-        operations[key] = RemoveRelationOperation(objects: objects)
+        operations[key] = RemoveRelation(objects: objects)
         return self
     }
 
@@ -231,7 +231,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      */
     public func removeRelation<V>(_ key: (String, WritableKeyPath<T, [V]>),
                                   objects: [V]) -> Self where V: ParseObject, V: Hashable {
-        operations[key.0] = RemoveRelationOperation(objects: objects)
+        operations[key.0] = RemoveRelation(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values)
         objects.forEach {
@@ -250,7 +250,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      */
     public func removeRelation<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                                   objects: [V]) -> Self where V: ParseObject, V: Hashable {
-        operations[key.0] = RemoveRelationOperation(objects: objects)
+        operations[key.0] = RemoveRelation(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values ?? [])
         objects.forEach {
@@ -265,7 +265,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
      - parameter key: The key of the object.
      */
     public func unset(_ key: String) -> Self {
-        operations[key] = DeleteOperation()
+        operations[key] = Delete()
         return self
     }
 
@@ -275,7 +275,7 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
         - key: A tuple consisting of the key and KeyPath of the object.
      */
     public func unset<V>(_ key: (String, WritableKeyPath<T, V?>)) -> Self where V: Encodable {
-        operations[key.0] = DeleteOperation()
+        operations[key.0] = Delete()
         target[keyPath: key.1] = nil
         return self
     }

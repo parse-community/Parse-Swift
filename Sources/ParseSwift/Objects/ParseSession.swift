@@ -43,3 +43,14 @@ public extension ParseSession {
         "_Session"
     }
 }
+
+// MARK: Convenience
+extension ParseSession {
+    var endpoint: API.Endpoint {
+        if let objectId = objectId {
+            return .session(objectId: objectId)
+        }
+
+        return .sessions
+    }
+}

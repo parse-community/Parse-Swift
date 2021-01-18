@@ -8,6 +8,12 @@
 
 import Foundation
 
+/**
+ Objects that conform to the `ParseAuthenticatable` protocol provide
+ convenience implementations for using 3rd party authentication methods.
+ The authentication methods supported by the Parse Server can be found at
+ [here](https://docs.parseplatform.org/parse-server/guide/#oauth-and-3rd-party-authentication).
+ */
 public protocol ParseAuthenticatable: Codable {
     associatedtype AuthenticatedUser: ParseUser
     init()
