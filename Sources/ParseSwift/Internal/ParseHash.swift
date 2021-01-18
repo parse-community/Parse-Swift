@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 12/22/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-
+#if !os(Linux)
 import Foundation
 import CommonCrypto
 
@@ -34,3 +34,4 @@ struct ParseHash {
         return md5HashFromData(data)
     }
 }
+#endif

@@ -26,11 +26,14 @@ class ACLTests: XCTestCase {
 
     override func tearDown() {
         super.tearDown()
+        #if !os(Linux)
         try? KeychainStore.shared.deleteAll()
+        #endif
         try? ParseStorage.shared.deleteAll()
     }
 
     struct User: ParseUser {
+
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -41,12 +44,14 @@ class ACLTests: XCTestCase {
         var username: String?
         var email: String?
         var password: String?
+        var authData: [String: [String: String]?]?
 
         // Your custom keys
         var customKey: String?
     }
 
     struct LoginSignupResponse: ParseUser {
+
         var objectId: String?
         var createdAt: Date?
         var sessionToken: String
@@ -57,6 +62,7 @@ class ACLTests: XCTestCase {
         var username: String?
         var email: String?
         var password: String?
+        var authData: [String: [String: String]?]?
 
         // Your custom keys
         var customKey: String?

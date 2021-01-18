@@ -22,7 +22,7 @@ import AppKit
  checks.
 
  A valid `ParseInstallation` can only be instantiated via
- `+current` because the required identifier fields
+ *current* because the required identifier fields
  are readonly. The `timeZone` and `badge` fields are also readonly properties which
  are automatically updated to match the device's time zone and application badge
  when the `ParseInstallation` is saved, thus these fields might not reflect the
@@ -80,7 +80,7 @@ public protocol ParseInstallation: ParseObject {
 // MARK: Default Implementations
 public extension ParseInstallation {
     static var className: String {
-        return "_Installation"
+        "_Installation"
     }
 }
 
@@ -107,6 +107,7 @@ extension ParseInstallation {
         get {
             guard let installationInMemory: CurrentInstallationContainer<Self> =
                 try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                #if !os(Linux)
                     guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
                         try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
                          else {
@@ -119,6 +120,15 @@ extension ParseInstallation {
                             try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
                         return newInstallation
                     }
+                #else
+                    var newInstallation = CurrentInstallationContainer<Self>()
+                    let newInstallationId = UUID().uuidString.lowercased()
+                    newInstallation.installationId = newInstallationId
+                    newInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
+                    newInstallation.currentInstallation?.updateAutomaticInfo()
+                    try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
+                    return newInstallation
+                #endif
                     return installationFromKeyChain
             }
             return installationInMemory
@@ -145,12 +155,16 @@ extension ParseInstallation {
             = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
             return
         }
+        #if !os(Linux)
         try? KeychainStore.shared.set(currentInstallationInMemory, for: ParseStorage.Keys.currentInstallation)
+        #endif
     }
 
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        #if !os(Linux)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+        #endif
     }
 
     /**

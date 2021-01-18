@@ -53,7 +53,11 @@ extension Objectable {
 
     static func createHash(_ object: Encodable) throws -> String {
         let encoded = try ParseCoding.parseEncoder().encode(object)
+        #if !os(Linux)
         return ParseHash.md5HashFromData(encoded)
+        #else
+        return String(data: encoded, encoding: .utf8)
+        #endif
     }
 }
 
