@@ -32,7 +32,7 @@ class ParseSessionTests: XCTestCase {
 
         var sessionToken: String
         var user: ParseSessionTests.User
-        var restricted: Bool
+        var restricted: Bool?
         var createdWith: [String: String]
         var installationId: String
         var expiresAt: Date

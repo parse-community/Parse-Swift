@@ -619,14 +619,12 @@
 		4AA8076C1F794C1C008CD551 /* ParseSwiftTests */ = {
 			isa = PBXGroup;
 			children = (
+				4AA8076D1F794C1C008CD551 /* Info.plist */,
 				9194657724F16E330070296B /* ACLTests.swift */,
-				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				911DB12D24C4837E0027F3C7 /* APICommandTests.swift */,
 				7003957525A0EE770052CB31 /* BatchUtilsTests.swift */,
 				705726ED2592C91C00F0ADD5 /* HashTests.swift */,
-				4AA8076D1F794C1C008CD551 /* Info.plist */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
-				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
 				70A2D86A25B3ADB6001BEB7D /* ParseAnonymousTests.swift */,
 				70C5502125B3D8F700B5DBC2 /* ParseAppleTests.swift */,
 				70A2D81E25B36A7D001BEB7D /* ParseAuthenticationTests.swift */,
@@ -641,8 +639,10 @@
 				911DB13524C4FC100027F3C7 /* ParseObjectTests.swift */,
 				70CE1D882545BF730018D572 /* ParsePointerTests.swift */,
 				70C7DC1F24D20F180050419B /* ParseQueryTests.swift */,
-				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
 				70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */,
+				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
+				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
+				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
 			);
 			path = ParseSwiftTests;
 			sourceTree = "<group>";
@@ -902,8 +902,8 @@
 			children = (
 				70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */,
 				F97B45C624D9C6F200F4A88B /* ParseObject.swift */,
-				F97B45C424D9C6F200F4A88B /* ParseUser.swift */,
 				70C5503725B406B800B5DBC2 /* ParseSession.swift */,
+				F97B45C424D9C6F200F4A88B /* ParseUser.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";

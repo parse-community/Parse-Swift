@@ -16,16 +16,14 @@ import Foundation
 public protocol ParseSession: ParseObject {
     associatedtype SessionUser: ParseUser
 
-    /**
-     The session token for this session.
-     */
+    /// The session token for this session.
     var sessionToken: String { get }
 
     /// The user the session is for.
     var user: SessionUser { get }
 
     /// Whether the session is restricted.
-    var restricted: Bool { get }
+    var restricted: Bool? { get }
 
     /// Information about how the session was created.
     var createdWith: [String: String] { get }
