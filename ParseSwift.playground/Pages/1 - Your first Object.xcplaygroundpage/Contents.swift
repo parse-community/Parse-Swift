@@ -216,12 +216,15 @@ let score2ToFetch = GameScore(objectId: score2ForFetchedLater?.objectId)
     }
 }
 
+var fetchedScore: GameScore!
+
 //: Synchronously fetchAll GameScore's based on it's objectId's alone.
 do {
     let fetchedScores = try [scoreToFetch, score2ToFetch].fetchAll()
     fetchedScores.forEach { result in
         switch result {
         case .success(let fetched):
+            fetchedScore = fetched
             print("Successfully fetched: \(fetched)")
         case .failure(let error):
             print("Error fetching: \(error)")
@@ -229,6 +232,28 @@ do {
     }
 } catch {
     assertionFailure("Error fetching: \(error)")
+}
+
+//: You have the server do operations on your ParseObjects for you.
+//: For example, increment the score.
+let incrementedOperation = fetchedScore
+    .operation.increment("score", by: 1)
+
+incrementedOperation.save { result in
+    switch result {
+    case .success(let incrementedScore):
+        print("Original score: \(fetchedScore) has been incremented to \(incrementedScore)")
+    case .failure(let error):
+        assertionFailure("Error saving: \(error)")
+    }
+}
+
+//: You can increment the score again syncronously.
+do {
+    let incrementedScore = try incrementedOperation.save()
+    print("Original score: \(fetchedScore) has been incremented to \(incrementedScore)")
+} catch {
+    print(error)
 }
 
 //: Asynchronously (preferred way) deleteAll GameScores based on it's objectId alone.

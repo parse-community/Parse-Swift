@@ -677,7 +677,6 @@
 				F97B45CB24D9C6F200F4A88B /* Storage */,
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
 				70110D51250680140091CC1D /* ParseConstants.swift */,
-				4AB8B4F71F254AE10070F682 /* Parse.h */,
 			);
 			path = ParseSwift;
 			sourceTree = "<group>";
@@ -835,6 +834,7 @@
 				916786E1259B7DDA00BB5B4E /* ParseCloud.swift */,
 				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
 				F97B45C124D9C6F200F4A88B /* ParseFile.swift */,
+				4AB8B4F71F254AE10070F682 /* Parse.h */,
 				F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */,
 				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
 				F97B45BB24D9C6F200F4A88B /* Query.swift */,

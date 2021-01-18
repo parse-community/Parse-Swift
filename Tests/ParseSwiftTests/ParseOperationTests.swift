@@ -49,15 +49,141 @@ class ParseOperation: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
+    func testSaveCommand() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+        let operations = score.operation
+            .increment("score", by: 1)
+        let className = score.className
+
+        let command = operations.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+
+        guard let body = command.body else {
+            XCTFail("Should be able to unwrap")
+            return
+        }
+
+        let expected = "{\"score\":{\"amount\":1,\"__op\":\"Increment\"}}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(body)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testSave() { // swiftlint:disable:this function_body_length
+        var score = GameScore(score: 10)
+        score.objectId = "yarr"
+        let operations = score.operation
+            .increment("score", by: 1)
+
+        var scoreOnServer = score
+        scoreOnServer.score = 11
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let saved = try operations.save()
+            XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
+            guard let savedCreatedAt = saved.createdAt,
+                let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = scoreOnServer.createdAt,
+                let originalUpdatedAt = scoreOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
+            XCTAssertEqual(saved.score, scoreOnServer.score)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testSaveAsyncMainQueue() {
+        var score = GameScore(score: 10)
+        score.objectId = "yarr"
+        let operations = score.operation
+            .increment("score", by: 1)
+
+        var scoreOnServer = score
+        scoreOnServer.score = 11
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should have encoded/decoded: Error: \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Save object1")
+
+        operations.save(options: [], callbackQueue: .main) { result in
+
+            switch result {
+
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
+                guard let savedCreatedAt = saved.createdAt,
+                    let savedUpdatedAt = saved.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
+                }
+                guard let originalCreatedAt = scoreOnServer.createdAt,
+                    let originalUpdatedAt = scoreOnServer.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
+                }
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
+                XCTAssertEqual(saved.score, scoreOnServer.score)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func testIncrement() throws {
         let score = GameScore(score: 10)
         let operations = score.operation
             .increment("score", by: 1)
         let expected = "{\"score\":{\"amount\":1,\"__op\":\"Increment\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
@@ -68,9 +194,7 @@ class ParseOperation: XCTestCase {
             .add("test", objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Add\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
@@ -81,11 +205,10 @@ class ParseOperation: XCTestCase {
             .add(("test", \.members), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Add\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
+
     }
 
     func testAddOptionalKeypath() throws {
@@ -94,9 +217,7 @@ class ParseOperation: XCTestCase {
             .add(("test", \.levels), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Add\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
@@ -107,9 +228,7 @@ class ParseOperation: XCTestCase {
             .addUnique("test", objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"AddUnique\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
@@ -120,9 +239,7 @@ class ParseOperation: XCTestCase {
             .addUnique(("test", \.members), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"AddUnique\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
@@ -133,9 +250,7 @@ class ParseOperation: XCTestCase {
             .addUnique(("test", \.levels), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"AddUnique\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
@@ -146,9 +261,7 @@ class ParseOperation: XCTestCase {
             .remove("test", objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Remove\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
@@ -159,9 +272,7 @@ class ParseOperation: XCTestCase {
             .remove(("test", \.members), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Remove\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
@@ -172,9 +283,7 @@ class ParseOperation: XCTestCase {
             .remove(("test", \.levels), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Remove\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
@@ -185,9 +294,7 @@ class ParseOperation: XCTestCase {
             .unset("score")
         let expected = "{\"score\":{\"__op\":\"Delete\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }
@@ -198,9 +305,7 @@ class ParseOperation: XCTestCase {
             .unset(("score", \.levels))
         let expected = "{\"score\":{\"__op\":\"Delete\"}}"
         let encoded = try ParseCoding.parseEncoder()
-            .encode(operations, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
+            .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }

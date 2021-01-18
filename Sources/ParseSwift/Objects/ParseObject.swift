@@ -447,7 +447,7 @@ extension ParseObject {
      Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An Error of `ParseError` type.
+     - throws: An error of `ParseError` type.
     */
     public func fetch(options: API.Options = []) throws -> Self {
         try fetchCommand().execute(options: options,
@@ -522,7 +522,7 @@ extension ParseObject {
      Saves the `ParseObject` *synchronously* and throws an error if there's an issue.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: A Error of type `ParseError`.
+     - throws: An error of type `ParseError`.
 
      - returns: Returns saved `ParseObject`.
     */
@@ -699,7 +699,7 @@ extension ParseObject {
      Deletes the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An Error of `ParseError` type.
+     - throws: An error of `ParseError` type.
     */
     public func delete(options: API.Options = []) throws {
         if let error = try deleteCommand().execute(options: options) {

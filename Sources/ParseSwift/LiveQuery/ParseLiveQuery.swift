@@ -321,7 +321,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             return
         }
 
-        //Check if this is a error response
+        //Check if this is an error response
         if let error = try? ParseCoding.jsonDecoder().decode(ErrorResponse.self, from: data) {
             if !error.reconnect {
                 //Treat this as a user disconnect because the server doesn't want to hear from us anymore

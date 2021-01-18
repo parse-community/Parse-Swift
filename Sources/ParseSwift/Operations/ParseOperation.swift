@@ -13,7 +13,7 @@ import Foundation
  For example, setting, deleting, or incrementing a value are all `ParseOperation`'s.
  `ParseOperation` themselves can be considered to be immutable.
  */
-public final class ParseOperation<T>: ParseType where T: ParseObject {
+public final class ParseOperation<T>: Encodable where T: ParseObject {
     typealias ObjectType = T
 
     var target: T
@@ -195,6 +195,57 @@ public final class ParseOperation<T>: ParseType where T: ParseObject {
             let (key, value) = pair
             let encoder = container.superEncoder(forKey: .key(key))
             try value.encode(to: encoder)
+        }
+    }
+}
+
+extension ParseOperation {
+    /**
+     Saves the operations on the `ParseObject` *synchronously* and throws an error if there's an issue.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: An error of type `ParseError`.
+
+     - returns: Returns saved `ParseObject`.
+    */
+    public func save(options: API.Options = []) throws -> T {
+        if !target.isSaved {
+            throw ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
+        }
+        return try saveCommand()
+            .execute(options: options)
+    }
+
+    /**
+     Saves the operations on the `ParseObject` *asynchronously* and executes the given callback block.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<T, ParseError>)`.
+    */
+    public func save(
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<T, ParseError>) -> Void
+    ) {
+        if !target.isSaved {
+            callbackQueue.async {
+                let error = ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
+                completion(.failure(error))
+            }
+            return
+        }
+        self.saveCommand().executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
+    }
+
+    func saveCommand() -> API.NonParseBodyCommand<ParseOperation<T>, T> {
+        return API.NonParseBodyCommand(method: .PUT, path: target.endpoint, body: self) {
+            try ParseCoding.jsonDecoder().decode(T.self, from: $0)
         }
     }
 }

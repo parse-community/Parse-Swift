@@ -488,7 +488,7 @@ extension ParseUser {
      Fetches the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An Error of `ParseError` type.
+     - throws: An error of `ParseError` type.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     public func fetch(options: API.Options = []) throws -> Self {
@@ -569,7 +569,7 @@ extension ParseUser {
      Saves the `ParseUser` *synchronously* and throws an error if there's an issue.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: A Error of type `ParseError`.
+     - throws: An error of type `ParseError`.
      - returns: Returns saved `ParseUser`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
@@ -671,7 +671,7 @@ extension ParseUser {
      Deletes the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An Error of `ParseError` type.
+     - throws: An error of `ParseError` type.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(options: API.Options = []) throws {

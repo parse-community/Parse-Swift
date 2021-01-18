@@ -711,7 +711,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     var endpoint: API.Endpoint {
-        return .objects(className: className)
+        return .objects(className: T.className)
     }
 
     enum CodingKeys: String, CodingKey {
