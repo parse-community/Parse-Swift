@@ -534,6 +534,34 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
         constraints.forEach({ self.where.add($0) })
     }
 
+    func copy() -> Query<T> {
+        let queue = DispatchQueue(label: "com.parse.queryCopy", qos: .default,
+                                  attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        let queryCopy = Query<T>()
+        let group = DispatchGroup()
+        group.enter()
+        queue.sync(flags: .barrier) {
+            queryCopy.limit = self.limit
+            queryCopy.skip = self.skip
+            queryCopy.keys = self.keys
+            queryCopy.include = self.include
+            queryCopy.order = self.order
+            queryCopy.isCount = self.isCount
+            queryCopy.explain = self.explain
+            queryCopy.hint = self.hint
+            queryCopy.`where` = self.`where`
+            queryCopy.excludeKeys = self.excludeKeys
+            queryCopy.readPreference = self.readPreference
+            queryCopy.includeReadPreference = self.includeReadPreference
+            queryCopy.subqueryReadPreference = self.subqueryReadPreference
+            queryCopy.distinct = self.distinct
+            queryCopy.fields = self.fields
+            group.leave()
+        }
+        group.wait()
+        return queryCopy
+    }
+
     public static func == (lhs: Query<T>, rhs: Query<T>) -> Bool {
         guard lhs.limit == rhs.limit,
               lhs.skip == rhs.skip,
@@ -746,6 +774,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
 extension Query: Queryable {
 
     public typealias ResultType = T
+    public typealias AggregateType = [[String: String]]
 
     /**
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
@@ -949,25 +978,95 @@ extension Query: Queryable {
             }
         }
     }
+
+    /**
+     Executes an aggregate query *asynchronously* and calls the given.
+      - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+      - throws: An error of type `ParseError`.
+      - warning: This hasn't been tested thoroughly.
+      - returns: Returns the `ParseObject`s that match the query.
+    */
+    public func aggregate(_ pipeline: AggregateType,
+                          options: API.Options = []) throws -> [ResultType] {
+        var options = options
+        options.insert(.useMasterKey)
+
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(self.`where`)
+        guard let whereString = String(data: encoded, encoding: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Can't decode where to String.")
+        }
+        var updatedPipeline: AggregateType = pipeline
+        if whereString != "{}" {
+            updatedPipeline = [["match": whereString]]
+            updatedPipeline.append(contentsOf: pipeline)
+        }
+
+        return try aggregateCommand(updatedPipeline)
+            .execute(options: options)
+    }
+
+    /**
+      Executes an aggregate query *asynchronously* and calls the given.
+        - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+        - parameter pipeline: A pipeline of stages to process query.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
+        - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<Int, ParseError>)`
+        - warning: This hasn't been tested thoroughly.
+    */
+    public func aggregate(_ pipeline: AggregateType,
+                          options: API.Options = [],
+                          callbackQueue: DispatchQueue = .main,
+                          completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
+        var options = options
+        options.insert(.useMasterKey)
+
+        guard let encoded = try? ParseCoding.jsonEncoder()
+                .encode(self.`where`),
+            let whereString = String(data: encoded, encoding: .utf8) else {
+            let error = ParseError(code: .unknownError, message: "Can't decode where to String.")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        var updatedPipeline: AggregateType = pipeline
+        if whereString != "{}" {
+            updatedPipeline = [["match": whereString]]
+            updatedPipeline.append(contentsOf: pipeline)
+        }
+
+        aggregateCommand(pipeline)
+            .executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
+    }
 }
 
-private extension Query {
-    private func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: self) {
+extension Query {
+
+    func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
+        let query = self.copy()
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
 
-    private func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType?> {
-        let query = self
+    func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType?> {
+        let query = self.copy()
         query.limit = 1
         return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first
         }
     }
 
-    private func countCommand() -> API.NonParseBodyCommand<Query<ResultType>, Int> {
-        let query = self
+    func countCommand() -> API.NonParseBodyCommand<Query<ResultType>, Int> {
+        let query = self.copy()
         query.limit = 1
         query.isCount = true
         return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
@@ -975,8 +1074,8 @@ private extension Query {
         }
     }
 
-    private func findCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
-        let query = self
+    func findCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
+        let query = self.copy()
         query.explain = explain
         query.hint = hint
         return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
@@ -987,8 +1086,8 @@ private extension Query {
         }
     }
 
-    private func firstCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
-        let query = self
+    func firstCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
+        let query = self.copy()
         query.limit = 1
         query.explain = explain
         query.hint = hint
@@ -1000,8 +1099,8 @@ private extension Query {
         }
     }
 
-    private func countCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
-        let query = self
+    func countCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
+        let query = self.copy()
         query.limit = 1
         query.isCount = true
         query.explain = explain
@@ -1011,6 +1110,13 @@ private extension Query {
                 return results
             }
             return AnyCodable()
+        }
+    }
+
+    func aggregateCommand(_ pipeline: AggregateType) -> API.NonParseBodyCommand<AggregateType, [ResultType]> {
+
+        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: pipeline) {
+            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
 }

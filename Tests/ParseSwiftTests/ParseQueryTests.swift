@@ -224,6 +224,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     }
 
+    // MARK: Querying Parse Server
     func testFindEncoded() throws {
 
         let afterDate = Date().addingTimeInterval(-300)
@@ -2017,6 +2018,154 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(response, expected)
             case .failure(let error):
                 XCTFail("Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
+    func testAggregateCommand() throws {
+        let query = GameScore.query()
+        let pipeline = [[String: String]]()
+        let aggregate = query.aggregateCommand(pipeline)
+
+        let expected = "{\"path\":\"\\/aggregate\\/GameScore\",\"method\":\"POST\",\"body\":[]}"
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(aggregate)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testAggregate() {
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query()
+        do {
+            let pipeline = [[String: String]]()
+            guard let score = try query.aggregate(pipeline).first else {
+                XCTFail("Should unwrap first object found")
+                return
+            }
+            XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testAggregateWithWhere() {
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query("score" > 9)
+        do {
+            let pipeline = [[String: String]]()
+            guard let score = try query.aggregate(pipeline).first else {
+                XCTFail("Should unwrap first object found")
+                return
+            }
+            XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testAggregateAsyncMainQueue() {
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        let query = GameScore.query()
+        let expectation = XCTestExpectation(description: "Count object1")
+        let pipeline = [[String: String]]()
+        query.aggregate(pipeline, options: [], callbackQueue: .main) { result in
+
+            switch result {
+
+            case .success(let found):
+                guard let score = found.first else {
+                    XCTFail("Should unwrap score count")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
+    func testAggregateWhereAsyncMainQueue() {
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        let query = GameScore.query("score" > 9)
+        let expectation = XCTestExpectation(description: "Count object1")
+        let pipeline = [[String: String]]()
+        query.aggregate(pipeline, options: [], callbackQueue: .main) { result in
+
+            switch result {
+
+            case .success(let found):
+                guard let score = found.first else {
+                    XCTFail("Should unwrap score count")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
             }
             expectation.fulfill()
         }
