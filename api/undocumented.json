@@ -8,6 +8,48 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseApple.swift",
+      "line": 50,
+      "symbol": "ParseApple.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Internal/ParseAnonymous.swift",
+      "line": 41,
+      "symbol": "ParseAnonymous.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthenticatable.swift",
+      "line": 11,
+      "symbol": "ParseAuthenticatable",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthenticatable.swift",
+      "line": 93,
+      "symbol": "ParseAuthenticatable",
+      "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthenticatable.swift",
+      "line": 198,
+      "symbol": "ParseUser.isLinked(with:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthenticatable.swift",
+      "line": 205,
+      "symbol": "ParseUser.unlink(_:options:callbackQueue:completion:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyCodable.swift",
       "line": 19,
       "symbol": "AnyCodable.DateEncodingStrategy",
@@ -236,6 +278,13 @@
       "line": 513,
       "symbol": "ParseObject.query(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseSession.swift",
+      "line": 17,
+      "symbol": "ParseSession.SessionUser",
+      "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {

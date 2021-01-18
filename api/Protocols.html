@@ -188,6 +188,9 @@
                 <a class="nav-group-task-link" href="Protocols/ParseObject.html">ParseObject</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/ParseSession.html">ParseSession</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/ParseUser.html">ParseUser</a>
               </li>
               <li class="nav-group-task">
@@ -217,6 +220,12 @@
                 <a class="nav-group-task-link" href="Structs/ParseACL/Access.html">– Access</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseAnonymous.html">ParseAnonymous</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseApple.html">ParseApple</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ParseFile.html">ParseFile</a>
               </li>
               <li class="nav-group-task">
@@ -243,6 +252,36 @@
           <div class="section-content">
             <div class="task-group">
               <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserP"></a>
+                    <a name="//apple_ref/swift/Protocol/ParseUser" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserP">ParseUser</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Objects that conform to the <code>ParseUser</code> protocol have a local representation of a user persisted to the Parse Data.
+This protocol inherits from the <code><a href="Protocols/ParseObject.html">ParseObject</a></code> protocol, and retains the same functionality of a <code><a href="Protocols/ParseObject.html">ParseObject</a></code>,
+but also extends it with various user specific methods, like authentication, signing up, and validation uniqueness.</p>
+
+                        <a href="Protocols/ParseUser.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseUser</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -321,7 +360,7 @@ it with installation-specific fields and related immutability and validity
 checks.</p>
 
 <p>A valid <code>ParseInstallation</code> can only be instantiated via
-<code>+current</code> because the required identifier fields
+<em>current</em> because the required identifier fields
 are readonly. The <code>timeZone</code> and <code>badge</code> fields are also readonly properties which
 are automatically updated to match the device&rsquo;s time zone and application badge
 when the <code>ParseInstallation</code> is saved, thus these fields might not reflect the
@@ -404,9 +443,9 @@ depending on your implementation.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4UserP"></a>
-                    <a name="//apple_ref/swift/Protocol/ParseUser" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserP">ParseUser</a>
+                    <a name="/s:10ParseSwift0A7SessionP"></a>
+                    <a name="//apple_ref/swift/Protocol/ParseSession" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A7SessionP">ParseSession</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -414,17 +453,17 @@ depending on your implementation.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Objects that conform to the <code>ParseUser</code> protocol have a local representation of a user persisted to the Parse Data.
-This protocol inherits from the <code><a href="Protocols/ParseObject.html">ParseObject</a></code> protocol, and retains the same functionality of a <code><a href="Protocols/ParseObject.html">ParseObject</a></code>,
-but also extends it with various user specific methods, like authentication, signing up, and validation uniqueness.</p>
+                        <p><code>ParseSession</code> is a local representation of a session.
+This protocol conforms to <code><a href="Protocols/ParseObject.html">ParseObject</a></code> and retains the
+same functionality.</p>
 
-                        <a href="Protocols/ParseUser.html" class="slightly-smaller">See more</a>
+                        <a href="Protocols/ParseSession.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseUser</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseSession</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
                       </div>
@@ -511,7 +550,7 @@ An object should be should be instantiated for each function and job type. When 
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-14)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-18)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

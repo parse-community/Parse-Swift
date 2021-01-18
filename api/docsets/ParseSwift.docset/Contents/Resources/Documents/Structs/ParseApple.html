@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Event Enumeration Reference</title>
+    <title>ParseApple Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/Event" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/ParseApple" class="dashAnchor"></a>
 
-    <a title="Event Enumeration Reference"></a>
+    <a title="ParseApple Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Event Enumeration Reference
+      ParseApple Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -242,23 +242,17 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>Event</h1>
+            <h1>ParseApple</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Event</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseApple</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">ParseAuthenticatable</span> <span class="k">where</span> <span class="kt">AuthenticatedUser</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseUser.html">ParseUser</a></span></code></pre>
 
                 </div>
               </div>
-            <p>Represents an update on a specific object from the <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> Server.</p>
-
-<ul>
-<li>Entered: The object has been updated, and is now included in the query.</li>
-<li>Left:    The object has been updated, and is no longer included in the query.</li>
-<li>Created: The object has been created, and is a part of the query.</li>
-<li>Updated: The object has been updated, and is still a part of the query.</li>
-<li>Deleted: The object has been deleted, and is no longer included in the query.</li>
-</ul>
+            <p>Provides utility functions for working with Apple User Authentication and <code><a href="../Protocols/ParseUser.html">ParseUser</a></code>&lsquo;s.
+Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-sign-in-with-apple">sign in with Apple</a>.
+For information on acquiring Apple sign-in credentials to use with <code>ParseApple</code>, refer to <a href="https://developer.apple.com/documentation/authenticationservices/implementing_user_authentication_with_sign_in_with_apple">Apple&rsquo;s Documentation</a>.</p>
 
           </div>
         </section>
@@ -270,9 +264,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5EventO7enteredyACyxGxcAEmAA0A6ObjectRzlF"></a>
-                    <a name="//apple_ref/swift/Element/entered(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5EventO7enteredyACyxGxcAEmAA0A6ObjectRzlF">entered(_:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A15AuthenticatableP6__typeSSvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/__type" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A15AuthenticatableP6__typeSSvpZ">__type</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -280,16 +274,126 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The object has been updated, and is now included in the query.</p>
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">__type</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Login"></a>
+                <a name="//apple_ref/swift/Section/Login" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Login"></a>
+                  <h3 class="section-name"><p>Login</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A5AppleV5login4user13identityToken7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/login(user:identityToken:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A5AppleV5login4user13identityToken7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">login(user:<wbr>identityToken:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Apple authentication.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">entered</span><span class="p">(</span><span class="kt">T</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">user</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">identityToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>user</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>user</code> from <code>ASAuthorizationAppleIDCredential</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identityToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>identityToken</code> from <code>ASAuthorizationAppleIDCredential</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -297,9 +401,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5EventO4leftyACyxGxcAEmAA0A6ObjectRzlF"></a>
-                    <a name="//apple_ref/swift/Element/left(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5EventO4leftyACyxGxcAEmAA0A6ObjectRzlF">left(_:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A15AuthenticatableP5login8authData7options13callbackQueue10completionySDyS2SGSg_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/login(authData:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A15AuthenticatableP5login8authData7options13callbackQueue10completionySDyS2SGSg_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF">login(authData:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -307,16 +411,129 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The object has been updated, and is no longer included in the query.</p>
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]?,</span>
+           <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Link"></a>
+                <a name="//apple_ref/swift/Section/Link" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Link"></a>
+                  <h3 class="section-name"><p>Link</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A5AppleV4link4user13identityToken7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/link(user:identityToken:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A5AppleV4link4user13identityToken7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">link(user:<wbr>identityToken:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Apple authentication.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">left</span><span class="p">(</span><span class="kt">T</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="nv">user</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">identityToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+          <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+          <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>user</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>user</code> from <code>ASAuthorizationAppleIDCredential</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>identityToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>identityToken</code> from <code>ASAuthorizationAppleIDCredential</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -324,9 +541,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5EventO7createdyACyxGxcAEmAA0A6ObjectRzlF"></a>
-                    <a name="//apple_ref/swift/Element/created(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5EventO7createdyACyxGxcAEmAA0A6ObjectRzlF">created(_:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A15AuthenticatableP4link8authData7options13callbackQueue10completionySDyS2SGSg_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/link(authData:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A15AuthenticatableP4link8authData7options13callbackQueue10completionySDyS2SGSg_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF">link(authData:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -334,68 +551,16 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The object has been created, and is a part of the query.</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">created</span><span class="p">(</span><span class="kt">T</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift5EventO7updatedyACyxGxcAEmAA0A6ObjectRzlF"></a>
-                    <a name="//apple_ref/swift/Element/updated(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5EventO7updatedyACyxGxcAEmAA0A6ObjectRzlF">updated(_:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The object has been updated, and is still a part of the query.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">updated</span><span class="p">(</span><span class="kt">T</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift5EventO7deletedyACyxGxcAEmAA0A6ObjectRzlF"></a>
-                    <a name="//apple_ref/swift/Element/deleted(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5EventO7deletedyACyxGxcAEmAA0A6ObjectRzlF">deleted(_:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The object has been deleted, and is no longer included in the query.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">deleted</span><span class="p">(</span><span class="kt">T</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]?,</span>
+          <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+          <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+          <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
