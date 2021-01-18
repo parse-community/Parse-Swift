@@ -492,10 +492,10 @@ extension ParseObject {
     }
 }
 
-// MARK: Mutations
+// MARK: Operations
 public extension ParseObject {
-    var operation: ParseMutationContainer<Self> {
-        return ParseMutationContainer(target: self)
+    var operation: ParseOperation<Self> {
+        return ParseOperation(target: self)
     }
 }
 

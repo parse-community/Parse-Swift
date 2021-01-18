@@ -1,5 +1,5 @@
 //
-//  ParseMutationContainer.swift
+//  ParseOperation.swift
 //  Parse
 //
 //  Created by Florent Vilmart on 17-07-24.
@@ -9,12 +9,11 @@
 import Foundation
 
 /**
- A `ParseMutationContainer` represents a modification to a value in a `ParseObject`.
- For example, setting, deleting, or incrementing a value are all different
- kinds of `ParseMutationContainer`. `ParseMutationContainer` themselves can
- be considered to be immutable.
+ A `ParseOperation` represents a modification to a value in a `ParseObject`.
+ For example, setting, deleting, or incrementing a value are all `ParseOperation`'s.
+ `ParseOperation` themselves can be considered to be immutable.
  */
-public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
+public final class ParseOperation<T>: ParseType where T: ParseObject {
     typealias ObjectType = T
 
     var target: T
@@ -26,6 +25,9 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
 
     /**
      An operation that increases a numeric field's value by a given amount.
+     - Parameters:
+        - key: The key of the object.
+        - amount: How much to increment by.
      */
     public func increment(_ key: String, by amount: Int) -> Self {
         operations[key] = IncrementOperation(amount: amount)
@@ -35,12 +37,22 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
     /**
      An operation that adds a new element to an array field,
      only if it wasn't already present.
+     - Parameters:
+        - key: The key of the object.
+        - objects: The field of objects.
      */
     public func addUnique<W>(_ key: String, objects: [W]) -> Self where W: Encodable, W: Hashable {
         operations[key] = AddUniqueOperation(objects: objects)
         return self
     }
 
+    /**
+     An operation that adds a new element to an array field,
+     only if it wasn't already present.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
+        - objects: The field of objects.
+     */
     public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]>),
                              objects: [V]) -> Self where V: Encodable, V: Hashable {
         operations[key.0] = AddUniqueOperation(objects: objects)
@@ -50,6 +62,13 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
         return self
     }
 
+    /**
+     An operation that adds a new element to an array field,
+     only if it wasn't already present.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
+        - objects: The field of objects.
+     */
     public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                              objects: [V]) -> Self where V: Encodable, V: Hashable {
         operations[key.0] = AddUniqueOperation(objects: objects)
@@ -61,6 +80,9 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
 
     /**
      An operation that adds a new element to an array field.
+     - Parameters:
+        - key: The key of the object.
+        - objects: The field of objects.
      */
     public func add<W>(_ key: String, objects: [W]) -> Self where W: Encodable {
         operations[key] = AddOperation(objects: objects)
@@ -69,6 +91,9 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
 
     /**
      An operation that adds a new element to an array field.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
+        - objects: The field of objects.
      */
     public func add<V>(_ key: (String, WritableKeyPath<T, [V]>),
                        objects: [V]) -> Self where V: Encodable {
@@ -81,6 +106,9 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
 
     /**
      An operation that adds a new element to an array field.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
+        - objects: The field of objects.
      */
     public func add<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                        objects: [V]) -> Self where V: Encodable {
@@ -94,6 +122,9 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
     /**
      An operation that removes every instance of an element from
      an array field.
+     - Parameters:
+        - key: The key of the object.
+        - objects: The field of objects.
      */
     public func remove<W>(_ key: String, objects: [W]) -> Self where W: Encodable {
         operations[key] = RemoveOperation(objects: objects)
@@ -103,6 +134,9 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
     /**
      An operation that removes every instance of an element from
      an array field.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
+        - objects: The field of objects.
      */
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]>),
                           objects: [V]) -> Self where V: Encodable, V: Hashable {
@@ -119,6 +153,9 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
     /**
      An operation that removes every instance of an element from
      an array field.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
+        - objects: The field of objects.
      */
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                           objects: [V]) -> Self where V: Encodable, V: Hashable {
@@ -134,6 +171,7 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
 
     /**
      An operation where a field is deleted from the object.
+     - parameter key: The key of the object.
      */
     public func unset(_ key: String) -> Self {
         operations[key] = DeleteOperation()
@@ -142,6 +180,8 @@ public final class ParseMutationContainer<T>: ParseType where T: ParseObject {
 
     /**
      An operation where a field is deleted from the object.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
      */
     public func unset<V>(_ key: (String, WritableKeyPath<T, V?>)) -> Self where V: Encodable {
         operations[key.0] = DeleteOperation()
