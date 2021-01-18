@@ -459,7 +459,6 @@ internal struct QueryWhere: Encodable, Equatable {
         constraints[constraint.key] = existing
     }
 
-    // This only encodes the where...
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RawCodingKey.self)
         try constraints.forEach { (key, value) in
@@ -496,6 +495,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     internal var readPreference: String?
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
+    internal var distinct: String?
     internal var fields: [String]?
 
     /**
@@ -627,7 +627,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-      Executes a distinct query and returns unique values. Default is to nil.
+     Exclude specific keys for a`ParseObject`s. Default is to nil.
       - parameter keys: An arrays of keys to exclude.
     */
     public func exclude(_ keys: [String]?) -> Query<T> {
@@ -661,6 +661,15 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     */
     public func order(_ keys: [Order]?) -> Query<T> {
         self.order = keys
+        return self
+    }
+
+    /**
+      Executes a distinct query and returns unique values. Default is to nil.
+      - parameter keys: A distinct key.
+    */
+    public func distinct(_ key: String?) -> Query<T> {
+        self.distinct = key
         return self
     }
 
@@ -729,6 +738,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
         case readPreference
         case includeReadPreference
         case subqueryReadPreference
+        case distinct
     }
 }
 
