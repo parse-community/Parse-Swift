@@ -12,6 +12,9 @@ import Foundation
  A `ParseOperation` represents a modification to a value in a `ParseObject`.
  For example, setting, deleting, or incrementing a value are all `ParseOperation`'s.
  `ParseOperation` themselves can be considered to be immutable.
+ 
+ In most cases, you should not call this class directly as a `ParseOperation` can be
+ indirectly created from any `ParseObject` by using its' `operation` property.
  */
 public final class ParseOperation<T>: Encodable where T: ParseObject {
     typealias ObjectType = T

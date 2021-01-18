@@ -54,6 +54,8 @@ struct CodableInMemoryPrimitiveObjectStore: PrimitiveObjectStore {
     }
 }
 
+#if !os(Linux)
+
 // MARK: KeychainStore + PrimitiveObjectStore
 extension KeychainStore: PrimitiveObjectStore {
 
@@ -80,3 +82,5 @@ extension KeychainStore: PrimitiveObjectStore {
         }
     }
 }
+
+#endif

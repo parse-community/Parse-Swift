@@ -7,12 +7,15 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /**
  The `ParseLiveQuery` class enables two-way communication to a Parse Live Query
  Server.
  
- In most cases, you won't need to call this class directly as a LiveQuery can be directly
+ In most cases, you should not call this class directly as a LiveQuery can be indirectly
  created from `Query` using:
     
      // If "Message" is a "ParseObject"

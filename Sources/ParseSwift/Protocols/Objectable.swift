@@ -56,7 +56,10 @@ extension Objectable {
         #if !os(Linux)
         return ParseHash.md5HashFromData(encoded)
         #else
-        return String(data: encoded, encoding: .utf8)
+        guard let hashString = String(data: encoded, encoding: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Couldn't create hash")
+        }
+        return hashString
         #endif
     }
 }

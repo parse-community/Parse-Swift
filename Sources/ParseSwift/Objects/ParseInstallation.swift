@@ -120,6 +120,7 @@ extension ParseInstallation {
                             try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
                         return newInstallation
                     }
+                    return installationFromKeyChain
                 #else
                     var newInstallation = CurrentInstallationContainer<Self>()
                     let newInstallationId = UUID().uuidString.lowercased()
@@ -129,7 +130,6 @@ extension ParseInstallation {
                     try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
                     return newInstallation
                 #endif
-                    return installationFromKeyChain
             }
             return installationInMemory
         }
