@@ -104,6 +104,8 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install
+        env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
       - name: Deploy Jazzy Docs
