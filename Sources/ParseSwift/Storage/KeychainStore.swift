@@ -11,6 +11,8 @@ import Foundation
 import Security
 #endif
 
+#if !os(Linux)
+
 func getKeychainQueryTemplate(forService service: String) -> [String: String] {
     var query = [String: String]()
     if service.count > 0 {
@@ -168,3 +170,4 @@ extension KeychainStore /* TypedSubscript */ {
         }
     }
 }
+#endif

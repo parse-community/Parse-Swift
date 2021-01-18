@@ -18,6 +18,7 @@ import XCTest
 class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
+
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -28,12 +29,14 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         var username: String?
         var email: String?
         var password: String?
+        var authData: [String: [String: String]?]?
 
         // Your custom keys
         var customKey: String?
     }
 
     struct LoginSignupResponse: ParseUser {
+
         var objectId: String?
         var createdAt: Date?
         var sessionToken: String
@@ -44,6 +47,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         var username: String?
         var email: String?
         var password: String?
+        var authData: [String: [String: String]?]?
 
         // Your custom keys
         var customKey: String?
@@ -98,7 +102,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
+        #if !os(Linux)
         try? KeychainStore.shared.deleteAll()
+        #endif
         try? ParseStorage.shared.deleteAll()
     }
 
@@ -167,11 +173,13 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
     func testInstallationCustomValuesNotSavedToKeychain() {
         Installation.current?.customKey = "Changed"
         Installation.saveCurrentContainerToKeychain()
+        #if !os(Linux)
         guard let keychainInstallation: CurrentInstallationContainer<Installation>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
             return
         }
         XCTAssertNil(keychainInstallation.currentInstallation?.customKey)
+        #endif
     }
 
     func testInstallationImmutableFieldsCannotBeChangedInMemory() {
@@ -249,6 +257,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             Installation.saveCurrentContainerToKeychain()
 
+            #if !os(Linux)
             guard let keychainInstallation: CurrentInstallationContainer<Installation>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
                     expectation1.fulfill()
@@ -263,6 +272,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertEqual(originalAppVersion, keychainInstallation.currentInstallation?.appVersion)
             XCTAssertEqual(originalParseVersion, keychainInstallation.currentInstallation?.parseVersion)
             XCTAssertEqual(originalLocaleIdentifier, keychainInstallation.currentInstallation?.localeIdentifier)
+            #endif
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -528,7 +538,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 }
                 XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                //Shold be updated in Keychain
+                //Should be updated in Keychain
+                #if !os(Linux)
                 guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
                     let keychainUpdatedCurrentDate = keychainInstallation.currentInstallation?.updatedAt else {
@@ -537,7 +548,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     return
                 }
                 XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
-
+                #endif
             } catch {
                 XCTFail(error.localizedDescription)
             }
@@ -608,7 +619,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     }
                     XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                    //Shold be updated in Keychain
+                    #if !os(Linux)
+                    //Should be updated in Keychain
                     guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                         = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
                         let keychainUpdatedCurrentDate = keychainInstallation.currentInstallation?.updatedAt else {
@@ -617,6 +629,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         return
                     }
                     XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    #endif
                 case .failure(let error):
                     XCTFail(error.localizedDescription)
                 }
@@ -774,7 +787,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         }
                         XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                        //Shold be updated in Keychain
+                        #if !os(Linux)
+                        //Should be updated in Keychain
                         guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
                             let keychainUpdatedCurrentDate = keychainInstallation.currentInstallation?.updatedAt else {
@@ -783,6 +797,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                             return
                         }
                         XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                        #endif
                     case .failure(let error):
                         XCTFail("Should have fetched: \(error.localizedDescription)")
                     }
@@ -862,7 +877,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                             }
                             XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                            //Shold be updated in Keychain
+                            #if !os(Linux)
+                            //Should be updated in Keychain
                             guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
                                 let keychainUpdatedCurrentDate = keychainInstallation
@@ -872,6 +888,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                                 return
                             }
                             XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                            #endif
                         case .failure(let error):
                             XCTFail("Should have fetched: \(error.localizedDescription)")
                         }
@@ -973,7 +990,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         }
                         XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                        //Shold be updated in Keychain
+                        #if !os(Linux)
+                        //Should be updated in Keychain
                         guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
                             let keychainUpdatedCurrentDate = keychainInstallation.currentInstallation?.updatedAt else {
@@ -982,6 +1000,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                             return
                         }
                         XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                        #endif
                     case .failure(let error):
                         XCTFail("Should have fetched: \(error.localizedDescription)")
                     }
@@ -1060,8 +1079,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                                 return
                             }
                             XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
-
-                            //Shold be updated in Keychain
+                            #if !os(Linux)
+                            //Should be updated in Keychain
                             guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
                                 let keychainUpdatedCurrentDate = keychainInstallation
@@ -1071,6 +1090,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                                 return
                             }
                             XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                            #endif
                         case .failure(let error):
                             XCTFail("Should have fetched: \(error.localizedDescription)")
                         }

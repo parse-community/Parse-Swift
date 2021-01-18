@@ -119,6 +119,7 @@ internal struct LoginSignupResponse: Codable {
     let objectId: String
     let sessionToken: String
     var updatedAt: Date?
+    let username: String?
 }
 
 // MARK: ParseFile
