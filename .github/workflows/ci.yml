@@ -108,6 +108,8 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
+        env:
+           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
       - name: Deploy Jazzy Docs
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
