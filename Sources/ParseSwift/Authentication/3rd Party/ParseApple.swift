@@ -25,7 +25,7 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter id: Required id.
         /// - parameter token: Required token.
-        /// - returns: required authData dictionary.
+        /// - returns: Required authData dictionary.
         func makeDictionary(user: String,
                             identityToken: String) -> [String: String] {
             [AuthenticationKeys.id.rawValue: user,

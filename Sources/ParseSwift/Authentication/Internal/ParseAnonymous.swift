@@ -48,7 +48,7 @@ public extension ParseAnonymous {
      - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: `ParseError`.
-     - returns the linked `ParseUser`.
+     - returns: the linked `ParseUser`.
      */
     func login(authData: [String: String]? = nil,
                options: API.Options = []) throws -> AuthenticatedUser {

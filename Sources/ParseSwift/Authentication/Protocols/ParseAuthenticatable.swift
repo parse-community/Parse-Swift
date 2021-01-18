@@ -44,7 +44,7 @@ public protocol ParseAuthenticatable: Codable {
 
     /**
      Whether the `ParseUser` is logged in with the respective authentication type.
-     - parameter user: the `ParseUser` to check authentication type. The user must be logged in on this device.
+     - parameter user: The `ParseUser` to check authentication type. The user must be logged in on this device.
      - returns: `true` if the `ParseUser` is logged in via the repective
      authentication type. `false` if the user is not.
      */
@@ -52,7 +52,7 @@ public protocol ParseAuthenticatable: Codable {
 
     /**
      Unlink the `ParseUser` *asynchronously* from the respective authentication type.
-     - parameter user: the `ParseUser` to unlink. The user must be logged in on this device.
+     - parameter user: The `ParseUser` to unlink. The user must be logged in on this device.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -76,15 +76,15 @@ public protocol ParseAuthenticatable: Codable {
 
     /**
      Strips the *current* user of a respective authentication type.
-     - returns: the *current* user whose autentication type was stripped. Returns `nil`
+     - returns: The *current* user whose autentication type was stripped. Returns `nil`
      if there's no current user. This modified user has not been saved.
      */
     func strip()
 
     /**
      Strips the `ParseUser`of a respective authentication type.
-     - parameter user: the `ParseUser` to strip. The user must be logged in on this device.
-     - returns: the user whose autentication type was stripped. This modified user has not been saved.
+     - parameter user: The `ParseUser` to strip. The user must be logged in on this device.
+     - returns: The user whose autentication type was stripped. This modified user has not been saved.
      */
     func strip(_ user: AuthenticatedUser) -> AuthenticatedUser
 }
