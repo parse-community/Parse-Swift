@@ -143,14 +143,14 @@
 		70C5508525B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */; };
 		70C5508625B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */; };
 		70C5508725B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */; };
-		70C5509225B4A99100B5DBC2 /* AddRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelation.swift */; };
-		70C5509325B4A99100B5DBC2 /* AddRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelation.swift */; };
-		70C5509425B4A99100B5DBC2 /* AddRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelation.swift */; };
-		70C5509525B4A99100B5DBC2 /* AddRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelation.swift */; };
-		70C550A025B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */; };
-		70C550A125B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */; };
-		70C550A225B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */; };
-		70C550A325B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */; };
+		70C5509225B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */; };
+		70C5509325B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */; };
+		70C5509425B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */; };
+		70C5509525B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */; };
+		70C550A025B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */; };
+		70C550A125B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */; };
+		70C550A225B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */; };
+		70C550A325B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */; };
 		70C5655925AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */; };
 		70C5655A25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */; };
 		70C5655B25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */; };
@@ -428,8 +428,8 @@
 		70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallation.swift; sourceTree = "<group>"; };
 		70C5507625B49D3A00B5DBC2 /* ParseRole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseRole.swift; sourceTree = "<group>"; };
 		70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseOperationTests.swift; sourceTree = "<group>"; };
-		70C5509125B4A99100B5DBC2 /* AddRelation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRelation.swift; sourceTree = "<group>"; };
-		70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveRelation.swift; sourceTree = "<group>"; };
+		70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddRelationOperation.swift; sourceTree = "<group>"; };
+		70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemoveRelationOperation.swift; sourceTree = "<group>"; };
 		70C5655825AA147B00BDD57F /* ParseLiveQueryConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQueryConstants.swift; sourceTree = "<group>"; };
 		70C7DC1D24D20E530050419B /* ParseUserTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseUserTests.swift; sourceTree = "<group>"; };
 		70C7DC1F24D20F180050419B /* ParseQueryTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseQueryTests.swift; sourceTree = "<group>"; };
@@ -882,13 +882,13 @@
 			isa = PBXGroup;
 			children = (
 				F97B464224D9C78B00F4A88B /* AddOperation.swift */,
-				70C5509125B4A99100B5DBC2 /* AddRelation.swift */,
+				70C5509125B4A99100B5DBC2 /* AddRelationOperation.swift */,
 				F97B464324D9C78B00F4A88B /* AddUniqueOperation.swift */,
 				F97B464124D9C78B00F4A88B /* DeleteOperation.swift */,
 				F97B464524D9C78B00F4A88B /* IncrementOperation.swift */,
 				F97B464024D9C78B00F4A88B /* ParseOperation.swift */,
 				F97B464424D9C78B00F4A88B /* RemoveOperation.swift */,
-				70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */,
+				70C5509F25B4A9F600B5DBC2 /* RemoveRelationOperation.swift */,
 			);
 			path = Operations;
 			sourceTree = "<group>";
@@ -1304,7 +1304,7 @@
 				70510AAC259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				F97B461E24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B45D224D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
-				70C550A025B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
+				70C550A025B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */,
 				F97B463B24D9C74400F4A88B /* API+Commands.swift in Sources */,
 				F97B464624D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				705A9A2F25991C1400B3547F /* Fileable.swift in Sources */,
@@ -1319,7 +1319,7 @@
 				70572671259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462224D9C6F200F4A88B /* PrimitiveObjectStore.swift in Sources */,
 				F97B45E624D9C6F200F4A88B /* Query.swift in Sources */,
-				70C5509225B4A99100B5DBC2 /* AddRelation.swift in Sources */,
+				70C5509225B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */,
 				708D035225215F9B00646C70 /* Deletable.swift in Sources */,
 				F97B466424D9C88600F4A88B /* SecureStorage.swift in Sources */,
 				7003959525A10DFC0052CB31 /* Messages.swift in Sources */,
@@ -1401,7 +1401,7 @@
 				70510AAD259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				F97B461F24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B45D324D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
-				70C550A125B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
+				70C550A125B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */,
 				F97B463C24D9C74400F4A88B /* API+Commands.swift in Sources */,
 				F97B464724D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				705A9A3025991C1400B3547F /* Fileable.swift in Sources */,
@@ -1416,7 +1416,7 @@
 				70572672259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462324D9C6F200F4A88B /* PrimitiveObjectStore.swift in Sources */,
 				F97B45E724D9C6F200F4A88B /* Query.swift in Sources */,
-				70C5509325B4A99100B5DBC2 /* AddRelation.swift in Sources */,
+				70C5509325B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */,
 				708D035325215F9B00646C70 /* Deletable.swift in Sources */,
 				F97B466524D9C88600F4A88B /* SecureStorage.swift in Sources */,
 				7003959625A10DFC0052CB31 /* Messages.swift in Sources */,
@@ -1537,7 +1537,7 @@
 				70510AAF259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				F97B465124D9C78C00F4A88B /* AddOperation.swift in Sources */,
 				F97B461124D9C6F200F4A88B /* ParseObject.swift in Sources */,
-				70C550A325B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
+				70C550A325B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */,
 				F97B460D24D9C6F200F4A88B /* Fetchable.swift in Sources */,
 				F97B45ED24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				705A9A3225991C1400B3547F /* Fileable.swift in Sources */,
@@ -1552,7 +1552,7 @@
 				70572674259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462124D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B466724D9C88600F4A88B /* SecureStorage.swift in Sources */,
-				70C5509525B4A99100B5DBC2 /* AddRelation.swift in Sources */,
+				70C5509525B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */,
 				708D035525215F9B00646C70 /* Deletable.swift in Sources */,
 				70110D55250680140091CC1D /* ParseConstants.swift in Sources */,
 				7003959825A10DFC0052CB31 /* Messages.swift in Sources */,
@@ -1604,7 +1604,7 @@
 				70510AAE259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				F97B465024D9C78B00F4A88B /* AddOperation.swift in Sources */,
 				F97B461024D9C6F200F4A88B /* ParseObject.swift in Sources */,
-				70C550A225B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
+				70C550A225B4A9F600B5DBC2 /* RemoveRelationOperation.swift in Sources */,
 				F97B460C24D9C6F200F4A88B /* Fetchable.swift in Sources */,
 				F97B45EC24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				705A9A3125991C1400B3547F /* Fileable.swift in Sources */,
@@ -1619,7 +1619,7 @@
 				70572673259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				F97B462024D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B466624D9C88600F4A88B /* SecureStorage.swift in Sources */,
-				70C5509425B4A99100B5DBC2 /* AddRelation.swift in Sources */,
+				70C5509425B4A99100B5DBC2 /* AddRelationOperation.swift in Sources */,
 				708D035425215F9B00646C70 /* Deletable.swift in Sources */,
 				70110D54250680140091CC1D /* ParseConstants.swift in Sources */,
 				7003959725A10DFC0052CB31 /* Messages.swift in Sources */,

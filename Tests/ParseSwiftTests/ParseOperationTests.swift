@@ -255,6 +255,43 @@ class ParseOperation: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
+    func testAddRelation() throws {
+        let score = GameScore(score: 10)
+        let score2 = GameScore(score: 20)
+        let operations = score.operation
+            .addRelation("test", objects: [score2])
+        let expected = "{\"test\":{\"objects\":[{\"score\":20,\"members\":[]}],\"__op\":\"AddRelation\"}}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(operations)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testAddRelationKeypath() throws {
+        let score = GameScore(score: 10)
+        let score2 = GameScore(score: 20)
+        let operations = score.operation
+            .addRelation("test", objects: [score2])
+        let expected = "{\"test\":{\"objects\":[{\"score\":20,\"members\":[]}],\"__op\":\"AddRelation\"}}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(operations)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+
+    }
+
+    func testAddRelationOptionalKeypath() throws {
+        let score = GameScore(score: 10)
+        let score2 = GameScore(score: 20)
+        let operations = score.operation
+            .addRelation("test", objects: [score2])
+        let expected = "{\"test\":{\"objects\":[{\"score\":20,\"members\":[]}],\"__op\":\"AddRelation\"}}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(operations)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
     func testRemove() throws {
         let score = GameScore(score: 10)
         let operations = score.operation
@@ -282,6 +319,43 @@ class ParseOperation: XCTestCase {
         let operations = score.operation
             .remove(("test", \.levels), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Remove\"}}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(operations)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testRemoveRelation() throws {
+        let score = GameScore(score: 10)
+        let score2 = GameScore(score: 20)
+        let operations = score.operation
+            .removeRelation("test", objects: [score2])
+        let expected = "{\"test\":{\"objects\":[{\"score\":20,\"members\":[]}],\"__op\":\"RemoveRelation\"}}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(operations)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testRemoveRelationKeypath() throws {
+        let score = GameScore(score: 10)
+        let score2 = GameScore(score: 20)
+        let operations = score.operation
+            .removeRelation("test", objects: [score2])
+        let expected = "{\"test\":{\"objects\":[{\"score\":20,\"members\":[]}],\"__op\":\"RemoveRelation\"}}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(operations)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+
+    }
+
+    func testRemoveRelationOptionalKeypath() throws {
+        let score = GameScore(score: 10)
+        let score2 = GameScore(score: 20)
+        let operations = score.operation
+            .removeRelation("test", objects: [score2])
+        let expected = "{\"test\":{\"objects\":[{\"score\":20,\"members\":[]}],\"__op\":\"RemoveRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
         let decoded = String(data: encoded, encoding: .utf8)

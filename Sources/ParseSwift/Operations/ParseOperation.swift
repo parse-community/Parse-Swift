@@ -120,6 +120,47 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
     }
 
     /**
+     An operation that adds a new relation to an array field.
+     - Parameters:
+        - key: The key of the object.
+        - objects: The field of objects.
+     */
+    public func addRelation<W>(_ key: String, objects: [W]) -> Self where W: ParseObject {
+        operations[key] = AddRelationOperation(objects: objects)
+        return self
+    }
+
+    /**
+     An operation that adds a new relation to an array field.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
+        - objects: The field of objects.
+     */
+    public func addRelation<V>(_ key: (String, WritableKeyPath<T, [V]>),
+                               objects: [V]) -> Self where V: ParseObject {
+        operations[key.0] = AddRelationOperation(objects: objects)
+        var values = target[keyPath: key.1]
+        values.append(contentsOf: objects)
+        target[keyPath: key.1] = values
+        return self
+    }
+
+    /**
+     An operation that adds a new relation to an array field.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
+        - objects: The field of objects.
+     */
+    public func addRelation<V>(_ key: (String, WritableKeyPath<T, [V]?>),
+                               objects: [V]) -> Self where V: ParseObject {
+        operations[key.0] = AddRelationOperation(objects: objects)
+        var values = target[keyPath: key.1] ?? []
+        values.append(contentsOf: objects)
+        target[keyPath: key.1] = values
+        return self
+    }
+
+    /**
      An operation that removes every instance of an element from
      an array field.
      - Parameters:
@@ -160,6 +201,56 @@ public final class ParseOperation<T>: Encodable where T: ParseObject {
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                           objects: [V]) -> Self where V: Encodable, V: Hashable {
         operations[key.0] = RemoveOperation(objects: objects)
+        let values = target[keyPath: key.1]
+        var set = Set<V>(values ?? [])
+        objects.forEach {
+            set.remove($0)
+        }
+        target[keyPath: key.1] = Array(set)
+        return self
+    }
+
+    /**
+     An operation that removes every instance of a relation from
+     an array field.
+     - Parameters:
+        - key: The key of the object.
+        - objects: The field of objects.
+     */
+    public func removeRelation<W>(_ key: String, objects: [W]) -> Self where W: ParseObject {
+        operations[key] = RemoveRelationOperation(objects: objects)
+        return self
+    }
+
+    /**
+     An operation that removes every instance of a relation from
+     an array field.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
+        - objects: The field of objects.
+     */
+    public func removeRelation<V>(_ key: (String, WritableKeyPath<T, [V]>),
+                                  objects: [V]) -> Self where V: ParseObject, V: Hashable {
+        operations[key.0] = RemoveRelationOperation(objects: objects)
+        let values = target[keyPath: key.1]
+        var set = Set<V>(values)
+        objects.forEach {
+            set.remove($0)
+        }
+        target[keyPath: key.1] = Array(set)
+        return self
+    }
+
+    /**
+     An operation that removes every instance of a relation from
+     an array field.
+     - Parameters:
+        - key: A tuple consisting of the key and KeyPath of the object.
+        - objects: The field of objects.
+     */
+    public func removeRelation<V>(_ key: (String, WritableKeyPath<T, [V]?>),
+                                  objects: [V]) -> Self where V: ParseObject, V: Hashable {
+        operations[key.0] = RemoveRelationOperation(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values ?? [])
         objects.forEach {
