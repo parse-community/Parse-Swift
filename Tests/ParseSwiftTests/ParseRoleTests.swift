@@ -57,6 +57,10 @@ class ParseRoleTests: XCTestCase {
 
         // provided by Role
         var name: String
+
+        init(name: String) {
+            self.name = name
+        }
     }
 
     override func setUpWithError() throws {

@@ -27,12 +27,29 @@ public protocol ParseRole: ParseObject {
      - warning: A role's name can only contain alphanumeric characters, `_`, `-`, and spaces.
      */
     var name: String { get set }
+
+    /**
+     Initialize the `ParseRole` with a name.
+     - parameter name: The name of the Role to create.
+     */
+    init(name: String)
 }
 
 // MARK: Default Implementations
 public extension ParseRole {
     static var className: String {
         return "_Role"
+    }
+
+    /**
+     Initialize the `ParseRole` with a name.
+     - parameter name: The name of the Role to create.
+     - parameter acl: The `ParseACL` for this role. Roles must have an ACL.
+     A `ParseRole` is a local representation of a role persisted to the Parse Server.
+     */
+    init(name: String, acl: ParseACL) {
+        self.init(name: name)
+        self.ACL = ACL
     }
 
     static func == (lhs: Self, rhs: Self) -> Bool {

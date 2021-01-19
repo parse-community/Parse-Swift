@@ -64,72 +64,140 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
 
     /**
      Returns true if a particular key has a specific access level.
-     - parameter key: The `ParseObject.objectId` of the user for which to retrieve access.
+     - parameter key: The key of the `ParseUser` or `ParseRole` for which to retrieve access.
      - parameter access: The type of access.
-     - returns: `true` if the user with this `key` has *explicit* access, otherwise `false`.
+     - returns: `true` if the `key` has *explicit* access, otherwise `false`.
     */
-    public func get(_ key: String, access: Access) -> Bool {
+    func get(_ key: String, access: Access) -> Bool {
         guard let acl = acl else { // no acl, all open!
             return false
         }
         return acl[key]?[access] ?? false
     }
 
+    // MARK: ParseUser
     /**
-     Gets whether the given user id is *explicitly* allowed to read this object.
+     Gets whether the given `objectId` is *explicitly* allowed to read this object.
      Even if this returns `false`, the user may still be able to access it if `publicReadAccess` returns `true`
      or if the user belongs to a role that has access.
 
-     - parameter userId: The `ParseObject.objectId` of the user for which to retrieve access.
+     - parameter objectId: The `ParseUser.objectId` of the user for which to retrieve access.
      - returns: `true` if the user with this `objectId` has *explicit* read access, otherwise `false`.
     */
-    public func getReadAccess(userId: String) -> Bool {
-        return get(userId, access: .read)
+    public func getReadAccess(objectId: String) -> Bool {
+        get(objectId, access: .read)
     }
 
     /**
-     Gets whether the given user id is *explicitly* allowed to write this object.
+     Gets whether the given `ParseUser` is *explicitly* allowed to read this object.
+     Even if this returns `false`, the user may still be able to access it if `publicReadAccess` returns `true`
+     or if the user belongs to a role that has access.
+
+     - parameter user: The `ParseUser` for which to retrieve access.
+     - returns: `true` if the user with this `ParseUser` has *explicit* read access, otherwise `false`.
+    */
+    public func getReadAccess<T>(user: T) -> Bool where T: ParseUser {
+        if let objectId = user.objectId {
+            return get(objectId, access: .read)
+        } else {
+            return false
+        }
+    }
+
+    /**
+     Gets whether the given `objectId` is *explicitly* allowed to write this object.
      Even if this returns false, the user may still be able to write it if `publicWriteAccess` returns `true`
      or if the user belongs to a role that has access.
 
-     - parameter userId: The `ParseObject.objectId` of the user for which to retrieve access.
-
-     - returns: `true` if the user with this `ParseObject.objectId` has *explicit* write access, otherwise `false`.
+     - parameter objectId: The `ParseUser.objectId` of the user for which to retrieve access.
+     - returns: `true` if the user with this `ParseUser.objectId` has *explicit* write access, otherwise `false`.
     */
-    public func getWriteAccess(userId: String) -> Bool {
-        return get(userId, access: .write)
+    public func getWriteAccess(objectId: String) -> Bool {
+        return get(objectId, access: .write)
     }
 
     /**
-     Set whether the given `userId` is allowed to read this object.
+     Gets whether the given `ParseUser` is *explicitly* allowed to write this object.
+     Even if this returns false, the user may still be able to write it if `publicWriteAccess` returns `true`
+     or if the user belongs to a role that has access.
 
-     - parameter value: Whether the given user can write this object.
-     - parameter userId: The `ParseObject.objectId` of the user to assign access.
+     - parameter user: The `ParseUser` of the user for which to retrieve access.
+     - returns: `true` if the `ParseUser` has *explicit* write access, otherwise `false`.
     */
-    public mutating func setReadAccess(userId: String, value: Bool) {
-        set(userId, access: .read, value: value)
+    public func getWriteAccess<T>(user: T) -> Bool where T: ParseUser {
+        if let objectId = user.objectId {
+            return get(objectId, access: .write)
+        } else {
+            return false
+        }
     }
 
     /**
-     Set whether the given `userId` is allowed to write this object.
+     Set whether the given `objectId` is allowed to read this object.
 
      - parameter value: Whether the given user can read this object.
-     - parameter userId: The `ParseObject.objectId` of the user to assign access.
+     - parameter objectId: The `ParseUser.objectId` of the user to assign access.
     */
-    public mutating func setWriteAccess(userId: String, value: Bool) {
-        set(userId, access: .write, value: value)
+    public mutating func setReadAccess(objectId: String, value: Bool) {
+        set(objectId, access: .read, value: value)
     }
+
+    /**
+     Set whether the given `ParseUser` is allowed to read this object.
+
+     - parameter value: Whether the given user can read this object.
+     - parameter user: The `ParseUser` to assign access.
+    */
+    public mutating func setReadAccess<T>(user: T, value: Bool) where T: ParseUser {
+        if let objectId = user.objectId {
+            set(objectId, access: .read, value: value)
+        }
+    }
+
+    /**
+     Set whether the given `objectId` is allowed to write this object.
+
+     - parameter value: Whether the given user can write this object.
+     - parameter objectId: The `ParseUser.objectId` of the user to assign access.
+    */
+    public mutating func setWriteAccess(objectId: String, value: Bool) {
+        set(objectId, access: .write, value: value)
+    }
+
+    /**
+     Set whether the given `ParseUser` is allowed to write this object.
+
+     - parameter value: Whether the given user can write this object.
+     - parameter user: The `ParseUser` to assign access.
+    */
+    public mutating func setWriteAccess<T>(user: T, value: Bool) where T: ParseUser {
+        if let objectId = user.objectId {
+            set(objectId, access: .write, value: value)
+        }
+    }
+
+    // MARK: ParseRole
 
     /**
      Get whether users belonging to the role with the given name are allowed to read this object.
      Even if this returns `false`, the role may still be able to read it if a parent role has read access.
 
      - parameter roleName: The name of the role.
-
      - returns: `true` if the role has read access, otherwise `false`.
     */
     public func getReadAccess(roleName: String) -> Bool {
-        return get(toRole(roleName: roleName), access: .read)
+        get(toRole(roleName: roleName), access: .read)
+    }
+
+    /**
+     Get whether users belonging to the role are allowed to read this object.
+     Even if this returns `false`, the role may still be able to read it if a parent role has read access.
+
+     - parameter role: The `ParseRole` to get access for.
+     - returns: `true` if the `ParseRole` has read access, otherwise `false`.
+    */
+    public func getReadAccess<T>(role: T) -> Bool where T: ParseRole {
+        get(toRole(roleName: role.name), access: .read)
     }
 
     /**
@@ -137,11 +205,21 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
      Even if this returns `false`, the role may still be able to write it if a parent role has write access.
 
      - parameter roleName: The name of the role.
-
      - returns: `true` if the role has read access, otherwise `false`.
     */
     public func getWriteAccess(roleName: String) -> Bool {
-        return get(toRole(roleName: roleName), access: .write)
+        get(toRole(roleName: roleName), access: .write)
+    }
+
+    /**
+     Get whether users belonging to the role are allowed to write this object.
+     Even if this returns `false`, the role may still be able to write it if a parent role has write access.
+
+     - parameter role: The `ParseRole` to get access for.
+     - returns: `true` if the role has read access, otherwise `false`.
+    */
+    public func getWriteAccess<T>(role: T) -> Bool where T: ParseRole {
+        get(toRole(roleName: role.name), access: .write)
     }
 
     /**
@@ -155,6 +233,16 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
     }
 
     /**
+     Set whether users belonging to the role are allowed to read this object.
+
+     - parameter value: Whether the given role can read this object.
+     - parameter role: The `ParseRole` to set access for.
+    */
+    public mutating func setReadAccess<T>(role: T, value: Bool) where T: ParseRole {
+        set(toRole(roleName: role.name), access: .read, value: value)
+    }
+
+    /**
      Set whether users belonging to the role with the given name are allowed to write this object.
 
      - parameter allowed: Whether the given role can write this object.
@@ -162,6 +250,16 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
     */
     public mutating func setWriteAccess(roleName: String, value: Bool) {
         set(toRole(roleName: roleName), access: .write, value: value)
+    }
+
+    /**
+     Set whether users belonging to the role are allowed to write this object.
+
+     - parameter allowed: Whether the given role can write this object.
+     - parameter role: The `ParseRole` to set access for.
+    */
+    public mutating func setWriteAccess<T>(role: T, value: Bool) where T: ParseRole {
+        set(toRole(roleName: role.name), access: .write, value: value)
     }
 
     private func toRole(roleName: String) -> String {
@@ -275,12 +373,12 @@ extension ParseACL {
     }
 
     private static func setDefaultAccess(_ acl: ParseACL) -> ParseACL? {
-        guard let userObjectId = BaseParseUser.current?.objectId else {
+        guard let currentUser = BaseParseUser.current else {
             return nil
         }
         var modifiedACL = acl
-        modifiedACL.setReadAccess(userId: userObjectId, value: true)
-        modifiedACL.setWriteAccess(userId: userObjectId, value: true)
+        modifiedACL.setReadAccess(user: currentUser, value: true)
+        modifiedACL.setWriteAccess(user: currentUser, value: true)
 
         return modifiedACL
     }
