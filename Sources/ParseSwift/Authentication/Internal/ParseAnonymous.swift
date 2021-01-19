@@ -26,7 +26,7 @@ import Foundation
  - Service linking (e.g. Apple, Facebook, Twitter) will convert the anonymous user
  into a standard user by linking it to the service.
  */
-public struct ParseAnonymous<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
+public struct ParseAnonymous<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
     enum AuthenticationKeys: String, Codable {
         case id // swiftlint:disable:this identifier_name

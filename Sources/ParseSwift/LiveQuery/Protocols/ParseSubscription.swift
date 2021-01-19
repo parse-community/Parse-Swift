@@ -1,5 +1,5 @@
 //
-//  SubscriptionHandlable.swift
+//  ParseSubscription.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 1/2/21.
@@ -12,7 +12,7 @@ import Foundation
  This protocol describes the interface for handling events from a `ParseLiveQuery` client.
  You can use this protocol on any custom class of yours, instead of Subscription, if it fits your use case better.
  */
-public protocol  SubscriptionHandlable: AnyObject {
+public protocol  ParseSubscription: AnyObject {
     /// The type of the `ParseObject` that this handler uses.
     associatedtype Object: ParseObject
 

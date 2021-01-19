@@ -41,13 +41,27 @@ public struct ParseRelation<T>: Codable where T: ParseObject {
      - parameters:
         - parent: The parent `ParseObject`.
         - key: The key for the relation.
-        - targetClassName: The name of the child class for the relation.
+        - className: The name of the child class for the relation.
      */
-    init(parent: T, key: String? = nil, targetClassName: String? = nil) {
+    init(parent: T, key: String? = nil, className: String? = nil) {
         self.parent = parent
         self.operation = parent.operation
         self.key = key
-        self.className = targetClassName
+        self.className = className
+    }
+
+    /**
+     Create a `ParseRelation` with a specific parent and child.
+     - parameters:
+        - parent: The parent `ParseObject`.
+        - key: The key for the relation.
+        - child: The child `ParseObject`.
+     */
+    init<U>(parent: T, key: String? = nil, child: U? = nil) where U: ParseObject {
+        self.parent = parent
+        self.operation = parent.operation
+        self.key = key
+        self.className = child?.className
     }
 
     enum CodingKeys: String, CodingKey {
@@ -164,9 +178,20 @@ public extension ParseObject {
     /**
      Create a new relation with a specific key.
      - parameter key: A key for the relation.
+     - parameter className: The name of the child class for the relation.
      - returns: A new `ParseRelation`.
      */
-    func relation(_ key: String) -> ParseRelation<Self> {
-        ParseRelation(parent: self, key: key)
+    func relation(_ key: String, className: String? = nil) -> ParseRelation<Self> {
+        ParseRelation(parent: self, key: key, className: className)
+    }
+
+    /**
+     Create a new relation with a specific key.
+     - parameter key: A key for the relation.
+     - parameter child: The child `ParseObject`.
+     - returns: A new `ParseRelation`.
+     */
+    func relation<U>(_ key: String, child: U? = nil) -> ParseRelation<Self> where U: ParseObject {
+        ParseRelation(parent: self, key: key, child: child)
     }
 }

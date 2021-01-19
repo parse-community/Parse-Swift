@@ -64,7 +64,7 @@ public extension ParseRole {
      the role through this relation.
      */
     var users: ParseRelation<Self> {
-        ParseRelation(parent: self, key: "users", targetClassName: "_User")
+        ParseRelation(parent: self, key: "users", className: "_User")
     }
 
     /**
@@ -74,6 +74,6 @@ public extension ParseRole {
      from this role through this relation.
      */
     var roles: ParseRelation<Self> {
-        ParseRelation(parent: self, key: "roles", targetClassName: "_User")
+        ParseRelation(parent: self, key: "roles", className: "_Role")
     }
 }

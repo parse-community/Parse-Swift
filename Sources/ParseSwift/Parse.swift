@@ -23,7 +23,7 @@ internal struct ParseConfiguration {
  - parameter masterKey: The master key of your Parse application.
  - parameter serverURL: The server URL to connect to Parse Server.
  - parameter liveQueryServerURL: The server URL to connect to Parse Server.
- - parameter primitiveObjectStore: A key/value store that conforms to the `PrimitiveObjectStore`
+ - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
  protocol. Defaults to `nil` in which one will be created an memory, but never persisted.
  - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
  Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
@@ -37,7 +37,7 @@ public func initialize(
     masterKey: String? = nil,
     serverURL: URL,
     liveQueryServerURL: URL? = nil,
-    primitiveObjectStore: PrimitiveObjectStore? = nil,
+    keyValueStore: ParseKeyValueStore? = nil,
     authentication: ((URLAuthenticationChallenge,
                       (URLSession.AuthChallengeDisposition,
                        URLCredential?) -> Void) -> Void)? = nil
@@ -50,7 +50,7 @@ public func initialize(
     ParseConfiguration.mountPath = "/" + serverURL.pathComponents
                                             .filter { $0 != "/" }
                                             .joined(separator: "/")
-    ParseStorage.shared.use(primitiveObjectStore ?? CodableInMemoryPrimitiveObjectStore())
+    ParseStorage.shared.use(keyValueStore ?? InMemoryKeyValueStore())
     ParseConfiguration.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main, authentication: authentication)
     //Prepare installation
     DispatchQueue.main.async {
@@ -63,7 +63,7 @@ internal func initialize(applicationId: String,
                          masterKey: String? = nil,
                          serverURL: URL,
                          liveQueryServerURL: URL? = nil,
-                         primitiveObjectStore: PrimitiveObjectStore? = nil,
+                         primitiveObjectStore: ParseKeyValueStore? = nil,
                          testing: Bool = false,
                          authentication: ((URLAuthenticationChallenge,
                                            (URLSession.AuthChallengeDisposition,

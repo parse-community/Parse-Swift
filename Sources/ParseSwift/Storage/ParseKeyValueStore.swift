@@ -1,5 +1,5 @@
 //
-//  PrimitiveObjectStore.swift
+//  ParseKeyValueStore.swift
 //  
 //
 //  Created by Pranjal Satija on 7/19/20.
@@ -7,7 +7,6 @@
 
 import Foundation
 
-// MARK: PrimitiveObjectStore
 /**
  A store that supports key/value storage. It should be able
  to handle any object that conforms to encodable and decodable.
@@ -27,10 +26,12 @@ public protocol ParseKeyValueStore {
     mutating func set<T: Encodable>(_ object: T, for key: String) throws
 }
 
-/// A `PrimitiveObjectStore` that lives in memory for unit testing purposes.
+// MARK: InMemoryKeyValueStore
+
+/// A `ParseKeyValueStore` that lives in memory for unit testing purposes.
 /// It works by encoding / decoding all values just like a real `Codable` store would
 /// but it stores all values as `Data` blobs in memory.
-struct CodableInMemoryPrimitiveObjectStore: ParseKeyValueStore {
+struct InMemoryKeyValueStore: ParseKeyValueStore {
     var decoder = JSONDecoder()
     var encoder = JSONEncoder()
     var storage = [String: Data]()
@@ -56,7 +57,7 @@ struct CodableInMemoryPrimitiveObjectStore: ParseKeyValueStore {
 
 #if !os(Linux)
 
-// MARK: KeychainStore + PrimitiveObjectStore
+// MARK: KeychainStore + ParseKeyValueStore
 extension KeychainStore: ParseKeyValueStore {
 
     func delete(valueFor key: String) throws {

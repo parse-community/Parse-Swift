@@ -15,7 +15,7 @@ import Foundation
  Be sure your Parse Server is configured for [sign in with Apple](https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-sign-in-with-apple).
  For information on acquiring Apple sign-in credentials to use with `ParseApple`, refer to [Apple's Documentation](https://developer.apple.com/documentation/authenticationservices/implementing_user_authentication_with_sign_in_with_apple).
  */
-public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
+public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
     /// Authentication keys required for Apple authentication.
     enum AuthenticationKeys: String, Codable {
