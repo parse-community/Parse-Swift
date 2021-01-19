@@ -24,6 +24,18 @@ struct User: ParseUser {
     var customKey: String?
 }
 
+struct Role<RoleUser: ParseUser>: ParseRole {
+
+    // required by ParseObject
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseACL?
+
+    // provided by Role
+    var name: String
+}
+
 /*: Save your first customKey value to your ParseUser
     Asynchrounously - Performs work on background
     queue and returns to designated on designated callbackQueue.
@@ -100,6 +112,12 @@ User.current?.signup { result in
         print("Error logging in: \(error)")
     }
 }
+
+//: Users can be added Roles.
+/*if let currentUser = User.current {
+    let adminRole = Role<User>()
+    //adminRole users.add("", objects: [User()])
+}*/
 
 //: Password Reset Request - synchronously
 do {

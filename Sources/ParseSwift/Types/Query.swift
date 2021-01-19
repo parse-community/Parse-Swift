@@ -435,7 +435,7 @@ public func doesNotExist(key: String) -> QueryConstraint {
     return .init(key: key, value: false, comparator: .exists)
 }
 
-internal struct RelatedCondition <T>: Encodable where T: ParseObject {
+internal struct RelatedCondition <T>: Encodable where T: Encodable {
     let object: T
     let key: String
 }
@@ -443,10 +443,11 @@ internal struct RelatedCondition <T>: Encodable where T: ParseObject {
 /**
   Add a constraint that requires a key is related.
   - parameter key: The key that should be related.
+  - parameter object: The object that should be related.
   - returns: The same instance of `Query` as the receiver.
  */
-public func related <T>(key: String, parent: T) -> QueryConstraint where T: ParseObject {
-    let condition = RelatedCondition(object: parent, key: key)
+public func related <T>(key: String, object: T) -> QueryConstraint where T: Encodable {
+    let condition = RelatedCondition(object: object, key: key)
     return .init(key: QueryConstraint.Comparator.relatedTo.rawValue, value: condition)
 }
 

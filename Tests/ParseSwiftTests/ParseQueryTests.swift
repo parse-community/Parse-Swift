@@ -1255,7 +1255,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             ]
         ]
         let object = GameScore(score: 50)
-        let constraint = related(key: "yolo", parent: object)
+        let constraint = related(key: "yolo", object: object)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
 

@@ -16,8 +16,7 @@ import Foundation
  In most cases, you should not call this class directly as a `ParseOperation` can be
  indirectly created from any `ParseObject` by using its' `operation` property.
  */
-public final class ParseOperation<T>: Encodable where T: ParseObject {
-    typealias ObjectType = T
+public final class ParseOperation<T>: Savable where T: ParseObject {
 
     var target: T
     var operations = [String: Encodable]()

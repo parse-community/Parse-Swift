@@ -105,12 +105,8 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install
-        env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_VER_12 }}
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
-        env:
-           DEVELOPER_DIR: ${{ env.CI_XCODE_VER_12 }}
       - name: Deploy Jazzy Docs
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3

@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseOperation: XCTestCase {
+class ParseOperationTests: XCTestCase {
     struct GameScore: ParseObject {
         //: Those are required for Object
         var objectId: String?

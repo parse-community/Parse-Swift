@@ -47,7 +47,7 @@ public extension ParseAnonymous {
      Login a `ParseUser` *synchronously* using the respective authentication type.
      - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`.
      - returns: the linked `ParseUser`.
      */
     func login(authData: [String: String]? = nil,
