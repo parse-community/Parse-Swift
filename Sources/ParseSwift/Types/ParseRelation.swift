@@ -41,6 +41,7 @@ public struct ParseRelation<T>: Codable where T: ParseObject {
      - parameters:
         - parent: The parent `ParseObject`.
         - key: The key for the relation.
+        - targetClassName: The name of the child class for the relation.
      */
     init(parent: T, key: String? = nil, targetClassName: String? = nil) {
         self.parent = parent
@@ -72,7 +73,6 @@ public struct ParseRelation<T>: Codable where T: ParseObject {
                 throw ParseError(code: .unknownError, message: "All objects have be related to the same key.")
             }
         }
-
         if !isSameClass(objects) {
             throw ParseError(code: .unknownError, message: "All objects have to have the same className.")
         }
@@ -87,7 +87,7 @@ public struct ParseRelation<T>: Codable where T: ParseObject {
         - objects: An array of `ParseObject`'s to remove relation to.
      - throws: An error of type `ParseError`.
      */
-    public mutating func remove<U>(_ key: String, objects: [U]) throws -> Self where U: ParseObject {
+    public func remove<U>(_ key: String, objects: [U]) throws -> Self where U: ParseObject {
         if parent == nil {
             throw ParseError(code: .unknownError, message: "ParseRelation must have the parent set before removing.")
         }
@@ -95,8 +95,6 @@ public struct ParseRelation<T>: Codable where T: ParseObject {
             if currentKey != key {
                 throw ParseError(code: .unknownError, message: "All objects have be related to the same key.")
             }
-        } else {
-            self.key = key
         }
         if !isSameClass(objects) {
             throw ParseError(code: .unknownError, message: "All objects have to have the same className.")
