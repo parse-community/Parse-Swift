@@ -63,6 +63,23 @@ class ParseRoleTests: XCTestCase {
         }
     }
 
+    struct Level: ParseObject {
+        //: Those are required for Object
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        //: Your own properties
+        var level: Int
+        var members = [String]()
+
+        //custom initializers
+        init(level: Int) {
+            self.level = level
+        }
+    }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -89,28 +106,204 @@ class ParseRoleTests: XCTestCase {
         XCTAssertNoThrow(try Role<User>(name: "Hello9_- ", acl: ParseACL()))
         XCTAssertThrowsError(try Role<User>(name: "Hello9!", acl: ParseACL()))
     }
-/*
-    func testSave() throws {
-        let currentUser = User.current
-        //: The Role needs an ACL.
-        var acl = ParseACL()
-        /*acl.setReadAccess(user: currentUser, value: true)
-        acl.setWriteAccess(user: currentUser, value: true)
-        */
 
-        var adminRole = try Role<User>(name: "Administrator", acl: acl)
+    func testUserAddIncorrectClassKeyError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let userRoles = role.users
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        XCTAssertThrowsError(try userRoles.add("users", objects: [level]))
+    }
+
+    func testUserAddIncorrectKeyError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let userRoles = role.users
 
         var user = User()
         user.objectId = "heel"
-        try adminRole.users.add([user])
-        adminRole.save { result in
-            switch result {
-            case .success(let savedRole):
-                print("The role saved successfully: \(savedRole)")
-                print("Check your \"Role\" class in Parse Dashboard.")
-            case .failure(let error):
-                print("Error savin role: \(error)")
-            }
-        }
-    }*/
+        XCTAssertThrowsError(try userRoles.add("level", objects: [user]))
+    }
+
+    func testUserAddOperation() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let userRoles = role.users
+        let expected = "{\"className\":\"_User\",\"__type\":\"Relation\"}"
+        let encoded = try ParseCoding.jsonEncoder().encode(userRoles)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+        XCTAssertEqual(userRoles.key, "users")
+
+        var user = User()
+        user.objectId = "heel"
+        let operation = try userRoles.add([user])
+
+        // swiftlint:disable:next line_length
+        let expected2 = "{\"users\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"_User\",\"objectId\":\"heel\"}],\"__op\":\"AddRelation\"}}"
+        let encoded2 = try ParseCoding.jsonEncoder().encode(operation)
+        let decoded2 = String(data: encoded2, encoding: .utf8)
+        XCTAssertEqual(decoded2, expected2)
+    }
+
+    func testUserRemoveIncorrectClassKeyError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let userRoles = role.users
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        XCTAssertThrowsError(try userRoles.remove("users", objects: [level]))
+    }
+
+    func testUserRemoveIncorrectKeyError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let userRoles = role.users
+
+        var user = User()
+        user.objectId = "heel"
+        XCTAssertThrowsError(try userRoles.remove("level", objects: [user]))
+    }
+
+    func testUserRemoveOperation() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let userRoles = role.users
+        let expected = "{\"className\":\"_User\",\"__type\":\"Relation\"}"
+        let encoded = try ParseCoding.jsonEncoder().encode(userRoles)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+        XCTAssertEqual(userRoles.key, "users")
+
+        var user = User()
+        user.objectId = "heel"
+        let operation = try userRoles.remove([user])
+
+        // swiftlint:disable:next line_length
+        let expected2 = "{\"users\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"_User\",\"objectId\":\"heel\"}],\"__op\":\"RemoveRelation\"}}"
+        let encoded2 = try ParseCoding.jsonEncoder().encode(operation)
+        let decoded2 = String(data: encoded2, encoding: .utf8)
+        XCTAssertEqual(decoded2, expected2)
+    }
+
+    func testRoleAddIncorrectClassKeyError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let roles = role.roles
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        XCTAssertThrowsError(try roles.add("roles", objects: [level]))
+    }
+
+    func testRoleAddIncorrectKeyError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let roles = role.roles
+
+        var newRole = try Role<User>(name: "Moderator", acl: acl)
+        newRole.objectId = "heel"
+        XCTAssertThrowsError(try roles.add("level", objects: [newRole]))
+    }
+
+    func testRoleAddOperation() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let roles = role.roles
+        let expected = "{\"className\":\"_Role\",\"__type\":\"Relation\"}"
+        let encoded = try ParseCoding.jsonEncoder().encode(roles)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+        XCTAssertEqual(roles.key, "roles")
+
+        var newRole = try Role<User>(name: "Moderator", acl: acl)
+        newRole.objectId = "heel"
+        let operation = try roles.add([newRole])
+
+        // swiftlint:disable:next line_length
+        let expected2 = "{\"roles\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"_Role\",\"objectId\":\"heel\"}],\"__op\":\"AddRelation\"}}"
+        let encoded2 = try ParseCoding.jsonEncoder().encode(operation)
+        let decoded2 = String(data: encoded2, encoding: .utf8)
+        XCTAssertEqual(decoded2, expected2)
+    }
+
+    func testRoleRemoveIncorrectClassKeyError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let roles = role.roles
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        XCTAssertThrowsError(try roles.remove("users", objects: [level]))
+    }
+
+    func testRoleRemoveIncorrectKeyError() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let roles = role.roles
+
+        var user = User()
+        user.objectId = "heel"
+        XCTAssertThrowsError(try roles.remove("level", objects: [user]))
+    }
+
+    func testRoleRemoveOperation() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        let role = try Role<User>(name: "Administrator", acl: acl)
+        let roles = role.roles
+        let expected = "{\"className\":\"_Role\",\"__type\":\"Relation\"}"
+        let encoded = try ParseCoding.jsonEncoder().encode(roles)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+        XCTAssertEqual(roles.key, "roles")
+
+        var newRole = try Role<User>(name: "Moderator", acl: acl)
+        newRole.objectId = "heel"
+        let operation = try roles.remove([newRole])
+
+        // swiftlint:disable:next line_length
+        let expected2 = "{\"roles\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"_Role\",\"objectId\":\"heel\"}],\"__op\":\"RemoveRelation\"}}"
+        let encoded2 = try ParseCoding.jsonEncoder().encode(operation)
+        let decoded2 = String(data: encoded2, encoding: .utf8)
+        XCTAssertEqual(decoded2, expected2)
+    }
 }
