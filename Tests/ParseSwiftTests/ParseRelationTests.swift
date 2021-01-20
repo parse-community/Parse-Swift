@@ -95,6 +95,18 @@ class ParseRelationTests: XCTestCase {
         XCTAssertThrowsError(try relation.add("level", objects: [level]))
     }
 
+    func testAddIncorrectKeyError() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+        var relation = score.relation
+        relation.className = "Level"
+        relation.key = "test"
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        XCTAssertThrowsError(try relation.add("level", objects: [level]))
+    }
+
     func testAddOperations() throws {
         var score = GameScore(score: 10)
         let objectId = "hello"
@@ -107,6 +119,82 @@ class ParseRelationTests: XCTestCase {
         let operation = try relation.add("level", objects: [level])
         // swiftlint:disable:next line_length
         let expected = "{\"level\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"nice\"}],\"__op\":\"AddRelation\"}}"
+        let encoded = try ParseCoding.jsonEncoder().encode(operation)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testAddOperationsKeyCheck() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+        var relation = score.relation
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+        relation.key = "level"
+
+        let operation = try relation.add("level", objects: [level])
+        // swiftlint:disable:next line_length
+        let expected = "{\"level\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"nice\"}],\"__op\":\"AddRelation\"}}"
+        let encoded = try ParseCoding.jsonEncoder().encode(operation)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testRemoveIncorrectClassError() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+        var relation = score.relation
+        relation.className = "hello"
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        XCTAssertThrowsError(try relation.remove("level", objects: [level]))
+    }
+
+    func testRemoveIncorrectKeyError() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+        var relation = score.relation
+        relation.className = "Level"
+        relation.key = "test"
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        XCTAssertThrowsError(try relation.remove("level", objects: [level]))
+    }
+
+    func testRemoveOperations() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+        var relation = score.relation
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+
+        let operation = try relation.remove("level", objects: [level])
+        // swiftlint:disable:next line_length
+        let expected = "{\"level\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"nice\"}],\"__op\":\"RemoveRelation\"}}"
+        let encoded = try ParseCoding.jsonEncoder().encode(operation)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testRemoveOperationsKeyCheck() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+        var relation = score.relation
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+        relation.key = "level"
+
+        let operation = try relation.remove("level", objects: [level])
+        // swiftlint:disable:next line_length
+        let expected = "{\"level\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"nice\"}],\"__op\":\"RemoveRelation\"}}"
         let encoded = try ParseCoding.jsonEncoder().encode(operation)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
