@@ -12,5 +12,6 @@
         <page name='9 - Files'/>
         <page name='10 - Cloud Code'/>
         <page name='11 - LiveQuery'/>
+        <page name='12 - Roles'/>
     </pages>
 </playground>

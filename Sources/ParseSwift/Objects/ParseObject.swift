@@ -28,7 +28,7 @@ public protocol ParseObject: Objectable,
                              Fetchable,
                              Savable,
                              Deletable,
-                             Equatable,
+                             Hashable,
                              CustomDebugStringConvertible {}
 
 // MARK: Default Implementations

@@ -933,9 +933,9 @@
 			children = (
 				70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */,
 				F97B45C624D9C6F200F4A88B /* ParseObject.swift */,
+				70C5507625B49D3A00B5DBC2 /* ParseRole.swift */,
 				70C5503725B406B800B5DBC2 /* ParseSession.swift */,
 				F97B45C424D9C6F200F4A88B /* ParseUser.swift */,
-				70C5507625B49D3A00B5DBC2 /* ParseRole.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";

@@ -58,8 +58,8 @@ class ParseRoleTests: XCTestCase {
         // provided by Role
         var name: String
 
-        init(name: String) {
-            self.name = name
+        init() {
+            self.name = "roleMe"
         }
     }
 
@@ -83,29 +83,34 @@ class ParseRoleTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
-    func testSaveCommand() throws {
-        var score = GameScore(score: 10)
-        let objectId = "hello"
-        score.objectId = objectId
-        let operations = score.operation
-            .increment("score", by: 1)
-        let className = score.className
-
-        let command = operations.saveCommand()
-        XCTAssertNotNil(command)
-        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
-        XCTAssertEqual(command.method, API.Method.PUT)
-        XCTAssertNil(command.params)
-
-        guard let body = command.body else {
-            XCTFail("Should be able to unwrap")
-            return
-        }
-
-        let expected = "{\"score\":{\"amount\":1,\"__op\":\"Increment\"}}"
-        let encoded = try ParseCoding.parseEncoder()
-            .encode(body)
-        let decoded = String(data: encoded, encoding: .utf8)
-        XCTAssertEqual(decoded, expected)
+    func testName() throws {
+        XCTAssertNoThrow(try Role<User>(name: "Hello9_- "))
+        XCTAssertThrowsError(try Role<User>(name: "Hello9!"))
+        XCTAssertNoThrow(try Role<User>(name: "Hello9_- ", acl: ParseACL()))
+        XCTAssertThrowsError(try Role<User>(name: "Hello9!", acl: ParseACL()))
     }
+/*
+    func testSave() throws {
+        let currentUser = User.current
+        //: The Role needs an ACL.
+        var acl = ParseACL()
+        /*acl.setReadAccess(user: currentUser, value: true)
+        acl.setWriteAccess(user: currentUser, value: true)
+        */
+
+        var adminRole = try Role<User>(name: "Administrator", acl: acl)
+
+        var user = User()
+        user.objectId = "heel"
+        try adminRole.users.add([user])
+        adminRole.save { result in
+            switch result {
+            case .success(let savedRole):
+                print("The role saved successfully: \(savedRole)")
+                print("Check your \"Role\" class in Parse Dashboard.")
+            case .failure(let error):
+                print("Error savin role: \(error)")
+            }
+        }
+    }*/
 }

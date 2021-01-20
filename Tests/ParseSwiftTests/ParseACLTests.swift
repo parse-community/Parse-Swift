@@ -90,8 +90,8 @@ class ParseACLTests: XCTestCase {
         // provided by Role
         var name: String
 
-        init(name: String) {
-            self.name = name
+        init() {
+            self.name = "roleMe"
         }
     }
 
@@ -128,9 +128,9 @@ class ParseACLTests: XCTestCase {
         XCTAssertTrue(acl.publicWrite)
     }
 
-    func testReadAccessObject() {
+    func testReadAccessObject() throws {
         let user = User(objectId: "someUserID")
-        let role = Role<User>(name: "someRoleName")
+        let role = try Role<User>(name: "someRoleName")
         var acl = ParseACL()
         XCTAssertFalse(acl.getReadAccess(user: user))
         XCTAssertFalse(acl.getReadAccess(role: role))
@@ -160,9 +160,9 @@ class ParseACLTests: XCTestCase {
         XCTAssertTrue(acl.publicWrite)
     }
 
-    func testWriteAccessObject() {
+    func testWriteAccessObject() throws {
         let user = User(objectId: "someUserID")
-        let role = Role<User>(name: "someRoleName")
+        let role = try Role<User>(name: "someRoleName")
         var acl = ParseACL()
         XCTAssertFalse(acl.getWriteAccess(user: user))
         XCTAssertFalse(acl.getWriteAccess(role: role))

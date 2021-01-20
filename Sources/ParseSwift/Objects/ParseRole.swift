@@ -29,10 +29,11 @@ public protocol ParseRole: ParseObject {
     var name: String { get set }
 
     /**
-     Initialize the `ParseRole` with a name.
-     - parameter name: The name of the Role to create.
+     Create a `ParseRole`. It's best to use the provided initializers, `init(name: String)`
+     or `init(name: String, acl: ParseACL)`. The provided initializers will overwrite
+     whatever name specified here, so you can use `self.name = ""`
      */
-    init(name: String)
+    init()
 }
 
 // MARK: Default Implementations
@@ -42,14 +43,36 @@ public extension ParseRole {
     }
 
     /**
-     Initialize the `ParseRole` with a name.
+     Create a `ParseRole` with a name. The `ParseACL` will still need to be initialized before saving.
+     - parameter name: The name of the Role to create.
+     - throws: `ParseError` if the name has invalid characters.
+     */
+    init(name: String) throws {
+        try Self.checkName(name)
+        self.init()
+    }
+
+    /**
+     Create a `ParseRole` with a name.
      - parameter name: The name of the Role to create.
      - parameter acl: The `ParseACL` for this role. Roles must have an ACL.
      A `ParseRole` is a local representation of a role persisted to the Parse Server.
+     - throws: `ParseError` if the name has invalid characters.
      */
-    init(name: String, acl: ParseACL) {
-        self.init(name: name)
-        self.ACL = ACL
+    init(name: String, acl: ParseACL) throws {
+        try Self.checkName(name)
+        self.init()
+        self.name = name
+        self.ACL = acl
+    }
+
+    static func checkName(_ name: String) throws {
+        // swiftlint:disable:next line_length
+        let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_- ")
+        if name.rangeOfCharacter(from: characterset.inverted) != nil {
+            throw ParseError(code: .unknownError,
+                             message: "A role's name can be only contain alphanumeric characters, _, '-, and spaces.")
+        }
     }
 
     static func == (lhs: Self, rhs: Self) -> Bool {
