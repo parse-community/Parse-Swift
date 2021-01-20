@@ -59,7 +59,7 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
 /**
  A default implementation of the `ParseSubscription` protocol, using closures for callbacks.
  */
-open class Subscription<Q: Query<T>, T: ParseObject>: ParseSubscription {
+open class Subscription<T: ParseObject>: ParseSubscription {
     //The query subscribed to.
     public var query: Query<T>
     //The ParseObject

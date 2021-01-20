@@ -21,7 +21,7 @@ score.score = 200
 try score.save()
 
 let afterDate = Date().addingTimeInterval(-300)
-let query = GameScore.query("score" > 100, "createdAt" > afterDate)
+var query = GameScore.query("score" > 100, "createdAt" > afterDate)
 
 // Query asynchronously (preferred way) - Performs work on background
 // queue and returns to designated on designated callbackQueue.

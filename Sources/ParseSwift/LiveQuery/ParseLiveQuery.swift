@@ -615,7 +615,7 @@ extension ParseLiveQuery {
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
-    func subscribe<T>(_ query: Query<T>) throws -> Subscription<Query<T>, T> {
+    func subscribe<T>(_ query: Query<T>) throws -> Subscription<T> {
         try subscribe(Subscription(query: query))
     }
 
@@ -693,7 +693,7 @@ public extension Query {
      Registers the query for live updates, using the default subscription handler,
      and the default `ParseLiveQuery` client.
      */
-    var subscribe: Subscription<Query<T>, ResultType>? {
+    var subscribe: Subscription<ResultType>? {
         try? ParseLiveQuery.client?.subscribe(self)
     }
 
@@ -703,7 +703,7 @@ public extension Query {
      - parameter client: A specific client.
      - returns: The subscription that has just been registered
      */
-    func subscribe(_ client: ParseLiveQuery) throws -> Subscription<Query<T>, ResultType> {
+    func subscribe(_ client: ParseLiveQuery) throws -> Subscription<ResultType> {
         try client.subscribe(Subscription(query: self))
     }
 

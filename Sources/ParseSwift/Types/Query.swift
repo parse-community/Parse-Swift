@@ -480,7 +480,7 @@ internal struct QueryWhere: Encodable, Equatable {
 /**
   The `Query` class defines a query that is used to query for `ParseObject`s.
 */
-public class Query<T>: Encodable, Equatable where T: ParseObject {
+public struct Query<T>: Encodable, Equatable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     internal var limit: Int = 100
@@ -523,7 +523,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
       Create an instance with a variadic amount constraints.
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
      */
-    public convenience init(_ constraints: QueryConstraint...) {
+    public init(_ constraints: QueryConstraint...) {
         self.init(constraints)
     }
 
@@ -533,34 +533,6 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public init(_ constraints: [QueryConstraint]) {
         constraints.forEach({ self.where.add($0) })
-    }
-
-    func copy() -> Query<T> {
-        let queue = DispatchQueue(label: "com.parse.queryCopy", qos: .default,
-                                  attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
-        let queryCopy = Query<T>()
-        let group = DispatchGroup()
-        group.enter()
-        queue.sync(flags: .barrier) {
-            queryCopy.limit = self.limit
-            queryCopy.skip = self.skip
-            queryCopy.keys = self.keys
-            queryCopy.include = self.include
-            queryCopy.order = self.order
-            queryCopy.isCount = self.isCount
-            queryCopy.explain = self.explain
-            queryCopy.hint = self.hint
-            queryCopy.`where` = self.`where`
-            queryCopy.excludeKeys = self.excludeKeys
-            queryCopy.readPreference = self.readPreference
-            queryCopy.includeReadPreference = self.includeReadPreference
-            queryCopy.subqueryReadPreference = self.subqueryReadPreference
-            queryCopy.distinct = self.distinct
-            queryCopy.fields = self.fields
-            group.leave()
-        }
-        group.wait()
-        return queryCopy
     }
 
     public static func == (lhs: Query<T>, rhs: Query<T>) -> Bool {
@@ -587,8 +559,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
      */
     public func `where`(_ constraints: QueryConstraint...) -> Query<T> {
-        constraints.forEach({ self.where.add($0) })
-        return self
+        var mutableQuery = self
+        constraints.forEach({ mutableQuery.where.add($0) })
+        return mutableQuery
     }
 
     /**
@@ -599,8 +572,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
       - note: If you are calling `find` with `limit = 1`, you may find it easier to use `first` instead.
     */
     public func limit(_ value: Int) -> Query<T> {
-        self.limit = value
-        return self
+        var mutableQuery = self
+        mutableQuery.limit = value
+        return mutableQuery
     }
 
     /**
@@ -609,8 +583,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter value: `n` number of results to skip.
     */
     public func skip(_ value: Int) -> Query<T> {
-        self.skip = value
-        return self
+        var mutableQuery = self
+        mutableQuery.skip = value
+        return mutableQuery
     }
 
     /**
@@ -622,10 +597,11 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     public func readPreference(_ readPreference: String?,
                                includeReadPreference: String? = nil,
                                subqueryReadPreference: String? = nil) -> Query<T> {
-        self.readPreference = readPreference
-        self.includeReadPreference = includeReadPreference
-        self.subqueryReadPreference = subqueryReadPreference
-        return self
+        var mutableQuery = self
+        mutableQuery.readPreference = readPreference
+        mutableQuery.includeReadPreference = includeReadPreference
+        mutableQuery.subqueryReadPreference = subqueryReadPreference
+        return mutableQuery
     }
 
     /**
@@ -633,8 +609,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter keys: A variadic list of keys to load child `ParseObject`s for.
      */
     public func include(_ keys: String...) -> Query<T> {
-        self.include = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.include = keys
+        return mutableQuery
     }
 
     /**
@@ -642,8 +619,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter keys: An array of keys to load child `ParseObject`s for.
      */
     public func include(_ keys: [String]) -> Query<T> {
-        self.include = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.include = keys
+        return mutableQuery
     }
 
     /**
@@ -651,8 +629,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - warning: Requires Parse Server 3.0.0+
      */
     public func includeAll() -> Query<T> {
-        self.include = ["*"]
-        return self
+        var mutableQuery = self
+        mutableQuery.include = ["*"]
+        return mutableQuery
     }
 
     /**
@@ -660,8 +639,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter keys: An arrays of keys to exclude.
     */
     public func exclude(_ keys: [String]?) -> Query<T> {
-        self.excludeKeys = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.excludeKeys = keys
+        return mutableQuery
     }
 
     /**
@@ -670,8 +650,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter keys: A variadic list of keys include in the result.
      */
     public func select(_ keys: String...) -> Query<T> {
-        self.keys = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.keys = keys
+        return mutableQuery
     }
 
     /**
@@ -680,8 +661,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter keys: An array of keys to include in the result.
      */
     public func select(_ keys: [String]) -> Query<T> {
-        self.keys = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.keys = keys
+        return mutableQuery
     }
 
     /**
@@ -689,8 +671,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter keys: An array of keys to order by.
     */
     public func order(_ keys: [Order]?) -> Query<T> {
-        self.order = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.order = keys
+        return mutableQuery
     }
 
     /**
@@ -698,8 +681,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter keys: A distinct key.
     */
     public func distinct(_ key: String?) -> Query<T> {
-        self.distinct = key
-        return self
+        var mutableQuery = self
+        mutableQuery.distinct = key
+        return mutableQuery
     }
 
     /**
@@ -714,8 +698,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      */
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: String...) -> Query<T> {
-        self.fields = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.fields = keys
+        return mutableQuery
     }
 
     /**
@@ -730,8 +715,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      */
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: [String]) -> Query<T> {
-        self.fields = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.fields = keys
+        return mutableQuery
     }
 
     /**
@@ -1052,14 +1038,14 @@ extension Query: Queryable {
 extension Query {
 
     func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
-        let query = self.copy()
+        let query = self
         return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
 
     func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType?> {
-        let query = self.copy()
+        var query = self
         query.limit = 1
         return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first
@@ -1067,7 +1053,7 @@ extension Query {
     }
 
     func countCommand() -> API.NonParseBodyCommand<Query<ResultType>, Int> {
-        let query = self.copy()
+        var query = self
         query.limit = 1
         query.isCount = true
         return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
@@ -1076,7 +1062,7 @@ extension Query {
     }
 
     func findCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
-        let query = self.copy()
+        var query = self
         query.explain = explain
         query.hint = hint
         return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
@@ -1088,7 +1074,7 @@ extension Query {
     }
 
     func firstCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
-        let query = self.copy()
+        var query = self
         query.limit = 1
         query.explain = explain
         query.hint = hint
@@ -1101,7 +1087,7 @@ extension Query {
     }
 
     func countCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
-        let query = self.copy()
+        var query = self
         query.limit = 1
         query.isCount = true
         query.explain = explain
