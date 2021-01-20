@@ -203,55 +203,6 @@ public extension ParseRelation {
     }
 }
 
-extension ParseRelation {
-    /**
-     Saves the relations on the `ParseObject` *synchronously* and throws an error if there's an issue.
-
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An error of type `ParseError`.
-
-     - returns: Returns saved `ParseObject`.
-    */
-    public func save(options: API.Options = []) throws -> T {
-        guard let parent = self.parent else {
-            throw ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
-        }
-        if !parent.isSaved {
-            throw ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
-        }
-        return try parent.operation.save()
-    }
-
-    /**
-     Saves the relations on the `ParseObject` *asynchronously* and executes the given callback block.
-
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter completion: The block to execute.
-     It should have the following argument signature: `(Result<T, ParseError>)`.
-    */
-    public func save(
-        options: API.Options = [],
-        callbackQueue: DispatchQueue = .main,
-        completion: @escaping (Result<T, ParseError>) -> Void
-    ) {
-        guard let parent = self.parent else {
-            let error = ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
-            completion(.failure(error))
-            return
-        }
-        if !parent.isSaved {
-            callbackQueue.async {
-                let error = ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
-                completion(.failure(error))
-            }
-            return
-        }
-
-        parent.operation.save(options: options, callbackQueue: callbackQueue, completion: completion)
-    }
-}
-
 // MARK: ParseRelation
 public extension ParseObject {
 
@@ -271,7 +222,7 @@ public extension ParseObject {
     }
 
     /**
-     Create a new relation with a specific key.
+     Create a new relation to a specific child.
      - parameter key: A key for the relation.
      - parameter child: The child `ParseObject`.
      - returns: A new `ParseRelation`.
