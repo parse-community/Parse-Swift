@@ -15,7 +15,7 @@ import Foundation
  Roles are specified by their sets of child users and child roles,
  all of which are granted any permissions that the parent role has.
  Roles must have a name (which cannot be changed after creation of the role),
- and must specify an `ParseACL`.
+ and must specify a `ParseACL`.
  */
 public protocol ParseRole: ParseObject {
 
@@ -30,7 +30,7 @@ public protocol ParseRole: ParseObject {
     /**
      Create a `ParseRole`. It's best to use the provided initializers, `init(name: String)`
      or `init(name: String, acl: ParseACL)`. The provided initializers will overwrite
-     whatever name specified here, so you can use `self.name = ""`
+     whatever name is specified here, so you can use `self.name = ""`
      */
     init()
 }

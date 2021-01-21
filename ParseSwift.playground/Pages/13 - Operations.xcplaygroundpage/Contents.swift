@@ -60,7 +60,7 @@ do {
     print(error)
 }
 
-//: There are other operations: add/remove/delete objects from `ParseObjects.
+//: There are other operations: add/remove/delete objects from `ParseObjects`.
 //: In fact, the `users` and `roles` relations from `ParseRoles` used the add/remove operations.
 let operations = savedScore.operation
 
