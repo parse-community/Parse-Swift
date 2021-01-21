@@ -23,6 +23,7 @@ public protocol ParseSession: ParseObject {
     var user: SessionUser { get }
 
     /// Whether the session is restricted.
+    /// - warning: This will be deprecated in newer versions of Parse Server.
     var restricted: Bool? { get }
 
     /// Information about how the session was created.

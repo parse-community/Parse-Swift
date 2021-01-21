@@ -84,6 +84,27 @@ class ParseRelationTests: XCTestCase {
         XCTAssertEqual(decoded2, expected2)
     }
 
+    func testInitWithChild() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        var relation = ParseRelation<GameScore>(parent: score, child: level)
+
+        let expected = "{\"className\":\"Level\",\"__type\":\"Relation\"}"
+        let encoded = try ParseCoding.jsonEncoder().encode(relation)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+
+        relation.className = "hello"
+        let expected2 = "{\"className\":\"hello\",\"__type\":\"Relation\"}"
+        let encoded2 = try ParseCoding.jsonEncoder().encode(relation)
+        let decoded2 = String(data: encoded2, encoding: .utf8)
+        XCTAssertEqual(decoded2, expected2)
+    }
+
     func testAddIncorrectClassError() throws {
         var score = GameScore(score: 10)
         let objectId = "hello"
@@ -196,6 +217,31 @@ class ParseRelationTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected = "{\"level\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"nice\"}],\"__op\":\"RemoveRelation\"}}"
         let encoded = try ParseCoding.jsonEncoder().encode(operation)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testQuery() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+        var relation = score.relation
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+
+        //No Key, this should throw
+        XCTAssertThrowsError(try relation.query(level))
+
+        //Wrong child for the relation, should throw
+        XCTAssertThrowsError(try relation.query(score))
+
+        relation.key = "level"
+        let query = try relation.query(level)
+
+        // swiftlint:disable:next line_length
+        let expected = "{\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"$relatedTo\":{\"key\":\"level\",\"object\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}}"
+        let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = String(data: encoded, encoding: .utf8)
         XCTAssertEqual(decoded, expected)
     }

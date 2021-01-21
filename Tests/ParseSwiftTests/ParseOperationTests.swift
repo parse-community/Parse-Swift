@@ -251,7 +251,7 @@ class ParseOperationTests: XCTestCase {
         let score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        let operations = score.operation
+        let operations = try score.operation
             .addRelation("test", objects: [score2])
         // swiftlint:disable:next line_length
         let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"AddRelation\"}}"
@@ -265,7 +265,7 @@ class ParseOperationTests: XCTestCase {
         let score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        let operations = score.operation
+        let operations = try score.operation
             .addRelation("test", objects: [score2])
         // swiftlint:disable:next line_length
         let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"AddRelation\"}}"
@@ -279,7 +279,7 @@ class ParseOperationTests: XCTestCase {
         let score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        let operations = score.operation
+        let operations = try score.operation
             .addRelation("test", objects: [score2])
         // swiftlint:disable:next line_length
         let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"AddRelation\"}}"
@@ -326,7 +326,7 @@ class ParseOperationTests: XCTestCase {
         let score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        let operations = score.operation
+        let operations = try score.operation
             .removeRelation("test", objects: [score2])
         // swiftlint:disable:next line_length
         let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"RemoveRelation\"}}"
@@ -340,7 +340,7 @@ class ParseOperationTests: XCTestCase {
         let score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        let operations = score.operation
+        let operations = try score.operation
             .removeRelation("test", objects: [score2])
         // swiftlint:disable:next line_length
         let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"RemoveRelation\"}}"
@@ -355,7 +355,7 @@ class ParseOperationTests: XCTestCase {
         let score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        let operations = score.operation
+        let operations = try score.operation
             .removeRelation("test", objects: [score2])
         // swiftlint:disable:next line_length
         let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"RemoveRelation\"}}"

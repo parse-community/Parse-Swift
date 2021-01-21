@@ -18,7 +18,6 @@ import Foundation
  and must specify an `ParseACL`.
  */
 public protocol ParseRole: ParseObject {
-    associatedtype RoleUser: ParseUser
 
     /**
      Gets or sets the name for a role.
@@ -39,7 +38,7 @@ public protocol ParseRole: ParseObject {
 // MARK: Default Implementations
 public extension ParseRole {
     static var className: String {
-        return "_Role"
+        "_Role"
     }
 
     /**
@@ -66,15 +65,6 @@ public extension ParseRole {
         self.ACL = acl
     }
 
-    static func checkName(_ name: String) throws {
-        // swiftlint:disable:next line_length
-        let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_- ")
-        if name.rangeOfCharacter(from: characterset.inverted) != nil {
-            throw ParseError(code: .unknownError,
-                             message: "A role's name can be only contain alphanumeric characters, _, '-, and spaces.")
-        }
-    }
-
     static func == (lhs: Self, rhs: Self) -> Bool {
         lhs.name == rhs.name
     }
@@ -91,6 +81,15 @@ extension ParseRole {
             return .role(objectId: objectId)
         }
         return .roles
+    }
+
+    static func checkName(_ name: String) throws {
+        // swiftlint:disable:next line_length
+        let characterset = CharacterSet(charactersIn: "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_- ")
+        if name.rangeOfCharacter(from: characterset.inverted) != nil {
+            throw ParseError(code: .unknownError,
+                             message: "A role's name can be only contain alphanumeric characters, _, '-, and spaces.")
+        }
     }
 }
 
@@ -115,5 +114,23 @@ public extension ParseRole {
      */
     var roles: ParseRelation<Self> {
         ParseRelation(parent: self, key: "roles", className: "_Role")
+    }
+
+    /**
+     Query the `ParseRelation` for the `ParseUser`'s that are direct children of this role.
+     These users are granted any privileges that this role has been granted
+     (e.g. read or write access through `ParseACL`s).
+     */
+    func queryUsers<T>(_ user: T) throws -> Query<T> where T: ParseUser {
+        try users.query(user)
+    }
+
+    /**
+     Query the `ParseRelation` for the `ParseRole`'s that are direct children of this role.
+     These users are granted any privileges that this role has been granted
+     (e.g. read or write access through `ParseACL`s).
+     */
+    var queryRoles: Query<Self>? {
+        try? roles.query(self)
     }
 }

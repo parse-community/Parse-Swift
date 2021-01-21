@@ -50,11 +50,11 @@ class ParsePointerTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
-    func testPointer() {
+    func testPointer() throws {
         var score = GameScore(score: 10)
         score.objectId = "yarr"
-        let pointer = score.toPointer()
-        let initializedPointer = Pointer(score)
+        let pointer = try score.toPointer()
+        let initializedPointer = try Pointer(score)
         XCTAssertEqual(pointer.className, score.className)
         XCTAssertEqual(pointer.objectId, score.objectId)
         XCTAssertEqual(pointer.className, initializedPointer.className)
@@ -62,11 +62,11 @@ class ParsePointerTests: XCTestCase {
     }
 
     // swiftlint:disable:next function_body_length
-    func testFetch() {
+    func testFetch() throws {
         var score = GameScore(score: 10)
         let objectId = "yarr"
         score.objectId = objectId
-        let pointer = score.toPointer()
+        let pointer = try score.toPointer()
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
@@ -185,11 +185,11 @@ class ParsePointerTests: XCTestCase {
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    func testThreadSafeFetchAsync() {
+    func testThreadSafeFetchAsync() throws {
         var score = GameScore(score: 10)
         let objectId = "yarr"
         score.objectId = objectId
-        let pointer = score.toPointer()
+        let pointer = try score.toPointer()
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
@@ -215,11 +215,11 @@ class ParsePointerTests: XCTestCase {
         }
     }
 
-    func testFetchAsyncMainQueue() {
+    func testFetchAsyncMainQueue() throws {
         var score = GameScore(score: 10)
         let objectId = "yarr"
         score.objectId = objectId
-        let pointer = score.toPointer()
+        let pointer = try score.toPointer()
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()

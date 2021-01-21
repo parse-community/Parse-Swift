@@ -265,7 +265,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
             if !self.collectChildren && codingPath.count > 0 {
                 valueToEncode = value
             } else if !self.collectChildren {
-                valueToEncode = value.toPointer()
+                valueToEncode = try value.toPointer()
             }
         } else {
             let hashOfCurrentObject = try BaseObjectable.createHash(value)

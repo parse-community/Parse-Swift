@@ -21,14 +21,6 @@ public struct ParseRelation<T>: Codable where T: ParseObject {
     /// The name of the class of the target child objects.
     public var className: String?
 
-    /// Returns true if the `ParseRelation` has pending operations.
-    public var hasNewOperations: Bool {
-        guard let operation = self.parent?.operation else {
-            return false
-        }
-        return !operation.operations.isEmpty
-    }
-
     var key: String?
 
     /**
@@ -82,7 +74,7 @@ public struct ParseRelation<T>: Codable where T: ParseObject {
             throw ParseError(code: .unknownError, message: "All objects have to have the same className.")
         }
 
-        return parent.operation.addRelation(key, objects: objects)
+        return try parent.operation.addRelation(key, objects: objects)
     }
 
     /**
@@ -104,16 +96,16 @@ public struct ParseRelation<T>: Codable where T: ParseObject {
         if !isSameClass(objects) {
             throw ParseError(code: .unknownError, message: "All objects have to have the same className.")
         }
-        return parent.operation.removeRelation(key, objects: objects)
+        return try parent.operation.removeRelation(key, objects: objects)
     }
 
     /**
      Returns a `Query` that is limited to objects in this relation.
-        - parameter target: The target class for the relation.
+        - parameter child: The child class for the relation.
         - throws: An error of type `ParseError`.
         - returns: A relation query
     */
-    public func query<U>(_ target: U) throws -> Query<U> where U: ParseObject {
+    public func query<U>(_ child: U) throws -> Query<U> where U: ParseObject {
 
         guard let parent = self.parent else {
             throw ParseError(code: .unknownError,
@@ -123,12 +115,11 @@ public struct ParseRelation<T>: Codable where T: ParseObject {
             throw ParseError(code: .unknownError,
                              message: "ParseRelation must have the key set before querying.")
         }
-        if !isSameClass([target]) {
+        if !isSameClass([child]) {
             throw ParseError(code: .unknownError,
-                             message: "ParseRelation must have the same target class as the original relation.")
+                             message: "ParseRelation must have the same child class as the original relation.")
         }
-        return Query<U>(related(key: "object", object: parent),
-                        related(key: "key", object: key))
+        return Query<U>(related(key: key, object: try parent.toPointer()))
     }
 
     func isSameClass<U>(_ objects: [U]) -> Bool where U: ParseObject {

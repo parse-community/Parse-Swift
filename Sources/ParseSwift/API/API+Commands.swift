@@ -359,7 +359,7 @@ internal extension API.Command {
         let mapper = { (data: Data) -> PointerType in
             let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
             objectable.objectId = baseObjectable.objectId
-            return objectable.toPointer()
+            return try objectable.toPointer()
         }
         return API.Command<T, PointerType>(method: .POST,
                                  path: objectable.endpoint,
@@ -374,7 +374,7 @@ internal extension API.Command {
         let mapper = { (data: Data) -> PointerType in
             let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
             objectable.objectId = baseObjectable.objectId
-            return objectable.toPointer()
+            return try objectable.toPointer()
         }
         return API.Command<T, PointerType>(method: .PUT,
                                  path: objectable.endpoint,

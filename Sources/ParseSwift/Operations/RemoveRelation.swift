@@ -12,7 +12,7 @@ internal struct RemoveRelation<T>: Encodable where T: ParseObject {
     let __op: String = "RemoveRelation" // swiftlint:disable:this identifier_name
     let objects: [Pointer<T>]
 
-    init(objects: [T]) {
-        self.objects = objects.compactMap { $0.toPointer() }
+    init(objects: [T]) throws {
+        self.objects = try objects.compactMap { try $0.toPointer() }
     }
 }

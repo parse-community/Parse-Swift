@@ -1247,15 +1247,18 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testWhereKeyRelated() {
+    func testWhereKeyRelated() throws {
         let expected: [String: AnyCodable] = [
             "$relatedTo": [
                 "key": "yolo",
-                "object": ["score": 50]
+                "object": ["__type": "Pointer",
+                           "className": "GameScore",
+                           "objectId": "hello"]
             ]
         ]
-        let object = GameScore(score: 50)
-        let constraint = related(key: "yolo", object: object)
+        var object = GameScore(score: 50)
+        object.objectId = "hello"
+        let constraint = related(key: "yolo", object: try object.toPointer())
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
 
@@ -1266,14 +1269,14 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             guard let expectedValues = expected.values.first?.value as? [String: Any],
                   let expectedKey = expectedValues["key"] as? String,
-                  let expectedObject = expectedValues["object"] as? [String: Int] else {
+                  let expectedObject = expectedValues["object"] as? [String: String] else {
                 XCTFail("Should have casted")
                 return
             }
 
             guard let decodedValues = decodedDictionary.values.first?.value as? [String: Any],
                   let decodedKey = decodedValues["key"] as? String,
-                  let decodedObject = decodedValues["object"] as? [String: Int] else {
+                  let decodedObject = decodedValues["object"] as? [String: String] else {
                 XCTFail("Should have casted")
                 return
             }

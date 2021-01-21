@@ -66,7 +66,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var scoreOnServer2 = score2
         scoreOnServer2.objectId = "yolo"
-        scoreOnServer2.createdAt = Date()
+        scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
         scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
@@ -95,7 +95,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var scoreOnServer2 = score2
         scoreOnServer2.objectId = "yolo"
-        scoreOnServer2.createdAt = Date()
+        scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
@@ -153,8 +153,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         XCTFail("Should unwrap dates")
                         return
                 }
-                guard let originalCreatedAt = scoreOnServer.createdAt,
-                    let originalUpdatedAt = scoreOnServer.updatedAt else {
+                guard let originalCreatedAt = scoreOnServer2.createdAt,
+                    let originalUpdatedAt = scoreOnServer2.updatedAt else {
                         XCTFail("Should unwrap dates")
                         return
                 }
@@ -202,8 +202,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         XCTFail("Should unwrap dates")
                         return
                 }
-                guard let originalCreatedAt = scoreOnServer.createdAt,
-                    let originalUpdatedAt = scoreOnServer.updatedAt else {
+                guard let originalCreatedAt = scoreOnServer2.createdAt,
+                    let originalUpdatedAt = scoreOnServer2.updatedAt else {
                         XCTFail("Should unwrap dates")
                         return
                 }
@@ -225,13 +225,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         var scoreOnServer2 = score2
         scoreOnServer2.objectId = "yolo"
-        scoreOnServer2.createdAt = Date()
-        scoreOnServer2.updatedAt = Date()
+        scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
+        scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
         MockURLProtocol.mockRequests { _ in
@@ -308,14 +308,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        score2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        score2.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        score2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
+        score2.updatedAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
         score2.ACL = nil
 
         var scoreOnServer = score
         scoreOnServer.updatedAt = Date()
         var scoreOnServer2 = score2
-        scoreOnServer2.updatedAt = Date()
+        scoreOnServer2.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
 
         let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil),
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
@@ -435,14 +435,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        score2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        score2.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        score2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
+        score2.updatedAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
         score2.ACL = nil
 
         var scoreOnServer = score
         scoreOnServer.updatedAt = Date()
         var scoreOnServer2 = score2
-        scoreOnServer2.updatedAt = Date()
+        scoreOnServer2.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -478,8 +478,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        score2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        score2.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        score2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
+        score2.updatedAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
         score2.ACL = nil
 
         var scoreOnServer = score
@@ -489,7 +489,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer.ACL = nil
 
         var scoreOnServer2 = score2
-        scoreOnServer2.updatedAt = Date()
+        scoreOnServer2.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
 
         let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil),
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
@@ -738,13 +738,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         var scoreOnServer2 = score2
         scoreOnServer2.objectId = "yolo"
-        scoreOnServer2.createdAt = Date()
-        scoreOnServer2.updatedAt = Date()
+        scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
         let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil),
@@ -784,7 +784,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var scoreOnServer2 = score2
         scoreOnServer2.objectId = "yolo"
-        scoreOnServer2.createdAt = Date()
+        scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
         scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
@@ -948,14 +948,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        score2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        score2.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        score2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
+        score2.updatedAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
         score2.ACL = nil
 
         var scoreOnServer = score
         scoreOnServer.updatedAt = Date()
         var scoreOnServer2 = score2
-        scoreOnServer2.updatedAt = Date()
+        scoreOnServer2.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
 
         let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil),
                         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
@@ -993,14 +993,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var score2 = GameScore(score: 20)
         score2.objectId = "yolo"
-        score2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        score2.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        score2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
+        score2.updatedAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
         score2.ACL = nil
 
         var scoreOnServer = score
         scoreOnServer.updatedAt = Date()
         var scoreOnServer2 = score2
-        scoreOnServer2.updatedAt = Date()
+        scoreOnServer2.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
 
         let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil),
                         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
@@ -1039,7 +1039,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var scoreOnServer2 = score2
         scoreOnServer2.objectId = "yolo"
-        scoreOnServer2.createdAt = Date()
+        scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
         scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
@@ -1102,8 +1102,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                         XCTFail("Should unwrap dates")
                         return
                 }
-                guard let originalCreatedAt = scoreOnServer.createdAt,
-                    let originalUpdatedAt = scoreOnServer.updatedAt else {
+                guard let originalCreatedAt = scoreOnServer2.createdAt,
+                    let originalUpdatedAt = scoreOnServer2.updatedAt else {
                         XCTFail("Should unwrap dates")
                         return
                 }
@@ -1209,13 +1209,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         var scoreOnServer2 = score2
         scoreOnServer2.objectId = "yolo"
-        scoreOnServer2.createdAt = Date()
-        scoreOnServer2.updatedAt = Date()
+        scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
+        scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
         let response = QueryResponse<GameScore>(results: [scoreOnServer, scoreOnServer2], count: 2)
@@ -1254,7 +1254,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         var scoreOnServer2 = score2
         scoreOnServer2.objectId = "yolo"
-        scoreOnServer2.createdAt = Date()
+        scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
         scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 

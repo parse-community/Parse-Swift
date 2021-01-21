@@ -78,8 +78,8 @@ extension Objectable {
         return objectId != nil
     }
 
-    func toPointer() -> PointerType {
-        return PointerType(self)
+    func toPointer() throws -> PointerType {
+        return try PointerType(self)
     }
 }
 

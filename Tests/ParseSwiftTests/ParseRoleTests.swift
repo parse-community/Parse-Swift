@@ -306,4 +306,45 @@ class ParseRoleTests: XCTestCase {
         let decoded2 = String(data: encoded2, encoding: .utf8)
         XCTAssertEqual(decoded2, expected2)
     }
+
+    func testUserQuery() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        var user = User()
+        user.objectId = "heel"
+
+        var userRoles = try Role<User>(name: "Administrator", acl: acl)
+        userRoles.objectId = "yolo"
+        let query = try userRoles.queryUsers(user)
+
+        // swiftlint:disable:next line_length
+        let expected = "{\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"$relatedTo\":{\"key\":\"users\",\"object\":{\"__type\":\"Pointer\",\"className\":\"_Role\",\"objectId\":\"yolo\"}}}}"
+        let encoded = try ParseCoding.jsonEncoder().encode(query)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testRoleQuery() throws {
+        var acl = ParseACL()
+        acl.publicWrite = false
+        acl.publicRead = true
+
+        var role = try Role<User>(name: "Administrator", acl: acl)
+        role.objectId = "yolo"
+
+        var newRole = try Role<User>(name: "Moderator", acl: acl)
+        newRole.objectId = "heel"
+        guard let query = role.queryRoles else {
+            XCTFail("Should unwrap, if it doesn't it an error occurred when creating query.")
+            return
+        }
+
+        // swiftlint:disable:next line_length
+        let expected2 = "{\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"$relatedTo\":{\"key\":\"roles\",\"object\":{\"__type\":\"Pointer\",\"className\":\"_Role\",\"objectId\":\"yolo\"}}}}"
+        let encoded2 = try ParseCoding.jsonEncoder().encode(query)
+        let decoded2 = String(data: encoded2, encoding: .utf8)
+        XCTAssertEqual(decoded2, expected2)
+    }
 }

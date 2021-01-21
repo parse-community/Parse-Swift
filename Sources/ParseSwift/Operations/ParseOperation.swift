@@ -146,9 +146,9 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - key: The key of the object.
         - objects: The field of objects.
      */
-    public func addRelation<W>(_ key: String, objects: [W]) -> Self where W: ParseObject {
+    public func addRelation<W>(_ key: String, objects: [W]) throws -> Self where W: ParseObject {
         var mutableOperation = self
-        mutableOperation.operations[key] = AddRelation(objects: objects)
+        mutableOperation.operations[key] = try AddRelation(objects: objects)
         return mutableOperation
     }
 
@@ -164,7 +164,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
             throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
         }
         var mutableOperation = self
-        mutableOperation.operations[key.0] = AddRelation(objects: objects)
+        mutableOperation.operations[key.0] = try AddRelation(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
         mutableOperation.target?[keyPath: key.1] = values
@@ -183,7 +183,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
             throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
         }
         var mutableOperation = self
-        mutableOperation.operations[key.0] = AddRelation(objects: objects)
+        mutableOperation.operations[key.0] = try AddRelation(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
         mutableOperation.target?[keyPath: key.1] = values
@@ -256,9 +256,9 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - key: The key of the object.
         - objects: The field of objects.
      */
-    public func removeRelation<W>(_ key: String, objects: [W]) -> Self where W: ParseObject {
+    public func removeRelation<W>(_ key: String, objects: [W]) throws -> Self where W: ParseObject {
         var mutableOperation = self
-        mutableOperation.operations[key] = RemoveRelation(objects: objects)
+        mutableOperation.operations[key] = try RemoveRelation(objects: objects)
         return mutableOperation
     }
 
@@ -275,7 +275,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
             throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
         }
         var mutableOperation = self
-        mutableOperation.operations[key.0] = RemoveRelation(objects: objects)
+        mutableOperation.operations[key.0] = try RemoveRelation(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values)
         objects.forEach {
@@ -298,7 +298,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
             throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
         }
         var mutableOperation = self
-        mutableOperation.operations[key.0] = RemoveRelation(objects: objects)
+        mutableOperation.operations[key.0] = try RemoveRelation(objects: objects)
         let values = target[keyPath: key.1]
         var set = Set<V>(values ?? [])
         objects.forEach {
