@@ -107,6 +107,13 @@ class ParseRoleTests: XCTestCase {
         XCTAssertThrowsError(try Role<User>(name: "Hello9!", acl: ParseACL()))
     }
 
+    func testEndPoint() throws {
+        var role = try Role<User>(name: "Administrator")
+        role.objectId = "me"
+        //This endpoint is at the ParseRole level
+        XCTAssertEqual(role.endpoint.urlComponent, "/roles/me")
+    }
+
     func testUserAddIncorrectClassKeyError() throws {
         var acl = ParseACL()
         acl.publicWrite = false

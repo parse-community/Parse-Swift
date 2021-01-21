@@ -81,6 +81,7 @@ class ParseSessionTests: XCTestCase {
         do {
             let command = try session.fetchCommand()
             XCTAssertNotNil(command)
+            //Generates this component because fetchCommand is at the Objective protocol level
             XCTAssertEqual(command.path.urlComponent, "/classes/_Session/me")
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
@@ -89,5 +90,12 @@ class ParseSessionTests: XCTestCase {
         } catch {
             XCTFail(error.localizedDescription)
         }
+    }
+
+    func testEndPoint() throws {
+        var session = Session<User>()
+        session.objectId = "me"
+        //This endpoint is at the ParseSession level
+        XCTAssertEqual(session.endpoint.urlComponent, "/sessions/me")
     }
 }

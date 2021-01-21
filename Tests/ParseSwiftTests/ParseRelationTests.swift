@@ -84,6 +84,41 @@ class ParseRelationTests: XCTestCase {
         XCTAssertEqual(decoded2, expected2)
     }
 
+    func testParseObjectRelation() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+
+        var level = Level(level: 1)
+        level.objectId = "nice"
+
+        var relation = score.relation("yolo", child: level)
+
+        let expected = "{\"className\":\"Level\",\"__type\":\"Relation\"}"
+        let encoded = try ParseCoding.jsonEncoder().encode(relation)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded, expected)
+
+        relation.className = "hello"
+        let expected2 = "{\"className\":\"hello\",\"__type\":\"Relation\"}"
+        let encoded2 = try ParseCoding.jsonEncoder().encode(relation)
+        let decoded2 = String(data: encoded2, encoding: .utf8)
+        XCTAssertEqual(decoded2, expected2)
+
+        var relation2 = score.relation("yolo", className: "Level")
+
+        let expected3 = "{\"className\":\"Level\",\"__type\":\"Relation\"}"
+        let encoded3 = try ParseCoding.jsonEncoder().encode(relation2)
+        let decoded3 = String(data: encoded3, encoding: .utf8)
+        XCTAssertEqual(decoded3, expected3)
+
+        relation2.className = "hello"
+        let expected4 = "{\"className\":\"hello\",\"__type\":\"Relation\"}"
+        let encoded4 = try ParseCoding.jsonEncoder().encode(relation2)
+        let decoded4 = String(data: encoded4, encoding: .utf8)
+        XCTAssertEqual(decoded4, expected4)
+    }
+
     func testInitWithChild() throws {
         var score = GameScore(score: 10)
         let objectId = "hello"
