@@ -81,7 +81,8 @@ if savedRole != nil {
 
 //: Users can be added to our previously saved Role.
 do {
-    //try savedRole!.addUsers([User.current!])
+    //: `ParseRoles` have `ParseRelations` that relate them either `ParseUser` and `ParseRole` objects.
+    //: The `ParseUser` relations can be accessed using `users`. We can then add `ParseUser`'s to the relation.
     try savedRole!.users.add([User.current!]).save { result in
         switch result {
         case .success(let saved):
@@ -95,6 +96,108 @@ do {
 
 } catch {
     print("Error: \(error)")
+}
+
+//: To retrieve the users who are all Administrators, we need to query the relation.
+let templateUser = User()
+savedRole!.users.query(templateUser).find { result in
+    switch result {
+    case .success(let relatedUsers):
+        print("The following users are part of the \"\(savedRole!.name) role: \(relatedUsers)")
+
+    case .failure(let error):
+        print("Error saving role: \(error)")
+    }
+}
+
+//: Of course, you can remove users from the roles as well.
+try savedRole!.users.remove([User.current!]).save { result in
+    switch result {
+    case .success(let saved):
+        print("The role removed successfully: \(saved)")
+        print("Check \"users\" field in your \"Role\" class in Parse Dashboard.")
+
+    case .failure(let error):
+        print("Error saving role: \(error)")
+    }
+}
+
+//: Additional roles can be created and tied to already created roles. Lets create a "Member" role.
+
+//: This variable will store the saved role
+var savedRoleModerator: Role<User>?
+
+//: We need another ACL
+var acl = ParseACL()
+acl.setReadAccess(user: User.current!, value: true)
+acl.setWriteAccess(user: User.current!, value: false)
+
+do {
+    //: Create the actual Role with a name and ACL.
+    var memberRole = try Role<User>(name: "Member", acl: acl)
+    memberRole.save { result in
+        switch result {
+        case .success(let saved):
+            print("The role saved successfully: \(saved)")
+            print("Check your \"Role\" class in Parse Dashboard.")
+
+            //: Store the saved role so we can use it later...
+            savedRoleModerator = saved
+
+        case .failure(let error):
+            print("Error saving role: \(error)")
+        }
+    }
+} catch {
+    print("Error: \(error)")
+}
+
+//: Lets check to see if our Role has saved
+if savedRoleModerator != nil {
+    print("We have a saved Role")
+}
+
+//: Roles can be added to our previously saved Role.
+do {
+    //: `ParseRoles` have `ParseRelations` that relate them either `ParseUser` and `ParseRole` objects.
+    //: The `ParseUser` relations can be accessed using `users`. We can then add `ParseUser`'s to the relation.
+    try savedRole!.roles.add([savedRoleModerator!]).save { result in
+        switch result {
+        case .success(let saved):
+            print("The role saved successfully: \(saved)")
+            print("Check \"roles\" field in your \"Role\" class in Parse Dashboard.")
+
+        case .failure(let error):
+            print("Error saving role: \(error)")
+        }
+    }
+
+} catch {
+    print("Error: \(error)")
+}
+
+//: To retrieve the users who are all Administrators, we need to query the relation.
+//: This time we will use a helper query from `ParseRole`.
+savedRole!.queryRoles?.find() { result in
+    switch result {
+    case .success(let relatedRoles):
+        print("The following roles are part of the \"\(savedRole!.name) role: \(relatedRoles)")
+
+    case .failure(let error):
+        print("Error saving role: \(error)")
+    }
+}
+
+//: Of course, you can remove users from the roles as well.
+try savedRole!.roles.remove([savedRoleModerator!]).save { result in
+    switch result {
+    case .success(let saved):
+        print("The role removed successfully: \(saved)")
+        print("Check the \"roles\" field in your \"Role\" class in Parse Dashboard.")
+
+    case .failure(let error):
+        print("Error saving role: \(error)")
+    }
 }
 
 PlaygroundPage.current.finishExecution()
