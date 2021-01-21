@@ -143,7 +143,7 @@ public func or <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
 
 /**
   Returns a `Query` that is the `nor` of the passed in queries.
-  - parameter queries: The list of queries to or together.
+  - parameter queries: The list of queries to `or` together.
   - returns: An instance of `QueryConstraint`'s that are the `nor` of the passed in queries.
  */
 public func nor <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
@@ -260,7 +260,7 @@ public func containedBy <T>(key: String, array: [T]) -> QueryConstraint where T:
 }
 
 /**
- Add a constraint to the query that requires a particular key's time is related a specified time. E.g. "3 days ago".
+ Add a constraint to the query that requires a particular key's time is related to a specified time. E.g. "3 days ago".
 
  - parameter key: The key to be constrained. Should be a Date field.
  - parameter comparator: How the relative time should be compared. Currently only supports the
