@@ -484,6 +484,8 @@
 		70C7DC2024D20F190050419B /* ParseObjectBatchTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseObjectBatchTests.swift; sourceTree = "<group>"; };
 		70CE1D882545BF730018D572 /* ParsePointerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePointerTests.swift; sourceTree = "<group>"; };
 		70D1BD8625B8C37200A42E7C /* ParseRelationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseRelationTests.swift; sourceTree = "<group>"; };
+		70D1BDA525BA192700A42E7C /* CHANGELOG.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CHANGELOG.md; sourceTree = "<group>"; };
+		70D1BDA625BA193500A42E7C /* CONTRIBUTING.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = CONTRIBUTING.md; sourceTree = "<group>"; };
 		70F2E23E254F246000B2EA5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70F2E250254F247000B2EA5C /* ParseSwiftTestsmacOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParseSwiftTestsmacOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70F2E254254F247000B2EA5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -686,6 +688,8 @@
 			isa = PBXGroup;
 			children = (
 				9158916A256A07DD0024BE9A /* README.md */,
+				70D1BDA525BA192700A42E7C /* CHANGELOG.md */,
+				70D1BDA625BA193500A42E7C /* CONTRIBUTING.md */,
 				4A5EE45F1F49E9E000D3CAE3 /* Sources */,
 				4A5EE4601F49EA0600D3CAE3 /* Tests */,
 				4A65114E1F48E3CE005237DF /* ParseSwift-iOS */,
