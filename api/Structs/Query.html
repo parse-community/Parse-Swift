@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Query Class Reference</title>
+    <title>Query Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,16 +14,16 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Class/Query" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/Query" class="dashAnchor"></a>
 
-    <a title="Query Class Reference"></a>
+    <a title="Query Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
           ParseSwift 1.0 Docs
         </a>
-         (83% documented)
+         (85% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      Query Class Reference
+      Query Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -61,12 +61,6 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/Query.html">Query</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Classes/Query/Order.html">– Order</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Classes/Subscription.html">Subscription</a>
@@ -93,13 +87,16 @@
             <a class="nav-group-name-link" href="../Functions.html">Functions</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_AA0D0CyxGtAA0A6ObjectRzlF">!=(_:_:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_AA0D0VyxGtAA0A6ObjectRzlF">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA0D0CyxGtAA0A6ObjectRzlF">==(_:_:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA0D0VyxGtAA0A6ObjectRzlF">==(_:_:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0CyxGG_tAA0A6ObjectRzlF">and(queries:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">and(queries:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containedBy(key:array:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containedIn(key:array:)</a>
@@ -114,7 +111,7 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift12doesNotExist3keyAA15QueryConstraintVSS_tF">doesNotExist(key:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0CyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
@@ -126,10 +123,7 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift9hasSuffix3key6suffixAA15QueryConstraintVSS_SStF">hasSuffix(key:suffix:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift10initialize13applicationId9clientKey06masterG09serverURL015liveQueryServerJ020primitiveObjectStore14authenticationySS_SSSgAJ10Foundation0J0VAMSgAA09PrimitiveoP0_pSgySo28NSURLAuthenticationChallengeC_ySo016NSURLSessionAuthU11DispositionV_So15NSURLCredentialCSgtXEtcSgtF">initialize(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:primitiveObjectStore:authentication:)</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift17matchesKeyInQuery3key05queryD00H0AA0F10ConstraintVSS_SSAA0F0CyxGtAA0A6ObjectRzlF">matchesKeyInQuery(key:queryKey:query:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift17matchesKeyInQuery3key05queryD00H0AA0F10ConstraintVSS_SSAA0F0VyxGtAA0A6ObjectRzlF">matchesKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift12matchesRegex3key5regexAA15QueryConstraintVSS_SStF">matchesRegex(key:regex:)</a>
@@ -144,31 +138,37 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift4near3key8geoPointAA15QueryConstraintVSS_AA0a3GeoF0VtF">near(key:geoPoint:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3nor7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">nor(queries:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">notContainedIn(key:array:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2or7queriesAA15QueryConstraintVSayAA0E0CyxGG_tAA0A6ObjectRzlF">or(queries:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2or7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">or(queries:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift15polygonContains3key5pointAA15QueryConstraintVSS_AA0A8GeoPointVtF">polygonContains(key:point:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7related3key6parentAA15QueryConstraintVSS_xtAA0A6ObjectRzlF">related(key:parent:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7related3key6objectAA15QueryConstraintVSS_AA7PointerVyxGtAA0A6ObjectRzlF">related(key:object:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift8relative3key10comparator4timeAA15QueryConstraintVSS_AG10ComparatorOSStF">relative(key:comparator:time:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift12withinGeoBox3key13fromSouthWest11toNortheastAA15QueryConstraintVSS_AA0aD5PointVAItF">withinGeoBox(key:fromSouthWest:toNortheast:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift16withinKilometers3key8geoPoint8distanceSayAA15QueryConstraintVGSS_AA0a3GeoG0VSdtF">withinKilometers(key:geoPoint:distance:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift16withinKilometers3key8geoPoint8distance6sortedSayAA15QueryConstraintVGSS_AA0a3GeoG0VSdSbtF">withinKilometers(key:geoPoint:distance:sorted:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11withinMiles3key8geoPoint8distanceSayAA15QueryConstraintVGSS_AA0a3GeoG0VSdtF">withinMiles(key:geoPoint:distance:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11withinMiles3key8geoPoint8distance6sortedSayAA15QueryConstraintVGSS_AA0a3GeoG0VSdSbtF">withinMiles(key:geoPoint:distance:sorted:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift13withinPolygon3key6pointsAA15QueryConstraintVSS_SayAA0A8GeoPointVGtF">withinPolygon(key:points:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift13withinRadians3key8geoPoint8distanceSayAA15QueryConstraintVGSS_AA0a3GeoG0VSdtF">withinRadians(key:geoPoint:distance:)</a>
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift13withinRadians3key8geoPoint8distance6sortedSayAA15QueryConstraintVGSS_AA0a3GeoG0VSdSbtF">withinRadians(key:geoPoint:distance:sorted:)</a>
               </li>
             </ul>
           </li>
@@ -176,10 +176,16 @@
             <a class="nav-group-name-link" href="../Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseAuthentication.html">ParseAuthentication</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseCloud.html">ParseCloud</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseInstallation.html">ParseInstallation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseKeyValueStore.html">ParseKeyValueStore</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseLiveQueryDelegate.html">ParseLiveQueryDelegate</a>
@@ -188,16 +194,16 @@
                 <a class="nav-group-task-link" href="../Protocols/ParseObject.html">ParseObject</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseRole.html">ParseRole</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseSession.html">ParseSession</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseSubscription.html">ParseSubscription</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseUser.html">ParseUser</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/PrimitiveObjectStore.html">PrimitiveObjectStore</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a>
               </li>
             </ul>
           </li>
@@ -232,6 +238,21 @@
                 <a class="nav-group-task-link" href="../Structs/ParseGeoPoint.html">ParseGeoPoint</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseOperation.html">ParseOperation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseRelation.html">ParseRelation</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseSwift.html">ParseSwift</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Query.html">Query</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/Query/Order.html">– Order</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/QueryConstraint.html">QueryConstraint</a>
               </li>
             </ul>
@@ -246,7 +267,7 @@
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">class</span> <span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">Equatable</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">Equatable</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 <pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">Query</span><span class="p">:</span> <span class="kt">Queryable</span></code></pre>
 
                 </div>
@@ -263,9 +284,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5OrderO"></a>
+                    <a name="/s:10ParseSwift5QueryV5OrderO"></a>
                     <a name="//apple_ref/swift/Enum/Order" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5OrderO">Order</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5OrderO">Order</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -275,7 +296,7 @@
                       <div class="abstract">
                         <p>An enum that determines the order to sort the results based on a given key.</p>
 
-                        <a href="../Classes/Query/Order.html" class="slightly-smaller">See more</a>
+                        <a href="../Structs/Query/Order.html" class="slightly-smaller">See more</a>
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -310,9 +331,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryCyACyxGAA0C10ConstraintVd_tcfc"></a>
+                    <a name="/s:10ParseSwift5QueryVyACyxGAA0C10ConstraintVd_tcfc"></a>
                     <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryCyACyxGAA0C10ConstraintVd_tcfc">init(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryVyACyxGAA0C10ConstraintVd_tcfc">init(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -327,7 +348,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">convenience</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">constraints</span><span class="p">:</span> <span class="kt"><a href="../Structs/QueryConstraint.html">QueryConstraint</a></span><span class="o">...</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">_</span> <span class="nv">constraints</span><span class="p">:</span> <span class="kt"><a href="../Structs/QueryConstraint.html">QueryConstraint</a></span><span class="o">...</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -356,9 +377,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryCyACyxGSayAA0C10ConstraintVGcfc"></a>
+                    <a name="/s:10ParseSwift5QueryVyACyxGSayAA0C10ConstraintVGcfc"></a>
                     <a name="//apple_ref/swift/Method/init(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryCyACyxGSayAA0C10ConstraintVGcfc">init(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryVyACyxGSayAA0C10ConstraintVGcfc">init(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -428,9 +449,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5whereyACyxGAA0C10ConstraintVd_tF"></a>
+                    <a name="/s:10ParseSwift5QueryV5whereyACyxGAA0C10ConstraintVd_tF"></a>
                     <a name="//apple_ref/swift/Method/where(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5whereyACyxGAA0C10ConstraintVd_tF">where(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5whereyACyxGAA0C10ConstraintVd_tF">where(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -474,9 +495,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5limityACyxGSiF"></a>
+                    <a name="/s:10ParseSwift5QueryV5limityACyxGSiF"></a>
                     <a name="//apple_ref/swift/Method/limit(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5limityACyxGSiF">limit(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5limityACyxGSiF">limit(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -526,9 +547,9 @@ maximum of 1000 results being returned at a time.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC4skipyACyxGSiF"></a>
+                    <a name="/s:10ParseSwift5QueryV4skipyACyxGSiF"></a>
                     <a name="//apple_ref/swift/Method/skip(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC4skipyACyxGSiF">skip(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV4skipyACyxGSiF">skip(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -573,9 +594,9 @@ This is useful for pagination. Default is to skip zero results.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC14readPreference_011includeReadE008subquerygE0ACyxGSSSg_A2HtF"></a>
+                    <a name="/s:10ParseSwift5QueryV14readPreference_011includeReadE008subquerygE0ACyxGSSSg_A2HtF"></a>
                     <a name="//apple_ref/swift/Method/readPreference(_:includeReadPreference:subqueryReadPreference:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC14readPreference_011includeReadE008subquerygE0ACyxGSSSg_A2HtF">readPreference(_:<wbr>includeReadPreference:<wbr>subqueryReadPreference:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV14readPreference_011includeReadE008subquerygE0ACyxGSSSg_A2HtF">readPreference(_:<wbr>includeReadPreference:<wbr>subqueryReadPreference:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -645,9 +666,9 @@ This is useful for pagination. Default is to skip zero results.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC7includeyACyxGSSd_tF"></a>
+                    <a name="/s:10ParseSwift5QueryV7includeyACyxGSSd_tF"></a>
                     <a name="//apple_ref/swift/Method/include(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC7includeyACyxGSSd_tF">include(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV7includeyACyxGSSd_tF">include(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -691,9 +712,9 @@ This is useful for pagination. Default is to skip zero results.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC7includeyACyxGSaySSGF"></a>
+                    <a name="/s:10ParseSwift5QueryV7includeyACyxGSaySSGF"></a>
                     <a name="//apple_ref/swift/Method/include(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC7includeyACyxGSaySSGF">include(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV7includeyACyxGSaySSGF">include(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -737,9 +758,9 @@ This is useful for pagination. Default is to skip zero results.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC10includeAllACyxGyF"></a>
+                    <a name="/s:10ParseSwift5QueryV10includeAllACyxGyF"></a>
                     <a name="//apple_ref/swift/Method/includeAll()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC10includeAllACyxGyF">includeAll()</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV10includeAllACyxGyF">includeAll()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -769,9 +790,9 @@ This is useful for pagination. Default is to skip zero results.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC7excludeyACyxGSaySSGSgF"></a>
+                    <a name="/s:10ParseSwift5QueryV7excludeyACyxGSaySSGSgF"></a>
                     <a name="//apple_ref/swift/Method/exclude(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC7excludeyACyxGSaySSGSgF">exclude(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV7excludeyACyxGSaySSGSgF">exclude(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -779,7 +800,7 @@ This is useful for pagination. Default is to skip zero results.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Executes a distinct query and returns unique values. Default is to nil.</p>
+                        <p>Exclude specific keys for a <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>. Default is to nil.</p>
 
                       </div>
                       <div class="declaration">
@@ -815,9 +836,9 @@ This is useful for pagination. Default is to skip zero results.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC6selectyACyxGSSd_tF"></a>
+                    <a name="/s:10ParseSwift5QueryV6selectyACyxGSSd_tF"></a>
                     <a name="//apple_ref/swift/Method/select(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC6selectyACyxGSSd_tF">select(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV6selectyACyxGSSd_tF">select(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -862,9 +883,9 @@ If this is called multiple times, then all of the keys specified in each of the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC6selectyACyxGSaySSGF"></a>
+                    <a name="/s:10ParseSwift5QueryV6selectyACyxGSaySSGF"></a>
                     <a name="//apple_ref/swift/Method/select(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC6selectyACyxGSaySSGF">select(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV6selectyACyxGSaySSGF">select(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -909,9 +930,9 @@ If this is called multiple times, then all of the keys specified in each of the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5orderyACyxGSayAC5OrderOyx_GGSgF"></a>
+                    <a name="/s:10ParseSwift5QueryV5orderyACyxGSayAC5OrderOyx_GGSgF"></a>
                     <a name="//apple_ref/swift/Method/order(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5orderyACyxGSayAC5OrderOyx_GGSgF">order(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5orderyACyxGSayAC5OrderOyx_GGSgF">order(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -926,7 +947,7 @@ If this is called multiple times, then all of the keys specified in each of the 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">order</span><span class="p">(</span><span class="n">_</span> <span class="nv">keys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Classes/Query/Order.html">Order</a></span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">order</span><span class="p">(</span><span class="n">_</span> <span class="nv">keys</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/Query/Order.html">Order</a></span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -955,9 +976,55 @@ If this is called multiple times, then all of the keys specified in each of the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC6fieldsyACyxGSSd_tF"></a>
+                    <a name="/s:10ParseSwift5QueryV8distinctyACyxGSSSgF"></a>
+                    <a name="//apple_ref/swift/Method/distinct(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV8distinctyACyxGSSSgF">distinct(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes a distinct query and returns unique values. Default is to nil.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">distinct</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>keys</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A distinct key.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV6fieldsyACyxGSSd_tF"></a>
                     <a name="//apple_ref/swift/Method/fields(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC6fieldsyACyxGSSd_tF">fields(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV6fieldsyACyxGSSd_tF">fields(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1012,9 +1079,9 @@ name field will be sent to the clients instead of the full Player <code><a href=
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC6fieldsyACyxGSaySSGF"></a>
+                    <a name="/s:10ParseSwift5QueryV6fieldsyACyxGSaySSGF"></a>
                     <a name="//apple_ref/swift/Method/fields(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC6fieldsyACyxGSaySSGF">fields(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV6fieldsyACyxGSaySSGF">fields(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1082,9 +1149,9 @@ name field will be sent to the clients instead of the full Player <code><a href=
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC9subscribeAA12SubscriptionCyACyxGxGSgvp"></a>
+                    <a name="/s:10ParseSwift5QueryV9subscribeAA12SubscriptionCyxGSgvp"></a>
                     <a name="//apple_ref/swift/Property/subscribe" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC9subscribeAA12SubscriptionCyACyxGxGSgvp">subscribe</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV9subscribeAA12SubscriptionCyxGSgvp">subscribe</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1100,7 +1167,7 @@ and the default <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">subscribe</span><span class="p">:</span> <span class="kt"><a href="../Classes/Subscription.html">Subscription</a></span><span class="o">&lt;</span><span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">ResultType</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">subscribe</span><span class="p">:</span> <span class="kt"><a href="../Classes/Subscription.html">Subscription</a></span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -1110,9 +1177,9 @@ and the default <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC9subscribeyAA12SubscriptionCyACyxGxGAA0a4LiveC0CKF"></a>
+                    <a name="/s:10ParseSwift5QueryV9subscribeyAA12SubscriptionCyxGAA0a4LiveC0CKF"></a>
                     <a name="//apple_ref/swift/Method/subscribe(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC9subscribeyAA12SubscriptionCyACyxGxGAA0a4LiveC0CKF">subscribe(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV9subscribeyAA12SubscriptionCyxGAA0a4LiveC0CKF">subscribe(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1128,7 +1195,7 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">subscribe</span><span class="p">(</span><span class="n">_</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Subscription.html">Subscription</a></span><span class="o">&lt;</span><span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="kt">ResultType</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">subscribe</span><span class="p">(</span><span class="n">_</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Classes/Subscription.html">Subscription</a></span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1161,9 +1228,9 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC9subscribeyqd__qd__KAA21SubscriptionHandlableRd__lFZ"></a>
+                    <a name="/s:10ParseSwift5QueryV9subscribeyqd__qd__KAA0A12SubscriptionRd__lFZ"></a>
                     <a name="//apple_ref/swift/Method/subscribe(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC9subscribeyqd__qd__KAA21SubscriptionHandlableRd__lFZ">subscribe(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV9subscribeyqd__qd__KAA0A12SubscriptionRd__lFZ">subscribe(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1178,7 +1245,7 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="n"><a href="../Classes/Query.html#/s:10ParseSwift5QueryC9subscribeAA12SubscriptionCyACyxGxGSgvp">subscribe</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="n"><a href="../Structs/Query.html#/s:10ParseSwift5QueryV9subscribeAA12SubscriptionCyxGSgvp">subscribe</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseSubscription.html">ParseSubscription</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1211,9 +1278,9 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC9subscribe_6clientqd__qd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lFZ"></a>
+                    <a name="/s:10ParseSwift5QueryV9subscribe_6clientqd__qd___AA0a4LiveC0CtKAA0A12SubscriptionRd__lFZ"></a>
                     <a name="//apple_ref/swift/Method/subscribe(_:client:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC9subscribe_6clientqd__qd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lFZ">subscribe(_:<wbr>client:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV9subscribe_6clientqd__qd___AA0a4LiveC0CtKAA0A12SubscriptionRd__lFZ">subscribe(_:<wbr>client:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1228,7 +1295,7 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="n"><a href="../Classes/Query.html#/s:10ParseSwift5QueryC9subscribeAA12SubscriptionCyACyxGxGSgvp">subscribe</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="n"><a href="../Structs/Query.html#/s:10ParseSwift5QueryV9subscribeAA12SubscriptionCyxGSgvp">subscribe</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseSubscription.html">ParseSubscription</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1286,9 +1353,9 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC11unsubscribeyyKF"></a>
+                    <a name="/s:10ParseSwift5QueryV11unsubscribeyyKF"></a>
                     <a name="//apple_ref/swift/Method/unsubscribe()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC11unsubscribeyyKF">unsubscribe()</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV11unsubscribeyyKF">unsubscribe()</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1314,9 +1381,9 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC11unsubscribe6clientyAA0a4LiveC0C_tKF"></a>
+                    <a name="/s:10ParseSwift5QueryV11unsubscribe6clientyAA0a4LiveC0C_tKF"></a>
                     <a name="//apple_ref/swift/Method/unsubscribe(client:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC11unsubscribe6clientyAA0a4LiveC0C_tKF">unsubscribe(client:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV11unsubscribe6clientyAA0a4LiveC0C_tKF">unsubscribe(client:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1361,9 +1428,9 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC11unsubscribeyyqd__KAA21SubscriptionHandlableRd__lF"></a>
+                    <a name="/s:10ParseSwift5QueryV11unsubscribeyyqd__KAA0A12SubscriptionRd__lF"></a>
                     <a name="//apple_ref/swift/Method/unsubscribe(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC11unsubscribeyyqd__KAA21SubscriptionHandlableRd__lF">unsubscribe(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV11unsubscribeyyqd__KAA0A12SubscriptionRd__lF">unsubscribe(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1379,7 +1446,7 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">unsubscribe</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">unsubscribe</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseSubscription.html">ParseSubscription</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1408,9 +1475,9 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC11unsubscribe_6clientyqd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lF"></a>
+                    <a name="/s:10ParseSwift5QueryV11unsubscribe_6clientyqd___AA0a4LiveC0CtKAA0A12SubscriptionRd__lF"></a>
                     <a name="//apple_ref/swift/Method/unsubscribe(_:client:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC11unsubscribe_6clientyqd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lF">unsubscribe(_:<wbr>client:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV11unsubscribe_6clientyqd___AA0a4LiveC0CtKAA0A12SubscriptionRd__lF">unsubscribe(_:<wbr>client:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1426,7 +1493,7 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">unsubscribe</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">unsubscribe</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseSubscription.html">ParseSubscription</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1480,9 +1547,9 @@ and a specific <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC6updateyyqd__KAA21SubscriptionHandlableRd__lF"></a>
+                    <a name="/s:10ParseSwift5QueryV6updateyyqd__KAA0A12SubscriptionRd__lF"></a>
                     <a name="//apple_ref/swift/Method/update(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC6updateyyqd__KAA21SubscriptionHandlableRd__lF">update(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV6updateyyqd__KAA0A12SubscriptionRd__lF">update(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1498,7 +1565,7 @@ Upon completing the registration, the subscribe handler will be called with the 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">update</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">update</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseSubscription.html">ParseSubscription</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1527,9 +1594,9 @@ Upon completing the registration, the subscribe handler will be called with the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC6update_6clientyqd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lF"></a>
+                    <a name="/s:10ParseSwift5QueryV6update_6clientyqd___AA0a4LiveC0CtKAA0A12SubscriptionRd__lF"></a>
                     <a name="//apple_ref/swift/Method/update(_:client:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC6update_6clientyqd___AA0a4LiveC0CtKAA21SubscriptionHandlableRd__lF">update(_:<wbr>client:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV6update_6clientyqd___AA0a4LiveC0CtKAA0A12SubscriptionRd__lF">update(_:<wbr>client:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1545,7 +1612,7 @@ Upon completing the registration, the subscribe handler will be called with the 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">update</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/SubscriptionHandlable.html">SubscriptionHandlable</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">update</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">handler</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">client</span><span class="p">:</span> <span class="kt"><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseSubscription.html">ParseSubscription</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1599,9 +1666,9 @@ Upon completing the registration, the subscribe handler will be called with the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC4find7optionsSayxGShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="/s:10ParseSwift5QueryV4find7optionsSayxGShyAA3APIV6OptionOG_tKF"></a>
                     <a name="//apple_ref/swift/Method/find(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC4find7optionsSayxGShyAA3APIV6OptionOG_tKF">find(options:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV4find7optionsSayxGShyAA3APIV6OptionOG_tKF">find(options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1654,9 +1721,9 @@ Upon completing the registration, the subscribe handler will be called with the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC4find7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF"></a>
+                    <a name="/s:10ParseSwift5QueryV4find7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF"></a>
                     <a name="//apple_ref/swift/Method/find(explain:hint:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC4find7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF">find(explain:<wbr>hint:<wbr>options:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV4find7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF">find(explain:<wbr>hint:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1733,9 +1800,9 @@ Upon completing the registration, the subscribe handler will be called with the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC4find7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayxGAA0A5ErrorVGctF"></a>
+                    <a name="/s:10ParseSwift5QueryV4find7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayxGAA0A5ErrorVGctF"></a>
                     <a name="//apple_ref/swift/Method/find(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC4find7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayxGAA0A5ErrorVGctF">find(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV4find7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayxGAA0A5ErrorVGctF">find(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1805,9 +1872,9 @@ It should have the following argument signature: <code>(Result&lt;[ResultType], 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC4find7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF"></a>
+                    <a name="/s:10ParseSwift5QueryV4find7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF"></a>
                     <a name="//apple_ref/swift/Method/find(explain:hint:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC4find7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF">find(explain:<wbr>hint:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV4find7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF">find(explain:<wbr>hint:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1902,9 +1969,9 @@ It should have the following argument signature: <code>(Result&lt;[AnyResultType
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5first7optionsxSgShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="/s:10ParseSwift5QueryV5first7optionsxSgShyAA3APIV6OptionOG_tKF"></a>
                     <a name="//apple_ref/swift/Method/first(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5first7optionsxSgShyAA3APIV6OptionOG_tKF">first(options:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5first7optionsxSgShyAA3APIV6OptionOG_tKF">first(options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1961,9 +2028,9 @@ It should have the following argument signature: <code>(Result&lt;[AnyResultType
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5first7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF"></a>
+                    <a name="/s:10ParseSwift5QueryV5first7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF"></a>
                     <a name="//apple_ref/swift/Method/first(explain:hint:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5first7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF">first(explain:<wbr>hint:<wbr>options:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5first7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF">first(explain:<wbr>hint:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2044,9 +2111,9 @@ It should have the following argument signature: <code>(Result&lt;[AnyResultType
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5first7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="/s:10ParseSwift5QueryV5first7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
                     <a name="//apple_ref/swift/Method/first(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5first7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">first(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5first7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">first(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2121,9 +2188,9 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5first7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF"></a>
+                    <a name="/s:10ParseSwift5QueryV5first7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF"></a>
                     <a name="//apple_ref/swift/Method/first(explain:hint:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5first7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF">first(explain:<wbr>hint:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5first7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF">first(explain:<wbr>hint:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2223,9 +2290,9 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5count7optionsSiShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="/s:10ParseSwift5QueryV5count7optionsSiShyAA3APIV6OptionOG_tKF"></a>
                     <a name="//apple_ref/swift/Method/count(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5count7optionsSiShyAA3APIV6OptionOG_tKF">count(options:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5count7optionsSiShyAA3APIV6OptionOG_tKF">count(options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2278,9 +2345,9 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5count7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF"></a>
+                    <a name="/s:10ParseSwift5QueryV5count7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF"></a>
                     <a name="//apple_ref/swift/Method/count(explain:hint:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5count7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF">count(explain:<wbr>hint:<wbr>options:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5count7explain4hint7optionsAA10AnyCodableVSb_SSSgShyAA3APIV6OptionOGtKF">count(explain:<wbr>hint:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2357,9 +2424,9 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5count7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySiAA0A5ErrorVGctF"></a>
+                    <a name="/s:10ParseSwift5QueryV5count7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySiAA0A5ErrorVGctF"></a>
                     <a name="//apple_ref/swift/Method/count(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5count7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySiAA0A5ErrorVGctF">count(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5count7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySiAA0A5ErrorVGctF">count(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2429,9 +2496,9 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryC5count7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF"></a>
+                    <a name="/s:10ParseSwift5QueryV5count7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF"></a>
                     <a name="//apple_ref/swift/Method/count(explain:hint:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryC5count7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF">count(explain:<wbr>hint:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5count7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyAA10AnyCodableVAA0A5ErrorVGctF">count(explain:<wbr>hint:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2523,6 +2590,165 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV9aggregate_7optionsSayxGSaySDyS2SGG_ShyAA3APIV6OptionOGtKF"></a>
+                    <a name="//apple_ref/swift/Method/aggregate(_:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV9aggregate_7optionsSayxGSaySDyS2SGG_ShyAA3APIV6OptionOGtKF">aggregate(_:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes an aggregate query <em>asynchronously</em> and calls the given.</p>
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    <code>.useMasterKey</code> has to be available and passed as one of the set of <code>options</code>.
+
+</div><div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code>ParseError</code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    This hasn&rsquo;t been tested thoroughly.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">aggregate</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="kt">AggregateType</span><span class="p">,</span>
+                      <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">ResultType</span><span class="p">]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns the <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>s that match the query.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV9aggregate_7options13callbackQueue10completionySaySDyS2SGG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayxGAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/aggregate(_:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV9aggregate_7options13callbackQueue10completionySaySDyS2SGG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayxGAA0A5ErrorVGctF">aggregate(_:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes an aggregate query <em>asynchronously</em> and calls the given.</p>
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    <code>.useMasterKey</code> has to be available and passed as one of the set of <code>options</code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    This hasn&rsquo;t been tested thoroughly.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">aggregate</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="kt">AggregateType</span><span class="p">,</span>
+                      <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                      <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                      <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pipeline</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A pipeline of stages to process query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of <code>.main</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;Int, ParseError&gt;)</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -2531,7 +2757,7 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-18)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-21)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

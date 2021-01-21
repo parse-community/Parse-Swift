@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ParseACL Structure Reference</title>
+    <title>ParseOperation Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/ParseACL" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/ParseOperation" class="dashAnchor"></a>
 
-    <a title="ParseACL Structure Reference"></a>
+    <a title="ParseOperation Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ParseACL Structure Reference
+      ParseOperation Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -263,20 +263,20 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>ParseACL</h1>
+            <h1>ParseOperation</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseACL</span> <span class="p">:</span> <span class="kt">ParseType</span><span class="p">,</span> <span class="kt">Decodable</span><span class="p">,</span> <span class="kt">Equatable</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
-<pre class="highlight swift"><code><span class="kd">extension</span> <span class="kt">ParseACL</span><span class="p">:</span> <span class="kt">CustomDebugStringConvertible</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Savable</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                 </div>
               </div>
-            <p><code>ParseACL</code> is used to control which users can access or modify a particular <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.
-Each <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> has its own ACL. You can grant read and write permissions separately 
-to specific users, to groups of users that belong to roles, or you can grant permissions to
-&ldquo;the public&rdquo; so that, for example, any user could read a particular object but only a 
-particular set of users could write to that object.</p>
+            <p>A <code>ParseOperation</code> represents a modification to a value in a <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.
+For example, setting, deleting, or incrementing a value are all <code>ParseOperation</code>&lsquo;s.
+<code>ParseOperation</code> themselves can be considered to be immutable.</p>
+
+<p>In most cases, you should not call this class directly as a <code>ParseOperation</code> can be
+indirectly created from any <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> by using its <code>operation</code> property.</p>
 
           </div>
         </section>
@@ -288,9 +288,9 @@ particular set of users could write to that object.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV6AccessO"></a>
-                    <a name="//apple_ref/swift/Enum/Access" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV6AccessO">Access</a>
+                    <a name="/s:10ParseSwift0A9OperationV9increment_2byACyxGSS_SitF"></a>
+                    <a name="//apple_ref/swift/Method/increment(_:by:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV9increment_2byACyxGSS_SitF">increment(_:<wbr>by:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -298,111 +298,14 @@ particular set of users could write to that object.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>An enum specifying read and write access controls.</p>
-
-                        <a href="../Structs/ParseACL/Access.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Access</span> <span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">CodingKey</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV10publicReadSbvp"></a>
-                    <a name="//apple_ref/swift/Property/publicRead" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV10publicReadSbvp">publicRead</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Controls whether the public is allowed to read this object.</p>
+                        <p>An operation that increases a numeric field&rsquo;s value by a given amount.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">publicRead</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV11publicWriteSbvp"></a>
-                    <a name="//apple_ref/swift/Property/publicWrite" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV11publicWriteSbvp">publicWrite</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Controls whether the public is allowed to write this object.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">publicWrite</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/ParseUser"></a>
-                <a name="//apple_ref/swift/Section/ParseUser" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/ParseUser"></a>
-                  <h3 class="section-name"><p>ParseUser</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV13getReadAccess8objectIdSbSS_tF"></a>
-                    <a name="//apple_ref/swift/Method/getReadAccess(objectId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13getReadAccess8objectIdSbSS_tF">getReadAccess(objectId:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Gets whether the given <code>objectId</code> is <em>explicitly</em> allowed to read this object.
-Even if this returns <code>false</code>, the user may still be able to access it if <code>publicReadAccess</code> returns <code>true</code>
-or if the user belongs to a role that has access.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getReadAccess</span><span class="p">(</span><span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">increment</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="n">by</span> <span class="nv">amount</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -413,230 +316,24 @@ or if the user belongs to a role that has access.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>objectId</em>
+                                <em>key</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The <code>ParseUser.objectId</code> of the user for which to retrieve access.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p><code>true</code> if the user with this <code>objectId</code> has <em>explicit</em> read access, otherwise <code>false</code>.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV13getReadAccess4userSbx_tAA0A4UserRzlF"></a>
-                    <a name="//apple_ref/swift/Method/getReadAccess(user:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13getReadAccess4userSbx_tAA0A4UserRzlF">getReadAccess(user:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Gets whether the given <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> is <em>explicitly</em> allowed to read this object.
-Even if this returns <code>false</code>, the user may still be able to access it if <code>publicReadAccess</code> returns <code>true</code>
-or if the user belongs to a role that has access.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">getReadAccess</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">user</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseUser.html">ParseUser</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>user</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> for which to retrieve access.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p><code>true</code> if the user with this <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> has <em>explicit</em> read access, otherwise <code>false</code>.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV14getWriteAccess8objectIdSbSS_tF"></a>
-                    <a name="//apple_ref/swift/Method/getWriteAccess(objectId:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14getWriteAccess8objectIdSbSS_tF">getWriteAccess(objectId:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Gets whether the given <code>objectId</code> is <em>explicitly</em> allowed to write this object.
-Even if this returns false, the user may still be able to write it if <code>publicWriteAccess</code> returns <code>true</code>
-or if the user belongs to a role that has access.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getWriteAccess</span><span class="p">(</span><span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>objectId</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The <code>ParseUser.objectId</code> of the user for which to retrieve access.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p><code>true</code> if the user with this <code>ParseUser.objectId</code> has <em>explicit</em> write access, otherwise <code>false</code>.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV14getWriteAccess4userSbx_tAA0A4UserRzlF"></a>
-                    <a name="//apple_ref/swift/Method/getWriteAccess(user:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14getWriteAccess4userSbx_tAA0A4UserRzlF">getWriteAccess(user:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Gets whether the given <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> is <em>explicitly</em> allowed to write this object.
-Even if this returns false, the user may still be able to write it if <code>publicWriteAccess</code> returns <code>true</code>
-or if the user belongs to a role that has access.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">getWriteAccess</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">user</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseUser.html">ParseUser</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>user</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> of the user for which to retrieve access.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p><code>true</code> if the <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> has <em>explicit</em> write access, otherwise <code>false</code>.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV13setReadAccess8objectId5valueySS_SbtF"></a>
-                    <a name="//apple_ref/swift/Method/setReadAccess(objectId:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13setReadAccess8objectId5valueySS_SbtF">setReadAccess(objectId:<wbr>value:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Set whether the given <code>objectId</code> is allowed to read this object.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">setReadAccess</span><span class="p">(</span><span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>value</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Whether the given user can read this object.</p>
+                                  <p>The key of the object.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>objectId</em>
+                                <em>amount</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The <code>ParseUser.objectId</code> of the user to assign access.</p>
+                                  <p>How much to increment by.</p>
                                 </div>
                               </td>
                             </tr>
@@ -649,9 +346,9 @@ or if the user belongs to a role that has access.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV13setReadAccess4user5valueyx_SbtAA0A4UserRzlF"></a>
-                    <a name="//apple_ref/swift/Method/setReadAccess(user:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13setReadAccess4user5valueyx_SbtAA0A4UserRzlF">setReadAccess(user:<wbr>value:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A9OperationV9addUnique_7objectsACyxGSS_Sayqd__GtSERd__SHRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/addUnique(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV9addUnique_7objectsACyxGSS_Sayqd__GtSERd__SHRd__lF">addUnique(_:<wbr>objects:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -659,14 +356,15 @@ or if the user belongs to a role that has access.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Set whether the given <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> is allowed to read this object.</p>
+                        <p>An operation that adds a new element to an array field,
+only if it wasn&rsquo;t already present.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="n">setReadAccess</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">user</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseUser.html">ParseUser</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">addUnique</span><span class="o">&lt;</span><span class="kt">W</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">W</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">W</span> <span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">W</span> <span class="p">:</span> <span class="kt">Hashable</span></code></pre>
 
                         </div>
                       </div>
@@ -677,24 +375,24 @@ or if the user belongs to a role that has access.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>value</em>
+                                <em>key</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Whether the given user can read this object.</p>
+                                  <p>The key of the object.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>user</em>
+                                <em>objects</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> to assign access.</p>
+                                  <p>The field of objects.</p>
                                 </div>
                               </td>
                             </tr>
@@ -707,9 +405,9 @@ or if the user belongs to a role that has access.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV14setWriteAccess8objectId5valueySS_SbtF"></a>
-                    <a name="//apple_ref/swift/Method/setWriteAccess(objectId:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14setWriteAccess8objectId5valueySS_SbtF">setWriteAccess(objectId:<wbr>value:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A9OperationV9addUnique_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GGt_AItKSERd__SHRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/addUnique(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV9addUnique_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GGt_AItKSERd__SHRd__lF">addUnique(_:<wbr>objects:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -717,14 +415,16 @@ or if the user belongs to a role that has access.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Set whether the given <code>objectId</code> is allowed to write this object.</p>
+                        <p>An operation that adds a new element to an array field,
+only if it wasn&rsquo;t already present.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">setWriteAccess</span><span class="p">(</span><span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">addUnique</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="p">[</span><span class="kt">V</span><span class="p">]</span><span class="o">&gt;</span><span class="p">),</span>
+                         <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">V</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="k">where</span> <span class="kt">V</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">V</span><span class="p">:</span> <span class="kt">Hashable</span></code></pre>
 
                         </div>
                       </div>
@@ -735,24 +435,24 @@ or if the user belongs to a role that has access.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>value</em>
+                                <em>key</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Whether the given user can write this object.</p>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>objectId</em>
+                                <em>objects</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The <code>ParseUser.objectId</code> of the user to assign access.</p>
+                                  <p>The field of objects.</p>
                                 </div>
                               </td>
                             </tr>
@@ -765,9 +465,9 @@ or if the user belongs to a role that has access.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV14setWriteAccess4user5valueyx_SbtAA0A4UserRzlF"></a>
-                    <a name="//apple_ref/swift/Method/setWriteAccess(user:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14setWriteAccess4user5valueyx_SbtAA0A4UserRzlF">setWriteAccess(user:<wbr>value:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A9OperationV9addUnique_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GSgGt_AItKSERd__SHRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/addUnique(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV9addUnique_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GSgGt_AItKSERd__SHRd__lF">addUnique(_:<wbr>objects:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -775,14 +475,16 @@ or if the user belongs to a role that has access.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Set whether the given <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> is allowed to write this object.</p>
+                        <p>An operation that adds a new element to an array field,
+only if it wasn&rsquo;t already present.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="n">setWriteAccess</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">user</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseUser.html">ParseUser</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">addUnique</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="p">[</span><span class="kt">V</span><span class="p">]?</span><span class="o">&gt;</span><span class="p">),</span>
+                         <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">V</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="k">where</span> <span class="kt">V</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">V</span><span class="p">:</span> <span class="kt">Hashable</span></code></pre>
 
                         </div>
                       </div>
@@ -793,299 +495,24 @@ or if the user belongs to a role that has access.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>value</em>
+                                <em>key</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Whether the given user can write this object.</p>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>user</em>
+                                <em>objects</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> to assign access.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/ParseRole"></a>
-                <a name="//apple_ref/swift/Section/ParseRole" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/ParseRole"></a>
-                  <h3 class="section-name"><p>ParseRole</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV13getReadAccess8roleNameSbSS_tF"></a>
-                    <a name="//apple_ref/swift/Method/getReadAccess(roleName:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13getReadAccess8roleNameSbSS_tF">getReadAccess(roleName:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get whether users belonging to the role with the given name are allowed to read this object.
-Even if this returns <code>false</code>, the role may still be able to read it if a parent role has read access.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getReadAccess</span><span class="p">(</span><span class="nv">roleName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>roleName</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The name of the role.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p><code>true</code> if the role has read access, otherwise <code>false</code>.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV13getReadAccess4roleSbx_tAA0A4RoleRzlF"></a>
-                    <a name="//apple_ref/swift/Method/getReadAccess(role:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13getReadAccess4roleSbx_tAA0A4RoleRzlF">getReadAccess(role:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get whether users belonging to the role are allowed to read this object.
-Even if this returns <code>false</code>, the role may still be able to read it if a parent role has read access.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">getReadAccess</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">role</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseRole.html">ParseRole</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>role</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The <code><a href="../Protocols/ParseRole.html">ParseRole</a></code> to get access for.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p><code>true</code> if the <code><a href="../Protocols/ParseRole.html">ParseRole</a></code> has read access, otherwise <code>false</code>.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV14getWriteAccess8roleNameSbSS_tF"></a>
-                    <a name="//apple_ref/swift/Method/getWriteAccess(roleName:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14getWriteAccess8roleNameSbSS_tF">getWriteAccess(roleName:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get whether users belonging to the role with the given name are allowed to write this object.
-Even if this returns <code>false</code>, the role may still be able to write it if a parent role has write access.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">getWriteAccess</span><span class="p">(</span><span class="nv">roleName</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>roleName</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The name of the role.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p><code>true</code> if the role has read access, otherwise <code>false</code>.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV14getWriteAccess4roleSbx_tAA0A4RoleRzlF"></a>
-                    <a name="//apple_ref/swift/Method/getWriteAccess(role:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14getWriteAccess4roleSbx_tAA0A4RoleRzlF">getWriteAccess(role:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Get whether users belonging to the role are allowed to write this object.
-Even if this returns <code>false</code>, the role may still be able to write it if a parent role has write access.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">getWriteAccess</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">role</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseRole.html">ParseRole</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>role</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The <code><a href="../Protocols/ParseRole.html">ParseRole</a></code> to get access for.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p><code>true</code> if the role has read access, otherwise <code>false</code>.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV13setReadAccess8roleName5valueySS_SbtF"></a>
-                    <a name="//apple_ref/swift/Method/setReadAccess(roleName:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13setReadAccess8roleName5valueySS_SbtF">setReadAccess(roleName:<wbr>value:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Set whether users belonging to the role with the given name are allowed to read this object.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">setReadAccess</span><span class="p">(</span><span class="nv">roleName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>value</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>Whether the given role can read this object.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>roleName</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The name of the role.</p>
+                                  <p>The field of objects.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1098,9 +525,9 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV13setReadAccess4role5valueyx_SbtAA0A4RoleRzlF"></a>
-                    <a name="//apple_ref/swift/Method/setReadAccess(role:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV13setReadAccess4role5valueyx_SbtAA0A4RoleRzlF">setReadAccess(role:<wbr>value:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A9OperationV3add_7objectsACyxGSS_Sayqd__GtSERd__lF"></a>
+                    <a name="//apple_ref/swift/Method/add(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV3add_7objectsACyxGSS_Sayqd__GtSERd__lF">add(_:<wbr>objects:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1108,14 +535,14 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Set whether users belonging to the role are allowed to read this object.</p>
+                        <p>An operation that adds a new element to an array field.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="n">setReadAccess</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">role</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseRole.html">ParseRole</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">add</span><span class="o">&lt;</span><span class="kt">W</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">W</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">W</span> <span class="p">:</span> <span class="kt">Encodable</span></code></pre>
 
                         </div>
                       </div>
@@ -1126,24 +553,24 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                             <tr>
                               <td>
                                 <code>
-                                <em>value</em>
+                                <em>key</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Whether the given role can read this object.</p>
+                                  <p>The key of the object.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>role</em>
+                                <em>objects</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The <code><a href="../Protocols/ParseRole.html">ParseRole</a></code> to set access for.</p>
+                                  <p>The field of objects.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1156,9 +583,9 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV14setWriteAccess8roleName5valueySS_SbtF"></a>
-                    <a name="//apple_ref/swift/Method/setWriteAccess(roleName:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14setWriteAccess8roleName5valueySS_SbtF">setWriteAccess(roleName:<wbr>value:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A9OperationV3add_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GGt_AItKSERd__lF"></a>
+                    <a name="//apple_ref/swift/Method/add(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV3add_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GGt_AItKSERd__lF">add(_:<wbr>objects:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1166,14 +593,15 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Set whether users belonging to the role with the given name are allowed to write this object.</p>
+                        <p>An operation that adds a new element to an array field.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="nf">setWriteAccess</span><span class="p">(</span><span class="nv">roleName</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">add</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="p">[</span><span class="kt">V</span><span class="p">]</span><span class="o">&gt;</span><span class="p">),</span>
+                   <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">V</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="k">where</span> <span class="kt">V</span><span class="p">:</span> <span class="kt">Encodable</span></code></pre>
 
                         </div>
                       </div>
@@ -1184,24 +612,24 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                             <tr>
                               <td>
                                 <code>
-                                <em>allowed</em>
+                                <em>key</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Whether the given role can write this object.</p>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>roleName</em>
+                                <em>objects</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The name of the role.</p>
+                                  <p>The field of objects.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1214,9 +642,9 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV14setWriteAccess4role5valueyx_SbtAA0A4RoleRzlF"></a>
-                    <a name="//apple_ref/swift/Method/setWriteAccess(role:value:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV14setWriteAccess4role5valueyx_SbtAA0A4RoleRzlF">setWriteAccess(role:<wbr>value:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A9OperationV3add_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GSgGt_AItKSERd__lF"></a>
+                    <a name="//apple_ref/swift/Method/add(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV3add_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GSgGt_AItKSERd__lF">add(_:<wbr>objects:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1224,14 +652,15 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Set whether users belonging to the role are allowed to write this object.</p>
+                        <p>An operation that adds a new element to an array field.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">mutating</span> <span class="kd">func</span> <span class="n">setWriteAccess</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">role</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseRole.html">ParseRole</a></span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">add</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="p">[</span><span class="kt">V</span><span class="p">]?</span><span class="o">&gt;</span><span class="p">),</span>
+                   <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">V</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="k">where</span> <span class="kt">V</span><span class="p">:</span> <span class="kt">Encodable</span></code></pre>
 
                         </div>
                       </div>
@@ -1242,24 +671,24 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                             <tr>
                               <td>
                                 <code>
-                                <em>allowed</em>
+                                <em>key</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Whether the given role can write this object.</p>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>role</em>
+                                <em>objects</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The <code><a href="../Protocols/ParseRole.html">ParseRole</a></code> to set access for.</p>
+                                  <p>The field of objects.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1272,9 +701,9 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A3ACLV07defaultC0ACyKFZ"></a>
-                    <a name="//apple_ref/swift/Method/defaultACL()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV07defaultC0ACyKFZ">defaultACL()</a>
+                    <a name="/s:10ParseSwift0A9OperationV11addRelation_7objectsACyxGSS_Sayqd__GtKAA0A6ObjectRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/addRelation(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV11addRelation_7objectsACyxGSS_Sayqd__GtKAA0A6ObjectRd__lF">addRelation(_:<wbr>objects:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1282,53 +711,14 @@ Even if this returns <code>false</code>, the role may still be able to write it 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Get the default ACL from the Keychain.</p>
+                        <p>An operation that adds a new relation to an array field.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">defaultACL</span><span class="p">()</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ParseACL</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>Returns the default ACL.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A3ACLV010setDefaultC0_24withAccessForCurrentUserA2C_SbtKFZ"></a>
-                    <a name="//apple_ref/swift/Method/setDefaultACL(_:withAccessForCurrentUser:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A3ACLV010setDefaultC0_24withAccessForCurrentUserA2C_SbtKFZ">setDefaultACL(_:<wbr>withAccessForCurrentUser:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Sets a default ACL that will be applied to all instances of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> when they are created.</p>
-
-<p>This value will be copied and used as a template for the creation of new ACLs, so changes to the
-instance after this method has been called will not be reflected in new instance of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.</p>
-
-<ul>
-<li>If <code>false</code>, the provided <code>acl</code> will be used without modification.</li>
-<li><p>If <code>acl</code> is <code>nil</code>, this value is ignored.</p></li>
-</ul>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">setDefaultACL</span><span class="p">(</span><span class="n">_</span> <span class="nv">acl</span><span class="p">:</span> <span class="kt">ParseACL</span><span class="p">,</span> <span class="nv">withAccessForCurrentUser</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ParseACL</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">addRelation</span><span class="o">&lt;</span><span class="kt">W</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">W</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">W</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1339,36 +729,29 @@ instance after this method has been called will not be reflected in new instance
                             <tr>
                               <td>
                                 <code>
-                                <em>acl</em>
+                                <em>key</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The ACL to use as a template for all instances of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> created
-after this method has been called.</p>
+                                  <p>The key of the object.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>withAccessForCurrentUser</em>
+                                <em>objects</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>If <code>true</code>, the <code>ACL</code> that is applied to
-newly-created instance of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> will
-provide read and write access to the <code>ParseUser.+currentUser</code> at the time of creation.</p>
+                                  <p>The field of objects.</p>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
                         </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>Updated defaultACL</p>
                       </div>
                     </section>
                   </div>
@@ -1376,9 +759,9 @@ provide read and write access to the <code>ParseUser.+currentUser</code> at the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:Se4fromxs7Decoder_p_tKcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(from:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:Se4fromxs7Decoder_p_tKcfc">init(from:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A9OperationV11addRelation_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GGt_AItKAA0A6ObjectRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/addRelation(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV11addRelation_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GGt_AItKAA0A6ObjectRd__lF">addRelation(_:<wbr>objects:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1386,15 +769,557 @@ provide read and write access to the <code>ParseUser.+currentUser</code> at the 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>An operation that adds a new relation to an array field.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">from</span> <span class="nv">decoder</span><span class="p">:</span> <span class="kt">Decoder</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">addRelation</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="p">[</span><span class="kt">V</span><span class="p">]</span><span class="o">&gt;</span><span class="p">),</span>
+                           <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">V</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="k">where</span> <span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The field of objects.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9OperationV11addRelation_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GSgGt_AItKAA0A6ObjectRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/addRelation(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV11addRelation_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GSgGt_AItKAA0A6ObjectRd__lF">addRelation(_:<wbr>objects:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An operation that adds a new relation to an array field.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">addRelation</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="p">[</span><span class="kt">V</span><span class="p">]?</span><span class="o">&gt;</span><span class="p">),</span>
+                           <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">V</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="k">where</span> <span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The field of objects.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9OperationV6remove_7objectsACyxGSS_Sayqd__GtSERd__lF"></a>
+                    <a name="//apple_ref/swift/Method/remove(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV6remove_7objectsACyxGSS_Sayqd__GtSERd__lF">remove(_:<wbr>objects:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An operation that removes every instance of an element from
+an array field.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">remove</span><span class="o">&lt;</span><span class="kt">W</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">W</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">W</span> <span class="p">:</span> <span class="kt">Encodable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key of the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The field of objects.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9OperationV6remove_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GGt_AItKSERd__SHRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/remove(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV6remove_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GGt_AItKSERd__SHRd__lF">remove(_:<wbr>objects:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An operation that removes every instance of an element from
+an array field.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">remove</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="p">[</span><span class="kt">V</span><span class="p">]</span><span class="o">&gt;</span><span class="p">),</span>
+                      <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">V</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="k">where</span> <span class="kt">V</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">V</span><span class="p">:</span> <span class="kt">Hashable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The field of objects.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9OperationV6remove_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GSgGt_AItKSERd__SHRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/remove(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV6remove_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GSgGt_AItKSERd__SHRd__lF">remove(_:<wbr>objects:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An operation that removes every instance of an element from
+an array field.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">remove</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="p">[</span><span class="kt">V</span><span class="p">]?</span><span class="o">&gt;</span><span class="p">),</span>
+                      <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">V</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="k">where</span> <span class="kt">V</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">V</span><span class="p">:</span> <span class="kt">Hashable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The field of objects.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9OperationV14removeRelation_7objectsACyxGSS_Sayqd__GtKAA0A6ObjectRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/removeRelation(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV14removeRelation_7objectsACyxGSS_Sayqd__GtKAA0A6ObjectRd__lF">removeRelation(_:<wbr>objects:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An operation that removes every instance of a relation from
+an array field.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">removeRelation</span><span class="o">&lt;</span><span class="kt">W</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">W</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">W</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key of the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The field of objects.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9OperationV14removeRelation_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GGt_AItKAA0A6ObjectRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/removeRelation(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV14removeRelation_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GGt_AItKAA0A6ObjectRd__lF">removeRelation(_:<wbr>objects:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An operation that removes every instance of a relation from
+an array field.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">removeRelation</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="p">[</span><span class="kt">V</span><span class="p">]</span><span class="o">&gt;</span><span class="p">),</span>
+                              <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">V</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="k">where</span> <span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The field of objects.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9OperationV14removeRelation_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GSgGt_AItKAA0A6ObjectRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/removeRelation(_:objects:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV14removeRelation_7objectsACyxGSS_s15WritableKeyPathCyxSayqd__GSgGt_AItKAA0A6ObjectRd__lF">removeRelation(_:<wbr>objects:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An operation that removes every instance of a relation from
+an array field.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">removeRelation</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="p">[</span><span class="kt">V</span><span class="p">]?</span><span class="o">&gt;</span><span class="p">),</span>
+                              <span class="nv">objects</span><span class="p">:</span> <span class="p">[</span><span class="kt">V</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span> <span class="k">where</span> <span class="kt">V</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>objects</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The field of objects.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9OperationV5unsetyACyxGSSF"></a>
+                    <a name="//apple_ref/swift/Method/unset(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV5unsetyACyxGSSF">unset(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An operation where a field is deleted from the object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">unset</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key of the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9OperationV5unsetyACyxGSS_s15WritableKeyPathCyxqd__SgGt_tSERd__lF"></a>
+                    <a name="//apple_ref/swift/Method/unset(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV5unsetyACyxGSS_s15WritableKeyPathCyxqd__SgGt_tSERd__lF">unset(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An operation where a field is deleted from the object.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">unset</span><span class="o">&lt;</span><span class="kt">V</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="p">(</span><span class="kt">String</span><span class="p">,</span> <span class="kt">WritableKeyPath</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">V</span><span class="p">?</span><span class="o">&gt;</span><span class="p">))</span> <span class="o">-&gt;</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">V</span> <span class="p">:</span> <span class="kt">Encodable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A tuple consisting of the key and KeyPath of the object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>
@@ -1428,9 +1353,9 @@ provide read and write access to the <code>ParseUser.+currentUser</code> at the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:s28CustomDebugStringConvertibleP16debugDescriptionSSvp"></a>
-                    <a name="//apple_ref/swift/Property/debugDescription" class="dashAnchor"></a>
-                    <a class="token" href="#/s:s28CustomDebugStringConvertibleP16debugDescriptionSSvp">debugDescription</a>
+                    <a name="/s:10ParseSwift0A9OperationV4save7optionsxShyAA3APIV6OptionOG_tKF"></a>
+                    <a name="//apple_ref/swift/Method/save(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV4save7optionsxShyAA3APIV6OptionOG_tKF">save(options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1438,15 +1363,119 @@ provide read and write access to the <code>ParseUser.+currentUser</code> at the 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Saves the operations on the <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> <em>synchronously</em> and throws an error if there&rsquo;s an issue.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    <p>An error of type <code>ParseError</code>.</p>
+
+</div>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">debugDescription</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns saved <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9OperationV4save7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/save(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV4save7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">save(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Saves the operations on the <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> <em>asynchronously</em> and executes the given callback block.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">T</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;T, ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
                       </div>
                     </section>
                   </div>

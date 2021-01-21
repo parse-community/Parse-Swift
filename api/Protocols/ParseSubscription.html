@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>QueryConstraint Structure Reference</title>
+    <title>ParseSubscription Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/QueryConstraint" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Protocol/ParseSubscription" class="dashAnchor"></a>
 
-    <a title="QueryConstraint Structure Reference"></a>
+    <a title="ParseSubscription Protocol Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      QueryConstraint Structure Reference
+      ParseSubscription Protocol Reference
     </p>
 
     <div class="content-wrapper">
@@ -263,15 +263,16 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>QueryConstraint</h1>
+            <h1>ParseSubscription</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">QueryConstraint</span> <span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseSubscription</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
 
                 </div>
               </div>
-            <p>All available query constraints.</p>
+            <p>This protocol describes the interface for handling events from a <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> client.
+You can use this protocol on any custom class of yours, instead of Subscription, if it fits your use case better.</p>
 
           </div>
         </section>
@@ -283,9 +284,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:SE6encode2toys7Encoder_p_tKF"></a>
-                    <a name="//apple_ref/swift/Method/encode(to:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:SE6encode2toys7Encoder_p_tKF">encode(to:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A12SubscriptionP6ObjectQa"></a>
+                    <a name="//apple_ref/swift/Alias/Object" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12SubscriptionP6ObjectQa">Object</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -293,13 +294,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>The type of the <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> that this handler uses.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">encode</span><span class="p">(</span><span class="n">to</span> <span class="nv">encoder</span><span class="p">:</span> <span class="kt">Encoder</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">associatedtype</span> <span class="kt">Object</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
                       </div>
@@ -309,9 +311,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift15QueryConstraintV2eeoiySbAC_ACtFZ"></a>
-                    <a name="//apple_ref/swift/Method/==(_:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift15QueryConstraintV2eeoiySbAC_ACtFZ">==(_:<wbr>_:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A12SubscriptionP10didReceiveyy10Foundation4DataVKF"></a>
+                    <a name="//apple_ref/swift/Method/didReceive(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12SubscriptionP10didReceiveyy10Foundation4DataVKF">didReceive(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -319,9 +321,56 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <div class="aside aside-warning">
-    <p class="aside-title">Warning</p>
-    Doesn&rsquo;t compare &ldquo;value&rdquo;
+                        <p>Tells the handler that an event has been received from the <code><a href="../Classes/ParseLiveQuery.html">ParseLiveQuery</a></code> Server.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didReceive</span><span class="p">(</span><span class="n">_</span> <span class="nv">eventData</span><span class="p">:</span> <span class="kt">Data</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>eventData</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The event data that has been recieved from the server.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A12SubscriptionP12didSubscribeyySbF"></a>
+                    <a name="//apple_ref/swift/Method/didSubscribe(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12SubscriptionP12didSubscribeyySbF">didSubscribe(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Tells the handler that a query has been successfully registered with the server.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This may be invoked multiple times if the client disconnects/reconnects.
 
 </div>
 
@@ -330,7 +379,39 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="o">==</span> <span class="p">(</span><span class="nv">lhs</span><span class="p">:</span> <span class="kt">QueryConstraint</span><span class="p">,</span> <span class="nv">rhs</span><span class="p">:</span> <span class="kt">QueryConstraint</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didSubscribe</span><span class="p">(</span><span class="n">_</span> <span class="nv">new</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A12SubscriptionP14didUnsubscribeyyF"></a>
+                    <a name="//apple_ref/swift/Method/didUnsubscribe()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12SubscriptionP14didUnsubscribeyyF">didUnsubscribe()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Tells the handler that a query has been successfully deregistered from the server.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This is not called unless <code>unsubscribe()</code> is explicitly called.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">didUnsubscribe</span><span class="p">()</span></code></pre>
 
                         </div>
                       </div>

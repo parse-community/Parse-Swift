@@ -22,29 +22,36 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthenticatable.swift",
-      "line": 11,
-      "symbol": "ParseAuthenticatable",
-      "symbol_kind": "source.lang.swift.decl.protocol",
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
+      "line": 18,
+      "symbol": "ParseAuthentication.AuthenticatedUser",
+      "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthenticatable.swift",
-      "line": 93,
-      "symbol": "ParseAuthenticatable",
-      "symbol_kind": "source.lang.swift.decl.extension",
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
+      "line": 19,
+      "symbol": "ParseAuthentication.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthenticatable.swift",
-      "line": 198,
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
+      "line": 105,
+      "symbol": "ParseAuthentication.isLinked",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
+      "line": 204,
       "symbol": "ParseUser.isLinked(with:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthenticatable.swift",
-      "line": 205,
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
+      "line": 211,
       "symbol": "ParseUser.unlink(_:options:callbackQueue:completion:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -191,15 +198,15 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/LiveQuerySocket.swift",
-      "line": 112,
+      "line": 115,
       "symbol": "LiveQuerySocket",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/Protocols/SubscriptionHandlable.swift",
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/Protocols/ParseSubscription.swift",
       "line": 19,
-      "symbol": "SubscriptionHandlable.query",
+      "symbol": "ParseSubscription.query",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
@@ -208,13 +215,6 @@
       "line": 64,
       "symbol": "Subscription.query",
       "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Mutation Operations/ParseMutationContainer.swift",
-      "line": 11,
-      "symbol": "ParseMutationContainer",
-      "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
@@ -255,7 +255,7 @@
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseObject.swift",
       "line": 497,
-      "symbol": "ParseObject.mutationContainer",
+      "symbol": "ParseObject.operation",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
@@ -285,6 +285,13 @@
       "line": 17,
       "symbol": "ParseSession.SessionUser",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Operations/ParseOperation.swift",
+      "line": 24,
+      "symbol": "ParseOperation.init(target:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
@@ -422,7 +429,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/ParseFile.swift",
-      "line": 18,
+      "line": 21,
       "symbol": "ParseFile.localId",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
@@ -450,64 +457,71 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 72,
+      "line": 75,
       "symbol": ">(_:_:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 76,
+      "line": 79,
       "symbol": ">=(_:_:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 80,
+      "line": 83,
       "symbol": "<(_:_:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 84,
+      "line": 87,
       "symbol": "<=(_:_:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 88,
+      "line": 91,
       "symbol": "==(_:_:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 92,
+      "line": 95,
       "symbol": "!=(_:_:)",
       "symbol_kind": "source.lang.swift.decl.function.free",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 507,
+      "line": 566,
       "symbol": "Query.Order.ascending(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 508,
+      "line": 567,
       "symbol": "Query.Order.descending(_:)",
       "symbol_kind": "source.lang.swift.decl.enumelement",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 738,
+      "line": 821,
       "symbol": "Query.ResultType",
+      "symbol_kind": "source.lang.swift.decl.typealias",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
+      "line": 822,
+      "symbol": "Query.AggregateType",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     }
