@@ -5,7 +5,7 @@
 <h2 align="center">ParseSwift</h2>
 
 <p align="center">
-    An experimental pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.
+    A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.
 </p>
 
 <p align="center">
@@ -27,6 +27,8 @@
 <br>
 
 For more information about the Parse Platform and its features, see the public [documentation][docs]. The ParseSwift SDK is not a port of the [Parse-SDK-iOS-OSX SDK](https://github.com/parse-community/Parse-SDK-iOS-OSX) and though some of it may feel familiar, it is not backwards compatible and is designed with a new philosophy. For more details visit the [api documentation](http://parseplatform.org/Parse-Swift/api/).
+
+To learn how to use or experiment with ParseSwift, you can run and edit the [ParseSwift.playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground/Pages) that is apart of this repo. You can use the parse-server in [the parse-hipaa repo](https://github.com/netreconlab/parse-hipaa/tree/parse-swift) which has docker compose files (`docker-compose up` gives you a working server) configured to connect with the playground files, has Parse Dashboard, and can be used with mongo or postgres.
 
 ## Installation
 
