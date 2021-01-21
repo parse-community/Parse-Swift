@@ -178,7 +178,7 @@ do {
 
 //: To retrieve the users who are all Administrators, we need to query the relation.
 //: This time we will use a helper query from `ParseRole`.
-savedRole!.queryRoles?.find() { result in
+savedRole!.queryRoles?.find { result in
     switch result {
     case .success(let relatedRoles):
         print("The following roles are part of the \"\(savedRole!.name) role: \(relatedRoles)")
@@ -199,6 +199,16 @@ try savedRole!.roles.remove([savedRoleModerator!]).save { result in
         print("Error saving role: \(error)")
     }
 }
+
+//: All `ParseObjects` have a `ParseRelation` attribute that be used on instances.
+//: For example, the User has:
+let relation = User.current!.relation
+
+//: Example: relation.add(<#T##users: [ParseUser]##[ParseUser]#>)
+//: Example: relation.remove(<#T##key: String##String#>, objects: <#T##[ParseObject]#>)
+
+//: Using this relation, you can create many-to-many relationships with other `ParseObjecs`,
+//: similar to `users` and `roles`.
 
 PlaygroundPage.current.finishExecution()
 

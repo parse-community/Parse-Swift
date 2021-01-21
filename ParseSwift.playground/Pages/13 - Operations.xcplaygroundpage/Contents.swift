@@ -28,39 +28,6 @@ struct GameScore: ParseObject {
     }
 }
 
-struct User: ParseUser {
-    //: These are required for ParseObject
-    var objectId: String?
-    var createdAt: Date?
-    var updatedAt: Date?
-    var ACL: ParseACL?
-
-    //: These are required for ParseUser
-    var username: String?
-    var email: String?
-    var password: String?
-    var authData: [String: [String: String]?]?
-
-    //: Your custom keys
-    var customKey: String?
-}
-
-struct Role<RoleUser: ParseUser>: ParseRole {
-
-    // required by ParseObject
-    var objectId: String?
-    var createdAt: Date?
-    var updatedAt: Date?
-    var ACL: ParseACL?
-
-    // provided by Role
-    var name: String
-
-    init() {
-        self.name = ""
-    }
-}
-
 //: You can have the server do operations on your ParseObjects for you.
 
 //: First lets create another GameScore
@@ -73,10 +40,10 @@ do {
 }
 
 //: Then we will increment the score.
-let incrementedOperation = savedScore
+let incrementOperation = savedScore
     .operation.increment("score", by: 1)
 
-incrementedOperation.save { result in
+incrementOperation.save { result in
     switch result {
     case .success:
         print("Original score: \(savedScore). Check the new score on Parse Dashboard.")
@@ -87,11 +54,17 @@ incrementedOperation.save { result in
 
 //: You can increment the score again syncronously.
 do {
-    _ = try incrementedOperation.save()
+    _ = try incrementOperation.save()
     print("Original score: \(savedScore). Check the new score on Parse Dashboard.")
 } catch {
     print(error)
 }
+
+//: There are other operations: add/remove/delete objects from `ParseObjects.
+//: In fact, the `users` and `roles` relations from `ParseRoles` used the add/remove operations.
+let operations = savedScore.operation
+
+//: Example: operations.add("hello", objects: ["test"])
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)
