@@ -31,11 +31,13 @@ public struct QueryConstraint: Encodable, Equatable {
         case nearSphere = "$nearSphere"
         case or = "$or" //swiftlint:disable:this identifier_name
         case and = "$and"
+        case nor = "$nor"
         case relatedTo = "$relatedTo"
         case within = "$within"
         case geoWithin = "$geoWithin"
         case geoIntersects = "$geoIntersects"
         case maxDistance = "$maxDistance"
+        case centerSphere = "$centerSphere"
         case box = "$box"
         case polygon = "$polygon"
         case point = "$point"
@@ -44,6 +46,7 @@ public struct QueryConstraint: Encodable, Equatable {
         case term = "$term"
         case regexOptions = "$options"
         case object = "object"
+        case relativeTime = "$relativeTime"
     }
 
     var key: String
@@ -70,27 +73,27 @@ public struct QueryConstraint: Encodable, Equatable {
 }
 
 public func > <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .greaterThan)
+    QueryConstraint(key: key, value: value, comparator: .greaterThan)
 }
 
 public func >= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .greaterThanOrEqualTo)
+    QueryConstraint(key: key, value: value, comparator: .greaterThanOrEqualTo)
 }
 
 public func < <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .lessThan)
+    QueryConstraint(key: key, value: value, comparator: .lessThan)
 }
 
 public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .lessThanOrEqualTo)
+    QueryConstraint(key: key, value: value, comparator: .lessThanOrEqualTo)
 }
 
 public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value)
+    QueryConstraint(key: key, value: value)
 }
 
 public func != <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .notEqualTo)
+    QueryConstraint(key: key, value: value, comparator: .notEqualTo)
 }
 
 internal struct InQuery<T>: Encodable where T: ParseObject {
@@ -139,6 +142,16 @@ public func or <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
 }
 
 /**
+  Returns a `Query` that is the `nor` of the passed in queries.
+  - parameter queries: The list of queries to or together.
+  - returns: An instance of `QueryConstraint`'s that are the `nor` of the passed in queries.
+ */
+public func nor <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
+    let orQueries = queries.map { OrAndQuery(query: $0) }
+    return QueryConstraint(key: QueryConstraint.Comparator.nor.rawValue, value: orQueries)
+}
+
+/**
    Constructs a Query that is the AND of the passed in queries. For
     example:
     ~~~
@@ -162,7 +175,7 @@ public func and <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
-    return QueryConstraint(key: key, value: InQuery(query: value), comparator: .inQuery)
+    QueryConstraint(key: key, value: InQuery(query: value), comparator: .inQuery)
 }
 
 /**
@@ -173,7 +186,7 @@ public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func != <T>(key: String, query: Query<T>) -> QueryConstraint {
-    return QueryConstraint(key: key, value: InQuery(query: query), comparator: .notInQuery)
+    QueryConstraint(key: key, value: InQuery(query: query), comparator: .notInQuery)
 }
 
 /**
@@ -210,7 +223,7 @@ public func doesNotMatchKeyInQuery <T>(key: String, queryKey: String, query: Que
   - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func containedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: array, comparator: .containedIn)
+    QueryConstraint(key: key, value: array, comparator: .containedIn)
 }
 
 /**
@@ -221,7 +234,7 @@ public func containedIn <T>(key: String, array: [T]) -> QueryConstraint where T:
   - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func notContainedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: array, comparator: .notContainedIn)
+    QueryConstraint(key: key, value: array, comparator: .notContainedIn)
 }
 
 /**
@@ -232,7 +245,31 @@ public func notContainedIn <T>(key: String, array: [T]) -> QueryConstraint where
   - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func containsAll <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: array, comparator: .all)
+    QueryConstraint(key: key, value: array, comparator: .all)
+}
+
+/**
+  Add a constraint to the query that requires a particular key's object
+  to be contained by the provided array. Get objects where all array elements match.
+  - parameter key: The key to be constrained.
+  - parameter array: The possible values for the key's object.
+  - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func containedBy <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
+    QueryConstraint(key: key, value: array, comparator: .containedBy)
+}
+
+/**
+ Add a constraint to the query that requires a particular key's time is related a specified time. E.g. "3 days ago".
+
+ - parameter key: The key to be constrained. Should be a Date field.
+ - parameter comparator: How the relative time should be compared. Currently only supports the
+ $lt, $lte, $gt, and $gte operators.
+ - parameter time: The reference time, e.g. "12 days ago".
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func relative(key: String, comparator: QueryConstraint.Comparator, time: String) -> QueryConstraint {
+    QueryConstraint(key: key, value: [QueryConstraint.Comparator.relativeTime.rawValue: time], comparator: comparator)
 }
 
 /**
@@ -244,7 +281,7 @@ public func containsAll <T>(key: String, array: [T]) -> QueryConstraint where T:
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func near(key: String, geoPoint: ParseGeoPoint) -> QueryConstraint {
-    return QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)
+    QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)
 }
 
 /**
@@ -254,12 +291,23 @@ public func near(key: String, geoPoint: ParseGeoPoint) -> QueryConstraint {
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in radians.
+ - parameter sorted: `true` if results should be sorted by distance ascending, `false` is no sorting is required.
+ Defaults to true.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinRadians(key: String, geoPoint: ParseGeoPoint, distance: Double) -> [QueryConstraint] {
-    var constraints = [QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)]
-    constraints.append(.init(key: key, value: distance, comparator: .maxDistance))
-    return constraints
+public func withinRadians(key: String,
+                          geoPoint: ParseGeoPoint,
+                          distance: Double,
+                          sorted: Bool = true) -> [QueryConstraint] {
+    if sorted {
+        var constraints = [QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)]
+        constraints.append(.init(key: key, value: distance, comparator: .maxDistance))
+        return constraints
+    } else {
+        var constraints = [QueryConstraint(key: key, value: geoPoint, comparator: .centerSphere)]
+        constraints.append(.init(key: key, value: distance, comparator: .geoWithin))
+        return constraints
+    }
 }
 
 /**
@@ -269,9 +317,14 @@ public func withinRadians(key: String, geoPoint: ParseGeoPoint, distance: Double
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in miles.
+ - parameter sorted: `true` if results should be sorted by distance ascending, `false` is no sorting is required.
+ Defaults to true.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinMiles(key: String, geoPoint: ParseGeoPoint, distance: Double) -> [QueryConstraint] {
+public func withinMiles(key: String,
+                        geoPoint: ParseGeoPoint,
+                        distance: Double,
+                        sorted: Bool = true) -> [QueryConstraint] {
     return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / ParseGeoPoint.earthRadiusMiles))
 }
 
@@ -282,9 +335,14 @@ public func withinMiles(key: String, geoPoint: ParseGeoPoint, distance: Double) 
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in kilometers.
+ - parameter sorted: `true` if results should be sorted by distance ascending, `false` is no sorting is required.
+ Defaults to true.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinKilometers(key: String, geoPoint: ParseGeoPoint, distance: Double) -> [QueryConstraint] {
+public func withinKilometers(key: String,
+                             geoPoint: ParseGeoPoint,
+                             distance: Double,
+                             sorted: Bool = true) -> [QueryConstraint] {
     return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / ParseGeoPoint.earthRadiusKilometers))
 }
 

@@ -968,6 +968,37 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testNorQuery() {
+        let expected: [String: AnyCodable] = [
+            "$nor": [
+                ["score": ["$lte": 50]],
+                ["score": ["$lte": 200]]
+            ]
+        ]
+        let query1 = GameScore.query("score" <= 50)
+        let query2 = GameScore.query("score" <= 200)
+        let constraint = nor(queries: [query1, query2])
+        let query = Query<GameScore>(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [[String: [String: Int]]],
+                  let decodedValues = decodedDictionary.values.first?.value as? [[String: [String: Int]]] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
     func testAndQuery() {
         let expected: [String: AnyCodable] = [
             "$and": [
@@ -1195,6 +1226,32 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testWhereContainedBy() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$containedBy": ["yarr"]]
+        ]
+        let constraint = containedBy(key: "yolo", array: ["yarr"])
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String]],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: [String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
     func testWhereNotContainedIn() {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nin": ["yarr"]]
@@ -1283,6 +1340,47 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             XCTAssertEqual(expectedKey, decodedKey)
             XCTAssertEqual(expectedObject, decodedObject)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereKeyRelativeToTime() throws {
+        let expected: [String: AnyCodable] = [
+            "yolo": [
+                "$gte": ["$relativeTime": "3 days ago."]
+            ]
+        ]
+        var object = GameScore(score: 50)
+        object.objectId = "hello"
+        let constraint = relative(key: "yolo",
+                                  comparator: .greaterThanOrEqualTo,
+                                  time: "3 days ago.")
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected
+                    .values
+                    .first?.value as? [String: [String: String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary
+                    .values
+                    .first?.value as? [String: [String: String]] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            XCTAssertEqual(expectedValues, decodedValues)
 
         } catch {
             XCTFail(error.localizedDescription)
@@ -1454,6 +1552,52 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                   let decodedLatitude = decodedNear["latitude"] as? Int,
                   let decodedType = decodedNear["__type"] as? String,
                   let decodedDistance = decodedValues["$maxDistance"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedLongitude, decodedLongitude)
+            XCTAssertEqual(expectedLatitude, decodedLatitude)
+            XCTAssertEqual(expectedType, decodedType)
+            XCTAssertEqual(expectedDistance, decodedDistance)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereKeyNearGeoPointWithinRadiansNotSorted() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$centerSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
+                     "$geoWithin": 10
+            ]
+        ]
+        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let constraint = withinRadians(key: "yolo", geoPoint: geoPoint, distance: 10.0, sorted: false)
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: Any],
+                  let expectedNear = expectedValues["$centerSphere"] as? [String: Any],
+                  let expectedLongitude = expectedNear["longitude"] as? Int,
+                  let expectedLatitude = expectedNear["latitude"] as? Int,
+                  let expectedType = expectedNear["__type"] as? String,
+                  let expectedDistance = expectedValues["$geoWithin"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: Any],
+                  let decodedNear = decodedValues["$centerSphere"] as? [String: Any],
+                  let decodedLongitude = decodedNear["longitude"] as? Int,
+                  let decodedLatitude = decodedNear["latitude"] as? Int,
+                  let decodedType = decodedNear["__type"] as? String,
+                  let decodedDistance = decodedValues["$geoWithin"] as? Int else {
                 XCTFail("Should have casted")
                 return
             }
