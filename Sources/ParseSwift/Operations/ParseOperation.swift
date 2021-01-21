@@ -14,7 +14,7 @@ import Foundation
  `ParseOperation` themselves can be considered to be immutable.
  
  In most cases, you should not call this class directly as a `ParseOperation` can be
- indirectly created from any `ParseObject` by using its' `operation` property.
+ indirectly created from any `ParseObject` by using its `operation` property.
  */
 public struct ParseOperation<T>: Savable where T: ParseObject {
 

@@ -103,7 +103,7 @@ public struct ParseRelation<T>: Codable where T: ParseObject {
      Returns a `Query` that is limited to objects in this relation.
         - parameter child: The child class for the relation.
         - throws: An error of type `ParseError`.
-        - returns: A relation query
+        - returns: A relation query.
     */
     public func query<U>(_ child: U) throws -> Query<U> where U: ParseObject {
 
