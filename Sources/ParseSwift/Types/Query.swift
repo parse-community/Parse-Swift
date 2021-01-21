@@ -31,11 +31,13 @@ public struct QueryConstraint: Encodable, Equatable {
         case nearSphere = "$nearSphere"
         case or = "$or" //swiftlint:disable:this identifier_name
         case and = "$and"
+        case nor = "$nor"
         case relatedTo = "$relatedTo"
         case within = "$within"
         case geoWithin = "$geoWithin"
         case geoIntersects = "$geoIntersects"
         case maxDistance = "$maxDistance"
+        case centerSphere = "$centerSphere"
         case box = "$box"
         case polygon = "$polygon"
         case point = "$point"
@@ -44,6 +46,7 @@ public struct QueryConstraint: Encodable, Equatable {
         case term = "$term"
         case regexOptions = "$options"
         case object = "object"
+        case relativeTime = "$relativeTime"
     }
 
     var key: String
@@ -70,27 +73,27 @@ public struct QueryConstraint: Encodable, Equatable {
 }
 
 public func > <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .greaterThan)
+    QueryConstraint(key: key, value: value, comparator: .greaterThan)
 }
 
 public func >= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .greaterThanOrEqualTo)
+    QueryConstraint(key: key, value: value, comparator: .greaterThanOrEqualTo)
 }
 
 public func < <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .lessThan)
+    QueryConstraint(key: key, value: value, comparator: .lessThan)
 }
 
 public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .lessThanOrEqualTo)
+    QueryConstraint(key: key, value: value, comparator: .lessThanOrEqualTo)
 }
 
 public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value)
+    QueryConstraint(key: key, value: value)
 }
 
 public func != <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: value, comparator: .notEqualTo)
+    QueryConstraint(key: key, value: value, comparator: .notEqualTo)
 }
 
 internal struct InQuery<T>: Encodable where T: ParseObject {
@@ -139,6 +142,16 @@ public func or <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
 }
 
 /**
+  Returns a `Query` that is the `nor` of the passed in queries.
+  - parameter queries: The list of queries to `or` together.
+  - returns: An instance of `QueryConstraint`'s that are the `nor` of the passed in queries.
+ */
+public func nor <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
+    let orQueries = queries.map { OrAndQuery(query: $0) }
+    return QueryConstraint(key: QueryConstraint.Comparator.nor.rawValue, value: orQueries)
+}
+
+/**
    Constructs a Query that is the AND of the passed in queries. For
     example:
     ~~~
@@ -162,7 +175,7 @@ public func and <T>(queries: [Query<T>]) -> QueryConstraint where T: Encodable {
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
-    return QueryConstraint(key: key, value: InQuery(query: value), comparator: .inQuery)
+    QueryConstraint(key: key, value: InQuery(query: value), comparator: .inQuery)
 }
 
 /**
@@ -173,7 +186,7 @@ public func == <T>(key: String, value: Query<T>) -> QueryConstraint {
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func != <T>(key: String, query: Query<T>) -> QueryConstraint {
-    return QueryConstraint(key: key, value: InQuery(query: query), comparator: .notInQuery)
+    QueryConstraint(key: key, value: InQuery(query: query), comparator: .notInQuery)
 }
 
 /**
@@ -210,7 +223,7 @@ public func doesNotMatchKeyInQuery <T>(key: String, queryKey: String, query: Que
   - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func containedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: array, comparator: .containedIn)
+    QueryConstraint(key: key, value: array, comparator: .containedIn)
 }
 
 /**
@@ -221,7 +234,7 @@ public func containedIn <T>(key: String, array: [T]) -> QueryConstraint where T:
   - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func notContainedIn <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: array, comparator: .notContainedIn)
+    QueryConstraint(key: key, value: array, comparator: .notContainedIn)
 }
 
 /**
@@ -232,7 +245,31 @@ public func notContainedIn <T>(key: String, array: [T]) -> QueryConstraint where
   - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func containsAll <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
-    return QueryConstraint(key: key, value: array, comparator: .all)
+    QueryConstraint(key: key, value: array, comparator: .all)
+}
+
+/**
+  Add a constraint to the query that requires a particular key's object
+  to be contained by the provided array. Get objects where all array elements match.
+  - parameter key: The key to be constrained.
+  - parameter array: The possible values for the key's object.
+  - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func containedBy <T>(key: String, array: [T]) -> QueryConstraint where T: Encodable {
+    QueryConstraint(key: key, value: array, comparator: .containedBy)
+}
+
+/**
+ Add a constraint to the query that requires a particular key's time is related to a specified time. E.g. "3 days ago".
+
+ - parameter key: The key to be constrained. Should be a Date field.
+ - parameter comparator: How the relative time should be compared. Currently only supports the
+ $lt, $lte, $gt, and $gte operators.
+ - parameter time: The reference time, e.g. "12 days ago".
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func relative(key: String, comparator: QueryConstraint.Comparator, time: String) -> QueryConstraint {
+    QueryConstraint(key: key, value: [QueryConstraint.Comparator.relativeTime.rawValue: time], comparator: comparator)
 }
 
 /**
@@ -244,7 +281,7 @@ public func containsAll <T>(key: String, array: [T]) -> QueryConstraint where T:
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func near(key: String, geoPoint: ParseGeoPoint) -> QueryConstraint {
-    return QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)
+    QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)
 }
 
 /**
@@ -254,12 +291,23 @@ public func near(key: String, geoPoint: ParseGeoPoint) -> QueryConstraint {
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in radians.
+ - parameter sorted: `true` if results should be sorted by distance ascending, `false` is no sorting is required.
+ Defaults to true.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinRadians(key: String, geoPoint: ParseGeoPoint, distance: Double) -> [QueryConstraint] {
-    var constraints = [QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)]
-    constraints.append(.init(key: key, value: distance, comparator: .maxDistance))
-    return constraints
+public func withinRadians(key: String,
+                          geoPoint: ParseGeoPoint,
+                          distance: Double,
+                          sorted: Bool = true) -> [QueryConstraint] {
+    if sorted {
+        var constraints = [QueryConstraint(key: key, value: geoPoint, comparator: .nearSphere)]
+        constraints.append(.init(key: key, value: distance, comparator: .maxDistance))
+        return constraints
+    } else {
+        var constraints = [QueryConstraint(key: key, value: geoPoint, comparator: .centerSphere)]
+        constraints.append(.init(key: key, value: distance, comparator: .geoWithin))
+        return constraints
+    }
 }
 
 /**
@@ -269,9 +317,14 @@ public func withinRadians(key: String, geoPoint: ParseGeoPoint, distance: Double
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in miles.
+ - parameter sorted: `true` if results should be sorted by distance ascending, `false` is no sorting is required.
+ Defaults to true.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinMiles(key: String, geoPoint: ParseGeoPoint, distance: Double) -> [QueryConstraint] {
+public func withinMiles(key: String,
+                        geoPoint: ParseGeoPoint,
+                        distance: Double,
+                        sorted: Bool = true) -> [QueryConstraint] {
     return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / ParseGeoPoint.earthRadiusMiles))
 }
 
@@ -282,9 +335,14 @@ public func withinMiles(key: String, geoPoint: ParseGeoPoint, distance: Double) 
  - parameter key: The key to be constrained.
  - parameter geoPoint: The reference point represented as a `ParseGeoPoint`.
  - parameter distance: Maximum distance in kilometers.
+ - parameter sorted: `true` if results should be sorted by distance ascending, `false` is no sorting is required.
+ Defaults to true.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func withinKilometers(key: String, geoPoint: ParseGeoPoint, distance: Double) -> [QueryConstraint] {
+public func withinKilometers(key: String,
+                             geoPoint: ParseGeoPoint,
+                             distance: Double,
+                             sorted: Bool = true) -> [QueryConstraint] {
     return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / ParseGeoPoint.earthRadiusKilometers))
 }
 
@@ -436,17 +494,18 @@ public func doesNotExist(key: String) -> QueryConstraint {
 }
 
 internal struct RelatedCondition <T>: Encodable where T: ParseObject {
-    let object: T
+    let object: Pointer<T>
     let key: String
 }
 
 /**
   Add a constraint that requires a key is related.
   - parameter key: The key that should be related.
+  - parameter object: The object that should be related.
   - returns: The same instance of `Query` as the receiver.
  */
-public func related <T>(key: String, parent: T) -> QueryConstraint where T: ParseObject {
-    let condition = RelatedCondition(object: parent, key: key)
+public func related <T>(key: String, object: Pointer<T>) -> QueryConstraint where T: ParseObject {
+    let condition = RelatedCondition(object: object, key: key)
     return .init(key: QueryConstraint.Comparator.relatedTo.rawValue, value: condition)
 }
 
@@ -459,7 +518,6 @@ internal struct QueryWhere: Encodable, Equatable {
         constraints[constraint.key] = existing
     }
 
-    // This only encodes the where...
     func encode(to encoder: Encoder) throws {
         var container = encoder.container(keyedBy: RawCodingKey.self)
         try constraints.forEach { (key, value) in
@@ -480,7 +538,7 @@ internal struct QueryWhere: Encodable, Equatable {
 /**
   The `Query` class defines a query that is used to query for `ParseObject`s.
 */
-public class Query<T>: Encodable, Equatable where T: ParseObject {
+public struct Query<T>: Encodable, Equatable where T: ParseObject {
     // interpolate as GET
     private let method: String = "GET"
     internal var limit: Int = 100
@@ -496,6 +554,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     internal var readPreference: String?
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
+    internal var distinct: String?
     internal var fields: [String]?
 
     /**
@@ -522,7 +581,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
       Create an instance with a variadic amount constraints.
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
      */
-    public convenience init(_ constraints: QueryConstraint...) {
+    public init(_ constraints: QueryConstraint...) {
         self.init(constraints)
     }
 
@@ -558,8 +617,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
      */
     public func `where`(_ constraints: QueryConstraint...) -> Query<T> {
-        constraints.forEach({ self.where.add($0) })
-        return self
+        var mutableQuery = self
+        constraints.forEach({ mutableQuery.where.add($0) })
+        return mutableQuery
     }
 
     /**
@@ -570,8 +630,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
       - note: If you are calling `find` with `limit = 1`, you may find it easier to use `first` instead.
     */
     public func limit(_ value: Int) -> Query<T> {
-        self.limit = value
-        return self
+        var mutableQuery = self
+        mutableQuery.limit = value
+        return mutableQuery
     }
 
     /**
@@ -580,8 +641,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter value: `n` number of results to skip.
     */
     public func skip(_ value: Int) -> Query<T> {
-        self.skip = value
-        return self
+        var mutableQuery = self
+        mutableQuery.skip = value
+        return mutableQuery
     }
 
     /**
@@ -593,10 +655,11 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     public func readPreference(_ readPreference: String?,
                                includeReadPreference: String? = nil,
                                subqueryReadPreference: String? = nil) -> Query<T> {
-        self.readPreference = readPreference
-        self.includeReadPreference = includeReadPreference
-        self.subqueryReadPreference = subqueryReadPreference
-        return self
+        var mutableQuery = self
+        mutableQuery.readPreference = readPreference
+        mutableQuery.includeReadPreference = includeReadPreference
+        mutableQuery.subqueryReadPreference = subqueryReadPreference
+        return mutableQuery
     }
 
     /**
@@ -604,8 +667,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter keys: A variadic list of keys to load child `ParseObject`s for.
      */
     public func include(_ keys: String...) -> Query<T> {
-        self.include = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.include = keys
+        return mutableQuery
     }
 
     /**
@@ -613,8 +677,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter keys: An array of keys to load child `ParseObject`s for.
      */
     public func include(_ keys: [String]) -> Query<T> {
-        self.include = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.include = keys
+        return mutableQuery
     }
 
     /**
@@ -622,17 +687,19 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - warning: Requires Parse Server 3.0.0+
      */
     public func includeAll() -> Query<T> {
-        self.include = ["*"]
-        return self
+        var mutableQuery = self
+        mutableQuery.include = ["*"]
+        return mutableQuery
     }
 
     /**
-      Executes a distinct query and returns unique values. Default is to nil.
+     Exclude specific keys for a `ParseObject`. Default is to nil.
       - parameter keys: An arrays of keys to exclude.
     */
     public func exclude(_ keys: [String]?) -> Query<T> {
-        self.excludeKeys = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.excludeKeys = keys
+        return mutableQuery
     }
 
     /**
@@ -641,8 +708,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter keys: A variadic list of keys include in the result.
      */
     public func select(_ keys: String...) -> Query<T> {
-        self.keys = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.keys = keys
+        return mutableQuery
     }
 
     /**
@@ -651,8 +719,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter keys: An array of keys to include in the result.
      */
     public func select(_ keys: [String]) -> Query<T> {
-        self.keys = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.keys = keys
+        return mutableQuery
     }
 
     /**
@@ -660,8 +729,19 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter keys: An array of keys to order by.
     */
     public func order(_ keys: [Order]?) -> Query<T> {
-        self.order = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.order = keys
+        return mutableQuery
+    }
+
+    /**
+      Executes a distinct query and returns unique values. Default is to nil.
+      - parameter keys: A distinct key.
+    */
+    public func distinct(_ key: String?) -> Query<T> {
+        var mutableQuery = self
+        mutableQuery.distinct = key
+        return mutableQuery
     }
 
     /**
@@ -676,8 +756,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      */
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: String...) -> Query<T> {
-        self.fields = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.fields = keys
+        return mutableQuery
     }
 
     /**
@@ -692,8 +773,9 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
      */
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: [String]) -> Query<T> {
-        self.fields = keys
-        return self
+        var mutableQuery = self
+        mutableQuery.fields = keys
+        return mutableQuery
     }
 
     /**
@@ -711,7 +793,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     var endpoint: API.Endpoint {
-        return .objects(className: className)
+        return .objects(className: T.className)
     }
 
     enum CodingKeys: String, CodingKey {
@@ -729,6 +811,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
         case readPreference
         case includeReadPreference
         case subqueryReadPreference
+        case distinct
     }
 }
 
@@ -736,6 +819,7 @@ public class Query<T>: Encodable, Equatable where T: ParseObject {
 extension Query: Queryable {
 
     public typealias ResultType = T
+    public typealias AggregateType = [[String: String]]
 
     /**
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
@@ -939,25 +1023,95 @@ extension Query: Queryable {
             }
         }
     }
+
+    /**
+     Executes an aggregate query *asynchronously* and calls the given.
+      - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+      - throws: An error of type `ParseError`.
+      - warning: This hasn't been tested thoroughly.
+      - returns: Returns the `ParseObject`s that match the query.
+    */
+    public func aggregate(_ pipeline: AggregateType,
+                          options: API.Options = []) throws -> [ResultType] {
+        var options = options
+        options.insert(.useMasterKey)
+
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(self.`where`)
+        guard let whereString = String(data: encoded, encoding: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Can't decode where to String.")
+        }
+        var updatedPipeline: AggregateType = pipeline
+        if whereString != "{}" {
+            updatedPipeline = [["match": whereString]]
+            updatedPipeline.append(contentsOf: pipeline)
+        }
+
+        return try aggregateCommand(updatedPipeline)
+            .execute(options: options)
+    }
+
+    /**
+      Executes an aggregate query *asynchronously* and calls the given.
+        - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+        - parameter pipeline: A pipeline of stages to process query.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
+        - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<Int, ParseError>)`
+        - warning: This hasn't been tested thoroughly.
+    */
+    public func aggregate(_ pipeline: AggregateType,
+                          options: API.Options = [],
+                          callbackQueue: DispatchQueue = .main,
+                          completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
+        var options = options
+        options.insert(.useMasterKey)
+
+        guard let encoded = try? ParseCoding.jsonEncoder()
+                .encode(self.`where`),
+            let whereString = String(data: encoded, encoding: .utf8) else {
+            let error = ParseError(code: .unknownError, message: "Can't decode where to String.")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+        var updatedPipeline: AggregateType = pipeline
+        if whereString != "{}" {
+            updatedPipeline = [["match": whereString]]
+            updatedPipeline.append(contentsOf: pipeline)
+        }
+
+        aggregateCommand(pipeline)
+            .executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
+    }
 }
 
-private extension Query {
-    private func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: self) {
+extension Query {
+
+    func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
+        let query = self
+        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
 
-    private func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType?> {
-        let query = self
+    func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType?> {
+        var query = self
         query.limit = 1
         return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first
         }
     }
 
-    private func countCommand() -> API.NonParseBodyCommand<Query<ResultType>, Int> {
-        let query = self
+    func countCommand() -> API.NonParseBodyCommand<Query<ResultType>, Int> {
+        var query = self
         query.limit = 1
         query.isCount = true
         return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
@@ -965,8 +1119,8 @@ private extension Query {
         }
     }
 
-    private func findCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
-        let query = self
+    func findCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
+        var query = self
         query.explain = explain
         query.hint = hint
         return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
@@ -977,8 +1131,8 @@ private extension Query {
         }
     }
 
-    private func firstCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
-        let query = self
+    func firstCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
+        var query = self
         query.limit = 1
         query.explain = explain
         query.hint = hint
@@ -990,8 +1144,8 @@ private extension Query {
         }
     }
 
-    private func countCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
-        let query = self
+    func countCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
+        var query = self
         query.limit = 1
         query.isCount = true
         query.explain = explain
@@ -1001,6 +1155,13 @@ private extension Query {
                 return results
             }
             return AnyCodable()
+        }
+    }
+
+    func aggregateCommand(_ pipeline: AggregateType) -> API.NonParseBodyCommand<AggregateType, [ResultType]> {
+
+        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: pipeline) {
+            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
 }
@@ -1016,6 +1177,20 @@ extension Query where T: ParseUser {
 extension Query where T: ParseInstallation {
     var endpoint: API.Endpoint {
         return .installations
+    }
+}
+
+// MARK: ParseSession
+extension Query where T: ParseSession {
+    var endpoint: API.Endpoint {
+        return .sessions
+    }
+}
+
+// MARK: ParseRole
+extension Query where T: ParseRole {
+    var endpoint: API.Endpoint {
+        return .roles
     }
 }
 

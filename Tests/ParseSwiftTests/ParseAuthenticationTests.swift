@@ -27,7 +27,7 @@ class ParseAuthenticationTests: XCTestCase {
         var authData: [String: [String: String]?]?
     }
 
-    struct TestAuth<AuthenticatedUser: ParseUser>: ParseAuthenticatable {
+    struct TestAuth<AuthenticatedUser: ParseUser>: ParseAuthentication {
         static var __type: String { // swiftlint:disable:this identifier_name
             "test"
         }

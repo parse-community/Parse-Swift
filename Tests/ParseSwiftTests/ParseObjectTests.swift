@@ -1194,7 +1194,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         levelOnServer.updatedAt = Date()
         levelOnServer.ACL = nil
         levelOnServer.objectId = "yarr"
-        let pointer = levelOnServer.toPointer()
+        let pointer = try levelOnServer.toPointer()
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(pointer)

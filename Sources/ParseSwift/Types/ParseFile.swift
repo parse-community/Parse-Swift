@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 /**
   A `ParseFile` object representes a file of binary data stored on the Parse server.

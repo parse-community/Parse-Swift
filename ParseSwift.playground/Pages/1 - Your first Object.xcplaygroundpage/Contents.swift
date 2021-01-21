@@ -216,12 +216,15 @@ let score2ToFetch = GameScore(objectId: score2ForFetchedLater?.objectId)
     }
 }
 
+var fetchedScore: GameScore!
+
 //: Synchronously fetchAll GameScore's based on it's objectId's alone.
 do {
     let fetchedScores = try [scoreToFetch, score2ToFetch].fetchAll()
     fetchedScores.forEach { result in
         switch result {
         case .success(let fetched):
+            fetchedScore = fetched
             print("Successfully fetched: \(fetched)")
         case .failure(let error):
             print("Error fetching: \(error)")

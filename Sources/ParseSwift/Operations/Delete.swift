@@ -1,5 +1,5 @@
 //
-//  DeleteOperation.swift
+//  Delete.swift
 //  Parse
 //
 //  Created by Florent Vilmart on 17-07-24.
@@ -8,6 +8,6 @@
 
 import Foundation
 
-internal struct DeleteOperation: Encodable {
+internal struct Delete: Encodable {
     let __op: String = "Delete" // swiftlint:disable:this identifier_name
 }

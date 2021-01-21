@@ -120,6 +120,7 @@ extension ParseInstallation {
                             try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
                         return newInstallation
                     }
+                    return installationFromKeyChain
                 #else
                     var newInstallation = CurrentInstallationContainer<Self>()
                     let newInstallationId = UUID().uuidString.lowercased()
@@ -129,7 +130,6 @@ extension ParseInstallation {
                     try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
                     return newInstallation
                 #endif
-                    return installationFromKeyChain
             }
             return installationInMemory
         }
@@ -340,7 +340,7 @@ extension ParseInstallation {
      and sets an error if one occurs.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An Error of `ParseError` type.
+     - throws: An error of `ParseError` type.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     public func fetch(options: API.Options = []) throws -> Self {
@@ -406,7 +406,7 @@ extension ParseInstallation {
      Saves the `ParseInstallation` *synchronously* and throws an error if there's an issue.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: A Error of type `ParseError`.
+     - throws: An error of type `ParseError`.
      - returns: Returns saved `ParseInstallation`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
@@ -510,7 +510,7 @@ extension ParseInstallation {
      and sets an error if one occurs.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An Error of `ParseError` type.
+     - throws: An error of `ParseError` type.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(options: API.Options = []) throws {

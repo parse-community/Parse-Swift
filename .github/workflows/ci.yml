@@ -6,7 +6,6 @@ on:
     branches: '*'
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
-  CI_XCODE_VER_12: '/Applications/Xcode_12.2.app/Contents/Developer'
 
 jobs:
   xcode-test-ios:
@@ -98,19 +97,15 @@ jobs:
         uses: actions/cache@v2
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          key: ${{ runner.os }}-gem-v1-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-gem-
+            ${{ runner.os }}-gem-v1
       - name: Install Bundle
         run: |
           bundle config path vendor/bundle
           bundle install
-        env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_VER_12 }}
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
-        env:
-           DEVELOPER_DIR: ${{ env.CI_XCODE_VER_12 }}
       - name: Deploy Jazzy Docs
         if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3

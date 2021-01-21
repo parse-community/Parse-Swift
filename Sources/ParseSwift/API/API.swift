@@ -22,6 +22,10 @@ public struct API {
         case user(objectId: String)
         case installations
         case installation(objectId: String)
+        case sessions
+        case session(objectId: String)
+        case roles
+        case role(objectId: String)
         case login
         case logout
         case file(fileName: String)
@@ -29,6 +33,7 @@ public struct API {
         case verificationEmailRequest
         case functions(name: String)
         case jobs(name: String)
+        case aggregate(className: String)
         case any(String)
 
         var urlComponent: String {
@@ -47,6 +52,14 @@ public struct API {
                 return "/installations"
             case .installation(let objectId):
                 return "/installations/\(objectId)"
+            case .sessions:
+                return "/sessions"
+            case .session(let objectId):
+                return "/sessions/\(objectId)"
+            case .roles:
+                return "/roles"
+            case .role(let objectId):
+                return "/roles/\(objectId)"
             case .login:
                 return "/login"
             case .logout:
@@ -61,6 +74,8 @@ public struct API {
                 return "/functions/\(name)"
             case .jobs(name: let name):
                 return "/jobs/\(name)"
+            case .aggregate(let className):
+                return "/aggregate/\(className)"
             case .any(let path):
                 return path
             }

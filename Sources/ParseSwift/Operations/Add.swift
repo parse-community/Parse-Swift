@@ -1,5 +1,5 @@
 //
-//  AddOperation.swift
+//  Add.swift
 //  Parse
 //
 //  Created by Florent Vilmart on 17-07-24.
@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal struct AddOperation<T>: Encodable where T: Encodable {
+internal struct Add<T>: Encodable where T: Encodable {
     let __op: String = "Add" // swiftlint:disable:this identifier_name
     let objects: [T]
 }

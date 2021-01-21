@@ -14,10 +14,11 @@ struct User: ParseUser {
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    // These are required for ParseUser
+    //: These are required for ParseUser
     var username: String?
     var email: String?
     var password: String?
+    var authData: [String: [String: String]?]?
 
     //: Your custom keys
     var customKey: String?

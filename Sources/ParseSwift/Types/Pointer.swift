@@ -1,15 +1,15 @@
 import Foundation
 
-private func getObjectId<T: ParseObject>(target: T) -> String {
+private func getObjectId<T: ParseObject>(target: T) throws -> String {
     guard let objectId = target.objectId else {
-        fatalError("Cannot set a pointer to an unsaved object")
+        throw ParseError(code: .missingObjectId, message: "Cannot set a pointer to an unsaved object")
     }
     return objectId
 }
 
-private func getObjectId(target: Objectable) -> String {
+private func getObjectId(target: Objectable) throws -> String {
     guard let objectId = target.objectId else {
-        fatalError("Cannot set a pointer to an unsaved object")
+        throw ParseError(code: .missingObjectId, message: "Cannot set a pointer to an unsaved object")
     }
     return objectId
 }
@@ -21,8 +21,8 @@ public struct Pointer<T: ParseObject>: Fetchable, Encodable {
     public var objectId: String
     public var className: String
 
-    public init(_ target: T) {
-        self.objectId = getObjectId(target: target)
+    public init(_ target: T) throws {
+        self.objectId = try getObjectId(target: target)
         self.className = target.className
     }
 
@@ -71,8 +71,8 @@ internal struct PointerType: Encodable {
     public var objectId: String
     public var className: String
 
-    public init(_ target: Objectable) {
-        self.objectId = getObjectId(target: target)
+    public init(_ target: Objectable) throws {
+        self.objectId = try getObjectId(target: target)
         self.className = target.className
     }
 

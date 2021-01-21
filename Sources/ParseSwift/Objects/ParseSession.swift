@@ -23,6 +23,7 @@ public protocol ParseSession: ParseObject {
     var user: SessionUser { get }
 
     /// Whether the session is restricted.
+    /// - warning: This will be deprecated in newer versions of Parse Server.
     var restricted: Bool? { get }
 
     /// Information about how the session was created.
@@ -41,5 +42,16 @@ public protocol ParseSession: ParseObject {
 public extension ParseSession {
     static var className: String {
         "_Session"
+    }
+}
+
+// MARK: Convenience
+extension ParseSession {
+    var endpoint: API.Endpoint {
+        if let objectId = objectId {
+            return .session(objectId: objectId)
+        }
+
+        return .sessions
     }
 }

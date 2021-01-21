@@ -1,5 +1,5 @@
 //
-//  ParseAuthenticatable.swift
+//  ParseAuthentication.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 1/14/21.
@@ -8,7 +8,13 @@
 
 import Foundation
 
-public protocol ParseAuthenticatable: Codable {
+/**
+ Objects that conform to the `ParseAuthentication` protocol provide
+ convenience implementations for using 3rd party authentication methods.
+ The authentication methods supported by the Parse Server can be found
+ [here](https://docs.parseplatform.org/parse-server/guide/#oauth-and-3rd-party-authentication).
+ */
+public protocol ParseAuthentication: Codable {
     associatedtype AuthenticatedUser: ParseUser
     init()
 
@@ -90,7 +96,7 @@ public protocol ParseAuthenticatable: Codable {
 }
 
 // MARK: Convenience Implementations
-public extension ParseAuthenticatable {
+public extension ParseAuthentication {
 
     var __type: String { // swiftlint:disable:this identifier_name
         Self.__type

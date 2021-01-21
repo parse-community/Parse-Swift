@@ -28,7 +28,7 @@ public protocol ParseObject: Objectable,
                              Fetchable,
                              Savable,
                              Deletable,
-                             Equatable,
+                             Hashable,
                              CustomDebugStringConvertible {}
 
 // MARK: Default Implementations
@@ -49,8 +49,8 @@ extension ParseObject {
        Gets a Pointer referencing this Object.
        - returns: Pointer<Self>
     */
-    public func toPointer() -> Pointer<Self> {
-        return Pointer(self)
+    public func toPointer() throws -> Pointer<Self> {
+        return try Pointer(self)
     }
 }
 
@@ -447,7 +447,7 @@ extension ParseObject {
      Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An Error of `ParseError` type.
+     - throws: An error of `ParseError` type.
     */
     public func fetch(options: API.Options = []) throws -> Self {
         try fetchCommand().execute(options: options,
@@ -492,10 +492,10 @@ extension ParseObject {
     }
 }
 
-// MARK: Mutations
+// MARK: Operations
 public extension ParseObject {
-    var mutationContainer: ParseMutationContainer<Self> {
-        return ParseMutationContainer(target: self)
+    var operation: ParseOperation<Self> {
+        return ParseOperation(target: self)
     }
 }
 
@@ -522,7 +522,7 @@ extension ParseObject {
      Saves the `ParseObject` *synchronously* and throws an error if there's an issue.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: A Error of type `ParseError`.
+     - throws: An error of type `ParseError`.
 
      - returns: Returns saved `ParseObject`.
     */
@@ -699,7 +699,7 @@ extension ParseObject {
      Deletes the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An Error of `ParseError` type.
+     - throws: An error of `ParseError` type.
     */
     public func delete(options: API.Options = []) throws {
         if let error = try deleteCommand().execute(options: options) {
