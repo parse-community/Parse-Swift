@@ -32,8 +32,6 @@ To learn how to use or experiment with ParseSwift, you can run and edit the [Par
 
 ## Installation
 
-As there are currently no releases of the ParseSwift SDK you will need to specify either a branch or a specific commit with your chosen package manager. The `main` branch may be unstable and there may be breaking changes.
-
 ### [Swift Package Manager](https://swift.org/package-manager/)
 
 You can use The Swift Package Manager to install ParseSwift by adding the following description to your `Package.swift` file:
@@ -45,26 +43,29 @@ import PackageDescription
 let package = Package(
     name: "YOUR_PROJECT_NAME",
     dependencies: [
-        .package(url: "https://github.com/parse-community/Parse-Swift.git", .branch("main")"),
+        .package(url: "https://github.com/parse-community/Parse-Swift.git", from: "1.0.0"),
     ]
 )
 ```
-Then run `swift build`.
+Then run `swift build`. You can also install using SPM in your Xcode project by going to 
+"Project->NameOfYourProject->Swift Packages" and placing "https://github.com/parse-community/Parse-Swift.git" in the 
+search field.
 
 ### [CocoaPods](https://cocoapods.org)
 
 Add the following line to your Podfile:
+
 ```ruby
-pod 'ParseSwift', :git => 'https://github.com/parse-community/Parse-Swift', :branch => 'main'
+pod 'ParseSwift'
 ```
 
-Run `pod install`, and you should now have the latest version from the main branch. Please be aware that as this SDK is still in development there may be issues with main.
+Run `pod install`, and you should now have the latest version from the main branch.
 
 ### [Carthage](https://github.com/carthage/carthage)
 
 Add the following line to your Cartfile:
 ```
-github "parse-community/Parse-Swift" "main"
+github "parse-community/Parse-Swift"
 ```
 Run `carthage update`, and you should now have the latest version of ParseSwift SDK in your Carthage folder.
 
