@@ -3,8 +3,8 @@ Pod::Spec.new do |s|
   s.version  = "1.0.0"
   s.summary  = "Parse Pure Swift SDK"
   s.homepage = "https://github.com/parse-community/Parse-Swift"
-  s.author = {
-      "[Name]" => "[Mail Address]"
+  s.authors = {
+      'Corey E. Baker' => 'coreyearleon@icloud.com'
   }
   s.source = {
       :git => "#{s.homepage}.git",
