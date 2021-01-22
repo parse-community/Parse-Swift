@@ -7,20 +7,20 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 
 initializeParse()
 
-//: Create your own ValueTyped ParseObject
+//: Create your own value typed ParseObject.
 struct GameScore: ParseObject {
-    //: These are required for any Object
+    //: These are required for any Object.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    //: Your own properties
+    //: Your own properties.
     var score: Int = 0
     var location: ParseGeoPoint?
     var name: String?
 
-    //custom initializer
+    //: Custom initializer.
     init(name: String, score: Int) {
         self.name = name
         self.score = score

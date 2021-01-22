@@ -8,13 +8,13 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 struct Installation: ParseInstallation {
-    //: These are required for ParseObject
+    //: These are required for `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    //: These are required for ParseInstallation
+    //: These are required for `ParseInstallation`.
     var installationId: String?
     var deviceType: String?
     var deviceToken: String?
@@ -34,7 +34,7 @@ struct Installation: ParseInstallation {
 //: WARNING: All calls on Installation need to be done on the main queue
 DispatchQueue.main.async {
 
-    /*: Save your first customKey value to your ParseInstallation.
+    /*: Save your first customKey value to your `ParseInstallation`.
         Performs work on background queue and returns to designated on
         designated callbackQueue. If no callbackQueue is specified it
         returns to main queue.

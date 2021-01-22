@@ -7,10 +7,11 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-//: Create a ValueTyped ParseConfig that matches your server config
+//: Create a value typed `ParseConfig` that matches your server config.
 struct Config: ParseConfig {
 
-    //: If your server Config has any properties they should be placed here.
+    //: If your server Config has any parameters their names and types should
+    //: match your ParseCondig properties:
     var welcomeMessage: String?
     var winningNumber: Int?
 }
@@ -34,7 +35,7 @@ config.fetch { result in
 //: We can also update the config.
 config.winningNumber = 50
 
-//: Save the update
+//: Save the update.
 config.save { result in
     switch result {
     case .success(let isUpdated):

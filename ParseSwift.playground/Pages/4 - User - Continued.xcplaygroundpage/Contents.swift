@@ -8,23 +8,23 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 struct User: ParseUser {
-    //: These are required for ParseObject
+    //: These are required for `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    //: These are required for ParseUser
+    //: These are required for `ParseUser`.
     var username: String?
     var email: String?
     var password: String?
     var authData: [String: [String: String]?]?
 
-    //: Your custom keys
+    //: Your custom keys.
     var customKey: String?
 }
 
-/*: Save your first customKey value to your ParseUser
+/*: Save your first customKey value to your `ParseUser`
     Asynchrounously - Performs work on background
     queue and returns to designated on designated callbackQueue.
     If no callbackQueue is specified it returns to main queue.
@@ -50,7 +50,7 @@ do {
 
 /*: Login - asynchronously - Performs work on background
     queue and returns to designated on designated callbackQueue.
-    If no callbackQueue is specified it returns to main queue
+    If no callbackQueue is specified it returns to main queue.
 */
 User.login(username: "hello", password: "world") { results in
 
@@ -69,7 +69,7 @@ User.login(username: "hello", password: "world") { results in
     }
 }
 
-//: Logging out - synchronously
+//: Logging out - synchronously.
 do {
     try User.logout()
     print("Successfully logged out")
@@ -77,7 +77,7 @@ do {
     print("Error logging out: \(error)")
 }
 
-//: Logging in anonymously
+//: Logging in anonymously.
 User.anonymous.login { result in
     switch result {
     case .success:
@@ -101,7 +101,7 @@ User.current?.signup { result in
     }
 }
 
-//: Password Reset Request - synchronously
+//: Password Reset Request - synchronously.
 do {
     try User.verificationEmailRequest(email: "hello@parse.org")
     print("Successfully requested verification email be sent")
@@ -109,7 +109,7 @@ do {
     print("Error requesting verification email be sent: \(error)")
 }
 
-//: Password Reset Request - synchronously
+//: Password Reset Request - synchronously.
 do {
     try User.passwordReset(email: "hello@parse.org")
     print("Successfully requested password reset")
