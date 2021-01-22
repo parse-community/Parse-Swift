@@ -8,6 +8,7 @@
 
 import Foundation
 
+/// The REST API for communicating with the Parse Server.
 public struct API {
 
     internal enum Method: String, Encodable {
@@ -34,6 +35,7 @@ public struct API {
         case functions(name: String)
         case jobs(name: String)
         case aggregate(className: String)
+        case config
         case any(String)
 
         var urlComponent: String {
@@ -76,6 +78,8 @@ public struct API {
                 return "/jobs/\(name)"
             case .aggregate(let className):
                 return "/aggregate/\(className)"
+            case .config:
+                return "/config"
             case .any(let path):
                 return path
             }
@@ -87,16 +91,31 @@ public struct API {
         }
     }
 
+    /// A type alias for the set of options.
     public typealias Options = Set<API.Option>
 
+    /// Options available to send to Parse Server.
     public enum Option: Hashable {
+        /// Use the masterKey if it was provided during initial configuraration.
         case useMasterKey // swiftlint:disable:this inclusive_language
+        /// Use a specific session token.
+        /// - note: The session token of the current user is provided by default.
         case sessionToken(String)
+        /// Use a specific installationId.
+        /// - note: The installationId of the current user is provided by default.
         case installationId(String)
+        /// Specify mimeType.
         case mimeType(String)
+        /// Specify fileSize.
         case fileSize(String)
+        /// Remove mimeType.
+        /// - note: This is typically used indirectly by `ParseFile`.
         case removeMimeType
+        /// Specify metadata.
+        /// - note: This is typically used indirectly by `ParseFile`.
         case metadata([String: String])
+        // Specify tags.
+        /// - note: This is typically used indirectly by `ParseFile`.
         case tags([String: String])
 
         public func hash(into hasher: inout Hasher) {

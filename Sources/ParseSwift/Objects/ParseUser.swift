@@ -332,6 +332,11 @@ extension ParseUser {
         return API.NonParseBodyCommand(method: .POST, path: .logout) { (data) -> NoBody in
             var parseError: ParseError?
             var serverResponse = NoBody()
+            //Always let user logout locally, no matter the error.
+            deleteCurrentContainerFromKeychain()
+            BaseParseInstallation.deleteCurrentContainerFromKeychain()
+            BaseConfig.deleteCurrentContainerFromKeychain()
+
             do {
                 serverResponse = try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
             } catch {
@@ -341,9 +346,6 @@ extension ParseUser {
                     parseError = ParseError(code: .unknownError, message: error.localizedDescription)
                 }
             }
-            //Always let user logout locally, no matter the error.
-            deleteCurrentContainerFromKeychain()
-            BaseParseInstallation.deleteCurrentContainerFromKeychain()
             guard let error = parseError else {
                 return serverResponse
             }

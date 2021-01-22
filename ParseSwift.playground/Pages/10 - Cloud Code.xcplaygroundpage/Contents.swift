@@ -33,7 +33,7 @@ cloud.runFunction { result in
     }
 }
 
-//: Jobs can be run the same way by using the method `startJob()`
+//: Jobs can be run the same way by using the method `startJob()`.
 PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)
