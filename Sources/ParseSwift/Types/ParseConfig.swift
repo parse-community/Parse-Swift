@@ -19,7 +19,7 @@ public protocol ParseConfig: ParseType, Decodable, CustomDebugStringConvertible 
 extension ParseConfig {
 
     /**
-     Update the Config *synchronously*.
+     Fetch the Config *synchronously*.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - returns: Returns `Self`.
         - throws: An error of type `ParseError`.
@@ -29,7 +29,7 @@ extension ParseConfig {
     }
 
     /**
-     Update the Config *asynchronously*.
+     Fetch the Config *asynchronously*.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when logging out, completes or fails.
@@ -61,7 +61,7 @@ extension ParseConfig {
 extension ParseConfig {
 
     /**
-     Update the Config *synchronously* and returns a result of it's execution.
+     Update the Config *synchronously*.
           - parameter options: A set of header options sent to the server. Defaults to an empty set.
           - returns: Returns `true` if updated, `false` otherwise.
     */
@@ -166,7 +166,7 @@ extension ParseConfig {
     /**
      Gets/Sets properties of the current config in the Keychain.
 
-     - returns: Returns a `ParseConfig` that is the current device. If there is none, returns `nil`.
+     - returns: Returns the latest `ParseConfig` on this device. If there is none, returns `nil`.
     */
     public static var current: Self? {
         get {
