@@ -765,6 +765,7 @@ public extension Sequence where Element: ParseInstallation {
         if (allSatisfy { $0.className == Self.Element.className}) {
             let uniqueObjectIds = Set(compactMap { $0.objectId })
             let query = Self.Element.query(containedIn(key: "objectId", array: [uniqueObjectIds]))
+                .limit(uniqueObjectIds.count)
             let fetchedObjects = try query.find(options: options)
             var fetchedObjectsToReturn = [(Result<Self.Element, ParseError>)]()
 
