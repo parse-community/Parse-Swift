@@ -34,7 +34,7 @@ To learn how to use or experiment with ParseSwift, you can run and edit the [Par
 
 ### [Swift Package Manager](https://swift.org/package-manager/)
 
-You can use The Swift Package Manager to install ParseSwift by adding the following description to your `Package.swift` file:
+You can use The Swift Package Manager (SPM) to install ParseSwift by adding the following description to your `Package.swift` file:
 
 ```swift
 // swift-tools-version:5.1
@@ -47,7 +47,9 @@ let package = Package(
     ]
 )
 ```
-Then run `swift build`. You can also install using SPM in your Xcode project by going to 
+Then run `swift build`. 
+
+You can also install using SPM in your Xcode project by going to 
 "Project->NameOfYourProject->Swift Packages" and placing "https://github.com/parse-community/Parse-Swift.git" in the 
 search field.
 
