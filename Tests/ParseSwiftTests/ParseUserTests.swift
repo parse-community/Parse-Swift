@@ -270,11 +270,13 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
                         return
                 }
                 guard let originalCreatedAt = user.createdAt,
                     let originalUpdatedAt = user.updatedAt else {
                         XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
                         return
                 }
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
@@ -516,11 +518,13 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
                         return
                 }
                 guard let originalCreatedAt = user.createdAt,
                     let originalUpdatedAt = user.updatedAt else {
                         XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
                         return
                 }
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
@@ -785,6 +789,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
                 guard let userFromKeychain = BaseParseUser.current else {
                     XCTFail("Couldn't get CurrentUser from Keychain")
+                    expectation1.fulfill()
                     return
                 }
 
@@ -892,6 +897,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
                 guard let userFromKeychain = BaseParseUser.current else {
                     XCTFail("Couldn't get CurrentUser from Keychain")
+                    expectation1.fulfill()
                     return
                 }
 
@@ -1904,11 +1910,13 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 guard let becomeCreatedAt = become.createdAt,
                     let becomeUpdatedAt = become.updatedAt else {
                         XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
                         return
                 }
                 guard let originalCreatedAt = user.createdAt,
                     let originalUpdatedAt = user.updatedAt else {
                         XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
                         return
                 }
                 XCTAssertEqual(becomeCreatedAt, originalCreatedAt)
