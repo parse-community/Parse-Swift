@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Access Enumeration Reference</title>
+    <title>Option Enumeration Reference</title>
     <link rel="stylesheet" type="text/css" href="../../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Enum/Access" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Enum/Option" class="dashAnchor"></a>
 
-    <a title="Access Enumeration Reference"></a>
+    <a title="Option Enumeration Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../../index.html">ParseSwift Reference</a>
       <img class="carat" src="../../img/carat.png" />
-      Access Enumeration Reference
+      Option Enumeration Reference
     </p>
 
     <div class="content-wrapper">
@@ -272,15 +272,15 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>Access</h1>
+            <h1>Option</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Access</span> <span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="kt">Codable</span><span class="p">,</span> <span class="kt">CodingKey</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">Option</span> <span class="p">:</span> <span class="kt">Hashable</span></code></pre>
 
                 </div>
               </div>
-            <p>An enum specifying read and write access controls.</p>
+            <p>Options available to send to Parse Server.</p>
 
           </div>
         </section>
@@ -292,9 +292,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:Se4fromxs7Decoder_p_tKcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(from:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:Se4fromxs7Decoder_p_tKcfc">init(from:<wbr>)</a>
+                    <a name="/s:10ParseSwift3APIV6OptionO12useMasterKeyyA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/useMasterKey" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3APIV6OptionO12useMasterKeyyA2EmF">useMasterKey</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -302,13 +302,14 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Use the masterKey if it was provided during initial configuraration.</p>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="nf">init</span><span class="p">(</span><span class="n">from</span> <span class="nv">decoder</span><span class="p">:</span> <span class="kt">Decoder</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">useMasterKey</span></code></pre>
 
                         </div>
                       </div>
@@ -318,9 +319,222 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:SE6encode2toys7Encoder_p_tKF"></a>
-                    <a name="//apple_ref/swift/Method/encode(to:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:SE6encode2toys7Encoder_p_tKF">encode(to:<wbr>)</a>
+                    <a name="/s:10ParseSwift3APIV6OptionO12sessionTokenyAESScAEmF"></a>
+                    <a name="//apple_ref/swift/Element/sessionToken(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3APIV6OptionO12sessionTokenyAESScAEmF">sessionToken(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Use a specific session token.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The session token of the current user is provided by default.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">sessionToken</span><span class="p">(</span><span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift3APIV6OptionO14installationIdyAESScAEmF"></a>
+                    <a name="//apple_ref/swift/Element/installationId(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3APIV6OptionO14installationIdyAESScAEmF">installationId(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Use a specific installationId.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The installationId of the current user is provided by default.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">installationId</span><span class="p">(</span><span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift3APIV6OptionO8mimeTypeyAESScAEmF"></a>
+                    <a name="//apple_ref/swift/Element/mimeType(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3APIV6OptionO8mimeTypeyAESScAEmF">mimeType(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Specify mimeType.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">mimeType</span><span class="p">(</span><span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift3APIV6OptionO8fileSizeyAESScAEmF"></a>
+                    <a name="//apple_ref/swift/Element/fileSize(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3APIV6OptionO8fileSizeyAESScAEmF">fileSize(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Specify fileSize.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">fileSize</span><span class="p">(</span><span class="kt">String</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift3APIV6OptionO14removeMimeTypeyA2EmF"></a>
+                    <a name="//apple_ref/swift/Element/removeMimeType" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3APIV6OptionO14removeMimeTypeyA2EmF">removeMimeType</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Remove mimeType.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This is typically used indirectly by <code><a href="../../Structs/ParseFile.html">ParseFile</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="n">removeMimeType</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift3APIV6OptionO8metadatayAESDyS2SGcAEmF"></a>
+                    <a name="//apple_ref/swift/Element/metadata(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3APIV6OptionO8metadatayAESDyS2SGcAEmF">metadata(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Specify metadata.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This is typically used indirectly by <code><a href="../../Structs/ParseFile.html">ParseFile</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">metadata</span><span class="p">([</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">String</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift3APIV6OptionO4tagsyAESDyS2SGcAEmF"></a>
+                    <a name="//apple_ref/swift/Element/tags(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift3APIV6OptionO4tagsyAESDyS2SGcAEmF">tags(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    This is typically used indirectly by <code><a href="../../Structs/ParseFile.html">ParseFile</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">case</span> <span class="nf">tags</span><span class="p">([</span><span class="kt">String</span> <span class="p">:</span> <span class="kt">String</span><span class="p">])</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:SH4hash4intoys6HasherVz_tF"></a>
+                    <a name="//apple_ref/swift/Method/hash(into:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:SH4hash4intoys6HasherVz_tF">hash(into:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -334,7 +548,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">encode</span><span class="p">(</span><span class="n">to</span> <span class="nv">encoder</span><span class="p">:</span> <span class="kt">Encoder</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">hash</span><span class="p">(</span><span class="n">into</span> <span class="nv">hasher</span><span class="p">:</span> <span class="k">inout</span> <span class="kt">Hasher</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>

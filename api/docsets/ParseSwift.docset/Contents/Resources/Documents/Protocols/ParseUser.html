@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.0 Docs
+          ParseSwift $(MARKETING_VERSION) Docs
         </a>
-         (85% documented)
+         (86% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -182,6 +182,9 @@
                 <a class="nav-group-task-link" href="../Protocols/ParseCloud.html">ParseCloud</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Protocols/ParseConfig.html">ParseConfig</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Protocols/ParseInstallation.html">ParseInstallation</a>
               </li>
               <li class="nav-group-task">
@@ -210,6 +213,12 @@
           <li class="nav-group-name">
             <a class="nav-group-name-link" href="../Structs.html">Structures</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/API.html">API</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/API/Option.html">– Option</a>
+              </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/AnyCodable.html">AnyCodable</a>
               </li>
@@ -360,6 +369,44 @@ It is only meant to be set.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserP12sessionTokenSSSgvp"></a>
+                    <a name="//apple_ref/swift/Property/sessionToken" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserP12sessionTokenSSSgvp">sessionToken</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The session token for the <code>ParseUser</code>.
+This is set by the server upon successful authentication.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        <p>The session token for the <code>ParseUser</code>.</p>
+
+<p>This is set by the server upon successful authentication.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">sessionToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -586,7 +633,7 @@ This also caches the user locally so that calls to <em>current</em> will use the
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                   <span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
-                  <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                  <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -669,7 +716,7 @@ Returns an instance of the successfully logged in <code>ParseUser</code>.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                   <span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
-                  <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span><span class="p">,</span>
+                  <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span><span class="p">,</span>
                   <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span><span class="p">,</span>
                   <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
@@ -792,7 +839,7 @@ This also caches the user locally so that calls to <em>current</em> will use the
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                  <span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
-                 <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                 <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -875,7 +922,7 @@ Returns an instance of the successfully linked <code>ParseUser</code>.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="n">_</span> <span class="nv">type</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                  <span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
-                 <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span><span class="p">,</span>
+                 <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span><span class="p">,</span>
                  <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span><span class="p">,</span>
                  <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
@@ -1046,38 +1093,6 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                     </section>
                   </div>
                 </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A4UserPAAE12sessionTokenSSSgvp"></a>
-                    <a name="//apple_ref/swift/Property/sessionToken" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE12sessionTokenSSSgvp">sessionToken</a>
-                    </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The session token for the <code>ParseUser</code>.</p>
-
-<p>This is set by the server upon successful authentication.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">sessionToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -1123,7 +1138,7 @@ This also caches the user locally so that calls to <em>current</em> will use the
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                         <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                         <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -1207,7 +1222,7 @@ Returns an instance of the successfully logged in <code>ParseUser</code>.</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">login</span><span class="p">(</span>
     <span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
     <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
@@ -1314,7 +1329,7 @@ to the keychain, so you can retrieve the currently logged in user using <em>curr
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">become</span><span class="p">(</span><span class="nv">sessionToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">become</span><span class="p">(</span><span class="nv">sessionToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -1382,7 +1397,7 @@ to the keychain, so you can retrieve the currently logged in user using <em>curr
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">become</span><span class="p">(</span><span class="nv">sessionToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                   <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                   <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
@@ -1484,7 +1499,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">logout</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">logout</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -1518,7 +1533,7 @@ unless your code is already running from a background thread.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">logout</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">logout</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ParseError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -1606,7 +1621,7 @@ associated with the user account. This email allows the user to securely reset t
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">passwordReset</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">passwordReset</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -1668,7 +1683,7 @@ associated with the user account. This email allows the user to securely reset t
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">passwordReset</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">passwordReset</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                  <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                  <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ParseError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
@@ -1770,7 +1785,7 @@ associated with the user account.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">verificationEmailRequest</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                                            <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
+                                            <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -1833,7 +1848,7 @@ associated with the user account.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">verificationEmailRequest</span><span class="p">(</span><span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                                            <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                                            <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                             <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                             <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ParseError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
@@ -1941,7 +1956,7 @@ associated with the user account.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span><span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                          <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -2025,7 +2040,7 @@ associated with the user account.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -2085,7 +2100,7 @@ associated with the user account.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -2170,7 +2185,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">signup</span><span class="p">(</span>
     <span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
     <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
@@ -2292,7 +2307,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -2347,7 +2362,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">fetch</span><span class="p">(</span>
-    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
@@ -2447,7 +2462,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
 
                         </div>
                       </div>
@@ -2506,7 +2521,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
-    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
@@ -2605,7 +2620,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span></code></pre>
 
                         </div>
                       </div>
@@ -2660,7 +2675,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span>
-    <span class="nv">options</span><span class="p">:</span> <span class="kt">API</span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">ParseError</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
@@ -2723,7 +2738,7 @@ It should have the following argument signature: <code>(ParseError?)</code>.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-21)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-23)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

@@ -1,13 +1,6 @@
 {
   "warnings": [
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/API/API.swift",
-      "line": 11,
-      "symbol": "API",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseApple.swift",
       "line": 50,
       "symbol": "ParseApple.init()",
@@ -254,28 +247,28 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseObject.swift",
-      "line": 497,
+      "line": 498,
       "symbol": "ParseObject.operation",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseObject.swift",
-      "line": 505,
+      "line": 506,
       "symbol": "ParseObject.query()",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseObject.swift",
-      "line": 509,
+      "line": 510,
       "symbol": "ParseObject.query(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseObject.swift",
-      "line": 513,
+      "line": 514,
       "symbol": "ParseObject.query(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.static",
       "warning": "undocumented"
@@ -387,7 +380,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Storage/ParseStorage.swift",
-      "line": 33,
+      "line": 34,
       "symbol": "ParseStorage",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
