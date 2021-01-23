@@ -18,7 +18,6 @@ jobs:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
 
   docs:
-    needs: spm-test
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
@@ -37,7 +36,6 @@ jobs:
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
       - name: Deploy Jazzy Docs
-        if: github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
