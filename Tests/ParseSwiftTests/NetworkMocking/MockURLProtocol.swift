@@ -7,14 +7,17 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 
 typealias MockURLProtocolRequestTestClosure = (URLRequest) -> Bool
 typealias MockURLResponseContructingClosure = (URLRequest) -> MockURLResponse?
 
 struct MockURLProtocolMock {
     var attempts: Int
-    var test: MockURLProtocolRequestTestClosure
-    var response: MockURLResponseContructingClosure
+    var test: (URLRequest) -> Bool
+    var response: (URLRequest) -> MockURLResponse?
 }
 
 class MockURLProtocol: URLProtocol {
@@ -25,17 +28,17 @@ class MockURLProtocol: URLProtocol {
         return loading
     }
 
-    class func mockRequests(response: @escaping MockURLResponseContructingClosure) {
+    class func mockRequests(response: @escaping (URLRequest) -> MockURLResponse?) {
         mockRequestsPassing(NSIntegerMax, test: { _ in return true }, with: response)
     }
 
-    class func mockRequestsPassing(_ test: @escaping MockURLProtocolRequestTestClosure,
-                                   with response: @escaping MockURLResponseContructingClosure) {
+    class func mockRequestsPassing(_ test: @escaping (URLRequest) -> Bool,
+                                   with response: @escaping (URLRequest) -> MockURLResponse?) {
         mockRequestsPassing(NSIntegerMax, test: test, with: response)
     }
 
-    class func mockRequestsPassing(_ attempts: Int, test: @escaping MockURLProtocolRequestTestClosure,
-                                   with response: @escaping MockURLResponseContructingClosure) {
+    class func mockRequestsPassing(_ attempts: Int, test: @escaping (URLRequest) -> Bool,
+                                   with response: @escaping (URLRequest) -> MockURLResponse?) {
         let mock = MockURLProtocolMock(attempts: attempts, test: test, response: response)
         mocks.append(mock)
         if mocks.count == 1 {
