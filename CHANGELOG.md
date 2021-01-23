@@ -1,8 +1,17 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.0.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.0.2...main)
 * _Contributing to this repo? Add info about your change here to be included in next release_
+
+### 1.0.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.0.2...main)
+
+__New features__
+- Linux support. See the PR for limitations ([#59](https://github.com/parse-community/Parse-Swift/pull/59)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.0.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.0.0...main)
 
 __New features__
 - Config support ([#56](https://github.com/parse-community/Parse-Swift/pull/56)), thanks to [Corey Baker](https://github.com/cbaker6) and [Tom Fox](https://github.com/TomWFox).
