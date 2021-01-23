@@ -29,12 +29,12 @@ class MockURLProtocol: URLProtocol {
     }
 
     class func mockRequests(response: @escaping (URLRequest) -> MockURLResponse?) {
-        mockRequestsPassing(NSIntegerMax, test: { _ in return true }, with: response)
+        mockRequestsPassing(Int.max, test: { _ in return true }, with: response)
     }
 
     class func mockRequestsPassing(_ test: @escaping (URLRequest) -> Bool,
                                    with response: @escaping (URLRequest) -> MockURLResponse?) {
-        mockRequestsPassing(NSIntegerMax, test: test, with: response)
+        mockRequestsPassing(Int.max, test: test, with: response)
     }
 
     class func mockRequestsPassing(_ attempts: Int, test: @escaping (URLRequest) -> Bool,
