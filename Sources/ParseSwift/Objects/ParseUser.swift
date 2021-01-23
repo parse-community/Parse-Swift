@@ -25,6 +25,12 @@ public protocol ParseUser: ParseObject {
     var password: String? { get set }
 
     /**
+     The session token for the `ParseUser`.
+     This is set by the server upon successful authentication.
+     */
+    var sessionToken: String? { get set }
+
+    /**
      The authentication data for the `ParseUser`. Used by `ParseAnonymous`
      or any authentication type that conforms to `ParseAuthentication`.
     */

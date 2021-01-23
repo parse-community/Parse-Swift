@@ -25,6 +25,7 @@ class ParseAuthenticationTests: XCTestCase {
         var email: String?
         var password: String?
         var authData: [String: [String: String]?]?
+        var sessionToken: String?
     }
 
     struct TestAuth<AuthenticatedUser: ParseUser>: ParseAuthentication {
