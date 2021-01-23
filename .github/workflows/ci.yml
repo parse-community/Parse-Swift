@@ -92,7 +92,7 @@ jobs:
     steps:
       - uses: sersoft-gmbh/SwiftyActions@v1
         with:
-          release-version: 5.3.2
+          release-version: 5.2.2
       - name: Build
         run: swift build -v
       - name: Test
