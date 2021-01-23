@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 1/4/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
-
+#if !os(Linux)
 import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -70,3 +70,4 @@ extension ParseLiveQueryDelegate {
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?) { }
     func received(_ metrics: URLSessionTaskTransactionMetrics) { }
 }
+#endif
