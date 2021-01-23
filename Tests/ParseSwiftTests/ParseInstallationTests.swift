@@ -383,40 +383,16 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     expectation1.fulfill()
                     return
                 }
+                guard let installationUpdatedAt = Installation.current?.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+                }
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
-
-                if callbackQueue != .main {
-                    DispatchQueue.main.async {
-                        guard let savedUpdatedAt = Installation.current?.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation1.fulfill()
-                            return
-                        }
-                        guard let originalUpdatedAt = installation.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            expectation1.fulfill()
-                            return
-                        }
-                        XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
-                        XCTAssertNil(Installation.current?.ACL)
-                        expectation1.fulfill()
-                    }
-                } else {
-                    guard let savedUpdatedAt = Installation.current?.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
-                    }
-                    guard let originalUpdatedAt = installation.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
-                    }
-                    XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
-                    XCTAssertNil(Installation.current?.ACL)
-                    expectation1.fulfill()
-                }
+                XCTAssertGreaterThan(installationUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(Installation.current?.ACL)
+                expectation1.fulfill()
 
             case .failure(let error):
                 XCTFail(error.localizedDescription)
