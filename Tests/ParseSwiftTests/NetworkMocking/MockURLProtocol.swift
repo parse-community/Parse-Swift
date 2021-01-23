@@ -77,7 +77,7 @@ class MockURLProtocol: URLProtocol {
         return request
     }
 
-    override init(request: URLRequest, cachedResponse: CachedURLResponse?, client: URLProtocolClient?) {
+    override required init(request: URLRequest, cachedResponse: CachedURLResponse?, client: URLProtocolClient?) {
         super.init(request: request, cachedResponse: cachedResponse, client: client)
         guard let mock = MockURLProtocol.firstMockForRequest(request) else {
             self.mock = nil
@@ -94,7 +94,7 @@ class MockURLProtocol: URLProtocol {
         }
 
         if let error = response.error {
-            DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + response.delay * Double(NSEC_PER_SEC)) {
+            DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + response.delay) {
 
                 if self.loading {
                     self.client?.urlProtocol(self, didFailWithError: error)
@@ -110,7 +110,7 @@ class MockURLProtocol: URLProtocol {
             return
         }
 
-        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + response.delay * Double(NSEC_PER_SEC)) {
+        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + response.delay) {
 
             if !self.loading {
                 return
