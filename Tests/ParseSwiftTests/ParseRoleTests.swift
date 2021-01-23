@@ -42,7 +42,6 @@ class ParseRoleTests: XCTestCase {
         var email: String?
         var password: String?
         var authData: [String: [String: String]?]?
-        var sessionToken: String?
 
         // Your custom keys
         var customKey: String?
