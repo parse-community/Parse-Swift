@@ -1043,7 +1043,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             guard let error = error else {
                 XCTFail("Should have thrown ParseError")
-                expectation1.fulfill()
+                expectation2.fulfill()
                 return
             }
             XCTAssertEqual(error.code, parseError.code)

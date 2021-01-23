@@ -7,18 +7,17 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-//: Some ValueTypes ParseObject's we will use...
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: Those are required for Object.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    //: Your own properties
+    //: Your own properties.
     var score: Int = 0
 
-    //custom initializer
+    //: Custom initializer.
     init(score: Int) {
         self.score = score
     }
@@ -28,9 +27,9 @@ struct GameScore: ParseObject {
     }
 }
 
-//: You can have the server do operations on your ParseObjects for you.
+//: You can have the server do operations on your `ParseObject`'s for you.
 
-//: First lets create another GameScore
+//: First lets create another GameScore.
 let savedScore: GameScore!
 do {
     savedScore = try GameScore(score: 102).save()
@@ -64,7 +63,7 @@ do {
 //: In fact, the `users` and `roles` relations from `ParseRoles` used the add/remove operations.
 let operations = savedScore.operation
 
-//: Example: operations.add("hello", objects: ["test"])
+//: Example: operations.add("hello", objects: ["test"]).
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

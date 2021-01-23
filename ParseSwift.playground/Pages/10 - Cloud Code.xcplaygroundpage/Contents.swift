@@ -7,12 +7,12 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-//: Create your own ValueTyped ParseCloud type
+//: Create your own value typed `ParseCloud` type.
 struct Cloud: ParseCloud {
     //: These are required for Object
     var functionJobName: String
 
-    //: If your cloud function takes arguments, they can be passed by creating properties
+    //: If your cloud function takes arguments, they can be passed by creating properties:
     //var argument1: [String: Int] = ["test": 5]
 }
 
@@ -33,7 +33,7 @@ cloud.runFunction { result in
     }
 }
 
-//: Jobs can be run the same way by using the method `startJob()`
+//: Jobs can be run the same way by using the method `startJob()`.
 PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)

@@ -7,7 +7,7 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 
 initializeParse()
 
-//: Create your own ValueTyped ParseObject
+//: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
     //: Those are required for Object
     var objectId: String?
@@ -15,7 +15,7 @@ struct GameScore: ParseObject {
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    //: Your own properties
+    //: Your own properties.
     var score: Int = 0
     var profilePicture: ParseFile?
     var myData: ParseFile?
@@ -30,13 +30,13 @@ struct GameScore: ParseObject {
     }
 }
 
-//: Define initial GameScore
+//: Define initial GameScore.
 var score = GameScore(score: 52)
 
-//: Set the link online for the file
+//: Set the link online for the file.
 let linkToFile = URL(string: "https://parseplatform.org/img/logo.svg")!
 
-//: Create a new ParseFile for your picture
+//: Create a new `ParseFile` for your picture.
 let profilePic = ParseFile(name: "profile.svg", cloudURL: linkToFile)
 
 //: Set the picture as part of your ParseObject
@@ -58,7 +58,7 @@ score.save { result in
 
         print("Your profile picture has been successfully saved")
 
-        //: To get the contents updated ParseFile, you need to fetch your GameScore
+        //: To get the contents updated `ParseFile`, you need to fetch your GameScore.
         savedScore.fetch { result in
             switch result {
             case .success(let fetchedScore):
@@ -91,21 +91,21 @@ score.save { result in
 }
 
 /*: Files can also be saved from data. Below is how to do it synchronously, but async is similar to above
- Create a new ParseFile for your data
+ Create a new `ParseFile` for your data.
  */
 let sampleData = "Hello World".data(using: .utf8)!
 let helloFile = ParseFile(name: "hello.txt", data: sampleData)
 
-//: Define another GameScore
+//: Define another GameScore.
 var score2 = GameScore(score: 105)
 score2.myData = helloFile
 
-//: Save synchronously (not preferred - all operations on main queue)
+//: Save synchronously (not preferred - all operations on main queue).
 do {
     let savedScore = try score2.save()
     print("Your hello file has been successfully saved")
 
-    //: To get the contents updated ParseFile, you need to fetch your GameScore
+    //: To get the contents updated `ParseFile`, you need to fetch your GameScore.
     let fetchedScore = try savedScore.fetch()
     if var myData = fetchedScore.myData {
 
@@ -116,7 +116,7 @@ do {
         print("The file is saved to your Parse Server at: \(url)")
         print("The full details of your data file are: \(myData)")
 
-        //: If you need to download your file
+        //: If you need to download your file.
         let fetchedFile = try myData.fetch()
         if fetchedFile.localURL != nil {
             print("The file is now saved at: \(fetchedFile.localURL!)")
@@ -149,7 +149,7 @@ do {
 }
 
 /*: Files can also be saved from files located on your device by using:
- let localFile = ParseFile(name: "hello.txt", localURL: URL)
+ let localFile = ParseFile(name: "hello.txt", localURL: URL).
 */
 
 PlaygroundPage.current.finishExecution()

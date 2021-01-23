@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 1/2/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
-
+#if !os(Linux)
 import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -793,3 +793,4 @@ public extension Query {
         try client.update(handler)
     }
 }
+#endif

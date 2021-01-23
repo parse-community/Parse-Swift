@@ -12,7 +12,7 @@ npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey -
 
 initializeParse()
 
-//: Create your own ValueTyped ParseObject
+//: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
     //: Those are required for Object
     var objectId: String?
@@ -20,10 +20,10 @@ struct GameScore: ParseObject {
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    //: Your own properties
+    //: Your own properties.
     var score: Int = 0
 
-    //custom initializer
+    //: Custom initializer.
     init(score: Int) {
         self.score = score
     }
@@ -33,7 +33,7 @@ struct GameScore: ParseObject {
     }
 }
 
-//: Define initial GameScores
+//: Define initial GameScores.
 let score = GameScore(score: 10)
 let score2 = GameScore(score: 3)
 
@@ -50,8 +50,8 @@ score.save { result in
         assert(savedScore.ACL == nil)
         assert(savedScore.score == 10)
 
-        /*: To modify, need to make it a var as the Value Type
-            was initialized as immutable
+        /*: To modify, need to make it a var as the value type
+            was initialized as immutable.
         */
         var changedScore = savedScore
         changedScore.score = 200
@@ -75,10 +75,10 @@ score.save { result in
     }
 }
 
-//: This will store the second batch score to be used later
+//: This will store the second batch score to be used later.
 var score2ForFetchedLater: GameScore?
 
-//: Saving multiple GameScores at once
+//: Saving multiple GameScores at once.
 [score, score2].saveAll { results in
     switch results {
     case .success(let otherResults):
@@ -101,7 +101,7 @@ var score2ForFetchedLater: GameScore?
     }
 }
 
-//: Save synchronously (not preferred - all operations on main queue)
+//: Save synchronously (not preferred - all operations on main queue).
 let savedScore: GameScore?
 do {
     savedScore = try score.save()
@@ -116,8 +116,8 @@ assert(savedScore?.createdAt != nil)
 assert(savedScore?.updatedAt != nil)
 assert(savedScore?.score == 10)
 
-/*:  To modify, need to make it a var as the Value Type
-    was initialized as immutable
+/*:  To modify, need to make it a var as the value type
+    was initialized as immutable.
 */
 guard var changedScore = savedScore else {
     fatalError()
@@ -154,10 +154,10 @@ otherResults!.forEach { result in
     }
 }
 
-//: Now we will create another object and delete it
+//: Now we will create another object and delete it.
 let score3 = GameScore(score: 30)
 
-//: Save the score and store it in "scoreToDelete"
+//: Save the score and store it in "scoreToDelete".
 var scoreToDelete: GameScore!
 do {
     scoreToDelete = try score3.save()
@@ -166,7 +166,7 @@ do {
     assertionFailure("Error deleting: \(error)")
 }
 
-//: Delete the score from parse-server synchronously
+//: Delete the score from parse-server synchronously.
 do {
     try scoreToDelete.delete()
     print("Successfully deleted: \(scoreToDelete!)")
@@ -174,7 +174,7 @@ do {
     assertionFailure("Error deleting: \(error)")
 }
 
-//: Now we will fetch a ParseObject that has already been saved based on its' objectId
+//: Now we will fetch a ParseObject that has already been saved based on its' objectId.
 let scoreToFetch = GameScore(objectId: savedScore?.objectId)
 
 //: Asynchronously (preferred way) fetch this GameScore based on it's objectId alone.
@@ -195,7 +195,7 @@ do {
     assertionFailure("Error fetching: \(error)")
 }
 
-//: Now we will fetch ParseObject's in batch that have already been saved based on its' objectId
+//: Now we will fetch `ParseObject`'s in batch that have already been saved based on its' objectId.
 let score2ToFetch = GameScore(objectId: score2ForFetchedLater?.objectId)
 
 //: Asynchronously (preferred way) fetch GameScores based on it's objectId alone.
@@ -251,7 +251,7 @@ do {
 }
 
 //: Synchronously deleteAll GameScore's based on it's objectId's alone.
-//: Commented out because the async above deletes the items already
+//: Commented out because the async above deletes the items already.
 /* do {
     let fetchedScores = try [scoreToFetch, score2ToFetch].deleteAll()
     fetchedScores.forEach { result in

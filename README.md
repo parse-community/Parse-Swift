@@ -5,7 +5,7 @@
 <h2 align="center">ParseSwift</h2>
 
 <p align="center">
-    An experimental pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.
+    A pure Swift library that gives you access to the powerful Parse Server backend from your Swift applications.
 </p>
 
 <p align="center">
@@ -28,13 +28,13 @@
 
 For more information about the Parse Platform and its features, see the public [documentation][docs]. The ParseSwift SDK is not a port of the [Parse-SDK-iOS-OSX SDK](https://github.com/parse-community/Parse-SDK-iOS-OSX) and though some of it may feel familiar, it is not backwards compatible and is designed with a new philosophy. For more details visit the [api documentation](http://parseplatform.org/Parse-Swift/api/).
 
-## Installation
+To learn how to use or experiment with ParseSwift, you can run and edit the [ParseSwift.playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground/Pages). You can use the parse-server in [this repo](https://github.com/netreconlab/parse-hipaa/tree/parse-swift) which has docker compose files (`docker-compose up` gives you a working server) configured to connect with the playground files, has [Parse Dashboard](https://github.com/parse-community/parse-dashboard), and can be used with mongo or postgres.
 
-As there are currently no releases of the ParseSwift SDK you will need to specify either a branch or a specific commit with your chosen package manager. The `main` branch may be unstable and there may be breaking changes.
+## Installation
 
 ### [Swift Package Manager](https://swift.org/package-manager/)
 
-You can use The Swift Package Manager to install ParseSwift by adding the following description to your `Package.swift` file:
+You can use The Swift Package Manager (SPM) to install ParseSwift by adding the following description to your `Package.swift` file:
 
 ```swift
 // swift-tools-version:5.1
@@ -43,26 +43,31 @@ import PackageDescription
 let package = Package(
     name: "YOUR_PROJECT_NAME",
     dependencies: [
-        .package(url: "https://github.com/parse-community/Parse-Swift.git", .branch("main")"),
+        .package(url: "https://github.com/parse-community/Parse-Swift.git", from: "1.0.0"),
     ]
 )
 ```
-Then run `swift build`.
+Then run `swift build`. 
+
+You can also install using SPM in your Xcode project by going to 
+"Project->NameOfYourProject->Swift Packages" and placing "https://github.com/parse-community/Parse-Swift.git" in the 
+search field.
 
 ### [CocoaPods](https://cocoapods.org)
 
 Add the following line to your Podfile:
+
 ```ruby
-pod 'ParseSwift', :git => 'https://github.com/parse-community/Parse-Swift', :branch => 'main'
+pod 'ParseSwift'
 ```
 
-Run `pod install`, and you should now have the latest version from the main branch. Please be aware that as this SDK is still in development there may be issues with main.
+Run `pod install`, and you should now have the latest version from the main branch.
 
 ### [Carthage](https://github.com/carthage/carthage)
 
 Add the following line to your Cartfile:
 ```
-github "parse-community/Parse-Swift" "main"
+github "parse-community/Parse-Swift"
 ```
 Run `carthage update`, and you should now have the latest version of ParseSwift SDK in your Carthage folder.
 
@@ -75,9 +80,6 @@ ParseSwift.initialize(applicationId: "xxxxxxxxxx", clientKey: "xxxxxxxxxx", serv
  URLCredential?) -> Void) -> Void))
 ```
 Please checkout the [Swift Playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground) for more usage information.
-
-[docs]: https://docs.parseplatform.org
-
 
 ## LiveQuery
 `Query` is one of the key concepts on the Parse Platform. It allows you to retrieve `ParseObject`s by specifying some conditions, making it easy to build apps such as a dashboard, a todo list or even some strategy games. However, `Query` is based on a pull model, which is not suitable for apps that need real-time support.
@@ -158,3 +160,5 @@ Handling errors is and other events is similar, take a look at the `Subscription
 ### Advanced Usage
 
 You are not limited to a single Live Query Client - you can create multiple instances of `ParseLiveQuery`, use certificate authentication and pinning, receive metrics about each client connection, connect to individual server URLs, and more.
+
+[docs]: https://docs.parseplatform.org

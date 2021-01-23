@@ -106,12 +106,6 @@ jobs:
           bundle install
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
-      - name: Deploy Jazzy Docs
-        if: github.ref == 'refs/heads/main'
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.PERSONAL_ACCESS_TOKEN }}
-          publish_dir: ./docs
 
   cocoapods:
     needs: xcode-build-watchos

@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 1/3/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
-
+#if !os(Linux)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -928,3 +928,4 @@ class ParseLiveQueryTests: XCTestCase {
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 }
+#endif

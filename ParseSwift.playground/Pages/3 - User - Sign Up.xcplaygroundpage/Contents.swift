@@ -8,25 +8,26 @@ import ParseSwift
 initializeParse()
 
 struct User: ParseUser {
-    //: These are required for ParseObject
+    //: These are required for `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    //: These are required for ParseUser
+    //: These are required for `ParseUser`.
     var username: String?
     var email: String?
     var password: String?
+    var sessionToken: String?
     var authData: [String: [String: String]?]?
 
-    //: Your custom keys
+    //: Your custom keys.
     var customKey: String?
 }
 
 /*: Sign up user asynchronously - Performs work on background
     queue and returns to designated on designated callbackQueue.
-    If no callbackQueue is specified it returns to main queue
+    If no callbackQueue is specified it returns to main queue.
 */
 User.signup(username: "hello", password: "world") { results in
 

@@ -10,7 +10,7 @@ import Foundation
 
 /**
  Objects that conform to the `ParseCloud` protocol are able to call Parse Cloud Functions and Jobs.
- An object should be should be instantiated for each function and job type. When conforming to
+ An object should be instantiated for each function and job type. When conforming to
  `ParseCloud`, any properties added will be passed as parameters to your Cloud Function or Job.
 */
 public protocol ParseCloud: ParseType, Decodable, CustomDebugStringConvertible {
@@ -26,8 +26,9 @@ extension ParseCloud {
 
     /**
      Calls a Cloud Code function *synchronously* and returns a result of it's execution.
-          - parameter options: A set of header options sent to the server. Defaults to an empty set.
-          - returns: Returns a JSON response of `AnyCodable` type.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - returns: Returns a JSON response of `AnyCodable` type.
+        - throws: An error of type `ParseError`.
     */
     public func runFunction(options: API.Options = []) throws -> AnyCodable {
         try runFunctionCommand().execute(options: options, callbackQueue: .main)

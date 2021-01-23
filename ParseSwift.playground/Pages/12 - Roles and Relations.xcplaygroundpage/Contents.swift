@@ -8,31 +8,32 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 struct User: ParseUser {
-    //: These are required for ParseObject
+    //: These are required for `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    //: These are required for ParseUser
+    //: These are required for `ParseUser`.
     var username: String?
     var email: String?
     var password: String?
+    var sessionToken: String?
     var authData: [String: [String: String]?]?
 
-    //: Your custom keys
+    //: Your custom keys.
     var customKey: String?
 }
 
 struct Role<RoleUser: ParseUser>: ParseRole {
 
-    // required by ParseObject
+    //: Required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    // provided by Role
+    //: Provided by Role.
     var name: String
 
     init() {
@@ -42,7 +43,7 @@ struct Role<RoleUser: ParseUser>: ParseRole {
 
 //: Roles can provide additional access/security to your apps.
 
-//: This variable will store the saved role
+//: This variable will store the saved role.
 var savedRole: Role<User>?
 
 //: Now we will create the Role.
@@ -74,7 +75,7 @@ if let currentUser = User.current {
     }
 }
 
-//: Lets check to see if our Role has saved
+//: Lets check to see if our Role has saved.
 if savedRole != nil {
     print("We have a saved Role")
 }
@@ -124,10 +125,10 @@ try savedRole!.users.remove([User.current!]).save { result in
 
 //: Additional roles can be created and tied to already created roles. Lets create a "Member" role.
 
-//: This variable will store the saved role
+//: This variable will store the saved role.
 var savedRoleModerator: Role<User>?
 
-//: We need another ACL
+//: We need another ACL.
 var acl = ParseACL()
 acl.setReadAccess(user: User.current!, value: true)
 acl.setWriteAccess(user: User.current!, value: false)

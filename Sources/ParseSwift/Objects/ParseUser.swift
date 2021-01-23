@@ -25,6 +25,12 @@ public protocol ParseUser: ParseObject {
     var password: String? { get set }
 
     /**
+     The session token for the `ParseUser`.
+     This is set by the server upon successful authentication.
+     */
+    var sessionToken: String? { get set }
+
+    /**
      The authentication data for the `ParseUser`. Used by `ParseAnonymous`
      or any authentication type that conforms to `ParseAuthentication`.
     */
@@ -332,6 +338,11 @@ extension ParseUser {
         return API.NonParseBodyCommand(method: .POST, path: .logout) { (data) -> NoBody in
             var parseError: ParseError?
             var serverResponse = NoBody()
+            //Always let user logout locally, no matter the error.
+            deleteCurrentContainerFromKeychain()
+            BaseParseInstallation.deleteCurrentContainerFromKeychain()
+            BaseConfig.deleteCurrentContainerFromKeychain()
+
             do {
                 serverResponse = try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
             } catch {
@@ -341,9 +352,6 @@ extension ParseUser {
                     parseError = ParseError(code: .unknownError, message: error.localizedDescription)
                 }
             }
-            //Always let user logout locally, no matter the error.
-            deleteCurrentContainerFromKeychain()
-            BaseParseInstallation.deleteCurrentContainerFromKeychain()
             guard let error = parseError else {
                 return serverResponse
             }
@@ -1075,6 +1083,7 @@ public extension Sequence where Element: ParseUser {
         if (allSatisfy { $0.className == Self.Element.className}) {
             let uniqueObjectIds = Set(self.compactMap { $0.objectId })
             let query = Self.Element.query(containedIn(key: "objectId", array: [uniqueObjectIds]))
+                .limit(uniqueObjectIds.count)
             let fetchedObjects = try query.find(options: options)
             var fetchedObjectsToReturn = [(Result<Self.Element, ParseError>)]()
 

@@ -7,9 +7,9 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-//: Create your own ValueTyped ParseObject
+//: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: Those are required for Object.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
@@ -18,13 +18,13 @@ struct GameScore: ParseObject {
     //: Your own properties
     var score: Int
 
-    //: A custom initializer
+    //: A custom initializer.
     init(score: Int) {
         self.score = score
     }
 }
 
-//: Define initial GameScore
+//: Define initial GameScore.
 var score = GameScore(score: 10)
 score.location = ParseGeoPoint(latitude: 40.0, longitude: -30.0)
 
@@ -55,7 +55,7 @@ score.save { result in
 
 }
 
-//: Now we will show how to query based on the ParseGeoPoint
+//: Now we will show how to query based on the `ParseGeoPoint`.
 let pointToFind = ParseGeoPoint(latitude: 40.0, longitude: -30.0)
 var constraints = [QueryConstraint]()
 constraints.append(near(key: "location", geoPoint: pointToFind))
@@ -76,7 +76,7 @@ query.find { results in
 }
 
 /*: If you only want to query for scores in descending order, use the order enum.
-Notice the "var", the query has to be mutable since it's a valueType.
+Notice the "var", the query has to be mutable since it's a value type.
 */
 var querySorted = query
 querySorted.order([.descending("score")])
@@ -94,7 +94,7 @@ querySorted.find { results in
     }
 }
 
-//: If you only want to query for scores > 50, you can add more constraints
+//: If you only want to query for scores > 50, you can add more constraints.
 constraints.append("score" > 9)
 var query2 = GameScore.query(constraints)
 query2.find { results in
@@ -114,7 +114,7 @@ query2.find { results in
     }
 }
 
-//: If you want to query for scores > 50 and don't have a ParseGeoPoint
+//: If you want to query for scores > 50 and don't have a `ParseGeoPoint`.
 var query3 = GameScore.query("score" > 50, doesNotExist(key: "location"))
 query3.find { results in
     switch results {
@@ -132,7 +132,7 @@ query3.find { results in
     }
 }
 
-//: If you want to query for scores > 9 and have a ParseGeoPoint
+//: If you want to query for scores > 9 and have a `ParseGeoPoint`.
 var query4 = GameScore.query("score" > 9, exists(key: "location"))
 query4.find { results in
     switch results {
@@ -170,7 +170,7 @@ query7.find { results in
     }
 }
 
-//: Explain the previous query
+//: Explain the previous query.
 let explain = try query2.find(explain: true)
 print(explain)
 

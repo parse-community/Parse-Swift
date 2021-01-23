@@ -16,7 +16,7 @@ do {
     assertionFailure("Error storing default ACL to Keychain: \(error)")
 }
 
-//: Create your own ValueTyped ParseObject wi
+//: Create your own value typed ParseObject.
 struct GameScore: ParseObject {
     //: Those are required for Object
     var objectId: String?
@@ -33,7 +33,7 @@ struct GameScore: ParseObject {
     }
 }
 
-//: Define initial GameScores
+//: Define initial GameScores.
 var score = GameScore(score: 40)
 
 //: Set the ACL to default for your GameScore

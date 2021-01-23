@@ -144,3 +144,12 @@ internal struct AnyResultResponse: Codable {
 internal struct AnyResultsResponse: Codable {
     let results: AnyCodable?
 }
+
+// MARK: ConfigResponse
+internal struct ConfigFetchResponse<T>: Codable where T: ParseConfig {
+    let params: T
+}
+
+internal struct ConfigUpdateResponse: Codable {
+    let result: Bool
+}
