@@ -18,7 +18,6 @@ struct User: ParseUser {
     var username: String?
     var email: String?
     var password: String?
-    var sessionToken: String?
     var authData: [String: [String: String]?]?
 
     //: Your custom keys.

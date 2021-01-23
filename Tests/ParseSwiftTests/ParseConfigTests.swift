@@ -30,7 +30,6 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
         var email: String?
         var password: String?
         var authData: [String: [String: String]?]?
-        var sessionToken: String?
 
         // Your custom keys
         var customKey: String?
@@ -40,7 +39,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var objectId: String?
         var createdAt: Date?
-        var sessionToken: String?
+        var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
 
