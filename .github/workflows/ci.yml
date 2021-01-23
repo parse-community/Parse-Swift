@@ -90,7 +90,7 @@ jobs:
   linux:
     runs-on: ubuntu-latest
     steps:
-      - uses: sersoft-gmbh/SwiftyActions@v1
+      - uses: sersoft-gmbh/SwiftyActions@v1.1.1
         with:
           release-version: 5.2.2
       - name: Build
