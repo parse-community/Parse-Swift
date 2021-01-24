@@ -60,7 +60,7 @@ config.fetch { result in
 }
 
 //: Anytime you fetch or update your Config successfully, it's automatically saved to your Keychain.
-print(Config.current)
+print(Config.current ?? "No config")
 
 PlaygroundPage.current.finishExecution()
 
