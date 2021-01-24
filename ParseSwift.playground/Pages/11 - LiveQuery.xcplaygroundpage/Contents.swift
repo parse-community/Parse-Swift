@@ -32,8 +32,10 @@ struct GameScore: ParseObject {
 //: Create a query just as you normally would.
 var query = GameScore.query("score" > 9)
 
-//: This is how you subscribe your created query
-let subscription = query.subscribe!
+//: This is how you subscribe to your created query using callbacks.
+//: Note that if you want to use subscriptions with SwiftUI, you should
+//: use `let subscription = query.subscribe` instead.
+let subscription = query.subscribeCallback!
 
 //: This is how you receive notifications about the success
 //: of your subscription.
@@ -86,7 +88,7 @@ var query2 = GameScore.query("score" > 50)
 query2.fields("score")
 
 //: Subscribe to your new query.
-let subscription2 = query2.subscribe!
+let subscription2 = query2.subscribeCallback!
 
 //: As before, setup your subscription and event handlers.
 subscription2.handleSubscribe { subscribedQuery, isNew in

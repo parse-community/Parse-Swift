@@ -434,6 +434,83 @@ class ParseLiveQueryTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
         let expectation2 = XCTestExpectation(description: "Unsubscribe Handler")
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+
+            guard let subscribed = subscription.subscribed else {
+                XCTFail("Should unwrap subscribed.")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(query, subscribed.query)
+            XCTAssertTrue(subscribed.isNew)
+            XCTAssertNil(subscription.unsubscribed)
+            XCTAssertNil(subscription.event)
+            expectation1.fulfill()
+
+            //Unsubscribe
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                guard let unsubscribed = subscription.unsubscribed else {
+                    XCTFail("Should unwrap unsubscribed.")
+                    expectation2.fulfill()
+                    return
+                }
+                XCTAssertEqual(query, unsubscribed)
+                XCTAssertNil(subscription.subscribed)
+                XCTAssertNil(subscription.event)
+                expectation2.fulfill()
+            }
+
+            XCTAssertNotNil(try? query.unsubscribe())
+            XCTAssertEqual(client.pendingSubscriptions.count, 1)
+            XCTAssertEqual(client.subscriptions.count, 1)
+
+            //Received Unsubscribe
+            let response2 = PreliminaryMessageResponse(op: .unsubscribed,
+                                                               requestId: 1,
+                                                               clientId: "yolo",
+                                                               installationId: "naw")
+            guard let encoded2 = try? ParseCoding.jsonEncoder().encode(response2) else {
+                expectation2.fulfill()
+                return
+            }
+            client.received(encoded2)
+            XCTAssertEqual(client.pendingSubscriptions.count, 0)
+            XCTAssertEqual(client.subscriptions.count, 0)
+        }
+
+        XCTAssertFalse(try client.isSubscribed(query))
+        XCTAssertTrue(try client.isPendingSubscription(query))
+        XCTAssertEqual(client.subscriptions.count, 0)
+        XCTAssertEqual(client.pendingSubscriptions.count, 1)
+        try pretendToBeConnected()
+        let response = PreliminaryMessageResponse(op: .subscribed,
+                                                           requestId: 1,
+                                                           clientId: "yolo",
+                                                           installationId: "naw")
+        let encoded = try ParseCoding.jsonEncoder().encode(response)
+        client.received(encoded)
+        XCTAssertTrue(try client.isSubscribed(query))
+        XCTAssertFalse(try client.isPendingSubscription(query))
+        XCTAssertEqual(client.subscriptions.count, 1)
+        XCTAssertEqual(client.pendingSubscriptions.count, 0)
+
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+
+    func testSubscribeCallbackConnected() throws {
+        let query = GameScore.query("score" > 9)
+        let handler = SubscriptionCallback(query: query)
+        let subscription = try Query<GameScore>.subscribe(handler)
+
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+        let expectation2 = XCTestExpectation(description: "Unsubscribe Handler")
         subscription.handleSubscribe { subscribedQuery, isNew in
             XCTAssertEqual(query, subscribedQuery)
             XCTAssertTrue(isNew)
@@ -574,10 +651,17 @@ class ParseLiveQueryTests: XCTestCase {
 
         let score = GameScore(score: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
-        subscription.handleEvent { subscribedQuery, event in
-            XCTAssertEqual(query, subscribedQuery)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let event = subscription.event else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(query, event.query)
+            XCTAssertNil(subscription.subscribed)
+            XCTAssertNil(subscription.unsubscribed)
 
-            switch event {
+            switch event.event {
 
             case .entered(let enter):
                 XCTAssertEqual(enter, score)
@@ -619,10 +703,17 @@ class ParseLiveQueryTests: XCTestCase {
 
         let score = GameScore(score: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
-        subscription.handleEvent { subscribedQuery, event in
-            XCTAssertEqual(query, subscribedQuery)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let event = subscription.event else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(query, event.query)
+            XCTAssertNil(subscription.subscribed)
+            XCTAssertNil(subscription.unsubscribed)
 
-            switch event {
+            switch event.event {
 
             case .left(let enter):
                 XCTAssertEqual(enter, score)
@@ -664,10 +755,17 @@ class ParseLiveQueryTests: XCTestCase {
 
         let score = GameScore(score: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
-        subscription.handleEvent { subscribedQuery, event in
-            XCTAssertEqual(query, subscribedQuery)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let event = subscription.event else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(query, event.query)
+            XCTAssertNil(subscription.subscribed)
+            XCTAssertNil(subscription.unsubscribed)
 
-            switch event {
+            switch event.event {
 
             case .created(let enter):
                 XCTAssertEqual(enter, score)
@@ -706,13 +804,20 @@ class ParseLiveQueryTests: XCTestCase {
             return
         }
         XCTAssertEqual(subscription.query, query)
+        XCTAssertNil(subscription.subscribed)
+        XCTAssertNil(subscription.unsubscribed)
 
         let score = GameScore(score: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
-        subscription.handleEvent { subscribedQuery, event in
-            XCTAssertEqual(query, subscribedQuery)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let event = subscription.event else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(query, event.query)
 
-            switch event {
+            switch event.event {
 
             case .updated(let enter):
                 XCTAssertEqual(enter, score)
@@ -754,10 +859,17 @@ class ParseLiveQueryTests: XCTestCase {
 
         let score = GameScore(score: 10)
         let expectation1 = XCTestExpectation(description: "Subscribe Handler")
-        subscription.handleEvent { subscribedQuery, event in
-            XCTAssertEqual(query, subscribedQuery)
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let event = subscription.event else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(query, event.query)
+            XCTAssertNil(subscription.subscribed)
+            XCTAssertNil(subscription.unsubscribed)
 
-            switch event {
+            switch event.event {
 
             case .deleted(let enter):
                 XCTAssertEqual(enter, score)
@@ -791,6 +903,395 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should create subscription")
             return
         }
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+        XCTAssertNil(subscription.event)
+        XCTAssertNil(subscription.unsubscribed)
+
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+        let expectation2 = XCTestExpectation(description: "Unsubscribe Handler")
+        var count = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let subscribed = subscription.subscribed else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                expectation2.fulfill()
+                return
+            }
+
+            XCTAssertEqual(query, subscribed.query)
+            if count == 0 {
+                XCTAssertTrue(subscribed.isNew)
+                count += 1
+                expectation1.fulfill()
+            }
+
+            //Update
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                guard let subscribed = subscription.subscribed else {
+                    XCTFail("Should unwrap")
+                    expectation2.fulfill()
+                    return
+                }
+
+                XCTAssertFalse(subscribed.isNew)
+                XCTAssertEqual(client.subscriptions.count, 1)
+                XCTAssertEqual(client.pendingSubscriptions.count, 0)
+                expectation2.fulfill()
+                return
+            }
+            XCTAssertNotNil(try? query.update(subscription))
+
+            guard let isSubscribed = try? client.isSubscribed(query),
+                  let isPending = try? client.isPendingSubscription(query) else {
+                XCTFail("Shound unwrap")
+                return
+            }
+            XCTAssertTrue(isSubscribed)
+            XCTAssertTrue(isPending)
+            XCTAssertEqual(client.subscriptions.count, 1)
+            XCTAssertEqual(client.pendingSubscriptions.count, 1)
+
+            let response = PreliminaryMessageResponse(op: .subscribed,
+                                                               requestId: 1,
+                                                               clientId: "yolo",
+                                                               installationId: "naw")
+            guard let encoded = try? ParseCoding.jsonEncoder().encode(response) else {
+                XCTFail("Should encode")
+                return
+            }
+            client.received(encoded)
+        }
+
+        XCTAssertFalse(try client.isSubscribed(query))
+        XCTAssertTrue(try client.isPendingSubscription(query))
+        XCTAssertEqual(client.subscriptions.count, 0)
+        XCTAssertEqual(client.pendingSubscriptions.count, 1)
+        try pretendToBeConnected()
+        let response = PreliminaryMessageResponse(op: .subscribed,
+                                                           requestId: 1,
+                                                           clientId: "yolo",
+                                                           installationId: "naw")
+        let encoded = try ParseCoding.jsonEncoder().encode(response)
+        client.received(encoded)
+        XCTAssertTrue(try client.isSubscribed(query))
+        XCTAssertFalse(try client.isPendingSubscription(query))
+        XCTAssertEqual(client.subscriptions.count, 1)
+        XCTAssertEqual(client.pendingSubscriptions.count, 0)
+
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+
+    func testResubscribing() throws {
+        let query = GameScore.query("score" > 9)
+        guard let subscription = query.subscribe else {
+            XCTFail("Should create subscription")
+            return
+        }
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+        let expectation2 = XCTestExpectation(description: "Unsubscribe Handler")
+        var count = 0
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let subscribed = subscription.subscribed else {
+                XCTFail("Should unwrap")
+                expectation1.fulfill()
+                expectation2.fulfill()
+                return
+            }
+            if count == 0 {
+                XCTAssertTrue(subscribed.isNew)
+                XCTAssertNil(subscription.event)
+                XCTAssertNil(subscription.unsubscribed)
+                count += 1
+                expectation1.fulfill()
+            }
+
+            //Disconnect, subscriptions should remain the same
+            client.isConnected = false
+            XCTAssertEqual(client.subscriptions.count, 1)
+            XCTAssertEqual(client.pendingSubscriptions.count, 0)
+
+            //Connect moving to true should move to pending
+            client.clientId = "naw"
+            client.isConnected = true
+            XCTAssertEqual(client.subscriptions.count, 0)
+            XCTAssertEqual(client.pendingSubscriptions.count, 1)
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                guard let subscribed = subscription.subscribed else {
+                    XCTFail("Should unwrap")
+                    expectation2.fulfill()
+                    return
+                }
+
+                XCTAssertTrue(subscribed.isNew)
+                XCTAssertNil(subscription.event)
+                XCTAssertNil(subscription.unsubscribed)
+                XCTAssertEqual(client.subscriptions.count, 1)
+                XCTAssertEqual(client.pendingSubscriptions.count, 0)
+                expectation2.fulfill()
+                return
+            }
+
+            //Fake server response
+            let response = PreliminaryMessageResponse(op: .subscribed,
+                                                               requestId: 1,
+                                                               clientId: "yolo",
+                                                               installationId: "naw")
+            guard let encoded = try? ParseCoding.jsonEncoder().encode(response) else {
+                XCTFail("Should have encoded")
+                return
+            }
+            client.received(encoded)
+        }
+
+        XCTAssertFalse(try client.isSubscribed(query))
+        XCTAssertTrue(try client.isPendingSubscription(query))
+        XCTAssertEqual(client.subscriptions.count, 0)
+        XCTAssertEqual(client.pendingSubscriptions.count, 1)
+        try pretendToBeConnected()
+        let response = PreliminaryMessageResponse(op: .subscribed,
+                                                           requestId: 1,
+                                                           clientId: "yolo",
+                                                           installationId: "naw")
+        let encoded = try ParseCoding.jsonEncoder().encode(response)
+        client.received(encoded)
+        XCTAssertTrue(try client.isSubscribed(query))
+        XCTAssertFalse(try client.isPendingSubscription(query))
+        XCTAssertEqual(client.subscriptions.count, 1)
+        XCTAssertEqual(client.pendingSubscriptions.count, 0)
+
+        wait(for: [expectation1, expectation2], timeout: 20.0)
+    }
+
+    func testEventEnterSubscriptionCallback() throws {
+        let query = GameScore.query("score" > 9)
+        let handler = SubscriptionCallback(query: query)
+        let subscription = try Query<GameScore>.subscribe(handler)
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        let score = GameScore(score: 10)
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+        subscription.handleEvent { subscribedQuery, event in
+            XCTAssertEqual(query, subscribedQuery)
+
+            switch event {
+
+            case .entered(let enter):
+                XCTAssertEqual(enter, score)
+            default:
+                XCTFail("Should have receeived event")
+            }
+            expectation1.fulfill()
+        }
+
+        try pretendToBeConnected()
+        let response = PreliminaryMessageResponse(op: .subscribed,
+                                                           requestId: 1,
+                                                           clientId: "yolo",
+                                                           installationId: "naw")
+        let encoded = try ParseCoding.jsonEncoder().encode(response)
+        client.received(encoded)
+
+        let response2 = EventResponse(op: .enter,
+                                      requestId: 1,
+                                      object: score,
+                                      clientId: "yolo",
+                                      installationId: "naw")
+        let encoded2 = try ParseCoding.jsonEncoder().encode(response2)
+        client.received(encoded2)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testEventLeaveSubscriptioinCallback() throws {
+        let query = GameScore.query("score" > 9)
+        let handler = SubscriptionCallback(query: query)
+        let subscription = try Query<GameScore>.subscribe(handler)
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        let score = GameScore(score: 10)
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+        subscription.handleEvent { subscribedQuery, event in
+            XCTAssertEqual(query, subscribedQuery)
+
+            switch event {
+
+            case .left(let enter):
+                XCTAssertEqual(enter, score)
+            default:
+                XCTFail("Should have receeived event")
+            }
+            expectation1.fulfill()
+        }
+
+        try pretendToBeConnected()
+        let response = PreliminaryMessageResponse(op: .subscribed,
+                                                           requestId: 1,
+                                                           clientId: "yolo",
+                                                           installationId: "naw")
+        let encoded = try ParseCoding.jsonEncoder().encode(response)
+        client.received(encoded)
+
+        let response2 = EventResponse(op: .leave,
+                                      requestId: 1,
+                                      object: score,
+                                      clientId: "yolo",
+                                      installationId: "naw")
+        let encoded2 = try ParseCoding.jsonEncoder().encode(response2)
+        client.received(encoded2)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testEventCreateSubscriptionCallback() throws {
+        let query = GameScore.query("score" > 9)
+        let handler = SubscriptionCallback(query: query)
+        let subscription = try Query<GameScore>.subscribe(handler)
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        let score = GameScore(score: 10)
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+        subscription.handleEvent { subscribedQuery, event in
+            XCTAssertEqual(query, subscribedQuery)
+
+            switch event {
+
+            case .created(let enter):
+                XCTAssertEqual(enter, score)
+            default:
+                XCTFail("Should have receeived event")
+            }
+            expectation1.fulfill()
+        }
+
+        try pretendToBeConnected()
+        let response = PreliminaryMessageResponse(op: .subscribed,
+                                                           requestId: 1,
+                                                           clientId: "yolo",
+                                                           installationId: "naw")
+        let encoded = try ParseCoding.jsonEncoder().encode(response)
+        client.received(encoded)
+
+        let response2 = EventResponse(op: .create,
+                                      requestId: 1,
+                                      object: score,
+                                      clientId: "yolo",
+                                      installationId: "naw")
+        let encoded2 = try ParseCoding.jsonEncoder().encode(response2)
+        client.received(encoded2)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testEventUpdateSubscriptionCallback() throws {
+        let query = GameScore.query("score" > 9)
+        let handler = SubscriptionCallback(query: query)
+        let subscription = try Query<GameScore>.subscribe(handler)
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        let score = GameScore(score: 10)
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+        subscription.handleEvent { subscribedQuery, event in
+            XCTAssertEqual(query, subscribedQuery)
+
+            switch event {
+
+            case .updated(let enter):
+                XCTAssertEqual(enter, score)
+            default:
+                XCTFail("Should have receeived event")
+            }
+            expectation1.fulfill()
+        }
+
+        try pretendToBeConnected()
+        let response = PreliminaryMessageResponse(op: .subscribed,
+                                                           requestId: 1,
+                                                           clientId: "yolo",
+                                                           installationId: "naw")
+        let encoded = try ParseCoding.jsonEncoder().encode(response)
+        client.received(encoded)
+
+        let response2 = EventResponse(op: .update,
+                                      requestId: 1,
+                                      object: score,
+                                      clientId: "yolo",
+                                      installationId: "naw")
+        let encoded2 = try ParseCoding.jsonEncoder().encode(response2)
+        client.received(encoded2)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testEventDeleteSubscriptionCallback() throws {
+        let query = GameScore.query("score" > 9)
+        let handler = SubscriptionCallback(query: query)
+        let subscription = try Query<GameScore>.subscribe(handler)
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        let score = GameScore(score: 10)
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+        subscription.handleEvent { subscribedQuery, event in
+            XCTAssertEqual(query, subscribedQuery)
+
+            switch event {
+
+            case .deleted(let enter):
+                XCTAssertEqual(enter, score)
+            default:
+                XCTFail("Should have receeived event")
+            }
+            expectation1.fulfill()
+        }
+
+        try pretendToBeConnected()
+        let response = PreliminaryMessageResponse(op: .subscribed,
+                                                           requestId: 1,
+                                                           clientId: "yolo",
+                                                           installationId: "naw")
+        let encoded = try ParseCoding.jsonEncoder().encode(response)
+        client.received(encoded)
+
+        let response2 = EventResponse(op: .delete,
+                                      requestId: 1,
+                                      object: score,
+                                      clientId: "yolo",
+                                      installationId: "naw")
+        let encoded2 = try ParseCoding.jsonEncoder().encode(response2)
+        client.received(encoded2)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testSubscriptionUpdateSubscriptionCallback() throws {
+        let query = GameScore.query("score" > 9)
+        let handler = SubscriptionCallback(query: query)
+        let subscription = try Query<GameScore>.subscribe(handler)
         guard let client = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to get client")
             return
@@ -857,12 +1358,10 @@ class ParseLiveQueryTests: XCTestCase {
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    func testResubscribing() throws {
+    func testResubscribingSubscriptionCallback() throws {
         let query = GameScore.query("score" > 9)
-        guard let subscription = query.subscribe else {
-            XCTFail("Should create subscription")
-            return
-        }
+        let handler = SubscriptionCallback(query: query)
+        let subscription = try Query<GameScore>.subscribe(handler)
         guard let client = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to get client")
             return
