@@ -81,7 +81,7 @@ do {
 User.anonymous.login { result in
     switch result {
     case .success:
-        print("Successfully logged in \(User.current)")
+        print("Successfully logged in \(String(describing: User.current))")
     case .failure(let error):
         print("Error logging in: \(error)")
     }

@@ -151,4 +151,8 @@ class APICommandTests: XCTestCase {
         }
     }
 
+    func testIdempodency() {
+        let headers = API.getHeaders(options: [])
+        XCTAssertNotNil(headers["X-Parse-Request-Id"])
+    }
 }

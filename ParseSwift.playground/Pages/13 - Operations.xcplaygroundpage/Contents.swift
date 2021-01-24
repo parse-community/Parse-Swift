@@ -45,7 +45,7 @@ let incrementOperation = savedScore
 incrementOperation.save { result in
     switch result {
     case .success:
-        print("Original score: \(savedScore). Check the new score on Parse Dashboard.")
+        print("Original score: \(String(describing: savedScore)). Check the new score on Parse Dashboard.")
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
     }
@@ -54,7 +54,7 @@ incrementOperation.save { result in
 //: You can increment the score again syncronously.
 do {
     _ = try incrementOperation.save()
-    print("Original score: \(savedScore). Check the new score on Parse Dashboard.")
+    print("Original score: \(String(describing: savedScore)). Check the new score on Parse Dashboard.")
 } catch {
     print(error)
 }
