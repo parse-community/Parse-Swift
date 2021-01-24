@@ -693,6 +693,7 @@ extension ParseLiveQuery {
 // MARK: ParseLiveQuery - Subscribe
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
+    #if !os(Linux)
     /**
      Registers the query for live updates, using the default subscription handler,
      and the default `ParseLiveQuery` client. Suitable for `ObjectObserved`
@@ -714,6 +715,7 @@ public extension Query {
     func subscribe(_ client: ParseLiveQuery) throws -> Subscription<ResultType> {
         try client.subscribe(Subscription(query: self))
     }
+    #endif
 
     /**
      Registers a query for live updates, using a custom subscription handler.

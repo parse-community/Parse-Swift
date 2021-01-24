@@ -56,6 +56,7 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
     }
 }
 
+#if !os(Linux)
 /**
  A default implementation of the `ParseSubscription` protocol. Suitable for `ObjectObserved`
  as the subscription can be used as a SwiftUI publisher. Meaning it can serve
@@ -128,6 +129,7 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
         self.unsubscribed = query
     }
 }
+#endif
 
 /**
  A default implementation of the `ParseSubscription` protocol using closures for callbacks.
