@@ -55,7 +55,7 @@ if let currentUser = User.current {
 
     do {
         //: Create the actual Role with a name and ACL.
-        var adminRole = try Role<User>(name: "Administrator", acl: acl)
+        let adminRole = try Role<User>(name: "Administrator", acl: acl)
         adminRole.save { result in
             switch result {
             case .success(let saved):
@@ -100,26 +100,34 @@ do {
 
 //: To retrieve the users who are all Administrators, we need to query the relation.
 let templateUser = User()
-savedRole!.users.query(templateUser).find { result in
-    switch result {
-    case .success(let relatedUsers):
-        print("The following users are part of the \"\(savedRole!.name) role: \(relatedUsers)")
+do {
+    try savedRole!.users.query(templateUser).find { result in
+        switch result {
+        case .success(let relatedUsers):
+            print("The following users are part of the \"\(savedRole!.name) role: \(relatedUsers)")
 
-    case .failure(let error):
-        print("Error saving role: \(error)")
+        case .failure(let error):
+            print("Error saving role: \(error)")
+        }
     }
+} catch {
+    print(error)
 }
 
 //: Of course, you can remove users from the roles as well.
-try savedRole!.users.remove([User.current!]).save { result in
-    switch result {
-    case .success(let saved):
-        print("The role removed successfully: \(saved)")
-        print("Check \"users\" field in your \"Role\" class in Parse Dashboard.")
+do {
+    try savedRole!.users.remove([User.current!]).save { result in
+        switch result {
+        case .success(let saved):
+            print("The role removed successfully: \(saved)")
+            print("Check \"users\" field in your \"Role\" class in Parse Dashboard.")
 
-    case .failure(let error):
-        print("Error saving role: \(error)")
+        case .failure(let error):
+            print("Error saving role: \(error)")
+        }
     }
+} catch {
+    print(error)
 }
 
 //: Additional roles can be created and tied to already created roles. Lets create a "Member" role.
@@ -134,7 +142,7 @@ acl.setWriteAccess(user: User.current!, value: false)
 
 do {
     //: Create the actual Role with a name and ACL.
-    var memberRole = try Role<User>(name: "Member", acl: acl)
+    let memberRole = try Role<User>(name: "Member", acl: acl)
     memberRole.save { result in
         switch result {
         case .success(let saved):
@@ -171,7 +179,6 @@ do {
             print("Error saving role: \(error)")
         }
     }
-
 } catch {
     print("Error: \(error)")
 }
@@ -189,15 +196,19 @@ savedRole!.queryRoles?.find { result in
 }
 
 //: Of course, you can remove users from the roles as well.
-try savedRole!.roles.remove([savedRoleModerator!]).save { result in
-    switch result {
-    case .success(let saved):
-        print("The role removed successfully: \(saved)")
-        print("Check the \"roles\" field in your \"Role\" class in Parse Dashboard.")
+do {
+    try savedRole!.roles.remove([savedRoleModerator!]).save { result in
+        switch result {
+        case .success(let saved):
+            print("The role removed successfully: \(saved)")
+            print("Check the \"roles\" field in your \"Role\" class in Parse Dashboard.")
 
-    case .failure(let error):
-        print("Error saving role: \(error)")
+        case .failure(let error):
+            print("Error saving role: \(error)")
+        }
     }
+} catch {
+    print(error)
 }
 
 //: All `ParseObjects` have a `ParseRelation` attribute that be used on instances.

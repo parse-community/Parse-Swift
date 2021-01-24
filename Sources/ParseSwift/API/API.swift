@@ -156,6 +156,8 @@ public struct API {
             headers["X-Parse-Installation-Id"] = installationId
         }
 
+        headers["X-Parse-Request-Id"] = UUID().uuidString.lowercased()
+
         options.forEach { (option) in
             switch option {
             case .useMasterKey:

@@ -58,7 +58,7 @@ query.first { results in
     switch results {
     case .success(let score):
 
-        guard let objectId = score.objectId,
+        guard score.objectId != nil,
             let createdAt = score.createdAt else { fatalError() }
         assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
         print("Found score: \(score)")

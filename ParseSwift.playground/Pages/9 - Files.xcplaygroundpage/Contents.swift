@@ -74,7 +74,7 @@ score.save { result in
                 picture.fetch { result in
                     switch result {
                     case .success(let fetchedFile):
-                        print("The file is now saved on your device at: \(fetchedFile.localURL)")
+                        print("The file is now saved on your device at: \(String(describing: fetchedFile.localURL))")
                         print("The full details of your profilePicture ParseFile are: \(fetchedFile)")
                     case .failure(let error):
                         assertionFailure("Error fetching: \(error)")
@@ -107,7 +107,7 @@ do {
 
     //: To get the contents updated `ParseFile`, you need to fetch your GameScore.
     let fetchedScore = try savedScore.fetch()
-    if var myData = fetchedScore.myData {
+    if let myData = fetchedScore.myData {
 
         guard let url = myData.url else {
             fatalError("Error: file should have url.")
