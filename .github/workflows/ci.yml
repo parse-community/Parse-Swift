@@ -96,8 +96,8 @@ jobs:
           release-version: 5.3.2
       - name: Build
         run: swift build
-      #- name: Test
-      #  run: swift test --enable-test-discovery
+      - name: Test
+        run: swift test --enable-test-discovery
 
   docs:
     needs: xcode-build-watchos
