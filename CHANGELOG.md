@@ -9,7 +9,7 @@
 
 __New features__
 - Enable `ParseFile` for Linux ([#64](https://github.com/parse-community/Parse-Swift/pull/64)), thanks to [jt9897253](https://github.com/jt9897253).
-- Use `ParseLiveSubscription` as a SwiftUI view model ([#65](https://github.com/parse-community/Parse-Swift/pull/65)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Use a `ParseLiveQuery` subscription as a SwiftUI view model ([#65](https://github.com/parse-community/Parse-Swift/pull/65)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Idempotency support ([#62](https://github.com/parse-community/Parse-Swift/pull/62)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.0.2
