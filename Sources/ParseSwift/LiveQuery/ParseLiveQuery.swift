@@ -752,7 +752,7 @@ public extension Query {
      Registers the query for live updates, using the default subscription handler,
      and a specific `ParseLiveQuery` client.
      - parameter client: A specific client.
-     - returns: The subscription that has just been registered
+     - returns: The subscription that has just been registered.
      */
     func subscribeCallback(_ client: ParseLiveQuery) throws -> SubscriptionCallback<ResultType> {
         try client.subscribe(SubscriptionCallback(query: self))
