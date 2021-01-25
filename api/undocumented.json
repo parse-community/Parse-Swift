@@ -205,8 +205,15 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/Subscription.swift",
-      "line": 64,
+      "line": 68,
       "symbol": "Subscription.query",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/Subscription.swift",
+      "line": 139,
+      "symbol": "SubscriptionCallback.query",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
