@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.1...main)
 * _Contributing to this repo? Add info about your change here to be included in next release_
+
+### 1.1.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.0...1.1.1)
+
+__Fixes__
+- Expose `ParseLiveQuery` subscription properties ([#66](https://github.com/parse-community/Parse-Swift/pull/66)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.1.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.0.2...1.1.0)

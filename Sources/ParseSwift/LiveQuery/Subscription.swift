@@ -69,8 +69,8 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
     //The ParseObject
     public typealias Object = T
 
-    /// Notifies there's a new event related to a specific query.
-    private (set) var event: (query: Query<T>, event: Event<T>)? {
+    /// Updates and notifies when there's a new event related to a specific query.
+    public internal(set) var event: (query: Query<T>, event: Event<T>)? {
         willSet {
             if newValue != nil {
                 subscribed = nil
@@ -80,8 +80,8 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
         }
     }
 
-    /// Notifies when a subscription request has been fulfilled and if it is new.
-    private (set) var subscribed: (query: Query<T>, isNew: Bool)? {
+    /// Updates and notifies when a subscription request has been fulfilled and if it is new.
+    public internal(set) var subscribed: (query: Query<T>, isNew: Bool)? {
         willSet {
             if newValue != nil {
                 unsubscribed = nil
@@ -91,8 +91,8 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
         }
     }
 
-    /// Notifies when an unsubscribe request has been fulfilled.
-    private (set) var unsubscribed: Query<T>? {
+    /// Updates and notifies when an unsubscribe request has been fulfilled.
+    public internal(set) var unsubscribed: Query<T>? {
         willSet {
             if newValue != nil {
                 subscribed = nil
@@ -130,75 +130,6 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
     }
 }
 #endif
-
-/**
- A default implementation of the `ParseSubscription` protocol using closures for callbacks.
- */
-open class SubscriptionCallback<T: ParseObject>: ParseSubscription {
-    //The query subscribed to.
-    public var query: Query<T>
-    //The ParseObject
-    public typealias Object = T
-    fileprivate var eventHandlers: [(Query<T>, Event<T>) -> Void] = []
-    fileprivate var subscribeHandlers: [(Query<T>, Bool) -> Void] = []
-    fileprivate var unsubscribeHandlers: [(Query<T>) -> Void] = []
-
-    /**
-     Creates a new subscription that can be used to handle updates.
-     */
-    public init(query: Query<T>) {
-        self.query = query
-    }
-
-    /**
-     Register a callback for when an event occurs.
-     - parameter handler: The callback to register.
-     - returns: The same subscription, for easy chaining.
-     */
-    @discardableResult open func handleEvent(_ handler: @escaping (Query<T>,
-                                                                   Event<T>) -> Void) -> SubscriptionCallback {
-        eventHandlers.append(handler)
-        return self
-    }
-
-    /**
-     Register a callback for when a client succesfully subscribes to a query.
-     - parameter handler: The callback to register.
-     - returns: The same subscription, for easy chaining.
-     */
-    @discardableResult open func handleSubscribe(_ handler: @escaping (Query<T>,
-                                                                       Bool) -> Void) -> SubscriptionCallback {
-        subscribeHandlers.append(handler)
-        return self
-    }
-
-    /**
-     Register a callback for when a query has been unsubscribed.
-     - parameter handler: The callback to register.
-     - returns: The same subscription, for easy chaining.
-     */
-    @discardableResult open func handleUnsubscribe(_ handler: @escaping (Query<T>) -> Void) -> SubscriptionCallback {
-        unsubscribeHandlers.append(handler)
-        return self
-    }
-
-    open func didReceive(_ eventData: Data) throws {
-        // Need to decode the event with respect to the `ParseObject`.
-        let eventMessage = try ParseCoding.jsonDecoder().decode(EventResponse<T>.self, from: eventData)
-        guard let event = Event(event: eventMessage) else {
-            throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: couldn't create event.")
-        }
-        eventHandlers.forEach { $0(query, event) }
-    }
-
-    open func didSubscribe(_ new: Bool) {
-        subscribeHandlers.forEach { $0(query, new) }
-    }
-
-    open func didUnsubscribe() {
-        unsubscribeHandlers.forEach { $0(query) }
-    }
-}
 
 extension SubscriptionCallback {
 
