@@ -1,10 +1,15 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.0.2...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.0...main)
 * _Contributing to this repo? Add info about your change here to be included in next release_
 
+### 1.1.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.0.2...1.1.0)
+
 __New features__
+- Enable `ParseFile` for Linux ([#64](https://github.com/parse-community/Parse-Swift/pull/64)), thanks to [jt9897253](https://github.com/jt9897253).
+- Use a `ParseLiveQuery` subscription as a SwiftUI view model ([#65](https://github.com/parse-community/Parse-Swift/pull/65)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Idempotency support ([#62](https://github.com/parse-community/Parse-Swift/pull/62)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.0.2

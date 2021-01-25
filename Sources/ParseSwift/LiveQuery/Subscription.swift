@@ -56,10 +56,85 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
     }
 }
 
+#if !os(Linux)
 /**
- A default implementation of the `ParseSubscription` protocol, using closures for callbacks.
+ A default implementation of the `ParseSubscription` protocol. Suitable for `ObjectObserved`
+ as the subscription can be used as a SwiftUI publisher. Meaning it can serve
+ indepedently as a ViewModel in MVVM.
  */
-open class Subscription<T: ParseObject>: ParseSubscription {
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
+    //The query subscribed to.
+    public var query: Query<T>
+    //The ParseObject
+    public typealias Object = T
+
+    /// Notifies there's a new event related to a specific query.
+    private (set) var event: (query: Query<T>, event: Event<T>)? {
+        willSet {
+            if newValue != nil {
+                subscribed = nil
+                unsubscribed = nil
+                objectWillChange.send()
+            }
+        }
+    }
+
+    /// Notifies when a subscription request has been fulfilled and if it is new.
+    private (set) var subscribed: (query: Query<T>, isNew: Bool)? {
+        willSet {
+            if newValue != nil {
+                unsubscribed = nil
+                event = nil
+                objectWillChange.send()
+            }
+        }
+    }
+
+    /// Notifies when an unsubscribe request has been fulfilled.
+    private (set) var unsubscribed: Query<T>? {
+        willSet {
+            if newValue != nil {
+                subscribed = nil
+                event = nil
+                objectWillChange.send()
+            }
+        }
+    }
+
+    /**
+     Creates a new subscription that can be used to handle updates.
+     */
+    public init(query: Query<T>) {
+        self.query = query
+        self.subscribed = nil
+        self.event = nil
+        self.unsubscribed = nil
+    }
+
+    open func didReceive(_ eventData: Data) throws {
+        // Need to decode the event with respect to the `ParseObject`.
+        let eventMessage = try ParseCoding.jsonDecoder().decode(EventResponse<T>.self, from: eventData)
+        guard let event = Event(event: eventMessage) else {
+            throw ParseError(code: .unknownError, message: "ParseLiveQuery Error: couldn't create event.")
+        }
+        self.event = (query, event)
+    }
+
+    open func didSubscribe(_ new: Bool) {
+        self.subscribed = (query, new)
+    }
+
+    open func didUnsubscribe() {
+        self.unsubscribed = query
+    }
+}
+#endif
+
+/**
+ A default implementation of the `ParseSubscription` protocol using closures for callbacks.
+ */
+open class SubscriptionCallback<T: ParseObject>: ParseSubscription {
     //The query subscribed to.
     public var query: Query<T>
     //The ParseObject
@@ -80,7 +155,8 @@ open class Subscription<T: ParseObject>: ParseSubscription {
      - parameter handler: The callback to register.
      - returns: The same subscription, for easy chaining.
      */
-    @discardableResult open func handleEvent(_ handler: @escaping (Query<T>, Event<T>) -> Void) -> Subscription {
+    @discardableResult open func handleEvent(_ handler: @escaping (Query<T>,
+                                                                   Event<T>) -> Void) -> SubscriptionCallback {
         eventHandlers.append(handler)
         return self
     }
@@ -90,7 +166,8 @@ open class Subscription<T: ParseObject>: ParseSubscription {
      - parameter handler: The callback to register.
      - returns: The same subscription, for easy chaining.
      */
-    @discardableResult open func handleSubscribe(_ handler: @escaping (Query<T>, Bool) -> Void) -> Subscription {
+    @discardableResult open func handleSubscribe(_ handler: @escaping (Query<T>,
+                                                                       Bool) -> Void) -> SubscriptionCallback {
         subscribeHandlers.append(handler)
         return self
     }
@@ -100,7 +177,7 @@ open class Subscription<T: ParseObject>: ParseSubscription {
      - parameter handler: The callback to register.
      - returns: The same subscription, for easy chaining.
      */
-    @discardableResult open func handleUnsubscribe(_ handler: @escaping (Query<T>) -> Void) -> Subscription {
+    @discardableResult open func handleUnsubscribe(_ handler: @escaping (Query<T>) -> Void) -> SubscriptionCallback {
         unsubscribeHandlers.append(handler)
         return self
     }
@@ -123,7 +200,7 @@ open class Subscription<T: ParseObject>: ParseSubscription {
     }
 }
 
-extension Subscription {
+extension SubscriptionCallback {
 
     /**
      Register a callback for when an event occurs of a specific type
@@ -136,7 +213,7 @@ extension Subscription {
      - returns: The same subscription, for easy chaining.
      */
     @discardableResult public func handle(_ eventType: @escaping (T) -> Event<T>,
-                                          _ handler: @escaping (Query<T>, T) -> Void) -> Subscription {
+                                          _ handler: @escaping (Query<T>, T) -> Void) -> SubscriptionCallback {
         return handleEvent { query, event in
             switch event {
             case .entered(let obj) where eventType(obj) == event: handler(query, obj)

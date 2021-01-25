@@ -619,6 +619,10 @@ extension ParseLiveQuery {
         try subscribe(Subscription(query: query))
     }
 
+    func subscribe<T>(_ query: Query<T>) throws -> SubscriptionCallback<T> {
+        try subscribe(SubscriptionCallback(query: query))
+    }
+
     func subscribe<T>(_ handler: T) throws -> T where T: ParseSubscription {
 
         let requestId = requestIdGenerator()
@@ -689,9 +693,12 @@ extension ParseLiveQuery {
 // MARK: ParseLiveQuery - Subscribe
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
+    #if !os(Linux)
     /**
      Registers the query for live updates, using the default subscription handler,
-     and the default `ParseLiveQuery` client.
+     and the default `ParseLiveQuery` client. Suitable for `ObjectObserved`
+     as the subscription can be used as a SwiftUI publisher. Meaning it can serve
+     indepedently as a ViewModel in MVVM.
      */
     var subscribe: Subscription<ResultType>? {
         try? ParseLiveQuery.client?.subscribe(self)
@@ -699,17 +706,20 @@ public extension Query {
 
     /**
      Registers the query for live updates, using the default subscription handler,
-     and a specific `ParseLiveQuery` client.
+     and a specific `ParseLiveQuery` client. Suitable for `ObjectObserved`
+     as the subscription can be used as a SwiftUI publisher. Meaning it can serve
+     indepedently as a ViewModel in MVVM.
      - parameter client: A specific client.
      - returns: The subscription that has just been registered
      */
     func subscribe(_ client: ParseLiveQuery) throws -> Subscription<ResultType> {
         try client.subscribe(Subscription(query: self))
     }
+    #endif
 
     /**
      Registers a query for live updates, using a custom subscription handler.
-     - parameter handler: A custom subscription handler.
+     - parameter handler: A custom subscription handler. 
      - returns: Your subscription handler, for easy chaining.
     */
     static func subscribe<T: ParseSubscription>(_ handler: T) throws -> T {
@@ -728,6 +738,24 @@ public extension Query {
     */
     static func subscribe<T: ParseSubscription>(_ handler: T, client: ParseLiveQuery) throws -> T {
         try client.subscribe(handler)
+    }
+
+    /**
+     Registers the query for live updates, using the default subscription handler,
+     and the default `ParseLiveQuery` client.
+     */
+    var subscribeCallback: SubscriptionCallback<ResultType>? {
+        try? ParseLiveQuery.client?.subscribe(self)
+    }
+
+    /**
+     Registers the query for live updates, using the default subscription handler,
+     and a specific `ParseLiveQuery` client.
+     - parameter client: A specific client.
+     - returns: The subscription that has just been registered.
+     */
+    func subscribeCallback(_ client: ParseLiveQuery) throws -> SubscriptionCallback<ResultType> {
+        try client.subscribe(SubscriptionCallback(query: self))
     }
 }
 
