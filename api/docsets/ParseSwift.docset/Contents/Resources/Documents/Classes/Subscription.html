@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.1.0 Docs
+          ParseSwift 1.1.1 Docs
         </a>
          (86% documented)
       </p>
@@ -315,6 +315,87 @@ indepedently as a ViewModel in MVVM.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">typealias</span> <span class="kt">Object</span> <span class="o">=</span> <span class="kt">T</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift12SubscriptionC5eventAA5QueryVyxG5query_AA5EventOyxGADtSgvp"></a>
+                    <a name="//apple_ref/swift/Property/event" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift12SubscriptionC5eventAA5QueryVyxG5query_AA5EventOyxGADtSgvp">event</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Updates and notifies when there&rsquo;s a new event related to a specific query.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">event</span><span class="p">:</span> <span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">event</span><span class="p">:</span> <span class="kt"><a href="../Enums/Event.html">Event</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift12SubscriptionC10subscribedAA5QueryVyxG5query_Sb5isNewtSgvp"></a>
+                    <a name="//apple_ref/swift/Property/subscribed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift12SubscriptionC10subscribedAA5QueryVyxG5query_Sb5isNewtSgvp">subscribed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Updates and notifies when a subscription request has been fulfilled and if it is new.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">subscribed</span><span class="p">:</span> <span class="p">(</span><span class="nv">query</span><span class="p">:</span> <span class="kt"><a href="../Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">,</span> <span class="nv">isNew</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">)?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift12SubscriptionC12unsubscribedAA5QueryVyxGSgvp"></a>
+                    <a name="//apple_ref/swift/Property/unsubscribed" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift12SubscriptionC12unsubscribedAA5QueryVyxGSgvp">unsubscribed</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Updates and notifies when an unsubscribe request has been fulfilled.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">unsubscribed</span><span class="p">:</span> <span class="kt"><a href="../Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>

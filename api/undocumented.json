@@ -211,8 +211,8 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/Subscription.swift",
-      "line": 139,
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/SubscriptionCallback.swift",
+      "line": 16,
       "symbol": "SubscriptionCallback.query",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
