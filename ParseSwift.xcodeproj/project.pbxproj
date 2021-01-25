@@ -105,6 +105,10 @@
 		705A9A3025991C1400B3547F /* Fileable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705A9A2E25991C1400B3547F /* Fileable.swift */; };
 		705A9A3125991C1400B3547F /* Fileable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705A9A2E25991C1400B3547F /* Fileable.swift */; };
 		705A9A3225991C1400B3547F /* Fileable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705A9A2E25991C1400B3547F /* Fileable.swift */; };
+		705D950825BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705D950725BE4C08003EF6F8 /* SubscriptionCallback.swift */; };
+		705D950925BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705D950725BE4C08003EF6F8 /* SubscriptionCallback.swift */; };
+		705D950A25BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705D950725BE4C08003EF6F8 /* SubscriptionCallback.swift */; };
+		705D950B25BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 705D950725BE4C08003EF6F8 /* SubscriptionCallback.swift */; };
 		70647E8E259E3375004C1004 /* LocallyIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */; };
 		70647E8F259E3375004C1004 /* LocallyIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */; };
 		70647E90259E3375004C1004 /* LocallyIdentifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */; };
@@ -469,6 +473,7 @@
 		705727882593FF8000F0ADD5 /* ParseFileTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFileTests.swift; sourceTree = "<group>"; };
 		705A99F8259807F900B3547F /* ParseFileManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFileManagerTests.swift; sourceTree = "<group>"; };
 		705A9A2E25991C1400B3547F /* Fileable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fileable.swift; sourceTree = "<group>"; };
+		705D950725BE4C08003EF6F8 /* SubscriptionCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCallback.swift; sourceTree = "<group>"; };
 		70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocallyIdentifiable.swift; sourceTree = "<group>"; };
 		70647E9B259E3A9A004C1004 /* ParseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseType.swift; sourceTree = "<group>"; };
 		707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthentication.swift; sourceTree = "<group>"; };
@@ -825,6 +830,7 @@
 				700395A225A119430052CB31 /* Operations.swift */,
 				7003960825A184EF0052CB31 /* ParseLiveQuery.swift */,
 				700395B925A1470F0052CB31 /* Subscription.swift */,
+				705D950725BE4C08003EF6F8 /* SubscriptionCallback.swift */,
 				700395DE25A147C40052CB31 /* Protocols */,
 			);
 			path = LiveQuery;
@@ -1437,6 +1443,7 @@
 				707A3C2025B14BD0000D215C /* ParseApple.swift in Sources */,
 				F97B462224D9C6F200F4A88B /* ParseKeyValueStore.swift in Sources */,
 				F97B45E624D9C6F200F4A88B /* Query.swift in Sources */,
+				705D950825BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */,
 				70C5509225B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035225215F9B00646C70 /* Deletable.swift in Sources */,
 				F97B466424D9C88600F4A88B /* SecureStorage.swift in Sources */,
@@ -1548,6 +1555,7 @@
 				707A3C2125B14BD0000D215C /* ParseApple.swift in Sources */,
 				F97B462324D9C6F200F4A88B /* ParseKeyValueStore.swift in Sources */,
 				F97B45E724D9C6F200F4A88B /* Query.swift in Sources */,
+				705D950925BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */,
 				70C5509325B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035325215F9B00646C70 /* Deletable.swift in Sources */,
 				F97B466524D9C88600F4A88B /* SecureStorage.swift in Sources */,
@@ -1705,6 +1713,7 @@
 				707A3C2325B14BD0000D215C /* ParseApple.swift in Sources */,
 				F97B462124D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B466724D9C88600F4A88B /* SecureStorage.swift in Sources */,
+				705D950B25BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */,
 				70C5509525B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035525215F9B00646C70 /* Deletable.swift in Sources */,
 				70110D55250680140091CC1D /* ParseConstants.swift in Sources */,
@@ -1779,6 +1788,7 @@
 				707A3C2225B14BD0000D215C /* ParseApple.swift in Sources */,
 				F97B462024D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				F97B466624D9C88600F4A88B /* SecureStorage.swift in Sources */,
+				705D950A25BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */,
 				70C5509425B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035425215F9B00646C70 /* Deletable.swift in Sources */,
 				70110D54250680140091CC1D /* ParseConstants.swift in Sources */,
@@ -2045,7 +2055,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
@@ -2067,7 +2077,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
@@ -2131,7 +2141,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SDKROOT = macosx;
@@ -2155,7 +2165,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SDKROOT = macosx;
@@ -2300,7 +2310,7 @@
 				INFOPLIST_FILE = "ParseSwift-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-watchOS";
@@ -2328,7 +2338,7 @@
 				INFOPLIST_FILE = "ParseSwift-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-watchOS";
 				PRODUCT_NAME = ParseSwift;
@@ -2354,7 +2364,7 @@
 				INFOPLIST_FILE = "ParseSwift-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-tvOS";
@@ -2381,7 +2391,7 @@
 				INFOPLIST_FILE = "ParseSwift-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.0;
+				MARKETING_VERSION = 1.1.1;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-tvOS";
 				PRODUCT_NAME = ParseSwift;
