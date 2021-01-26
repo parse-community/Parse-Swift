@@ -60,7 +60,8 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
 /**
  A default implementation of the `ParseSubscription` protocol. Suitable for `ObjectObserved`
  as the subscription can be used as a SwiftUI publisher. Meaning it can serve
- indepedently as a ViewModel in MVVM.
+ indepedently as a ViewModel in MVVM. Also provides a publisher for pull responses of query such as:
+ `find`, `first`, `count`, and `aggregate`.
  */
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
@@ -206,7 +207,10 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
     */
-    open func find(explain: Bool, hint: String? = nil, options: API.Options = [], callbackQueue: DispatchQueue = .main) {
+    open func find(explain: Bool,
+                   hint: String? = nil,
+                   options: API.Options = [],
+                   callbackQueue: DispatchQueue = .main) {
         query.find(explain: explain, hint: hint, options: options, callbackQueue: callbackQueue) { result in
             switch result {
 
@@ -246,7 +250,10 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
     */
-    open func first(explain: Bool, hint: String? = nil, options: API.Options = [], callbackQueue: DispatchQueue = .main) {
+    open func first(explain: Bool,
+                    hint: String? = nil,
+                    options: API.Options = [],
+                    callbackQueue: DispatchQueue = .main) {
         query.first(explain: explain, hint: hint, options: options, callbackQueue: callbackQueue) { result in
             switch result {
 
@@ -283,7 +290,10 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
     */
-    open func count(explain: Bool, hint: String? = nil, options: API.Options = [], callbackQueue: DispatchQueue = .main) {
+    open func count(explain: Bool,
+                    hint: String? = nil,
+                    options: API.Options = [],
+                    callbackQueue: DispatchQueue = .main) {
         query.count(explain: explain, hint: hint, options: options) { result in
             switch result {
 
