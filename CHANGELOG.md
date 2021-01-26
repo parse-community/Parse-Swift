@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.2...main)
 * _Contributing to this repo? Add info about your change here to be included in next release_
+
+### 1.1.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.1...1.1.2)
+
+__Fixes__
+Installing via SPM crashes ([#69](https://github.com/parse-community/Parse-Swift/pull/69)), thanks to [pmmlo](https://github.com/pmmlo).
 
 ### 1.1.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.0...1.1.1)
