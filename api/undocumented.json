@@ -148,27 +148,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/Extensions.swift",
-      "line": 34,
-      "symbol": "ParseObject.getEncoder()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/Extensions.swift",
-      "line": 38,
-      "symbol": "ParseObject.getJSONEncoder()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/Extensions.swift",
-      "line": 42,
-      "symbol": "ParseObject.getDecoder()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/ParseCoding.swift",
       "line": 12,
       "symbol": "ParseCoding",

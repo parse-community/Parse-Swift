@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.1.1 Docs
+          ParseSwift 1.1.2 Docs
         </a>
-         (86% documented)
+         (87% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -314,6 +314,113 @@ depending on your implementation.
 
         <section class="section">
           <div class="section-content">
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/ParseObject"></a>
+                <a name="//apple_ref/swift/Section/ParseObject" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/ParseObject"></a>
+                  <h3 class="section-name"><p>ParseObject</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE10getEncoderAA0aE0VyF"></a>
+                    <a name="//apple_ref/swift/Method/getEncoder()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE10getEncoderAA0aE0VyF">getEncoder()</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The Parse encoder is used to JSON encode all <code>ParseObject</code>s and
+types in a way meaninful for a Parse Server to consume.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getEncoder</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">ParseEncoder</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE14getJSONEncoder10Foundation0E0CyF"></a>
+                    <a name="//apple_ref/swift/Method/getJSONEncoder()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE14getJSONEncoder10Foundation0E0CyF">getJSONEncoder()</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The JSON encoder setup with the correct <code>dateEncodingStrategy</code>
+strategy to send data to a Parse Server.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getJSONEncoder</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">JSONEncoder</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE10getDecoder10Foundation11JSONDecoderCyF"></a>
+                    <a name="//apple_ref/swift/Method/getDecoder()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE10getDecoder10Foundation11JSONDecoderCyF">getDecoder()</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The JSON decoder setup with the correct <code>dateDecodingStrategy</code>
+strategy to decode data from a Parse Server. This encoder is used to decode all data received
+from the server.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">getDecoder</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">JSONDecoder</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
             <div class="task-group">
               <div class="task-name-container">
                 <a name="/Default%20Implementations"></a>
@@ -1076,7 +1183,7 @@ It should have the following argument signature: <code>(ParseError?)</code>.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-25)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-26)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
