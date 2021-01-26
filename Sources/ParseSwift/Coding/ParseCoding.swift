@@ -14,19 +14,25 @@ public enum ParseCoding {}
 // MARK: Coders
 extension ParseCoding {
 
-    ///This should only be used for Unit tests, don't use in SDK
+    /// The JSON Encoder setup with the correct `dateEncodingStrategy`
+    /// strategy for `Parse`.
     static func jsonEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = jsonDateEncodingStrategy
         return encoder
     }
 
+    /// The JSON Decoder setup with the correct `dateDecodingStrategy`
+    /// strategy for `Parse`. This encoder is used to decode all data received
+    /// from the server.
     static func jsonDecoder() -> JSONDecoder {
         let decoder = JSONDecoder()
         decoder.dateDecodingStrategy = dateDecodingStrategy
         return decoder
     }
 
+    /// The Parse Encoder is used to JSON encode all `ParseObject`s and
+    /// types in a way meaninful for the Parse Server to consume.
     static func parseEncoder() -> ParseEncoder {
         ParseEncoder(
             dateEncodingStrategy: parseDateEncodingStrategy

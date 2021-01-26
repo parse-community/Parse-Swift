@@ -31,14 +31,21 @@ extension JSONEncoder {
 
 // MARK: ParseObject
 public extension ParseObject {
+    /// The Parse encoder is used to JSON encode all `ParseObject`s and
+    /// types in a way meaninful for a Parse Server to consume.
     func getEncoder() -> ParseEncoder {
         return ParseCoding.parseEncoder()
     }
 
+    /// The JSON encoder setup with the correct `dateEncodingStrategy`
+    /// strategy to send data to a Parse Server.
     func getJSONEncoder() -> JSONEncoder {
         return ParseCoding.jsonEncoder()
     }
 
+    /// The JSON decoder setup with the correct `dateDecodingStrategy`
+    /// strategy to decode data from a Parse Server. This encoder is used to decode all data received
+    /// from the server.
     func getDecoder() -> JSONDecoder {
         ParseCoding.jsonDecoder()
     }
