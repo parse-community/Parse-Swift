@@ -1426,5 +1426,259 @@ class ParseLiveQueryTests: XCTestCase {
 
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
+
+    func testFind() throws {
+        let query = GameScore.query("score" > 9)
+        guard let subscription = query.subscribe else {
+            XCTFail("Should create subscription")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        subscription.error = ParseError(code: .objectNotFound, message: "Error")
+        subscription.count = 5
+        subscription.resultsCodable = AnyCodable()
+
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        subscription.find(options: [], callbackQueue: .main)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+
+            guard let score = subscription.results?.first else {
+                XCTFail("Should unwrap subscribed.")
+                expectation1.fulfill()
+                return
+            }
+
+            XCTAssertNil(subscription.resultsCodable)
+            XCTAssertNil(subscription.error)
+            XCTAssertNil(subscription.count)
+            XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testFirst() throws {
+        let query = GameScore.query("score" > 9)
+        guard let subscription = query.subscribe else {
+            XCTFail("Should create subscription")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        subscription.error = ParseError(code: .objectNotFound, message: "Error")
+        subscription.count = 5
+        subscription.resultsCodable = AnyCodable()
+
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        subscription.first(options: [], callbackQueue: .main)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+
+            guard let score = subscription.results?.first else {
+                XCTFail("Should unwrap subscribed.")
+                expectation1.fulfill()
+                return
+            }
+
+            XCTAssertNil(subscription.resultsCodable)
+            XCTAssertNil(subscription.error)
+            XCTAssertNil(subscription.count)
+            XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testCount() throws {
+        let query = GameScore.query("score" > 9)
+        guard let subscription = query.subscribe else {
+            XCTFail("Should create subscription")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
+        subscription.error = ParseError(code: .objectNotFound, message: "Error")
+        subscription.results = [scoreOnServer]
+        subscription.resultsCodable = AnyCodable()
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        subscription.count(options: [], callbackQueue: .main)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+
+            guard let count = subscription.count else {
+                XCTFail("Should unwrap subscribed.")
+                expectation1.fulfill()
+                return
+            }
+
+            XCTAssertNil(subscription.resultsCodable)
+            XCTAssertNil(subscription.error)
+            XCTAssertNil(subscription.results)
+            XCTAssertEqual(count, 1)
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testAggregate() throws {
+        let query = GameScore.query("score" > 9)
+        guard let subscription = query.subscribe else {
+            XCTFail("Should create subscription")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        subscription.error = ParseError(code: .objectNotFound, message: "Error")
+        subscription.count = 5
+        subscription.resultsCodable = AnyCodable()
+
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        subscription.aggregate([["hello": "world"]], options: [], callbackQueue: .main)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+
+            guard let score = subscription.results?.first else {
+                XCTFail("Should unwrap subscribed.")
+                expectation1.fulfill()
+                return
+            }
+
+            XCTAssertNil(subscription.resultsCodable)
+            XCTAssertNil(subscription.error)
+            XCTAssertNil(subscription.count)
+            XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testFindExplain() throws {
+        let query = GameScore.query("score" > 9)
+        guard let subscription = query.subscribe else {
+            XCTFail("Should create subscription")
+            return
+        }
+        XCTAssertEqual(subscription.query, query)
+
+        let expectation1 = XCTestExpectation(description: "Subscribe Handler")
+
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = Date()
+        scoreOnServer.ACL = nil
+
+        subscription.error = ParseError(code: .objectNotFound, message: "Error")
+        subscription.results = [scoreOnServer]
+        subscription.count = 5
+
+        let json = AnyResultsResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        subscription.find(explain: true)
+
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+
+            guard let response = subscription.resultsCodable as? [String: String],
+                  let expected = json.results?.value as? [String: String] else {
+                XCTFail("Should unwrap subscribed.")
+                expectation1.fulfill()
+                return
+            }
+
+            XCTAssertNil(subscription.resultsCodable)
+            XCTAssertNil(subscription.error)
+            XCTAssertNil(subscription.results)
+            XCTAssertEqual(response, expected)
+            expectation1.fulfill()
+        }
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
 }
 #endif

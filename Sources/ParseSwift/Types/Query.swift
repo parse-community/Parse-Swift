@@ -853,7 +853,7 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<[ResultType], ParseError>)`
+      It should have the following argument signature: `(Result<[ResultType], ParseError>)`.
     */
     public func find(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
@@ -872,7 +872,7 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<[AnyResultType], ParseError>)`
+      It should have the following argument signature: `(Result<[AnyResultType], ParseError>)`.
     */
     public func find(explain: Bool, hint: String? = nil, options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
@@ -1012,7 +1012,7 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<Int, ParseError>)`
+      It should have the following argument signature: `(Result<Int, ParseError>)`.
     */
     public func count(explain: Bool, hint: String? = nil, options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
@@ -1059,7 +1059,7 @@ extension Query: Queryable {
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
         - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<Int, ParseError>)`
+      It should have the following argument signature: `(Result<[ResultType], ParseError>)`.
         - warning: This hasn't been tested thoroughly.
     */
     public func aggregate(_ pipeline: AggregateType,
