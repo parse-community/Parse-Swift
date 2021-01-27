@@ -205,7 +205,7 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
-      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+      - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
     */
     open func find(explain: Bool,
                    hint: String? = nil,
@@ -285,6 +285,7 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
 
     /**
       Counts objects and publishes them as `resultsCodable` afterwards.
+      
       - parameter explain: Used to toggle the information on the query plan.
       - parameter hint: String or Object of index that should be used when executing query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -307,6 +308,7 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
 
     /**
       Executes an aggregate query and publishes the results as `results` afterwards.
+      
         - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
         - parameter pipeline: A pipeline of stages to process query.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
