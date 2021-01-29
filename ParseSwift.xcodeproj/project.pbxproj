@@ -75,6 +75,10 @@
 		70110D592506CE890091CC1D /* BaseParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D562506CE890091CC1D /* BaseParseInstallation.swift */; };
 		70110D5A2506CE890091CC1D /* BaseParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D562506CE890091CC1D /* BaseParseInstallation.swift */; };
 		70110D5C2506ED0E0091CC1D /* ParseInstallationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */; };
+		7016ED3225C3BA2000038648 /* ParseUser+publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3125C3BA2000038648 /* ParseUser+publisher.swift */; };
+		7016ED3325C3BA2000038648 /* ParseUser+publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3125C3BA2000038648 /* ParseUser+publisher.swift */; };
+		7016ED3425C3BA2000038648 /* ParseUser+publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3125C3BA2000038648 /* ParseUser+publisher.swift */; };
+		7016ED3525C3BA2000038648 /* ParseUser+publisher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3125C3BA2000038648 /* ParseUser+publisher.swift */; };
 		7033ECB325584A83009770F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7033ECB225584A83009770F3 /* AppDelegate.swift */; };
 		7033ECB525584A83009770F3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7033ECB425584A83009770F3 /* ViewController.swift */; };
 		7033ECB825584A83009770F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECB625584A83009770F3 /* Main.storyboard */; };
@@ -459,6 +463,7 @@
 		70110D51250680140091CC1D /* ParseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		70110D562506CE890091CC1D /* BaseParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseParseInstallation.swift; sourceTree = "<group>"; };
 		70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallationTests.swift; sourceTree = "<group>"; };
+		7016ED3125C3BA2000038648 /* ParseUser+publisher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseUser+publisher.swift"; sourceTree = "<group>"; };
 		7033ECB025584A83009770F3 /* TestHostTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestHostTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7033ECB225584A83009770F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7033ECB425584A83009770F3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -968,6 +973,7 @@
 				70C5507625B49D3A00B5DBC2 /* ParseRole.swift */,
 				70C5503725B406B800B5DBC2 /* ParseSession.swift */,
 				F97B45C424D9C6F200F4A88B /* ParseUser.swift */,
+				7016ED3125C3BA2000038648 /* ParseUser+publisher.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -1476,6 +1482,7 @@
 				70110D572506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45DE24D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				70C5507725B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				7016ED3225C3BA2000038648 /* ParseUser+publisher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1588,6 +1595,7 @@
 				70110D582506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45DF24D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				70C5507825B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				7016ED3325C3BA2000038648 /* ParseUser+publisher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1746,6 +1754,7 @@
 				912C9BFD24D302B2009947C3 /* Parse.swift in Sources */,
 				F97B461924D9C6F200F4A88B /* Queryable.swift in Sources */,
 				70C5507A25B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				7016ED3525C3BA2000038648 /* ParseUser+publisher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1821,6 +1830,7 @@
 				912C9BE024D302B0009947C3 /* Parse.swift in Sources */,
 				F97B461824D9C6F200F4A88B /* Queryable.swift in Sources */,
 				70C5507925B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				7016ED3425C3BA2000038648 /* ParseUser+publisher.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
