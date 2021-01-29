@@ -525,13 +525,13 @@ extension ParseInstallation {
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
-     It should have the following argument signature: `(ParseError?)`.
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (ParseError?) -> Void
+        completion: @escaping (Result<Void, ParseError>) -> Void
     ) {
          do {
             try deleteCommand()
@@ -539,21 +539,21 @@ extension ParseInstallation {
                     callbackQueue.async {
                         switch result {
 
-                        case .success(let error):
+                        case .success:
                             Self.updateKeychainIfNeeded([self], deleting: true)
-                            completion(error)
+                            completion(.success(()))
                         case .failure(let error):
-                            completion(error)
+                            completion(.failure(error))
                         }
                     }
                 }
          } catch let error as ParseError {
             callbackQueue.async {
-                completion(error)
+                completion(.failure(error))
             }
          } catch {
             callbackQueue.async {
-                completion(ParseError(code: .unknownError, message: error.localizedDescription))
+                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
             }
          }
     }

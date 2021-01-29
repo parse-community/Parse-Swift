@@ -103,7 +103,7 @@ User.current?.signup { result in
 
 //: Password Reset Request - synchronously.
 do {
-    try User.verificationEmailRequest(email: "hello@parse.org")
+    try User.verificationEmail(email: "hello@parse.org")
     print("Successfully requested verification email be sent")
 } catch let error {
     print("Error requesting verification email be sent: \(error)")

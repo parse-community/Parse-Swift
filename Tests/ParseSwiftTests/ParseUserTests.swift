@@ -1127,7 +1127,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testVerificationEmailRequestCommand() throws {
         let body = EmailBody(email: "hello@parse.org")
-        let command = User.verificationEmailRequestCommand(email: body.email)
+        let command = User.verificationEmailCommand(email: body.email)
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/verificationEmailRequest")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -1147,7 +1147,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
         do {
-            try User.verificationEmailRequest(email: "hello@parse.org")
+            try User.verificationEmail(email: "hello@parse.org")
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -1169,7 +1169,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         do {
-            try User.verificationEmailRequest(email: "hello@parse.org")
+            try User.verificationEmail(email: "hello@parse.org")
             XCTFail("Should have thrown ParseError")
         } catch {
             if let error = error as? ParseError {
@@ -1180,10 +1180,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func verificationEmailRequestAsync(callbackQueue: DispatchQueue) {
+    func verificationEmailAsync(callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        User.verificationEmailRequest(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+        User.verificationEmail(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
 
             guard let error = error else {
                 expectation1.fulfill()
@@ -1207,13 +1207,13 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
 
-        self.verificationEmailRequestAsync(callbackQueue: .main)
+        self.verificationEmailAsync(callbackQueue: .main)
     }
 
-    func verificationEmailRequestAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
+    func verificationEmailAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        User.verificationEmailRequest(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+        User.verificationEmail(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
 
             guard let error = error else {
                 XCTFail("Should have thrown ParseError")
@@ -1238,7 +1238,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
 
-        self.verificationEmailRequestAsyncError(parseError: parseError, callbackQueue: .main)
+        self.verificationEmailAsyncError(parseError: parseError, callbackQueue: .main)
     }
 
     func testUserCustomValuesNotSavedToKeychain() {
