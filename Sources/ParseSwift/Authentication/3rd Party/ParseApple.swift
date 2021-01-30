@@ -103,7 +103,7 @@ public extension ParseApple {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(user: String,
                         identityToken: String,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
@@ -111,7 +111,7 @@ public extension ParseApple {
                        options: options)
     }
 
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(authData: [String: String]?,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
@@ -181,7 +181,7 @@ public extension ParseApple {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(user: String,
                        identityToken: String,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
@@ -189,7 +189,7 @@ public extension ParseApple {
                       options: options)
     }
 
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(authData: [String: String]?,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),

@@ -10,7 +10,7 @@
 import Foundation
 import Combine
 
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseOperation {
 
     // MARK: Savable - Combine

@@ -105,7 +105,7 @@ public protocol ParseAuthentication: Codable {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(authData: [String: String]?,
                         options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
@@ -116,7 +116,7 @@ public protocol ParseAuthentication: Codable {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(authData: [String: String]?,
                        options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
@@ -128,7 +128,7 @@ public protocol ParseAuthentication: Codable {
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      */
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func unlinkPublisher(_ user: AuthenticatedUser,
                          options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
@@ -139,7 +139,7 @@ public protocol ParseAuthentication: Codable {
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      */
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func unlinkPublisher(options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
     #endif

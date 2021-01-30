@@ -63,7 +63,7 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
  indepedently as a ViewModel in MVVM. Also provides a publisher for pull responses of query such as:
  `find`, `first`, `count`, and `aggregate`.
  */
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
     //The query subscribed to.
     public var query: Query<T>

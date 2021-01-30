@@ -10,7 +10,7 @@
 import Foundation
 import Combine
 
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseUser {
 
     // MARK: Signing Out - Combine
@@ -182,7 +182,7 @@ public extension ParseUser {
 }
 
 // MARK: Batch Support - Combine
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *aynchronously* with the current data from the server and sets
@@ -214,7 +214,7 @@ public extension Sequence where Element: ParseUser {
     }
 
     /**
-     Deletes a collection of users *asynchronously* and and publishes when complete.
+     Deletes a collection of users *asynchronously* and publishes when complete.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.

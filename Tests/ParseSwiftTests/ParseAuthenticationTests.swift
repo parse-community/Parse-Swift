@@ -51,7 +51,7 @@ class ParseAuthenticationTests: XCTestCase {
         }
 
         #if canImport(Combine)
-        @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+        @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
         func loginPublisher(authData: [String: String]?,
                             options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")
@@ -59,7 +59,8 @@ class ParseAuthenticationTests: XCTestCase {
                 promise(.failure(error))
             }
         }
-        @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+
+        @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
         func linkPublisher(authData: [String: String]?, options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")
             return Future { promise in

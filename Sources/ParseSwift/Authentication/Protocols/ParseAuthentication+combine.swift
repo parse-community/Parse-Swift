@@ -11,7 +11,7 @@ import Foundation
 import Combine
 
 // MARK: Convenience Implementations - Combine
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseAuthentication {
 
     func unlinkPublisher(_ user: AuthenticatedUser,
@@ -30,7 +30,7 @@ public extension ParseAuthentication {
     }
 }
 
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseUser {
 
     // MARK: 3rd Party Authentication - Login Combine

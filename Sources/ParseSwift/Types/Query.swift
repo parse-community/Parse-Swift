@@ -754,7 +754,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
      */
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: String...) -> Query<T> {
         var mutableQuery = self
         mutableQuery.fields = keys
@@ -771,7 +771,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: An array of fields to receive back instead of the whole `ParseObject`.
      */
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
         mutableQuery.fields = keys
