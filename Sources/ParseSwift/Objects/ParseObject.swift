@@ -331,13 +331,13 @@ public extension Sequence where Element: ParseObject {
      - throws: `ParseError`
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   options: API.Options = []) throws -> [ParseError?] {
+                   options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-        var returnBatch = [ParseError?]()
+        var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
-            let currentBatch = try API.Command<Self.Element, ParseError?>
+            let currentBatch = try API.Command<Self.Element, (Result<Void, ParseError>)>
                 .batch(commands: $0)
                 .execute(options: options)
             returnBatch.append(contentsOf: currentBatch)
@@ -367,11 +367,11 @@ public extension Sequence where Element: ParseObject {
         batchLimit limit: Int? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (Result<[ParseError?], ParseError>) -> Void
+        completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
     ) {
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         do {
-            var returnBatch = [ParseError?]()
+            var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0
@@ -703,9 +703,7 @@ extension ParseObject {
      - throws: An error of `ParseError` type.
     */
     public func delete(options: API.Options = []) throws {
-        if let error = try deleteCommand().execute(options: options) {
-            throw error
-        }
+        _ = try deleteCommand().execute(options: options)
     }
 
     /**
@@ -727,12 +725,8 @@ extension ParseObject {
                 callbackQueue.async {
                     switch result {
 
-                    case .success(let error):
-                        if let error = error {
-                            completion(.failure(error))
-                        } else {
-                            completion(.success(()))
-                        }
+                    case .success:
+                        completion(.success(()))
                     case .failure(let error):
                         completion(.failure(error))
                     }
@@ -749,7 +743,7 @@ extension ParseObject {
          }
     }
 
-    internal func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, ParseError?> {
-        try API.NonParseBodyCommand<NoBody, ParseError?>.deleteCommand(self)
+    internal func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, NoBody> {
+        try API.NonParseBodyCommand<NoBody, NoBody>.deleteCommand(self)
     }
 }// swiftlint:disable:this file_length

@@ -101,6 +101,14 @@ User.current?.signup { result in
     }
 }
 
+//: Logging out - synchronously.
+do {
+    try User.logout()
+    print("Successfully logged out")
+} catch let error {
+    print("Error logging out: \(error)")
+}
+
 //: Password Reset Request - synchronously.
 do {
     try User.verificationEmail(email: "hello@parse.org")

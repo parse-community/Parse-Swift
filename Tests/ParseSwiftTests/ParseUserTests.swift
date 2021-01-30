@@ -1715,8 +1715,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     return
             }
 
-            let error: ParseError? = nil
-            let userOnServer = [error]
+            let userOnServer = [BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
 
             let encoded: Data!
             do {
@@ -1733,7 +1732,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             do {
                 let deleted = try [user].deleteAll()
                 deleted.forEach {
-                    if let error = $0 {
+                    if case let .failure(error) = $0 {
                         XCTFail("Should have deleted: \(error.localizedDescription)")
                     }
                 }
@@ -1758,8 +1757,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return
             }
 
-            let error: ParseError? = nil
-            let userOnServer = [error]
+            let userOnServer = [BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
 
             let encoded: Data!
             do {
@@ -1778,7 +1776,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
                 case .success(let deleted):
                     deleted.forEach {
-                        if let error = $0 {
+                        if case let .failure(error) = $0 {
                             XCTFail("Should have deleted: \(error.localizedDescription)")
                         }
                     }

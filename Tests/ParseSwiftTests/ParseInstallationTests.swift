@@ -1095,8 +1095,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     return
             }
 
-            let error: ParseError? = nil
-            let installationOnServer = [error]
+            let installationOnServer = [BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
 
             let encoded: Data!
             do {
@@ -1113,7 +1112,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             do {
                 let deleted = try [installation].deleteAll()
                 deleted.forEach {
-                    if let error = $0 {
+                    if case let .failure(error) = $0 {
                         XCTFail("Should have deleted: \(error.localizedDescription)")
                     }
                 }
@@ -1138,8 +1137,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 return
             }
 
-            let error: ParseError? = nil
-            let installationOnServer = [error]
+            let installationOnServer = [BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
 
             let encoded: Data!
             do {
@@ -1158,7 +1156,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
                 case .success(let deleted):
                     deleted.forEach {
-                        if let error = $0 {
+                        if case let .failure(error) = $0 {
                             XCTFail("Should have deleted: \(error.localizedDescription)")
                         }
                     }

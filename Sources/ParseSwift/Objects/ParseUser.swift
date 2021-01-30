@@ -859,14 +859,10 @@ extension ParseUser {
             try deleteCommand().executeAsync(options: options) { result in
                 switch result {
 
-                case .success(let error):
+                case .success:
                     callbackQueue.async {
                         try? Self.updateKeychainIfNeeded([self], deleting: true)
-                        if let error = error {
-                            completion(.failure(error))
-                        } else {
-                            completion(.success(()))
-                        }
+                        completion(.success(()))
                     }
                 case .failure(let error):
                     callbackQueue.async {
@@ -885,16 +881,21 @@ extension ParseUser {
          }
     }
 
-    func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, ParseError?> {
+    func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, NoBody> {
         guard isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
         }
 
-        return API.NonParseBodyCommand<NoBody, ParseError?>(
+        return API.NonParseBodyCommand<NoBody, NoBody>(
             method: .DELETE,
             path: endpoint
-        ) { (data) -> ParseError? in
-            try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+        ) { (data) -> NoBody in
+            let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+            if let error = error {
+                throw error
+            } else {
+                return NoBody()
+            }
         }
     }
 }
@@ -1183,9 +1184,9 @@ public extension Sequence where Element: ParseUser {
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   options: API.Options = []) throws -> [ParseError?] {
+                   options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-        var returnBatch = [ParseError?]()
+        var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
@@ -1221,11 +1222,11 @@ public extension Sequence where Element: ParseUser {
         batchLimit limit: Int? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (Result<[ParseError?], ParseError>) -> Void
+        completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
     ) {
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         do {
-            var returnBatch = [ParseError?]()
+            var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0
