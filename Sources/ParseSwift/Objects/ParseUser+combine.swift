@@ -153,7 +153,7 @@ public extension ParseUser {
 
     // MARK: Savable - Combine
     /**
-     Saves the `ParseUser` *asynchronously* and executes the given callback block.
+     Saves the `ParseUser` *asynchronously* and publishes when complete.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -168,7 +168,7 @@ public extension ParseUser {
 
     // MARK: Deletable - Combine
     /**
-     Deletes the `ParseUser` *asynchronously* and executes the given callback block.
+     Deletes the `ParseUser` *asynchronously* and publishes when complete.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -181,4 +181,49 @@ public extension ParseUser {
     }
 }
 
+// MARK: Batch Support - Combine
+@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+public extension Sequence where Element: ParseUser {
+    /**
+     Fetches a collection of users *aynchronously* with the current data from the server and sets
+     an error if one occurs. Publishes when complete.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - important: If an object fetched has the same objectId as current, it will automatically update the current.
+    */
+    func fetchAllPublisher(options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
+        Future { promise in
+            fetchAll(options: options,
+                  completion: promise)
+        }
+    }
+
+    /**
+     Saves a collection of users *asynchronously* and publishes when complete.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - important: If an object saved has the same objectId as current, it will automatically update the current.
+    */
+    func saveAllPublisher(options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
+        Future { promise in
+            saveAll(options: options,
+                  completion: promise)
+        }
+    }
+
+    /**
+     Deletes a collection of users *asynchronously* and and publishes when complete.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - important: If an object deleted has the same objectId as current, it will automatically update the current.
+    */
+    func deleteAllPublisher(options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
+        Future { promise in
+            deleteAll(options: options, completion: promise)
+        }
+    }
+}
 #endif
