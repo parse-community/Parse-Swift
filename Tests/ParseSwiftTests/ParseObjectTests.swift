@@ -247,7 +247,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {

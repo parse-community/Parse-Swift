@@ -9,6 +9,9 @@
 import Foundation
 import XCTest
 @testable import ParseSwift
+#if canImport(Combine)
+import Combine
+#endif
 
 class ParseAuthenticationTests: XCTestCase {
 
@@ -46,6 +49,24 @@ class ParseAuthenticationTests: XCTestCase {
             let error = ParseError(code: .unknownError, message: "Not implemented")
             completion(.failure(error))
         }
+
+        #if canImport(Combine)
+        @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+        func loginPublisher(authData: [String: String]?,
+                            options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+            let error = ParseError(code: .unknownError, message: "Not implemented")
+            return Future { promise in
+                promise(.failure(error))
+            }
+        }
+        @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+        func linkPublisher(authData: [String: String]?, options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+            let error = ParseError(code: .unknownError, message: "Not implemented")
+            return Future { promise in
+                promise(.failure(error))
+            }
+        }
+        #endif
     }
 
     override func setUpWithError() throws {

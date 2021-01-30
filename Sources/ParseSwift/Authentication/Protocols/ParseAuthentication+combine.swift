@@ -15,11 +15,11 @@ import Combine
 public extension ParseAuthentication {
 
     func unlinkPublisher(_ user: AuthenticatedUser,
-                         options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         user.unlinkPublisher(__type, options: options)
     }
 
-    func unlinkPublisher(options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+    func unlinkPublisher(options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         guard let current = AuthenticatedUser.current else {
             let error = ParseError(code: .invalidLinkedSession, message: "No current ParseUser.")
             return Future { promise in

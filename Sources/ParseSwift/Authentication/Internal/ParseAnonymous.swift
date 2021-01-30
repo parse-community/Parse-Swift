@@ -75,8 +75,8 @@ public extension ParseAnonymous {
     #if canImport(Combine)
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(authData: [String: String]?,
-                        options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+    func loginPublisher(authData: [String: String]? = nil,
+                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         AuthenticatedUser.loginPublisher(__type,
                                          authData: AuthenticationKeys.id.makeDictionary(),
                                          options: options)

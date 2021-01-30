@@ -106,14 +106,14 @@ public extension ParseApple {
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(user: String,
                         identityToken: String,
-                        options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         loginPublisher(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
                        options: options)
     }
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(authData: [String: String]?,
-                        options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
               let authData = authData else {
             let error = ParseError(code: .unknownError,
@@ -184,14 +184,14 @@ public extension ParseApple {
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(user: String,
                        identityToken: String,
-                       options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+                       options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         linkPublisher(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
                       options: options)
     }
 
     @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(authData: [String: String]?,
-                       options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+                       options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
               let authData = authData else {
             let error = ParseError(code: .unknownError,
