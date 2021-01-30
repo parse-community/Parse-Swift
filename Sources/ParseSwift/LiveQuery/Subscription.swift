@@ -56,7 +56,7 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
     }
 }
 
-#if !os(Linux)
+#if canImport(Combine)
 /**
  A default implementation of the `ParseSubscription` protocol. Suitable for `ObjectObserved`
  as the subscription can be used as a SwiftUI publisher. Meaning it can serve

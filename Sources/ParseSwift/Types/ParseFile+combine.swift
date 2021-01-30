@@ -1,12 +1,12 @@
 //
-//  ParseFile+command.swift
+//  ParseFile+combine.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 1/29/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if !os(Linux)
+#if canImport(Combine)
 import Foundation
 import Combine
 

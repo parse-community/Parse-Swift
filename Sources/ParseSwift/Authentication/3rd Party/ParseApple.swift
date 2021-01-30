@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(Combine)
+import Combine
+#endif
 
 // swiftlint:disable line_length
 
@@ -90,6 +93,41 @@ public extension ParseApple {
                                 callbackQueue: callbackQueue,
                                 completion: completion)
     }
+
+    #if canImport(Combine)
+
+    /**
+     Login a `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
+     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
+     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     */
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func loginPublisher(user: String,
+                        identityToken: String,
+                        options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+        loginPublisher(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+                       options: options)
+    }
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func loginPublisher(authData: [String: String]?,
+                        options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
+              let authData = authData else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
+            return Future { promise in
+                promise(.failure(error))
+            }
+        }
+        return AuthenticatedUser.loginPublisher(Self.__type,
+                                                authData: authData,
+                                                options: options)
+    }
+
+    #endif
 }
 
 // MARK: Link
@@ -133,6 +171,41 @@ public extension ParseApple {
                                callbackQueue: callbackQueue,
                                completion: completion)
     }
+
+    #if canImport(Combine)
+
+    /**
+     Link the *current* `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
+     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
+     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     */
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func linkPublisher(user: String,
+                       identityToken: String,
+                       options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+        linkPublisher(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+                      options: options)
+    }
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func linkPublisher(authData: [String: String]?,
+                       options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
+              let authData = authData else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
+            return Future { promise in
+                promise(.failure(error))
+            }
+        }
+        return AuthenticatedUser.linkPublisher(Self.__type,
+                               authData: authData,
+                               options: options)
+    }
+
+    #endif
 }
 
 // MARK: 3rd Party Authentication - ParseApple

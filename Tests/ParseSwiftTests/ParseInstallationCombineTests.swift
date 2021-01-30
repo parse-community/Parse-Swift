@@ -6,7 +6,7 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if !os(Linux)
+#if canImport(Combine)
 
 import Foundation
 import XCTest

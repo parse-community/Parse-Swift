@@ -6,10 +6,9 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if !os(Linux)
+#if canImport(Combine)
 import Foundation
 import Combine
-
 
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseUser {

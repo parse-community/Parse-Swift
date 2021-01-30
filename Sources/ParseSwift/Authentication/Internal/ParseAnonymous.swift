@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(Combine)
+import Combine
+#endif
 
 /**
  Provides utility functions for working with Anonymously logged-in users.
@@ -68,6 +71,18 @@ public extension ParseAnonymous {
                                 callbackQueue: callbackQueue,
                                 completion: completion)
     }
+
+    #if canImport(Combine)
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func loginPublisher(authData: [String: String]?,
+                        options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+        AuthenticatedUser.loginPublisher(__type,
+                                         authData: AuthenticationKeys.id.makeDictionary(),
+                                         options: options)
+    }
+
+    #endif
 }
 
 // MARK: Link
@@ -81,6 +96,18 @@ public extension ParseAnonymous {
             completion(.failure(ParseError(code: .unknownError, message: "Not supported")))
         }
     }
+
+    #if canImport(Combine)
+
+    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    func linkPublisher(authData: [String: String]?,
+                       options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+        Future { promise in
+            promise(.failure(ParseError(code: .unknownError, message: "Not supported")))
+        }
+    }
+
+    #endif
 }
 
 // MARK: ParseAnonymous

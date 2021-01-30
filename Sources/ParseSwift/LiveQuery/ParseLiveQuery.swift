@@ -693,7 +693,7 @@ extension ParseLiveQuery {
 // MARK: ParseLiveQuery - Subscribe
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
-    #if !os(Linux)
+    #if canImport(Combine)
     /**
      Registers the query for live updates, using the default subscription handler,
      and the default `ParseLiveQuery` client. Suitable for `ObjectObserved`
