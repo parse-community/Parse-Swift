@@ -25,8 +25,8 @@ public extension ParseInstallation {
     */
     func fetchPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            fetch(options: options,
-                  completion: promise)
+            self.fetch(options: options,
+                       completion: promise)
         }
     }
 
@@ -40,8 +40,8 @@ public extension ParseInstallation {
     */
     func savePublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            save(options: options,
-                 completion: promise)
+            self.save(options: options,
+                      completion: promise)
         }
     }
 
@@ -55,7 +55,7 @@ public extension ParseInstallation {
     */
     func deletePublisher(options: API.Options = []) -> Future<Void, ParseError> {
         Future { promise in
-            delete(options: options, completion: promise)
+            self.delete(options: options, completion: promise)
         }
     }
 }
@@ -73,8 +73,8 @@ public extension Sequence where Element: ParseInstallation {
     */
     func fetchAllPublisher(options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
-            fetchAll(options: options,
-                  completion: promise)
+            self.fetchAll(options: options,
+                          completion: promise)
         }
     }
 
@@ -87,8 +87,8 @@ public extension Sequence where Element: ParseInstallation {
     */
     func saveAllPublisher(options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
-            saveAll(options: options,
-                  completion: promise)
+            self.saveAll(options: options,
+                         completion: promise)
         }
     }
 
@@ -101,7 +101,7 @@ public extension Sequence where Element: ParseInstallation {
     */
     func deleteAllPublisher(options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
         Future { promise in
-            deleteAll(options: options, completion: promise)
+            self.deleteAll(options: options, completion: promise)
         }
     }
 }

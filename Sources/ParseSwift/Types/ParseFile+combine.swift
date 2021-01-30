@@ -21,8 +21,8 @@ public extension ParseFile {
     */
     func fetchPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            fetch(options: options,
-                  completion: promise)
+            self.fetch(options: options,
+                       completion: promise)
         }
     }
 
@@ -38,9 +38,9 @@ public extension ParseFile {
                         progress: @escaping ((URLSessionDownloadTask,
                                               Int64, Int64, Int64) -> Void)) -> Future<Self, ParseError> {
         Future { promise in
-            fetch(options: options,
-                  progress: progress,
-                  completion: promise)
+            self.fetch(options: options,
+                       progress: progress,
+                       completion: promise)
         }
     }
 
@@ -54,8 +54,8 @@ public extension ParseFile {
     */
     func savePublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            save(options: options,
-                  completion: promise)
+            self.save(options: options,
+                      completion: promise)
         }
     }
 
@@ -72,9 +72,9 @@ public extension ParseFile {
     func savePublisher(options: API.Options = [],
                        progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil) -> Future<Self, ParseError> {
         Future { promise in
-            save(options: options,
-                 progress: progress,
-                 completion: promise)
+            self.save(options: options,
+                      progress: progress,
+                      completion: promise)
         }
     }
 
@@ -86,7 +86,7 @@ public extension ParseFile {
      */
     func deletePublisher(options: API.Options = []) -> Future<Void, ParseError> {
         Future { promise in
-            delete(options: options, completion: promise)
+            self.delete(options: options, completion: promise)
         }
     }
 }

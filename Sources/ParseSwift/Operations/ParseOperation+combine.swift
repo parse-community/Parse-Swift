@@ -23,8 +23,8 @@ public extension ParseOperation {
     */
     func savePublisher(options: API.Options = []) -> Future<T, ParseError> {
         Future { promise in
-            save(options: options,
-                  completion: promise)
+            self.save(options: options,
+                      completion: promise)
         }
     }
 }

@@ -47,8 +47,8 @@ public extension ParseUser {
     */
     func signupPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            signup(options: options,
-                   completion: promise)
+            self.signup(options: options,
+                        completion: promise)
         }
     }
 
@@ -86,7 +86,7 @@ public extension ParseUser {
     */
     func becomePublisher(sessionToken: String, options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            become(sessionToken: sessionToken, options: options, completion: promise)
+            self.become(sessionToken: sessionToken, options: options, completion: promise)
         }
     }
 
@@ -146,8 +146,8 @@ public extension ParseUser {
     */
     func fetchPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            fetch(options: options,
-                  completion: promise)
+            self.fetch(options: options,
+                       completion: promise)
         }
     }
 
@@ -161,8 +161,8 @@ public extension ParseUser {
     */
     func savePublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            save(options: options,
-                  completion: promise)
+            self.save(options: options,
+                      completion: promise)
         }
     }
 
@@ -176,7 +176,7 @@ public extension ParseUser {
     */
     func deletePublisher(options: API.Options = []) -> Future<Void, ParseError> {
         Future { promise in
-            delete(options: options, completion: promise)
+            self.delete(options: options, completion: promise)
         }
     }
 }
@@ -194,8 +194,8 @@ public extension Sequence where Element: ParseUser {
     */
     func fetchAllPublisher(options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
-            fetchAll(options: options,
-                  completion: promise)
+            self.fetchAll(options: options,
+                          completion: promise)
         }
     }
 
@@ -208,8 +208,8 @@ public extension Sequence where Element: ParseUser {
     */
     func saveAllPublisher(options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
-            saveAll(options: options,
-                  completion: promise)
+            self.saveAll(options: options,
+                         completion: promise)
         }
     }
 
@@ -222,7 +222,7 @@ public extension Sequence where Element: ParseUser {
     */
     func deleteAllPublisher(options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
         Future { promise in
-            deleteAll(options: options, completion: promise)
+            self.deleteAll(options: options, completion: promise)
         }
     }
 }

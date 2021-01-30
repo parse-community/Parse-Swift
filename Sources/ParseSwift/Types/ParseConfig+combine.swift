@@ -23,8 +23,8 @@ public extension ParseConfig {
     */
     func fetchPublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            fetch(options: options,
-                  completion: promise)
+            self.fetch(options: options,
+                       completion: promise)
         }
     }
 
@@ -37,8 +37,8 @@ public extension ParseConfig {
     */
     func savePublisher(options: API.Options = []) -> Future<Bool, ParseError> {
         Future { promise in
-            save(options: options,
-                  completion: promise)
+            self.save(options: options,
+                      completion: promise)
         }
     }
 }

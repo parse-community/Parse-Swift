@@ -23,8 +23,8 @@ public extension Query {
     */
     func findPublisher(options: API.Options = []) -> Future<[ResultType], ParseError> {
         Future { promise in
-            find(options: options,
-                  completion: promise)
+            self.find(options: options,
+                      completion: promise)
         }
     }
 
@@ -39,10 +39,10 @@ public extension Query {
                        hint: String? = nil,
                        options: API.Options = []) -> Future<AnyCodable, ParseError> {
         Future { promise in
-            find(explain: explain,
-                 hint: hint,
-                 options: options,
-                 completion: promise)
+            self.find(explain: explain,
+                      hint: hint,
+                      options: options,
+                      completion: promise)
         }
     }
 
@@ -53,8 +53,8 @@ public extension Query {
     */
     func firstPublisher(options: API.Options = []) -> Future<ResultType, ParseError> {
         Future { promise in
-            first(options: options,
-                  completion: promise)
+            self.first(options: options,
+                       completion: promise)
         }
     }
 
@@ -69,10 +69,10 @@ public extension Query {
                         hint: String? = nil,
                         options: API.Options = []) -> Future<AnyCodable, ParseError> {
         Future { promise in
-            first(explain: explain,
-                 hint: hint,
-                 options: options,
-                 completion: promise)
+            self.first(explain: explain,
+                       hint: hint,
+                       options: options,
+                       completion: promise)
         }
     }
 
@@ -83,8 +83,8 @@ public extension Query {
     */
     func countPublisher(options: API.Options = []) -> Future<Int, ParseError> {
         Future { promise in
-            count(options: options,
-                  completion: promise)
+            self.count(options: options,
+                       completion: promise)
         }
     }
 
@@ -99,10 +99,10 @@ public extension Query {
                         hint: String? = nil,
                         options: API.Options = []) -> Future<AnyCodable, ParseError> {
         Future { promise in
-            count(explain: explain,
-                 hint: hint,
-                 options: options,
-                 completion: promise)
+            self.count(explain: explain,
+                       hint: hint,
+                       options: options,
+                       completion: promise)
         }
     }
 
@@ -116,9 +116,9 @@ public extension Query {
     func aggregatePublisher(_ pipeline: AggregateType,
                             options: API.Options = []) -> Future<[ResultType], ParseError> {
         Future { promise in
-            aggregate(pipeline,
-                      options: options,
-                      completion: promise)
+            self.aggregate(pipeline,
+                           options: options,
+                           completion: promise)
         }
     }
 }

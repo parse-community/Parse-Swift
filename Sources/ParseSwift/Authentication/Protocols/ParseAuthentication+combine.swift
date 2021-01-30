@@ -49,10 +49,10 @@ public extension ParseUser {
                                authData: [String: String],
                                options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            login(type,
-                  authData: authData,
-                  options: options,
-                  completion: promise)
+            Self.login(type,
+                       authData: authData,
+                       options: options,
+                       completion: promise)
         }
     }
 
@@ -65,9 +65,9 @@ public extension ParseUser {
     func unlinkPublisher(_ type: String,
                          options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            unlink(type,
-                   options: options,
-                   completion: promise)
+            self.unlink(type,
+                        options: options,
+                        completion: promise)
         }
     }
 
@@ -85,10 +85,10 @@ public extension ParseUser {
                               authData: [String: String],
                               options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            link(type,
-                 authData: authData,
-                 options: options,
-                 completion: promise)
+            Self.link(type,
+                      authData: authData,
+                      options: options,
+                      completion: promise)
         }
     }
 

@@ -24,8 +24,8 @@ public extension ParseCloud {
     */
     func runFunctionPublisher(options: API.Options = []) -> Future<AnyCodable, ParseError> {
         Future { promise in
-            runFunction(options: options,
-                        completion: promise)
+            self.runFunction(options: options,
+                             completion: promise)
         }
     }
 
@@ -39,8 +39,8 @@ public extension ParseCloud {
     */
     func startJobPublisher(options: API.Options = []) -> Future<AnyCodable, ParseError> {
         Future { promise in
-            startJob(options: options,
-                        completion: promise)
+            self.startJob(options: options,
+                          completion: promise)
         }
     }
 }
