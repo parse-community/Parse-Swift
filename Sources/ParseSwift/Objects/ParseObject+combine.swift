@@ -15,7 +15,7 @@ import Combine
 public extension ParseObject {
 
     /**
-     Fetches the `ParseUser` *aynchronously* with the current data from the server and sets an error if one occurs.
+     Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
      Publishes when complete.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -30,7 +30,7 @@ public extension ParseObject {
     }
 
     /**
-     Saves the `ParseUser` *asynchronously* and executes the given callback block.
+     Saves the `ParseObject` *asynchronously* and executes the given callback block.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -45,7 +45,7 @@ public extension ParseObject {
     }
 
     /**
-     Deletes the `ParseUser` *asynchronously* and executes the given callback block.
+     Deletes the `ParseObject` *asynchronously* and executes the given callback block.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
