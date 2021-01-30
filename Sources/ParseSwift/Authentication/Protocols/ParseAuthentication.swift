@@ -327,3 +327,9 @@ public extension ParseUser {
         }
     }
 }
+
+public extension ParseUser {
+
+    // MARK: 3rd Party Authentication - Login Combine
+
+}

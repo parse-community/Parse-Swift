@@ -14,6 +14,7 @@ import Combine
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseInstallation {
 
+    // MARK: Fetchable - Combine
     /**
      Fetches the `ParseInstallation` *aynchronously* with the current data from the server
      and sets an error if one occurs. Publishes when complete.
@@ -29,6 +30,7 @@ public extension ParseInstallation {
         }
     }
 
+    // MARK: Savable - Combine
     /**
      Saves the `ParseInstallation` *asynchronously* and executes the given callback block.
 
@@ -43,6 +45,7 @@ public extension ParseInstallation {
         }
     }
 
+    // MARK: Deletable - Combine
     /**
      Deletes the `ParseInstallation` *asynchronously* and executes the given callback block.
 

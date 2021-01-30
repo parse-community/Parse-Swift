@@ -14,6 +14,8 @@ import Combine
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseConfig {
 
+    // MARK: Fetchable - Combine
+
     /**
      Fetch the Config *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -25,6 +27,8 @@ public extension ParseConfig {
                   completion: promise)
         }
     }
+
+    // MARK: Savable - Combine
 
     /**
      Update the Config *asynchronously*.

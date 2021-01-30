@@ -14,6 +14,8 @@ import Combine
 @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
 
+    // MARK: Queryable - Combine
+
     /**
      Finds objects *asynchronously* and publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
