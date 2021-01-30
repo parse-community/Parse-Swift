@@ -88,7 +88,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         try ParseStorage.shared.deleteAll()
     }
 
-    func testSignin() {
+    func testSignup() {
         let loginResponse = LoginSignupResponse()
         var subscriptions = Set<AnyCancellable>()
         MockURLProtocol.mockRequests { _ in
@@ -134,6 +134,494 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNotNil(userFromKeychain.objectId)
             XCTAssertNotNil(userFromKeychain.sessionToken)
             XCTAssertNil(userFromKeychain.ACL)
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLogin() {
+        let loginResponse = LoginSignupResponse()
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Login user1")
+        let publisher = User.loginPublisher(username: loginUserName, password: loginUserName)
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { signedUp in
+            XCTAssertNotNil(signedUp)
+            XCTAssertNotNil(signedUp.createdAt)
+            XCTAssertNotNil(signedUp.updatedAt)
+            XCTAssertNotNil(signedUp.email)
+            XCTAssertNotNil(signedUp.username)
+            XCTAssertNil(signedUp.password)
+            XCTAssertNotNil(signedUp.objectId)
+            XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNotNil(signedUp.customKey)
+            XCTAssertNil(signedUp.ACL)
+
+            guard let userFromKeychain = BaseParseUser.current else {
+                XCTFail("Couldn't get CurrentUser from Keychain")
+                return
+            }
+
+            XCTAssertNotNil(userFromKeychain.createdAt)
+            XCTAssertNotNil(userFromKeychain.updatedAt)
+            XCTAssertNotNil(userFromKeychain.email)
+            XCTAssertNotNil(userFromKeychain.username)
+            XCTAssertNil(userFromKeychain.password)
+            XCTAssertNotNil(userFromKeychain.objectId)
+            XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.ACL)
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func login() {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            _ = try User.login(username: loginUserName, password: loginPassword)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testBecome() {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.createdAt = User.current?.createdAt
+        serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+        serverResponse.sessionToken = "newValue"
+        serverResponse.username = "stop"
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Become user1")
+        let publisher = user.becomePublisher(sessionToken: serverResponse.sessionToken)
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { signedUp in
+            XCTAssertNotNil(signedUp)
+            XCTAssertNotNil(signedUp.createdAt)
+            XCTAssertNotNil(signedUp.updatedAt)
+            XCTAssertNotNil(signedUp.email)
+            XCTAssertNotNil(signedUp.username)
+            XCTAssertNil(signedUp.password)
+            XCTAssertNotNil(signedUp.objectId)
+            XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNotNil(signedUp.customKey)
+            XCTAssertNil(signedUp.ACL)
+
+            guard let userFromKeychain = BaseParseUser.current else {
+                XCTFail("Couldn't get CurrentUser from Keychain")
+                return
+            }
+
+            XCTAssertNotNil(userFromKeychain.createdAt)
+            XCTAssertNotNil(userFromKeychain.updatedAt)
+            XCTAssertNotNil(userFromKeychain.email)
+            XCTAssertNotNil(userFromKeychain.username)
+            XCTAssertNil(userFromKeychain.password)
+            XCTAssertNotNil(userFromKeychain.objectId)
+            XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.ACL)
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLogout() {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        let serverResponse = NoBody()
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        let publisher = User.logoutPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+            if let userFromKeychain = BaseParseUser.current {
+                XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+            }
+
+            if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
+                = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                XCTFail("\(installationFromMemory) wasn't deleted from memory during logout")
+            }
+
+            #if !os(Linux)
+            if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
+                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                XCTFail("\(installationFromKeychain) wasn't deleted from Keychain during logout")
+            }
+            #endif
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLogoutError() {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        let serverResponse = ParseError(code: .internalServer, message: "Object not found")
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        let publisher = User.logoutPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case .finished = result {
+                    XCTFail("Should have thrown ParseError")
+                }
+
+                if let userFromKeychain = BaseParseUser.current {
+                    XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+                }
+
+                if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
+                    = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                    XCTFail("\(installationFromMemory) wasn't deleted from memory during logout")
+                }
+
+                #if !os(Linux)
+                if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
+                    = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                    XCTFail("\(installationFromKeychain) wasn't deleted from Keychain during logout")
+                }
+                #endif
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown ParseError")
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testPasswordReset() {
+        let serverResponse = NoBody()
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Password user1")
+        let publisher = User.passwordResetPublisher(email: "hello@parse.org")
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testPasswordResetError() {
+        let parseError = ParseError(code: .internalServer, message: "Object not found")
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Password user1")
+        let publisher = User.passwordResetPublisher(email: "hello@parse.org")
+            .sink(receiveCompletion: { result in
+
+                if case .finished = result {
+                    XCTFail("Should have thrown ParseError")
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown ParseError")
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testVerificationEmail() {
+        let serverResponse = NoBody()
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Verification user1")
+        let publisher = User.verificationEmailPublisher(email: "hello@parse.org")
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testVerificationEmailError() {
+        let parseError = ParseError(code: .internalServer, message: "Object not found")
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(parseError)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Verification user1")
+        let publisher = User.verificationEmailPublisher(email: "hello@parse.org")
+            .sink(receiveCompletion: { result in
+
+                if case .finished = result {
+                    XCTFail("Should have thrown ParseError")
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+            XCTFail("Should have thrown ParseError")
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testFetch() {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.createdAt = User.current?.createdAt
+        serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+        serverResponse.sessionToken = "newValue"
+        serverResponse.username = "stop"
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Become user1")
+        let publisher = user.fetchPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { fetched in
+
+            XCTAssertEqual(fetched.objectId, serverResponse.objectId)
+
+            guard let userFromKeychain = BaseParseUser.current else {
+                XCTFail("Couldn't get CurrentUser from Keychain")
+                return
+            }
+
+            XCTAssertEqual(userFromKeychain.objectId, serverResponse.objectId)
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testSave() {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.createdAt = User.current?.createdAt
+        serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+        serverResponse.sessionToken = "newValue"
+        serverResponse.username = "stop"
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Become user1")
+        let publisher = user.savePublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { saved in
+
+            XCTAssertEqual(saved.objectId, serverResponse.objectId)
+
+            guard let userFromKeychain = BaseParseUser.current else {
+                XCTFail("Couldn't get CurrentUser from Keychain")
+                return
+            }
+
+            XCTAssertEqual(userFromKeychain.objectId, serverResponse.objectId)
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testDelete() {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        let serverResponse = NoBody()
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Become user1")
+        let publisher = user.deletePublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+
+            if BaseParseUser.current != nil {
+                XCTFail("Couldn't get CurrentUser from Keychain")
+            }
         })
         publisher.store(in: &subscriptions)
         wait(for: [expectation1], timeout: 20.0)

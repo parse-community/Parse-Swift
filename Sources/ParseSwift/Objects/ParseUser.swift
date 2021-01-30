@@ -348,7 +348,7 @@ extension ParseUser {
         return API.NonParseBodyCommand(method: .POST, path: .logout) { (data) -> ParseError? in
             do {
                 let parseError = try ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
-                throw parseError
+                return parseError
             } catch {
                 return nil
             }

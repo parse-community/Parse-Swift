@@ -39,7 +39,7 @@ public extension ParseInstallation {
     func savePublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
             save(options: options,
-                  completion: promise)
+                 completion: promise)
         }
     }
 

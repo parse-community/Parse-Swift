@@ -1822,7 +1822,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
         serverResponse.sessionToken = "newValue"
         serverResponse.username = "stop"
-        serverResponse.password = "this"
 
         var userOnServer: User!
 
