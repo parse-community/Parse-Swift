@@ -15,8 +15,8 @@ import Combine
 public extension ParseInstallation {
 
     /**
-     Fetches the `ParseInstallation` *aynchronously* with the current data from the server and sets an error if one occurs.
-     Publishes when complete.
+     Fetches the `ParseInstallation` *aynchronously* with the current data from the server
+     and sets an error if one occurs. Publishes when complete.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -34,7 +34,6 @@ public extension ParseInstallation {
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
-     It should have the following argument signature: `(Result<Self, ParseError>)`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     func savePublisher(options: API.Options = []) -> Future<Self, ParseError> {
@@ -49,10 +48,9 @@ public extension ParseInstallation {
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
-     It should have the following argument signature: `(Result<Void, ParseError>)`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
-    func deletePublisher(email: String, options: API.Options = []) -> Future<Void, ParseError> {
+    func deletePublisher(options: API.Options = []) -> Future<Void, ParseError> {
         Future { promise in
             delete(options: options, completion: promise)
         }

@@ -727,8 +727,12 @@ extension ParseObject {
                 callbackQueue.async {
                     switch result {
 
-                    case .success:
-                        completion(.success(()))
+                    case .success(let error):
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(()))
+                        }
                     case .failure(let error):
                         completion(.failure(error))
                     }

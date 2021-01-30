@@ -75,13 +75,13 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                               testing: true)
     }
 
-    override func tearDown() {
+    override func tearDownWithError() throws {
         super.tearDown()
         MockURLProtocol.removeAll()
         #if !os(Linux)
-        try? KeychainStore.shared.deleteAll()
+        try KeychainStore.shared.deleteAll()
         #endif
-        try? ParseStorage.shared.deleteAll()
+        try ParseStorage.shared.deleteAll()
     }
 
     func testFetchCommand() {
@@ -972,20 +972,30 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func logoutAsync(callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        User.logout(callbackQueue: callbackQueue) { error in
+        User.logout(callbackQueue: callbackQueue) { result in
 
-            guard let error = error else {
+            switch result {
+
+            case .success:
                 if let userFromKeychain = BaseParseUser.current {
                     XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
                 }
 
-                if let installationFromKeychain = BaseParseInstallation.current {
+                if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
+                    = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                    XCTFail("\(installationFromMemory) wasn't deleted from memory during logout")
+                }
+
+                #if !os(Linux)
+                if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
+                    = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
                     XCTFail("\(installationFromKeychain) wasn't deleted from Keychain during logout")
                 }
-                expectation1.fulfill()
-                return
+                #endif
+
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
             }
-            XCTFail(error.localizedDescription)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -1067,13 +1077,11 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func passwordResetAsync(callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        User.passwordReset(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+        User.passwordReset(email: "hello@parse.org", callbackQueue: callbackQueue) { result in
 
-            guard let error = error else {
-                expectation1.fulfill()
-                return
+            if case let .failure(error) = result {
+                XCTFail(error.localizedDescription)
             }
-            XCTFail(error.localizedDescription)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 10.0)
@@ -1097,14 +1105,13 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func passwordResetAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        User.passwordReset(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+        User.passwordReset(email: "hello@parse.org", callbackQueue: callbackQueue) { result in
 
-            guard let error = error else {
+            if case let .failure(error) = result {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
                 XCTFail("Should have thrown ParseError")
-                expectation1.fulfill()
-                return
             }
-            XCTAssertEqual(error.code, parseError.code)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 10.0)
@@ -1183,13 +1190,11 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func verificationEmailAsync(callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        User.verificationEmail(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+        User.verificationEmail(email: "hello@parse.org", callbackQueue: callbackQueue) { result in
 
-            guard let error = error else {
-                expectation1.fulfill()
-                return
+            if case let .failure(error) = result {
+                XCTFail(error.localizedDescription)
             }
-            XCTFail(error.localizedDescription)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 10.0)
@@ -1213,14 +1218,13 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func verificationEmailAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        User.verificationEmail(email: "hello@parse.org", callbackQueue: callbackQueue) { error in
+        User.verificationEmail(email: "hello@parse.org", callbackQueue: callbackQueue) { result in
 
-            guard let error = error else {
+            if case let .failure(error) = result {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
                 XCTFail("Should have thrown ParseError")
-                expectation1.fulfill()
-                return
             }
-            XCTAssertEqual(error.code, parseError.code)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 10.0)
@@ -1330,8 +1334,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             }
 
-            user.delete { error in
-                XCTAssertNil(error)
+            user.delete { result in
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
                 expectation1.fulfill()
             }
         }

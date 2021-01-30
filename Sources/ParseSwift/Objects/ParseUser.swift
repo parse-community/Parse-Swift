@@ -298,7 +298,15 @@ extension ParseUser {
     Logs out the currently logged in user in Keychain *synchronously*.
     */
     public static func logout(options: API.Options = []) throws {
-        _ = try logoutCommand().execute(options: options)
+        let error = try? logoutCommand().execute(options: options)
+        //Always let user logout locally, no matter the error.
+        deleteCurrentContainerFromKeychain()
+        BaseParseInstallation.deleteCurrentContainerFromKeychain()
+        BaseConfig.deleteCurrentContainerFromKeychain()
+        //Wait to throw error
+        if let parseError = error {
+            throw parseError
+        }
     }
 
     /**
@@ -315,10 +323,20 @@ extension ParseUser {
                               completion: @escaping (Result<Void, ParseError>) -> Void) {
         logoutCommand().executeAsync(options: options) { result in
             callbackQueue.async {
+
+                //Always let user logout locally, no matter the error.
+                deleteCurrentContainerFromKeychain()
+                BaseParseInstallation.deleteCurrentContainerFromKeychain()
+                BaseConfig.deleteCurrentContainerFromKeychain()
+
                 switch result {
 
-                case .success:
-                    completion(.success(()))
+                case .success(let error):
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
                 case .failure(let error):
                     completion(.failure(error))
                 }
@@ -326,28 +344,14 @@ extension ParseUser {
         }
     }
 
-    internal static func logoutCommand() -> API.NonParseBodyCommand<NoBody, NoBody> {
-        return API.NonParseBodyCommand(method: .POST, path: .logout) { (data) -> NoBody in
-            var parseError: ParseError?
-            var serverResponse = NoBody()
-            //Always let user logout locally, no matter the error.
-            deleteCurrentContainerFromKeychain()
-            BaseParseInstallation.deleteCurrentContainerFromKeychain()
-            BaseConfig.deleteCurrentContainerFromKeychain()
-
+    internal static func logoutCommand() -> API.NonParseBodyCommand<NoBody, ParseError?> {
+        return API.NonParseBodyCommand(method: .POST, path: .logout) { (data) -> ParseError? in
             do {
-                serverResponse = try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+                let parseError = try ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+                throw parseError
             } catch {
-                if let foundError = error as? ParseError {
-                    parseError = foundError
-                } else {
-                    parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                }
+                return nil
             }
-            guard let error = parseError else {
-                return serverResponse
-            }
-            throw error
        }
     }
 }
@@ -382,8 +386,12 @@ extension ParseUser {
             callbackQueue.async {
                 switch result {
 
-                case .success:
-                    completion(.success(()))
+                case .success(let error):
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
                 case .failure(let error):
                     completion(.failure(error))
                 }
@@ -433,8 +441,12 @@ extension ParseUser {
 
                     switch result {
 
-                    case .success:
-                        completion(.success(()))
+                    case .success(let error):
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(()))
+                        }
                     case .failure(let error):
                         completion(.failure(error))
                     }
@@ -835,7 +847,7 @@ extension ParseUser {
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
-     It should have the following argument signature: `Result<Void, ParseError>`.
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(
@@ -847,10 +859,14 @@ extension ParseUser {
             try deleteCommand().executeAsync(options: options) { result in
                 switch result {
 
-                case .success:
+                case .success(let error):
                     callbackQueue.async {
                         try? Self.updateKeychainIfNeeded([self], deleting: true)
-                        completion(.success(()))
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(()))
+                        }
                     }
                 case .failure(let error):
                     callbackQueue.async {

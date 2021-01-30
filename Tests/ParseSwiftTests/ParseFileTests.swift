@@ -1068,13 +1068,11 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
-        parseFile.delete(options: [.useMasterKey]) { error in
+        parseFile.delete(options: [.useMasterKey]) { result in
 
-            guard let error = error else {
-                expectation1.fulfill()
-                return
+            if case let .failure(error) = result {
+                XCTFail(error.localizedDescription)
             }
-            XCTFail(error.localizedDescription)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -1104,12 +1102,10 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
-        parseFile.delete(options: [.removeMimeType]) { error in
+        parseFile.delete(options: [.removeMimeType]) { result in
 
-            guard error != nil else {
+            if case .success = result {
                 XCTFail("Should have thrown error")
-                expectation1.fulfill()
-                return
             }
             expectation1.fulfill()
         }

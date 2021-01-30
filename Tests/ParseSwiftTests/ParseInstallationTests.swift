@@ -690,8 +690,10 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
             }
 
-            installation.delete { error in
-                XCTAssertNil(error)
+            installation.delete { result in
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
                 expectation1.fulfill()
             }
         }

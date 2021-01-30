@@ -179,19 +179,19 @@ extension ParseFile {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
-     It should have the following argument signature: `(ParseError?)`
+     It should have the following argument signature: `(Result<Void, ParseError>)`
      */
     public func delete(options: API.Options,
                        callbackQueue: DispatchQueue = .main,
-                       completion: @escaping (ParseError?) -> Void) {
+                       completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
         options = options.union(self.options)
 
         if !options.contains(.useMasterKey) {
             callbackQueue.async {
-                completion(ParseError(code: .unknownError,
+                completion(.failure(ParseError(code: .unknownError,
                                       // swiftlint:disable:next line_length
-                                      message: "You must specify \"useMasterKey\" in \"options\" in order to delete a file."))
+                                      message: "You must specify \"useMasterKey\" in \"options\" in order to delete a file.")))
             }
             return
         }
@@ -200,9 +200,9 @@ extension ParseFile {
                 switch result {
 
                 case .success:
-                    completion(nil)
+                    completion(.success(()))
                 case .failure(let error):
-                    completion(error)
+                    completion(.failure(error))
                 }
             }
         }
@@ -413,7 +413,7 @@ extension ParseFile {
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - parameter completion: A block that will be called when file saves or fails.
-     It should have the following argument signature: `(Result<Self, ParseError>)`
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     public func save(options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
