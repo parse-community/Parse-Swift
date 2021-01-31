@@ -60,8 +60,7 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
 /**
  A default implementation of the `ParseSubscription` protocol. Suitable for `ObjectObserved`
  as the subscription can be used as a SwiftUI publisher. Meaning it can serve
- indepedently as a ViewModel in MVVM. Also provides a publisher for pull responses of query such as:
- `find`, `first`, `count`, and `aggregate`.
+ indepedently as a ViewModel in MVVM.
  */
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
