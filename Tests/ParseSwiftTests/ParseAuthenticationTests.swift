@@ -61,7 +61,8 @@ class ParseAuthenticationTests: XCTestCase {
         }
 
         @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-        func linkPublisher(authData: [String: String]?, options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+        func linkPublisher(authData: [String: String]?,
+                           options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")
             return Future { promise in
                 promise(.failure(error))

@@ -186,7 +186,7 @@ public extension ParseApple {
                        identityToken: String,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         linkPublisher(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
-                      options: options)
+             options: options)
     }
 
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
@@ -201,8 +201,8 @@ public extension ParseApple {
             }
         }
         return AuthenticatedUser.linkPublisher(Self.__type,
-                               authData: authData,
-                               options: options)
+                                               authData: authData,
+                                               options: options)
     }
 
     #endif

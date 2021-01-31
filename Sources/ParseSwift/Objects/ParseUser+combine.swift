@@ -114,7 +114,8 @@ public extension ParseUser {
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    static func passwordResetPublisher(email: String, options: API.Options = []) -> Future<Void, ParseError> {
+    static func passwordResetPublisher(email: String,
+                                       options: API.Options = []) -> Future<Void, ParseError> {
         Future { promise in
             Self.passwordReset(email: email, options: options, completion: promise)
         }
