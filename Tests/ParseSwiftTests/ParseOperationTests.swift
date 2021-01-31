@@ -103,8 +103,7 @@ class ParseOperationTests: XCTestCase {
 
         var scoreOnServer = score
         scoreOnServer.score = 11
-        scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.updatedAt = Date()
 
         let encoded: Data!
         do {

@@ -247,7 +247,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
@@ -947,24 +947,20 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     func deleteAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Delete object1")
-        score.delete(options: [], callbackQueue: callbackQueue) { error in
+        score.delete(options: [], callbackQueue: callbackQueue) { result in
 
-            guard let error = error else {
-                expectation1.fulfill()
-                return
+            if case let .failure(error) = result {
+                XCTFail(error.localizedDescription)
             }
-            XCTFail(error.localizedDescription)
             expectation1.fulfill()
         }
 
         let expectation2 = XCTestExpectation(description: "Delete object2")
-        score.delete(options: [.useMasterKey], callbackQueue: callbackQueue) { error in
+        score.delete(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
 
-            guard let error = error else {
-                expectation2.fulfill()
-                return
+            if case let .failure(error) = result {
+                XCTFail(error.localizedDescription)
             }
-            XCTFail(error.localizedDescription)
             expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 20.0)
@@ -1027,26 +1023,24 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     func deleteAsyncError(score: GameScore, parseError: ParseError, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Delete object1")
-        score.delete(options: [], callbackQueue: callbackQueue) { error in
+        score.delete(options: [], callbackQueue: callbackQueue) { result in
 
-            guard let error = error else {
+            if case let .failure(error) = result {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
                 XCTFail("Should have thrown ParseError")
-                expectation1.fulfill()
-                return
             }
-            XCTAssertEqual(error.code, parseError.code)
             expectation1.fulfill()
         }
 
         let expectation2 = XCTestExpectation(description: "Delete object2")
-        score.delete(options: [.useMasterKey], callbackQueue: callbackQueue) { error in
+        score.delete(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
 
-            guard let error = error else {
+            if case let .failure(error) = result {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
                 XCTFail("Should have thrown ParseError")
-                expectation2.fulfill()
-                return
             }
-            XCTAssertEqual(error.code, parseError.code)
             expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 20.0)

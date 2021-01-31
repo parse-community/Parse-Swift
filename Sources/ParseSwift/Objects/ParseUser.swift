@@ -235,7 +235,6 @@ extension ParseUser {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
-     - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     public func become(sessionToken: String,
                        options: API.Options = [],
@@ -299,7 +298,15 @@ extension ParseUser {
     Logs out the currently logged in user in Keychain *synchronously*.
     */
     public static func logout(options: API.Options = []) throws {
-        _ = try logoutCommand().execute(options: options)
+        let error = try? logoutCommand().execute(options: options)
+        //Always let user logout locally, no matter the error.
+        deleteCurrentContainerFromKeychain()
+        BaseParseInstallation.deleteCurrentContainerFromKeychain()
+        BaseConfig.deleteCurrentContainerFromKeychain()
+        //Wait to throw error
+        if let parseError = error {
+            throw parseError
+        }
     }
 
     /**
@@ -313,43 +320,38 @@ extension ParseUser {
      - parameter completion: A block that will be called when logging out, completes or fails.
     */
     public static func logout(options: API.Options = [], callbackQueue: DispatchQueue = .main,
-                              completion: @escaping (ParseError?) -> Void) {
-        callbackQueue.async {
-            logoutCommand().executeAsync(options: options) { result in
+                              completion: @escaping (Result<Void, ParseError>) -> Void) {
+        logoutCommand().executeAsync(options: options) { result in
+            callbackQueue.async {
+
+                //Always let user logout locally, no matter the error.
+                deleteCurrentContainerFromKeychain()
+                BaseParseInstallation.deleteCurrentContainerFromKeychain()
+                BaseConfig.deleteCurrentContainerFromKeychain()
 
                 switch result {
 
-                case .success:
-                    completion(nil)
+                case .success(let error):
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
                 case .failure(let error):
-                    completion(error)
+                    completion(.failure(error))
                 }
             }
         }
     }
 
-    internal static func logoutCommand() -> API.NonParseBodyCommand<NoBody, NoBody> {
-        return API.NonParseBodyCommand(method: .POST, path: .logout) { (data) -> NoBody in
-            var parseError: ParseError?
-            var serverResponse = NoBody()
-            //Always let user logout locally, no matter the error.
-            deleteCurrentContainerFromKeychain()
-            BaseParseInstallation.deleteCurrentContainerFromKeychain()
-            BaseConfig.deleteCurrentContainerFromKeychain()
-
+    internal static func logoutCommand() -> API.NonParseBodyCommand<NoBody, ParseError?> {
+        return API.NonParseBodyCommand(method: .POST, path: .logout) { (data) -> ParseError? in
             do {
-                serverResponse = try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+                let parseError = try ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+                return parseError
             } catch {
-                if let foundError = error as? ParseError {
-                    parseError = foundError
-                } else {
-                    parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                }
+                return nil
             }
-            guard let error = parseError else {
-                return serverResponse
-            }
-            throw error
        }
     }
 }
@@ -379,15 +381,19 @@ extension ParseUser {
     */
     public static func passwordReset(email: String, options: API.Options = [],
                                      callbackQueue: DispatchQueue = .main,
-                                     completion: @escaping (ParseError?) -> Void) {
+                                     completion: @escaping (Result<Void, ParseError>) -> Void) {
         passwordResetCommand(email: email).executeAsync(options: options) { result in
             callbackQueue.async {
                 switch result {
 
                 case .success(let error):
-                    completion(error)
+                    if let error = error {
+                        completion(.failure(error))
+                    } else {
+                        completion(.success(()))
+                    }
                 case .failure(let error):
-                    completion(error)
+                    completion(.failure(error))
                 }
             }
         }
@@ -410,9 +416,9 @@ extension ParseUser {
         - parameter email: The email address associated with the user.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
     */
-    public static func verificationEmailRequest(email: String,
-                                                options: API.Options = []) throws {
-        if let error = try verificationEmailRequestCommand(email: email).execute(options: options) {
+    public static func verificationEmail(email: String,
+                                         options: API.Options = []) throws {
+        if let error = try verificationEmailCommand(email: email).execute(options: options) {
             throw error
         }
     }
@@ -425,30 +431,33 @@ extension ParseUser {
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when the verification request completes or fails.
     */
-    public static func verificationEmailRequest(email: String,
-                                                options: API.Options = [],
-                                                callbackQueue: DispatchQueue = .main,
-                                                completion: @escaping (ParseError?) -> Void) {
-        verificationEmailRequestCommand(email: email)
+    public static func verificationEmail(email: String,
+                                         options: API.Options = [],
+                                         callbackQueue: DispatchQueue = .main,
+                                         completion: @escaping (Result<Void, ParseError>) -> Void) {
+        verificationEmailCommand(email: email)
             .executeAsync(options: options) { result in
                 callbackQueue.async {
 
                     switch result {
 
                     case .success(let error):
-                        completion(error)
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(()))
+                        }
                     case .failure(let error):
-                        completion(error)
+                        completion(.failure(error))
                     }
                 }
         }
     }
 
-    // swiftlint:disable:next line_length
-    internal static func verificationEmailRequestCommand(email: String) -> API.NonParseBodyCommand<EmailBody, ParseError?> {
+    internal static func verificationEmailCommand(email: String) -> API.NonParseBodyCommand<EmailBody, ParseError?> {
         let emailBody = EmailBody(email: email)
         return API.NonParseBodyCommand(method: .POST,
-                                       path: .verificationEmailRequest,
+                                       path: .verificationEmail,
                                        body: emailBody) { (data) -> ParseError? in
             try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
         }
@@ -838,50 +847,55 @@ extension ParseUser {
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
-     It should have the following argument signature: `(ParseError?)`.
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (ParseError?) -> Void
+        completion: @escaping (Result<Void, ParseError>) -> Void
     ) {
          do {
             try deleteCommand().executeAsync(options: options) { result in
                 switch result {
 
-                case .success(let error):
+                case .success:
                     callbackQueue.async {
                         try? Self.updateKeychainIfNeeded([self], deleting: true)
-                        completion(error)
+                        completion(.success(()))
                     }
                 case .failure(let error):
                     callbackQueue.async {
-                        completion(error)
+                        completion(.failure(error))
                     }
                 }
             }
          } catch let error as ParseError {
             callbackQueue.async {
-                completion(error)
+                completion(.failure(error))
             }
          } catch {
             callbackQueue.async {
-                completion(ParseError(code: .unknownError, message: error.localizedDescription))
+                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
             }
          }
     }
 
-    func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, ParseError?> {
+    func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, NoBody> {
         guard isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
         }
 
-        return API.NonParseBodyCommand<NoBody, ParseError?>(
+        return API.NonParseBodyCommand<NoBody, NoBody>(
             method: .DELETE,
             path: endpoint
-        ) { (data) -> ParseError? in
-            try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+        ) { (data) -> NoBody in
+            let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+            if let error = error {
+                throw error
+            } else {
+                return NoBody()
+            }
         }
     }
 }
@@ -1170,9 +1184,9 @@ public extension Sequence where Element: ParseUser {
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   options: API.Options = []) throws -> [ParseError?] {
+                   options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-        var returnBatch = [ParseError?]()
+        var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
@@ -1208,11 +1222,11 @@ public extension Sequence where Element: ParseUser {
         batchLimit limit: Int? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (Result<[ParseError?], ParseError>) -> Void
+        completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
     ) {
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         do {
-            var returnBatch = [ParseError?]()
+            var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0

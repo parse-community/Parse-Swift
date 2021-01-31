@@ -75,11 +75,77 @@
 		70110D592506CE890091CC1D /* BaseParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D562506CE890091CC1D /* BaseParseInstallation.swift */; };
 		70110D5A2506CE890091CC1D /* BaseParseInstallation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D562506CE890091CC1D /* BaseParseInstallation.swift */; };
 		70110D5C2506ED0E0091CC1D /* ParseInstallationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */; };
+		7016ED3225C3BA2000038648 /* ParseUser+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3125C3BA2000038648 /* ParseUser+combine.swift */; };
+		7016ED3325C3BA2000038648 /* ParseUser+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3125C3BA2000038648 /* ParseUser+combine.swift */; };
+		7016ED3425C3BA2000038648 /* ParseUser+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3125C3BA2000038648 /* ParseUser+combine.swift */; };
+		7016ED3525C3BA2000038648 /* ParseUser+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3125C3BA2000038648 /* ParseUser+combine.swift */; };
+		7016ED4025C4A25A00038648 /* ParseUserCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3F25C4A25A00038648 /* ParseUserCombineTests.swift */; };
+		7016ED4125C4A25A00038648 /* ParseUserCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3F25C4A25A00038648 /* ParseUserCombineTests.swift */; };
+		7016ED4225C4A25A00038648 /* ParseUserCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED3F25C4A25A00038648 /* ParseUserCombineTests.swift */; };
+		7016ED5625C4C32B00038648 /* ParseInstallation+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED5525C4C32B00038648 /* ParseInstallation+combine.swift */; };
+		7016ED5725C4C32B00038648 /* ParseInstallation+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED5525C4C32B00038648 /* ParseInstallation+combine.swift */; };
+		7016ED5825C4C32B00038648 /* ParseInstallation+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED5525C4C32B00038648 /* ParseInstallation+combine.swift */; };
+		7016ED5925C4C32B00038648 /* ParseInstallation+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED5525C4C32B00038648 /* ParseInstallation+combine.swift */; };
+		7016ED6425C4C46B00038648 /* ParseObject+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED6325C4C46B00038648 /* ParseObject+combine.swift */; };
+		7016ED6525C4C46B00038648 /* ParseObject+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED6325C4C46B00038648 /* ParseObject+combine.swift */; };
+		7016ED6625C4C46B00038648 /* ParseObject+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED6325C4C46B00038648 /* ParseObject+combine.swift */; };
+		7016ED6725C4C46B00038648 /* ParseObject+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7016ED6325C4C46B00038648 /* ParseObject+combine.swift */; };
 		7033ECB325584A83009770F3 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7033ECB225584A83009770F3 /* AppDelegate.swift */; };
 		7033ECB525584A83009770F3 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7033ECB425584A83009770F3 /* ViewController.swift */; };
 		7033ECB825584A83009770F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECB625584A83009770F3 /* Main.storyboard */; };
 		7033ECBA25584A85009770F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECB925584A85009770F3 /* Assets.xcassets */; };
 		7033ECBD25584A85009770F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECBB25584A85009770F3 /* LaunchScreen.storyboard */; };
+		7044C17525C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */; };
+		7044C17625C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */; };
+		7044C17725C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */; };
+		7044C17825C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */; };
+		7044C18325C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C18225C4EFC10011F6E7 /* ParseConfig+combine.swift */; };
+		7044C18425C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C18225C4EFC10011F6E7 /* ParseConfig+combine.swift */; };
+		7044C18525C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C18225C4EFC10011F6E7 /* ParseConfig+combine.swift */; };
+		7044C18625C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C18225C4EFC10011F6E7 /* ParseConfig+combine.swift */; };
+		7044C19125C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C19025C4F5B60011F6E7 /* ParseFile+combine.swift */; };
+		7044C19225C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C19025C4F5B60011F6E7 /* ParseFile+combine.swift */; };
+		7044C19325C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C19025C4F5B60011F6E7 /* ParseFile+combine.swift */; };
+		7044C19425C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C19025C4F5B60011F6E7 /* ParseFile+combine.swift */; };
+		7044C19F25C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C19E25C4FA870011F6E7 /* ParseOperation+combine.swift */; };
+		7044C1A025C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C19E25C4FA870011F6E7 /* ParseOperation+combine.swift */; };
+		7044C1A125C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C19E25C4FA870011F6E7 /* ParseOperation+combine.swift */; };
+		7044C1A225C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C19E25C4FA870011F6E7 /* ParseOperation+combine.swift */; };
+		7044C1AD25C4FC080011F6E7 /* Query+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1AC25C4FC080011F6E7 /* Query+combine.swift */; };
+		7044C1AE25C4FC080011F6E7 /* Query+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1AC25C4FC080011F6E7 /* Query+combine.swift */; };
+		7044C1AF25C4FC080011F6E7 /* Query+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1AC25C4FC080011F6E7 /* Query+combine.swift */; };
+		7044C1B025C4FC080011F6E7 /* Query+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1AC25C4FC080011F6E7 /* Query+combine.swift */; };
+		7044C1BB25C52E410011F6E7 /* ParseInstallationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1BA25C52E410011F6E7 /* ParseInstallationCombineTests.swift */; };
+		7044C1BC25C52E410011F6E7 /* ParseInstallationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1BA25C52E410011F6E7 /* ParseInstallationCombineTests.swift */; };
+		7044C1BD25C52E410011F6E7 /* ParseInstallationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1BA25C52E410011F6E7 /* ParseInstallationCombineTests.swift */; };
+		7044C1C825C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1C725C5B2B10011F6E7 /* ParseAuthentication+combine.swift */; };
+		7044C1C925C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1C725C5B2B10011F6E7 /* ParseAuthentication+combine.swift */; };
+		7044C1CA25C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1C725C5B2B10011F6E7 /* ParseAuthentication+combine.swift */; };
+		7044C1CB25C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1C725C5B2B10011F6E7 /* ParseAuthentication+combine.swift */; };
+		7044C1DF25C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1DE25C5C70D0011F6E7 /* ParseObjectCombine.swift */; };
+		7044C1E025C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1DE25C5C70D0011F6E7 /* ParseObjectCombine.swift */; };
+		7044C1E125C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1DE25C5C70D0011F6E7 /* ParseObjectCombine.swift */; };
+		7044C1EC25C5CC930011F6E7 /* ParseOperationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1EB25C5CC930011F6E7 /* ParseOperationCombineTests.swift */; };
+		7044C1ED25C5CC930011F6E7 /* ParseOperationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1EB25C5CC930011F6E7 /* ParseOperationCombineTests.swift */; };
+		7044C1EE25C5CC930011F6E7 /* ParseOperationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1EB25C5CC930011F6E7 /* ParseOperationCombineTests.swift */; };
+		7044C1F925C5CFAB0011F6E7 /* ParseFileCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1F825C5CFAB0011F6E7 /* ParseFileCombineTests.swift */; };
+		7044C1FA25C5CFAB0011F6E7 /* ParseFileCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1F825C5CFAB0011F6E7 /* ParseFileCombineTests.swift */; };
+		7044C1FB25C5CFAB0011F6E7 /* ParseFileCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C1F825C5CFAB0011F6E7 /* ParseFileCombineTests.swift */; };
+		7044C20625C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C20525C5D6780011F6E7 /* ParseQueryCombineTests.swift */; };
+		7044C20725C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C20525C5D6780011F6E7 /* ParseQueryCombineTests.swift */; };
+		7044C20825C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C20525C5D6780011F6E7 /* ParseQueryCombineTests.swift */; };
+		7044C21325C5DE490011F6E7 /* ParseCloudCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C21225C5DE490011F6E7 /* ParseCloudCombineTests.swift */; };
+		7044C21425C5DE490011F6E7 /* ParseCloudCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C21225C5DE490011F6E7 /* ParseCloudCombineTests.swift */; };
+		7044C21525C5DE490011F6E7 /* ParseCloudCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C21225C5DE490011F6E7 /* ParseCloudCombineTests.swift */; };
+		7044C22025C5E0160011F6E7 /* ParseConfigCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C21F25C5E0160011F6E7 /* ParseConfigCombineTests.swift */; };
+		7044C22125C5E0160011F6E7 /* ParseConfigCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C21F25C5E0160011F6E7 /* ParseConfigCombineTests.swift */; };
+		7044C22225C5E0160011F6E7 /* ParseConfigCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C21F25C5E0160011F6E7 /* ParseConfigCombineTests.swift */; };
+		7044C22D25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C22C25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift */; };
+		7044C22E25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C22C25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift */; };
+		7044C22F25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C22C25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift */; };
+		7044C24325C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C24225C5EA360011F6E7 /* ParseAppleCombineTests.swift */; };
+		7044C24425C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C24225C5EA360011F6E7 /* ParseAppleCombineTests.swift */; };
+		7044C24525C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C24225C5EA360011F6E7 /* ParseAppleCombineTests.swift */; };
 		70510AAC259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510AAB259EE25E00FEA700 /* LiveQuerySocket.swift */; };
 		70510AAD259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510AAB259EE25E00FEA700 /* LiveQuerySocket.swift */; };
 		70510AAE259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70510AAB259EE25E00FEA700 /* LiveQuerySocket.swift */; };
@@ -459,6 +525,10 @@
 		70110D51250680140091CC1D /* ParseConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConstants.swift; sourceTree = "<group>"; };
 		70110D562506CE890091CC1D /* BaseParseInstallation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseParseInstallation.swift; sourceTree = "<group>"; };
 		70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallationTests.swift; sourceTree = "<group>"; };
+		7016ED3125C3BA2000038648 /* ParseUser+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseUser+combine.swift"; sourceTree = "<group>"; };
+		7016ED3F25C4A25A00038648 /* ParseUserCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseUserCombineTests.swift; sourceTree = "<group>"; };
+		7016ED5525C4C32B00038648 /* ParseInstallation+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseInstallation+combine.swift"; sourceTree = "<group>"; };
+		7016ED6325C4C46B00038648 /* ParseObject+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseObject+combine.swift"; sourceTree = "<group>"; };
 		7033ECB025584A83009770F3 /* TestHostTV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestHostTV.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7033ECB225584A83009770F3 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7033ECB425584A83009770F3 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -466,6 +536,21 @@
 		7033ECB925584A85009770F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7033ECBC25584A85009770F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7033ECBE25584A85009770F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseCloud+combine.swift"; sourceTree = "<group>"; };
+		7044C18225C4EFC10011F6E7 /* ParseConfig+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseConfig+combine.swift"; sourceTree = "<group>"; };
+		7044C19025C4F5B60011F6E7 /* ParseFile+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseFile+combine.swift"; sourceTree = "<group>"; };
+		7044C19E25C4FA870011F6E7 /* ParseOperation+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseOperation+combine.swift"; sourceTree = "<group>"; };
+		7044C1AC25C4FC080011F6E7 /* Query+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Query+combine.swift"; sourceTree = "<group>"; };
+		7044C1BA25C52E410011F6E7 /* ParseInstallationCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallationCombineTests.swift; sourceTree = "<group>"; };
+		7044C1C725C5B2B10011F6E7 /* ParseAuthentication+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseAuthentication+combine.swift"; sourceTree = "<group>"; };
+		7044C1DE25C5C70D0011F6E7 /* ParseObjectCombine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObjectCombine.swift; sourceTree = "<group>"; };
+		7044C1EB25C5CC930011F6E7 /* ParseOperationCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseOperationCombineTests.swift; sourceTree = "<group>"; };
+		7044C1F825C5CFAB0011F6E7 /* ParseFileCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFileCombineTests.swift; sourceTree = "<group>"; };
+		7044C20525C5D6780011F6E7 /* ParseQueryCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseQueryCombineTests.swift; sourceTree = "<group>"; };
+		7044C21225C5DE490011F6E7 /* ParseCloudCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCloudCombineTests.swift; sourceTree = "<group>"; };
+		7044C21F25C5E0160011F6E7 /* ParseConfigCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConfigCombineTests.swift; sourceTree = "<group>"; };
+		7044C22C25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAnonymousCombineTests.swift; sourceTree = "<group>"; };
+		7044C24225C5EA360011F6E7 /* ParseAppleCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAppleCombineTests.swift; sourceTree = "<group>"; };
 		70510AAB259EE25E00FEA700 /* LiveQuerySocket.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveQuerySocket.swift; sourceTree = "<group>"; };
 		70572670259033A700F0ADD5 /* ParseFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFileManager.swift; sourceTree = "<group>"; };
 		705726DF2592C2A800F0ADD5 /* ParseHash.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHash.swift; sourceTree = "<group>"; };
@@ -678,25 +763,35 @@
 				705726ED2592C91C00F0ADD5 /* HashTests.swift */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
 				9194657724F16E330070296B /* ParseACLTests.swift */,
+				7044C22C25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift */,
 				70A2D86A25B3ADB6001BEB7D /* ParseAnonymousTests.swift */,
+				7044C24225C5EA360011F6E7 /* ParseAppleCombineTests.swift */,
 				70C5502125B3D8F700B5DBC2 /* ParseAppleTests.swift */,
 				70A2D81E25B36A7D001BEB7D /* ParseAuthenticationTests.swift */,
+				7044C21225C5DE490011F6E7 /* ParseCloudCombineTests.swift */,
 				916786EF259BC59600BB5B4E /* ParseCloudTests.swift */,
+				7044C21F25C5E0160011F6E7 /* ParseConfigCombineTests.swift */,
 				70D1BE0625BB2BF400A42E7C /* ParseConfigTests.swift */,
 				F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */,
+				7044C1F825C5CFAB0011F6E7 /* ParseFileCombineTests.swift */,
 				705A99F8259807F900B3547F /* ParseFileManagerTests.swift */,
 				705727882593FF8000F0ADD5 /* ParseFileTests.swift */,
 				70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */,
+				7044C1BA25C52E410011F6E7 /* ParseInstallationCombineTests.swift */,
 				70110D5B2506ED0E0091CC1D /* ParseInstallationTests.swift */,
 				7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */,
 				70C7DC2024D20F190050419B /* ParseObjectBatchTests.swift */,
+				7044C1DE25C5C70D0011F6E7 /* ParseObjectCombine.swift */,
 				911DB13524C4FC100027F3C7 /* ParseObjectTests.swift */,
+				7044C1EB25C5CC930011F6E7 /* ParseOperationCombineTests.swift */,
 				70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */,
 				70CE1D882545BF730018D572 /* ParsePointerTests.swift */,
+				7044C20525C5D6780011F6E7 /* ParseQueryCombineTests.swift */,
 				70C7DC1F24D20F180050419B /* ParseQueryTests.swift */,
 				70D1BD8625B8C37200A42E7C /* ParseRelationTests.swift */,
 				7004C22D25B69077005E0AD9 /* ParseRoleTests.swift */,
 				70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */,
+				7016ED3F25C4A25A00038648 /* ParseUserCombineTests.swift */,
 				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
 				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
@@ -850,6 +945,7 @@
 			isa = PBXGroup;
 			children = (
 				707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */,
+				7044C1C725C5B2B10011F6E7 /* ParseAuthentication+combine.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -949,13 +1045,17 @@
 			children = (
 				F97B45C024D9C6F200F4A88B /* ParseACL.swift */,
 				916786E1259B7DDA00BB5B4E /* ParseCloud.swift */,
+				7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */,
 				70D1BDB925BB17A600A42E7C /* ParseConfig.swift */,
+				7044C18225C4EFC10011F6E7 /* ParseConfig+combine.swift */,
 				F97B45BF24D9C6F200F4A88B /* ParseError.swift */,
 				F97B45C124D9C6F200F4A88B /* ParseFile.swift */,
+				7044C19025C4F5B60011F6E7 /* ParseFile+combine.swift */,
 				F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */,
 				7004C21F25B63C7A005E0AD9 /* ParseRelation.swift */,
 				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
 				F97B45BB24D9C6F200F4A88B /* Query.swift */,
+				7044C1AC25C4FC080011F6E7 /* Query+combine.swift */,
 			);
 			path = Types;
 			sourceTree = "<group>";
@@ -964,10 +1064,13 @@
 			isa = PBXGroup;
 			children = (
 				70BDA2B2250536FF00FC2237 /* ParseInstallation.swift */,
+				7016ED5525C4C32B00038648 /* ParseInstallation+combine.swift */,
 				F97B45C624D9C6F200F4A88B /* ParseObject.swift */,
+				7016ED6325C4C46B00038648 /* ParseObject+combine.swift */,
 				70C5507625B49D3A00B5DBC2 /* ParseRole.swift */,
 				70C5503725B406B800B5DBC2 /* ParseSession.swift */,
 				F97B45C424D9C6F200F4A88B /* ParseUser.swift */,
+				7016ED3125C3BA2000038648 /* ParseUser+combine.swift */,
 			);
 			path = Objects;
 			sourceTree = "<group>";
@@ -1006,6 +1109,7 @@
 				F97B464124D9C78B00F4A88B /* Delete.swift */,
 				F97B464524D9C78B00F4A88B /* Increment.swift */,
 				F97B464024D9C78B00F4A88B /* ParseOperation.swift */,
+				7044C19E25C4FA870011F6E7 /* ParseOperation+combine.swift */,
 				F97B464424D9C78B00F4A88B /* Remove.swift */,
 				70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */,
 			);
@@ -1413,6 +1517,7 @@
 				F97B461624D9C6F200F4A88B /* Queryable.swift in Sources */,
 				F97B45DA24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				70C5503825B406B800B5DBC2 /* ParseSession.swift in Sources */,
+				7044C1C825C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */,
 				707A3BF125B0A4F0000D215C /* ParseAuthentication.swift in Sources */,
 				70D1BE7325BB43EB00A42E7C /* BaseConfig.swift in Sources */,
 				F97B465F24D9C7B500F4A88B /* KeychainStore.swift in Sources */,
@@ -1425,7 +1530,10 @@
 				700395F225A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45F224D9C6F200F4A88B /* Pointer.swift in Sources */,
 				70510AAC259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
+				7044C19125C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
+				7044C19F25C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */,
 				F97B461E24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
+				7044C1AD25C4FC080011F6E7 /* Query+combine.swift in Sources */,
 				F97B45D224D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
 				70C550A025B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
 				F97B463B24D9C74400F4A88B /* API+Commands.swift in Sources */,
@@ -1437,6 +1545,7 @@
 				700396F825A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */,
 				F97B465A24D9C78C00F4A88B /* Increment.swift in Sources */,
 				7003960925A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
+				7044C17525C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */,
 				F97B45E224D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				700396EA25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
 				70572671259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
@@ -1455,6 +1564,7 @@
 				F97B45EA24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B460224D9C6F200F4A88B /* NoBody.swift in Sources */,
 				700395BA25A1470F0052CB31 /* Subscription.swift in Sources */,
+				7016ED5625C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
 				7003972A25A3B0140052CB31 /* ParseURLSessionDelegate.swift in Sources */,
 				700395D125A147BE0052CB31 /* ParseSubscription.swift in Sources */,
 				F97B45F624D9C6F200F4A88B /* ParseError.swift in Sources */,
@@ -1469,6 +1579,7 @@
 				F97B45CE24D9C6F200F4A88B /* ParseCoding.swift in Sources */,
 				F97B465624D9C78C00F4A88B /* Remove.swift in Sources */,
 				F97B45FA24D9C6F200F4A88B /* ParseACL.swift in Sources */,
+				7016ED6425C4C46B00038648 /* ParseObject+combine.swift in Sources */,
 				70BDA2B3250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B462724D9C72700F4A88B /* API.swift in Sources */,
 				70647E9C259E3A9A004C1004 /* ParseType.swift in Sources */,
@@ -1476,6 +1587,8 @@
 				70110D572506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45DE24D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				70C5507725B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				7044C18325C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
+				7016ED3225C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1487,27 +1600,37 @@
 				70CE1D892545BF730018D572 /* ParsePointerTests.swift in Sources */,
 				911DB12E24C4837E0027F3C7 /* APICommandTests.swift in Sources */,
 				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
+				7044C24325C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
+				7044C1DF25C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */,
 				70C5504625B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				70110D5C2506ED0E0091CC1D /* ParseInstallationTests.swift in Sources */,
+				7016ED4025C4A25A00038648 /* ParseUserCombineTests.swift in Sources */,
 				705727B12593FF8800F0ADD5 /* ParseFileTests.swift in Sources */,
 				70BC0B33251903D1001556DB /* ParseGeoPointTests.swift in Sources */,
 				7003957625A0EE770052CB31 /* BatchUtilsTests.swift in Sources */,
 				705A99F9259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
+				7044C20625C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */,
 				70C5508525B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
 				7004C24D25B69207005E0AD9 /* ParseRoleTests.swift in Sources */,
 				91678706259BC5D400BB5B4E /* ParseCloudTests.swift in Sources */,
 				70D1BD8725B8C37200A42E7C /* ParseRelationTests.swift in Sources */,
 				7003963B25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */,
 				7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */,
+				7044C22025C5E0160011F6E7 /* ParseConfigCombineTests.swift in Sources */,
 				7FFF55302217E72A007C3B4E /* AnyDecodableTests.swift in Sources */,
 				70C7DC2224D20F190050419B /* ParseObjectBatchTests.swift in Sources */,
+				7044C1BB25C52E410011F6E7 /* ParseInstallationCombineTests.swift in Sources */,
 				7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */,
 				4AA807701F794C31008CD551 /* KeychainStoreTests.swift in Sources */,
+				7044C1F925C5CFAB0011F6E7 /* ParseFileCombineTests.swift in Sources */,
 				70C5502225B3D8F700B5DBC2 /* ParseAppleTests.swift in Sources */,
 				F971F4F624DE381A006CB79B /* ParseEncoderTests.swift in Sources */,
 				70C7DC2124D20F190050419B /* ParseQueryTests.swift in Sources */,
+				7044C22D25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift in Sources */,
 				9194657824F16E330070296B /* ParseACLTests.swift in Sources */,
+				7044C21325C5DE490011F6E7 /* ParseCloudCombineTests.swift in Sources */,
 				70A2D86B25B3ADB6001BEB7D /* ParseAnonymousTests.swift in Sources */,
+				7044C1EC25C5CC930011F6E7 /* ParseOperationCombineTests.swift in Sources */,
 				70C7DC1E24D20E530050419B /* ParseUserTests.swift in Sources */,
 				70A2D81F25B36A7D001BEB7D /* ParseAuthenticationTests.swift in Sources */,
 				70D1BE4B25BB312700A42E7C /* ParseConfigTests.swift in Sources */,
@@ -1525,6 +1648,7 @@
 				F97B461724D9C6F200F4A88B /* Queryable.swift in Sources */,
 				F97B45DB24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				70C5503925B406B800B5DBC2 /* ParseSession.swift in Sources */,
+				7044C1C925C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */,
 				707A3BF225B0A4F0000D215C /* ParseAuthentication.swift in Sources */,
 				70D1BE7425BB43EB00A42E7C /* BaseConfig.swift in Sources */,
 				F97B466024D9C7B500F4A88B /* KeychainStore.swift in Sources */,
@@ -1537,7 +1661,10 @@
 				700395F325A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45F324D9C6F200F4A88B /* Pointer.swift in Sources */,
 				70510AAD259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
+				7044C19225C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
+				7044C1A025C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */,
 				F97B461F24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
+				7044C1AE25C4FC080011F6E7 /* Query+combine.swift in Sources */,
 				F97B45D324D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
 				70C550A125B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
 				F97B463C24D9C74400F4A88B /* API+Commands.swift in Sources */,
@@ -1549,6 +1676,7 @@
 				700396F925A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */,
 				F97B465B24D9C78C00F4A88B /* Increment.swift in Sources */,
 				7003960A25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
+				7044C17625C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */,
 				F97B45E324D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				700396EB25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
 				70572672259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
@@ -1567,6 +1695,7 @@
 				F97B45EB24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B460324D9C6F200F4A88B /* NoBody.swift in Sources */,
 				700395BB25A1470F0052CB31 /* Subscription.swift in Sources */,
+				7016ED5725C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
 				7003972B25A3B0140052CB31 /* ParseURLSessionDelegate.swift in Sources */,
 				700395D225A147BE0052CB31 /* ParseSubscription.swift in Sources */,
 				F97B45F724D9C6F200F4A88B /* ParseError.swift in Sources */,
@@ -1581,6 +1710,7 @@
 				F97B45CF24D9C6F200F4A88B /* ParseCoding.swift in Sources */,
 				F97B465724D9C78C00F4A88B /* Remove.swift in Sources */,
 				F97B45FB24D9C6F200F4A88B /* ParseACL.swift in Sources */,
+				7016ED6525C4C46B00038648 /* ParseObject+combine.swift in Sources */,
 				70BDA2B4250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B462824D9C72700F4A88B /* API.swift in Sources */,
 				70647E9D259E3A9A004C1004 /* ParseType.swift in Sources */,
@@ -1588,6 +1718,8 @@
 				70110D582506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45DF24D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				70C5507825B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				7044C18425C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
+				7016ED3325C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1608,27 +1740,37 @@
 				709B98532556ECAA00507778 /* ParsePointerTests.swift in Sources */,
 				709B984C2556ECAA00507778 /* APICommandTests.swift in Sources */,
 				709B984D2556ECAA00507778 /* AnyDecodableTests.swift in Sources */,
+				7044C24525C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
+				7044C1E125C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */,
 				70C5504825B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				709B98572556ECAA00507778 /* ParseACLTests.swift in Sources */,
+				7016ED4225C4A25A00038648 /* ParseUserCombineTests.swift in Sources */,
 				705727BC2593FF8C00F0ADD5 /* ParseFileTests.swift in Sources */,
 				709B984F2556ECAA00507778 /* AnyCodableTests.swift in Sources */,
 				7003957825A0EE770052CB31 /* BatchUtilsTests.swift in Sources */,
 				705A99FB259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
+				7044C20825C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */,
 				70C5508725B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
 				7004C26125B6920B005E0AD9 /* ParseRoleTests.swift in Sources */,
 				9167871A259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */,
 				70D1BD8925B8C37200A42E7C /* ParseRelationTests.swift in Sources */,
 				7003963D25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */,
 				709B98592556ECAA00507778 /* MockURLResponse.swift in Sources */,
+				7044C22225C5E0160011F6E7 /* ParseConfigCombineTests.swift in Sources */,
 				709B98522556ECAA00507778 /* ParseUserTests.swift in Sources */,
 				709B984E2556ECAA00507778 /* ParseGeoPointTests.swift in Sources */,
+				7044C1BD25C52E410011F6E7 /* ParseInstallationCombineTests.swift in Sources */,
 				709B984B2556ECAA00507778 /* MockURLProtocol.swift in Sources */,
 				709B98552556ECAA00507778 /* ParseQueryTests.swift in Sources */,
+				7044C1FB25C5CFAB0011F6E7 /* ParseFileCombineTests.swift in Sources */,
 				70C5502425B3D8F700B5DBC2 /* ParseAppleTests.swift in Sources */,
 				709B98502556ECAA00507778 /* KeychainStoreTests.swift in Sources */,
 				709B98562556ECAA00507778 /* ParseObjectTests.swift in Sources */,
+				7044C22F25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift in Sources */,
 				709B985A2556ECAA00507778 /* ParseObjectBatchTests.swift in Sources */,
+				7044C21525C5DE490011F6E7 /* ParseCloudCombineTests.swift in Sources */,
 				70A2D86D25B3ADB6001BEB7D /* ParseAnonymousTests.swift in Sources */,
+				7044C1EE25C5CC930011F6E7 /* ParseOperationCombineTests.swift in Sources */,
 				709B98582556ECAA00507778 /* AnyEncodableTests.swift in Sources */,
 				70A2D82125B36A7D001BEB7D /* ParseAuthenticationTests.swift in Sources */,
 				70D1BE5F25BB312A00A42E7C /* ParseConfigTests.swift in Sources */,
@@ -1645,27 +1787,37 @@
 				70F2E2B7254F283000B2EA5C /* ParsePointerTests.swift in Sources */,
 				70F2E2B5254F283000B2EA5C /* ParseEncoderTests.swift in Sources */,
 				70F2E2C2254F283000B2EA5C /* APICommandTests.swift in Sources */,
+				7044C24425C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
+				7044C1E025C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */,
 				70C5504725B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				70F2E2BC254F283000B2EA5C /* ParseObjectTests.swift in Sources */,
+				7016ED4125C4A25A00038648 /* ParseUserCombineTests.swift in Sources */,
 				705727BB2593FF8B00F0ADD5 /* ParseFileTests.swift in Sources */,
 				70F2E2BD254F283000B2EA5C /* AnyDecodableTests.swift in Sources */,
 				7003957725A0EE770052CB31 /* BatchUtilsTests.swift in Sources */,
 				705A99FA259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
+				7044C20725C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */,
 				70C5508625B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
 				7004C25725B6920A005E0AD9 /* ParseRoleTests.swift in Sources */,
 				91678710259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */,
 				70D1BD8825B8C37200A42E7C /* ParseRelationTests.swift in Sources */,
 				7003963C25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */,
 				70F2E2C1254F283000B2EA5C /* AnyCodableTests.swift in Sources */,
+				7044C22125C5E0160011F6E7 /* ParseConfigCombineTests.swift in Sources */,
 				70F2E2B3254F283000B2EA5C /* ParseUserTests.swift in Sources */,
 				70F2E2C0254F283000B2EA5C /* MockURLResponse.swift in Sources */,
+				7044C1BC25C52E410011F6E7 /* ParseInstallationCombineTests.swift in Sources */,
 				70F2E2BE254F283000B2EA5C /* ParseObjectBatchTests.swift in Sources */,
 				70F2E2BF254F283000B2EA5C /* MockURLProtocol.swift in Sources */,
+				7044C1FA25C5CFAB0011F6E7 /* ParseFileCombineTests.swift in Sources */,
 				70C5502325B3D8F700B5DBC2 /* ParseAppleTests.swift in Sources */,
 				70F2E2BB254F283000B2EA5C /* ParseGeoPointTests.swift in Sources */,
 				70F2E2B8254F283000B2EA5C /* AnyEncodableTests.swift in Sources */,
+				7044C22E25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift in Sources */,
 				70F2E2B4254F283000B2EA5C /* ParseQueryTests.swift in Sources */,
+				7044C21425C5DE490011F6E7 /* ParseCloudCombineTests.swift in Sources */,
 				70A2D86C25B3ADB6001BEB7D /* ParseAnonymousTests.swift in Sources */,
+				7044C1ED25C5CC930011F6E7 /* ParseOperationCombineTests.swift in Sources */,
 				70F2E2BA254F283000B2EA5C /* ParseInstallationTests.swift in Sources */,
 				70A2D82025B36A7D001BEB7D /* ParseAuthenticationTests.swift in Sources */,
 				70D1BE5525BB312900A42E7C /* ParseConfigTests.swift in Sources */,
@@ -1683,6 +1835,7 @@
 				F97B45E924D9C6F200F4A88B /* Query.swift in Sources */,
 				F97B463624D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
 				70C5503B25B406B800B5DBC2 /* ParseSession.swift in Sources */,
+				7044C1CB25C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */,
 				707A3BF425B0A4F0000D215C /* ParseAuthentication.swift in Sources */,
 				70D1BE7625BB43EB00A42E7C /* BaseConfig.swift in Sources */,
 				F97B460524D9C6F200F4A88B /* NoBody.swift in Sources */,
@@ -1695,7 +1848,10 @@
 				700395F525A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FD24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70510AAF259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
+				7044C19425C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
+				7044C1A225C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */,
 				F97B465124D9C78C00F4A88B /* Add.swift in Sources */,
+				7044C1B025C4FC080011F6E7 /* Query+combine.swift in Sources */,
 				F97B461124D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				70C550A325B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
 				F97B460D24D9C6F200F4A88B /* Fetchable.swift in Sources */,
@@ -1707,6 +1863,7 @@
 				700396FB25A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */,
 				F97B463A24D9C74400F4A88B /* Responses.swift in Sources */,
 				7003960C25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
+				7044C17825C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */,
 				F97B45DD24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				700396ED25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
 				70572674259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
@@ -1725,6 +1882,7 @@
 				70110D5A2506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45F924D9C6F200F4A88B /* ParseError.swift in Sources */,
 				700395BD25A1470F0052CB31 /* Subscription.swift in Sources */,
+				7016ED5925C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
 				7003972D25A3B0140052CB31 /* ParseURLSessionDelegate.swift in Sources */,
 				700395D425A147BE0052CB31 /* ParseSubscription.swift in Sources */,
 				F97B460124D9C6F200F4A88B /* ParseFile.swift in Sources */,
@@ -1739,6 +1897,7 @@
 				F97B463E24D9C74400F4A88B /* API+Commands.swift in Sources */,
 				F97B462A24D9C72700F4A88B /* API.swift in Sources */,
 				F97B463224D9C74400F4A88B /* BatchUtils.swift in Sources */,
+				7016ED6725C4C46B00038648 /* ParseObject+combine.swift in Sources */,
 				F97B45F124D9C6F200F4A88B /* BaseParseUser.swift in Sources */,
 				F97B45D924D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				70647E9F259E3A9A004C1004 /* ParseType.swift in Sources */,
@@ -1746,6 +1905,8 @@
 				912C9BFD24D302B2009947C3 /* Parse.swift in Sources */,
 				F97B461924D9C6F200F4A88B /* Queryable.swift in Sources */,
 				70C5507A25B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				7044C18625C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
+				7016ED3525C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1758,6 +1919,7 @@
 				F97B45E824D9C6F200F4A88B /* Query.swift in Sources */,
 				F97B463524D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
 				70C5503A25B406B800B5DBC2 /* ParseSession.swift in Sources */,
+				7044C1CA25C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */,
 				707A3BF325B0A4F0000D215C /* ParseAuthentication.swift in Sources */,
 				70D1BE7525BB43EB00A42E7C /* BaseConfig.swift in Sources */,
 				F97B460424D9C6F200F4A88B /* NoBody.swift in Sources */,
@@ -1770,7 +1932,10 @@
 				700395F425A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FC24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70510AAE259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
+				7044C19325C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
+				7044C1A125C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */,
 				F97B465024D9C78B00F4A88B /* Add.swift in Sources */,
+				7044C1AF25C4FC080011F6E7 /* Query+combine.swift in Sources */,
 				F97B461024D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				70C550A225B4A9F600B5DBC2 /* RemoveRelation.swift in Sources */,
 				F97B460C24D9C6F200F4A88B /* Fetchable.swift in Sources */,
@@ -1782,6 +1947,7 @@
 				700396FA25A394AE0052CB31 /* ParseLiveQueryDelegate.swift in Sources */,
 				F97B463924D9C74400F4A88B /* Responses.swift in Sources */,
 				7003960B25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
+				7044C17725C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */,
 				F97B45DC24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				700396EC25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
 				70572673259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
@@ -1800,6 +1966,7 @@
 				70110D592506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45F824D9C6F200F4A88B /* ParseError.swift in Sources */,
 				700395BC25A1470F0052CB31 /* Subscription.swift in Sources */,
+				7016ED5825C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
 				7003972C25A3B0140052CB31 /* ParseURLSessionDelegate.swift in Sources */,
 				700395D325A147BE0052CB31 /* ParseSubscription.swift in Sources */,
 				F97B460024D9C6F200F4A88B /* ParseFile.swift in Sources */,
@@ -1814,6 +1981,7 @@
 				F97B463D24D9C74400F4A88B /* API+Commands.swift in Sources */,
 				F97B462924D9C72700F4A88B /* API.swift in Sources */,
 				F97B463124D9C74400F4A88B /* BatchUtils.swift in Sources */,
+				7016ED6625C4C46B00038648 /* ParseObject+combine.swift in Sources */,
 				F97B45F024D9C6F200F4A88B /* BaseParseUser.swift in Sources */,
 				F97B45D824D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				70647E9E259E3A9A004C1004 /* ParseType.swift in Sources */,
@@ -1821,6 +1989,8 @@
 				912C9BE024D302B0009947C3 /* Parse.swift in Sources */,
 				F97B461824D9C6F200F4A88B /* Queryable.swift in Sources */,
 				70C5507925B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				7044C18525C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
+				7016ED3425C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2055,13 +2225,15 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Debug;
 		};
@@ -2077,13 +2249,15 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Release;
 		};
@@ -2141,13 +2315,15 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Debug;
 		};
@@ -2165,13 +2341,15 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_SWIFT3_OBJC_INFERENCE = Off;
 				SWIFT_VERSION = 5.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Release;
 		};
@@ -2310,7 +2488,7 @@
 				INFOPLIST_FILE = "ParseSwift-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-watchOS";
@@ -2320,7 +2498,8 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Debug;
 		};
@@ -2338,7 +2517,7 @@
 				INFOPLIST_FILE = "ParseSwift-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-watchOS";
 				PRODUCT_NAME = ParseSwift;
@@ -2347,7 +2526,8 @@
 				SKIP_INSTALL = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 4.0;
+				TVOS_DEPLOYMENT_TARGET = 12.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Release;
 		};
@@ -2364,7 +2544,7 @@
 				INFOPLIST_FILE = "ParseSwift-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-tvOS";
@@ -2375,6 +2555,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 12.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Debug;
 		};
@@ -2391,7 +2572,7 @@
 				INFOPLIST_FILE = "ParseSwift-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.1.2;
+				MARKETING_VERSION = 1.1.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-tvOS";
 				PRODUCT_NAME = ParseSwift;
@@ -2401,6 +2582,7 @@
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 3;
 				TVOS_DEPLOYMENT_TARGET = 12.0;
+				WATCHOS_DEPLOYMENT_TARGET = 5.0;
 			};
 			name = Release;
 		};

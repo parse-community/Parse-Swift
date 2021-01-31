@@ -11,7 +11,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-@available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 protocol LiveQuerySocketDelegate: AnyObject {
     func status(_ status: LiveQuerySocket.Status)
     func close(useDedicatedQueue: Bool)

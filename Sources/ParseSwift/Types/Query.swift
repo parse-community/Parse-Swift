@@ -754,7 +754,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
      */
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: String...) -> Query<T> {
         var mutableQuery = self
         mutableQuery.fields = keys
@@ -771,7 +771,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: An array of fields to receive back instead of the whole `ParseObject`.
      */
-    @available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *)
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
         mutableQuery.fields = keys
@@ -872,7 +872,7 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<[AnyResultType], ParseError>)`.
+      It should have the following argument signature: `(Result<AnyCodable, ParseError>)`.
     */
     public func find(explain: Bool, hint: String? = nil, options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,

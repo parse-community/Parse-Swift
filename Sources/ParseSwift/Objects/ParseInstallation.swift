@@ -525,13 +525,13 @@ extension ParseInstallation {
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
-     It should have the following argument signature: `(ParseError?)`.
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (ParseError?) -> Void
+        completion: @escaping (Result<Void, ParseError>) -> Void
     ) {
          do {
             try deleteCommand()
@@ -539,35 +539,40 @@ extension ParseInstallation {
                     callbackQueue.async {
                         switch result {
 
-                        case .success(let error):
+                        case .success:
                             Self.updateKeychainIfNeeded([self], deleting: true)
-                            completion(error)
+                            completion(.success(()))
                         case .failure(let error):
-                            completion(error)
+                            completion(.failure(error))
                         }
                     }
                 }
          } catch let error as ParseError {
             callbackQueue.async {
-                completion(error)
+                completion(.failure(error))
             }
          } catch {
             callbackQueue.async {
-                completion(ParseError(code: .unknownError, message: error.localizedDescription))
+                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
             }
          }
     }
 
-    func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, ParseError?> {
+    func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, NoBody> {
         guard isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
         }
 
-        return API.NonParseBodyCommand<NoBody, ParseError?>(
+        return API.NonParseBodyCommand<NoBody, NoBody>(
             method: .DELETE,
             path: endpoint
-        ) { (data) -> ParseError? in
-            try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+        ) { (data) -> NoBody in
+            let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+            if let error = error {
+                throw error
+            } else {
+                return NoBody()
+            }
         }
     }
 }
@@ -858,13 +863,13 @@ public extension Sequence where Element: ParseInstallation {
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   options: API.Options = []) throws -> [ParseError?] {
+                   options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-        var returnBatch = [ParseError?]()
+        var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
-            let currentBatch = try API.Command<Self.Element, ParseError?>
+            let currentBatch = try API.Command<Self.Element, (Result<Void, ParseError>)>
                 .batch(commands: $0)
                 .execute(options: options)
             returnBatch.append(contentsOf: currentBatch)
@@ -897,11 +902,11 @@ public extension Sequence where Element: ParseInstallation {
         batchLimit limit: Int? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
-        completion: @escaping (Result<[ParseError?], ParseError>) -> Void
+        completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
     ) {
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         do {
-            var returnBatch = [ParseError?]()
+            var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0

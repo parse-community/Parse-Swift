@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(Combine)
+import Combine
+#endif
 
 /**
  Objects that conform to the `ParseAuthentication` protocol provide
@@ -74,7 +77,7 @@ public protocol ParseAuthentication: Codable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
-     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     It should have the following argument signature: `(Result<AuthenticatedUser, ParseError>)`.
      */
     func unlink(options: API.Options,
                 callbackQueue: DispatchQueue,
@@ -93,6 +96,53 @@ public protocol ParseAuthentication: Codable {
      - returns: The user whose autentication type was stripped. This modified user has not been saved.
      */
     func strip(_ user: AuthenticatedUser) -> AuthenticatedUser
+
+    #if canImport(Combine)
+    /**
+     Login a `ParseUser` *asynchronously* using the respective authentication type.
+     - parameter authData: The authData for the respective authentication type.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     */
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+    func loginPublisher(authData: [String: String]?,
+                        options: API.Options) -> Future<AuthenticatedUser, ParseError>
+
+    /**
+     Link the *current* `ParseUser` *asynchronously* using the respective authentication type.
+     - parameter authData: The authData for the respective authentication type.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     */
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+    func linkPublisher(authData: [String: String]?,
+                       options: API.Options) -> Future<AuthenticatedUser, ParseError>
+
+    /**
+     Unlink the `ParseUser` *asynchronously* from the respective authentication type.
+     - parameter user: The `ParseUser` to unlink. The user must be logged in on this device.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     */
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+    func unlinkPublisher(_ user: AuthenticatedUser,
+                         options: API.Options) -> Future<AuthenticatedUser, ParseError>
+
+    /**
+     Unlink the *current* `ParseUser` *asynchronously* from the respective authentication type.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     */
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+    func unlinkPublisher(options: API.Options) -> Future<AuthenticatedUser, ParseError>
+
+    #endif
 }
 
 // MARK: Convenience Implementations
@@ -188,7 +238,7 @@ public extension ParseUser {
     static func login(_ type: String,
                       authData: [String: String],
                       options: API.Options,
-                      callbackQueue: DispatchQueue,
+                      callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
 
         let body = SignupLoginBody(authData: [type: authData])
@@ -201,6 +251,12 @@ public extension ParseUser {
     }
 
     // MARK: 3rd Party Authentication - Link
+    /**
+     Whether the `ParseUser` is logged in with the respective authentication string type.
+     - parameter type: The authentication type to check. The user must be logged in on this device.
+     - returns: `true` if the `ParseUser` is logged in via the repective
+     authentication type. `false` if the user is not.
+     */
     func isLinked(with type: String) -> Bool {
         guard let authData = self.authData?[type] else {
             return false
@@ -208,9 +264,17 @@ public extension ParseUser {
         return authData != nil
     }
 
+    /**
+     Unlink the authentication type *asynchronously*.
+     - parameter type: The type to unlink. The user must be logged in on this device.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     */
     func unlink(_ type: String,
-                options: API.Options,
-                callbackQueue: DispatchQueue,
+                options: API.Options = [],
+                callbackQueue: DispatchQueue = .main,
                 completion: @escaping (Result<Self, ParseError>) -> Void) {
 
         guard let current = Self.current,
@@ -281,8 +345,8 @@ public extension ParseUser {
     */
     static func link(_ type: String,
                      authData: [String: String],
-                     options: API.Options,
-                     callbackQueue: DispatchQueue,
+                     options: API.Options = [],
+                     callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<Self, ParseError>) -> Void) {
         guard let current = Self.current else {
             let error = ParseError(code: .unknownError, message: "Must be logged in to link user")

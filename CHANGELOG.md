@@ -1,8 +1,17 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.2...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.3...main)
 * _Contributing to this repo? Add info about your change here to be included in next release_
+
+### 1.1.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.2...1.1.3)
+
+__New features__
+- SwiftUI ready! ([#73](https://github.com/parse-community/Parse-Swift/pull/73)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- Fixes some issues with `ParseUser.logout` ([#73](https://github.com/parse-community/Parse-Swift/pull/73)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.1.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.1...1.1.2)

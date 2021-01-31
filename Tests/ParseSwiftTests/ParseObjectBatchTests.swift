@@ -1280,8 +1280,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAll() {
-        let error: ParseError? = nil
-        let response = [error]
+        let response = [BatchResponseItem<NoBody>(success: NoBody(), error: nil),
+                        BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
 
         let encoded: Data!
         do {
@@ -1295,18 +1295,26 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         do {
-            let fetched = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
+            let deleted = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
 
-            XCTAssertEqual(fetched.count, 1)
-            guard let firstObject = fetched.first else {
+            XCTAssertEqual(deleted.count, 2)
+            guard let firstObject = deleted.first else {
                     XCTFail("Should unwrap")
                     return
             }
 
-            if let error = firstObject {
+            if case let .failure(error) = firstObject {
                 XCTFail(error.localizedDescription)
             }
 
+            guard let lastObject = deleted.last else {
+                    XCTFail("Should unwrap")
+                    return
+            }
+
+            if case let .failure(error) = lastObject {
+                XCTFail(error.localizedDescription)
+            }
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -1314,7 +1322,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     func testDeleteAllError() {
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
-        let response = [parseError]
+        let response = [BatchResponseItem<NoBody>(success: nil, error: parseError),
+                        BatchResponseItem<NoBody>(success: nil, error: parseError)]
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(response)
@@ -1327,15 +1336,26 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         do {
-            let fetched = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
+            let deleted = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
 
-            XCTAssertEqual(fetched.count, 1)
-            guard let firstObject = fetched.first else {
+            XCTAssertEqual(deleted.count, 2)
+            guard let firstObject = deleted.first else {
                     XCTFail("Should have thrown ParseError")
                     return
             }
 
-            if let error = firstObject {
+            if case let .failure(error) = firstObject {
+                XCTAssertEqual(error.code, parseError.code)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+
+            guard let lastObject = deleted.last else {
+                    XCTFail("Should have thrown ParseError")
+                    return
+            }
+
+            if case let .failure(error) = lastObject {
                 XCTAssertEqual(error.code, parseError.code)
             } else {
                 XCTFail("Should have thrown ParseError")
@@ -1355,15 +1375,25 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             switch result {
 
-            case .success(let fetched):
-                XCTAssertEqual(fetched.count, 1)
-                guard let firstObject = fetched.first else {
+            case .success(let deleted):
+                XCTAssertEqual(deleted.count, 2)
+                guard let firstObject = deleted.first else {
                     XCTFail("Should unwrap")
                     expectation1.fulfill()
                     return
                 }
 
-                if let error = firstObject {
+                if case let .failure(error) = firstObject {
+                    XCTFail(error.localizedDescription)
+                }
+
+                guard let lastObject = deleted.last else {
+                    XCTFail("Should unwrap")
+                    expectation1.fulfill()
+                    return
+                }
+
+                if case let .failure(error) = lastObject {
                     XCTFail(error.localizedDescription)
                 }
 
@@ -1377,8 +1407,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testDeleteAllAsyncMainQueue() {
-        let error: ParseError? = nil
-        let response = [error]
+        let response = [BatchResponseItem<NoBody>(success: NoBody(), error: nil),
+                        BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
 
         do {
             let encoded = try ParseCoding.jsonEncoder().encode(response)
@@ -1402,15 +1432,27 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
             switch result {
 
-            case .success(let fetched):
-                XCTAssertEqual(fetched.count, 1)
-                guard let firstObject = fetched.first else {
+            case .success(let deleted):
+                XCTAssertEqual(deleted.count, 2)
+                guard let firstObject = deleted.first else {
                     XCTFail("Should have thrown ParseError")
                     expectation1.fulfill()
                     return
                 }
 
-                if let error = firstObject {
+                if case let .failure(error) = firstObject {
+                    XCTAssertEqual(error.code, parseError.code)
+                } else {
+                    XCTFail("Should have thrown ParseError")
+                }
+
+                guard let lastObject = deleted.last else {
+                    XCTFail("Should have thrown ParseError")
+                    expectation1.fulfill()
+                    return
+                }
+
+                if case let .failure(error) = lastObject {
                     XCTAssertEqual(error.code, parseError.code)
                 } else {
                     XCTFail("Should have thrown ParseError")
@@ -1428,7 +1470,8 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     func testDeleteAllAsyncMainQueueError() {
 
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
-        let response = [parseError]
+        let response = [BatchResponseItem<NoBody>(success: nil, error: parseError),
+                        BatchResponseItem<NoBody>(success: nil, error: parseError)]
 
         do {
             let encoded = try ParseCoding.jsonEncoder().encode(response)

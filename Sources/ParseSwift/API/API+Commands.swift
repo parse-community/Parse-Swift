@@ -452,38 +452,41 @@ extension API.Command where T: ParseObject {
     }
 
     // MARK: Batch - Deleting
-    // swiftlint:disable:next line_length
-    static func batch(commands: [API.NonParseBodyCommand<NoBody, ParseError?>]) -> RESTBatchCommandNoBodyType<ParseError?> {
-        let commands = commands.compactMap { (command) -> API.NonParseBodyCommand<NoBody, ParseError?>? in
+    static func batch(commands: [API.NonParseBodyCommand<NoBody, NoBody>]) -> RESTBatchCommandNoBodyType<NoBody> {
+        let commands = commands.compactMap { (command) -> API.NonParseBodyCommand<NoBody, NoBody>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
-            return API.NonParseBodyCommand<NoBody, ParseError?>(
+            return API.NonParseBodyCommand<NoBody, NoBody>(
                 method: command.method,
                 path: .any(path), mapper: command.mapper)
         }
 
-        let mapper = { (data: Data) -> [ParseError?] in
+        let mapper = { (data: Data) -> [(Result<Void, ParseError>)] in
 
-            let decodingType = [ParseError?].self
+            let decodingType = [BatchResponseItem<NoBody>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
-                return responses.enumerated().map({ (object) -> ParseError? in
+                return responses.enumerated().map({ (object) -> (Result<Void, ParseError>) in
                     let response = responses[object.offset]
-                    if let error = response {
-                        return error
+                    if response.success != nil {
+                        return .success(())
                     } else {
-                        return nil
+                        guard let parseError = response.error else {
+                            return .failure(ParseError(code: .unknownError, message: "unknown error"))
+                        }
+
+                        return .failure(parseError)
                     }
                 })
             } catch {
-                guard (try? ParseCoding.jsonDecoder().decode(NoBody.self, from: data)) != nil else {
-                    return [ParseError(code: .unknownError, message: "decoding error: \(error)")]
+                guard let parseError = error as? ParseError else {
+                    return [(.failure(ParseError(code: .unknownError, message: "decoding error: \(error)")))]
                 }
-                return [nil]
+                return [(.failure(parseError))]
             }
         }
 
         let batchCommand = BatchCommandNoBody(requests: commands)
-        return RESTBatchCommandNoBodyType<ParseError?>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
+        return RESTBatchCommandNoBodyType<NoBody>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 }
 
@@ -642,17 +645,21 @@ internal extension API {
 
 internal extension API.NonParseBodyCommand {
     // MARK: Deleting
-    // swiftlint:disable:next line_length
-    static func deleteCommand<T>(_ object: T) throws -> API.NonParseBodyCommand<NoBody, ParseError?> where T: ParseObject {
+    static func deleteCommand<T>(_ object: T) throws -> API.NonParseBodyCommand<NoBody, NoBody> where T: ParseObject {
         guard object.isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
         }
 
-        return API.NonParseBodyCommand<NoBody, ParseError?>(
+        return API.NonParseBodyCommand<NoBody, NoBody>(
             method: .DELETE,
             path: object.endpoint
-        ) { (data) -> ParseError? in
-            try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+        ) { (data) -> NoBody in
+            let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+            if let error = error {
+                throw error
+            } else {
+                return NoBody()
+            }
         }
     }
 } // swiftlint:disable:this file_length
