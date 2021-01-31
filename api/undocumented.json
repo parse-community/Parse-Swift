@@ -2,51 +2,37 @@
   "warnings": [
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseApple.swift",
-      "line": 50,
+      "line": 53,
       "symbol": "ParseApple.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Internal/ParseAnonymous.swift",
-      "line": 41,
+      "line": 44,
       "symbol": "ParseAnonymous.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
-      "line": 18,
+      "line": 21,
       "symbol": "ParseAuthentication.AuthenticatedUser",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
-      "line": 19,
+      "line": 22,
       "symbol": "ParseAuthentication.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
-      "line": 105,
+      "line": 155,
       "symbol": "ParseAuthentication.isLinked",
       "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
-      "line": 204,
-      "symbol": "ParseUser.isLinked(with:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
-      "line": 211,
-      "symbol": "ParseUser.unlink(_:options:callbackQueue:completion:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {

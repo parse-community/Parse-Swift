@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.1.2 Docs
+          ParseSwift 1.1.3 Docs
         </a>
-         (87% documented)
+         (88% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -1749,6 +1749,465 @@ Upon completing the registration, the subscribe handler will be called with the 
             </div>
             <div class="task-group">
               <div class="task-name-container">
+                <a name="/Queryable%20-%20Combine"></a>
+                <a name="//apple_ref/swift/Section/Queryable - Combine" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Queryable%20-%20Combine"></a>
+                  <h3 class="section-name"><p>Queryable - Combine</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV13findPublisher7options7Combine6FutureCySayxGAA0A5ErrorVGShyAA3APIV6OptionOG_tF"></a>
+                    <a name="//apple_ref/swift/Method/findPublisher(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV13findPublisher7options7Combine6FutureCySayxGAA0A5ErrorVGShyAA3APIV6OptionOG_tF">findPublisher(options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Finds objects <em>asynchronously</em> and publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">findPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV13findPublisher7explain4hint7options7Combine6FutureCyAA10AnyCodableVAA0A5ErrorVGSb_SSSgShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/findPublisher(explain:hint:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV13findPublisher7explain4hint7options7Combine6FutureCyAA10AnyCodableVAA0A5ErrorVGSb_SSSgShyAA3APIV6OptionOGtF">findPublisher(explain:<wbr>hint:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Finds objects <em>asynchronously</em> and publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">findPublisher</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+                   <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                   <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/AnyCodable.html">AnyCodable</a></span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>explain</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Used to toggle the information on the query plan.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>String or Object of index that should be used when executing query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV14firstPublisher7options7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_tF"></a>
+                    <a name="//apple_ref/swift/Method/firstPublisher(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV14firstPublisher7options7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_tF">firstPublisher(options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets an object <em>asynchronously</em> and publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">firstPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV14firstPublisher7explain4hint7options7Combine6FutureCyAA10AnyCodableVAA0A5ErrorVGSb_SSSgShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/firstPublisher(explain:hint:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV14firstPublisher7explain4hint7options7Combine6FutureCyAA10AnyCodableVAA0A5ErrorVGSb_SSSgShyAA3APIV6OptionOGtF">firstPublisher(explain:<wbr>hint:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Gets an object <em>asynchronously</em> and publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">firstPublisher</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+                    <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/AnyCodable.html">AnyCodable</a></span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>explain</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Used to toggle the information on the query plan.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>String or Object of index that should be used when executing query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV14countPublisher7options7Combine6FutureCySiAA0A5ErrorVGShyAA3APIV6OptionOG_tF"></a>
+                    <a name="//apple_ref/swift/Method/countPublisher(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV14countPublisher7options7Combine6FutureCySiAA0A5ErrorVGShyAA3APIV6OptionOG_tF">countPublisher(options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Count objects <em>asynchronously</em> and publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">countPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV14countPublisher7explain4hint7options7Combine6FutureCyAA10AnyCodableVAA0A5ErrorVGSb_SSSgShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/countPublisher(explain:hint:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV14countPublisher7explain4hint7options7Combine6FutureCyAA10AnyCodableVAA0A5ErrorVGSb_SSSgShyAA3APIV6OptionOGtF">countPublisher(explain:<wbr>hint:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Count objects <em>asynchronously</em> and publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">countPublisher</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+                    <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt"><a href="../Structs/AnyCodable.html">AnyCodable</a></span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>explain</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Used to toggle the information on the query plan.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>hint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>String or Object of index that should be used when executing query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV18aggregatePublisher_7options7Combine6FutureCySayxGAA0A5ErrorVGSaySDyS2SGG_ShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/aggregatePublisher(_:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV18aggregatePublisher_7options7Combine6FutureCySayxGAA0A5ErrorVGSaySDyS2SGG_ShyAA3APIV6OptionOGtF">aggregatePublisher(_:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Executes an aggregate query <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-requires">
+    <p class="aside-title">Requires</p>
+    <code>.useMasterKey</code> has to be available and passed as one of the set of <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">aggregatePublisher</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="kt">AggregateType</span><span class="p">,</span>
+                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pipeline</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A pipeline of stages to process query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
                 <a name="/Queryable"></a>
                 <a name="//apple_ref/swift/Section/Queryable" class="dashAnchor"></a>
                 <div class="section-name-container">
@@ -1954,7 +2413,7 @@ Upon completing the registration, the subscribe handler will be called with the 
                               <td>
                                 <div>
                                   <p>The block to execute.
-It should have the following argument signature: <code>(Result&lt;[ResultType], ParseError&gt;)</code></p>
+It should have the following argument signature: <code>(Result&lt;[ResultType], ParseError&gt;)</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2051,7 +2510,7 @@ It should have the following argument signature: <code>(Result&lt;[ResultType], 
                               <td>
                                 <div>
                                   <p>The block to execute.
-It should have the following argument signature: <code>(Result&lt;[AnyResultType], ParseError&gt;)</code></p>
+It should have the following argument signature: <code>(Result&lt;AnyCodable, ParseError&gt;)</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2675,7 +3134,7 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                               <td>
                                 <div>
                                   <p>The block to execute.
-It should have the following argument signature: <code>(Result&lt;Int, ParseError&gt;)</code></p>
+It should have the following argument signature: <code>(Result&lt;Int, ParseError&gt;)</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2834,7 +3293,7 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                               <td>
                                 <div>
                                   <p>The block to execute.
-It should have the following argument signature: <code>(Result&lt;Int, ParseError&gt;)</code></p>
+It should have the following argument signature: <code>(Result&lt;[ResultType], ParseError&gt;)</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2852,7 +3311,7 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-26)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-01-31)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
