@@ -22,6 +22,29 @@ struct User: ParseUser {
 
     //: Your custom keys.
     var customKey: String?
+    var score: GameScore?
+    var targetScore: GameScore?
+}
+
+//: Create your own value typed `ParseObject`.
+struct GameScore: ParseObject {
+    //: Those are required for Object
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseACL?
+
+    //: Your own properties.
+    var score: Int? = 0
+
+    //: Custom initializer.
+    init(score: Int) {
+        self.score = score
+    }
+
+    init(objectId: String?) {
+        self.objectId = objectId
+    }
 }
 
 /*: Save your first customKey value to your `ParseUser`
@@ -30,11 +53,13 @@ struct User: ParseUser {
     If no callbackQueue is specified it returns to main queue.
 */
 User.current?.customKey = "myCustom"
+User.current?.score = GameScore(score: 12)
+User.current?.targetScore = GameScore(score: 100)
 User.current?.save { results in
 
     switch results {
     case .success(let updatedUser):
-        print("Successfully save myCustomKey to ParseServer: \(updatedUser)")
+        print("Successfully save myCustomKey and score to ParseServer: \(updatedUser)")
     case .failure(let error):
         print("Failed to update user: \(error)")
     }
@@ -66,6 +91,29 @@ User.login(username: "hello", password: "world") { results in
 
     case .failure(let error):
         print("Error logging in: \(error)")
+    }
+}
+
+//: Looking at the output of user from the previous login, it only has
+//: a pointer to the `score`and `targetScore` fields. You can fetch using `include` to
+//: get the score.
+User.current?.fetch(includeKeys: ["score"]) { result in
+    switch result {
+    case .success:
+        print("Successfully fetched user with score key: \(User.current)")
+    case .failure(let error):
+        print("Error fetching score: \(error)")
+    }
+}
+
+//: The `target` score is still missing. You can get all pointer fields at
+//: once by including `["*"]`.
+User.current?.fetch(includeKeys: ["*"]) { result in
+    switch result {
+    case .success:
+        print("Successfully fetched user with all keys: \(User.current)")
+    case .failure(let error):
+        print("Error fetching score: \(error)")
     }
 }
 

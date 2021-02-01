@@ -9,12 +9,12 @@
 public protocol Fetchable: Decodable {
     associatedtype FetchingType
 
-    func fetch(options: API.Options) throws -> FetchingType
+    func fetch(includeKeys: [String]?, options: API.Options) throws -> FetchingType
     func fetch() throws -> FetchingType
 }
 
 extension Fetchable {
     public func fetch() throws -> FetchingType {
-        try fetch(options: [])
+        try fetch(includeKeys: nil, options: [])
     }
 }

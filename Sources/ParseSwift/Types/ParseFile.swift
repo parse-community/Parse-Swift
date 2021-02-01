@@ -500,10 +500,11 @@ extension ParseFile {
 
     /**
      Fetches a file with given url *synchronously*.
+     - parameter includeKeys: Currently not used for `ParseFile`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A saved `ParseFile`.
      */
-    public func fetch(options: API.Options = []) throws -> ParseFile {
+    public func fetch(includeKeys: [String]? = nil, options: API.Options = []) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))

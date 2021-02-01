@@ -188,7 +188,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     override func setUp() {
         super.setUp()
-        guard let url = URL(string: "https://localhost:1337/1") else {
+        guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
         }
@@ -227,13 +227,45 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let objectId = "yarr"
         score.objectId = objectId
         do {
-            let command = try score.fetchCommand()
+            let command = try score.fetchCommand(include: nil)
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
             XCTAssertNil(command.data)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testFetchIncludeCommand() {
+        var score = GameScore(score: 10)
+        let className = score.className
+        let objectId = "yarr"
+        score.objectId = objectId
+        let includeExpected = ["include": "yolo,test"]
+        do {
+            let command = try score.fetchCommand(include: ["yolo", "test"])
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+            XCTAssertEqual(command.method, API.Method.GET)
+            XCTAssertEqual(command.params, includeExpected)
+            XCTAssertNil(command.body)
+            XCTAssertNil(command.data)
+
+            // swiftlint:disable:next line_length
+            guard let urlExpected = URL(string: "http://localhost:1337/1/classes/GameScore/yarr?include=yolo,test") else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            let request = command.prepareURLRequest(options: [])
+            switch request {
+            case .success(let url):
+                XCTAssertEqual(url.url, urlExpected)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
         } catch {
             XCTFail(error.localizedDescription)
         }

@@ -240,7 +240,7 @@ internal extension API {
                 }
             }
             urlRequest.httpMethod = method.rawValue
-
+            print(urlRequest)
             return .success(urlRequest)
         }
 
@@ -383,14 +383,21 @@ internal extension API.Command {
     }
 
     // MARK: Fetching
-    static func fetchCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
+    static func fetchCommand<T>(_ object: T, include: [String]?) throws -> API.Command<T, T> where T: ParseObject {
         guard object.isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot Fetch an object without id")
         }
 
+        var params: [String: String]?
+        if let includeParams = include {
+            let joined = includeParams.joined(separator: ",")
+            params = ["include": joined]
+        }
+
         return API.Command<T, T>(
             method: .GET,
-            path: object.endpoint
+            path: object.endpoint,
+            params: params
         ) { (data) -> T in
             try ParseCoding.jsonDecoder().decode(T.self, from: data)
         }

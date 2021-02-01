@@ -140,14 +140,18 @@ public extension ParseUser {
     /**
      Fetches the `ParseUser` *aynchronously* with the current data from the server and sets an error if one occurs.
      Publishes when complete.
-
+     - parameter includeKeys: The name(s) of the key(s) to include that are
+     `ParseObjects`. Use `["*"]` to include all keys. This is similar to `include` and
+     `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
-    func fetchPublisher(options: API.Options = []) -> Future<Self, ParseError> {
+    func fetchPublisher(includeKeys: [String]? = nil,
+                        options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            self.fetch(options: options,
+            self.fetch(includeKeys: includeKeys,
+                       options: options,
                        completion: promise)
         }
     }
@@ -188,14 +192,18 @@ public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *aynchronously* with the current data from the server and sets
      an error if one occurs. Publishes when complete.
-
+     - parameter includeKeys: The name(s) of the key(s) to include that are
+     `ParseObjects`. Use `["*"]` to include all keys. This is similar to `include` and
+     `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
-    func fetchAllPublisher(options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
+    func fetchAllPublisher(includeKeys: [String]? = nil,
+                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
-            self.fetchAll(options: options,
+            self.fetchAll(includeKeys: includeKeys,
+                          options: options,
                           completion: promise)
         }
     }

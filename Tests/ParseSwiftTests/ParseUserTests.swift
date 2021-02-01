@@ -89,7 +89,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         let objectId = "yarr"
         user.objectId = objectId
         do {
-            let command = try user.fetchCommand()
+            let command = try user.fetchCommand(include: nil)
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
             XCTAssertEqual(command.method, API.Method.GET)
@@ -101,7 +101,40 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let user2 = User()
-        XCTAssertThrowsError(try user2.fetchCommand())
+        XCTAssertThrowsError(try user2.fetchCommand(include: nil))
+    }
+
+    func testFetchIncludeCommand() {
+        var user = User()
+        let objectId = "yarr"
+        user.objectId = objectId
+        let includeExpected = ["include": "yolo,test"]
+        do {
+            let command = try user.fetchCommand(include: ["yolo", "test"])
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
+            XCTAssertEqual(command.method, API.Method.GET)
+            XCTAssertEqual(command.params, includeExpected)
+            XCTAssertNil(command.body)
+            XCTAssertNil(command.data)
+
+            guard let urlExpected = URL(string: "http://localhost:1337/1/users/yarr?include=yolo,test") else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            let request = command.prepareURLRequest(options: [])
+            switch request {
+            case .success(let url):
+                XCTAssertEqual(url.url, urlExpected)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        let user2 = User()
+        XCTAssertThrowsError(try user2.fetchCommand(include: nil))
     }
 
     func testFetch() { // swiftlint:disable:this function_body_length

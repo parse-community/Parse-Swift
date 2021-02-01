@@ -34,7 +34,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     override func setUp() {
         super.setUp()
-        guard let url = URL(string: "https://localhost:1337/1") else {
+        guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
         }
