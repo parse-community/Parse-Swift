@@ -647,13 +647,16 @@ extension ParseUser {
 
     /**
      Fetches the `ParseUser` *synchronously* with the current data from the server and sets an error if one occurs.
-
+     - parameter includeKeys: The name(s) of the key(s) to include that are
+     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
-    public func fetch(options: API.Options = []) throws -> Self {
-        let result: Self = try fetchCommand()
+    public func fetch(includeKeys: [String]? = nil,
+                      options: API.Options = []) throws -> Self {
+        let result: Self = try fetchCommand(include: includeKeys)
             .execute(options: options,
                      callbackQueue: .main)
         try Self.updateKeychainIfNeeded([result])
@@ -662,7 +665,9 @@ extension ParseUser {
 
     /**
      Fetches the `ParseUser` *asynchronously* and executes the given callback block.
-
+     - parameter includeKeys: The name(s) of the key(s) to include that are
+     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
@@ -671,12 +676,13 @@ extension ParseUser {
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     public func fetch(
+        includeKeys: [String]? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
          do {
-            try fetchCommand()
+            try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
                 if case .success(let foundResult) = result {
@@ -711,13 +717,20 @@ extension ParseUser {
          }
     }
 
-    func fetchCommand() throws -> API.Command<Self, Self> {
+    func fetchCommand(include: [String]?) throws -> API.Command<Self, Self> {
         guard isSaved else {
             throw ParseError(code: .unknownError, message: "Cannot fetch an object without id")
         }
 
+        var params: [String: String]?
+        if let includeParams = include {
+            let joined = includeParams.joined(separator: ",")
+            params = ["include": joined]
+        }
+
         return API.Command(method: .GET,
-                    path: endpoint) { (data) -> Self in
+                           path: endpoint,
+                           params: params) { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(Self.self, from: data)
         }
     }
@@ -1077,7 +1090,9 @@ public extension Sequence where Element: ParseUser {
 
     /**
      Fetches a collection of users *synchronously* all at once and throws an error if necessary.
-
+     - parameter includeKeys: The name(s) of the key(s) to include that are
+     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
@@ -1086,12 +1101,16 @@ public extension Sequence where Element: ParseUser {
      - warning: The order in which users are returned are not guarenteed. You shouldn't expect results in
      any particular order.
     */
-    func fetchAll(options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+    func fetchAll(includeKeys: [String]? = nil,
+                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
 
         if (allSatisfy { $0.className == Self.Element.className}) {
             let uniqueObjectIds = Set(self.compactMap { $0.objectId })
-            let query = Self.Element.query(containedIn(key: "objectId", array: [uniqueObjectIds]))
+            var query = Self.Element.query(containedIn(key: "objectId", array: [uniqueObjectIds]))
                 .limit(uniqueObjectIds.count)
+            if let include = includeKeys {
+                query = query.include(include)
+            }
             let fetchedObjects = try query.find(options: options)
             var fetchedObjectsToReturn = [(Result<Self.Element, ParseError>)]()
 
@@ -1114,7 +1133,9 @@ public extension Sequence where Element: ParseUser {
 
     /**
      Fetches a collection of users all at once *asynchronously* and executes the completion block when done.
-
+     - parameter includeKeys: The name(s) of the key(s) to include that are
+     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -1124,13 +1145,17 @@ public extension Sequence where Element: ParseUser {
      any particular order.
     */
     func fetchAll(
+        includeKeys: [String]? = nil,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
         if (allSatisfy { $0.className == Self.Element.className}) {
             let uniqueObjectIds = Set(compactMap { $0.objectId })
-            let query = Self.Element.query(containedIn(key: "objectId", array: [uniqueObjectIds]))
+            var query = Self.Element.query(containedIn(key: "objectId", array: [uniqueObjectIds]))
+            if let include = includeKeys {
+                query = query.include(include)
+            }
             query.find(options: options, callbackQueue: callbackQueue) { result in
                 switch result {
 

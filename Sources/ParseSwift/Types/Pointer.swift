@@ -43,7 +43,7 @@ public struct Pointer<T: ParseObject>: Fetchable, Encodable {
 }
 
 extension Pointer {
-    public func fetch(options: API.Options = []) throws -> T {
+    public func fetch(includeKeys: [String]? = nil, options: API.Options = []) throws -> T {
         let path = API.Endpoint.object(className: className, objectId: objectId)
         return try API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in

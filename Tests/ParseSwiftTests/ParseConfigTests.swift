@@ -53,8 +53,9 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
         var customKey: String?
 
         init() {
-            self.createdAt = Date()
-            self.updatedAt = Date()
+            let date = Date()
+            self.createdAt = date
+            self.updatedAt = date
             self.objectId = "yarr"
             self.ACL = nil
             self.customKey = "blah"
@@ -66,7 +67,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        guard let url = URL(string: "https://localhost:1337/1") else {
+        guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
         }

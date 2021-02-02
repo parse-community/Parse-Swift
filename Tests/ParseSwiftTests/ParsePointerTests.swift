@@ -31,7 +31,7 @@ class ParsePointerTests: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
-        guard let url = URL(string: "https://localhost:1337/1") else {
+        guard let url = URL(string: "http://localhost:1337/1") else {
             throw ParseError(code: .unknownError, message: "Should create valid URL")
         }
         ParseSwift.initialize(applicationId: "applicationId",
@@ -70,7 +70,7 @@ class ParsePointerTests: XCTestCase {
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
@@ -193,7 +193,7 @@ class ParsePointerTests: XCTestCase {
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let encoded: Data!
@@ -223,7 +223,7 @@ class ParsePointerTests: XCTestCase {
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {

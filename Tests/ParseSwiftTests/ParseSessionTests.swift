@@ -79,7 +79,7 @@ class ParseSessionTests: XCTestCase {
         var session = Session<User>()
         session.objectId = "me"
         do {
-            let command = try session.fetchCommand()
+            let command = try session.fetchCommand(include: nil)
             XCTAssertNotNil(command)
             //Generates this component because fetchCommand is at the Objective protocol level
             XCTAssertEqual(command.path.urlComponent, "/classes/_Session/me")

@@ -108,7 +108,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          has been previously synced to the parse-server (has an objectId). In addition, if two
          `ParseObject`'s have the same objectId, but were modified at different times, the
          default implementation will still return true. In these cases you either want to use a
-         "struct" (value types) to make your `ParseObjects` instead of a class (reference type) or
+         "struct" (value types) to make your `ParseObject`s instead of a class (reference type) or
          provide your own implementation of `==`.
          - parameter lhs: first object to compare
          - parameter rhs: second object to compare
@@ -126,7 +126,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          - warning: If you use the default implementation, hash will only work if the ParseObject has been previously
          synced to the parse-server (has an objectId). In addition, if two `ParseObject`'s have the same objectId,
          but were modified at different times, the default implementation will hash to the same value. In these
-         cases you either want to use a "struct" (value types) to make your `ParseObjects` instead of a
+         cases you either want to use a "struct" (value types) to make your `ParseObject`s instead of a
          class (reference type) or provide your own implementation of `hash`.
 
         */
@@ -160,7 +160,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          has been previously synced to the parse-server (has an objectId). In addition, if two
          `ParseObject`'s have the same objectId, but were modified at different times, the
          default implementation will still return true. In these cases you either want to use a
-         "struct" (value types) to make your `ParseObjects` instead of a class (reference type) or
+         "struct" (value types) to make your `ParseObject`s instead of a class (reference type) or
          provide your own implementation of `==`.
          - parameter lhs: first object to compare
          - parameter rhs: second object to compare
@@ -177,7 +177,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          - warning: If you use the default implementation, hash will only work if the ParseObject has been previously
          synced to the parse-server (has an objectId). In addition, if two `ParseObject`'s have the same objectId,
          but were modified at different times, the default implementation will hash to the same value. In these
-         cases you either want to use a "struct" (value types) to make your `ParseObjects` instead of a
+         cases you either want to use a "struct" (value types) to make your `ParseObject`s instead of a
          class (reference type) or provide your own implementation of `hash`.
 
         */
@@ -188,7 +188,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     override func setUp() {
         super.setUp()
-        guard let url = URL(string: "https://localhost:1337/1") else {
+        guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
         }
@@ -227,13 +227,45 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let objectId = "yarr"
         score.objectId = objectId
         do {
-            let command = try score.fetchCommand()
+            let command = try score.fetchCommand(include: nil)
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
             XCTAssertNil(command.data)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testFetchIncludeCommand() {
+        var score = GameScore(score: 10)
+        let className = score.className
+        let objectId = "yarr"
+        score.objectId = objectId
+        let includeExpected = ["include": "yolo,test"]
+        do {
+            let command = try score.fetchCommand(include: ["yolo", "test"])
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+            XCTAssertEqual(command.method, API.Method.GET)
+            XCTAssertEqual(command.params, includeExpected)
+            XCTAssertNil(command.body)
+            XCTAssertNil(command.data)
+
+            // swiftlint:disable:next line_length
+            guard let urlExpected = URL(string: "http://localhost:1337/1/classes/GameScore/yarr?include=yolo,test") else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            let request = command.prepareURLRequest(options: [])
+            switch request {
+            case .success(let url):
+                XCTAssertEqual(url.url, urlExpected)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -310,7 +342,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
@@ -416,7 +448,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let encoded: Data!
@@ -445,7 +477,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
@@ -494,7 +526,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let objectId = "yarr"
         score.objectId = objectId
         score.createdAt = Date()
-        score.updatedAt = Date()
+        score.updatedAt = score.createdAt
 
         let command = score.saveCommand()
         XCTAssertNotNil(command)
@@ -875,7 +907,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
@@ -973,7 +1005,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let encoded: Data!
@@ -1002,7 +1034,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
@@ -1073,7 +1105,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         scoreOnServer.objectId = "yarr"
         let encoded: Data!
@@ -1128,7 +1160,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             var gameOnServer = game
             gameOnServer.objectId = "nice"
             gameOnServer.createdAt = Date()
-            gameOnServer.updatedAt = Date()
+            gameOnServer.updatedAt = gameOnServer.createdAt
 
             let encodedGamed: Data
             do {
@@ -1185,7 +1217,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var levelOnServer = score
         levelOnServer.createdAt = Date()
-        levelOnServer.updatedAt = Date()
+        levelOnServer.updatedAt = levelOnServer.createdAt
         levelOnServer.ACL = nil
         levelOnServer.objectId = "yarr"
         let pointer = try levelOnServer.toPointer()
@@ -1238,7 +1270,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         scoreOnServer.objectId = "yarr"
         let encoded: Data!
@@ -1337,7 +1369,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             var gameOnServer = game
             gameOnServer.objectId = "nice"
             gameOnServer.createdAt = Date()
-            gameOnServer.updatedAt = Date()
+            gameOnServer.updatedAt = gameOnServer.createdAt
             gameOnServer.profilePicture = savedFile
 
             let encodedGamed: Data

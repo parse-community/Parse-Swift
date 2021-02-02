@@ -53,8 +53,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         var customKey: String?
 
         init() {
-            self.createdAt = Date()
-            self.updatedAt = Date()
+            let date = Date()
+            self.createdAt = date
+            self.updatedAt = date
             self.objectId = "yarr"
             self.ACL = nil
             self.customKey = "blah"
@@ -439,7 +440,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         let objectId = "yarr"
         installation.objectId = objectId
         do {
-            let command = try installation.fetchCommand()
+            let command = try installation.fetchCommand(include: nil)
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
             XCTAssertEqual(command.method, API.Method.GET)
@@ -450,7 +451,39 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
 
         let installation2 = Installation()
-        XCTAssertThrowsError(try installation2.fetchCommand())
+        XCTAssertThrowsError(try installation2.fetchCommand(include: nil))
+    }
+
+    func testFetchIncludeCommand() {
+        var installation = Installation()
+        let objectId = "yarr"
+        installation.objectId = objectId
+        let includeExpected = ["include": "yolo,test"]
+        do {
+            let command = try installation.fetchCommand(include: ["yolo", "test"])
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
+            XCTAssertEqual(command.method, API.Method.GET)
+            XCTAssertEqual(command.params, includeExpected)
+            XCTAssertNil(command.body)
+
+            guard let urlExpected = URL(string: "http://localhost:1337/1/installations/yarr?include=yolo,test") else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            let request = command.prepareURLRequest(options: [])
+            switch request {
+            case .success(let url):
+                XCTAssertEqual(url.url, urlExpected)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        let installation2 = Installation()
+        XCTAssertThrowsError(try installation2.fetchCommand(include: nil))
     }
 
     func testFetchUpdatedCurrentInstallation() { // swiftlint:disable:this function_body_length

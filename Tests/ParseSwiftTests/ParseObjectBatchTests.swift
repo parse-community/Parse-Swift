@@ -34,7 +34,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     override func setUp() {
         super.setUp()
-        guard let url = URL(string: "https://localhost:1337/1") else {
+        guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
         }
@@ -272,10 +272,10 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
 
         score.objectId = "yarr"
         score.createdAt = Date()
-        score.updatedAt = Date()
+        score.updatedAt = score.createdAt
         score2.objectId = "yolo"
         score2.createdAt = Date()
-        score2.updatedAt = Date()
+        score2.updatedAt = score2.createdAt
 
         let objects = [score, score2]
         let initialCommands = objects.map { $0.saveCommand() }

@@ -44,8 +44,9 @@ class ParseAppleTests: XCTestCase {
         var customKey: String?
 
         init() {
-            self.createdAt = Date()
-            self.updatedAt = Date()
+            let date = Date()
+            self.createdAt = date
+            self.updatedAt = date
             self.objectId = "yarr"
             self.ACL = nil
             self.customKey = "blah"

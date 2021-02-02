@@ -197,7 +197,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -290,7 +290,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -312,7 +312,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -331,7 +331,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -427,7 +427,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -449,7 +449,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -499,7 +499,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -544,7 +544,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -566,7 +566,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -2187,7 +2187,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -2217,7 +2217,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -2285,7 +2285,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)

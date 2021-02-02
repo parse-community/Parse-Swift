@@ -46,7 +46,7 @@ DispatchQueue.main.async {
         case .success(let updatedInstallation):
             print("Successfully save myCustomInstallationKey to ParseServer: \(updatedInstallation)")
         case .failure(let error):
-            assertionFailure("Failed to update installation: \(error)")
+            print("Failed to update installation: \(error)")
         }
     }
 }
