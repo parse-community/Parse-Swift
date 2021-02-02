@@ -29,29 +29,6 @@ struct Installation: ParseInstallation {
 
     //: Your custom keys
     var customKey: String?
-    var score: GameScore?
-    var targetScore: GameScore?
-}
-
-//: Create your own value typed `ParseObject`.
-struct GameScore: ParseObject {
-    //: Those are required for Object
-    var objectId: String?
-    var createdAt: Date?
-    var updatedAt: Date?
-    var ACL: ParseACL?
-
-    //: Your own properties.
-    var score: Int? = 0
-
-    //: Custom initializer.
-    init(score: Int) {
-        self.score = score
-    }
-
-    init(objectId: String?) {
-        self.objectId = objectId
-    }
 }
 
 //: WARNING: All calls on Installation need to be done on the main queue
@@ -63,8 +40,6 @@ DispatchQueue.main.async {
         returns to main queue.
      */
     Installation.current?.customKey = "myCustomInstallationKey2"
-    Installation.current?.score = GameScore(score: 12)
-    Installation.current?.targetScore = GameScore(score: 100)
     Installation.current?.save { results in
 
         switch results {
