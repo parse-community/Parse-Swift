@@ -71,30 +71,7 @@ DispatchQueue.main.async {
         case .success(let updatedInstallation):
             print("Successfully save myCustomInstallationKey to ParseServer: \(updatedInstallation)")
         case .failure(let error):
-            assertionFailure("Failed to update installation: \(error)")
-        }
-    }
-
-    //: Looking at the output of user from the previous login, it only has
-    //: a pointer to the `score`and `targetScore` fields. You can fetch using `include` to
-    //: get the score.
-    Installation.current?.fetch(includeKeys: ["score"]) { result in
-        switch result {
-        case .success(let fetched):
-            print("Successfully fetched user with score key: \(fetched)")
-        case .failure(let error):
-            print("Error fetching score: \(error)")
-        }
-    }
-
-    //: The `target` score is still missing. You can get all pointer fields at
-    //: once by including `["*"]`.
-    Installation.current?.fetch(includeKeys: ["*"]) { result in
-        switch result {
-        case .success(let fetched):
-            print("Successfully fetched user with all keys: \(fetched)")
-        case .failure(let error):
-            print("Error fetching score: \(error)")
+            print("Failed to update installation: \(error)")
         }
     }
 }

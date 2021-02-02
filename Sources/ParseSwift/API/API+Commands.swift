@@ -240,7 +240,6 @@ internal extension API {
                 }
             }
             urlRequest.httpMethod = method.rawValue
-            print(urlRequest)
             return .success(urlRequest)
         }
 
