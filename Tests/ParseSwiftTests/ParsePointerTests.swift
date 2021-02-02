@@ -193,7 +193,7 @@ class ParsePointerTests: XCTestCase {
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = scoreOnServer.updatedAt
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let encoded: Data!
@@ -223,7 +223,7 @@ class ParsePointerTests: XCTestCase {
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = scoreOnServer.updatedAt
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {

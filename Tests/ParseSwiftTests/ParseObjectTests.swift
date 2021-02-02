@@ -1217,7 +1217,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var levelOnServer = score
         levelOnServer.createdAt = Date()
-        levelOnServer.updatedAt = levelOnServer.updatedAt
+        levelOnServer.updatedAt = levelOnServer.createdAt
         levelOnServer.ACL = nil
         levelOnServer.objectId = "yarr"
         let pointer = try levelOnServer.toPointer()
@@ -1369,7 +1369,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             var gameOnServer = game
             gameOnServer.objectId = "nice"
             gameOnServer.createdAt = Date()
-            gameOnServer.updatedAt = gameOnServer.updatedAt
+            gameOnServer.updatedAt = gameOnServer.createdAt
             gameOnServer.profilePicture = savedFile
 
             let encodedGamed: Data
