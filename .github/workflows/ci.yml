@@ -93,7 +93,7 @@ jobs:
       - uses: actions/checkout@v2
       - uses: sersoft-gmbh/SwiftyActions@v1.1.1
         with:
-          release-version: 5.3.2
+          release-version: 5.3.3
       - name: Build
         run: swift build
       #- name: Test
