@@ -108,7 +108,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          has been previously synced to the parse-server (has an objectId). In addition, if two
          `ParseObject`'s have the same objectId, but were modified at different times, the
          default implementation will still return true. In these cases you either want to use a
-         "struct" (value types) to make your `ParseObjects` instead of a class (reference type) or
+         "struct" (value types) to make your `ParseObject`s instead of a class (reference type) or
          provide your own implementation of `==`.
          - parameter lhs: first object to compare
          - parameter rhs: second object to compare
@@ -126,7 +126,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          - warning: If you use the default implementation, hash will only work if the ParseObject has been previously
          synced to the parse-server (has an objectId). In addition, if two `ParseObject`'s have the same objectId,
          but were modified at different times, the default implementation will hash to the same value. In these
-         cases you either want to use a "struct" (value types) to make your `ParseObjects` instead of a
+         cases you either want to use a "struct" (value types) to make your `ParseObject`s instead of a
          class (reference type) or provide your own implementation of `hash`.
 
         */
@@ -160,7 +160,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          has been previously synced to the parse-server (has an objectId). In addition, if two
          `ParseObject`'s have the same objectId, but were modified at different times, the
          default implementation will still return true. In these cases you either want to use a
-         "struct" (value types) to make your `ParseObjects` instead of a class (reference type) or
+         "struct" (value types) to make your `ParseObject`s instead of a class (reference type) or
          provide your own implementation of `==`.
          - parameter lhs: first object to compare
          - parameter rhs: second object to compare
@@ -177,7 +177,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
          - warning: If you use the default implementation, hash will only work if the ParseObject has been previously
          synced to the parse-server (has an objectId). In addition, if two `ParseObject`'s have the same objectId,
          but were modified at different times, the default implementation will hash to the same value. In these
-         cases you either want to use a "struct" (value types) to make your `ParseObjects` instead of a
+         cases you either want to use a "struct" (value types) to make your `ParseObject`s instead of a
          class (reference type) or provide your own implementation of `hash`.
 
         */

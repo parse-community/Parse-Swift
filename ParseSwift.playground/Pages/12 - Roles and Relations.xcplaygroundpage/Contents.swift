@@ -211,7 +211,7 @@ do {
     print(error)
 }
 
-//: All `ParseObjects` have a `ParseRelation` attribute that be used on instances.
+//: All `ParseObject`s have a `ParseRelation` attribute that be used on instances.
 //: For example, the User has:
 let relation = User.current!.relation
 
