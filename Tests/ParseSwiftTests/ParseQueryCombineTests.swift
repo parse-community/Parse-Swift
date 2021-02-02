@@ -71,7 +71,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         scoreOnServer.score = 11
         scoreOnServer.objectId = "yolo"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -157,7 +157,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         scoreOnServer.score = 11
         scoreOnServer.objectId = "yolo"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -239,7 +239,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         scoreOnServer.score = 11
         scoreOnServer.objectId = "yolo"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
@@ -320,7 +320,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)

@@ -48,8 +48,9 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         var customKey: String?
 
         init() {
-            self.createdAt = Date()
-            self.updatedAt = Date()
+            let date = Date()
+            self.createdAt = date
+            self.updatedAt = date
             self.objectId = "yarr"
             self.ACL = nil
             self.customKey = "blah"
@@ -144,7 +145,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var userOnServer = user
         userOnServer.createdAt = Date()
-        userOnServer.updatedAt = Date()
+        userOnServer.updatedAt = userOnServer.createdAt
         userOnServer.ACL = nil
         let encoded: Data!
         do {

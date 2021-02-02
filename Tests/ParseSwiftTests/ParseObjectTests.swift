@@ -342,7 +342,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
@@ -448,7 +448,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let encoded: Data!
@@ -477,7 +477,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
@@ -526,7 +526,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let objectId = "yarr"
         score.objectId = objectId
         score.createdAt = Date()
-        score.updatedAt = Date()
+        score.updatedAt = score.createdAt
 
         let command = score.saveCommand()
         XCTAssertNotNil(command)
@@ -907,7 +907,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
@@ -1005,7 +1005,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         let encoded: Data!
@@ -1034,7 +1034,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
@@ -1105,7 +1105,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         scoreOnServer.objectId = "yarr"
         let encoded: Data!
@@ -1160,7 +1160,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             var gameOnServer = game
             gameOnServer.objectId = "nice"
             gameOnServer.createdAt = Date()
-            gameOnServer.updatedAt = Date()
+            gameOnServer.updatedAt = gameOnServer.createdAt
 
             let encodedGamed: Data
             do {
@@ -1217,7 +1217,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var levelOnServer = score
         levelOnServer.createdAt = Date()
-        levelOnServer.updatedAt = Date()
+        levelOnServer.updatedAt = levelOnServer.updatedAt
         levelOnServer.ACL = nil
         levelOnServer.objectId = "yarr"
         let pointer = try levelOnServer.toPointer()
@@ -1270,7 +1270,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         scoreOnServer.objectId = "yarr"
         let encoded: Data!
@@ -1369,7 +1369,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             var gameOnServer = game
             gameOnServer.objectId = "nice"
             gameOnServer.createdAt = Date()
-            gameOnServer.updatedAt = Date()
+            gameOnServer.updatedAt = gameOnServer.updatedAt
             gameOnServer.profilePicture = savedFile
 
             let encodedGamed: Data

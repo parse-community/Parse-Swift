@@ -76,7 +76,7 @@ class ParseEncoderTests: XCTestCase {
         var score = GameScore(score: 10)
         score.objectId = "yarr"
         score.createdAt = Date()
-        score.updatedAt = Date()
+        score.updatedAt = score.createdAt
 
         let encodedJSON = try ParseCoding.jsonEncoder().encode(score)
         let decodedJSON = try ParseCoding.jsonDecoder().decode([String: AnyCodable].self, from: encodedJSON)
