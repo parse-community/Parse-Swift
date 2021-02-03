@@ -942,6 +942,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeUpdateAllAsync() {
         var score = GameScore(score: 10)
         score.objectId = "yarr"
@@ -1028,6 +1029,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                             scoresOnServer: [scoreOnServer, scoreOnServer2],
                             callbackQueue: .main)
     }
+    #endif
 
     // swiftlint:disable:next function_body_length cyclomatic_complexity
     func testFetchAll() {
