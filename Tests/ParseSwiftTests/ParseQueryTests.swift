@@ -141,6 +141,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query2.include, ["yolo"])
     }
 
+    #if !os(Linux)
     func testDistinct() throws {
         let query = GameScore.query()
             .distinct("yolo")
@@ -151,6 +152,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
+    #endif
 
     func testIncludeAllKeys() {
         let query = GameScore.query()
@@ -2183,6 +2185,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testAggregateCommand() throws {
         let query = GameScore.query()
         let pipeline = [[String: String]]()
@@ -2194,6 +2197,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
+    #endif
 
     func testAggregate() {
         var scoreOnServer = GameScore(score: 10)

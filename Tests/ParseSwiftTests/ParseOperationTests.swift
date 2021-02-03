@@ -69,6 +69,7 @@ class ParseOperationTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
+    #if !os(Linux)
     func testSaveCommand() throws {
         var score = GameScore(score: 10)
         let objectId = "hello"
@@ -94,6 +95,7 @@ class ParseOperationTests: XCTestCase {
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
+    #endif
 
     func testSave() { // swiftlint:disable:this function_body_length
         var score = GameScore(score: 10)

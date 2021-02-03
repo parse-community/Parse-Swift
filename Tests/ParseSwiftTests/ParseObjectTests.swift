@@ -497,6 +497,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.fetchAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
+    #if !os(Linux)
     func testSaveCommand() throws {
         let score = GameScore(score: 10)
         let className = score.className
@@ -521,6 +522,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
+    #endif
 
     func testUpdateCommand() throws {
         var score = GameScore(score: 10)
@@ -1324,6 +1326,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    #if !os(Linux)
     // swiftlint:disable:next function_body_length
     func testDeepSaveObjectWithFile() throws {
         var game = Game2()
@@ -1409,6 +1412,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(savedGame.profilePicture, gameOnServer.profilePicture)
         }
     }
+    #endif
 }
 
 // swiftlint:disable:this file_length
