@@ -269,6 +269,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
+    #if !os(Linux)
     func testUpdateAllCommand() throws {
         var score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
@@ -301,6 +302,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
+    #endif
 
     func testUpdateAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity
         var score = GameScore(score: 10)
@@ -1329,6 +1331,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
+    #if !os(Linux)
     func testDeleteAllError() {
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
         let response = [BatchResponseItem<NoBody>(success: nil, error: parseError),
@@ -1374,6 +1377,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTFail(error.localizedDescription)
         }
     }
+    #endif
 
     func deleteAllAsync(callbackQueue: DispatchQueue) {
 

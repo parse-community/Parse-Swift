@@ -10,6 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
+#if !os(Linux)
 class ParseRelationTests: XCTestCase {
     struct GameScore: ParseObject {
         //: Those are required for Object
@@ -283,3 +284,4 @@ class ParseRelationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 }
+#endif

@@ -518,7 +518,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
                     filesSavedBeforeThisOne: nil).encoded
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -547,7 +547,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
                     filesSavedBeforeThisOne: nil).encoded
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 

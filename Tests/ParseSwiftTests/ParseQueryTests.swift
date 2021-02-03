@@ -569,7 +569,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
     #endif
-    
+
     func testCountAsyncMainQueue() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
@@ -1436,6 +1436,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    #if !os(Linux)
     func testWhereKeyNearGeoPointWithinMiles() {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
@@ -1481,7 +1482,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
     }
+    #endif
 
+    #if !os(Linux)
     func testWhereKeyNearGeoPointWithinKilometers() {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
@@ -1619,6 +1622,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
     }
+    #endif
 
     // swiftlint:disable:next function_body_length
     func testWhereKeyNearGeoBox() {
