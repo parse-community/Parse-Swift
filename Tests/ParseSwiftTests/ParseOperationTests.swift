@@ -236,7 +236,6 @@ class ParseOperationTests: XCTestCase {
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 
     func testAddUnique() throws {
         let score = GameScore(score: 10)
@@ -271,7 +270,6 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    #if !os(Linux)
     func testAddRelation() throws {
         let score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
