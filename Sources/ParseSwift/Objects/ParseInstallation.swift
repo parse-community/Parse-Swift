@@ -239,9 +239,10 @@ extension ParseInstallation {
 
     mutating func updateVersionInfoFromDevice() {
         guard let appInfo = Bundle.main.infoDictionary else {
+            print("COREY0: \(Bundle.main)")
             return
         }
-
+        print("COREY1: \(appInfo)")
         #if !os(Linux)
         #if TARGET_OS_MACCATALYST
         // If using an Xcode new enough to know about Mac Catalyst:

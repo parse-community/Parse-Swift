@@ -38,6 +38,9 @@ class AnyCodableTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
+
+    //Test has objective-c
+    #if !os(Linux)
     func testJSONEncoding() {
         let dictionary: [String: AnyCodable] = [
             "boolean": true,
@@ -86,6 +89,8 @@ class AnyCodableTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
+    #endif
+
     static var allTests = [
         ("testJSONDecoding", testJSONDecoding),
         ("testJSONEncoding", testJSONEncoding)

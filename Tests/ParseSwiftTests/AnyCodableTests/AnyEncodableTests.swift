@@ -1,6 +1,8 @@
 import XCTest
 @testable import ParseSwift
 
+//Test has objective-c
+#if !os(Linux)
 class AnyEncodableTests: XCTestCase {
     func testJSONEncoding() {
         let dictionary: [String: AnyEncodable] = [
@@ -54,3 +56,4 @@ class AnyEncodableTests: XCTestCase {
         ("testJSONEncoding", testJSONEncoding)
     ]
 }
+#endif
