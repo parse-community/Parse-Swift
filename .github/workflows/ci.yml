@@ -98,8 +98,6 @@ jobs:
         run: swift build
       - name: Test
         run: swift test --enable-test-discovery --enable-code-coverage
-      - name: Prepare codecov
-        run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
       - name: Send codecov
         run: bash <(curl https://codecov.io/bash)
 
