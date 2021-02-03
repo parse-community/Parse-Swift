@@ -151,7 +151,7 @@ class ParseRoleTests: XCTestCase {
         let userRoles = role.users
         let expected = "{\"className\":\"_User\",\"__type\":\"Relation\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(userRoles)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
         XCTAssertEqual(userRoles.key, "users")
 
@@ -162,7 +162,7 @@ class ParseRoleTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected2 = "{\"users\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"_User\",\"objectId\":\"heel\"}],\"__op\":\"AddRelation\"}}"
         let encoded2 = try ParseCoding.jsonEncoder().encode(operation)
-        let decoded2 = String(data: encoded2, encoding: .utf8)
+        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
     }
 
@@ -212,7 +212,7 @@ class ParseRoleTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected2 = "{\"users\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"_User\",\"objectId\":\"heel\"}],\"__op\":\"RemoveRelation\"}}"
         let encoded2 = try ParseCoding.jsonEncoder().encode(operation)
-        let decoded2 = String(data: encoded2, encoding: .utf8)
+        let decoded2 = try XCTUnwrap(try XCTUnwrap(String(data: encoded2, encoding: .utf8)))
         XCTAssertEqual(decoded2, expected2)
     }
 
@@ -251,7 +251,7 @@ class ParseRoleTests: XCTestCase {
         let roles = role.roles
         let expected = "{\"className\":\"_Role\",\"__type\":\"Relation\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(roles)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
         XCTAssertEqual(roles.key, "roles")
 
@@ -262,7 +262,7 @@ class ParseRoleTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected2 = "{\"roles\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"_Role\",\"objectId\":\"heel\"}],\"__op\":\"AddRelation\"}}"
         let encoded2 = try ParseCoding.jsonEncoder().encode(operation)
-        let decoded2 = String(data: encoded2, encoding: .utf8)
+        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
     }
 
@@ -301,7 +301,7 @@ class ParseRoleTests: XCTestCase {
         let roles = role.roles
         let expected = "{\"className\":\"_Role\",\"__type\":\"Relation\"}"
         let encoded = try ParseCoding.jsonEncoder().encode(roles)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
         XCTAssertEqual(roles.key, "roles")
 
@@ -312,7 +312,7 @@ class ParseRoleTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected2 = "{\"roles\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"_Role\",\"objectId\":\"heel\"}],\"__op\":\"RemoveRelation\"}}"
         let encoded2 = try ParseCoding.jsonEncoder().encode(operation)
-        let decoded2 = String(data: encoded2, encoding: .utf8)
+        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
     }
 
@@ -331,7 +331,7 @@ class ParseRoleTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected = "{\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"$relatedTo\":{\"key\":\"users\",\"object\":{\"__type\":\"Pointer\",\"className\":\"_Role\",\"objectId\":\"yolo\"}}}}"
         let encoded = try ParseCoding.jsonEncoder().encode(query)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -353,7 +353,7 @@ class ParseRoleTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected2 = "{\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"$relatedTo\":{\"key\":\"roles\",\"object\":{\"__type\":\"Pointer\",\"className\":\"_Role\",\"objectId\":\"yolo\"}}}}"
         let encoded2 = try ParseCoding.jsonEncoder().encode(query)
-        let decoded2 = String(data: encoded2, encoding: .utf8)
+        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
     }
 }

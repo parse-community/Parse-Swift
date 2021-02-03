@@ -148,7 +148,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected = "{\"limit\":100,\"skip\":0,\"distinct\":\"yolo\",\"_method\":\"GET\",\"where\":{}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(query)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -2179,7 +2179,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected = "{\"path\":\"\\/aggregate\\/GameScore\",\"method\":\"POST\",\"body\":[]}"
         let encoded = try ParseCoding.jsonEncoder()
             .encode(aggregate)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 

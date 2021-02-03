@@ -295,7 +295,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
                     filesSavedBeforeThisOne: nil).encoded
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
