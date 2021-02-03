@@ -33,6 +33,8 @@ import AppKit
 
  - warning: Only use `ParseInstallation.current` installations on the main thread as they
    require UIApplication for `badge`
+ - warning: Linux developers should set `appName`, `appIdentifier`, and `appVersion`
+ manually as `ParseSwift` doesn't have access to Bundle.main.
 */
 public protocol ParseInstallation: ParseObject {
 
@@ -241,7 +243,6 @@ extension ParseInstallation {
         guard let appInfo = Bundle.main.infoDictionary else {
             return
         }
-
         #if !os(Linux)
         #if TARGET_OS_MACCATALYST
         // If using an Xcode new enough to know about Mac Catalyst:

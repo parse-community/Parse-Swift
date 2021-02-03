@@ -69,6 +69,7 @@ class ParseOperationTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
+    #if !os(Linux)
     func testSaveCommand() throws {
         var score = GameScore(score: 10)
         let objectId = "hello"
@@ -91,9 +92,10 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"score\":{\"amount\":1,\"__op\":\"Increment\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
+    #endif
 
     func testSave() { // swiftlint:disable:this function_body_length
         var score = GameScore(score: 10)
@@ -188,6 +190,8 @@ class ParseOperationTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    //Linux decodes in different order
+    #if !os(Linux)
     func testIncrement() throws {
         let score = GameScore(score: 10)
         let operations = score.operation
@@ -195,7 +199,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"score\":{\"amount\":1,\"__op\":\"Increment\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -206,7 +210,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Add\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -217,7 +221,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Add\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
 
     }
@@ -229,7 +233,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Add\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -240,7 +244,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"AddUnique\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -251,7 +255,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"AddUnique\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -262,7 +266,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"AddUnique\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -276,7 +280,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"AddRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -290,7 +294,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"previous\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"yolo\"}],\"__op\":\"AddRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -304,7 +308,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"AddRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -315,7 +319,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Remove\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -326,7 +330,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Remove\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -337,7 +341,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Remove\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -351,7 +355,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"RemoveRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -365,7 +369,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"previous\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"yolo\"}],\"__op\":\"RemoveRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -379,9 +383,10 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"RemoveRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
+    #endif
 
     func testUnset() throws {
         let score = GameScore(score: 10)
@@ -390,7 +395,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"score\":{\"__op\":\"Delete\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -401,7 +406,7 @@ class ParseOperationTests: XCTestCase {
         let expected = "{\"score\":{\"__op\":\"Delete\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 }

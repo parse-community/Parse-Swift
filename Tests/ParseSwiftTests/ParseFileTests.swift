@@ -269,110 +269,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(savedFile.localURL, tempFilePath)
     }
 
-    func testSaveCloudFile() throws {
-        guard let tempFilePath = URL(string: "https://parseplatform.org/img/logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-
-        let parseFile = ParseFile(name: "logo.svg", cloudURL: tempFilePath)
-
-        // swiftlint:disable:next line_length
-        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let savedFile = try parseFile.save()
-        XCTAssertEqual(savedFile.name, response.name)
-        XCTAssertEqual(savedFile.url, response.url)
-        XCTAssertEqual(savedFile.cloudURL, tempFilePath)
-        XCTAssertNotNil(savedFile.localURL)
-    }
-
-    func testCloudFileProgress() throws {
-        guard let tempFilePath = URL(string: "https://parseplatform.org/img/logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-
-        let parseFile = ParseFile(name: "logo.svg", cloudURL: tempFilePath)
-
-        // swiftlint:disable:next line_length
-        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let savedFile = try parseFile.save { (_, _, totalWritten, totalExpected) in
-            let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
-            XCTAssertGreaterThan(currentProgess, -1)
-        }
-        XCTAssertEqual(savedFile.name, response.name)
-        XCTAssertEqual(savedFile.url, response.url)
-        XCTAssertEqual(savedFile.cloudURL, tempFilePath)
-        XCTAssertNotNil(savedFile.localURL)
-    }
-
-    func testCloudFileCancel() throws {
-        guard let tempFilePath = URL(string: "https://parseplatform.org/img/logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-
-        let parseFile = ParseFile(name: "logo.svg", cloudURL: tempFilePath)
-
-        // swiftlint:disable:next line_length
-        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let savedFile = try parseFile.save { (task, _, totalWritten, totalExpected) in
-            let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
-            if currentProgess > 10 {
-                task.cancel()
-            }
-        }
-        XCTAssertEqual(savedFile.name, response.name)
-        XCTAssertEqual(savedFile.url, response.url)
-        XCTAssertEqual(savedFile.cloudURL, tempFilePath)
-        XCTAssertNotNil(savedFile.localURL)
-    }
-
     func testSaveFileStream() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
         guard let sampleData = "Hello World".data(using: .utf8) else {
@@ -479,65 +375,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testFetchFile() throws {
-        // swiftlint:disable:next line_length
-        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
-        parseFile.url = parseFileURL
-
-        let response = FileUploadResponse(name: "d3a37aed0672a024595b766f97133615_logo.svg",
-                                          url: parseFileURL)
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let fetchedFile = try parseFile.fetch()
-        XCTAssertEqual(fetchedFile.name, response.name)
-        XCTAssertEqual(fetchedFile.url, response.url)
-        XCTAssertNotNil(fetchedFile.localURL)
-    }
-
-    func testFetchFileProgress() throws {
-        // swiftlint:disable:next line_length
-        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
-        parseFile.url = parseFileURL
-
-        let response = FileUploadResponse(name: "d3a37aed0672a024595b766f97133615_logo.svg",
-                                          url: parseFileURL)
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let fetchedFile = try parseFile.fetch { (_, _, totalDownloaded, totalExpected) in
-            let currentProgess = Double(totalDownloaded)/Double(totalExpected) * 100
-            XCTAssertGreaterThan(currentProgess, -1)
-        }
-        XCTAssertEqual(fetchedFile.name, response.name)
-        XCTAssertEqual(fetchedFile.url, response.url)
-        XCTAssertNotNil(fetchedFile.localURL)
-    }
-
     func testFetchFileStream() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
         guard let sampleData = "Hello World".data(using: .utf8) else {
@@ -568,31 +405,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             throw ParseError(code: .unknownError, message: "Should have created file stream")
         }
         try parseFile.fetch(stream: stream)
-    }
-
-    func testDeleteFile() throws {
-        // swiftlint:disable:next line_length
-        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
-        parseFile.url = parseFileURL
-
-        let response = FileUploadResponse(name: "d3a37aed0672a024595b766f97133615_logo.svg",
-                                          url: parseFileURL)
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        try parseFile.delete(options: [.useMasterKey])
     }
 
     // swiftlint:disable:next inclusive_language
@@ -830,21 +642,18 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testSaveCloudFileAysnc() throws {
-
-        guard let tempFilePath = URL(string: "https://parseplatform.org/img/logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-
-        let parseFile = ParseFile(name: "logo.svg", cloudURL: tempFilePath)
-
+    // swiftlint:disable:next inclusive_language
+    func testDeleteNoMasterKeyFileAysnc() throws {
         // swiftlint:disable:next line_length
-        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
             XCTFail("Should create URL")
             return
         }
-        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
+        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
+        parseFile.url = parseFileURL
+
+        let response = FileUploadResponse(name: "d3a37aed0672a024595b766f97133615_logo.svg",
+                                          url: parseFileURL)
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(response)
@@ -857,14 +666,55 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
-        parseFile.save { result in
+        parseFile.delete(options: [.removeMimeType]) { result in
+
+            if case .success = result {
+                XCTFail("Should have thrown error")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    //URL Mocker is not able to mock this in linux and tests fail, so don't run.
+    #if !os(Linux)
+
+    func testFetchFileCancelAsync() throws {
+        // swiftlint:disable:next line_length
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/7793939a2e59b98138c1bbf2412a060c_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        var parseFile = ParseFile(name: "7793939a2e59b98138c1bbf2412a060c_logo.svg", cloudURL: parseFileURL)
+        parseFile.url = parseFileURL
+
+        let response = FileUploadResponse(name: "7793939a2e59b98138c1bbf2412a060c_logo.svg",
+                                          url: parseFileURL)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "ParseFile async")
+        parseFile.fetch(progress: { (task, _, totalDownloaded, totalExpected) in
+            let currentProgess = Double(totalDownloaded)/Double(totalExpected) * 100
+            if currentProgess > 10 {
+                task.cancel()
+            }
+        }) { result in // swiftlint:disable:this multiple_closures_with_trailing_closure
 
             switch result {
-            case .success(let saved):
-                XCTAssertEqual(saved.name, response.name)
-                XCTAssertEqual(saved.url, response.url)
-                XCTAssertEqual(saved.cloudURL, tempFilePath)
-                XCTAssertNotNil(saved.localURL)
+            case .success(let fetched):
+                XCTAssertEqual(fetched.name, response.name)
+                XCTAssertEqual(fetched.url, response.url)
+                XCTAssertNotNil(fetched.localURL)
+
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -898,6 +748,48 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
         parseFile.fetch { result in
+
+            switch result {
+            case .success(let fetched):
+                XCTAssertEqual(fetched.name, response.name)
+                XCTAssertEqual(fetched.url, response.url)
+                XCTAssertNotNil(fetched.localURL)
+
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testFetchFileProgressAsync() throws {
+        // swiftlint:disable:next line_length
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/6f9988ab5faa28f7247664c6ffd9fd85_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        var parseFile = ParseFile(name: "6f9988ab5faa28f7247664c6ffd9fd85_logo.svg", cloudURL: parseFileURL)
+        parseFile.url = parseFileURL
+
+        let response = FileUploadResponse(name: "6f9988ab5faa28f7247664c6ffd9fd85_logo.svg",
+                                          url: parseFileURL)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "ParseFile async")
+        parseFile.fetch(progress: { (_, _, totalDownloaded, totalExpected) in
+            let currentProgess = Double(totalDownloaded)/Double(totalExpected) * 100
+            XCTAssertGreaterThan(currentProgess, -1)
+        }) { result in // swiftlint:disable:this multiple_closures_with_trailing_closure
 
             switch result {
             case .success(let fetched):
@@ -959,17 +851,21 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testFetchFileProgressAsync() throws {
-        // swiftlint:disable:next line_length
-        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/6f9988ab5faa28f7247664c6ffd9fd85_logo.svg") else {
+    func testSaveCloudFileAysnc() throws {
+
+        guard let tempFilePath = URL(string: "https://parseplatform.org/img/logo.svg") else {
             XCTFail("Should create URL")
             return
         }
-        var parseFile = ParseFile(name: "6f9988ab5faa28f7247664c6ffd9fd85_logo.svg", cloudURL: parseFileURL)
-        parseFile.url = parseFileURL
 
-        let response = FileUploadResponse(name: "6f9988ab5faa28f7247664c6ffd9fd85_logo.svg",
-                                          url: parseFileURL)
+        let parseFile = ParseFile(name: "logo.svg", cloudURL: tempFilePath)
+
+        // swiftlint:disable:next line_length
+        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(response)
@@ -982,17 +878,14 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let expectation1 = XCTestExpectation(description: "ParseFile async")
-        parseFile.fetch(progress: { (_, _, totalDownloaded, totalExpected) in
-            let currentProgess = Double(totalDownloaded)/Double(totalExpected) * 100
-            XCTAssertGreaterThan(currentProgess, -1)
-        }) { result in // swiftlint:disable:this multiple_closures_with_trailing_closure
+        parseFile.save { result in
 
             switch result {
-            case .success(let fetched):
-                XCTAssertEqual(fetched.name, response.name)
-                XCTAssertEqual(fetched.url, response.url)
-                XCTAssertNotNil(fetched.localURL)
-
+            case .success(let saved):
+                XCTAssertEqual(saved.name, response.name)
+                XCTAssertEqual(saved.url, response.url)
+                XCTAssertEqual(saved.cloudURL, tempFilePath)
+                XCTAssertNotNil(saved.localURL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -1001,16 +894,48 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testFetchFileCancelAsync() throws {
-        // swiftlint:disable:next line_length
-        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/7793939a2e59b98138c1bbf2412a060c_logo.svg") else {
+    func testSaveCloudFile() throws {
+        guard let tempFilePath = URL(string: "https://parseplatform.org/img/logo.svg") else {
             XCTFail("Should create URL")
             return
         }
-        var parseFile = ParseFile(name: "7793939a2e59b98138c1bbf2412a060c_logo.svg", cloudURL: parseFileURL)
+
+        let parseFile = ParseFile(name: "logo.svg", cloudURL: tempFilePath)
+
+        // swiftlint:disable:next line_length
+        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let savedFile = try parseFile.save()
+        XCTAssertEqual(savedFile.name, response.name)
+        XCTAssertEqual(savedFile.url, response.url)
+        XCTAssertEqual(savedFile.cloudURL, tempFilePath)
+        XCTAssertNotNil(savedFile.localURL)
+    }
+
+    func testFetchFile() throws {
+        // swiftlint:disable:next line_length
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
         parseFile.url = parseFileURL
 
-        let response = FileUploadResponse(name: "7793939a2e59b98138c1bbf2412a060c_logo.svg",
+        let response = FileUploadResponse(name: "d3a37aed0672a024595b766f97133615_logo.svg",
                                           url: parseFileURL)
         let encoded: Data!
         do {
@@ -1023,26 +948,41 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let expectation1 = XCTestExpectation(description: "ParseFile async")
-        parseFile.fetch(progress: { (task, _, totalDownloaded, totalExpected) in
-            let currentProgess = Double(totalDownloaded)/Double(totalExpected) * 100
-            if currentProgess > 10 {
-                task.cancel()
-            }
-        }) { result in // swiftlint:disable:this multiple_closures_with_trailing_closure
+        let fetchedFile = try parseFile.fetch()
+        XCTAssertEqual(fetchedFile.name, response.name)
+        XCTAssertEqual(fetchedFile.url, response.url)
+        XCTAssertNotNil(fetchedFile.localURL)
+    }
 
-            switch result {
-            case .success(let fetched):
-                XCTAssertEqual(fetched.name, response.name)
-                XCTAssertEqual(fetched.url, response.url)
-                XCTAssertNotNil(fetched.localURL)
-
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
-            expectation1.fulfill()
+    func testFetchFileProgress() throws {
+        // swiftlint:disable:next line_length
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
+            XCTFail("Should create URL")
+            return
         }
-        wait(for: [expectation1], timeout: 20.0)
+        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
+        parseFile.url = parseFileURL
+
+        let response = FileUploadResponse(name: "d3a37aed0672a024595b766f97133615_logo.svg",
+                                          url: parseFileURL)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let fetchedFile = try parseFile.fetch { (_, _, totalDownloaded, totalExpected) in
+            let currentProgess = Double(totalDownloaded)/Double(totalExpected) * 100
+            XCTAssertGreaterThan(currentProgess, -1)
+        }
+        XCTAssertEqual(fetchedFile.name, response.name)
+        XCTAssertEqual(fetchedFile.url, response.url)
+        XCTAssertNotNil(fetchedFile.localURL)
     }
 
     func testDeleteFileAysnc() throws {
@@ -1078,8 +1018,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    // swiftlint:disable:next inclusive_language
-    func testDeleteNoMasterKeyFileAysnc() throws {
+    func testDeleteFile() throws {
         // swiftlint:disable:next line_length
         guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
             XCTFail("Should create URL")
@@ -1101,14 +1040,79 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let expectation1 = XCTestExpectation(description: "ParseFile async")
-        parseFile.delete(options: [.removeMimeType]) { result in
-
-            if case .success = result {
-                XCTFail("Should have thrown error")
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
+        try parseFile.delete(options: [.useMasterKey])
     }
+
+    func testCloudFileProgress() throws {
+        guard let tempFilePath = URL(string: "https://parseplatform.org/img/logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+
+        let parseFile = ParseFile(name: "logo.svg", cloudURL: tempFilePath)
+
+        // swiftlint:disable:next line_length
+        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let savedFile = try parseFile.save { (_, _, totalWritten, totalExpected) in
+            let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
+            XCTAssertGreaterThan(currentProgess, -1)
+        }
+        XCTAssertEqual(savedFile.name, response.name)
+        XCTAssertEqual(savedFile.url, response.url)
+        XCTAssertEqual(savedFile.cloudURL, tempFilePath)
+        XCTAssertNotNil(savedFile.localURL)
+    }
+
+    func testCloudFileCancel() throws {
+        guard let tempFilePath = URL(string: "https://parseplatform.org/img/logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+
+        let parseFile = ParseFile(name: "logo.svg", cloudURL: tempFilePath)
+
+        // swiftlint:disable:next line_length
+        guard let url = URL(string: "http://localhost:1337/1/files/applicationId/89d74fcfa4faa5561799e5076593f67c_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: url)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let savedFile = try parseFile.save { (task, _, totalWritten, totalExpected) in
+            let currentProgess = Double(totalWritten)/Double(totalExpected) * 100
+            if currentProgess > 10 {
+                task.cancel()
+            }
+        }
+        XCTAssertEqual(savedFile.name, response.name)
+        XCTAssertEqual(savedFile.url, response.url)
+        XCTAssertEqual(savedFile.cloudURL, tempFilePath)
+        XCTAssertNotNil(savedFile.localURL)
+    }
+    #endif
 } // swiftlint:disable:this file_length

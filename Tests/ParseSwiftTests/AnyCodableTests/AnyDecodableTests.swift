@@ -38,7 +38,4 @@ class AnyDecodableTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
-    static var allTests = [
-        ("testJSONDecoding", testJSONDecoding)
-    ]
 }

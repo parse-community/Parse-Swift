@@ -183,6 +183,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         #endif
     }
 
+    #if !os(Linux)
     func testInstallationImmutableFieldsCannotBeChangedInMemory() {
         let expectation1 = XCTestExpectation(description: "Update installation1")
         DispatchQueue.main.async {
@@ -278,6 +279,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
         wait(for: [expectation1], timeout: 20.0)
     }
+    #endif
 
     func testInstallationHasApplicationBadge() {
         let expectation1 = XCTestExpectation(description: "Update installation1")

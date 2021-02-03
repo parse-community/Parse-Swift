@@ -93,11 +93,15 @@ jobs:
       - uses: actions/checkout@v2
       - uses: sersoft-gmbh/SwiftyActions@v1.1.1
         with:
-          release-version: 5.3.2
+          release-version: 5.3.3
       - name: Build
         run: swift build
-      #- name: Test
-      #  run: swift test --enable-test-discovery
+      - name: Test
+        run: swift test --enable-test-discovery --enable-code-coverage
+      - name: Prepare codecov
+        run: llvm-cov export -format="lcov" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info.lcov
+      - name: Send codecov
+        run: bash <(curl https://codecov.io/bash)
 
   docs:
     needs: xcode-build-watchos

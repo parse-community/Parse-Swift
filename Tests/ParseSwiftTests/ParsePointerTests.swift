@@ -185,6 +185,7 @@ class ParsePointerTests: XCTestCase {
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeFetchAsync() throws {
         var score = GameScore(score: 10)
         let objectId = "yarr"
@@ -214,6 +215,7 @@ class ParsePointerTests: XCTestCase {
             self.fetchAsync(score: pointer, scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testFetchAsyncMainQueue() throws {
         var score = GameScore(score: 10)

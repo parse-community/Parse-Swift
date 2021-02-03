@@ -185,7 +185,7 @@ class ParseLiveQueryTests: XCTestCase {
         let message = StandardMessage(operation: .connect, additionalProperties: true)
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -200,7 +200,7 @@ class ParseLiveQueryTests: XCTestCase {
                                        additionalProperties: true)
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -213,7 +213,7 @@ class ParseLiveQueryTests: XCTestCase {
         let message = RedirectResponse(op: .redirect, url: url)
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -222,7 +222,7 @@ class ParseLiveQueryTests: XCTestCase {
         let message = ConnectionResponse(op: .connected, clientId: "yolo", installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -231,7 +231,7 @@ class ParseLiveQueryTests: XCTestCase {
         let message = UnsubscribedResponse(op: .connected, requestId: 1, clientId: "yolo", installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -246,7 +246,7 @@ class ParseLiveQueryTests: XCTestCase {
                                     installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -255,7 +255,7 @@ class ParseLiveQueryTests: XCTestCase {
         let message = ErrorResponse(op: .error, code: 1, error: "message", reconnect: true)
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
@@ -267,7 +267,7 @@ class ParseLiveQueryTests: XCTestCase {
                                                  installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
 
