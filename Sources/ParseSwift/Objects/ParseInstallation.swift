@@ -242,7 +242,7 @@ extension ParseInstallation {
             print("COREY0: \(Bundle.main)")
             return
         }
-        print("COREY1: \(Bundle.allBundles)")
+        print("COREY1: \(Bundle.main)")
         #if !os(Linux)
         #if TARGET_OS_MACCATALYST
         // If using an Xcode new enough to know about Mac Catalyst:
