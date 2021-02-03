@@ -734,6 +734,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeSaveAllAsync() {
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
@@ -774,6 +775,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                               callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testSaveAllAsyncMainQueue() {
         let score = GameScore(score: 10)
@@ -1207,6 +1209,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeFetchAllAsync() {
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
@@ -1246,6 +1249,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                               callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testFetchAllAsyncMainQueue() {
         let score = GameScore(score: 10)

@@ -441,6 +441,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeFetchAsync() {
         var score = GameScore(score: 10)
         let objectId = "yarr"
@@ -469,6 +470,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             self.fetchAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testFetchAsyncMainQueue() {
         var score = GameScore(score: 10)
@@ -729,6 +731,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeSaveAsync() {
         let score = GameScore(score: 10)
 
@@ -754,6 +757,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             self.saveAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testSaveAsyncMainQueue() {
         let score = GameScore(score: 10)
@@ -832,6 +836,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeUpdateAsync() {
         var score = GameScore(score: 10)
         score.objectId = "yarr"
@@ -858,6 +863,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             self.updateAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testUpdateAsyncMainQueue() {
         var score = GameScore(score: 10)
@@ -998,6 +1004,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeDeleteAsync() {
         var score = GameScore(score: 10)
         let objectId = "yarr"
@@ -1026,6 +1033,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             self.deleteAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testDeleteAsyncMainQueue() {
         var score = GameScore(score: 10)

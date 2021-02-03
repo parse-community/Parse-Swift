@@ -286,6 +286,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeFindAsync() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
@@ -307,6 +308,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             findAsync(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testFindAsyncMainQueue() {
         var scoreOnServer = GameScore(score: 10)
@@ -423,6 +425,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeFirstAsync() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
@@ -444,6 +447,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             firstAsync(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testFirstAsyncMainQueue() {
         var scoreOnServer = GameScore(score: 10)
@@ -464,6 +468,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         firstAsync(scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
+    #if !os(Linux)
     func testThreadSafeFirstAsyncNoObjectFound() {
         let scoreOnServer = GameScore(score: 10)
         let results = QueryResponse<GameScore>(results: [GameScore](), count: 0)
@@ -480,6 +485,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             firstAsyncNoObjectFound(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testFirstAsyncNoObjectFoundMainQueue() {
         let scoreOnServer = GameScore(score: 10)
@@ -540,6 +546,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    #if !os(Linux)
     func testThreadSafeCountAsync() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
@@ -561,7 +568,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             countAsync(scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
-
+    #endif
+    
     func testCountAsyncMainQueue() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
