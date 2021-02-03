@@ -522,7 +522,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 
     func testUpdateCommand() throws {
         var score = GameScore(score: 10)
@@ -552,6 +551,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
+    #endif
 
     func testSave() { // swiftlint:disable:this function_body_length
         let score = GameScore(score: 10)
