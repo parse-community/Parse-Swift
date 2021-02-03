@@ -33,6 +33,8 @@ import AppKit
 
  - warning: Only use `ParseInstallation.current` installations on the main thread as they
    require UIApplication for `badge`
+ - warning: Linux developers should set `appName`, `appVersion`, and `appVersion`
+ manually as `ParseSwift` doesn't have access to Bundle.main.
 */
 public protocol ParseInstallation: ParseObject {
 
@@ -239,10 +241,8 @@ extension ParseInstallation {
 
     mutating func updateVersionInfoFromDevice() {
         guard let appInfo = Bundle.main.infoDictionary else {
-            print("COREY0: \(Bundle.main)")
             return
         }
-        print("COREY1: \(Bundle.main)")
         #if !os(Linux)
         #if TARGET_OS_MACCATALYST
         // If using an Xcode new enough to know about Mac Catalyst:

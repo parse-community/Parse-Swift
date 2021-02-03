@@ -226,6 +226,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    #if !os(Linux)
     // swiftlint:disable:next function_body_length
     func testInstallationImmutableFieldsCannotBeChangedInKeychain() {
         let expectation1 = XCTestExpectation(description: "Update installation1")
@@ -278,6 +279,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
         wait(for: [expectation1], timeout: 20.0)
     }
+    #endif
 
     func testInstallationHasApplicationBadge() {
         let expectation1 = XCTestExpectation(description: "Update installation1")

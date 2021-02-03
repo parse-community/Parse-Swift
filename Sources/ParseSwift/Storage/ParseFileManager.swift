@@ -87,7 +87,7 @@ internal struct ParseFileManager {
         guard let applicationId = ParseConfiguration.applicationId else {
             return nil
         }
-        applicationIdentifier = "com.parse.ParseSwift.\(applicationId)"
+        applicationIdentifier = "\(applicationId)"
         #else
         if let identifier = Bundle.main.bundleIdentifier {
             applicationIdentifier = identifier
