@@ -97,7 +97,7 @@ jobs:
       - name: Build
         run: swift build
       - name: Test
-        run: swift test --enable-test-discovery
+        run: swift test --enable-test-discovery --enable-code-coverage
       - name: Prepare codecov
         run: llvm-cov export -format="text" .build/x86_64-unknown-linux-gnu/debug/codecov/ParseSwift.json -instr-profile .build/debug/codecov/default.profdata > info.lcov
       - name: Send codecov
