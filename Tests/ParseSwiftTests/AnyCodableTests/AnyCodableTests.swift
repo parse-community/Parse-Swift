@@ -90,9 +90,4 @@ class AnyCodableTests: XCTestCase {
         }
     }
     #endif
-
-    static var allTests = [
-        ("testJSONDecoding", testJSONDecoding),
-        ("testJSONEncoding", testJSONEncoding)
-    ]
 }

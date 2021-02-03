@@ -52,8 +52,5 @@ class AnyEncodableTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
     }
-    static var allTests = [
-        ("testJSONEncoding", testJSONEncoding)
-    ]
 }
 #endif
