@@ -33,21 +33,21 @@ struct GameScore: ParseObject {
 //: Create a query just as you normally would.
 var query = GameScore.query("score" > 9)
 
-//To use subscriptions inside of SwiftUI
+//: To use subscriptions inside of SwiftUI
 struct ContentView: View {
-    
+
     //: A LiveQuery subscription can be used as a view model in SwiftUI
     @ObservedObject var subscription = query.subscribe!
 
     var body: some View {
         VStack {
-            
+
             if subscription.subscribed != nil {
                 Text("Subscribed to query!")
             } else if subscription.unsubscribed != nil {
                 Text("Unsubscribed from query!")
             } else if let event = subscription.event {
-                
+
                 //: This is how you register to receive notificaitons of events related to your LiveQuery.
                 switch event.event {
 
@@ -65,7 +65,7 @@ struct ContentView: View {
             } else {
                 Text("Not subscribed to a query")
             }
- 
+
             Spacer()
 
             Text("Update GameScore in Parse Dashboard to see changes here")
