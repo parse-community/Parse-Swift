@@ -8,6 +8,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.3...1.1.4)
 
 __New features__
+- LDAP authentication support ([#79](https://github.com/parse-community/Parse-Swift/pull/79)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Support for push notifications through `ParseInstallation` ([#78](https://github.com/parse-community/Parse-Swift/pull/78)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Fetch with include ([#74](https://github.com/parse-community/Parse-Swift/pull/74)), thanks to [Corey Baker](https://github.com/cbaker6).
 

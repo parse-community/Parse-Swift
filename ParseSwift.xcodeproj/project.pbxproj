@@ -99,6 +99,16 @@
 		70386A0725D9718C0048EC1B /* Data+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data+hexString.swift */; };
 		70386A0825D9718C0048EC1B /* Data+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data+hexString.swift */; };
 		70386A0925D9718C0048EC1B /* Data+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data+hexString.swift */; };
+		70386A3825D998D90048EC1B /* ParseLDAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A3725D998D90048EC1B /* ParseLDAP.swift */; };
+		70386A3925D998D90048EC1B /* ParseLDAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A3725D998D90048EC1B /* ParseLDAP.swift */; };
+		70386A3A25D998D90048EC1B /* ParseLDAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A3725D998D90048EC1B /* ParseLDAP.swift */; };
+		70386A3B25D998D90048EC1B /* ParseLDAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A3725D998D90048EC1B /* ParseLDAP.swift */; };
+		70386A4625D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A4525D99C8B0048EC1B /* ParseLDAPTests.swift */; };
+		70386A4725D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A4525D99C8B0048EC1B /* ParseLDAPTests.swift */; };
+		70386A4825D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A4525D99C8B0048EC1B /* ParseLDAPTests.swift */; };
+		70386A5C25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A5B25D9A4010048EC1B /* ParseLDAPCombineTests.swift */; };
+		70386A5D25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A5B25D9A4010048EC1B /* ParseLDAPCombineTests.swift */; };
+		70386A5E25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A5B25D9A4010048EC1B /* ParseLDAPCombineTests.swift */; };
 		7044C17525C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */; };
 		7044C17625C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */; };
 		7044C17725C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */; };
@@ -541,6 +551,9 @@
 		7033ECBC25584A85009770F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7033ECBE25584A85009770F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70386A0525D9718C0048EC1B /* Data+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+hexString.swift"; sourceTree = "<group>"; };
+		70386A3725D998D90048EC1B /* ParseLDAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLDAP.swift; sourceTree = "<group>"; };
+		70386A4525D99C8B0048EC1B /* ParseLDAPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLDAPTests.swift; sourceTree = "<group>"; };
+		70386A5B25D9A4010048EC1B /* ParseLDAPCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLDAPCombineTests.swift; sourceTree = "<group>"; };
 		7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseCloud+combine.swift"; sourceTree = "<group>"; };
 		7044C18225C4EFC10011F6E7 /* ParseConfig+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseConfig+combine.swift"; sourceTree = "<group>"; };
 		7044C19025C4F5B60011F6E7 /* ParseFile+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseFile+combine.swift"; sourceTree = "<group>"; };
@@ -771,7 +784,9 @@
 				7044C22C25C5E4E90011F6E7 /* ParseAnonymousCombineTests.swift */,
 				70A2D86A25B3ADB6001BEB7D /* ParseAnonymousTests.swift */,
 				7044C24225C5EA360011F6E7 /* ParseAppleCombineTests.swift */,
+				70386A5B25D9A4010048EC1B /* ParseLDAPCombineTests.swift */,
 				70C5502125B3D8F700B5DBC2 /* ParseAppleTests.swift */,
+				70386A4525D99C8B0048EC1B /* ParseLDAPTests.swift */,
 				70A2D81E25B36A7D001BEB7D /* ParseAuthenticationTests.swift */,
 				7044C21225C5DE490011F6E7 /* ParseCloudCombineTests.swift */,
 				916786EF259BC59600BB5B4E /* ParseCloudTests.swift */,
@@ -968,6 +983,7 @@
 			isa = PBXGroup;
 			children = (
 				707A3C1F25B14BCF000D215C /* ParseApple.swift */,
+				70386A3725D998D90048EC1B /* ParseLDAP.swift */,
 			);
 			path = "3rd Party";
 			sourceTree = "<group>";
@@ -1534,6 +1550,7 @@
 				F97B465224D9C78C00F4A88B /* AddUnique.swift in Sources */,
 				F97B45D624D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				700395A325A119430052CB31 /* Operations.swift in Sources */,
+				70386A3825D998D90048EC1B /* ParseLDAP.swift in Sources */,
 				700395F225A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45F224D9C6F200F4A88B /* Pointer.swift in Sources */,
 				70510AAC259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
@@ -1605,6 +1622,7 @@
 			files = (
 				911DB13624C4FC100027F3C7 /* ParseObjectTests.swift in Sources */,
 				70CE1D892545BF730018D572 /* ParsePointerTests.swift in Sources */,
+				70386A4625D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
 				911DB12E24C4837E0027F3C7 /* APICommandTests.swift in Sources */,
 				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
 				7044C24325C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
@@ -1620,6 +1638,7 @@
 				70C5508525B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
 				7004C24D25B69207005E0AD9 /* ParseRoleTests.swift in Sources */,
 				91678706259BC5D400BB5B4E /* ParseCloudTests.swift in Sources */,
+				70386A5C25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */,
 				70D1BD8725B8C37200A42E7C /* ParseRelationTests.swift in Sources */,
 				7003963B25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */,
 				7FFF552E2217E72A007C3B4E /* AnyEncodableTests.swift in Sources */,
@@ -1666,6 +1685,7 @@
 				F97B465324D9C78C00F4A88B /* AddUnique.swift in Sources */,
 				F97B45D724D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				700395A425A119430052CB31 /* Operations.swift in Sources */,
+				70386A3925D998D90048EC1B /* ParseLDAP.swift in Sources */,
 				700395F325A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45F324D9C6F200F4A88B /* Pointer.swift in Sources */,
 				70510AAD259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
@@ -1746,6 +1766,7 @@
 			files = (
 				709B98512556ECAA00507778 /* ParseEncoderTests.swift in Sources */,
 				709B98532556ECAA00507778 /* ParsePointerTests.swift in Sources */,
+				70386A4825D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
 				709B984C2556ECAA00507778 /* APICommandTests.swift in Sources */,
 				709B984D2556ECAA00507778 /* AnyDecodableTests.swift in Sources */,
 				7044C24525C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
@@ -1761,6 +1782,7 @@
 				70C5508725B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
 				7004C26125B6920B005E0AD9 /* ParseRoleTests.swift in Sources */,
 				9167871A259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */,
+				70386A5E25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */,
 				70D1BD8925B8C37200A42E7C /* ParseRelationTests.swift in Sources */,
 				7003963D25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */,
 				709B98592556ECAA00507778 /* MockURLResponse.swift in Sources */,
@@ -1793,6 +1815,7 @@
 			files = (
 				70F2E2B6254F283000B2EA5C /* ParseACLTests.swift in Sources */,
 				70F2E2B7254F283000B2EA5C /* ParsePointerTests.swift in Sources */,
+				70386A4725D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
 				70F2E2B5254F283000B2EA5C /* ParseEncoderTests.swift in Sources */,
 				70F2E2C2254F283000B2EA5C /* APICommandTests.swift in Sources */,
 				7044C24425C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
@@ -1808,6 +1831,7 @@
 				70C5508625B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
 				7004C25725B6920A005E0AD9 /* ParseRoleTests.swift in Sources */,
 				91678710259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */,
+				70386A5D25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */,
 				70D1BD8825B8C37200A42E7C /* ParseRelationTests.swift in Sources */,
 				7003963C25A288100052CB31 /* ParseLiveQueryTests.swift in Sources */,
 				70F2E2C1254F283000B2EA5C /* AnyCodableTests.swift in Sources */,
@@ -1854,6 +1878,7 @@
 				F97B45E524D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				F97B465D24D9C78C00F4A88B /* Increment.swift in Sources */,
 				700395A625A119430052CB31 /* Operations.swift in Sources */,
+				70386A3B25D998D90048EC1B /* ParseLDAP.swift in Sources */,
 				700395F525A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FD24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70510AAF259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
@@ -1939,6 +1964,7 @@
 				F97B45E424D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				F97B465C24D9C78C00F4A88B /* Increment.swift in Sources */,
 				700395A525A119430052CB31 /* Operations.swift in Sources */,
+				70386A3A25D998D90048EC1B /* ParseLDAP.swift in Sources */,
 				700395F425A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FC24D9C6F200F4A88B /* ParseACL.swift in Sources */,
 				70510AAE259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,

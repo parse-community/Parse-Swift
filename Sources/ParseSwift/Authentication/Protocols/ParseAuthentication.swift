@@ -85,8 +85,6 @@ public protocol ParseAuthentication: Codable {
 
     /**
      Strips the *current* user of a respective authentication type.
-     - returns: The *current* user whose autentication type was stripped. Returns `nil`
-     if there's no current user. This modified user has not been saved.
      */
     func strip()
 
@@ -265,6 +263,17 @@ public extension ParseUser {
     }
 
     /**
+     Strips the *current* user of a respective authentication type.
+     - parameter type: The authentication type to strip.
+     - returns: The user whose autentication type was stripped.
+     */
+    func strip(_ type: String) -> Self {
+        var user = self
+        user.authData?.updateValue(nil, forKey: type)
+        return user
+    }
+
+    /**
      Unlink the authentication type *asynchronously*.
      - parameter type: The type to unlink. The user must be logged in on this device.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -287,7 +296,7 @@ public extension ParseUser {
         }
 
         if current.isLinked(with: type) {
-            guard let authData = current.apple.strip(current).authData else {
+            guard let authData = current.strip(type).authData else {
                 let error = ParseError(code: .unknownError, message: "Missing authData.")
                 callbackQueue.async {
                     completion(.failure(error))
