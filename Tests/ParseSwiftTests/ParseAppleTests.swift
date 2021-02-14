@@ -139,6 +139,10 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
                 XCTAssertTrue(user.apple.isLinked)
+
+                //Test stripping
+                user.apple.strip()
+                XCTAssertFalse(user.apple.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }

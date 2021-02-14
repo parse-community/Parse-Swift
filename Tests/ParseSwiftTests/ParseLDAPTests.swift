@@ -139,6 +139,10 @@ class ParseLDAPTests: XCTestCase {
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
                 XCTAssertTrue(user.ldap.isLinked)
+
+                //Test stripping
+                user.ldap.strip()
+                XCTAssertFalse(user.ldap.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
