@@ -95,6 +95,17 @@ extension ParseInstallation {
 
         return .installations
     }
+
+    /**
+     Sets the device token string property from an `Data`-encoded token.
+     - parameter data: A token that identifies the device.
+     */
+    mutating public func setDeviceToken(_ data: Data) {
+        let deviceTokenString = data.hexEncodedString()
+        if deviceToken != deviceTokenString {
+            deviceToken = deviceTokenString
+        }
+    }
 }
 
 // MARK: CurrentInstallationContainer
