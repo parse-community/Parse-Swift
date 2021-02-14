@@ -1,8 +1,8 @@
 //
-//  ParseAppleTests.swift
+//  ParseLDAPTests.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 1/16/21.
+//  Created by Corey Baker on 2/14/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseAppleTests: XCTestCase {
+class ParseLDAPTests: XCTestCase {
     struct User: ParseUser {
 
         //: Those are required for Object
@@ -94,22 +94,22 @@ class ParseAppleTests: XCTestCase {
     }
 
     func testAuthenticationKeys() throws {
-        let authData = ParseApple<User>
-            .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: "this")
-        XCTAssertEqual(authData, ["id": "testing", "token": "this"])
+        let authData = ParseLDAP<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing",
+                                                  password: "this")
+        XCTAssertEqual(authData, ["id": "testing", "password": "this"])
     }
 
     func testLogin() throws {
         var serverResponse = LoginSignupResponse()
-        let authData = ParseApple<User>
-            .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: "this")
+        let authData = ParseLDAP<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing",
+                                                  password: "this")
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.apple.__type: authData]
+        serverResponse.authData = [serverResponse.ldap.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -130,7 +130,7 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.login(user: "testing", identityToken: "this") { result in
+        User.ldap.login(id: "testing", password: "this") { result in
             switch result {
 
             case .success(let user):
@@ -138,11 +138,11 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user, userOnServer)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertTrue(user.ldap.isLinked)
 
                 //Test stripping
-                user.apple.strip()
-                XCTAssertFalse(user.apple.isLinked)
+                user.ldap.strip()
+                XCTAssertFalse(user.ldap.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -187,19 +187,19 @@ class ParseAppleTests: XCTestCase {
         XCTAssertTrue(user.anonymous.isLinked)
     }
 
-    func testReplaceAnonymousWithApple() throws {
+    func testReplaceAnonymousWithLDAP() throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()
-        let authData = ParseApple<User>
-            .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: "this")
+        let authData = ParseLDAP<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing",
+                                                  password: "this")
 
         var serverResponse = LoginSignupResponse()
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.apple.__type: authData]
+        serverResponse.authData = [serverResponse.ldap.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -220,7 +220,7 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.login(user: "testing", identityToken: "this") { result in
+        User.ldap.login(id: "testing", password: "this") { result in
             switch result {
 
             case .success(let user):
@@ -228,7 +228,7 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user, userOnServer)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertTrue(user.ldap.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -238,7 +238,7 @@ class ParseAppleTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testReplaceAnonymousWithLinkedApple() throws {
+    func testReplaceAnonymousWithLinkedLDAP() throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()
         var serverResponse = LoginSignupResponse()
@@ -261,7 +261,7 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.link(user: "testing", identityToken: "this") { result in
+        User.ldap.link(id: "testing", password: "this") { result in
             switch result {
 
             case .success(let user):
@@ -269,7 +269,7 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertTrue(user.ldap.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -279,7 +279,7 @@ class ParseAppleTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testLinkLoggedInUserWithApple() throws {
+    func testLinkLoggedInUserWithLDAP() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
@@ -303,7 +303,7 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.link(user: "testing", identityToken: "this") { result in
+        User.ldap.link(id: "testing", password: "this") { result in
             switch result {
 
             case .success(let user):
@@ -311,7 +311,7 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "parse")
                 XCTAssertNil(user.password)
-                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertTrue(user.ldap.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -324,11 +324,11 @@ class ParseAppleTests: XCTestCase {
     func testUnlink() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
-        let authData = ParseApple<User>
-            .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                              identityToken: "this")
-        User.current?.authData = [User.apple.__type: authData]
-        XCTAssertTrue(User.apple.isLinked)
+        let authData = ParseLDAP<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing",
+                                              password: "this")
+        User.current?.authData = [User.ldap.__type: authData]
+        XCTAssertTrue(User.ldap.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -350,7 +350,7 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.unlink { result in
+        User.ldap.unlink { result in
             switch result {
 
             case .success(let user):
@@ -358,7 +358,7 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "parse")
                 XCTAssertNil(user.password)
-                XCTAssertFalse(user.apple.isLinked)
+                XCTAssertFalse(user.ldap.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }

@@ -1,8 +1,8 @@
 //
-//  ParseApple.swift
+//  ParseLDAP.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 1/14/21.
+//  Created by Corey Baker on 2/14/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
@@ -14,25 +14,24 @@ import Combine
 // swiftlint:disable line_length
 
 /**
- Provides utility functions for working with Apple User Authentication and `ParseUser`'s.
- Be sure your Parse Server is configured for [sign in with Apple](https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-sign-in-with-apple).
- For information on acquiring Apple sign-in credentials to use with `ParseApple`, refer to [Apple's Documentation](https://developer.apple.com/documentation/authenticationservices/implementing_user_authentication_with_sign_in_with_apple).
+ Provides utility functions for working with LDAP User Authentication and `ParseUser`'s.
+ Be sure your Parse Server is configured for [sign in with LDAP](https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-ldap).
  */
-public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
+public struct ParseLDAP<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
-    /// Authentication keys required for Apple authentication.
+    /// Authentication keys required for LDAP authentication.
     enum AuthenticationKeys: String, Codable {
         case id // swiftlint:disable:this identifier_name
-        case token
+        case password
 
         /// Properly makes an authData dictionary with the required keys.
-        /// - parameter user: Required id for the user.
-        /// - parameter identityToken: Required identity token for the user.
+        /// - parameter id: Required id.
+        /// - parameter password: Required password.
         /// - returns: Required authData dictionary.
-        func makeDictionary(user: String,
-                            identityToken: String) -> [String: String] {
-            [AuthenticationKeys.id.rawValue: user,
-             AuthenticationKeys.token.rawValue: identityToken]
+        func makeDictionary(id: String, // swiftlint:disable:this identifier_name
+                            password: String) -> [String: String] {
+            [AuthenticationKeys.id.rawValue: id,
+             AuthenticationKeys.password.rawValue: password]
         }
 
         /// Verifies all mandatory keys are in authData.
@@ -41,34 +40,34 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
         func verifyMandatoryKeys(authData: [String: String]?) -> Bool {
             guard let authData = authData,
                   authData[AuthenticationKeys.id.rawValue] != nil,
-                  authData[AuthenticationKeys.token.rawValue] != nil else {
+                  authData[AuthenticationKeys.password.rawValue] != nil else {
                 return false
             }
             return true
         }
     }
     public static var __type: String { // swiftlint:disable:this identifier_name
-        "apple"
+        "ldap"
     }
     public init() { }
 }
 
 // MARK: Login
-public extension ParseApple {
+public extension ParseLDAP {
     /**
-     Login a `ParseUser` *asynchronously* using Apple authentication.
-     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     Login a `ParseUser` *asynchronously* using LDAP authentication.
+     - parameter id: The id of the `user`.
+     - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func login(user: String,
-               identityToken: String,
+    func login(id: String, // swiftlint:disable:this identifier_name
+               password: String,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        login(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+        login(authData: AuthenticationKeys.id.makeDictionary(id: id, password: password),
                          options: options,
                          callbackQueue: callbackQueue,
                          completion: completion)
@@ -97,17 +96,17 @@ public extension ParseApple {
     #if canImport(Combine)
 
     /**
-     Login a `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
-     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     Login a `ParseUser` *asynchronously* using LDAP authentication. Publishes when complete.
+     - parameter id: The id of the `user`.
+     - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(user: String,
-                        identityToken: String,
+    func loginPublisher(id: String, // swiftlint:disable:this identifier_name
+                        password: String,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        loginPublisher(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+        loginPublisher(authData: AuthenticationKeys.id.makeDictionary(id: id, password: password),
                        options: options)
     }
 
@@ -131,22 +130,22 @@ public extension ParseApple {
 }
 
 // MARK: Link
-public extension ParseApple {
+public extension ParseLDAP {
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using Apple authentication.
-     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     Link the *current* `ParseUser` *asynchronously* using LDAP authentication.
+     - parameter id: The id of the `user`.
+     - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func link(user: String,
-              identityToken: String,
+    func link(id: String, // swiftlint:disable:this identifier_name
+              password: String,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        link(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+        link(authData: AuthenticationKeys.id.makeDictionary(id: id, password: password),
                         options: options,
                         callbackQueue: callbackQueue,
                         completion: completion)
@@ -175,17 +174,17 @@ public extension ParseApple {
     #if canImport(Combine)
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
-     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     Link the *current* `ParseUser` *asynchronously* using LDAP authentication. Publishes when complete.
+     - parameter id: The id of the `user`.
+     - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(user: String,
-                       identityToken: String,
+    func linkPublisher(id: String, // swiftlint:disable:this identifier_name
+                       password: String,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        linkPublisher(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+        linkPublisher(authData: AuthenticationKeys.id.makeDictionary(id: id, password: password),
              options: options)
     }
 
@@ -208,16 +207,16 @@ public extension ParseApple {
     #endif
 }
 
-// MARK: 3rd Party Authentication - ParseApple
+// MARK: 3rd Party Authentication - ParseLDAP
 public extension ParseUser {
 
-    /// An apple `ParseUser`.
-    static var apple: ParseApple<Self> {
-        ParseApple<Self>()
+    /// An ldap `ParseUser`.
+    static var ldap: ParseLDAP<Self> {
+        ParseLDAP<Self>()
     }
 
-    /// An apple `ParseUser`.
-    var apple: ParseApple<Self> {
-        Self.apple
+    /// An ldap `ParseUser`.
+    var ldap: ParseLDAP<Self> {
+        Self.ldap
     }
 }
