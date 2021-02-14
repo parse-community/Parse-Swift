@@ -28,8 +28,8 @@ import AppKit
  when the `ParseInstallation` is saved, thus these fields might not reflect the
  latest device state if the installation has not recently been saved.
 
- `ParseInstallation` installations which have a valid `deviceToken` and are saved to
- the Parse cloud can be used to target push notifications. Use `setDeviceToken` to set the
+ `ParseInstallation`s which have a valid `deviceToken` and are saved to
+ the Parse Server can be used to target push notifications. Use `setDeviceToken` to set the
  `deviceToken` properly.
 
  - warning: Only use `ParseInstallation.current` installations on the main thread as they
