@@ -17,6 +17,7 @@ internal extension Data {
 
     func hexEncodedString(options: HexEncodingOptions = []) -> String {
         let hexDigits = options.contains(.upperCase) ? "0123456789ABCDEF" : "0123456789abcdef"
+        #if compiler(>=5.3)
         if #available(macOS 11.0, iOS 14.0, watchOS 7.0, tvOS 14.0, *) {
             let utf8Digits = Array(hexDigits.utf8)
             return String(unsafeUninitializedCapacity: 2 * count) { (ptr) -> Int in
@@ -38,5 +39,15 @@ internal extension Data {
             }
             return String(utf16CodeUnits: chars, count: chars.count)
         }
+        #else
+        let utf16Digits = Array(hexDigits.utf16)
+        var chars: [unichar] = []
+        chars.reserveCapacity(2 * count)
+        for byte in self {
+            chars.append(utf16Digits[Int(byte / 16)])
+            chars.append(utf16Digits[Int(byte % 16)])
+        }
+        return String(utf16CodeUnits: chars, count: chars.count)
+        #endif
     }
 }

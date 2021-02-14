@@ -86,6 +86,12 @@ jobs:
       run: swift test --enable-code-coverage -v
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
+    - name: Prepare codecov
+      run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
+    - name: Send codecov
+      run: bash <(curl https://codecov.io/bash)
  
   linux:
     runs-on: ubuntu-18.04
