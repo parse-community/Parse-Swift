@@ -155,6 +155,12 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    func testDeviceTokenAsString() throws {
+        let data = Data([0, 1, 127, 128, 255])
+        XCTAssertEqual(data.hexEncodedString(), "00017f80ff")
+        XCTAssertEqual(data.hexEncodedString(options: .upperCase), "00017F80FF")
+    }
+
     func testInstallationMutableValuesCanBeChangedInMemory() {
         let expectation1 = XCTestExpectation(description: "Update installation1")
         DispatchQueue.main.async {
@@ -165,7 +171,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             }
 
             Installation.current?.customKey = "Changed"
+            Installation.current?.setDeviceToken(Data([0, 1, 127, 128, 255]))
             XCTAssertNotEqual(originalInstallation.customKey, Installation.current?.customKey)
+            XCTAssertNotEqual(originalInstallation.deviceToken, Installation.current?.customKey)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)

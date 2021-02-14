@@ -1,8 +1,18 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.3...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.4...main)
 * _Contributing to this repo? Add info about your change here to be included in next release_
+
+### 1.1.4
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.3...1.1.4)
+
+__New features__
+- Support for push notifications through `ParseInstallation` ([#78](https://github.com/parse-community/Parse-Swift/pull/78)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Fetch with include ([#74](https://github.com/parse-community/Parse-Swift/pull/74)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- Added `ParseLiveQuery` SwiftUI example to Playgrounds ([#77](https://github.com/parse-community/Parse-Swift/pull/77)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.1.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.2...1.1.3)

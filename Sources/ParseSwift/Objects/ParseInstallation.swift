@@ -28,8 +28,9 @@ import AppKit
  when the `ParseInstallation` is saved, thus these fields might not reflect the
  latest device state if the installation has not recently been saved.
 
- `ParseInstallation` installations which have a valid `deviceToken` and are saved to
- the Parse cloud can be used to target push notifications.
+ `ParseInstallation`s which have a valid `deviceToken` and are saved to
+ the Parse Server can be used to target push notifications. Use `setDeviceToken` to set the
+ `deviceToken` properly.
 
  - warning: Only use `ParseInstallation.current` installations on the main thread as they
    require UIApplication for `badge`
@@ -94,6 +95,17 @@ extension ParseInstallation {
         }
 
         return .installations
+    }
+
+    /**
+     Sets the device token string property from an `Data`-encoded token.
+     - parameter data: A token that identifies the device.
+     */
+    mutating public func setDeviceToken(_ data: Data) {
+        let deviceTokenString = data.hexEncodedString()
+        if deviceToken != deviceTokenString {
+            deviceToken = deviceTokenString
+        }
     }
 }
 
