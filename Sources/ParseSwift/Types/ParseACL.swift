@@ -298,7 +298,6 @@ extension ParseACL {
     */
     public static func defaultACL() throws -> Self {
 
-        let currentUser = BaseParseUser.current
         let aclController: DefaultACL?
 
         #if !os(Linux)
@@ -311,11 +310,11 @@ extension ParseACL {
             if !aclController!.useCurrentUser {
                 return aclController!.defaultACL
             } else {
-                guard let userObjectId = currentUser?.objectId else {
+                guard let userObjectId = BaseParseUser.current?.objectId else {
                     return aclController!.defaultACL
                 }
 
-                guard let lastCurrentUserObjectId = aclController!.lastCurrentUser?.objectId,
+                guard let lastCurrentUserObjectId = aclController!.lastCurrentUserObjectId,
                     userObjectId == lastCurrentUserObjectId else {
                     return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
                 }
@@ -346,8 +345,6 @@ extension ParseACL {
     */
     public static func setDefaultACL(_ acl: ParseACL, withAccessForCurrentUser: Bool) throws -> ParseACL {
 
-        let currentUser = BaseParseUser.current
-
         let modifiedACL: ParseACL?
         if withAccessForCurrentUser {
             modifiedACL = setDefaultAccess(acl)
@@ -355,19 +352,26 @@ extension ParseACL {
             modifiedACL = acl
         }
 
+        guard let currentUserObjectId = BaseParseUser.current?.objectId else {
+            throw ParseError(code: .missingObjectId, message: "Can't set defaultACL with no current user")
+        }
+
         let aclController: DefaultACL!
         if modifiedACL != nil {
             aclController = DefaultACL(defaultACL: modifiedACL!,
-                                       lastCurrentUser: currentUser, useCurrentUser: withAccessForCurrentUser)
+                                       lastCurrentUserObjectId: currentUserObjectId,
+                                       useCurrentUser: withAccessForCurrentUser)
         } else {
             aclController =
-                DefaultACL(defaultACL: acl, lastCurrentUser: currentUser, useCurrentUser: withAccessForCurrentUser)
+                DefaultACL(defaultACL: acl,
+                           lastCurrentUserObjectId: currentUserObjectId,
+                           useCurrentUser: withAccessForCurrentUser)
         }
 
         #if !os(Linux)
-        try? KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
+        try KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
         #else
-        try? ParseStorage.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
+        try ParseStorage.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
         #endif
         return aclController.defaultACL
     }
@@ -432,6 +436,6 @@ extension ParseACL: CustomDebugStringConvertible {
 
 struct DefaultACL: Codable {
     var defaultACL: ParseACL
-    var lastCurrentUser: BaseParseUser?
+    var lastCurrentUserObjectId: String?
     var useCurrentUser: Bool
 }

@@ -96,10 +96,8 @@ class ParseACLTests: XCTestCase {
         }
     }
 
-    func testSetACLOfObjectWithDefaultACL() throws {
-        var user = User()
-        user.ACL = try ParseACL.defaultACL()
-        XCTAssertNotNil(user.ACL)
+    func testCantSetDefaultACLWhenNotLoggedIn() throws {
+        XCTAssertThrowsError(try ParseACL.defaultACL())
     }
 
     func testPublicAccess() {
