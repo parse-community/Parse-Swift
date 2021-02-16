@@ -4,6 +4,12 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.4...main)
 * _Contributing to this repo? Add info about your change here to be included in next release_
 
+### 1.1.5
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.4...1.1.5)
+
+__Improvements__
+- `ParseACL` improvements. Only call `ParseUser.current` when necessary ([#80](https://github.com/parse-community/Parse-Swift/pull/80)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.1.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.3...1.1.4)
 
