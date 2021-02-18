@@ -8,6 +8,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.4...1.1.5)
 
 __Improvements__
+- Make it easier to use `ParseApple` ([#81](https://github.com/parse-community/Parse-Swift/pull/81)), thanks to [Corey Baker](https://github.com/cbaker6).
 - `ParseACL` improvements. Only call `ParseUser.current` when necessary ([#80](https://github.com/parse-community/Parse-Swift/pull/80)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.1.4

@@ -112,7 +112,12 @@ class ParseAppleCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.apple.loginPublisher(user: "testing", identityToken: "this")
+        guard let tokenData = "this".data(using: .utf8) else {
+            XCTFail("Couldn't convert token data to string")
+            return
+        }
+
+        let publisher = User.apple.loginPublisher(user: "testing", identityToken: tokenData)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -172,7 +177,12 @@ class ParseAppleCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.apple.linkPublisher(user: "testing", identityToken: "this")
+        guard let tokenData = "this".data(using: .utf8) else {
+            XCTFail("Couldn't convert token data to string")
+            return
+        }
+
+        let publisher = User.apple.linkPublisher(user: "testing", identityToken: tokenData)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -201,9 +211,14 @@ class ParseAppleCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
-        let authData = ParseApple<User>
+        guard let tokenData = "this".data(using: .utf8) else {
+            XCTFail("Couldn't convert token data to string")
+            return
+        }
+
+        let authData = try ParseApple<User>
             .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                              identityToken: "this")
+                                                  identityToken: tokenData)
         User.current?.authData = [User.apple.__type: authData]
         XCTAssertTrue(User.apple.isLinked)
 

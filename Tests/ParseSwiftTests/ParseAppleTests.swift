@@ -94,17 +94,23 @@ class ParseAppleTests: XCTestCase {
     }
 
     func testAuthenticationKeys() throws {
-        let authData = ParseApple<User>
+        let tokenData = Data([0, 1, 127, 128, 255])
+        let authData = try ParseApple<User>
             .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: "this")
-        XCTAssertEqual(authData, ["id": "testing", "token": "this"])
+                                                  identityToken: tokenData)
+        XCTAssertEqual(authData, ["id": "testing", "token": "00017f80ff"])
     }
 
     func testLogin() throws {
         var serverResponse = LoginSignupResponse()
-        let authData = ParseApple<User>
+        guard let tokenData = "this".data(using: .utf8) else {
+            XCTFail("Couldn't convert token data to string")
+            return
+        }
+
+        let authData = try ParseApple<User>
             .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: "this")
+                                                  identityToken: tokenData)
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
@@ -130,7 +136,7 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.login(user: "testing", identityToken: "this") { result in
+        User.apple.login(user: "testing", identityToken: tokenData) { result in
             switch result {
 
             case .success(let user):
@@ -190,9 +196,14 @@ class ParseAppleTests: XCTestCase {
     func testReplaceAnonymousWithApple() throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()
-        let authData = ParseApple<User>
+        guard let tokenData = "this".data(using: .utf8) else {
+            XCTFail("Couldn't convert token data to string")
+            return
+        }
+
+        let authData = try ParseApple<User>
             .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: "this")
+                                                  identityToken: tokenData)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.username = "hello"
@@ -220,7 +231,7 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.login(user: "testing", identityToken: "this") { result in
+        User.apple.login(user: "testing", identityToken: tokenData) { result in
             switch result {
 
             case .success(let user):
@@ -261,7 +272,12 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.link(user: "testing", identityToken: "this") { result in
+        guard let tokenData = "this".data(using: .utf8) else {
+            XCTFail("Couldn't convert token data to string")
+            return
+        }
+
+        User.apple.link(user: "testing", identityToken: tokenData) { result in
             switch result {
 
             case .success(let user):
@@ -303,7 +319,12 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.link(user: "testing", identityToken: "this") { result in
+        guard let tokenData = "this".data(using: .utf8) else {
+            XCTFail("Couldn't convert token data to string")
+            return
+        }
+
+        User.apple.link(user: "testing", identityToken: tokenData) { result in
             switch result {
 
             case .success(let user):
@@ -324,9 +345,14 @@ class ParseAppleTests: XCTestCase {
     func testUnlink() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
-        let authData = ParseApple<User>
+        guard let tokenData = "this".data(using: .utf8) else {
+            XCTFail("Couldn't convert token data to string")
+            return
+        }
+
+        let authData = try ParseApple<User>
             .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                              identityToken: "this")
+                                                  identityToken: tokenData)
         User.current?.authData = [User.apple.__type: authData]
         XCTAssertTrue(User.apple.isLinked)
 

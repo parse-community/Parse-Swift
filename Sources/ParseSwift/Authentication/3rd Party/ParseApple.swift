@@ -29,10 +29,13 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// - parameter user: Required id for the user.
         /// - parameter identityToken: Required identity token for the user.
         /// - returns: Required authData dictionary.
+        /// - throws: `ParseError` if the `identityToken` can't be converted
+        /// to a string.
         func makeDictionary(user: String,
-                            identityToken: String) -> [String: String] {
-            [AuthenticationKeys.id.rawValue: user,
-             AuthenticationKeys.token.rawValue: identityToken]
+                            identityToken: Data) throws -> [String: String] {
+            let identityTokenString = identityToken.hexEncodedString()
+            return [AuthenticationKeys.id.rawValue: user,
+             AuthenticationKeys.token.rawValue: identityTokenString]
         }
 
         /// Verifies all mandatory keys are in authData.
@@ -64,14 +67,22 @@ public extension ParseApple {
      - parameter completion: The block to execute.
      */
     func login(user: String,
-               identityToken: String,
+               identityToken: Data,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        login(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
-                         options: options,
-                         callbackQueue: callbackQueue,
-                         completion: completion)
+
+        guard let appleAuthData = try? AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken) else {
+            callbackQueue.async {
+                completion(.failure(.init(code: .unknownError,
+                                          message: "Couldn't create authData.")))
+            }
+            return
+        }
+        login(authData: appleAuthData,
+              options: options,
+              callbackQueue: callbackQueue,
+              completion: completion)
     }
 
     func login(authData: [String: String]?,
@@ -105,10 +116,16 @@ public extension ParseApple {
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(user: String,
-                        identityToken: String,
+                        identityToken: Data,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        loginPublisher(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
-                       options: options)
+        guard let appleAuthData = try? AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken) else {
+            return Future { promise in
+                promise(.failure(.init(code: .unknownError,
+                                       message: "Couldn't create authData.")))
+            }
+        }
+        return loginPublisher(authData: appleAuthData,
+                              options: options)
     }
 
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
@@ -142,14 +159,21 @@ public extension ParseApple {
      - parameter completion: The block to execute.
      */
     func link(user: String,
-              identityToken: String,
+              identityToken: Data,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        link(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
-                        options: options,
-                        callbackQueue: callbackQueue,
-                        completion: completion)
+        guard let appleAuthData = try? AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken) else {
+            callbackQueue.async {
+                completion(.failure(.init(code: .unknownError,
+                                          message: "Couldn't create authData.")))
+            }
+            return
+        }
+        link(authData: appleAuthData,
+             options: options,
+             callbackQueue: callbackQueue,
+             completion: completion)
     }
 
     func link(authData: [String: String]?,
@@ -183,9 +207,15 @@ public extension ParseApple {
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(user: String,
-                       identityToken: String,
+                       identityToken: Data,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        linkPublisher(authData: AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken),
+        guard let appleAuthData = try? AuthenticationKeys.id.makeDictionary(user: user, identityToken: identityToken) else {
+            return Future { promise in
+                promise(.failure(.init(code: .unknownError,
+                                       message: "Couldn't create authData.")))
+            }
+        }
+        return linkPublisher(authData: appleAuthData,
              options: options)
     }
 
