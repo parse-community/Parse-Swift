@@ -33,7 +33,9 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// to a string.
         func makeDictionary(user: String,
                             identityToken: Data) throws -> [String: String] {
-            let identityTokenString = identityToken.hexEncodedString()
+            guard let identityTokenString = String(data: identityToken, encoding: .utf8) else {
+                throw ParseError(code: .unknownError, message: "Couldn't convert identityToken to String")
+            }
             return [AuthenticationKeys.id.rawValue: user,
              AuthenticationKeys.token.rawValue: identityTokenString]
         }
