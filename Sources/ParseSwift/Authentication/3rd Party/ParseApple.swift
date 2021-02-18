@@ -35,7 +35,7 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
                             identityToken: Data) throws -> [String: String] {
             guard let identityTokenString = String(data: identityToken, encoding: .utf8) else {
                 throw ParseError(code: .unknownError, message: "Couldn't convert identityToken to String")
-            }//identityToken.hexEncodedString()
+            }
             return [AuthenticationKeys.id.rawValue: user,
              AuthenticationKeys.token.rawValue: identityTokenString]
         }
