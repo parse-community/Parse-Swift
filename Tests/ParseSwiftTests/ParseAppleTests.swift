@@ -94,15 +94,11 @@ class ParseAppleTests: XCTestCase {
     }
 
     func testAuthenticationKeys() throws {
-        guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
-            return
-        }
-
+        let tokenData = Data([0, 1, 127, 128, 255])
         let authData = try ParseApple<User>
             .AuthenticationKeys.id.makeDictionary(user: "testing",
                                                   identityToken: tokenData)
-        XCTAssertEqual(authData, ["id": "testing", "token": "this"])
+        XCTAssertEqual(authData, ["id": "testing", "token": "00017f80ff"])
     }
 
     func testLogin() throws {
