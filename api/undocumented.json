@@ -2,7 +2,7 @@
   "warnings": [
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseApple.swift",
-      "line": 53,
+      "line": 58,
       "symbol": "ParseApple.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
