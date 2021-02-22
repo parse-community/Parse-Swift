@@ -1,7 +1,7 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.4...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.5...main)
 * _Contributing to this repo? Add info about your change here to be included in next release_
 
 ### 1.1.5
