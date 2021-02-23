@@ -410,28 +410,22 @@ public func matchesText(key: String, text: String) -> QueryConstraint {
   - warning: This may be slow for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter regex: The regular expression pattern to match.
-  - returns: The same instance of `Query` as the receiver.
- */
-public func matchesRegex(key: String, regex: String) -> QueryConstraint {
-    .init(key: key, value: regex, comparator: .regex)
-}
-
-/**
-  Add a regular expression constraint for finding string values that match the provided regular expression.
-  - warning: This may be slow for large datasets.
-  - parameter key: The key that the string to match is stored in.
-  - parameter regex: The regular expression pattern to match.
-  - parameter modifiers: Any of the following supported PCRE modifiers:
+  - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
   - `i` - Case insensitive search
   - `m` - Search across multiple lines of input
   - returns: The same instance of `Query` as the receiver.
  */
-public func matchesRegex(key: String, regex: String, modifiers: String) -> QueryConstraint {
-    let dictionary = [
-        QueryConstraint.Comparator.regex.rawValue: regex,
-        QueryConstraint.Comparator.regexOptions.rawValue: modifiers
-    ]
-    return .init(key: key, value: dictionary)
+public func matchesRegex(key: String, regex: String, modifiers: String? = nil) -> QueryConstraint {
+
+    if let modifiers = modifiers {
+        let dictionary = [
+            QueryConstraint.Comparator.regex.rawValue: regex,
+            QueryConstraint.Comparator.regexOptions.rawValue: modifiers
+        ]
+        return .init(key: key, value: dictionary)
+    } else {
+        return .init(key: key, value: regex, comparator: .regex)
+    }
 }
 
 private func regexStringForString(_ inputString: String) -> String {
@@ -444,11 +438,14 @@ private func regexStringForString(_ inputString: String) -> String {
   - warning: This will be slow for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter substring: The substring that the value must contain.
+  - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
+    - `i` - Case insensitive search
+    - `m` - Search across multiple lines of input
   - returns: The same instance of `Query` as the receiver.
  */
-public func containsString(key: String, substring: String) -> QueryConstraint {
+public func containsString(key: String, substring: String, modifiers: String? = nil) -> QueryConstraint {
     let regex = regexStringForString(substring)
-    return matchesRegex(key: key, regex: regex)
+    return matchesRegex(key: key, regex: regex, modifiers: modifiers)
 }
 
 /**
@@ -456,11 +453,14 @@ public func containsString(key: String, substring: String) -> QueryConstraint {
   This will use smart indexing, so it will be fast for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter prefix: The substring that the value must start with.
+  - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
+    - `i` - Case insensitive search
+    - `m` - Search across multiple lines of input
   - returns: The same instance of `Query` as the receiver.
  */
-public func hasPrefix(key: String, prefix: String) -> QueryConstraint {
+public func hasPrefix(key: String, prefix: String, modifiers: String? = nil) -> QueryConstraint {
     let regex = "^\(regexStringForString(prefix))"
-    return matchesRegex(key: key, regex: regex)
+    return matchesRegex(key: key, regex: regex, modifiers: modifiers)
 }
 
 /**
@@ -468,11 +468,14 @@ public func hasPrefix(key: String, prefix: String) -> QueryConstraint {
   - warning: This will be slow for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter suffix: The substring that the value must end with.
+  - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
+    - `i` - Case insensitive search
+    - `m` - Search across multiple lines of input
   - returns: The same instance of `Query` as the receiver.
  */
-public func hasSuffix(key: String, suffix: String) -> QueryConstraint {
+public func hasSuffix(key: String, suffix: String, modifiers: String? = nil) -> QueryConstraint {
     let regex = "\(regexStringForString(suffix))$"
-    return matchesRegex(key: key, regex: regex)
+    return matchesRegex(key: key, regex: regex, modifiers: modifiers)
 }
 
 /**

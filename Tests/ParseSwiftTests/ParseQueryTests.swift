@@ -895,6 +895,33 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testWhereKeyContainsStringModifier() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$regex": "\\Qyarr\\E",
+                     "$options": "i"]
+        ]
+        let constraint = containsString(key: "yolo", substring: "yarr", modifiers: "i")
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
     func testWhereKeyHasPrefix() {
         let expected: [String: AnyCodable] = [
             "yolo": ["$regex": "^\\Qyarr\\E"]
@@ -921,11 +948,65 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testWhereKeyHasPrefixModifier() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$regex": "^\\Qyarr\\E",
+                     "$options": "i"]
+        ]
+        let constraint = hasPrefix(key: "yolo", prefix: "yarr", modifiers: "i")
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
     func testWhereKeyHasSuffix() {
         let expected: [String: AnyCodable] = [
             "yolo": ["$regex": "\\Qyarr\\E$"]
         ]
         let constraint = hasSuffix(key: "yolo", suffix: "yarr")
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: String],
+                  let decodedValues = decodedDictionary.values.first?.value as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereKeyHasSuffixModifier() {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$regex": "\\Qyarr\\E$",
+                     "$options": "i"]
+        ]
+        let constraint = hasSuffix(key: "yolo", suffix: "yarr", modifiers: "i")
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
 
