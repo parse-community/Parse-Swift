@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.5...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.6...main)
 * _Contributing to this repo? Add info about your change here to be included in next release_
+
+### 1.1.6
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.5...1.1.6)
+
+__Fixes__
+- Send correct SDK version number to Parse Server ([#82](https://github.com/parse-community/Parse-Swift/pull/82)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.1.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.4...1.1.5)
