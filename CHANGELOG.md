@@ -8,7 +8,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.5...1.1.6)
 
 __Fixes__
-- Send correct SDK version number to Parse Server ([#82](https://github.com/parse-community/Parse-Swift/pull/82)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Send correct SDK version number to Parse Server ([#84](https://github.com/parse-community/Parse-Swift/pull/84)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.1.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.4...1.1.5)
