@@ -4,6 +4,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.6...main)
 * _Contributing to this repo? Add info about your change here to be included in next release_
 
+__New features__
+- Add modifiers to containsString, hasPrefix, hasSuffix ([#85](https://github.com/parse-community/Parse-Swift/pull/85)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.1.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.5...1.1.6)
 
