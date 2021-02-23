@@ -468,7 +468,7 @@ public func hasPrefix(key: String, prefix: String, modifiers: String? = nil) -> 
   - warning: This will be slow for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter suffix: The substring that the value must end with.
-  - parameter modifiers: Defaults to nil. Any of the following supported PCRE modifiers:
+  - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
     - `i` - Case insensitive search
     - `m` - Search across multiple lines of input
   - returns: The same instance of `Query` as the receiver.
