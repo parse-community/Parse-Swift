@@ -27,7 +27,9 @@ do {
 }
 
 let afterDate = Date().addingTimeInterval(-300)
-var query = GameScore.query("score" > 100, "createdAt" > afterDate)
+var query = GameScore.query("score" > 50,
+                            "createdAt" > afterDate)
+    .order([.descending("score")])
 
 // Query asynchronously (preferred way) - Performs work on background
 // queue and returns to designated on designated callbackQueue.
@@ -74,7 +76,7 @@ query.first { results in
     }
 }
 
-let querySelect = query.select("score")
+let querySelect = query.exclude(["score"])
 querySelect.first { results in
     switch results {
     case .success(let score):

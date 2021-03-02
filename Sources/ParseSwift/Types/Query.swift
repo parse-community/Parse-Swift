@@ -697,6 +697,16 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 
     /**
      Exclude specific keys for a `ParseObject`. Default is to nil.
+     - parameter keys: A variadic list of keys include in the result.
+     */
+    public func exclude(_ keys: String...) -> Query<T> {
+        var mutableQuery = self
+        mutableQuery.excludeKeys = keys
+        return mutableQuery
+    }
+
+    /**
+     Exclude specific keys for a `ParseObject`. Default is to nil.
       - parameter keys: An arrays of keys to exclude.
     */
     public func exclude(_ keys: [String]?) -> Query<T> {
@@ -1100,7 +1110,7 @@ extension Query {
 
     func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
         let query = self
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
@@ -1108,7 +1118,7 @@ extension Query {
     func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType?> {
         var query = self
         query.limit = 1
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first
         }
     }
@@ -1117,7 +1127,7 @@ extension Query {
         var query = self
         query.limit = 1
         query.isCount = true
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
         }
     }
@@ -1126,7 +1136,7 @@ extension Query {
         var query = self
         query.explain = explain
         query.hint = hint
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
                 return results
             }
@@ -1139,7 +1149,7 @@ extension Query {
         query.limit = 1
         query.explain = explain
         query.hint = hint
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
                 return results
             }
@@ -1153,7 +1163,7 @@ extension Query {
         query.isCount = true
         query.explain = explain
         query.hint = hint
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
                 return results
             }
