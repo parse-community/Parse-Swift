@@ -76,7 +76,7 @@ query.first { results in
     }
 }
 
-let querySelect = query.exclude(["score"])
+let querySelect = query.select(["hello"])
 querySelect.first { results in
     switch results {
     case .success(let score):
