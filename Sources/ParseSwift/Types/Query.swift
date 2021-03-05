@@ -546,14 +546,14 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     private let method: String = "GET"
     internal var limit: Int = 100
     internal var skip: Int = 0
-    internal var keys: String? //[String]?
+    internal var keys: [String]?
     internal var include: [String]?
     internal var order: [Order]?
     internal var isCount: Bool?
     internal var explain: Bool?
     internal var hint: String?
     internal var `where` = QueryWhere()
-    internal var excludeKeys: String? //[String]?
+    internal var excludeKeys: [String]?
     internal var readPreference: String?
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
@@ -701,7 +701,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public func exclude(_ keys: String...) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.excludeKeys = keys.joined(separator: ",")
+        mutableQuery.excludeKeys = keys
         return mutableQuery
     }
 
@@ -711,7 +711,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     */
     public func exclude(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.excludeKeys = keys.joined(separator: ",")
+        mutableQuery.excludeKeys = keys
         return mutableQuery
     }
 
@@ -722,7 +722,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public func select(_ keys: String...) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.keys = keys.joined(separator: ",")
+        mutableQuery.keys = keys
         return mutableQuery
     }
 
@@ -733,7 +733,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public func select(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.keys = keys.joined(separator: ",")
+        mutableQuery.keys = keys
         return mutableQuery
     }
 

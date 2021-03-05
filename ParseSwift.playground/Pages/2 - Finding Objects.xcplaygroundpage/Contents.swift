@@ -76,7 +76,7 @@ query.first { results in
     }
 }
 
-let querySelect = query.select("oldScore")
+let querySelect = query.select("score")
 querySelect.first { results in
     switch results {
     case .success(let score):
@@ -85,6 +85,21 @@ querySelect.first { results in
             let createdAt = score.createdAt else { fatalError() }
         assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
         print("Found score using select: \(score)")
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+let queryExclude = query.exclude("score")
+queryExclude.first { results in
+    switch results {
+    case .success(let score):
+
+        guard score.objectId != nil,
+            let createdAt = score.createdAt else { fatalError() }
+        assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
+        print("Found score using exclude: \(score)")
 
     case .failure(let error):
         assertionFailure("Error querying: \(error)")
