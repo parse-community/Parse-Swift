@@ -76,7 +76,7 @@ query.first { results in
     }
 }
 
-let querySelect = query.select(["hello"])
+let querySelect = query.select("oldScore")
 querySelect.first { results in
     switch results {
     case .success(let score):

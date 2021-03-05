@@ -546,14 +546,14 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     private let method: String = "GET"
     internal var limit: Int = 100
     internal var skip: Int = 0
-    internal var keys: [String]?
+    internal var keys: String? //[String]?
     internal var include: [String]?
     internal var order: [Order]?
     internal var isCount: Bool?
     internal var explain: Bool?
     internal var hint: String?
     internal var `where` = QueryWhere()
-    internal var excludeKeys: [String]?
+    internal var excludeKeys: String? //[String]?
     internal var readPreference: String?
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
@@ -701,7 +701,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public func exclude(_ keys: String...) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.excludeKeys = keys
+        mutableQuery.excludeKeys = keys.joined(separator: ",")
         return mutableQuery
     }
 
@@ -709,9 +709,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Exclude specific keys for a `ParseObject`. Default is to nil.
       - parameter keys: An arrays of keys to exclude.
     */
-    public func exclude(_ keys: [String]?) -> Query<T> {
+    public func exclude(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.excludeKeys = keys
+        mutableQuery.excludeKeys = keys.joined(separator: ",")
         return mutableQuery
     }
 
@@ -722,7 +722,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public func select(_ keys: String...) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.keys = keys
+        mutableQuery.keys = keys.joined(separator: ",")
         return mutableQuery
     }
 
@@ -733,7 +733,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public func select(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.keys = keys
+        mutableQuery.keys = keys.joined(separator: ",")
         return mutableQuery
     }
 
