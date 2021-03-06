@@ -708,7 +708,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 
     /**
      Exclude specific keys for a `ParseObject`. Default is to nil.
-     - parameter keys: An arrays of keys to exclude.
+     - parameter keys: An array of keys to exclude.
      - warning: Requires Parse Server > 4.5.0
     */
     public func exclude(_ keys: [String]) -> Query<T> {
