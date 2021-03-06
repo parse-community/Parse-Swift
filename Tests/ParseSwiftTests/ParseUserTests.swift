@@ -109,7 +109,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         var user = User()
         let objectId = "yarr"
         user.objectId = objectId
-        let includeExpected = ["include": "yolo,test"]
+        let includeExpected = ["include": "[\"yolo\", \"test\"]"]
         do {
             let command = try user.fetchCommand(include: ["yolo", "test"])
             XCTAssertNotNil(command)
@@ -119,7 +119,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNil(command.body)
             XCTAssertNil(command.data)
 
-            guard let urlExpected = URL(string: "http://localhost:1337/1/users/yarr?include=yolo,test") else {
+            // swiftlint:disable:next line_length
+            guard let urlExpected = URL(string: "http://localhost:1337/1/users/yarr?include=%5B%22yolo%22,%20%22test%22%5D") else {
                 XCTFail("Should have unwrapped")
                 return
             }

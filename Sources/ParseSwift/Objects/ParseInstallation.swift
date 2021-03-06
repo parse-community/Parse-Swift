@@ -413,8 +413,7 @@ extension ParseInstallation {
 
         var params: [String: String]?
         if let includeParams = include {
-            let joined = includeParams.joined(separator: ",")
-            params = ["include": joined]
+            params = ["include": "\(includeParams)"]
         }
 
         return API.Command(method: .GET,
