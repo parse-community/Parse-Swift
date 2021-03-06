@@ -206,7 +206,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         XCTAssertEqual(decodedValues, ["yolo"])
 
-        query2 = query2.select("yolo", "wow")
+        query2 = query2.select(["yolo", "wow"])
         XCTAssertEqual(query2.keys?.count, 2)
         XCTAssertEqual(query2.keys, ["yolo", "wow"])
         let encoded2 = try ParseCoding.jsonEncoder().encode(query2)
