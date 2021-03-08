@@ -1652,7 +1652,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             expectation1.fulfill()
 
             do {
-                let saved = try [user].saveAll()
+                let saved = try [user].saveAll(transaction: true)
                 saved.forEach {
                     switch $0 {
                     case .success(let saved):
@@ -1887,7 +1887,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
 
             do {
-                let deleted = try [user].deleteAll(transaction: true)
+                let deleted = try [user].deleteAll()
                 deleted.forEach {
                     if case let .failure(error) = $0 {
                         XCTFail("Should have deleted: \(error.localizedDescription)")
@@ -1900,7 +1900,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             expectation1.fulfill()
 
             do {
-                let deleted = try [user].deleteAll()
+                let deleted = try [user].deleteAll(transaction: true)
                 deleted.forEach {
                     if case let .failure(error) = $0 {
                         XCTFail("Should have deleted: \(error.localizedDescription)")
@@ -1960,7 +1960,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 expectation1.fulfill()
             }
 
-            [user].deleteAll { results in
+            [user].deleteAll(transaction: true) { results in
                 switch results {
 
                 case .success(let deleted):
