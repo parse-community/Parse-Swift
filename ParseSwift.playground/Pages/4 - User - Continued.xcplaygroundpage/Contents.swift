@@ -47,24 +47,6 @@ struct GameScore: ParseObject {
     }
 }
 
-/*: Save your first customKey value to your `ParseUser`
-    Asynchrounously - Performs work on background
-    queue and returns to designated on designated callbackQueue.
-    If no callbackQueue is specified it returns to main queue.
-*/
-User.current?.customKey = "myCustom"
-User.current?.score = GameScore(score: 12)
-User.current?.targetScore = GameScore(score: 100)
-User.current?.save { results in
-
-    switch results {
-    case .success(let updatedUser):
-        print("Successfully save custom fields of User to ParseServer: \(updatedUser)")
-    case .failure(let error):
-        print("Failed to update user: \(error)")
-    }
-}
-
 //: Logging out - synchronously
 do {
     try User.logout()
@@ -91,6 +73,24 @@ User.login(username: "hello", password: "world") { results in
 
     case .failure(let error):
         print("Error logging in: \(error)")
+    }
+}
+
+/*: Save your first customKey value to your `ParseUser`
+    Asynchrounously - Performs work on background
+    queue and returns to designated on designated callbackQueue.
+    If no callbackQueue is specified it returns to main queue.
+*/
+User.current?.customKey = "myCustom"
+User.current?.score = GameScore(score: 12)
+User.current?.targetScore = GameScore(score: 100)
+User.current?.save { results in
+
+    switch results {
+    case .success(let updatedUser):
+        print("Successfully save custom fields of User to ParseServer: \(updatedUser)")
+    case .failure(let error):
+        print("Failed to update user: \(error)")
     }
 }
 
