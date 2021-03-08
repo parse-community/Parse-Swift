@@ -101,6 +101,29 @@ var score2ForFetchedLater: GameScore?
     }
 }
 
+//: Saving multiple GameScores at once using a transaction.
+[score, score2].saveAll(transaction: true) { results in
+    switch results {
+    case .success(let otherResults):
+        var index = 0
+        otherResults.forEach { otherResult in
+            switch otherResult {
+            case .success(let savedScore):
+                print("Saved \"\(savedScore.className)\" with score \(savedScore.score) successfully")
+                if index == 1 {
+                    score2ForFetchedLater = savedScore
+                }
+                index += 1
+            case .failure(let error):
+                assertionFailure("Error saving: \(error)")
+            }
+        }
+
+    case .failure(let error):
+        assertionFailure("Error saving: \(error)")
+    }
+}
+
 //: Save synchronously (not preferred - all operations on main queue).
 let savedScore: GameScore?
 do {

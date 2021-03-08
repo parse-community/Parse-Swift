@@ -410,7 +410,7 @@ extension API.Command where T: ParseObject {
         return try? body.getEncoder().encode(body, skipKeys: .object)
     }
 
-    static func batch(commands: [API.Command<T, T>]) -> RESTBatchCommandType<T> {
+    static func batch(commands: [API.Command<T, T>], transaction: Bool) -> RESTBatchCommandType<T> {
         let commands = commands.compactMap { (command) -> API.Command<T, T>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
@@ -452,12 +452,13 @@ extension API.Command where T: ParseObject {
             }
         }
 
-        let batchCommand = BatchCommand(requests: commands)
+        let batchCommand = BatchCommand(requests: commands, transaction: transaction)
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 
     // MARK: Batch - Deleting
-    static func batch(commands: [API.NonParseBodyCommand<NoBody, NoBody>]) -> RESTBatchCommandNoBodyType<NoBody> {
+    static func batch(commands: [API.NonParseBodyCommand<NoBody, NoBody>],
+                      transaction: Bool) -> RESTBatchCommandNoBodyType<NoBody> {
         let commands = commands.compactMap { (command) -> API.NonParseBodyCommand<NoBody, NoBody>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             return API.NonParseBodyCommand<NoBody, NoBody>(
@@ -490,7 +491,7 @@ extension API.Command where T: ParseObject {
             }
         }
 
-        let batchCommand = BatchCommandNoBody(requests: commands)
+        let batchCommand = BatchCommandNoBody(requests: commands, transaction: transaction)
         return RESTBatchCommandNoBodyType<NoBody>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 }

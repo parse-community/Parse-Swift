@@ -4,7 +4,11 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.6...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+### 1.1.7
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.6...1.1.7)
+
 __New features__
+- Add transaction support to batch saveAll and deleteAll ([#89](https://github.com/parse-community/Parse-Swift/pull/89)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add modifiers to containsString, hasPrefix, hasSuffix ([#85](https://github.com/parse-community/Parse-Swift/pull/85)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
