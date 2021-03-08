@@ -100,7 +100,7 @@ User.login(username: "hello", password: "world") { results in
 User.current?.fetch(includeKeys: ["score"]) { result in
     switch result {
     case .success:
-        print("Successfully fetched user with score key: \(User.current)")
+        print("Successfully fetched user with score key: \(String(describing: User.current))")
     case .failure(let error):
         print("Error fetching score: \(error)")
     }
@@ -111,7 +111,7 @@ User.current?.fetch(includeKeys: ["score"]) { result in
 User.current?.fetch(includeKeys: ["*"]) { result in
     switch result {
     case .success:
-        print("Successfully fetched user with all keys: \(User.current)")
+        print("Successfully fetched user with all keys: \(String(describing: User.current))")
     case .failure(let error):
         print("Error fetching score: \(error)")
     }

@@ -697,9 +697,21 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 
     /**
      Exclude specific keys for a `ParseObject`. Default is to nil.
-      - parameter keys: An arrays of keys to exclude.
+     - parameter keys: A variadic list of keys include in the result.
+     - warning: Requires Parse Server > 4.5.0
+     */
+    public func exclude(_ keys: String...) -> Query<T> {
+        var mutableQuery = self
+        mutableQuery.excludeKeys = keys
+        return mutableQuery
+    }
+
+    /**
+     Exclude specific keys for a `ParseObject`. Default is to nil.
+     - parameter keys: An array of keys to exclude.
+     - warning: Requires Parse Server > 4.5.0
     */
-    public func exclude(_ keys: [String]?) -> Query<T> {
+    public func exclude(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
         mutableQuery.excludeKeys = keys
         return mutableQuery
@@ -709,6 +721,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: A variadic list of keys include in the result.
+     - warning: Requires Parse Server > 4.5.0
      */
     public func select(_ keys: String...) -> Query<T> {
         var mutableQuery = self
@@ -720,6 +733,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys to include in the result.
+     - warning: Requires Parse Server > 4.5.0
      */
     public func select(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
@@ -1100,7 +1114,7 @@ extension Query {
 
     func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
         let query = self
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
@@ -1108,7 +1122,7 @@ extension Query {
     func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType?> {
         var query = self
         query.limit = 1
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first
         }
     }
@@ -1117,7 +1131,7 @@ extension Query {
         var query = self
         query.limit = 1
         query.isCount = true
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
         }
     }
@@ -1126,7 +1140,7 @@ extension Query {
         var query = self
         query.explain = explain
         query.hint = hint
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
                 return results
             }
@@ -1139,7 +1153,7 @@ extension Query {
         query.limit = 1
         query.explain = explain
         query.hint = hint
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
                 return results
             }
@@ -1153,7 +1167,7 @@ extension Query {
         query.isCount = true
         query.explain = explain
         query.hint = hint
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
                 return results
             }

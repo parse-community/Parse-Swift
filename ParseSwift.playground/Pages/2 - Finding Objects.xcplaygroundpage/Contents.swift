@@ -14,14 +14,22 @@ struct GameScore: ParseObject {
     var ACL: ParseACL?
 
     var score: Int?
+    var oldScore: Int?
 }
 
 var score = GameScore()
 score.score = 200
-try score.save()
+score.oldScore = 10
+do {
+    try score.save()
+} catch {
+    print(error)
+}
 
 let afterDate = Date().addingTimeInterval(-300)
-var query = GameScore.query("score" > 100, "createdAt" > afterDate)
+var query = GameScore.query("score" > 50,
+                            "createdAt" > afterDate)
+    .order([.descending("score")])
 
 // Query asynchronously (preferred way) - Performs work on background
 // queue and returns to designated on designated callbackQueue.
@@ -62,6 +70,36 @@ query.first { results in
             let createdAt = score.createdAt else { fatalError() }
         assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
         print("Found score: \(score)")
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+let querySelect = query.select("score")
+querySelect.first { results in
+    switch results {
+    case .success(let score):
+
+        guard score.objectId != nil,
+            let createdAt = score.createdAt else { fatalError() }
+        assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
+        print("Found score using select: \(score)")
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+let queryExclude = query.exclude("score")
+queryExclude.first { results in
+    switch results {
+    case .success(let score):
+
+        guard score.objectId != nil,
+            let createdAt = score.createdAt else { fatalError() }
+        assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
+        print("Found score using exclude: \(score)")
 
     case .failure(let error):
         assertionFailure("Error querying: \(error)")

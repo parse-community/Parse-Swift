@@ -7,6 +7,9 @@
 __New features__
 - Add modifiers to containsString, hasPrefix, hasSuffix ([#85](https://github.com/parse-community/Parse-Swift/pull/85)), thanks to [Corey Baker](https://github.com/cbaker6).
 
+__Improvements__
+- Can use a variadic version of exclude. Added examples of select and exclude query in playgrounds ([#88](https://github.com/parse-community/Parse-Swift/pull/88)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.1.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.5...1.1.6)
 
