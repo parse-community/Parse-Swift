@@ -203,7 +203,10 @@ internal extension API {
                                childObjects: [String: PointerType]? = nil,
                                childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
-            let headers = API.getHeaders(options: options)
+            var headers = API.getHeaders(options: options)
+            if !(method == .POST) && !(method == .PUT) {
+                headers.removeValue(forKey: "X-Parse-Request-Id")
+            }
             let url = parseURL == nil ?
                 ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent) : parseURL!
 
@@ -615,7 +618,10 @@ internal extension API {
         // MARK: URL Preperation
         func prepareURLRequest(options: API.Options) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
-            let headers = API.getHeaders(options: options)
+            var headers = API.getHeaders(options: options)
+            if !(method == .POST) && !(method == .PUT) {
+                headers.removeValue(forKey: "X-Parse-Request-Id")
+            }
             let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
