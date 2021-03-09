@@ -1,5 +1,11 @@
 //: [Previous](@previous)
 
+//: For this page, make sure build target is set to ParseSwift (macOS) and targeting
+//: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
+//: in the `File Inspector` is `Platform = macOS`. This is because
+//: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
+//: be set to build for `macOS` unless specified.
+
 import PlaygroundSupport
 import Foundation
 import ParseSwift

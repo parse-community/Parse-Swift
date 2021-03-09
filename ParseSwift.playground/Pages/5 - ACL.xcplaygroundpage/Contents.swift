@@ -1,54 +1,17 @@
 //: [Previous](@previous)
 
+//: For this page, make sure build target is set to ParseSwift (macOS) and targeting
+//: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
+//: in the `File Inspector` is `Platform = macOS`. This is because
+//: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
+//: be set to build for `macOS` unless specified.
+
 import PlaygroundSupport
 import Foundation
 import ParseSwift
 
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
-
-struct User: ParseUser {
-    //: These are required for `ParseObject`.
-    var objectId: String?
-    var createdAt: Date?
-    var updatedAt: Date?
-    var ACL: ParseACL?
-
-    //: These are required for `ParseUser`.
-    var username: String?
-    var email: String?
-    var password: String?
-    var authData: [String: [String: String]?]?
-}
-
-//: Logging out - synchronously
-do {
-    try User.logout()
-    print("Successfully logged out")
-} catch let error {
-    print("Error logging out: \(error)")
-}
-
-/*: Login - asynchronously - Performs work on background
-    queue and returns to designated on designated callbackQueue.
-    If no callbackQueue is specified it returns to main queue.
-*/
-User.login(username: "hello", password: "world") { results in
-
-    switch results {
-    case .success(let user):
-
-        guard let currentUser = User.current else {
-            assertionFailure("Error: current user currently not stored locally")
-            return
-        }
-        assert(currentUser.hasSameObjectId(as: user))
-        print("Successfully logged in as user: \(user)")
-
-    case .failure(let error):
-        print("Error logging in: \(error)")
-    }
-}
 
 do {
     var acl = ParseACL()
