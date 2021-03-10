@@ -16,13 +16,13 @@ typealias RESTBatchCommandType<T> = API.Command<ParseObjectBatchCommand<T>, Pars
 typealias ParseObjectBatchCommandNoBody<T> = BatchCommandNoBody<NoBody, NoBody>
 typealias ParseObjectBatchResponseNoBody<NoBody> = [(Result<Void, ParseError>)]
 typealias RESTBatchCommandNoBodyType<T> = API.NonParseBodyCommand<ParseObjectBatchCommandNoBody<T>, ParseObjectBatchResponseNoBody<T>> where T: Encodable
-/*
+
 typealias ParseObjectBatchCommandEncodable<T> = BatchCommand<T, PointerType> where T: ParseType
 typealias ParseObjectBatchResponseEncodable<U> = [(Result<PointerType, ParseError>)]
 // swiftlint:disable line_length
 typealias RESTBatchCommandTypeEncodable<T> = API.Command<ParseObjectBatchCommandEncodable<T>, ParseObjectBatchResponseEncodable<PointerType>> where T: ParseType
  // swiftlint:enable line_length
-*/
+
 internal struct BatchCommand<T, U>: ParseType where T: ParseType {
     let requests: [API.Command<T, U>]
     var transaction: Bool

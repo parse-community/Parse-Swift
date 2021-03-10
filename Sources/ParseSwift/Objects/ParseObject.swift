@@ -477,11 +477,12 @@ public extension Sequence where Element: ParseObject {
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
     */
-    func saveAll(options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
+    func saveAll(transaction: Bool = true,
+                 options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         let commands = try map { try $0.saveCommand() }
         return try API.Command<Self.Element, PointerType>
-                .batch(commands: commands)
-                .execute(options: options)
+                .batch(commands: commands, transaction: transaction)
+                .execute(options: options, callbackQueue: .main)
     }
 }*/
 
@@ -669,7 +670,7 @@ extension ParseObject {
                 var waitingToBeSaved = object.unsavedChildren
 
                 while waitingToBeSaved.count > 0 {
-                    var savableObjects = [Encodable]()
+                    var savableObjects = [ParseType]()
                     var savableFiles = [ParseFile]()
                     var nextBatch = [ParseType]()
                     try waitingToBeSaved.forEach { parseType in
@@ -706,14 +707,21 @@ extension ParseObject {
                     }
 
                     //Currently, batch isn't working for Encodable
-                    /*if let parseTypes = savableObjects as? [ParseType] {
-                        let savedChildObjects = try self.saveAll(options: options, objects: parseTypes)
+                    /*let savedChildObjects = try Self.saveAll(objects: savableObjects,
+                                                             options: options)
+                    let savedChildPointers = try savedChildObjects.compactMap { try $0.get() }
+                    if savedChildPointers.count != savableObjects.count {
+                        throw ParseError(code: .unknownError, message: "Couldn't save all child objects")
+                    }
+                    for (index, object) in savableObjects.enumerated() {
+                        let hash = try BaseObjectable.createHash(object)
+                        objectsFinishedSaving[hash] = savedChildPointers[index]
                     }*/
+
+                    //Saving children individually
                     try savableObjects.forEach {
                         let hash = try BaseObjectable.createHash($0)
-                        if let parseType = $0 as? ParseType {
-                            objectsFinishedSaving[hash] = try parseType.save(options: options)
-                        }
+                        objectsFinishedSaving[hash] = try $0.save(options: options)
                     }
 
                     try savableFiles.forEach {
@@ -747,11 +755,17 @@ internal extension ParseType {
         try API.Command<Self, PointerType>.saveCommand(self)
     }
 /*
-    func saveAll<T: ParseType>(options: API.Options = [], objects: [T]) throws -> [(Result<PointerType, ParseError>)] {
-        let commands = try objects.map { try API.Command<T, PointerType>.saveCommand($0) }
-        return try API.Command<T, PointerType>
-                .batch(commands: commands)
-                .execute(options: options)
+    static func saveAll(objects: [ParseType],
+                        transaction: Bool = true,
+                        options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
+        let commands = try objects.map {
+            try API.Command<Self, PointerType>.saveCommand(object: $0)
+        }
+        return try API.Command<Self, PointerType>
+                .batch(commands: commands,
+                       transaction: transaction)
+                .execute(options: options,
+                         callbackQueue: .main)
     }*/
 }
 
