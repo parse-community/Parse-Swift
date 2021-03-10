@@ -267,6 +267,7 @@ public func containedBy <T>(key: String, array: [T]) -> QueryConstraint where T:
  $lt, $lte, $gt, and $gte operators.
  - parameter time: The reference time, e.g. "12 days ago".
  - returns: The same instance of `QueryConstraint` as the receiver.
+ - warning: This only works with Parse Servers using mongoDB.
  */
 public func relative(key: String, comparator: QueryConstraint.Comparator, time: String) -> QueryConstraint {
     QueryConstraint(key: key, value: [QueryConstraint.Comparator.relativeTime.rawValue: time], comparator: comparator)

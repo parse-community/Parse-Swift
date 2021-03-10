@@ -477,7 +477,7 @@ public extension Sequence where Element: ParseObject {
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
     */
-    func saveAll(transaction: Bool = true,
+    func saveAllParseTypes(transaction: Bool = true,
                  options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         let commands = try map { try $0.saveCommand() }
         return try API.Command<Self.Element, PointerType>
@@ -754,14 +754,14 @@ internal extension ParseType {
     func saveCommand() throws -> API.Command<Self, PointerType> {
         try API.Command<Self, PointerType>.saveCommand(self)
     }
-/*
-    static func saveAll(objects: [ParseType],
-                        transaction: Bool = true,
-                        options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
+    /*
+    func saveAll(objects: [ParseType],
+                 transaction: Bool = true,
+                 options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         let commands = try objects.map {
-            try API.Command<Self, PointerType>.saveCommand(object: $0)
+            try API.ChildCommand<PointerType>.saveCommand($0)
         }
-        return try API.Command<Self, PointerType>
+        return try API.ChildCommand<PointerType>
                 .batch(commands: commands,
                        transaction: transaction)
                 .execute(options: options,

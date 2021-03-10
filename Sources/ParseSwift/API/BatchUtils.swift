@@ -16,13 +16,13 @@ typealias RESTBatchCommandType<T> = API.Command<ParseObjectBatchCommand<T>, Pars
 typealias ParseObjectBatchCommandNoBody<T> = BatchCommandNoBody<NoBody, NoBody>
 typealias ParseObjectBatchResponseNoBody<NoBody> = [(Result<Void, ParseError>)]
 typealias RESTBatchCommandNoBodyType<T> = API.NonParseBodyCommand<ParseObjectBatchCommandNoBody<T>, ParseObjectBatchResponseNoBody<T>> where T: Encodable
-
+/*
 typealias ParseObjectBatchCommandEncodable<T> = BatchCommand<T, PointerType> where T: ParseType
 typealias ParseObjectBatchResponseEncodable<U> = [(Result<PointerType, ParseError>)]
 // swiftlint:disable line_length
 typealias RESTBatchCommandTypeEncodable<T> = API.Command<ParseObjectBatchCommandEncodable<T>, ParseObjectBatchResponseEncodable<PointerType>> where T: ParseType
  // swiftlint:enable line_length
-
+*/
 internal struct BatchCommand<T, U>: ParseType where T: ParseType {
     let requests: [API.Command<T, U>]
     var transaction: Bool
@@ -32,7 +32,12 @@ internal struct BatchCommandNoBody<T, U>: Encodable where T: Encodable {
     let requests: [API.NonParseBodyCommand<T, U>]
     var transaction: Bool
 }
-
+/*
+internal struct BatchChildCommand<U>: ParseType {
+    let requests: [API.ChildCommand<U>]
+    var transaction: Bool
+}
+*/
 struct BatchUtils {
     static func splitArray<U>(_ array: [U], valuesPerSegment: Int) -> [[U]] {
         if array.count < valuesPerSegment {

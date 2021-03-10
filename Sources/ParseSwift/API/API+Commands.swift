@@ -342,49 +342,6 @@ internal extension API.Command {
     }
 
     // MARK: Saving ParseObjects - Encodable
-    static func saveCommand(object: T) throws -> API.Command<T, PointerType> where T: Encodable {
-        guard let objectable = object as? Objectable else {
-            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
-        }
-        if objectable.isSaved {
-            return try updateCommand(object: object)
-        } else {
-            return try createCommand(object: object)
-        }
-    }
-
-    // MARK: Saving ParseObjects - [Encodable] - private
-    private static func createCommand(object: T) throws -> API.Command<T, PointerType> where T: Encodable {
-        guard var objectable = object as? Objectable else {
-            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
-        }
-        let mapper = { (data: Data) -> PointerType in
-            let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
-            objectable.objectId = baseObjectable.objectId
-            return try objectable.toPointer()
-        }
-        return API.Command<T, PointerType>(method: .POST,
-                                 path: objectable.endpoint,
-                                 body: object,
-                                 mapper: mapper)
-    }
-
-    private static func updateCommand(object: T) throws -> API.Command<T, PointerType> where T: Encodable {
-        guard var objectable = object as? Objectable else {
-            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
-        }
-        let mapper = { (data: Data) -> PointerType in
-            let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
-            objectable.objectId = baseObjectable.objectId
-            return try objectable.toPointer()
-        }
-        return API.Command<T, PointerType>(method: .PUT,
-                                 path: objectable.endpoint,
-                                 body: object,
-                                 mapper: mapper)
-    }
-
-    // MARK: Saving ParseObjects - Encodable
     static func saveCommand<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
         guard let objectable = object as? Objectable else {
             throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
@@ -544,26 +501,26 @@ extension API.Command where T: ParseObject {
 
 //This has been disabled, looking into getting it working in the future.
 //It's only needed for sending batches of childObjects which currently isn't being used.
-
+/*
 // MARK: Batch - Child Objects
-extension API.Command where T: ParseType {
+extension API.ChildCommand {
 
     internal var data: Data? {
         guard let body = body else { return nil }
         return try? ParseCoding.jsonEncoder().encode(body)
     }
 
-    static func batch(commands: [API.Command<T, PointerType>],
-                      transaction: Bool) -> RESTBatchCommandTypeEncodable<T> {
-        let commands = commands.compactMap { (command) -> API.Command<T, PointerType>? in
+    static func batch(commands: [API.ChildCommand<PointerType>],
+                      transaction: Bool) -> RESTBatchCommandTypeEncodable<ParseType> {
+        let commands = commands.compactMap { (command) -> API.ChildCommand<PointerType>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
             }
-            return API.Command<T, PointerType>(method: command.method, path: .any(path),
+            return API.ChildCommand<PointerType>(method: command.method, path: .any(path),
                                      body: body, mapper: command.mapper)
         }
-        let bodies = commands.compactMap { (command) -> (body: T, command: API.Method)?  in
+        let bodies = commands.compactMap { (command) -> (body: ParseType, command: API.Method)?  in
             guard let body = command.body else {
                 return nil
             }
@@ -599,7 +556,7 @@ extension API.Command where T: ParseType {
         return RESTBatchCommandTypeEncodable<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 }
-
+*/
 // MARK: API.NonParseBodyCommand
 internal extension API {
     struct NonParseBodyCommand<T, U>: Encodable where T: Encodable {
@@ -718,4 +675,78 @@ internal extension API.NonParseBodyCommand {
             }
         }
     }
-} // swiftlint:disable:this file_length
+}
+/*
+// MARK: API.Command
+internal extension API {
+    struct ChildCommand<U>: ParseType {
+        typealias ReturnType = U
+        let method: API.Method
+        let path: API.Endpoint
+        let body: ParseType?
+        let mapper: ((Data) throws -> U)
+        let params: [String: String?]?
+
+        init(method: API.Method,
+             path: API.Endpoint,
+             params: [String: String]? = nil,
+             body: ParseType? = nil,
+             mapper: @escaping ((Data) throws -> U)) {
+            self.method = method
+            self.path = path
+            self.body = body
+            self.mapper = mapper
+            self.params = params
+        }
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case method, body, path
+    }
+}
+
+internal extension API.ChildCommand {
+    // MARK: Saving ParseObjects - Encodable
+    static func saveCommand(_ object: ParseType) throws -> API.ChildCommand<PointerType> {
+        guard let objectable = object as? Objectable else {
+            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
+        }
+        if objectable.isSaved {
+            return try updateCommand(object)
+        } else {
+            return try createCommand(object)
+        }
+    }
+
+    // MARK: Saving ParseObjects - Encodable - private
+    private static func createCommand(_ object: ParseType) throws -> API.ChildCommand<PointerType> {
+        guard var objectable = object as? Objectable else {
+            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
+        }
+        let mapper = { (data: Data) -> PointerType in
+            let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
+            objectable.objectId = baseObjectable.objectId
+            return try objectable.toPointer()
+        }
+        return API.ChildCommand<PointerType>(method: .POST,
+                                 path: objectable.endpoint,
+                                 body: object,
+                                 mapper: mapper)
+    }
+
+    private static func updateCommand(_ object: ParseType) throws -> API.ChildCommand<PointerType> {
+        guard var objectable = object as? Objectable else {
+            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
+        }
+        let mapper = { (data: Data) -> PointerType in
+            let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
+            objectable.objectId = baseObjectable.objectId
+            return try objectable.toPointer()
+        }
+        return API.ChildCommand<PointerType>(method: .PUT,
+                                 path: objectable.endpoint,
+                                 body: object,
+                                 mapper: mapper)
+    }
+}// swiftlint:disable:this file_length
+*/
