@@ -786,6 +786,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNil(signedUp.password)
             XCTAssertNotNil(signedUp.objectId)
             XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNil(signedUp.refreshToken)
+            XCTAssertNil(signedUp.expiresAt)
             XCTAssertNotNil(signedUp.customKey)
             XCTAssertNil(signedUp.ACL)
 
@@ -801,6 +803,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNil(userFromKeychain.password)
             XCTAssertNotNil(userFromKeychain.objectId)
             XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.refreshToken)
+            XCTAssertNil(userFromKeychain.expiresAt)
             XCTAssertNil(userFromKeychain.ACL)
 
         } catch {
@@ -823,6 +827,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertNil(signedUp.password)
                 XCTAssertNotNil(signedUp.objectId)
                 XCTAssertNotNil(signedUp.sessionToken)
+                XCTAssertNil(signedUp.refreshToken)
+                XCTAssertNil(signedUp.expiresAt)
                 XCTAssertNotNil(signedUp.customKey)
                 XCTAssertNil(signedUp.ACL)
 
@@ -839,6 +845,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertNil(userFromKeychain.password)
                 XCTAssertNotNil(userFromKeychain.objectId)
                 XCTAssertNotNil(userFromKeychain.sessionToken)
+                XCTAssertNil(userFromKeychain.refreshToken)
+                XCTAssertNil(userFromKeychain.expiresAt)
                 XCTAssertNil(userFromKeychain.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -931,6 +939,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertNil(loggedIn.password)
                 XCTAssertNotNil(loggedIn.objectId)
                 XCTAssertNotNil(loggedIn.sessionToken)
+                XCTAssertNil(loggedIn.refreshToken)
+                XCTAssertNil(loggedIn.expiresAt)
                 XCTAssertNotNil(loggedIn.customKey)
                 XCTAssertNil(loggedIn.ACL)
 
@@ -948,6 +958,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertNotNil(userFromKeychain.objectId)
                 XCTAssertNotNil(userFromKeychain.sessionToken)
                 XCTAssertNil(userFromKeychain.ACL)
+                XCTAssertNil(userFromKeychain.refreshToken)
+                XCTAssertNil(userFromKeychain.expiresAt)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -1832,7 +1844,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         var user = User()
         user.objectId = "me"
         do {
-            let command = try user.meCommand(sessionToken: "yolo")
+            let command = try user.meCommand(sessionToken: "yolo", refreshToken: nil, expiresAt: nil)
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/users/me")
             XCTAssertEqual(command.method, API.Method.GET)

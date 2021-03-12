@@ -21,6 +21,7 @@ public struct API {
         case object(className: String, objectId: String)
         case users
         case user(objectId: String)
+        case refresh
         case installations
         case installation(objectId: String)
         case sessions
@@ -29,6 +30,7 @@ public struct API {
         case role(objectId: String)
         case login
         case logout
+        case revoke
         case file(fileName: String)
         case passwordReset
         case verificationEmail
@@ -50,6 +52,8 @@ public struct API {
                 return "/users"
             case .user(let objectId):
                 return "/users/\(objectId)"
+            case .refresh:
+                return "/refresh"
             case .installations:
                 return "/installations"
             case .installation(let objectId):
@@ -66,6 +70,8 @@ public struct API {
                 return "/login"
             case .logout:
                 return "/logout"
+            case .revoke:
+                return "/revoke"
             case .file(let fileName):
                 return "/files/\(fileName)"
             case .passwordReset:

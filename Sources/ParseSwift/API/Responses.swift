@@ -116,10 +116,18 @@ internal struct QueryResponse<T>: Codable where T: ParseObject {
 // MARK: ParseUser
 internal struct LoginSignupResponse: Codable {
     let createdAt: Date
-    let objectId: String
-    let sessionToken: String
     var updatedAt: Date?
+    let objectId: String
     let username: String?
+    let sessionToken: String
+    let refreshToken: String?
+    let expiresAt: Date?
+
+    private enum CodingKeys: String, CodingKey {
+        case createdAt, objectId, updatedAt, username
+        case sessionToken, refreshToken
+        case expiresAt = "expires_in"
+    }
 }
 
 // MARK: ParseFile

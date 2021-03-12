@@ -64,6 +64,44 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
+    struct LoginSignupResponseOAuth: ParseUser {
+
+        var objectId: String?
+        var createdAt: Date?
+        var sessionToken: String
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var refreshToken: String?
+        var expiresAt: Date?
+
+        // provided by User
+        var username: String?
+        var email: String?
+        var password: String?
+        var authData: [String: [String: String]?]?
+
+        // Your custom keys
+        var customKey: String?
+
+        init() {
+            let date = Date()
+            self.createdAt = date
+            self.updatedAt = date
+            self.objectId = "yarr"
+            self.ACL = nil
+            self.sessionToken = "myToken"
+            self.refreshToken = "yolo"
+            self.expiresAt = date
+            self.username = "hello10"
+        }
+
+        private enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
+            case createdAt, objectId, updatedAt, username
+            case sessionToken, refreshToken
+            case expiresAt = "expires_in"
+        }
+    }
+
     let loginUserName = "hello10"
     let loginPassword = "world"
 
@@ -119,6 +157,8 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNil(signedUp.password)
             XCTAssertNotNil(signedUp.objectId)
             XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNil(signedUp.refreshToken)
+            XCTAssertNil(signedUp.expiresAt)
             XCTAssertNotNil(signedUp.customKey)
             XCTAssertNil(signedUp.ACL)
 
@@ -134,6 +174,8 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNil(userFromKeychain.password)
             XCTAssertNotNil(userFromKeychain.objectId)
             XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.refreshToken)
+            XCTAssertNil(userFromKeychain.expiresAt)
             XCTAssertNil(userFromKeychain.ACL)
         })
         publisher.store(in: &subscriptions)
@@ -170,6 +212,8 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNil(signedUp.password)
             XCTAssertNotNil(signedUp.objectId)
             XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNil(signedUp.refreshToken)
+            XCTAssertNil(signedUp.expiresAt)
             XCTAssertNotNil(signedUp.customKey)
             XCTAssertNil(signedUp.ACL)
 
@@ -185,6 +229,8 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNil(userFromKeychain.password)
             XCTAssertNotNil(userFromKeychain.objectId)
             XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.refreshToken)
+            XCTAssertNil(userFromKeychain.expiresAt)
             XCTAssertNil(userFromKeychain.ACL)
         })
         publisher.store(in: &subscriptions)
@@ -254,6 +300,8 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNil(signedUp.password)
             XCTAssertNotNil(signedUp.objectId)
             XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNil(signedUp.refreshToken)
+            XCTAssertNil(signedUp.expiresAt)
             XCTAssertNotNil(signedUp.customKey)
             XCTAssertNil(signedUp.ACL)
 
@@ -269,9 +317,163 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertNil(userFromKeychain.password)
             XCTAssertNotNil(userFromKeychain.objectId)
             XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.refreshToken)
+            XCTAssertNil(userFromKeychain.expiresAt)
             XCTAssertNil(userFromKeychain.ACL)
         })
         publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testBecomeOAuth() {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.createdAt = User.current?.createdAt
+        serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+        serverResponse.sessionToken = "newValue"
+        serverResponse.username = "stop"
+
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Become user1")
+        let publisher = user.becomePublisher(sessionToken: serverResponse.sessionToken,
+                                             refreshToken: "yolo",
+                                             expiresAt: Date())
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { signedUp in
+            XCTAssertNotNil(signedUp)
+            XCTAssertNotNil(signedUp.createdAt)
+            XCTAssertNotNil(signedUp.updatedAt)
+            XCTAssertNotNil(signedUp.email)
+            XCTAssertNotNil(signedUp.username)
+            XCTAssertNil(signedUp.password)
+            XCTAssertNotNil(signedUp.objectId)
+            XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNotNil(signedUp.refreshToken)
+            XCTAssertNotNil(signedUp.expiresAt)
+            XCTAssertNotNil(signedUp.customKey)
+            XCTAssertNil(signedUp.ACL)
+
+            guard let userFromKeychain = BaseParseUser.current else {
+                XCTFail("Couldn't get CurrentUser from Keychain")
+                return
+            }
+
+            XCTAssertNotNil(userFromKeychain.createdAt)
+            XCTAssertNotNil(userFromKeychain.updatedAt)
+            XCTAssertNotNil(userFromKeychain.email)
+            XCTAssertNotNil(userFromKeychain.username)
+            XCTAssertNil(userFromKeychain.password)
+            XCTAssertNotNil(userFromKeychain.objectId)
+            XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNotNil(userFromKeychain.refreshToken)
+            XCTAssertNotNil(userFromKeychain.expiresAt)
+            XCTAssertNil(userFromKeychain.ACL)
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func loginOAuth() throws -> User {
+        let loginResponse = LoginSignupResponseOAuth()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        return try User.login(username: "parse", password: "user")
+    }
+
+    func testRefresh() throws {
+        _ = try loginOAuth()
+        MockURLProtocol.removeAll()
+
+        var refreshResponse = LoginSignupResponseOAuth()
+        refreshResponse.sessionToken = "hello"
+        refreshResponse.refreshToken = "world"
+        refreshResponse.expiresAt = Date()
+        var subscriptions = Set<AnyCancellable>()
+
+        let encoded = try ParseCoding.jsonEncoder().encode(refreshResponse)
+        //Get dates in correct format from ParseDecoding strategy
+        refreshResponse = try ParseCoding.jsonDecoder().decode(LoginSignupResponseOAuth.self, from: encoded)
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        let publisher = User.refreshPublisher().sink(receiveCompletion: { result in
+
+            if case let .failure(error) = result {
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+
+        }, receiveValue: { user in
+        guard let sessionToken = user.sessionToken,
+              let refreshToken = user.refreshToken,
+              let expiresAt = user.expiresAt else {
+            XCTFail("Should unwrap all values")
+            return
+        }
+        XCTAssertEqual(sessionToken, refreshResponse.sessionToken)
+        XCTAssertEqual(refreshToken, refreshResponse.refreshToken)
+        XCTAssertEqual(expiresAt, refreshResponse.expiresAt)
+        XCTAssertNotNil(user.createdAt)
+        XCTAssertNotNil(user.updatedAt)
+        XCTAssertNil(user.email)
+        XCTAssertNotNil(user.username)
+        XCTAssertNil(user.password)
+        XCTAssertNotNil(user.objectId)
+        XCTAssertNil(user.ACL)
+
+        guard let userFromKeychain = BaseParseUser.current,
+              let sessionTokenFromKeychain = user.sessionToken,
+              let refreshTokenFromKeychain = user.refreshToken,
+              let expiresAtFromKeychain = user.expiresAt else {
+            XCTFail("Couldn't get CurrentUser from Keychain")
+            return
+        }
+        XCTAssertEqual(sessionTokenFromKeychain, refreshResponse.sessionToken)
+        XCTAssertEqual(refreshTokenFromKeychain, refreshResponse.refreshToken)
+        XCTAssertEqual(expiresAtFromKeychain, refreshResponse.expiresAt)
+        XCTAssertNotNil(userFromKeychain.createdAt)
+        XCTAssertNotNil(userFromKeychain.updatedAt)
+        XCTAssertNil(userFromKeychain.email)
+        XCTAssertNotNil(userFromKeychain.username)
+        XCTAssertNil(userFromKeychain.password)
+        XCTAssertNotNil(userFromKeychain.objectId)
+        XCTAssertNil(userFromKeychain.ACL)
+    })
+    publisher.store(in: &subscriptions)
+
         wait(for: [expectation1], timeout: 20.0)
     }
 

@@ -81,12 +81,36 @@ public extension ParseUser {
      using *current*.
 
      - parameter sessionToken: The sessionToken of the user to login.
+     - parameter refreshToken: The OAuth2.0 refreshToken of the user for refreshing.
+     - parameter The date the OAuth2.0 sessionToken expires.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func becomePublisher(sessionToken: String, options: API.Options = []) -> Future<Self, ParseError> {
+    func becomePublisher(sessionToken: String,
+                         refreshToken: String? = nil,
+                         expiresAt: Date? = nil,
+                         options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            self.become(sessionToken: sessionToken, options: options, completion: promise)
+            self.become(sessionToken: sessionToken,
+                        refreshToken: refreshToken,
+                        expiresAt: expiresAt,
+                        options: options,
+                        completion: promise)
+        }
+    }
+
+    // MARK: Refreshing SessionToken - Combine
+    /**
+     Refreshes the OAuth2.0 sessionToken of the currently logged in
+     user *asynchronously*. Publishes when complete.
+
+     This will also update the session in the Keychain.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    static func refreshPublisher(options: API.Options = []) -> Future<Self, ParseError> {
+        Future { promise in
+            Self.refresh(options: options, completion: promise)
         }
     }
 

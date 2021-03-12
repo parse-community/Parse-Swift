@@ -209,6 +209,9 @@
 		707A3C2125B14BD0000D215C /* ParseApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3C1F25B14BCF000D215C /* ParseApple.swift */; };
 		707A3C2225B14BD0000D215C /* ParseApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3C1F25B14BCF000D215C /* ParseApple.swift */; };
 		707A3C2325B14BD0000D215C /* ParseApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3C1F25B14BCF000D215C /* ParseApple.swift */; };
+		707CCE9C25FBD4D0003C3B64 /* ParseUserOAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CCE9B25FBD4D0003C3B64 /* ParseUserOAuthTests.swift */; };
+		707CCE9D25FBD4D0003C3B64 /* ParseUserOAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CCE9B25FBD4D0003C3B64 /* ParseUserOAuthTests.swift */; };
+		707CCE9E25FBD4D0003C3B64 /* ParseUserOAuthTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707CCE9B25FBD4D0003C3B64 /* ParseUserOAuthTests.swift */; };
 		708D035225215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035325215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035425215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
@@ -582,6 +585,7 @@
 		707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthentication.swift; sourceTree = "<group>"; };
 		707A3C1025B0A8E8000D215C /* ParseAnonymous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAnonymous.swift; sourceTree = "<group>"; };
 		707A3C1F25B14BCF000D215C /* ParseApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseApple.swift; sourceTree = "<group>"; };
+		707CCE9B25FBD4D0003C3B64 /* ParseUserOAuthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseUserOAuthTests.swift; sourceTree = "<group>"; };
 		708D035125215F9B00646C70 /* Deletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deletable.swift; sourceTree = "<group>"; };
 		709B98302556EC7400507778 /* ParseSwiftTeststvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParseSwiftTeststvOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		709B98342556EC7400507778 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -813,6 +817,7 @@
 				70C5504525B40D5200B5DBC2 /* ParseSessionTests.swift */,
 				7016ED3F25C4A25A00038648 /* ParseUserCombineTests.swift */,
 				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
+				707CCE9B25FBD4D0003C3B64 /* ParseUserOAuthTests.swift */,
 				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
 			);
@@ -1658,6 +1663,7 @@
 				70A2D86B25B3ADB6001BEB7D /* ParseAnonymousTests.swift in Sources */,
 				7044C1EC25C5CC930011F6E7 /* ParseOperationCombineTests.swift in Sources */,
 				70C7DC1E24D20E530050419B /* ParseUserTests.swift in Sources */,
+				707CCE9C25FBD4D0003C3B64 /* ParseUserOAuthTests.swift in Sources */,
 				70A2D81F25B36A7D001BEB7D /* ParseAuthenticationTests.swift in Sources */,
 				70D1BE4B25BB312700A42E7C /* ParseConfigTests.swift in Sources */,
 				911DB13324C494390027F3C7 /* MockURLProtocol.swift in Sources */,
@@ -1802,6 +1808,7 @@
 				70A2D86D25B3ADB6001BEB7D /* ParseAnonymousTests.swift in Sources */,
 				7044C1EE25C5CC930011F6E7 /* ParseOperationCombineTests.swift in Sources */,
 				709B98582556ECAA00507778 /* AnyEncodableTests.swift in Sources */,
+				707CCE9E25FBD4D0003C3B64 /* ParseUserOAuthTests.swift in Sources */,
 				70A2D82125B36A7D001BEB7D /* ParseAuthenticationTests.swift in Sources */,
 				70D1BE5F25BB312A00A42E7C /* ParseConfigTests.swift in Sources */,
 				709B98542556ECAA00507778 /* ParseInstallationTests.swift in Sources */,
@@ -1851,6 +1858,7 @@
 				70A2D86C25B3ADB6001BEB7D /* ParseAnonymousTests.swift in Sources */,
 				7044C1ED25C5CC930011F6E7 /* ParseOperationCombineTests.swift in Sources */,
 				70F2E2BA254F283000B2EA5C /* ParseInstallationTests.swift in Sources */,
+				707CCE9D25FBD4D0003C3B64 /* ParseUserOAuthTests.swift in Sources */,
 				70A2D82025B36A7D001BEB7D /* ParseAuthenticationTests.swift in Sources */,
 				70D1BE5525BB312900A42E7C /* ParseConfigTests.swift in Sources */,
 				70F2E2B9254F283000B2EA5C /* KeychainStoreTests.swift in Sources */,
