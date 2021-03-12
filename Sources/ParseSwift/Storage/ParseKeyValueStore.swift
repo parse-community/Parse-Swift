@@ -55,7 +55,7 @@ struct InMemoryKeyValueStore: ParseKeyValueStore {
     }
 }
 
-#if !os(Linux)
+#if !os(Linux) && !os(Android)
 
 // MARK: KeychainStore + ParseKeyValueStore
 extension KeychainStore: ParseKeyValueStore {

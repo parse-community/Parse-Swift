@@ -29,7 +29,7 @@ class ParseGeoPointTests: XCTestCase {
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try? KeychainStore.shared.deleteAll()
         #endif
         try? ParseStorage.shared.deleteAll()

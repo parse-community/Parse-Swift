@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 1/3/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
-#if !os(Linux)
+#if !os(Linux) && !os(Android)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -56,7 +56,7 @@ class ParseLiveQueryTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()

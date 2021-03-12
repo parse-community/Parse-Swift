@@ -81,7 +81,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDownWithError() throws {
         super.tearDown()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -164,7 +164,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
             let fetched = try config.fetch()
             XCTAssertEqual(fetched.welcomeMessage, configOnServer.welcomeMessage)
 
-            #if !os(Linux)
+            #if !os(Linux) && !os(Android)
             //Should be updated in Keychain
             guard let keychainConfig: CurrentConfigContainer<Config>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
@@ -206,7 +206,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .success(let fetched):
                 XCTAssertEqual(fetched.welcomeMessage, configOnServer.welcomeMessage)
 
-                #if !os(Linux)
+                #if !os(Linux) && !os(Android)
                 //Should be updated in Keychain
                 guard let keychainConfig: CurrentConfigContainer<Config>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
@@ -257,7 +257,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
             let saved = try config.save()
             XCTAssertTrue(saved)
 
-            #if !os(Linux)
+            #if !os(Linux) && !os(Android)
             //Should be updated in Keychain
             guard let keychainConfig: CurrentConfigContainer<Config>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
@@ -298,7 +298,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
             case .success(let saved):
                 XCTAssertTrue(saved)
 
-                #if !os(Linux)
+                #if !os(Linux) && !os(Android)
                 //Should be updated in Keychain
                 guard let keychainConfig: CurrentConfigContainer<Config>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {

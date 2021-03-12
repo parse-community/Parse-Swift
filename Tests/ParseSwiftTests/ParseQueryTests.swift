@@ -52,7 +52,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDown() {
         super.tearDown()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try? KeychainStore.shared.deleteAll()
         #endif
         try? ParseStorage.shared.deleteAll()
@@ -141,7 +141,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query2.include, ["yolo"])
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testDistinct() throws {
         let query = GameScore.query()
             .distinct("yolo")
@@ -288,7 +288,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testThreadSafeFindAsync() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
@@ -427,7 +427,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testThreadSafeFirstAsync() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
@@ -470,7 +470,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         firstAsync(scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testThreadSafeFirstAsyncNoObjectFound() {
         let scoreOnServer = GameScore(score: 10)
         let results = QueryResponse<GameScore>(results: [GameScore](), count: 0)
@@ -548,7 +548,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testThreadSafeCountAsync() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
@@ -1438,7 +1438,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testWhereKeyNearGeoPointWithinMiles() {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
@@ -1486,7 +1486,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
     #endif
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testWhereKeyNearGeoPointWithinKilometers() {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
@@ -2185,7 +2185,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testAggregateCommand() throws {
         let query = GameScore.query()
         let pipeline = [[String: String]]()

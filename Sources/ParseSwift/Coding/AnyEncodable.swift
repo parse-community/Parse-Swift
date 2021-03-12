@@ -110,7 +110,7 @@ extension _AnyEncodable {
         }
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     private func encode(nsnumber: NSNumber, into container: inout SingleValueEncodingContainer) throws { // swiftlint:disable:this cyclomatic_complexity line_length
         switch CFNumberGetType(nsnumber) {
         case .charType:

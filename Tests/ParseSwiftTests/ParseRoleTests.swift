@@ -96,7 +96,7 @@ class ParseRoleTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -142,7 +142,7 @@ class ParseRoleTests: XCTestCase {
         XCTAssertThrowsError(try userRoles.add("level", objects: [user]))
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testUserAddOperation() throws {
         var acl = ParseACL()
         acl.publicWrite = false
@@ -194,7 +194,7 @@ class ParseRoleTests: XCTestCase {
         XCTAssertThrowsError(try userRoles.remove("level", objects: [user]))
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testUserRemoveOperation() throws {
         var acl = ParseACL()
         acl.publicWrite = false
@@ -233,7 +233,7 @@ class ParseRoleTests: XCTestCase {
         XCTAssertThrowsError(try roles.add("roles", objects: [level]))
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testRoleAddIncorrectKeyError() throws {
         var acl = ParseACL()
         acl.publicWrite = false
@@ -298,7 +298,7 @@ class ParseRoleTests: XCTestCase {
         XCTAssertThrowsError(try roles.remove("level", objects: [user]))
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testRoleRemoveOperation() throws {
         var acl = ParseACL()
         acl.publicWrite = false

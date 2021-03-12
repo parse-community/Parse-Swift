@@ -11,7 +11,7 @@ import Foundation
 import Security
 #endif
 
-#if !os(Linux)
+#if !os(Linux) && !os(Android)
 
 func getKeychainQueryTemplate(forService service: String) -> [String: String] {
     var query = [String: String]()
