@@ -1997,5 +1997,43 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         wait(for: [expectation1], timeout: 20.0)
     }
+
+    func testCantRefreshRegularSesstionToken() throws {
+        XCTAssertNil(User.current?.objectId)
+        testLogin()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard User.current != nil else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        XCTAssertThrowsError(try User.refresh())
+    }
+
+    func testCantRefreshRegularSesstionTokenAsync() throws {
+        XCTAssertNil(User.current?.objectId)
+        testLogin()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard User.current != nil else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        let expectation1 = XCTestExpectation(description: "Refresh user1")
+        User.refresh { result in
+            switch result {
+            case .success:
+                XCTFail("Should not have succeeded")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("missing refreshToken"))
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
 }
 // swiftlint:disable:this file_length

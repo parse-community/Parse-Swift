@@ -65,6 +65,29 @@ User.current?.save { results in
     }
 }
 
+//: If signed in using OAuth2.0, ask the server to refresh the token
+if let currentUser = User.current,
+    let refreshToken = currentUser.refreshToken {
+    print("The current sessionToken: \(currentUser.expiresAt)")
+    print("The current refreshToken is: \(refreshToken)")
+    print("The current token expires at: \(currentUser.expiresAt)")
+    User.refresh { results in
+
+        switch results {
+        case .success(let updatedUser):
+            print("Successfully refreshed users tokens")
+            if let updatedUser = User.current,
+                let refreshToken = updatedUser.refreshToken {
+                print("The new sessionToken: \(updatedUser.expiresAt)")
+                print("The new refreshToken is: \(updatedUser.refreshToken)")
+                print("The token expires at: \(updatedUser.expiresAt)")
+            }
+        case .failure(let error):
+            print("Failed to update user: \(error)")
+        }
+    }
+}
+
 //: Logging out - synchronously
 do {
     try User.logout()
