@@ -435,7 +435,7 @@ extension ParseUser {
 extension ParseUser {
 
     /**
-     Refreshes the sessionToken of the currently logged in user in the Keychain *synchronously*.
+     Refreshes the tokens of the currently logged in user in the Keychain *synchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: The refreshed user.
      - throws: An Error of `ParseError` type.
@@ -445,7 +445,7 @@ extension ParseUser {
     }
 
     /**
-     Refreshes the sessionToken of the currently logged in user in the Keychain *asynchronously*.
+     Refreshes the tokens of the currently logged in user in the Keychain *asynchronously*.
 
      This will update the session in the Keychain. This is preferable to using `refresh`,
      unless your code is already running from a background thread.

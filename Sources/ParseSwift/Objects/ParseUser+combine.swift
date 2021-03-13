@@ -101,7 +101,7 @@ public extension ParseUser {
 
     // MARK: Refreshing SessionToken - Combine
     /**
-     Refreshes the OAuth2.0 sessionToken of the currently logged in
+     Refreshes the OAuth2.0 tokens of the currently logged in
      user *asynchronously*. Publishes when complete.
 
      This will also update the session in the Keychain.
