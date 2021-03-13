@@ -122,12 +122,6 @@ internal struct LoginSignupResponse: Codable {
     let sessionToken: String
     let refreshToken: String?
     let expiresAt: Date?
-
-    private enum CodingKeys: String, CodingKey {
-        case createdAt, objectId, updatedAt, username
-        case sessionToken, refreshToken
-        case expiresAt = "expires_in"
-    }
 }
 
 // MARK: ParseFile

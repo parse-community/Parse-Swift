@@ -60,12 +60,6 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             self.expiresAt = date
             self.username = "hello10"
         }
-
-        private enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
-            case createdAt, objectId, updatedAt, username
-            case sessionToken, refreshToken
-            case expiresAt = "expires_in"
-        }
     }
     let loginUserName = "hello10"
     let loginPassword = "world"
