@@ -1,6 +1,6 @@
 //: [Previous](@previous)
 
-//: For this page, make sure build target is set to ParseSwift (macOS) and targeting
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
 //: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
 //: in the `File Inspector` is `Platform = macOS`. This is because
 //: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
@@ -62,7 +62,7 @@ do {
 }
 
 /*: Login - asynchronously - Performs work on background
-    queue and returns to designated on designated callbackQueue.
+    queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
 User.login(username: "hello", password: "world") { results in
@@ -82,9 +82,9 @@ User.login(username: "hello", password: "world") { results in
     }
 }
 
-/*: Save your first customKey value to your `ParseUser`
+/*: Save your first `customKey` value to your `ParseUser`
     Asynchrounously - Performs work on background
-    queue and returns to designated on designated callbackQueue.
+    queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
 User.current?.customKey = "myCustom"
@@ -101,8 +101,8 @@ User.current?.save { results in
 }
 
 //: Looking at the output of user from the previous login, it only has
-//: a pointer to the `score`and `targetScore` fields. You can fetch using `include` to
-//: get the score.
+//: a pointer to the `score` and `targetScore` fields. You can
+//: fetch using `include` to get the score.
 User.current?.fetch(includeKeys: ["score"]) { result in
     switch result {
     case .success:

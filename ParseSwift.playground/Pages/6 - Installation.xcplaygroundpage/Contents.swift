@@ -1,6 +1,6 @@
 //: [Previous](@previous)
 
-//: For this page, make sure build target is set to ParseSwift (macOS) and targeting
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
 //: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
 //: in the `File Inspector` is `Platform = macOS`. This is because
 //: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
@@ -40,7 +40,7 @@ struct Installation: ParseInstallation {
 //: WARNING: All calls on Installation need to be done on the main queue
 DispatchQueue.main.async {
 
-    /*: Save your first customKey value to your `ParseInstallation`.
+    /*: Save your first `customKey` value to your `ParseInstallation`.
         Performs work on background queue and returns to designated on
         designated callbackQueue. If no callbackQueue is specified it
         returns to main queue.

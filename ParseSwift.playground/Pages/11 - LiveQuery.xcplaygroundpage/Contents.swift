@@ -1,6 +1,6 @@
 //: [Previous](@previous)
 
-//: For this page, make sure build target is set to ParseSwift (iOS) and targeting
+//: For this page, make sure your build target is set to ParseSwift (iOS) and targeting
 //: an iPhone, iPod, or iPad. Also be sure your `Playground Settings`
 //: in the `File Inspector` is `Platform = iOS`. This is because
 //: SwiftUI in macOS Playgrounds doesn't seem to build correctly

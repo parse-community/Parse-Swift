@@ -1,4 +1,4 @@
-//: For this page, make sure build target is set to ParseSwift (macOS) and targeting
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
 //: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
 //: in the `File Inspector` is `Platform = macOS`. This is because
 //: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
@@ -44,7 +44,7 @@ let score = GameScore(score: 10)
 let score2 = GameScore(score: 3)
 
 /*: Save asynchronously (preferred way) - Performs work on background
-    queue and returns to designated on designated callbackQueue.
+    queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
 score.save { result in

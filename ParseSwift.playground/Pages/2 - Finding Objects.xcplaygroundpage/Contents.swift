@@ -1,6 +1,6 @@
 //: [Previous](@previous)
 
-//: For this page, make sure build target is set to ParseSwift (macOS) and targeting
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
 //: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
 //: in the `File Inspector` is `Platform = macOS`. This is because
 //: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
@@ -38,7 +38,7 @@ var query = GameScore.query("score" > 50,
     .order([.descending("score")])
 
 //: Query asynchronously (preferred way) - Performs work on background
-//: queue and returns to designated on designated callbackQueue.
+//: queue and returns to specified callbackQueue.
 //: If no callbackQueue is specified it returns to main queue.
 query.limit(2).find(callbackQueue: .main) { results in
     switch results {
@@ -66,7 +66,7 @@ results.forEach { (score) in
 }
 
 //: Query first asynchronously (preferred way) - Performs work on background
-//: queue and returns to designated on designated callbackQueue.
+//: queue and returns to specified callbackQueue.
 //: If no callbackQueue is specified it returns to main queue.
 query.first { results in
     switch results {
