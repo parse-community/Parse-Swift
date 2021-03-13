@@ -264,7 +264,7 @@ do {
 }
 
 //: Asynchronously (preferred way) deleteAll GameScores based on it's objectId alone.
-[scoreToFetch, score2ToFetch].deleteAll { result in
+[scoreToFetch, score2ToFetch].deleteAll(transaction: true) { result in
     switch result {
     case .success(let deletedScores):
         deletedScores.forEach { result in
