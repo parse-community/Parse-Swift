@@ -395,13 +395,14 @@ extension ParseInstallation {
                         completion(result)
                     }
                 }
-         } catch let error as ParseError {
-            callbackQueue.async {
-                completion(.failure(error))
-            }
          } catch {
             callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                if let error = error as? ParseError {
+                    completion(.failure(error))
+                } else {
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: error.localizedDescription)))
+                }
             }
          }
     }

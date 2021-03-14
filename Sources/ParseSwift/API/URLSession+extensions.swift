@@ -45,7 +45,7 @@ extension URLSession {
                 guard let parseError = error as? ParseError else {
                     return .failure(ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription)"))
+                                               message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription). Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
                 }
                 return .failure(parseError)
             }
