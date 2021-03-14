@@ -32,8 +32,8 @@ public protocol ParseKeyValueStore {
 /// It works by encoding / decoding all values just like a real `Codable` store would
 /// but it stores all values as `Data` blobs in memory.
 struct InMemoryKeyValueStore: ParseKeyValueStore {
-    var decoder = JSONDecoder()
-    var encoder = JSONEncoder()
+    var decoder = ParseCoding.jsonDecoder()
+    var encoder = ParseCoding.jsonEncoder()
     var storage = [String: Data]()
 
     mutating func delete(valueFor key: String) throws {
