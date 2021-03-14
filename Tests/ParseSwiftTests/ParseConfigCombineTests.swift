@@ -145,6 +145,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         }, receiveValue: { fetched in
 
             XCTAssertEqual(fetched.welcomeMessage, configOnServer.welcomeMessage)
+            XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
 
             #if !os(Linux)
             //Should be updated in Keychain
@@ -155,8 +156,6 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             }
             XCTAssertEqual(keychainConfig.currentConfig?.welcomeMessage, configOnServer.welcomeMessage)
             #endif
-
-            XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
         })
         publisher.store(in: &subscriptions)
 
@@ -195,6 +194,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         }, receiveValue: { saved in
 
             XCTAssertTrue(saved)
+            XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
 
             #if !os(Linux)
             //Should be updated in Keychain
@@ -205,8 +205,6 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             }
             XCTAssertEqual(keychainConfig.currentConfig?.welcomeMessage, config.welcomeMessage)
             #endif
-
-            XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
         })
         publisher.store(in: &subscriptions)
 
