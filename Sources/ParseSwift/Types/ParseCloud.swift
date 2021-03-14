@@ -61,15 +61,8 @@ extension ParseCloud {
         return API.Command(method: .POST,
                            path: .functions(name: functionJobName),
                            body: self) { (data) -> ReturnType in
-            do {
-                let response = try ParseCoding.jsonDecoder().decode(AnyResultResponse<ReturnType>.self, from: data)
-                return response.result
-            } catch {
-                if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) {
-                    throw error
-                }
-                throw ParseError(code: .unknownError, message: "Couldn't decode data.")
-            }
+            let response = try ParseCoding.jsonDecoder().decode(AnyResultResponse<ReturnType>.self, from: data)
+            return response.result
         }
     }
 }
@@ -107,15 +100,8 @@ extension ParseCloud {
         return API.Command(method: .POST,
                            path: .jobs(name: functionJobName),
                            body: self) { (data) -> ReturnType in
-            do {
-                let response = try ParseCoding.jsonDecoder().decode(AnyResultResponse<ReturnType>.self, from: data)
-                return response.result
-            } catch {
-                if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) {
-                    throw error
-                }
-                throw ParseError(code: .unknownError, message: "Couldn't decode data.")
-            }
+            let response = try ParseCoding.jsonDecoder().decode(AnyResultResponse<ReturnType>.self, from: data)
+            return response.result
         }
     }
 }
