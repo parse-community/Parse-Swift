@@ -86,8 +86,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
     let testInstallationObjectId = "yarr"
 
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -100,13 +100,13 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         userLogin()
     }
 
-    override func tearDown() {
-        super.tearDown()
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux)
-        try? KeychainStore.shared.deleteAll()
+        try KeychainStore.shared.deleteAll()
         #endif
-        try? ParseStorage.shared.deleteAll()
+        try ParseStorage.shared.deleteAll()
     }
 
     func userLogin() {

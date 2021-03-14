@@ -79,7 +79,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux)
         try KeychainStore.shared.deleteAll()
