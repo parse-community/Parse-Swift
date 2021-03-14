@@ -16,7 +16,7 @@ struct GameScore: ParseObject {
     var ACL: ParseACL?
     var location: ParseGeoPoint?
     //: Your own properties
-    var score: Int
+    var score: Int?
 
     //: A custom initializer.
     init(score: Int) {
@@ -120,7 +120,6 @@ query3.find { results in
     switch results {
     case .success(let scores):
 
-        assert(scores.count >= 1)
         scores.forEach { (score) in
             print("""
                 Someone has a score of \"\(score.score)\" with no geopoint \(String(describing: score.location))
@@ -158,7 +157,6 @@ query7.find { results in
     switch results {
     case .success(let scores):
 
-        assert(scores.count >= 1)
         scores.forEach { (score) in
             print("""
                 Someone has a score of \"\(score.score)\" with geopoint using OR \(String(describing: score.location))
@@ -171,11 +169,19 @@ query7.find { results in
 }
 
 //: Explain the previous query.
-let explain = try query2.find(explain: true)
+let explain: AnyDecodable = try query2.first(explain: true)
 print(explain)
 
-let hint = try query2.find(explain: false, hint: "objectId")
-print(hint)
+//: Hint of the previous query (asynchronous)
+query2.find(explain: false,
+            hint: "_id_") { (result: Result<[GameScore], ParseError>) in
+    switch result {
+    case .success(let scores):
+        print(scores)
+    case .failure(let error):
+        print(error.localizedDescription)
+    }
+}
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

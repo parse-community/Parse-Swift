@@ -221,7 +221,7 @@ internal extension API {
             var urlRequest = URLRequest(url: urlComponents)
             urlRequest.allHTTPHeaderFields = headers
             if let urlBody = body {
-                if (urlBody as? ParseCloud) != nil {
+                if (urlBody as? CloudType) != nil {
                     guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody, skipKeys: .cloud) else {
                         return .failure(ParseError(code: .unknownError,
                                                        message: "couldn't encode body \(urlBody)"))
