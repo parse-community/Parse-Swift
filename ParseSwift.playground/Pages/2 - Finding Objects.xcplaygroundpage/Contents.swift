@@ -1,5 +1,11 @@
 //: [Previous](@previous)
 
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
+//: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
+//: in the `File Inspector` is `Platform = macOS`. This is because
+//: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
+//: be set to build for `macOS` unless specified.
+
 import PlaygroundSupport
 import Foundation
 import ParseSwift
@@ -31,9 +37,9 @@ var query = GameScore.query("score" > 50,
                             "createdAt" > afterDate)
     .order([.descending("score")])
 
-// Query asynchronously (preferred way) - Performs work on background
-// queue and returns to designated on designated callbackQueue.
-// If no callbackQueue is specified it returns to main queue.
+//: Query asynchronously (preferred way) - Performs work on background
+//: queue and returns to specified callbackQueue.
+//: If no callbackQueue is specified it returns to main queue.
 query.limit(2).find(callbackQueue: .main) { results in
     switch results {
     case .success(let scores):
@@ -50,7 +56,7 @@ query.limit(2).find(callbackQueue: .main) { results in
     }
 }
 
-// Query synchronously (not preferred - all operations on main queue).
+//: Query synchronously (not preferred - all operations on main queue).
 let results = try query.find()
 assert(results.count >= 1)
 results.forEach { (score) in
@@ -59,9 +65,9 @@ results.forEach { (score) in
     print("Found score: \(score)")
 }
 
-// Query first asynchronously (preferred way) - Performs work on background
-// queue and returns to designated on designated callbackQueue.
-// If no callbackQueue is specified it returns to main queue.
+//: Query first asynchronously (preferred way) - Performs work on background
+//: queue and returns to specified callbackQueue.
+//: If no callbackQueue is specified it returns to main queue.
 query.first { results in
     switch results {
     case .success(let score):
