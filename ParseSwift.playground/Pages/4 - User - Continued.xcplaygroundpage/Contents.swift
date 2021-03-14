@@ -1,5 +1,11 @@
 //: [Previous](@previous)
 
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
+//: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
+//: in the `File Inspector` is `Platform = macOS`. This is because
+//: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
+//: be set to build for `macOS` unless specified.
+
 import PlaygroundSupport
 import Foundation
 import ParseSwift
@@ -47,24 +53,6 @@ struct GameScore: ParseObject {
     }
 }
 
-/*: Save your first customKey value to your `ParseUser`
-    Asynchrounously - Performs work on background
-    queue and returns to designated on designated callbackQueue.
-    If no callbackQueue is specified it returns to main queue.
-*/
-User.current?.customKey = "myCustom"
-User.current?.score = GameScore(score: 12)
-User.current?.targetScore = GameScore(score: 100)
-User.current?.save { results in
-
-    switch results {
-    case .success(let updatedUser):
-        print("Successfully save custom fields of User to ParseServer: \(updatedUser)")
-    case .failure(let error):
-        print("Failed to update user: \(error)")
-    }
-}
-
 //: Logging out - synchronously
 do {
     try User.logout()
@@ -74,7 +62,7 @@ do {
 }
 
 /*: Login - asynchronously - Performs work on background
-    queue and returns to designated on designated callbackQueue.
+    queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
 User.login(username: "hello", password: "world") { results in
@@ -94,9 +82,27 @@ User.login(username: "hello", password: "world") { results in
     }
 }
 
+/*: Save your first `customKey` value to your `ParseUser`
+    Asynchrounously - Performs work on background
+    queue and returns to specified callbackQueue.
+    If no callbackQueue is specified it returns to main queue.
+*/
+User.current?.customKey = "myCustom"
+User.current?.score = GameScore(score: 12)
+User.current?.targetScore = GameScore(score: 100)
+User.current?.save { results in
+
+    switch results {
+    case .success(let updatedUser):
+        print("Successfully save custom fields of User to ParseServer: \(updatedUser)")
+    case .failure(let error):
+        print("Failed to update user: \(error)")
+    }
+}
+
 //: Looking at the output of user from the previous login, it only has
-//: a pointer to the `score`and `targetScore` fields. You can fetch using `include` to
-//: get the score.
+//: a pointer to the `score` and `targetScore` fields. You can
+//: fetch using `include` to get the score.
 User.current?.fetch(includeKeys: ["score"]) { result in
     switch result {
     case .success:

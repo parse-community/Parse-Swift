@@ -85,28 +85,51 @@ public extension Sequence where Element: ParseObject {
 
     /**
      Saves a collection of objects *asynchronously* and publishes when complete.
-
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
     */
-    func saveAllPublisher(options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
+    func saveAllPublisher(batchLimit limit: Int? = nil,
+                          transaction: Bool = false,
+                          options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
-            self.saveAll(options: options,
+            self.saveAll(batchLimit: limit,
+                         transaction: transaction,
+                         options: options,
                          completion: promise)
         }
     }
 
     /**
      Deletes a collection of objects *asynchronously* and publishes when complete.
-
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
     */
-    func deleteAllPublisher(options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
+    func deleteAllPublisher(batchLimit limit: Int? = nil,
+                            transaction: Bool = false,
+                            options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
         Future { promise in
-            self.deleteAll(options: options, completion: promise)
+            self.deleteAll(batchLimit: limit,
+                           transaction: transaction,
+                           options: options,
+                           completion: promise)
         }
     }
 }
