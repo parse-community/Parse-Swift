@@ -28,12 +28,14 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    struct GameType: ParseObject {
+    struct GameScoreBroken: ParseObject {
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+
+        var score: Int? //Left as non-optional to throw error on pointer
     }
 
     struct AnyResultResponse<U: Codable>: Codable {
@@ -398,7 +400,27 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         } catch {
             XCTFail(error.localizedDescription)
         }
+    }
 
+    func testFirstThrowDecodingError() {
+        var scoreOnServer = GameScoreBroken()
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScoreBroken>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query()
+        XCTAssertThrowsError(try query.first(options: []))
     }
 
     func testFirstNoObjectFound() {

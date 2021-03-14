@@ -43,16 +43,17 @@ extension URLSession {
                     return .failure(error)
                 }
                 guard let parseError = error as? ParseError else {
-                    if let json = try? JSONSerialization
-                        .data(withJSONObject: responseData,
-                              options: .prettyPrinted) {
+                    guard JSONSerialization.isValidJSONObject(responseData) == true,
+                          let json = try? JSONSerialization
+                            .data(withJSONObject: responseData,
+                              options: .prettyPrinted) else {
                         return .failure(ParseError(code: .unknownError,
                                                    // swiftlint:disable:next line_length
-                                                   message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
+                                                   message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription) Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
                     }
                     return .failure(ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription) Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
+                                               message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
                 }
                 return .failure(parseError)
             }
