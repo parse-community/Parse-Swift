@@ -1,11 +1,11 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.7...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
-### 1.1.7
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.6...1.1.7)
+### 1.2.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.6...1.2.0)
 
 __Breaking changes__
 - Allows return types to be specified for `ParseCloud`, query `hint`, and `explain` (see playgrounds for examples). Changed functionality of synchronous `query.first()`. It use to return nil if no values are found. Now it will throw an error if none are found. ([#92](https://github.com/parse-community/Parse-Swift/pull/92)), thanks to [Corey Baker](https://github.com/cbaker6).
