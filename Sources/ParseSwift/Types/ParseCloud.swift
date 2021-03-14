@@ -31,7 +31,7 @@ extension ParseCloud {
     /**
      Calls a Cloud Code function *synchronously* and returns a result of it's execution.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - returns: Returns a JSON response of `Decodable` type.
+        - returns: Returns a `Decodable` type.
         - throws: An error of type `ParseError`.
     */
     public func runFunction(options: API.Options = []) throws -> ReturnType {
@@ -79,7 +79,7 @@ extension ParseCloud {
     /**
      Starts a Cloud Code job *synchronously* and returns a result with the jobStatusId of the job.
           - parameter options: A set of header options sent to the server. Defaults to an empty set.
-          - returns: Returns a JSON response of `Decodable` type.
+          - returns: Returns a `Decodable` type.
     */
     public func startJob(options: API.Options = []) throws -> ReturnType {
         try startJobCommand().execute(options: options, callbackQueue: .main)

@@ -494,13 +494,14 @@ extension ParseObject {
                     completion(result)
                 }
             }
-         } catch let error as ParseError {
-            callbackQueue.async {
-                completion(.failure(error))
-            }
          } catch {
             callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                if let error = error as? ParseError {
+                    completion(.failure(error))
+                } else {
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: error.localizedDescription)))
+                }
             }
          }
     }
@@ -601,7 +602,7 @@ extension ParseObject {
     }
 
     internal func saveCommand() -> API.Command<Self, Self> {
-        return API.Command<Self, Self>.saveCommand(self)
+        API.Command<Self, Self>.saveCommand(self)
     }
 
     // swiftlint:disable:next function_body_length
