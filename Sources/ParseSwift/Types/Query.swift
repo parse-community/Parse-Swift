@@ -859,7 +859,7 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
-      - returns: Returns a response of `Decodable` type to the query.
+      - returns: Returns a response of `Decodable` type.
     */
     public func find<U: Decodable>(explain: Bool,
                                    hint: String? = nil,
@@ -893,7 +893,7 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<Decodable, ParseError>)`.
+      It should have the following argument signature: `(Result<[Decodable], ParseError>)`.
     */
     public func find<U: Decodable>(explain: Bool,
                                    hint: String? = nil,
@@ -929,7 +929,7 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
-      - returns: Returns a response of `Decodable` type to the query.
+      - returns: Returns a response of `Decodable` type.
     */
     public func first<U: Decodable>(explain: Bool,
                                     hint: String? = nil,
@@ -998,7 +998,7 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
-      - returns: Returns a response of `Decodable` type to the query.
+      - returns: Returns a response of `Decodable` type.
     */
     public func count<U: Decodable>(explain: Bool,
                                     hint: String? = nil,
@@ -1079,7 +1079,7 @@ extension Query: Queryable {
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
         - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<[ResultType], ParseError>)`.
+      It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
         - warning: This hasn't been tested thoroughly.
     */
     public func aggregate(_ pipeline: AggregateType,

@@ -83,7 +83,7 @@ extension ParseCloud {
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
         - parameter completion: A block that will be called when logging out, completes or fails.
-        It should have the following argument signature: `(Result<U, ParseError>)`.
+        It should have the following argument signature: `(Result<ReturnType, ParseError>)`.
     */
     public func startJob(options: API.Options = [],
                          callbackQueue: DispatchQueue = .main,
