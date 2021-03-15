@@ -100,7 +100,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
     let loginPassword = "world"
 
     override func setUpWithError() throws {
-        super.setUp()
+        try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -113,7 +113,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux)
         try KeychainStore.shared.deleteAll()

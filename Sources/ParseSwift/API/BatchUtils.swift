@@ -25,12 +25,19 @@ typealias RESTBatchCommandTypeEncodable<T> = API.Command<ParseObjectBatchCommand
 */
 internal struct BatchCommand<T, U>: ParseType where T: ParseType {
     let requests: [API.Command<T, U>]
+    var transaction: Bool
 }
 
 internal struct BatchCommandNoBody<T, U>: Encodable where T: Encodable {
     let requests: [API.NonParseBodyCommand<T, U>]
+    var transaction: Bool
 }
-
+/*
+internal struct BatchChildCommand<U>: ParseType {
+    let requests: [API.ChildCommand<U>]
+    var transaction: Bool
+}
+*/
 struct BatchUtils {
     static func splitArray<U>(_ array: [U], valuesPerSegment: Int) -> [[U]] {
         if array.count < valuesPerSegment {

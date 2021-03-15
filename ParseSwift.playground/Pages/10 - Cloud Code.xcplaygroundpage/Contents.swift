@@ -1,5 +1,11 @@
 //: [Previous](@previous)
 
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
+//: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
+//: in the `File Inspector` is `Platform = macOS`. This is because
+//: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
+//: be set to build for `macOS` unless specified.
+
 import PlaygroundSupport
 import Foundation
 import ParseSwift
@@ -9,6 +15,10 @@ initializeParse()
 
 //: Create your own value typed `ParseCloud` type.
 struct Cloud: ParseCloud {
+
+    //: Return type of your Cloud Function
+    typealias ReturnType = String
+
     //: These are required for Object
     var functionJobName: String
 

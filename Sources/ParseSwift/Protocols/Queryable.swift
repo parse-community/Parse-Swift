@@ -11,7 +11,7 @@ public protocol Queryable {
     associatedtype ResultType
 
     func find(options: API.Options) throws -> [ResultType]
-    func first(options: API.Options) throws -> ResultType?
+    func first(options: API.Options) throws -> ResultType
     func count(options: API.Options) throws -> Int
     func find(options: API.Options, callbackQueue: DispatchQueue,
               completion: @escaping (Result<[ResultType], ParseError>) -> Void)

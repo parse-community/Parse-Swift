@@ -1,5 +1,11 @@
 //: [Previous](@previous)
 
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
+//: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
+//: in the `File Inspector` is `Platform = macOS`. This is because
+//: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
+//: be set to build for `macOS` unless specified.
+
 import PlaygroundSupport
 import Foundation
 PlaygroundPage.current.needsIndefiniteExecution = true
@@ -25,7 +31,7 @@ struct User: ParseUser {
 }
 
 /*: Sign up user asynchronously - Performs work on background
-    queue and returns to designated on designated callbackQueue.
+    queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
 User.signup(username: "hello", password: "world") { results in

@@ -92,4 +92,13 @@ class ParseEncoderTests: XCTestCase {
         XCTAssertNil(decoded["updatedAt"])
         XCTAssertNil(decoded["className"])
     }
+
+    func testDateStringEncoding() throws {
+        let jsonScore = "{\"createdAt\":\"2021-03-15T02:24:47.841Z\",\"score\":5}"
+        guard let encoded = jsonScore.data(using: .utf8) else {
+            XCTFail("Shuld have created data")
+            return
+        }
+        XCTAssertNoThrow(try ParseCoding.jsonDecoder().decode(GameScore.self, from: encoded))
+    }
 }

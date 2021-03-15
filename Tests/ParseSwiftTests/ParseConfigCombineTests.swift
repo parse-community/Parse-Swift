@@ -70,7 +70,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
     }
 
     override func setUpWithError() throws {
-        super.setUp()
+        try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -83,7 +83,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux)
         try KeychainStore.shared.deleteAll()
@@ -145,6 +145,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         }, receiveValue: { fetched in
 
             XCTAssertEqual(fetched.welcomeMessage, configOnServer.welcomeMessage)
+            XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
 
             #if !os(Linux)
             //Should be updated in Keychain
@@ -155,8 +156,6 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             }
             XCTAssertEqual(keychainConfig.currentConfig?.welcomeMessage, configOnServer.welcomeMessage)
             #endif
-
-            XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
         })
         publisher.store(in: &subscriptions)
 
@@ -195,6 +194,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         }, receiveValue: { saved in
 
             XCTAssertTrue(saved)
+            XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
 
             #if !os(Linux)
             //Should be updated in Keychain
@@ -205,8 +205,6 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             }
             XCTAssertEqual(keychainConfig.currentConfig?.welcomeMessage, config.welcomeMessage)
             #endif
-
-            XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
         })
         publisher.store(in: &subscriptions)
 

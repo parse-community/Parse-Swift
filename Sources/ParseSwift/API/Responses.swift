@@ -138,13 +138,13 @@ internal struct FileUploadResponse: Decodable {
 }
 
 // MARK: AnyResultResponse
-internal struct AnyResultResponse: Codable {
-    let result: AnyCodable?
+internal struct AnyResultResponse<U: Decodable>: Decodable {
+    let result: U
 }
 
 // MARK: AnyResultsResponse
-internal struct AnyResultsResponse: Codable {
-    let results: AnyCodable?
+internal struct AnyResultsResponse<U: Decodable>: Decodable {
+    let results: [U]
 }
 
 // MARK: ConfigResponse

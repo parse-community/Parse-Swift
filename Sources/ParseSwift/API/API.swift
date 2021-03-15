@@ -120,7 +120,7 @@ public struct API {
         /// Specify metadata.
         /// - note: This is typically used indirectly by `ParseFile`.
         case metadata([String: String])
-        // Specify tags.
+        /// Specify tags.
         /// - note: This is typically used indirectly by `ParseFile`.
         case tags([String: String])
 
