@@ -17,12 +17,18 @@ import Combine
 class ParseCloudCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct Cloud: ParseCloud {
+        typealias ReturnType = String? // swiftlint:disable:this nesting
+
         // Those are required for Object
         var functionJobName: String
     }
 
+    struct AnyResultResponse<U: Codable>: Codable {
+        let result: U
+    }
+
     override func setUpWithError() throws {
-        super.setUp()
+        try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -35,7 +41,7 @@ class ParseCloudCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux)
         try KeychainStore.shared.deleteAll()
@@ -47,7 +53,7 @@ class ParseCloudCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        let response = AnyResultResponse(result: nil)
+        let response = AnyResultResponse<String?>(result: nil)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -69,7 +75,7 @@ class ParseCloudCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         }, receiveValue: { functionResponse in
 
-            XCTAssertEqual(functionResponse, AnyCodable())
+            XCTAssertNil(functionResponse)
         })
         publisher.store(in: &subscriptions)
 
@@ -80,7 +86,7 @@ class ParseCloudCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        let response = AnyResultResponse(result: nil)
+        let response = AnyResultResponse<String?>(result: nil)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -102,7 +108,7 @@ class ParseCloudCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         }, receiveValue: { functionResponse in
 
-            XCTAssertEqual(functionResponse, AnyCodable())
+            XCTAssertNil(functionResponse)
         })
         publisher.store(in: &subscriptions)
 

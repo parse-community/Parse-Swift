@@ -35,9 +35,9 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func findPublisher(explain: Bool,
-                       hint: String? = nil,
-                       options: API.Options = []) -> Future<AnyCodable, ParseError> {
+    func findPublisher<U: Decodable>(explain: Bool,
+                                     hint: String? = nil,
+                                     options: API.Options = []) -> Future<[U], ParseError> {
         Future { promise in
             self.find(explain: explain,
                       hint: hint,
@@ -65,9 +65,9 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func firstPublisher(explain: Bool,
-                        hint: String? = nil,
-                        options: API.Options = []) -> Future<AnyCodable, ParseError> {
+    func firstPublisher<U: Decodable>(explain: Bool,
+                                      hint: String? = nil,
+                                      options: API.Options = []) -> Future<U, ParseError> {
         Future { promise in
             self.first(explain: explain,
                        hint: hint,
@@ -95,9 +95,9 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func countPublisher(explain: Bool,
-                        hint: String? = nil,
-                        options: API.Options = []) -> Future<AnyCodable, ParseError> {
+    func countPublisher<U: Decodable>(explain: Bool,
+                                      hint: String? = nil,
+                                      options: API.Options = []) -> Future<U, ParseError> {
         Future { promise in
             self.count(explain: explain,
                        hint: hint,

@@ -76,7 +76,7 @@ extension ParseCoding {
                     message: "An invalid date string was provided when decoding dates."
                 )
             }
-        } catch let error {
+        } catch {
             let container = try decoder.container(keyedBy: DateEncodingKeys.self)
 
             if

@@ -15,6 +15,10 @@ initializeParse()
 
 //: Create your own value typed `ParseCloud` type.
 struct Cloud: ParseCloud {
+
+    //: Return type of your Cloud Function
+    typealias ReturnType = String
+
     //: These are required for Object
     var functionJobName: String
 
