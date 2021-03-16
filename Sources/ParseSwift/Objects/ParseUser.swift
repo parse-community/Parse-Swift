@@ -79,7 +79,7 @@ extension ParseUser {
 struct CurrentUserContainer<T: ParseUser>: Codable {
     var currentUser: T?
     var sessionToken: String?
-    var oauth: Bool?
+    var accessToken: String?
     var refreshToken: String?
     var expiresAt: Date?
 }
@@ -144,6 +144,15 @@ extension ParseUser {
     */
     public var sessionToken: String? {
         Self.currentUserContainer?.sessionToken
+    }
+
+    /**
+     The access token for the `ParseUser`.
+
+     This is set by the server upon successful authentication.
+    */
+    public var accessToken: String? {
+        Self.currentUserContainer?.accessToken
     }
 
     /**
@@ -227,6 +236,7 @@ extension ParseUser {
             Self.currentUserContainer = .init(
                 currentUser: user,
                 sessionToken: response.sessionToken,
+                accessToken: response.accessToken,
                 refreshToken: response.refreshToken,
                 expiresAt: response.expiresAt
             )
@@ -240,20 +250,27 @@ extension ParseUser {
      to the keychain, so you can retrieve the currently logged in user using *current*.
 
      - parameter sessionToken: The sessionToken of the user to login.
+     - parameter accessToken: The OAuth2.0 accessToken of the user to login.
      - parameter refreshToken: The OAuth2.0 refreshToken of the user for refreshing.
      - parameter expiresAt: The date the OAuth2.0 sessionToken expires.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
     */
-    public func become(sessionToken: String,
+    public func become(sessionToken: String? = nil,
+                       accessToken: String? = nil,
                        refreshToken: String? = nil,
                        expiresAt: Date? = nil,
                        options: API.Options = []) throws -> Self {
         var newUser = self
         newUser.objectId = "me"
         var options = options
-        options.insert(.sessionToken(sessionToken))
+        if let accessToken = accessToken {
+            options.insert(.sessionToken(accessToken))
+        } else if let sessionToken = sessionToken {
+            options.insert(.sessionToken(sessionToken))
+        }
         return try newUser.meCommand(sessionToken: sessionToken,
+                                     accessToken: accessToken,
                                      refreshToken: refreshToken,
                                      expiresAt: expiresAt)
             .execute(options: options,
@@ -265,6 +282,7 @@ extension ParseUser {
      to the keychain, so you can retrieve the currently logged in user using *current*.
 
      - parameter sessionToken: The sessionToken of the user to login.
+     - parameter accessToken: The OAuth2.0 accessToken of the user to login.
      - parameter refreshToken: The OAuth2.0 refreshToken of the user for refreshing.
      - parameter The date the OAuth2.0 sessionToken expires.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -273,7 +291,8 @@ extension ParseUser {
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
-    public func become(sessionToken: String,
+    public func become(sessionToken: String? = nil,
+                       accessToken: String? = nil,
                        refreshToken: String? = nil,
                        expiresAt: Date? = nil,
                        options: API.Options = [],
@@ -282,9 +301,14 @@ extension ParseUser {
         var newUser = self
         newUser.objectId = "me"
         var options = options
-        options.insert(.sessionToken(sessionToken))
+        if let accessToken = accessToken {
+            options.insert(.sessionToken(accessToken))
+        } else if let sessionToken = sessionToken {
+            options.insert(.sessionToken(sessionToken))
+        }
          do {
             try newUser.meCommand(sessionToken: sessionToken,
+                                  accessToken: accessToken,
                                   refreshToken: refreshToken,
                                   expiresAt: expiresAt)
                 .executeAsync(options: options,
@@ -310,7 +334,8 @@ extension ParseUser {
          }
     }
 
-    internal func meCommand(sessionToken: String,
+    internal func meCommand(sessionToken: String? = nil,
+                            accessToken: String? = nil,
                             refreshToken: String?,
                             expiresAt: Date?) throws -> API.Command<Self, Self> {
 
@@ -327,6 +352,7 @@ extension ParseUser {
             Self.currentUserContainer = .init(
                 currentUser: user,
                 sessionToken: sessionToken,
+                accessToken: accessToken,
                 refreshToken: refreshToken,
                 expiresAt: expiresAt
             )
@@ -493,6 +519,7 @@ extension ParseUser {
 
             if Self.current != nil {
                 Self.currentUserContainer?.sessionToken = user.sessionToken
+                Self.currentUserContainer?.accessToken = user.accessToken
                 Self.currentUserContainer?.refreshToken = user.refreshToken
                 Self.currentUserContainer?.expiresAt = user.expiresAt
                 Self.saveCurrentContainerToKeychain()
@@ -763,6 +790,7 @@ extension ParseUser {
             Self.currentUserContainer = .init(
                 currentUser: user,
                 sessionToken: response.sessionToken,
+                accessToken: response.accessToken,
                 refreshToken: response.refreshToken,
                 expiresAt: response.expiresAt
             )
@@ -781,6 +809,7 @@ extension ParseUser {
             Self.currentUserContainer = .init(
                 currentUser: user,
                 sessionToken: response.sessionToken,
+                accessToken: response.accessToken,
                 refreshToken: response.refreshToken,
                 expiresAt: response.expiresAt
             )

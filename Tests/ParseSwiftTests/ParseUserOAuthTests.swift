@@ -34,9 +34,10 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
         var objectId: String?
         var createdAt: Date?
-        var sessionToken: String
+        var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var accessToken: String?
         var refreshToken: String?
         var expiresAt: Date?
 
@@ -55,7 +56,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             self.updatedAt = date
             self.objectId = "yarr"
             self.ACL = nil
-            self.sessionToken = "myToken"
+            self.accessToken = "myToken"
             self.refreshToken = "yolo"
             self.expiresAt = date
             self.username = "hello10"
@@ -146,7 +147,8 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTAssertNil(signedUp.password)
             XCTAssertNil(signedUp.email)
             XCTAssertNotNil(signedUp.objectId)
-            XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNil(signedUp.sessionToken)
+            XCTAssertNotNil(signedUp.accessToken)
             XCTAssertNotNil(signedUp.refreshToken)
             XCTAssertNotNil(signedUp.expiresAt)
             XCTAssertNil(signedUp.ACL)
@@ -162,7 +164,8 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTAssertNotNil(userFromKeychain.username)
             XCTAssertNil(userFromKeychain.password)
             XCTAssertNotNil(userFromKeychain.objectId)
-            XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.sessionToken)
+            XCTAssertNotNil(userFromKeychain.accessToken)
             XCTAssertNotNil(userFromKeychain.refreshToken)
             XCTAssertNotNil(userFromKeychain.expiresAt)
             XCTAssertNil(userFromKeychain.ACL)
@@ -186,7 +189,8 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 XCTAssertNotNil(signedUp.username)
                 XCTAssertNil(signedUp.password)
                 XCTAssertNotNil(signedUp.objectId)
-                XCTAssertNotNil(signedUp.sessionToken)
+                XCTAssertNil(signedUp.sessionToken)
+                XCTAssertNotNil(signedUp.accessToken)
                 XCTAssertNotNil(signedUp.refreshToken)
                 XCTAssertNotNil(signedUp.expiresAt)
                 XCTAssertNil(signedUp.ACL)
@@ -203,7 +207,8 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 XCTAssertNil(userFromKeychain.email)
                 XCTAssertNil(userFromKeychain.password)
                 XCTAssertNotNil(userFromKeychain.objectId)
-                XCTAssertNotNil(userFromKeychain.sessionToken)
+                XCTAssertNil(userFromKeychain.sessionToken)
+                XCTAssertNotNil(userFromKeychain.accessToken)
                 XCTAssertNotNil(userFromKeychain.refreshToken)
                 XCTAssertNotNil(userFromKeychain.expiresAt)
                 XCTAssertNil(userFromKeychain.ACL)
@@ -251,7 +256,8 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTAssertNotNil(loggedIn.username)
             XCTAssertNil(loggedIn.password)
             XCTAssertNotNil(loggedIn.objectId)
-            XCTAssertNotNil(loggedIn.sessionToken)
+            XCTAssertNil(loggedIn.sessionToken)
+            XCTAssertNotNil(loggedIn.accessToken)
             XCTAssertNotNil(loggedIn.refreshToken)
             XCTAssertNotNil(loggedIn.expiresAt)
             XCTAssertNil(loggedIn.ACL)
@@ -267,7 +273,8 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTAssertNil(userFromKeychain.email)
             XCTAssertNil(userFromKeychain.password)
             XCTAssertNotNil(userFromKeychain.objectId)
-            XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.sessionToken)
+            XCTAssertNotNil(userFromKeychain.accessToken)
             XCTAssertNotNil(userFromKeychain.refreshToken)
             XCTAssertNotNil(userFromKeychain.expiresAt)
             XCTAssertNil(userFromKeychain.ACL)
@@ -292,7 +299,8 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 XCTAssertNotNil(loggedIn.username)
                 XCTAssertNil(loggedIn.password)
                 XCTAssertNotNil(loggedIn.objectId)
-                XCTAssertNotNil(loggedIn.sessionToken)
+                XCTAssertNil(loggedIn.sessionToken)
+                XCTAssertNotNil(loggedIn.accessToken)
                 XCTAssertNotNil(loggedIn.refreshToken)
                 XCTAssertNotNil(loggedIn.expiresAt)
                 XCTAssertNil(loggedIn.ACL)
@@ -309,8 +317,9 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 XCTAssertNotNil(userFromKeychain.username)
                 XCTAssertNil(userFromKeychain.password)
                 XCTAssertNotNil(userFromKeychain.objectId)
-                XCTAssertNotNil(userFromKeychain.sessionToken)
+                XCTAssertNil(userFromKeychain.sessionToken)
                 XCTAssertNil(userFromKeychain.ACL)
+                XCTAssertNotNil(userFromKeychain.accessToken)
                 XCTAssertNotNil(userFromKeychain.refreshToken)
                 XCTAssertNotNil(userFromKeychain.expiresAt)
             case .failure(let error):
@@ -341,7 +350,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         MockURLProtocol.removeAll()
 
         var refreshResponse = LoginSignupResponse()
-        refreshResponse.sessionToken = "hello"
+        refreshResponse.accessToken = "hello"
         refreshResponse.refreshToken = "world"
         refreshResponse.expiresAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
 
@@ -357,13 +366,13 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
         do {
             let user = try User.refresh()
-            guard let sessionToken = user.sessionToken,
+            guard let accessToken = user.accessToken,
                   let refreshToken = user.refreshToken,
                   let expiresAt = user.expiresAt else {
                 XCTFail("Should unwrap all values")
                 return
             }
-            XCTAssertEqual(sessionToken, refreshResponse.sessionToken)
+            XCTAssertEqual(accessToken, refreshResponse.accessToken)
             XCTAssertEqual(refreshToken, refreshResponse.refreshToken)
             XCTAssertEqual(expiresAt, refreshResponse.expiresAt)
             XCTAssertNotNil(user.createdAt)
@@ -375,13 +384,13 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTAssertNil(user.ACL)
 
             guard let userFromKeychain = BaseParseUser.current,
-                  let sessionTokenFromKeychain = user.sessionToken,
+                  let accessTokenFromKeychain = user.accessToken,
                   let refreshTokenFromKeychain = user.refreshToken,
                   let expiresAtFromKeychain = user.expiresAt else {
                 XCTFail("Couldn't get CurrentUser from Keychain")
                 return
             }
-            XCTAssertEqual(sessionTokenFromKeychain, refreshResponse.sessionToken)
+            XCTAssertEqual(accessTokenFromKeychain, refreshResponse.accessToken)
             XCTAssertEqual(refreshTokenFromKeychain, refreshResponse.refreshToken)
             XCTAssertEqual(expiresAtFromKeychain, refreshResponse.expiresAt)
             XCTAssertNotNil(userFromKeychain.createdAt)
@@ -404,13 +413,13 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             switch result {
 
             case .success(let user):
-                guard let sessionToken = user.sessionToken,
+                guard let accessToken = user.accessToken,
                       let refreshToken = user.refreshToken,
                       let expiresAt = user.expiresAt else {
                     XCTFail("Should unwrap all values")
                     return
                 }
-                XCTAssertEqual(sessionToken, refreshResponse.sessionToken)
+                XCTAssertEqual(accessToken, refreshResponse.accessToken)
                 XCTAssertEqual(refreshToken, refreshResponse.refreshToken)
                 XCTAssertEqual(expiresAt, refreshResponse.expiresAt)
                 XCTAssertNotNil(user.createdAt)
@@ -422,13 +431,13 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 XCTAssertNil(user.ACL)
 
                 guard let userFromKeychain = BaseParseUser.current,
-                      let sessionTokenFromKeychain = user.sessionToken,
+                      let accessTokenFromKeychain = user.accessToken,
                       let refreshTokenFromKeychain = user.refreshToken,
                       let expiresAtFromKeychain = user.expiresAt else {
                     XCTFail("Couldn't get CurrentUser from Keychain")
                     return
                 }
-                XCTAssertEqual(sessionTokenFromKeychain, refreshResponse.sessionToken)
+                XCTAssertEqual(accessTokenFromKeychain, refreshResponse.accessToken)
                 XCTAssertEqual(refreshTokenFromKeychain, refreshResponse.refreshToken)
                 XCTAssertEqual(expiresAtFromKeychain, refreshResponse.expiresAt)
                 XCTAssertNotNil(userFromKeychain.createdAt)
@@ -452,7 +461,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         MockURLProtocol.removeAll()
 
         var refreshResponse = LoginSignupResponse()
-        refreshResponse.sessionToken = "hello"
+        refreshResponse.accessToken = "hello"
         refreshResponse.refreshToken = "world"
         refreshResponse.expiresAt = Date()
 
@@ -558,7 +567,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         var serverResponse = LoginSignupResponse()
         serverResponse.createdAt = User.current?.createdAt
         serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
-        serverResponse.sessionToken = "newValue"
+        serverResponse.accessToken = "newValue"
         serverResponse.username = "stop"
 
         var userOnServer: User!
@@ -577,7 +586,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
 
         do {
-            let become = try user.become(sessionToken: "newValue",
+            let become = try user.become(accessToken: "newValue",
                                          refreshToken: "yolo",
                                          expiresAt: Date())
             XCTAssert(become.hasSameObjectId(as: userOnServer))
@@ -594,7 +603,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTAssertEqual(becomeCreatedAt, originalCreatedAt)
             XCTAssertGreaterThan(becomeUpdatedAt, originalUpdatedAt)
             XCTAssertNil(become.ACL)
-            XCTAssertNotNil(become.sessionToken)
+            XCTAssertNotNil(become.accessToken)
             XCTAssertNotNil(become.refreshToken)
             XCTAssertNotNil(become.expiresAt)
 
@@ -609,7 +618,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 return
             }
             XCTAssertEqual(keychainUser.currentUser?.updatedAt, becomeUpdatedAt)
-            XCTAssertNotNil(keychainUser.sessionToken)
+            XCTAssertNotNil(keychainUser.accessToken)
             XCTAssertNotNil(keychainUser.refreshToken)
             XCTAssertNotNil(keychainUser.expiresAt)
             #endif
@@ -633,7 +642,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         var serverResponse = LoginSignupResponse()
         serverResponse.createdAt = User.current?.createdAt
         serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
-        serverResponse.sessionToken = "newValue"
+        serverResponse.accessToken = "newValue"
         serverResponse.username = "stop"
         serverResponse.password = "this"
 
@@ -653,7 +662,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
 
         let expectation1 = XCTestExpectation(description: "Fetch user1")
-        user.become(sessionToken: "newValue",
+        user.become(accessToken: "newValue",
                     refreshToken: "yolo",
                     expiresAt: Date()) { result in
 
@@ -675,7 +684,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 XCTAssertEqual(becomeCreatedAt, originalCreatedAt)
                 XCTAssertGreaterThan(becomeUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(become.ACL)
-                XCTAssertNotNil(become.sessionToken)
+                XCTAssertNotNil(become.accessToken)
                 XCTAssertNotNil(become.refreshToken)
                 XCTAssertNotNil(become.expiresAt)
 
@@ -691,7 +700,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
                     return
                 }
                 XCTAssertEqual(keychainUser.currentUser?.updatedAt, becomeUpdatedAt)
-                XCTAssertNotNil(keychainUser.sessionToken)
+                XCTAssertNotNil(keychainUser.accessToken)
                 XCTAssertNotNil(keychainUser.refreshToken)
                 XCTAssertNotNil(keychainUser.expiresAt)
                 #endif

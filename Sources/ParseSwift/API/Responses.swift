@@ -119,7 +119,8 @@ internal struct LoginSignupResponse: Codable {
     var updatedAt: Date?
     let objectId: String
     let username: String?
-    let sessionToken: String
+    let sessionToken: String?
+    let accessToken: String?
     let refreshToken: String?
     let expiresAt: Date?
 }

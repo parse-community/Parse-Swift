@@ -154,8 +154,10 @@ public struct API {
             headers["X-Parse-Client-Key"] = clientKey
         }
 
-        if let token = BaseParseUser.currentUserContainer?.sessionToken {
-            headers["X-Parse-Session-Token"] = token
+        if let accessToken = BaseParseUser.currentUserContainer?.sessionToken {
+            headers["X-Parse-Session-Token"] = accessToken
+        } else if let sessioinToken = BaseParseUser.currentUserContainer?.sessionToken {
+            headers["X-Parse-Session-Token"] = sessioinToken
         }
 
         if let installationId = BaseParseInstallation.currentInstallationContainer.installationId {
