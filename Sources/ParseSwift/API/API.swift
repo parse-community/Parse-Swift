@@ -53,7 +53,7 @@ public struct API {
             case .user(let objectId):
                 return "/users/\(objectId)"
             case .refresh:
-                return "/refresh"
+                return "/users/refresh"
             case .installations:
                 return "/installations"
             case .installation(let objectId):

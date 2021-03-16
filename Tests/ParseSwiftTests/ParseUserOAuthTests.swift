@@ -353,7 +353,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         refreshResponse.accessToken = "hello"
         refreshResponse.refreshToken = "world"
         refreshResponse.expiresAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
-
+/*
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try ParseCoding.jsonEncoder().encode(refreshResponse)
@@ -363,7 +363,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             } catch {
                 return nil
             }
-        }
+        }*/
         do {
             let user = try User.refresh()
             guard let accessToken = user.accessToken,
