@@ -760,7 +760,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/users")
         XCTAssertEqual(command.method, API.Method.POST)
-        XCTAssertNil(command.params)
         XCTAssertEqual(command.body?.username, body.username)
         XCTAssertEqual(command.body?.password, body.password)
     }
@@ -868,7 +867,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/login")
         XCTAssertEqual(command.method, API.Method.POST)
-        XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
     }
 
@@ -976,7 +974,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/logout")
         XCTAssertEqual(command.method, API.Method.POST)
-        XCTAssertNil(command.params)
         XCTAssertNil(command.body)
     }
 
@@ -1064,7 +1061,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/requestPasswordReset")
         XCTAssertEqual(command.method, API.Method.POST)
-        XCTAssertNil(command.params)
         XCTAssertEqual(command.body?.email, body.email)
     }
 
@@ -1177,7 +1173,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/verificationEmailRequest")
         XCTAssertEqual(command.method, API.Method.POST)
-        XCTAssertNil(command.params)
         XCTAssertEqual(command.body?.email, body.email)
     }
 
@@ -1307,7 +1302,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
             XCTAssertEqual(command.method, API.Method.DELETE)
-            XCTAssertNil(command.params)
             XCTAssertNil(command.body)
         } catch {
             XCTFail(error.localizedDescription)

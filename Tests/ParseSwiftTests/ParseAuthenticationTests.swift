@@ -105,7 +105,6 @@ class ParseAuthenticationTests: XCTestCase {
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
-        XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
         XCTAssertEqual(command.body?.authData, body.authData)
     }

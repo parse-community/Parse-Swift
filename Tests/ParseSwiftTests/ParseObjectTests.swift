@@ -901,7 +901,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
             XCTAssertEqual(command.method, API.Method.DELETE)
-            XCTAssertNil(command.params)
             XCTAssertNil(command.body)
         } catch {
             XCTFail(error.localizedDescription)

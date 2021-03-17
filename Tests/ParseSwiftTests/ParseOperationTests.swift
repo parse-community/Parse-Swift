@@ -82,7 +82,6 @@ class ParseOperationTests: XCTestCase {
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
-        XCTAssertNil(command.params)
 
         guard let body = command.body else {
             XCTFail("Should be able to unwrap")

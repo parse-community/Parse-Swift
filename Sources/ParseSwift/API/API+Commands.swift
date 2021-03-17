@@ -414,7 +414,7 @@ extension API.Command where T: ParseObject {
     }
 
     static func batch(commands: [API.Command<T, T>], transaction: Bool) -> RESTBatchCommandType<T> {
-        let commands = commands.compactMap { (command) -> API.Command<T, T>? in
+        let batchCommands = commands.compactMap { (command) -> API.Command<T, T>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
@@ -423,22 +423,16 @@ extension API.Command where T: ParseObject {
                                      body: body, mapper: command.mapper)
         }
 
-        let bodies = commands.compactMap { (command) -> (body: T, command: API.Method)?  in
-            guard let body = command.body else {
-                return nil
-            }
-            return (body: body, command: command.method)
-        }
-
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
 
             let decodingType = [BatchResponseItem<WriteResponse>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
-                return bodies.enumerated().map({ (object) -> (Result<T, ParseError>) in
+                return commands.enumerated().map({ (object) -> (Result<T, ParseError>) in
                     let response = responses[object.offset]
-                    if let success = response.success {
-                        return .success(success.apply(to: object.element.body, method: object.element.command))
+                    if let success = response.success,
+                       let body = object.element.body {
+                        return .success(success.apply(to: body, method: object.element.method))
                     } else {
                         guard let parseError = response.error else {
                             return .failure(ParseError(code: .unknownError, message: "unknown error"))
@@ -455,7 +449,7 @@ extension API.Command where T: ParseObject {
             }
         }
 
-        let batchCommand = BatchCommand(requests: commands, transaction: transaction)
+        let batchCommand = BatchCommand(requests: batchCommands, transaction: transaction)
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 
@@ -580,7 +574,6 @@ internal extension API {
         let path: API.Endpoint
         let body: T?
         let mapper: ((Data) throws -> U)
-        let params: [String: String?]?
 
         init(method: API.Method,
              path: API.Endpoint,
@@ -591,7 +584,6 @@ internal extension API {
             self.path = path
             self.body = body
             self.mapper = mapper
-            self.params = params
         }
 
         func execute(options: API.Options) throws -> U {
