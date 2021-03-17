@@ -711,9 +711,6 @@ extension ParseObject {
                         let savedChildObjects = try self.saveAll(objects: savableObjects,
                                                                  options: options)
                         let savedChildPointers = try savedChildObjects.compactMap { try $0.get() }
-                        if savedChildPointers.count != savableObjects.count {
-                            throw ParseError(code: .unknownError, message: "Couldn't save all child objects")
-                        }
                         for (index, object) in savableObjects.enumerated() {
                             let hash = try BaseObjectable.createHash(object)
                             objectsFinishedSaving[hash] = savedChildPointers[index]
