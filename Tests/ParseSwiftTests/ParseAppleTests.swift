@@ -213,7 +213,8 @@ class ParseAppleTests: XCTestCase {
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.apple.__type: authData]
+        serverResponse.authData = [serverResponse.apple.__type: authData,
+                                   serverResponse.anonymous.__type: nil]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -239,7 +240,7 @@ class ParseAppleTests: XCTestCase {
 
             case .success(let user):
                 XCTAssertEqual(user, User.current)
-                XCTAssertEqual(user, userOnServer)
+                XCTAssertEqual(user.authData, userOnServer.authData)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
                 XCTAssertTrue(user.apple.isLinked)

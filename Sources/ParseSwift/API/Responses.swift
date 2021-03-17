@@ -24,6 +24,11 @@ internal struct SaveResponse: Decodable {
     }
 }
 
+internal struct UpdateSessionTokenResponse: Decodable {
+    var updatedAt: Date
+    let sessionToken: String
+}
+
 internal struct UpdateResponse: Decodable {
     var updatedAt: Date
 
