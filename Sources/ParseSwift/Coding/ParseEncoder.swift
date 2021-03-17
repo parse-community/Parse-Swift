@@ -50,7 +50,7 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
 
 // MARK: ParseEncoder
 public struct ParseEncoder {
-    let dateEncodingStrategy: AnyCodable.DateEncodingStrategy?
+    let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy?
 
     public enum SkippedKeys {
         case object
@@ -74,7 +74,7 @@ public struct ParseEncoder {
     }
 
     init(
-        dateEncodingStrategy: AnyCodable.DateEncodingStrategy? = nil
+        dateEncodingStrategy: JSONEncoder.DateEncodingStrategy? = nil
     ) {
         self.dateEncodingStrategy = dateEncodingStrategy
     }
@@ -82,7 +82,7 @@ public struct ParseEncoder {
     func encode(_ value: Encodable) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.none.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
-            encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+            encoder.dateEncodingStrategy = dateEncodingStrategy
         }
         return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil).encoded
     }
@@ -90,7 +90,7 @@ public struct ParseEncoder {
     public func encode<T: ParseType>(_ value: T, skipKeys: SkippedKeys) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skipKeys.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
-            encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+            encoder.dateEncodingStrategy = dateEncodingStrategy
         }
         return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil).encoded
     }
@@ -101,7 +101,7 @@ public struct ParseEncoder {
                                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.object.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
-            encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+            encoder.dateEncodingStrategy = dateEncodingStrategy
         }
         return try encoder.encodeObject(value, collectChildren: true, objectsSavedBeforeThisOne: objectsSavedBeforeThisOne, filesSavedBeforeThisOne: filesSavedBeforeThisOne)
     }
@@ -112,7 +112,7 @@ public struct ParseEncoder {
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.object.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
-            encoder.dateEncodingStrategy = .custom(dateEncodingStrategy)
+            encoder.dateEncodingStrategy = dateEncodingStrategy
         }
         return try encoder.encodeObject(value, collectChildren: collectChildren, objectsSavedBeforeThisOne: objectsSavedBeforeThisOne, filesSavedBeforeThisOne: filesSavedBeforeThisOne)
     }

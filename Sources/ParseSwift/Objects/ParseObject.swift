@@ -707,22 +707,17 @@ extension ParseObject {
                         return
                     }
 
-                    //Currently, batch isn't working for Encodable
-                    /*let savedChildObjects = try Self.saveAll(objects: savableObjects,
-                                                             options: options)
-                    let savedChildPointers = try savedChildObjects.compactMap { try $0.get() }
-                    if savedChildPointers.count != savableObjects.count {
-                        throw ParseError(code: .unknownError, message: "Couldn't save all child objects")
-                    }
-                    for (index, object) in savableObjects.enumerated() {
-                        let hash = try BaseObjectable.createHash(object)
-                        objectsFinishedSaving[hash] = savedChildPointers[index]
-                    }*/
-
-                    //Saving children individually
-                    try savableObjects.forEach {
-                        let hash = try BaseObjectable.createHash($0)
-                        objectsFinishedSaving[hash] = try $0.save(options: options)
+                    if savableObjects.count > 0 {
+                        let savedChildObjects = try self.saveAll(objects: savableObjects,
+                                                                 options: options)
+                        let savedChildPointers = try savedChildObjects.compactMap { try $0.get() }
+                        if savedChildPointers.count != savableObjects.count {
+                            throw ParseError(code: .unknownError, message: "Couldn't save all child objects")
+                        }
+                        for (index, object) in savableObjects.enumerated() {
+                            let hash = try BaseObjectable.createHash(object)
+                            objectsFinishedSaving[hash] = savedChildPointers[index]
+                        }
                     }
 
                     try savableFiles.forEach {
@@ -755,19 +750,15 @@ internal extension ParseType {
     func saveCommand() throws -> API.Command<Self, PointerType> {
         try API.Command<Self, PointerType>.saveCommand(self)
     }
-    /*
+
     func saveAll(objects: [ParseType],
                  transaction: Bool = true,
                  options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
-        let commands = try objects.map {
-            try API.ChildCommand<PointerType>.saveCommand($0)
-        }
-        return try API.ChildCommand<PointerType>
-                .batch(commands: commands,
+        try API.NonParseBodyCommand<AnyCodable, PointerType>
+                .batch(objects: objects,
                        transaction: transaction)
-                .execute(options: options,
-                         callbackQueue: .main)
-    }*/
+                .execute(options: options)
+    }
 }
 
 // MARK: Deletable
