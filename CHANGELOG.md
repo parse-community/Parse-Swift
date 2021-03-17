@@ -4,6 +4,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__Improvements__
+- Child objects are now automatically saved in batches using transactions. This will result in less network overhead and prevent uneccessary clean up of data on the server if a child objects throws an error while saving ([#94](https://github.com/parse-community/Parse-Swift/pull/94)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.2.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.6...1.2.0)
 
