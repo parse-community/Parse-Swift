@@ -738,16 +738,6 @@ extension ParseObject {
 
 // MARK: Savable Encodable Version
 internal extension ParseType {
-    func save(options: API.Options = []) throws -> PointerType {
-        try saveCommand()
-            .execute(options: options,
-                     callbackQueue: .main)
-    }
-
-    func saveCommand() throws -> API.Command<Self, PointerType> {
-        try API.Command<Self, PointerType>.saveCommand(self)
-    }
-
     func saveAll(objects: [ParseType],
                  transaction: Bool = true,
                  options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
