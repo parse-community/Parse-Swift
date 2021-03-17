@@ -659,12 +659,15 @@ internal extension API.NonParseBodyCommand {
     // MARK: Deleting
     static func deleteCommand<T>(_ object: T) throws -> API.NonParseBodyCommand<NoBody, NoBody> where T: ParseObject {
         guard object.isSaved else {
-            throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
+            throw ParseError(code: .unknownError,
+                             message: "Cannot delete an object without an objectId")
         }
 
         let mapper = { (data: Data) -> NoBody in
-            let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
-            if let error = error {
+            if let error = try? ParseCoding
+                .jsonDecoder()
+                .decode(ParseError.self,
+                        from: data) {
                 throw error
             } else {
                 return NoBody()
