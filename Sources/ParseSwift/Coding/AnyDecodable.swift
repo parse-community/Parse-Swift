@@ -126,6 +126,7 @@ extension AnyDecodable: CustomStringConvertible {
 }
 
 extension AnyDecodable: CustomDebugStringConvertible {
+    /// A textual representation of this instance.
     public var debugDescription: String {
         switch value {
         case let value as CustomDebugStringConvertible:

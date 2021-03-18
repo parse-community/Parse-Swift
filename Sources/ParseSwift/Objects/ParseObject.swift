@@ -466,28 +466,9 @@ public extension Sequence where Element: ParseObject {
     }
 }
 
-// MARK: Batch Support
-/*internal extension Sequence where Element: ParseType {
-
-    /**
-     Saves a collection of objects *synchronously* all at once and throws an error if necessary.
-
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-
-     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
-     - throws: `ParseError`
-    */
-    func saveAllParseTypes(transaction: Bool = true,
-                 options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
-        let commands = try map { try $0.saveCommand() }
-        return try API.Command<Self.Element, PointerType>
-                .batch(commands: commands, transaction: transaction)
-                .execute(options: options, callbackQueue: .main)
-    }
-}*/
-
 // MARK: CustomDebugStringConvertible
 extension ParseObject {
+    /// A textual representation of this instance.
     public var debugDescription: String {
         guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
@@ -553,29 +534,6 @@ extension ParseObject {
 
     internal func fetchCommand(include: [String]?) throws -> API.Command<Self, Self> {
         try API.Command<Self, Self>.fetchCommand(self, include: include)
-    }
-}
-
-// MARK: Operations
-public extension ParseObject {
-    var operation: ParseOperation<Self> {
-        return ParseOperation(target: self)
-    }
-}
-
-// MARK: Queryable
-public extension ParseObject {
-
-    static func query() -> Query<Self> {
-        Query<Self>()
-    }
-
-    static func query(_ constraints: QueryConstraint...) -> Query<Self> {
-        Query<Self>(constraints)
-    }
-
-    static func query(_ constraints: [QueryConstraint]) -> Query<Self> {
-        Query<Self>(constraints)
     }
 }
 

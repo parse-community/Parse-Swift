@@ -1194,6 +1194,36 @@ extension Query {
     }
 }
 
+// MARK: Query
+public extension ParseObject {
+
+    /**
+      Create an instance with no constraints.
+     - returns: An instance of query for easy chaining.
+     */
+    static func query() -> Query<Self> {
+        Query<Self>()
+    }
+
+    /**
+      Create an instance with a variadic amount constraints.
+     - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
+     - returns: An instance of query for easy chaining.
+     */
+    static func query(_ constraints: QueryConstraint...) -> Query<Self> {
+        Query<Self>(constraints)
+    }
+
+    /**
+      Create an instance with an array of constraints.
+     - parameter constraints: An array of `QueryConstraint`'s.
+     - returns: An instance of query for easy chaining.
+     */
+    static func query(_ constraints: [QueryConstraint]) -> Query<Self> {
+        Query<Self>(constraints)
+    }
+}
+
 // MARK: ParseUser
 extension Query where T: ParseUser {
     var endpoint: API.Endpoint {
