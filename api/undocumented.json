@@ -44,36 +44,15 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyCodable.swift",
-      "line": 19,
-      "symbol": "AnyCodable.DateEncodingStrategy",
-      "symbol_kind": "source.lang.swift.decl.typealias",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyCodable.swift",
-      "line": 21,
-      "symbol": "AnyCodable.dateEncodingStrategy",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyCodable.swift",
-      "line": 22,
+      "line": 20,
       "symbol": "AnyCodable.value",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyCodable.swift",
-      "line": 24,
+      "line": 22,
       "symbol": "AnyCodable.init(_:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyCodable.swift",
-      "line": 29,
-      "symbol": "AnyCodable.init(_:dateEncodingStrategy:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
@@ -101,41 +80,27 @@
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyEncodable.swift",
       "line": 32,
-      "symbol": "AnyEncodable.dateEncodingStrategy",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyEncodable.swift",
-      "line": 33,
       "symbol": "AnyEncodable.value",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyEncodable.swift",
-      "line": 35,
-      "symbol": "AnyEncodable.init(_:dateEncodingStrategy:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyEncodable.swift",
-      "line": 40,
+      "line": 34,
       "symbol": "AnyEncodable.init(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyEncodable.swift",
-      "line": 58,
+      "line": 50,
       "symbol": "_AnyEncodable",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/AnyEncodable.swift",
-      "line": 220,
+      "line": 208,
       "symbol": "_AnyEncodable",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
