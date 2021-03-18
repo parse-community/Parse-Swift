@@ -29,23 +29,15 @@ import Foundation
  Source: https://github.com/Flight-School/AnyCodable
  */
 public struct AnyEncodable: Encodable {
-    public let dateEncodingStrategy: AnyCodable.DateEncodingStrategy?
     public let value: Any
 
-    public init<T>(_ value: T?, dateEncodingStrategy: AnyCodable.DateEncodingStrategy?) {
-        self.dateEncodingStrategy = dateEncodingStrategy
-        self.value = value ?? ()
-    }
-
     public init<T>(_ value: T?) {
-        self.dateEncodingStrategy = nil
         self.value = value ?? ()
     }
 }
 
 @usableFromInline
 protocol _AnyEncodable {
-    var dateEncodingStrategy: AnyCodable.DateEncodingStrategy? { get }
 
     var value: Any { get }
     init<T>(_ value: T?)
@@ -58,17 +50,13 @@ extension AnyEncodable: _AnyEncodable {}
 extension _AnyEncodable {
     // swiftlint:disable:next cyclomatic_complexity function_body_length
     public func encode(to encoder: Encoder) throws {
-        if let date = self.value as? Date, let strategy = dateEncodingStrategy {
-            try strategy(date, encoder)
-            return
-        }
 
         var container = encoder.singleValueContainer()
         switch self.value {
         case let dictionary as [String: Any?]:
-            try container.encode(dictionary.mapValues { AnyCodable($0, dateEncodingStrategy: dateEncodingStrategy) })
+            try container.encode(dictionary.mapValues { AnyCodable($0) })
         case let array as [Any?]:
-            try container.encode(array.map { AnyCodable($0, dateEncodingStrategy: dateEncodingStrategy) })
+            try container.encode(array.map { AnyCodable($0) })
         case let url as URL:
             try container.encode(url)
         case let string as String:

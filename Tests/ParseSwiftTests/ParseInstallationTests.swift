@@ -668,7 +668,6 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
             XCTAssertEqual(command.method, API.Method.DELETE)
-            XCTAssertNil(command.params)
             XCTAssertNil(command.body)
         } catch {
             XCTFail(error.localizedDescription)

@@ -156,38 +156,6 @@ do {
     print("Error logging out: \(error)")
 }
 
-//: Logging in anonymously.
-User.anonymous.login { result in
-    switch result {
-    case .success:
-        print("Successfully logged in \(String(describing: User.current))")
-    case .failure(let error):
-        print("Error logging in: \(error)")
-    }
-}
-
-//: Convert the anonymous user to a real new user.
-User.current?.username = "bye"
-User.current?.password = "world"
-User.current?.signup { result in
-    switch result {
-
-    case .success(let user):
-        print("Parse signup successful: \(user)")
-
-    case .failure(let error):
-        print("Error logging in: \(error)")
-    }
-}
-
-//: Logging out - synchronously.
-do {
-    try User.logout()
-    print("Successfully logged out")
-} catch let error {
-    print("Error logging out: \(error)")
-}
-
 //: Password Reset Request - synchronously.
 do {
     try User.verificationEmail(email: "hello@parse.org")
@@ -202,6 +170,31 @@ do {
     print("Successfully requested password reset")
 } catch let error {
     print("Error requesting password reset: \(error)")
+}
+
+//: Logging in anonymously.
+User.anonymous.login { result in
+    switch result {
+    case .success:
+        print("Successfully logged in \(String(describing: User.current))")
+        print("Session token: \(String(describing: User.current?.sessionToken))")
+    case .failure(let error):
+        print("Error logging in: \(error)")
+    }
+}
+
+//: Convert the anonymous user to a real new user.
+User.current?.username = "bye"
+User.current?.password = "world"
+User.current?.signup { result in
+    switch result {
+
+    case .success(let user):
+        print("Parse signup successful: \(user)")
+        print("Session token: \(String(describing: User.current?.sessionToken))")
+    case .failure(let error):
+        print("Error logging in: \(error)")
+    }
 }
 
 PlaygroundPage.current.finishExecution()

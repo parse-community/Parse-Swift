@@ -107,9 +107,8 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         do {
             let command = try User.refreshCommand()
             XCTAssertNotNil(command)
-            XCTAssertEqual(command.path.urlComponent, "/refresh")
+            XCTAssertEqual(command.path.urlComponent, "/users/refresh")
             XCTAssertEqual(command.method, API.Method.POST)
-            XCTAssertNil(command.params)
             XCTAssertEqual(command.body?.refreshToken, body.refreshToken)
         } catch {
             XCTFail(error.localizedDescription)
@@ -123,7 +122,6 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/revoke")
         XCTAssertEqual(command.method, API.Method.POST)
-        XCTAssertNil(command.params)
         XCTAssertEqual(command.body?.refreshToken, body.refreshToken)
     }
 
@@ -353,7 +351,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
         refreshResponse.accessToken = "hello"
         refreshResponse.refreshToken = "world"
         refreshResponse.expiresAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
-/*
+
         MockURLProtocol.mockRequests { _ in
             do {
                 let encoded = try ParseCoding.jsonEncoder().encode(refreshResponse)
@@ -363,7 +361,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             } catch {
                 return nil
             }
-        }*/
+        }
         do {
             let user = try User.refresh()
             guard let accessToken = user.accessToken,

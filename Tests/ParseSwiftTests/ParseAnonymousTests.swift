@@ -57,6 +57,11 @@ class ParseAnonymousTests: XCTestCase {
         }
     }
 
+    struct UpdateSessionTokenResponse: Codable {
+        var updatedAt: Date
+        let sessionToken: String
+    }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -210,26 +215,23 @@ class ParseAnonymousTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testReplaceAnonymousWithUsernameChange() throws {
-        let expectedAuth = ["id": "yolo"]
-        var user = try loginNormally()
-        user.authData = [user.anonymous.__type: expectedAuth]
-        User.current = user
-        XCTAssertEqual(user, User.current)
+    func testReplaceAnonymousUser() throws {
+        try testLogin()
+        guard let user = User.current,
+              let updatedAt = user.updatedAt else {
+            XCTFail("Shold have unwrapped")
+            return
+        }
         XCTAssertTrue(user.anonymous.isLinked)
 
-        //Convert the anonymous user to a real new user.
-        User.current?.username = "hello"
-        User.current?.password = "world"
-        User.current?.authData = [user.anonymous.__type: nil]
-        var userOnServer = User.current!
-        userOnServer.updatedAt = user.updatedAt?.addingTimeInterval(+300)
+        var response = UpdateSessionTokenResponse(updatedAt: updatedAt.addingTimeInterval(+300),
+            sessionToken: "blast")
 
         let encoded: Data!
         do {
-            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
+            encoded = try ParseCoding.jsonEncoder().encode(response)
             //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
+            response = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return

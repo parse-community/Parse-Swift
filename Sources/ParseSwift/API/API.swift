@@ -123,6 +123,9 @@ public struct API {
         /// Specify tags.
         /// - note: This is typically used indirectly by `ParseFile`.
         case tags([String: String])
+        /// Remove mimeType.
+        /// - note: This is typically used indirectly by `ParseUser` OAuth20.
+        case removeAccessToken
 
         public func hash(into hasher: inout Hasher) {
             switch self {
@@ -142,6 +145,8 @@ public struct API {
                 hasher.combine(7)
             case .tags:
                 hasher.combine(8)
+            case .removeAccessToken:
+                hasher.combine(9)
             }
         }
     }
@@ -188,6 +193,8 @@ public struct API {
                 tags.forEach {(key, value) -> Void in
                     headers[key] = value
                 }
+            case .removeAccessToken:
+                headers.removeValue(forKey: "X-Parse-Session-Token")
             }
         }
 
