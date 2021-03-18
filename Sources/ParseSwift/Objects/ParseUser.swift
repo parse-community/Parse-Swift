@@ -121,11 +121,7 @@ extension ParseUser {
     public static var current: Self? {
         get { Self.currentUserContainer?.currentUser }
         set {
-            if Self.currentUserContainer?.currentUser?.username != newValue?.username && newValue != nil {
-                Self.currentUserContainer?.currentUser = newValue?.anonymous.strip(newValue!)
-            } else {
-                Self.currentUserContainer?.currentUser = newValue
-            }
+            Self.currentUserContainer?.currentUser = newValue
         }
     }
 
@@ -479,13 +475,8 @@ extension ParseUser {
     */
     public static func signup(username: String,
                               password: String, options: API.Options = []) throws -> Self {
-        if Self.current != nil {
-            Self.current!.username = username
-            Self.current!.password = password
-            Self.current!.anonymous.strip()
-            return try Self.current!.save(options: options)
-        }
-        return try signupCommand(body: SignupLoginBody(username: username, password: password))
+        try signupCommand(body: SignupLoginBody(username: username,
+                                                password: password))
             .execute(options: options)
     }
 
@@ -499,14 +490,8 @@ extension ParseUser {
      - returns: Returns whether the sign up was successful.
     */
     public func signup(options: API.Options = []) throws -> Self {
-        if let current = Self.current {
-            if !current.anonymous.isLinked {
-                return try current.save(options: options)
-            } else {
-                throw ParseError(code: .usernameTaken, message: "Cannot sign up a user that has already signed up.")
-            }
-        }
-        return try signupCommand().execute(options: options, callbackQueue: .main)
+        try signupCommand().execute(options: options,
+                                    callbackQueue: .main)
     }
 
     /**
@@ -522,21 +507,22 @@ extension ParseUser {
     */
     public func signup(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
-        if let current = Self.current {
-            if !current.anonymous.isLinked {
-                current.save(options: options, callbackQueue: callbackQueue, completion: completion)
-            } else {
-                let error = ParseError(code: .usernameTaken,
-                                       message: "Cannot sign up a user that has already signed up.")
-                completion(.failure(error))
+        do {
+            try signupCommand()
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { result in
+                callbackQueue.async {
+                    completion(result)
+                }
             }
-            return
-        }
-        signupCommand()
-            .executeAsync(options: options,
-                          callbackQueue: callbackQueue) { result in
+        } catch {
             callbackQueue.async {
-                completion(result)
+                if let parseError = error as? ParseError {
+                    completion(.failure(parseError))
+                } else {
+                    let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                    completion(.failure(parseError))
+                }
             }
         }
     }
@@ -560,59 +546,124 @@ extension ParseUser {
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void) {
-        if Self.current != nil {
-            Self.current!.username = username
-            Self.current!.password = password
-            Self.current!.anonymous.strip()
-            Self.current!.save(options: options, callbackQueue: callbackQueue, completion: completion)
-            return
-        }
         let body = SignupLoginBody(username: username, password: password)
-        signupCommand(body: body)
-            .executeAsync(options: options) { result in
+        do {
+            try signupCommand(body: body)
+                .executeAsync(options: options) { result in
                 callbackQueue.async {
                     completion(result)
                 }
             }
+        } catch {
+            callbackQueue.async {
+                if let parseError = error as? ParseError {
+                    completion(.failure(parseError))
+                } else {
+                    let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                    completion(.failure(parseError))
+                }
+            }
+        }
     }
 
-    internal static func signupCommand(body: SignupLoginBody) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
+    internal static func signupCommand(body: SignupLoginBody) throws -> API.NonParseBodyCommand<SignupLoginBody, Self> {
 
-        return API.NonParseBodyCommand(method: .POST, path: .users, body: body) { (data) -> Self in
+        var method = API.Method.POST
+        var path = API.Endpoint.users
+        if let current = Self.current {
+            if current.anonymous.isLinked {
+                Self.current!.anonymous.strip()
+                method = .PUT
+                path = current.endpoint
+            } else {
+                throw ParseError(code: .usernameTaken,
+                                 message: "Cannot sign up a user that has already signed up.")
+            }
+        }
 
-            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
-            var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+        return API.NonParseBodyCommand(method: method, path: path, body: body) { (data) -> Self in
+            var user: Self!
+            var sessionToken: String!
 
-            if user.username == nil {
-                if let username = body.username {
-                    user.username = username
+            if method == .POST {
+                sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
+                user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+
+                if user.username == nil {
+                    if let username = body.username {
+                        user.username = username
+                    }
+                }
+                if user.authData == nil {
+                    if let authData = body.authData {
+                        user.authData = authData
+                    }
+                }
+            } else {
+                if let currentUser = Self.current {
+                    let response = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
+                    user = currentUser
+                    if user.authData == nil {
+                        user.authData = body.authData
+                    } else {
+                        if user.authData != body.authData {
+                            if let authData = body.authData {
+                                for (key, value) in authData {
+                                    user.authData![key] = value
+                                }
+                            }
+                        }
+                    }
+                    user.updatedAt = response.updatedAt
+                    sessionToken = response.sessionToken
+                } else {
+                    throw ParseError(code: .usernameTaken,
+                                     message: "Cannot link user when current user is not logged in.")
                 }
             }
-            if user.authData == nil {
-                if let authData = body.authData {
-                    user.authData = authData
-                }
-            }
-
-            Self.currentUserContainer = .init(
-                currentUser: user,
-                sessionToken: response.sessionToken
-            )
+            Self.currentUserContainer = .init(currentUser: user,
+                                              sessionToken: sessionToken)
             Self.saveCurrentContainerToKeychain()
             return user
         }
     }
 
-    internal func signupCommand() -> API.Command<Self, Self> {
-        return API.Command(method: .POST, path: .users, body: self) { (data) -> Self in
+    internal func signupCommand() throws -> API.Command<Self, Self> {
+        var method = API.Method.POST
+        if let currentUser = Self.current {
+            if currentUser.anonymous.isLinked {
+                Self.current!.anonymous.strip()
+                method = .PUT
+            } else {
+                throw ParseError(code: .usernameTaken,
+                                 message: "Cannot sign up a user that has already signed up.")
+            }
+        }
 
-            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
-            var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
-            user.username = self.username
+        return API.Command(method: method,
+                           path: endpoint,
+                           body: self) { (data) -> Self in
+            var user: Self!
+            var sessionToken: String!
 
+            if method == .POST {
+                sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
+                user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+                user.username = self.username
+            } else {
+                if let currentUser = Self.current {
+                    let response = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
+                    user = currentUser
+                    user.updatedAt = response.updatedAt
+                    sessionToken = response.sessionToken
+                } else {
+                    throw ParseError(code: .usernameTaken,
+                                     message: "Cannot link user when current user is not logged in.")
+                }
+            }
             Self.currentUserContainer = .init(
                 currentUser: user,
-                sessionToken: response.sessionToken
+                sessionToken: sessionToken
             )
             Self.saveCurrentContainerToKeychain()
             return user

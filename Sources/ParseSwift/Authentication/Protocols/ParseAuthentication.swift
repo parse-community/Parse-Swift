@@ -240,12 +240,23 @@ public extension ParseUser {
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
 
         let body = SignupLoginBody(authData: [type: authData])
-        signupCommand(body: body)
-            .executeAsync(options: options) { result in
-                callbackQueue.async {
-                    completion(result)
+        do {
+            try signupCommand(body: body)
+                .executeAsync(options: options) { result in
+                    callbackQueue.async {
+                        completion(result)
+                    }
+            }
+        } catch {
+            callbackQueue.async {
+                if let parseError = error as? ParseError {
+                    completion(.failure(parseError))
+                } else {
+                    let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                    completion(.failure(parseError))
                 }
             }
+        }
     }
 
     // MARK: 3rd Party Authentication - Link
