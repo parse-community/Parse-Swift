@@ -1147,6 +1147,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         guard let scoreOnServer = scoresOnServer.first,
             let scoreOnServer2 = scoresOnServer.last else {
             XCTFail("Should unwrap")
+            expectation1.fulfill()
             return
         }
 
@@ -1217,7 +1218,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
             }
             expectation1.fulfill()
         }
-
         wait(for: [expectation1], timeout: 20.0)
     }
 

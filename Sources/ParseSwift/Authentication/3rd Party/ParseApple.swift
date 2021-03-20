@@ -28,7 +28,7 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter user: Required id for the user.
         /// - parameter identityToken: Required identity token for the user.
-        /// - returns: Required authData dictionary.
+        /// - returns: authData dictionary.
         /// - throws: `ParseError` if the `identityToken` can't be converted
         /// to a string.
         func makeDictionary(user: String,
@@ -43,9 +43,8 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// Verifies all mandatory keys are in authData.
         /// - parameter authData: Dictionary containing key/values.
         /// - returns: `true` if all the mandatory keys are present, `false` otherwise.
-        func verifyMandatoryKeys(authData: [String: String]?) -> Bool {
-            guard let authData = authData,
-                  authData[AuthenticationKeys.id.rawValue] != nil,
+        func verifyMandatoryKeys(authData: [String: String]) -> Bool {
+            guard authData[AuthenticationKeys.id.rawValue] != nil,
                   authData[AuthenticationKeys.token.rawValue] != nil else {
                 return false
             }
@@ -87,12 +86,11 @@ public extension ParseApple {
               completion: completion)
     }
 
-    func login(authData: [String: String]?,
+    func login(authData: [String: String],
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
+        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             let error = ParseError(code: .unknownError,
                                    message: "Should have authData in consisting of keys \"id\" and \"token\".")
             callbackQueue.async {
@@ -131,10 +129,9 @@ public extension ParseApple {
     }
 
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(authData: [String: String]?,
+    func loginPublisher(authData: [String: String],
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
+        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             let error = ParseError(code: .unknownError,
                                    message: "Should have authData in consisting of keys \"id\" and \"token\".")
             return Future { promise in
@@ -178,12 +175,11 @@ public extension ParseApple {
              completion: completion)
     }
 
-    func link(authData: [String: String]?,
+    func link(authData: [String: String],
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
+        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             let error = ParseError(code: .unknownError,
                                    message: "Should have authData in consisting of keys \"id\" and \"token\".")
             callbackQueue.async {
@@ -222,10 +218,9 @@ public extension ParseApple {
     }
 
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(authData: [String: String]?,
+    func linkPublisher(authData: [String: String],
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
+        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             let error = ParseError(code: .unknownError,
                                    message: "Should have authData in consisting of keys \"id\" and \"token\".")
             return Future { promise in
