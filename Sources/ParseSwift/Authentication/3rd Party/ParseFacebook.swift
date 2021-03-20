@@ -37,8 +37,8 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// - parameter userId: Required id for the user.
         /// - parameter authenticationToken: Required identity token for the user for Facebook limited login.
         /// - parameter accessToken: Required identity token for the user for Facebook graph API
-        /// - parameter expirationDate: required expiration data for user authentication for Facebook login
-        /// - returns: Required authData dictionary.
+        /// - parameter expirationDate: Required expiration data for user authentication for Facebook login
+        /// - returns: authData dictionary.
         func makeDictionary(userId: String?, accessToken: String?, authenticationToken: String?, expirationDate: Date?) throws -> [String: String] {
 
             let validAuthenticationToken = authenticationToken != nil || accessToken != nil
@@ -95,7 +95,7 @@ public extension ParseFacebook {
      - parameter completion: The block to execute.
      */
     func login(userId: String,
-               authenticationToken: String?,
+               authenticationToken: String,
                expirationDate: Date,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
@@ -123,7 +123,7 @@ public extension ParseFacebook {
      - parameter completion: The block to execute.
      */
     func login(userId: String,
-               accessToken: String?,
+               accessToken: String,
                expirationDate: Date,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,

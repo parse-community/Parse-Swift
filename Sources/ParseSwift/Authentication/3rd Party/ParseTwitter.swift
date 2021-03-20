@@ -46,7 +46,7 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// - parameter consumerSecret: The `Twitter consumerSecret` from `Twitter SDK`..
         /// - parameter authToken: Required Twitter authToken obtained from Twitter SDK for the user.
         /// - parameter authTokenSecret: Required Twitter authSecretToken obtained from Twitter SDK for the user.
-        /// - returns: Required authData dictionary.
+        /// - returns: authData dictionary.
         func makeDictionary(twitterId: String,
                             screenName: String,
                             consumerKey: String,
