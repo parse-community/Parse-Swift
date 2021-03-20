@@ -34,7 +34,7 @@ class ParseAuthenticationTests: XCTestCase {
         static var __type: String { // swiftlint:disable:this identifier_name
             "test"
         }
-        func login(authData: [String: String]?,
+        func login(authData: [String: String],
                    options: API.Options,
                    callbackQueue: DispatchQueue,
                    completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
@@ -42,7 +42,7 @@ class ParseAuthenticationTests: XCTestCase {
             completion(.failure(error))
         }
 
-        func link(authData: [String: String]?,
+        func link(authData: [String: String],
                   options: API.Options,
                   callbackQueue: DispatchQueue,
                   completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
@@ -52,7 +52,7 @@ class ParseAuthenticationTests: XCTestCase {
 
         #if canImport(Combine)
         @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-        func loginPublisher(authData: [String: String]?,
+        func loginPublisher(authData: [String: String],
                             options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")
             return Future { promise in
@@ -61,7 +61,7 @@ class ParseAuthenticationTests: XCTestCase {
         }
 
         @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-        func linkPublisher(authData: [String: String]?,
+        func linkPublisher(authData: [String: String],
                            options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")
             return Future { promise in

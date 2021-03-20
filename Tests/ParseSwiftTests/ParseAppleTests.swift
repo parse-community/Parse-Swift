@@ -104,6 +104,15 @@ class ParseAppleTests: XCTestCase {
         XCTAssertEqual(authData, ["id": "testing", "token": "test"])
     }
 
+    func testVerifyMandatoryKeys() throws {
+        let authData = ["id": "testing", "token": "test"]
+        let authDataWrong = ["id": "testing", "hello": "test"]
+        XCTAssertTrue(ParseApple<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData))
+        XCTAssertFalse(ParseApple<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong))
+    }
+
     func testLogin() throws {
         var serverResponse = LoginSignupResponse()
         guard let tokenData = "this".data(using: .utf8) else {
@@ -154,6 +163,24 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertFalse(user.apple.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLoginWrongKeys() throws {
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Login")
+
+        User.apple.login(authData: ["hello": "world"]) { result in
+
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("consisting of keys"))
+            } else {
+                XCTFail("Should have returned error")
             }
             expectation1.fulfill()
         }
@@ -340,6 +367,24 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLinkLoggedInUserWrongKeys() throws {
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Login")
+
+        User.apple.link(authData: ["hello": "world"]) { result in
+
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("consisting of keys"))
+            } else {
+                XCTFail("Should have returned error")
             }
             expectation1.fulfill()
         }

@@ -68,6 +68,12 @@ extension ParseUser {
 
         return .users
     }
+
+    static func deleteCurrentKeychain() {
+        deleteCurrentContainerFromKeychain()
+        BaseParseInstallation.deleteCurrentContainerFromKeychain()
+        BaseConfig.deleteCurrentContainerFromKeychain()
+    }
 }
 
 // MARK: CurrentUserContainer
@@ -296,9 +302,7 @@ extension ParseUser {
     public static func logout(options: API.Options = []) throws {
         let error = try? logoutCommand().execute(options: options)
         //Always let user logout locally, no matter the error.
-        deleteCurrentContainerFromKeychain()
-        BaseParseInstallation.deleteCurrentContainerFromKeychain()
-        BaseConfig.deleteCurrentContainerFromKeychain()
+        deleteCurrentKeychain()
         //Wait to throw error
         if let parseError = error {
             throw parseError
@@ -321,9 +325,7 @@ extension ParseUser {
             callbackQueue.async {
 
                 //Always let user logout locally, no matter the error.
-                deleteCurrentContainerFromKeychain()
-                BaseParseInstallation.deleteCurrentContainerFromKeychain()
-                BaseConfig.deleteCurrentContainerFromKeychain()
+                deleteCurrentKeychain()
 
                 switch result {
 
