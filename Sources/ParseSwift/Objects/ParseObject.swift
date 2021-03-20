@@ -15,14 +15,16 @@ import Foundation
  If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
  `ACL` to your `ParseObject` `CodingKeys`.
  
- - note: `ParseObject`s can be "value types" (structs) or reference types "classes". If you are using value types
- there isn't much else you need to do but to conform to ParseObject. If you are using reference types, see the warning.
- - warning: If you plan to use "reference types" (classes), you will need to implement your own `==` method to conform
- to `Equatable` along with with the `hash` method to conform to `Hashable`. It is important to note that for unsaved
-`ParseObject`s, you won't be able to rely on `objectId` for `Equatable` and `Hashable` as your unsaved objects
- won't have this value yet and is nil. A possible way to address this is by creating a `UUID` for your objects locally
- and relying on that for `Equatable` and `Hashable`, otherwise it's possible you will get "circular dependency errors"
- depending on your implementation.
+ - note: It is recommended to make your`ParseObject`s "value types" (structs).
+ If you are using value types there isn't much else you need to do but to conform to ParseObject. If you are thinking of
+ using reference types, see the warning.
+ - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
+ for reference types and may have unexpected behavior when it comes to threading. You will also need to implement
+ your own `==` method to conform to `Equatable` along with with the `hash` method to conform to `Hashable`.
+ It is important to note that for unsaved ParseObject`s, you won't be able to rely on `objectId` for
+ `Equatable` and `Hashable` as your unsaved objects won't have this value yet and is nil. A possible way to
+ address this is by creating a `UUID` for your objects locally and relying on that for `Equatable` and `Hashable`,
+ otherwise it's possible you will get "circular dependency errors" depending on your implementation.
 */
 public protocol ParseObject: Objectable,
                              Fetchable,
@@ -466,26 +468,6 @@ public extension Sequence where Element: ParseObject {
     }
 }
 
-// MARK: Batch Support
-/*internal extension Sequence where Element: ParseType {
-
-    /**
-     Saves a collection of objects *synchronously* all at once and throws an error if necessary.
-
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-
-     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
-     - throws: `ParseError`
-    */
-    func saveAllParseTypes(transaction: Bool = true,
-                 options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
-        let commands = try map { try $0.saveCommand() }
-        return try API.Command<Self.Element, PointerType>
-                .batch(commands: commands, transaction: transaction)
-                .execute(options: options, callbackQueue: .main)
-    }
-}*/
-
 // MARK: CustomDebugStringConvertible
 extension ParseObject {
     public var debugDescription: String {
@@ -553,29 +535,6 @@ extension ParseObject {
 
     internal func fetchCommand(include: [String]?) throws -> API.Command<Self, Self> {
         try API.Command<Self, Self>.fetchCommand(self, include: include)
-    }
-}
-
-// MARK: Operations
-public extension ParseObject {
-    var operation: ParseOperation<Self> {
-        return ParseOperation(target: self)
-    }
-}
-
-// MARK: Queryable
-public extension ParseObject {
-
-    static func query() -> Query<Self> {
-        Query<Self>()
-    }
-
-    static func query(_ constraints: QueryConstraint...) -> Query<Self> {
-        Query<Self>(constraints)
-    }
-
-    static func query(_ constraints: [QueryConstraint]) -> Query<Self> {
-        Query<Self>(constraints)
     }
 }
 

@@ -100,6 +100,15 @@ class ParseLDAPTests: XCTestCase {
         XCTAssertEqual(authData, ["id": "testing", "password": "this"])
     }
 
+    func testVerifyMandatoryKeys() throws {
+        let authData = ["id": "testing", "password": "this"]
+        let authDataWrong = ["id": "testing", "hello": "test"]
+        XCTAssertTrue(ParseLDAP<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData))
+        XCTAssertFalse(ParseLDAP<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong))
+    }
+
     func testLogin() throws {
         var serverResponse = LoginSignupResponse()
         let authData = ParseLDAP<User>
@@ -145,6 +154,24 @@ class ParseLDAPTests: XCTestCase {
                 XCTAssertFalse(user.ldap.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLoginWrongKeys() throws {
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Login")
+
+        User.ldap.login(authData: ["hello": "world"]) { result in
+
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("consisting of keys"))
+            } else {
+                XCTFail("Should have returned error")
             }
             expectation1.fulfill()
         }
@@ -316,6 +343,24 @@ class ParseLDAPTests: XCTestCase {
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLinkLoggedInUserWrongKeys() throws {
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Login")
+
+        User.ldap.link(authData: ["hello": "world"]) { result in
+
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("consisting of keys"))
+            } else {
+                XCTFail("Should have returned error")
             }
             expectation1.fulfill()
         }
