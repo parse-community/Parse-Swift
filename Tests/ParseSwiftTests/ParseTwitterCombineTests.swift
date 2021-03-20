@@ -112,7 +112,8 @@ class ParseTwitterCombineTests: XCTestCase { // swiftlint:disable:this type_body
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.twitter.loginPublisher(user: "testing", authToken: "tokenData", authTokenSecret: "authTokenSecret")
+        let publisher = User.twitter.loginPublisher(user: "testing", screenName: "screenName", consumerKey: "consumerKey",
+                                                    consumerSecret: "consumerSecret", authToken: "tokenData", authTokenSecret: "authTokenSecret")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -172,7 +173,7 @@ class ParseTwitterCombineTests: XCTestCase { // swiftlint:disable:this type_body
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.twitter.linkPublisher(user: "testing", authToken: "tokenData", authTokenSecret: "authTokenSecret")
+        let publisher = User.twitter.linkPublisher(user: "testing", screenName: "screenName", consumerKey: "consumerKey", consumerSecret: "consumerSecret", authToken: "tokenData", authTokenSecret: "authTokenSecret")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -203,6 +204,9 @@ class ParseTwitterCombineTests: XCTestCase { // swiftlint:disable:this type_body
 
         let authData = ParseTwitter<User>
             .AuthenticationKeys.id.makeDictionary(twitterId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
                                                   authToken: "tokenData",
                                                   authTokenSecret: "authTokenSecret")
         User.current?.authData = [User.twitter.__type: authData]

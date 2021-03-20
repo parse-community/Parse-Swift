@@ -97,9 +97,12 @@ class ParseTwitterTests: XCTestCase {
 
         let authData = ParseTwitter<User>
             .AuthenticationKeys.id.makeDictionary(twitterId: "testing",
-                                                  authToken: "this",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
                                                   authTokenSecret: "authTokenSecret")
-        XCTAssertEqual(authData, ["id": "testing", "token": "this", "tokenSecret": "authTokenSecret"])
+        XCTAssertEqual(authData, ["id": "testing", "screenName": "screenName", "consumerKey": "consumerKey", "consumerSecret": "consumerSecret", "authToken": "authToken", "authTokenSecret": "authTokenSecret"])
     }
 
     func testLogin() throws {
@@ -107,7 +110,10 @@ class ParseTwitterTests: XCTestCase {
 
         let authData = ParseTwitter<User>
             .AuthenticationKeys.id.makeDictionary(twitterId: "testing",
-                                                  authToken: "this",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
                                                   authTokenSecret: "authTokenSecret")
         serverResponse.username = "hello"
         serverResponse.password = "world"
@@ -134,7 +140,8 @@ class ParseTwitterTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.twitter.login(withTwitterId: "testing", username: "username", authToken: "this", authTokenSecret: "authTokenSecret") { result in
+        User.twitter.login(twitterId: "testing", screenName: "screenName", authToken: "consumerKey", authTokenSecret: "consumerSecret",
+                           consumerKey: "this", consumerSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):
@@ -197,6 +204,9 @@ class ParseTwitterTests: XCTestCase {
 
         let authData = ParseTwitter<User>
             .AuthenticationKeys.id.makeDictionary(twitterId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerSecret",
+                                                  consumerSecret: "consumerSecret",
                                                   authToken: "this",
                                                   authTokenSecret: "authTokenSecret")
 
@@ -226,7 +236,8 @@ class ParseTwitterTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.twitter.login(withTwitterId: "testing", username: "username", authToken: "this", authTokenSecret: "authTokenSecret") { result in
+        User.twitter.login(twitterId: "testing", screenName: "screenName", authToken: "this", authTokenSecret: "authTokenSecret",
+                           consumerKey: "consumerKey", consumerSecret: "consumerSecret") { result in
             switch result {
 
             case .success(let user):
@@ -267,7 +278,7 @@ class ParseTwitterTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.twitter.link(user: "testing", authToken: "this", authTokenSecret: "authTokenSecret") { result in
+        User.twitter.link(user: "testing", screenName: "screenName", consumerKey: "consumerKey", consumerSecret: "consumerSecret", authToken: "this", authTokenSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):
@@ -309,7 +320,7 @@ class ParseTwitterTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.twitter.link(user: "testing", authToken: "this", authTokenSecret: "authTokenSecret") { result in
+        User.twitter.link(user: "testing", screenName: "screenName", consumerKey: "consumerKey", consumerSecret: "consumerSecret", authToken: "this", authTokenSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):
@@ -333,6 +344,9 @@ class ParseTwitterTests: XCTestCase {
 
         let authData = ParseTwitter<User>
             .AuthenticationKeys.id.makeDictionary(twitterId: "testing",
+                                                  screenName: "screenNAme",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
                                                   authToken: "this",
                                                   authTokenSecret: "authTokenSecret")
         User.current?.authData = [User.twitter.__type: authData]

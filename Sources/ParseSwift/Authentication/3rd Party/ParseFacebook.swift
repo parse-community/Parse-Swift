@@ -22,17 +22,42 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
     /// Authentication keys required for Facebook authentication.
     enum AuthenticationKeys: String, Codable {
         case id // swiftlint:disable:this identifier_name
-        case token
-
+        case authenticationToken
+        case accessToken
+        case expirationDate
+        
+        enum CodingKeys: String, CodingKey {
+          case id // swiftlint:disable:this identifier_name
+          case token
+          case accessToken = "access_token"
+          case expirationDate = "expiration_date"
+        }
         /// Properly makes an authData dictionary with the required keys.
-        /// - parameter facebookId: Required id for the user.
-        /// - parameter authToken: Required identity token for the user.
+        /// - parameter userId: Required id for the user.
+        /// - parameter authenticationToken: Required identity token for the user for Facebook limited login.
+        /// - parameter accessToken: Required identity token for the user for Facebook graph API
+        /// - parameter expirationDate: required expiration data for user authentication for Facebook login
         /// - returns: Required authData dictionary.
-        func makeDictionary(facebookId: String,
-                            authToken: String) -> [String: String]? {
-
-            return [AuthenticationKeys.id.rawValue: facebookId,
-             AuthenticationKeys.token.rawValue: authToken]
+        func makeDictionary(userId: String?, accessToken: String?, authenticationToken: String?, expirationDate: Date?) throws -> [String: String]? {
+            
+            let validAuthenticationToken = authenticationToken != nil || accessToken != nil
+            guard let  userId = userId, let expirationDate = expirationDate else {
+                throw ParseError(code: .unknownError, message: "userId or expirationDate can't be empty")
+            }
+            let dateString = DateFormatter.dateFormatter.string(from: expirationDate)
+            
+            var returnDictionary = [AuthenticationKeys.id.rawValue: userId,
+                                    AuthenticationKeys.expirationDate.rawValue: dateString]
+            guard validAuthenticationToken else {
+                throw ParseError(code: .unknownError, message: "provide either accessToken or authenticationToken can't be empty")
+            }
+            
+            if let accessToken = accessToken {
+              returnDictionary[AuthenticationKeys.accessToken.rawValue] = accessToken
+            }  else if let authenticationToken = authenticationToken {
+              returnDictionary[AuthenticationKeys.authenticationToken.rawValue] = authenticationToken
+            }
+            return returnDictionary
         }
 
         /// Verifies all mandatory keys are in authData.
@@ -41,10 +66,16 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
         func verifyMandatoryKeys(authData: [String: String]?) -> Bool {
             guard let authData = authData,
                   authData[AuthenticationKeys.id.rawValue] != nil,
-                  authData[AuthenticationKeys.token.rawValue] != nil else {
+                  authData[AuthenticationKeys.expirationDate.rawValue] != nil else {
                 return false
             }
-            return true
+            
+            if let _ = authData[AuthenticationKeys.accessToken.rawValue] {
+                return true
+            }else if let _ = authData[AuthenticationKeys.authenticationToken.rawValue] {
+                return true
+            }
+            return false
         }
     }
     public static var __type: String { // swiftlint:disable:this identifier_name
@@ -56,21 +87,22 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
 // MARK: Login
 public extension ParseFacebook {
     /**
-     Login a `ParseUser` *asynchronously* using Facebook authentication.
-     - parameter withFacebookId: The `Facebook userId` from `FacebookSDK`.
-     - parameter authToken: The `authToken` from `FacebookSDK`.
+     Login a `ParseUser` *asynchronously* using Facebook authentication for limited login.
+     - parameter userId: The `Facebook userId` from `FacebookSDK`.
+     - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-
-    func login(withFacebookId: String,
-               authToken: String,
+    func login(userId: String,
+               authenticationToken: String?,
+               expirationDate: Date,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
 
-        guard let facebookAuthData = AuthenticationKeys.id.makeDictionary(facebookId: withFacebookId, authToken: authToken) else {
+        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: nil,
+                                                                          authenticationToken: authenticationToken, expirationDate: expirationDate) else {
             callbackQueue.async {
                 completion(.failure(.init(code: .unknownError,
                                           message: "Couldn't create authData.")))
@@ -82,7 +114,34 @@ public extension ParseFacebook {
               callbackQueue: callbackQueue,
               completion: completion)
     }
+    /**
+     Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login.
+     - parameter userId: The `Facebook userId` from `FacebookSDK`.
+     - parameter accessToken: The `accessToken` from `FacebookSDK`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     */
+    func login(userId: String,
+               accessToken: String?,
+               expirationDate: Date,
+               options: API.Options = [],
+               callbackQueue: DispatchQueue = .main,
+               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
 
+        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: accessToken,
+                                                                          authenticationToken: nil, expirationDate: expirationDate) else {
+            callbackQueue.async {
+                completion(.failure(.init(code: .unknownError,
+                                          message: "Couldn't create authData.")))
+            }
+            return
+        }
+        login(authData: facebookAuthData,
+              options: options,
+              callbackQueue: callbackQueue,
+              completion: completion)
+    }
     func login(authData: [String: String]?,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
@@ -90,7 +149,7 @@ public extension ParseFacebook {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
               let authData = authData else {
             let error = ParseError(code: .unknownError,
-                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
+                                   message: "Should have authData in consisting of keys \"id\", \"expirationDate\" and \"authentication keys\".")
             callbackQueue.async {
                 completion(.failure(error))
             }
@@ -102,21 +161,22 @@ public extension ParseFacebook {
                                 callbackQueue: callbackQueue,
                                 completion: completion)
     }
-    
+
     #if canImport(Combine)
 
     /**
-     Login a `ParseUser` *asynchronously* using Facebook authentication. Publishes when complete.
-     - parameter user: The `user` from `FacebookSDK`.
-     - parameter authToken: The `authToken` from `FacebookSDK`.
+     Login a `ParseUser` *asynchronously* using Facebook authentication for limited login. Publishes when complete.
+     - parameter userId: The `userId` from `FacebookSDK`.
+     - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(user: String,
-                        authToken: String,
+    func loginPublisher(userId: String,
+                        authenticationToken: String,
+                        expirationDate: Date,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard let facebookAuthData = AuthenticationKeys.id.makeDictionary(facebookId: user, authToken: authToken) else {
+        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: nil, authenticationToken: authenticationToken, expirationDate: expirationDate) else {
             return Future { promise in
                 promise(.failure(.init(code: .unknownError,
                                        message: "Couldn't create authData.")))
@@ -125,7 +185,27 @@ public extension ParseFacebook {
         return loginPublisher(authData: facebookAuthData,
                               options: options)
     }
-
+    /**
+     Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login. Publishes when complete.
+     - parameter userId: The `userId` from `FacebookSDK`.
+     - parameter accessToken: The `accessToken` from `FacebookSDK`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     */
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+    func loginPublisher(userId: String,
+                        accessToken: String,
+                        expirationDate: Date,
+                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
+        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: accessToken, authenticationToken: nil, expirationDate: expirationDate) else {
+            return Future { promise in
+                promise(.failure(.init(code: .unknownError,
+                                       message: "Couldn't create authData.")))
+            }
+        }
+        return loginPublisher(authData: facebookAuthData,
+                              options: options)
+    }
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(authData: [String: String]?,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
@@ -149,19 +229,20 @@ public extension ParseFacebook {
 public extension ParseFacebook {
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using Facebook authentication.
-     - parameter user: The `user` from `FacebookSDK`.
-     - parameter authToken: The `authToken` from `FacebookSDK`.
+     Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login.
+     - parameter userId: The `userId` from `FacebookSDK`.
+     - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func link(user: String,
-              authToken: String,
+    func link(userId: String,
+              authenticationToken: String,
+              expirationDate: Date,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        guard let facebookAuthData = AuthenticationKeys.id.makeDictionary(facebookId: user, authToken: authToken) else {
+        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: nil, authenticationToken: authenticationToken, expirationDate: expirationDate) else {
             callbackQueue.async {
                 completion(.failure(.init(code: .unknownError,
                                           message: "Couldn't create authData.")))
@@ -174,6 +255,34 @@ public extension ParseFacebook {
              completion: completion)
     }
 
+    /**
+     Link the *current* `ParseUser` *asynchronously* using Facebook authentication for graph API login.
+     - parameter userId: The `userId` from `FacebookSDK`.
+     - parameter accessToken: The `accessToken` from `FacebookSDK`.
+     - parameter expirationDate: the `expirationDate` from `FacebookSDK`
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     */
+    func link(userId: String,
+              accessToken: String,
+              expirationDate: Date,
+              options: API.Options = [],
+              callbackQueue: DispatchQueue = .main,
+              completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: accessToken, authenticationToken: nil, expirationDate: expirationDate) else {
+            callbackQueue.async {
+                completion(.failure(.init(code: .unknownError,
+                                          message: "Couldn't create authData.")))
+            }
+            return
+        }
+        link(authData: facebookAuthData,
+             options: options,
+             callbackQueue: callbackQueue,
+             completion: completion)
+    }
+    
     func link(authData: [String: String]?,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
@@ -197,17 +306,42 @@ public extension ParseFacebook {
     #if canImport(Combine)
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using Facebook authentication. Publishes when complete.
-     - parameter user: The `user` from `FacebookSDK`.
-     - parameter authToken: The `authToken` from `FacebookSDK`.
+     Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login. Publishes when complete.
+     - parameter userId: The `userId` from `FacebookSDK`.
+     - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
+     - parameter expirationDate: the `expirationDate` from `FacebookSDK`
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(user: String,
-                       authToken: String,
+    func linkPublisher(userId: String,
+                       authenticationToken: String,
+                       expirationDate: Date,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard let facebookAuthData = AuthenticationKeys.id.makeDictionary(facebookId: user, authToken: authToken) else {
+        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: nil, authenticationToken: authenticationToken, expirationDate: expirationDate) else {
+            return Future { promise in
+                promise(.failure(.init(code: .unknownError,
+                                       message: "Couldn't create authData.")))
+            }
+        }
+        return linkPublisher(authData: facebookAuthData,
+             options: options)
+    }
+
+    /**
+     Link the *current* `ParseUser` *asynchronously* using Facebook authentication for graph API login. Publishes when complete.
+     - parameter userId: The `userId` from `FacebookSDK`.
+     - parameter accessToken: The `accessToken` from `FacebookSDK`.
+     - parameter expirationDate: the `expirationDate` from `FacebookSDK`
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     */
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+    func linkPublisher(userId: String,
+                       accessToken: String,
+                       expirationDate: Date,
+                       options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
+        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: accessToken, authenticationToken: nil, expirationDate: expirationDate) else {
             return Future { promise in
                 promise(.failure(.init(code: .unknownError,
                                        message: "Couldn't create authData.")))
@@ -248,4 +382,14 @@ public extension ParseUser {
     var facebook: ParseFacebook<Self> {
         Self.facebook
     }
+}
+
+extension DateFormatter {
+    static let dateFormatter: DateFormatter = {
+        var dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
+        dateFormatter.timeZone = TimeZone.init(secondsFromGMT: 0)
+        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
+        return dateFormatter
+    }()
 }
