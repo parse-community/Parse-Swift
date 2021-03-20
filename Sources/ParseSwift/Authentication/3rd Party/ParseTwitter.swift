@@ -40,21 +40,21 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
         }
 
         /// Properly makes an authData dictionary with the required keys.
-        /// - parameter twitterId: Required id for the user.
+        /// - parameter userId: Required id for the user.
         /// - parameter screenName: The `Twitter screenName` from `Twitter session`.
         /// - parameter consumerKey: The `Twitter consumerKey` from `Twitter SDK`
         /// - parameter consumerSecret: The `Twitter consumerSecret` from `Twitter SDK`..
         /// - parameter authToken: Required Twitter authToken obtained from Twitter SDK for the user.
         /// - parameter authTokenSecret: Required Twitter authSecretToken obtained from Twitter SDK for the user.
         /// - returns: authData dictionary.
-        func makeDictionary(twitterId: String,
+        func makeDictionary(userId: String,
                             screenName: String,
                             consumerKey: String,
                             consumerSecret: String,
                             authToken: String,
                             authTokenSecret: String) -> [String: String] {
 
-            return [AuthenticationKeys.id.rawValue: twitterId,
+            return [AuthenticationKeys.id.rawValue: userId,
                     AuthenticationKeys.screenName.rawValue: screenName,
                     AuthenticationKeys.consumerKey.rawValue: consumerKey,
                     AuthenticationKeys.consumerSecret.rawValue: consumerSecret,
@@ -86,7 +86,7 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
 public extension ParseTwitter {
     /**
      Login a `ParseUser` *asynchronously* using Twitter authentication.
-     - parameter twitterId: The `Twitter userId` from `Twitter session`.
+     - parameter userId: The `Twitter userId` from `Twitter session`.
      - parameter screenName: The `Twitter screenName` from `Twitter session`.
      - parameter consumerKey: The `Twitter consumerKey` from `Twitter SDK`
      - parameter consumerSecret: The `Twitter consumerSecret` from `Twitter SDK`..
@@ -96,7 +96,7 @@ public extension ParseTwitter {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func login(twitterId: String,
+    func login(userId: String,
                screenName: String,
                authToken: String,
                authTokenSecret: String,
@@ -107,7 +107,7 @@ public extension ParseTwitter {
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
 
         let twitterAuthData = AuthenticationKeys.id
-            .makeDictionary(twitterId: twitterId,
+            .makeDictionary(userId: userId,
                             screenName: screenName,
                             consumerKey: consumerKey,
                             consumerSecret: consumerSecret,
@@ -147,7 +147,7 @@ public extension ParseTwitter {
 
     /**
      Login a `ParseUser` *asynchronously* using Twitter authentication. Publishes when complete.
-     - parameter user: The `user` from `Twitter SDK`.
+     - parameter user: The `userId` from `Twitter SDK`.
      - parameter screenName: The `user screenName` from `Twitter session`.
      - parameter consumerKey: The `consumerKey` from `Twitter SDK`.
      - parameter consumerSecret: The `consumerSecret` from `Twitter SDK`.
@@ -157,7 +157,7 @@ public extension ParseTwitter {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(user: String,
+    func loginPublisher(userId: String,
                         screenName: String,
                         consumerKey: String,
                         consumerSecret: String,
@@ -165,7 +165,7 @@ public extension ParseTwitter {
                         authTokenSecret: String,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
-            self.login(twitterId: user,
+            self.login(userId: userId,
                        screenName: screenName,
                        authToken: consumerKey,
                        authTokenSecret: consumerSecret,
@@ -194,7 +194,7 @@ public extension ParseTwitter {
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Twitter authentication. Publishes when complete.
-     - parameter user: The `user` from `Twitter SDK`.
+     - parameter user: The `userId` from `Twitter SDK`.
      - parameter screenName: The `user screenName` from `Twitter session`.
      - parameter consumerKey: The `consumerKey` from `Twitter SDK`.
      - parameter consumerSecret: The `consumerSecret` from `Twitter SDK`.
@@ -203,7 +203,7 @@ public extension ParseTwitter {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
-    func link(user: String,
+    func link(userId: String,
               screenName: String,
               consumerKey: String,
               consumerSecret: String,
@@ -213,7 +213,7 @@ public extension ParseTwitter {
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         let twitterAuthData = AuthenticationKeys.id
-            .makeDictionary(twitterId: user,
+            .makeDictionary(userId: userId,
                             screenName: screenName,
                             consumerKey: consumerKey,
                             consumerSecret: consumerKey,
@@ -263,7 +263,7 @@ public extension ParseTwitter {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(user: String,
+    func linkPublisher(userId: String,
                        screenName: String,
                        consumerKey: String,
                        consumerSecret: String,
@@ -271,7 +271,7 @@ public extension ParseTwitter {
                        authTokenSecret: String,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
-            self.link(user: user,
+            self.link(userId: userId,
                       screenName: screenName,
                       consumerKey: consumerKey,
                       consumerSecret: consumerSecret,

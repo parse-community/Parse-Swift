@@ -94,16 +94,10 @@ public extension ParseFacebook {
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
 
-        guard let facebookAuthData = try? AuthenticationKeys.id
+        let facebookAuthData = AuthenticationKeys.id
                 .makeDictionary(userId: userId, accessToken: nil,
                                 authenticationToken: authenticationToken,
-                                expirationDate: expirationDate) else {
-            callbackQueue.async {
-                completion(.failure(.init(code: .unknownError,
-                                          message: "Couldn't create authData.")))
-            }
-            return
-        }
+                                expirationDate: expirationDate)
         login(authData: facebookAuthData,
               options: options,
               callbackQueue: callbackQueue,

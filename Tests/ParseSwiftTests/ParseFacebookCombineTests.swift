@@ -212,7 +212,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let faceookAuthData = try ParseFacebook<User>
+        let faceookAuthData = ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: "accessToken",
                                                   authenticationToken: nil,
@@ -374,7 +374,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let authData = try ParseFacebook<User>
+        let authData = ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: "accessToken",
                                                   authenticationToken: nil,
@@ -409,7 +409,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
-        let authData = try? ParseFacebook<User>
+        let authData = ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: nil,
                                                   authenticationToken: "authenticationToken",
@@ -463,7 +463,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
-        let authData = try? ParseFacebook<User>
+        let authData = ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: "accessToken",
                                                   authenticationToken: nil,
