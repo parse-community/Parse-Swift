@@ -54,10 +54,8 @@ public extension ParseAnonymous {
      - returns: the linked `ParseUser`.
      */
     func login(options: API.Options = []) throws -> AuthenticatedUser {
-        return try AuthenticatedUser
-            .login(__type,
-                   authData: AuthenticationKeys.id.makeDictionary(),
-                   options: options)
+        try self.login(authData: AuthenticationKeys.id.makeDictionary(),
+                       options: options)
     }
 
     /**
@@ -69,10 +67,9 @@ public extension ParseAnonymous {
      */
     func login(authData: [String: String],
                options: API.Options = []) throws -> AuthenticatedUser {
-        return try AuthenticatedUser
-            .login(__type,
-                   authData: AuthenticationKeys.id.makeDictionary(),
-                   options: options)
+        try AuthenticatedUser.login(__type,
+                                    authData: AuthenticationKeys.id.makeDictionary(),
+                                    options: options)
     }
 
     /**
@@ -84,11 +81,10 @@ public extension ParseAnonymous {
     func login(options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        AuthenticatedUser.login(__type,
-                                authData: AuthenticationKeys.id.makeDictionary(),
-                                options: options,
-                                callbackQueue: callbackQueue,
-                                completion: completion)
+        self.login(authData: AuthenticationKeys.id.makeDictionary(),
+                   options: options,
+                   callbackQueue: callbackQueue,
+                   completion: completion)
     }
 
     /**
@@ -119,9 +115,10 @@ public extension ParseAnonymous {
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        AuthenticatedUser.loginPublisher(__type,
-                                         authData: AuthenticationKeys.id.makeDictionary(),
-                                         options: options)
+        Future { promise in
+            self.login(options: options,
+                       completion: promise)
+        }
     }
 
     /**
@@ -134,9 +131,11 @@ public extension ParseAnonymous {
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(authData: [String: String],
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        AuthenticatedUser.loginPublisher(__type,
-                                         authData: AuthenticationKeys.id.makeDictionary(),
-                                         options: options)
+        Future { promise in
+            self.login(authData: authData,
+                       options: options,
+                       completion: promise)
+        }
     }
 
     #endif
@@ -160,7 +159,9 @@ public extension ParseAnonymous {
     func linkPublisher(authData: [String: String],
                        options: API.Options) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
-            promise(.failure(ParseError(code: .unknownError, message: "Not supported")))
+            self.link(authData: authData,
+                      options: options,
+                      completion: promise)
         }
     }
 

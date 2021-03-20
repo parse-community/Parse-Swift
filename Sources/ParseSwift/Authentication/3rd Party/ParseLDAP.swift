@@ -68,9 +68,9 @@ public extension ParseLDAP {
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         login(authData: AuthenticationKeys.id.makeDictionary(id: id,
                                                              password: password),
-                         options: options,
-                         callbackQueue: callbackQueue,
-                         completion: completion)
+              options: options,
+              callbackQueue: callbackQueue,
+              completion: completion)
     }
 
     func login(authData: [String: String],
@@ -104,16 +104,22 @@ public extension ParseLDAP {
     func loginPublisher(id: String, // swiftlint:disable:this identifier_name
                         password: String,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        loginPublisher(authData: AuthenticationKeys.id.makeDictionary(id: id, password: password),
-                       options: options)
+        Future { promise in
+            self.login(id: id,
+                       password: password,
+                       options: options,
+                       completion: promise)
+        }
     }
 
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(authData: [String: String],
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        AuthenticatedUser.loginPublisher(Self.__type,
-                                         authData: authData,
-                                         options: options)
+        Future { promise in
+            self.login(authData: authData,
+                       options: options,
+                       completion: promise)
+        }
     }
 
     #endif
@@ -173,23 +179,22 @@ public extension ParseLDAP {
     func linkPublisher(id: String, // swiftlint:disable:this identifier_name
                        password: String,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        linkPublisher(authData: AuthenticationKeys.id.makeDictionary(id: id, password: password),
-             options: options)
+        Future { promise in
+            self.link(id: id,
+                      password: password,
+                      options: options,
+                      completion: promise)
+        }
     }
 
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(authData: [String: String],
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
-            let error = ParseError(code: .unknownError,
-                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
-            return Future { promise in
-                promise(.failure(error))
-            }
+        Future { promise in
+            self.link(authData: authData,
+                      options: options,
+                      completion: promise)
         }
-        return AuthenticatedUser.linkPublisher(Self.__type,
-                                               authData: authData,
-                                               options: options)
     }
 
     #endif
