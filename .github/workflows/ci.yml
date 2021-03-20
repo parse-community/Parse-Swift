@@ -12,8 +12,6 @@ jobs:
     runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Install SwiftLint
-      run: brew install swiftlint
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 11\ Pro\ Max test | xcpretty
     - name: Send codecov
