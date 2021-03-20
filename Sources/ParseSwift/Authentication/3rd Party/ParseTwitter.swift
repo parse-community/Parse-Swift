@@ -125,7 +125,12 @@ public extension ParseTwitter {
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             let error = ParseError(code: .unknownError,
-                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
+                                   message:
+                                    """
+                                    Should have authData consisting of keys \"id,\"
+                                    \"screenName,\" \"consumerKey,\" \"consumerSecret,\"
+                                    \"authToken,\" and \"authTokenSecret\".
+                                    """)
             callbackQueue.async {
                 completion(.failure(error))
             }
@@ -226,7 +231,12 @@ public extension ParseTwitter {
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             let error = ParseError(code: .unknownError,
-                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
+                                   message:
+                                    """
+                                    Should have authData consisting of keys \"id,\"
+                                    \"screenName,\" \"consumerKey,\" \"consumerSecret,\"
+                                    \"authToken,\" and \"authTokenSecret\".
+                                    """)
             callbackQueue.async {
                 completion(.failure(error))
             }
