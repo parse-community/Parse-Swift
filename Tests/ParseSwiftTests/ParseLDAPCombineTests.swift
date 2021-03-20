@@ -133,6 +133,57 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    func testLoginAuthData() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        var serverResponse = LoginSignupResponse()
+        let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
+        serverResponse.username = "hello"
+        serverResponse.password = "world"
+        serverResponse.objectId = "yarr"
+        serverResponse.sessionToken = "myToken"
+        serverResponse.authData = [serverResponse.ldap.__type: authData]
+        serverResponse.createdAt = Date()
+        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let publisher = User.ldap.loginPublisher(authData: (["id": "testing",
+                                                             "password": "this"]))
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user, userOnServer)
+            XCTAssertEqual(user.username, "hello")
+            XCTAssertEqual(user.password, "world")
+            XCTAssertTrue(user.ldap.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func loginNormally() throws -> User {
         let loginResponse = LoginSignupResponse()
 
@@ -148,6 +199,54 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
 
     func testLink() throws {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = Date()
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let publisher = User.ldap.linkPublisher(authData: ["id": "testing",
+                                                           "password": "this"])
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+            XCTAssertEqual(user.username, "parse")
+            XCTAssertNil(user.password)
+            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertFalse(user.anonymous.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLinkAuthData() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 

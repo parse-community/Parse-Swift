@@ -46,22 +46,55 @@ public struct ParseAnonymous<AuthenticatedUser: ParseUser>: ParseAuthentication 
 
 // MARK: Login
 public extension ParseAnonymous {
+
     /**
      Login a `ParseUser` *synchronously* using the respective authentication type.
-     - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      - returns: the linked `ParseUser`.
      */
-    func login(authData: [String: String]? = nil,
-               options: API.Options = []) throws -> AuthenticatedUser {
-        return try AuthenticatedUser
-            .login(__type,
-                   authData: AuthenticationKeys.id.makeDictionary(),
-                   options: options)
+    func login(options: API.Options = []) throws -> AuthenticatedUser {
+        try self.login(authData: AuthenticationKeys.id.makeDictionary(),
+                       options: options)
     }
 
-    func login(authData: [String: String]? = nil,
+    /**
+     Login a `ParseUser` *synchronously* using the respective authentication type.
+     - parameter authData: The authData for the respective authentication type. This will be ignored.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: An error of type `ParseError`.
+     - returns: the linked `ParseUser`.
+     */
+    func login(authData: [String: String],
+               options: API.Options = []) throws -> AuthenticatedUser {
+        try AuthenticatedUser.login(__type,
+                                    authData: AuthenticationKeys.id.makeDictionary(),
+                                    options: options)
+    }
+
+    /**
+     Login a `ParseUser` *asynchronously* using the respective authentication type.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     */
+    func login(options: API.Options = [],
+               callbackQueue: DispatchQueue = .main,
+               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
+        self.login(authData: AuthenticationKeys.id.makeDictionary(),
+                   options: options,
+                   callbackQueue: callbackQueue,
+                   completion: completion)
+    }
+
+    /**
+     Login a `ParseUser` *asynchronously* using the respective authentication type.
+     - parameter authData: The authData for the respective authentication type. This will be ignored.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     */
+    func login(authData: [String: String],
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
@@ -74,12 +107,35 @@ public extension ParseAnonymous {
 
     #if canImport(Combine)
 
+    /**
+     Login a `ParseUser` *asynchronously* using the respective authentication type.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(authData: [String: String]? = nil,
+    func loginPublisher(options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
+        Future { promise in
+            self.login(options: options,
+                       completion: promise)
+        }
+    }
+
+    /**
+     Login a `ParseUser` *asynchronously* using the respective authentication type.
+     - parameter authData: The authData for the respective authentication type. This will be ignored.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     */
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+    func loginPublisher(authData: [String: String],
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        AuthenticatedUser.loginPublisher(__type,
-                                         authData: AuthenticationKeys.id.makeDictionary(),
-                                         options: options)
+        Future { promise in
+            self.login(authData: authData,
+                       options: options,
+                       completion: promise)
+        }
     }
 
     #endif
@@ -88,7 +144,7 @@ public extension ParseAnonymous {
 // MARK: Link
 public extension ParseAnonymous {
     /// Unavailable for `ParseAnonymous`. Will always return an error.
-    func link(authData: [String: String]? = nil,
+    func link(authData: [String: String],
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
@@ -100,10 +156,12 @@ public extension ParseAnonymous {
     #if canImport(Combine)
 
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(authData: [String: String]?,
-                       options: API.Options) -> Future<AuthenticatedUser, ParseError> {
+    func linkPublisher(authData: [String: String],
+                       options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
-            promise(.failure(ParseError(code: .unknownError, message: "Not supported")))
+            self.link(authData: authData,
+                      options: options,
+                      completion: promise)
         }
     }
 

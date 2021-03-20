@@ -410,3 +410,12 @@ extension ParseOperation {
         }
     }
 }
+
+// MARK: ParseOperation
+public extension ParseObject {
+
+    /// Create a new operation.
+    var operation: ParseOperation<Self> {
+        return ParseOperation(target: self)
+    }
+}
