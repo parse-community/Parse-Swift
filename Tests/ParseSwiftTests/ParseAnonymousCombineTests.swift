@@ -181,6 +181,29 @@ class ParseAnonymousCombineTests: XCTestCase { // swiftlint:disable:this type_bo
 
         wait(for: [expectation1], timeout: 20.0)
     }
+
+    func testLink() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        let publisher = User.anonymous.linkPublisher(authData: .init())
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTAssertEqual(error.message, "Not supported")
+                } else {
+                    XCTFail("Should have returned error")
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+
+            XCTFail("Should have returned error")
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
 }
 
 #endif

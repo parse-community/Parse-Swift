@@ -446,4 +446,18 @@ class ParseAnonymousTests: XCTestCase {
         }
         wait(for: [expectation1], timeout: 20.0)
     }
+
+    func testLink() throws {
+
+        let expectation1 = XCTestExpectation(description: "Fetch user1")
+        User.anonymous.link(authData: .init()) { result in
+            if case let .failure(error) = result {
+                XCTAssertEqual(error.message, "Not supported")
+            } else {
+                XCTFail("Should have returned error")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
 }
