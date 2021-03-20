@@ -12,6 +12,7 @@ import Combine
 #endif
 
 // swiftlint:disable line_length
+// swiftlint:disable function_parameter_count
 
 /**
  Provides utility functions for working with Twitter User Authentication and `ParseUser`'s.
@@ -28,8 +29,8 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
         case authToken
         case authTokenSecret
         case screenName
-        
-        enum CodingKeys: String, CodingKey {
+
+        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
           case id // swiftlint:disable:this identifier_name
           case consumerKey = "consumer_key"
           case consumerSecret = "consumer_secret"
@@ -37,6 +38,7 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
           case authTokenSecret = "auth_token_secret"
           case screenName  = "screen_name"
         }
+
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter twitterId: Required id for the user.
         /// - parameter screenName: The `Twitter screenName` from `Twitter session`.
@@ -50,7 +52,7 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
                             consumerKey: String,
                             consumerSecret: String,
                             authToken: String,
-                            authTokenSecret: String) -> [String: String]? {
+                            authTokenSecret: String) -> [String: String] {
 
             return [AuthenticationKeys.id.rawValue: twitterId,
                     AuthenticationKeys.screenName.rawValue: screenName,
@@ -63,9 +65,8 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// Verifies all mandatory keys are in authData.
         /// - parameter authData: Dictionary containing key/values.
         /// - returns: `true` if all the mandatory keys are present, `false` otherwise.
-        func verifyMandatoryKeys(authData: [String: String]?) -> Bool {
-            guard let authData = authData,
-                  authData[AuthenticationKeys.id.rawValue] != nil,
+        func verifyMandatoryKeys(authData: [String: String]) -> Bool {
+            guard authData[AuthenticationKeys.id.rawValue] != nil,
                   authData[AuthenticationKeys.consumerKey.rawValue] != nil,
                   authData[AuthenticationKeys.consumerSecret.rawValue] != nil,
                   authData[AuthenticationKeys.authToken.rawValue] != nil,
@@ -105,26 +106,24 @@ public extension ParseTwitter {
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
 
-        guard let twitterAuthData = AuthenticationKeys.id.makeDictionary(twitterId: twitterId, screenName: screenName, consumerKey: consumerKey,
-                                                                         consumerSecret: consumerSecret, authToken: authToken, authTokenSecret: authTokenSecret) else {
-            callbackQueue.async {
-                completion(.failure(.init(code: .unknownError,
-                                          message: "Couldn't create authData.")))
-            }
-            return
-        }
+        let twitterAuthData = AuthenticationKeys.id
+            .makeDictionary(twitterId: twitterId,
+                            screenName: screenName,
+                            consumerKey: consumerKey,
+                            consumerSecret: consumerSecret,
+                            authToken: authToken,
+                            authTokenSecret: authTokenSecret)
         login(authData: twitterAuthData,
               options: options,
               callbackQueue: callbackQueue,
               completion: completion)
     }
 
-    func login(authData: [String: String]?,
+    func login(authData: [String: String],
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
+        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             let error = ParseError(code: .unknownError,
                                    message: "Should have authData in consisting of keys \"id\" and \"token\".")
             callbackQueue.async {
@@ -138,7 +137,7 @@ public extension ParseTwitter {
                                 callbackQueue: callbackQueue,
                                 completion: completion)
     }
-    
+
     #if canImport(Combine)
 
     /**
@@ -160,31 +159,26 @@ public extension ParseTwitter {
                         authToken: String,
                         authTokenSecret: String,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard let twitterAuthData = AuthenticationKeys.id.makeDictionary(twitterId: user, screenName: screenName, consumerKey: consumerKey,
-                                                                         consumerSecret: consumerSecret, authToken: authToken, authTokenSecret: authTokenSecret) else {
-            return Future { promise in
-                promise(.failure(.init(code: .unknownError,
-                                       message: "Couldn't create authData.")))
-            }
+        Future { promise in
+            self.login(twitterId: user,
+                       screenName: screenName,
+                       authToken: consumerKey,
+                       authTokenSecret: consumerSecret,
+                       consumerKey: authToken,
+                       consumerSecret: authTokenSecret,
+                       options: options,
+                       completion: promise)
         }
-        return loginPublisher(authData: twitterAuthData,
-                              options: options)
     }
 
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(authData: [String: String]?,
+    func loginPublisher(authData: [String: String],
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
-            let error = ParseError(code: .unknownError,
-                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
-            return Future { promise in
-                promise(.failure(error))
-            }
+        Future { promise in
+            self.login(authData: authData,
+                       options: options,
+                       completion: promise)
         }
-        return AuthenticatedUser.loginPublisher(Self.__type,
-                                                authData: authData,
-                                                options: options)
     }
 
     #endif
@@ -213,26 +207,24 @@ public extension ParseTwitter {
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        guard let twitterAuthData = AuthenticationKeys.id.makeDictionary(twitterId: user, screenName: screenName, consumerKey: consumerKey,
-                                                                         consumerSecret: consumerKey, authToken: authToken, authTokenSecret: authTokenSecret) else {
-            callbackQueue.async {
-                completion(.failure(.init(code: .unknownError,
-                                          message: "Couldn't create authData.")))
-            }
-            return
-        }
+        let twitterAuthData = AuthenticationKeys.id
+            .makeDictionary(twitterId: user,
+                            screenName: screenName,
+                            consumerKey: consumerKey,
+                            consumerSecret: consumerKey,
+                            authToken: authToken,
+                            authTokenSecret: authTokenSecret)
         link(authData: twitterAuthData,
              options: options,
              callbackQueue: callbackQueue,
              completion: completion)
     }
 
-    func link(authData: [String: String]?,
+    func link(authData: [String: String],
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
+        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             let error = ParseError(code: .unknownError,
                                    message: "Should have authData in consisting of keys \"id\" and \"token\".")
             callbackQueue.async {
@@ -268,31 +260,26 @@ public extension ParseTwitter {
                        authToken: String,
                        authTokenSecret: String,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard let twitterAuthData = AuthenticationKeys.id.makeDictionary(twitterId: user, screenName: screenName, consumerKey: consumerKey,
-                                                                         consumerSecret: consumerKey, authToken: authToken, authTokenSecret: authTokenSecret) else {
-            return Future { promise in
-                promise(.failure(.init(code: .unknownError,
-                                       message: "Couldn't create authData.")))
-            }
+        Future { promise in
+            self.link(user: user,
+                      screenName: screenName,
+                      consumerKey: consumerKey,
+                      consumerSecret: consumerSecret,
+                      authToken: authToken,
+                      authTokenSecret: authTokenSecret,
+                      options: options,
+                      completion: promise)
         }
-        return linkPublisher(authData: twitterAuthData,
-             options: options)
     }
 
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(authData: [String: String]?,
+    func linkPublisher(authData: [String: String],
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
-            let error = ParseError(code: .unknownError,
-                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
-            return Future { promise in
-                promise(.failure(error))
-            }
+        Future { promise in
+            self.link(authData: authData,
+                      options: options,
+                      completion: promise)
         }
-        return AuthenticatedUser.linkPublisher(Self.__type,
-                                               authData: authData,
-                                               options: options)
     }
 
     #endif

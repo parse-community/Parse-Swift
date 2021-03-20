@@ -25,36 +25,37 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
         case authenticationToken
         case accessToken
         case expirationDate
-        
-        enum CodingKeys: String, CodingKey {
+
+        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
           case id // swiftlint:disable:this identifier_name
           case token
           case accessToken = "access_token"
           case expirationDate = "expiration_date"
         }
+
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter userId: Required id for the user.
         /// - parameter authenticationToken: Required identity token for the user for Facebook limited login.
         /// - parameter accessToken: Required identity token for the user for Facebook graph API
         /// - parameter expirationDate: required expiration data for user authentication for Facebook login
         /// - returns: Required authData dictionary.
-        func makeDictionary(userId: String?, accessToken: String?, authenticationToken: String?, expirationDate: Date?) throws -> [String: String]? {
-            
+        func makeDictionary(userId: String?, accessToken: String?, authenticationToken: String?, expirationDate: Date?) throws -> [String: String] {
+
             let validAuthenticationToken = authenticationToken != nil || accessToken != nil
             guard let  userId = userId, let expirationDate = expirationDate else {
                 throw ParseError(code: .unknownError, message: "userId or expirationDate can't be empty")
             }
-            let dateString = DateFormatter.dateFormatter.string(from: expirationDate)
-            
+            let dateString = DateFormatter.facebookDateFormatter.string(from: expirationDate)
+
             var returnDictionary = [AuthenticationKeys.id.rawValue: userId,
                                     AuthenticationKeys.expirationDate.rawValue: dateString]
             guard validAuthenticationToken else {
                 throw ParseError(code: .unknownError, message: "provide either accessToken or authenticationToken can't be empty")
             }
-            
+
             if let accessToken = accessToken {
               returnDictionary[AuthenticationKeys.accessToken.rawValue] = accessToken
-            }  else if let authenticationToken = authenticationToken {
+            } else if let authenticationToken = authenticationToken {
               returnDictionary[AuthenticationKeys.authenticationToken.rawValue] = authenticationToken
             }
             return returnDictionary
@@ -63,16 +64,15 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// Verifies all mandatory keys are in authData.
         /// - parameter authData: Dictionary containing key/values.
         /// - returns: `true` if all the mandatory keys are present, `false` otherwise.
-        func verifyMandatoryKeys(authData: [String: String]?) -> Bool {
-            guard let authData = authData,
-                  authData[AuthenticationKeys.id.rawValue] != nil,
+        func verifyMandatoryKeys(authData: [String: String]) -> Bool {
+            guard authData[AuthenticationKeys.id.rawValue] != nil,
                   authData[AuthenticationKeys.expirationDate.rawValue] != nil else {
                 return false
             }
-            
+
             if let _ = authData[AuthenticationKeys.accessToken.rawValue] {
                 return true
-            }else if let _ = authData[AuthenticationKeys.authenticationToken.rawValue] {
+            } else if let _ = authData[AuthenticationKeys.authenticationToken.rawValue] {
                 return true
             }
             return false
@@ -142,12 +142,11 @@ public extension ParseFacebook {
               callbackQueue: callbackQueue,
               completion: completion)
     }
-    func login(authData: [String: String]?,
+    func login(authData: [String: String],
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
+        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             let error = ParseError(code: .unknownError,
                                    message: "Should have authData in consisting of keys \"id\", \"expirationDate\" and \"authentication keys\".")
             callbackQueue.async {
@@ -176,14 +175,13 @@ public extension ParseFacebook {
                         authenticationToken: String,
                         expirationDate: Date,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: nil, authenticationToken: authenticationToken, expirationDate: expirationDate) else {
-            return Future { promise in
-                promise(.failure(.init(code: .unknownError,
-                                       message: "Couldn't create authData.")))
-            }
+        Future { promise in
+            self.login(userId: userId,
+                       authenticationToken: authenticationToken,
+                       expirationDate: expirationDate,
+                       options: options,
+                       completion: promise)
         }
-        return loginPublisher(authData: facebookAuthData,
-                              options: options)
     }
     /**
      Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login. Publishes when complete.
@@ -197,29 +195,22 @@ public extension ParseFacebook {
                         accessToken: String,
                         expirationDate: Date,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: accessToken, authenticationToken: nil, expirationDate: expirationDate) else {
-            return Future { promise in
-                promise(.failure(.init(code: .unknownError,
-                                       message: "Couldn't create authData.")))
-            }
+        Future { promise in
+            self.login(userId: userId,
+                       accessToken: accessToken,
+                       expirationDate: expirationDate,
+                       options: options,
+                       completion: promise)
         }
-        return loginPublisher(authData: facebookAuthData,
-                              options: options)
     }
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(authData: [String: String]?,
+    func loginPublisher(authData: [String: String],
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
-            let error = ParseError(code: .unknownError,
-                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
-            return Future { promise in
-                promise(.failure(error))
-            }
+        Future { promise in
+            self.login(authData: authData,
+                       options: options,
+                       completion: promise)
         }
-        return AuthenticatedUser.loginPublisher(Self.__type,
-                                                authData: authData,
-                                                options: options)
     }
 
     #endif
@@ -282,13 +273,12 @@ public extension ParseFacebook {
              callbackQueue: callbackQueue,
              completion: completion)
     }
-    
-    func link(authData: [String: String]?,
+
+    func link(authData: [String: String],
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
+        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
             let error = ParseError(code: .unknownError,
                                    message: "Should have authData in consisting of keys \"id\" and \"token\".")
             callbackQueue.async {
@@ -318,14 +308,13 @@ public extension ParseFacebook {
                        authenticationToken: String,
                        expirationDate: Date,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: nil, authenticationToken: authenticationToken, expirationDate: expirationDate) else {
-            return Future { promise in
-                promise(.failure(.init(code: .unknownError,
-                                       message: "Couldn't create authData.")))
-            }
+        Future { promise in
+            self.link(userId: userId,
+                      authenticationToken: authenticationToken,
+                      expirationDate: expirationDate,
+                      options: options,
+                      completion: promise)
         }
-        return linkPublisher(authData: facebookAuthData,
-             options: options)
     }
 
     /**
@@ -341,30 +330,23 @@ public extension ParseFacebook {
                        accessToken: String,
                        expirationDate: Date,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard let facebookAuthData = try? AuthenticationKeys.id.makeDictionary(userId: userId, accessToken: accessToken, authenticationToken: nil, expirationDate: expirationDate) else {
-            return Future { promise in
-                promise(.failure(.init(code: .unknownError,
-                                       message: "Couldn't create authData.")))
-            }
+        Future { promise in
+            self.link(userId: userId,
+                      accessToken: accessToken,
+                      expirationDate: expirationDate,
+                      options: options,
+                      completion: promise)
         }
-        return linkPublisher(authData: facebookAuthData,
-             options: options)
     }
 
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(authData: [String: String]?,
+    func linkPublisher(authData: [String: String],
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData),
-              let authData = authData else {
-            let error = ParseError(code: .unknownError,
-                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
-            return Future { promise in
-                promise(.failure(error))
-            }
+        Future { promise in
+            self.link(authData: authData,
+                      options: options,
+                      completion: promise)
         }
-        return AuthenticatedUser.linkPublisher(Self.__type,
-                                               authData: authData,
-                                               options: options)
     }
 
     #endif
@@ -384,8 +366,9 @@ public extension ParseUser {
     }
 }
 
-extension DateFormatter {
-    static let dateFormatter: DateFormatter = {
+// MARK: Convenience
+internal extension DateFormatter {
+    static let facebookDateFormatter: DateFormatter = {
         var dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "en_US_POSIX")
         dateFormatter.timeZone = TimeZone.init(secondsFromGMT: 0)

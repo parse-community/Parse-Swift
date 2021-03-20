@@ -182,7 +182,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
 
         wait(for: [expectation1], timeout: 20.0)
     }
-    
+
     func loginNormally() throws -> User {
         let loginResponse = LoginSignupResponse()
 
@@ -243,7 +243,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
 
         wait(for: [expectation1], timeout: 20.0)
     }
-    
+
     func testLinkGraphAPILogin() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
@@ -344,7 +344,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
 
         wait(for: [expectation1], timeout: 20.0)
     }
-    
+
     func testUnlinkGraphAPILogin() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
@@ -401,4 +401,3 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
 }
 
 #endif
-

@@ -100,7 +100,7 @@ class ParseFacebookTests: XCTestCase {
                                                   accessToken: nil,
                                                   authenticationToken: "authenticationToken",
                                                   expirationDate: expirationDate)
-        let dateString = DateFormatter.dateFormatter.string(from: expirationDate)
+        let dateString = DateFormatter.facebookDateFormatter.string(from: expirationDate)
         XCTAssertEqual(authData, ["id": "testing", "authenticationToken": "authenticationToken", "expirationDate": dateString])
     }
 
@@ -111,10 +111,10 @@ class ParseFacebookTests: XCTestCase {
                                                   accessToken: "accessToken",
                                                   authenticationToken: nil,
                                                   expirationDate: expirationDate)
-        let dateString = DateFormatter.dateFormatter.string(from: expirationDate)
+        let dateString = DateFormatter.facebookDateFormatter.string(from: expirationDate)
         XCTAssertEqual(authData, ["id": "testing", "accessToken": "accessToken", "expirationDate": dateString])
     }
-    
+
     func testLimitedLogin() throws {
         var serverResponse = LoginSignupResponse()
         let expirationDate = Date()
@@ -147,7 +147,7 @@ class ParseFacebookTests: XCTestCase {
         }
 
         let expectation1 = XCTestExpectation(description: "Login")
-        
+
         User.facebook.login(userId: "testing", authenticationToken: "authenticationToken", expirationDate: expirationDate) { result in
             switch result {
 
@@ -201,7 +201,7 @@ class ParseFacebookTests: XCTestCase {
         }
 
         let expectation1 = XCTestExpectation(description: "Login")
-        
+
         User.facebook.login(userId: "testing", accessToken: "accessToken", expirationDate: expirationDate) { result in
             switch result {
 
@@ -222,14 +222,14 @@ class ParseFacebookTests: XCTestCase {
         }
         wait(for: [expectation1], timeout: 20.0)
     }
-    
-    func testNeitherTokenIsProvided() throws {
+
+    func testLoginAuthData() throws {
         var serverResponse = LoginSignupResponse()
         let expirationDate = Date()
-        let authData = try? ParseFacebook<User>
+        let authData = try ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: nil,
-                                                  authenticationToken: nil,
+                                                  authenticationToken: "authenticationToken",
                                                   expirationDate: expirationDate)
         serverResponse.username = "hello"
         serverResponse.password = "world"
@@ -255,22 +255,48 @@ class ParseFacebookTests: XCTestCase {
         }
 
         let expectation1 = XCTestExpectation(description: "Login")
-        
-        User.facebook.login(userId: "testing", accessToken: "accessToken", expirationDate: expirationDate) { result in
+
+        User.facebook.login(authData: authData) { result in
             switch result {
 
             case .success(let user):
+                XCTAssertEqual(user, User.current)
+                XCTAssertEqual(user, userOnServer)
+                XCTAssertEqual(user.username, "hello")
+                XCTAssertEqual(user.password, "world")
+                XCTAssertTrue(user.facebook.isLinked)
+
                 //Test stripping
                 user.facebook.strip()
+                XCTAssertFalse(user.facebook.isLinked)
             case .failure(let error):
-                XCTAssertEqual(error.localizedDescription, "Couldn't create authData.")
                 XCTFail(error.localizedDescription)
             }
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
     }
-    
+
+    func testLoginWrongKeys() throws {
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        let expectation1 = XCTestExpectation(description: "Login")
+        let currentDate = DateFormatter.facebookDateFormatter.string(from: Date())
+        let authData = ["id": "hello",
+                        "expirationDate": currentDate]
+        User.facebook.link(authData: authData) { result in
+
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("consisting of keys"))
+            } else {
+                XCTFail("Should have returned error")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func loginAnonymousUser() throws {
         let authData = ["id": "yolo"]
 
@@ -361,7 +387,7 @@ class ParseFacebookTests: XCTestCase {
         }
         wait(for: [expectation1], timeout: 20.0)
     }
-    
+
     func testReplaceAnonymousWithFacebookGraphAPILogin() throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()
@@ -497,7 +523,7 @@ class ParseFacebookTests: XCTestCase {
         }
         wait(for: [expectation1], timeout: 20.0)
     }
-    
+
     func testLinkLoggedInUserWithFacebookLimitedLogin() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
@@ -581,12 +607,12 @@ class ParseFacebookTests: XCTestCase {
         }
         wait(for: [expectation1], timeout: 20.0)
     }
-    
+
     func testUnlinkLimitedLogin() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
         let expirationDate = Date()
-        
+
         let authData = try? ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: nil,
@@ -631,12 +657,12 @@ class ParseFacebookTests: XCTestCase {
         }
         wait(for: [expectation1], timeout: 20.0)
     }
-    
+
     func testUnlinkGraphAPILogin() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
         let expirationDate = Date()
-        
+
         let authData = try? ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: "accessToken",
@@ -682,4 +708,3 @@ class ParseFacebookTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 }
-
