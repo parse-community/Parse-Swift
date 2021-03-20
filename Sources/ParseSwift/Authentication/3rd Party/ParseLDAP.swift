@@ -66,7 +66,8 @@ public extension ParseLDAP {
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        login(authData: AuthenticationKeys.id.makeDictionary(id: id, password: password),
+        login(authData: AuthenticationKeys.id.makeDictionary(id: id,
+                                                             password: password),
                          options: options,
                          callbackQueue: callbackQueue,
                          completion: completion)
@@ -77,10 +78,9 @@ public extension ParseLDAP {
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
-            let error = ParseError(code: .unknownError,
-                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
             callbackQueue.async {
-                completion(.failure(error))
+                completion(.failure(.init(code: .unknownError,
+                                          message: "Should have authData in consisting of keys \"id\" and \"token\".")))
             }
             return
         }

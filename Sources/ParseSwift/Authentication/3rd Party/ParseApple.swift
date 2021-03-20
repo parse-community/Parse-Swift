@@ -91,10 +91,9 @@ public extension ParseApple {
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
-            let error = ParseError(code: .unknownError,
-                                   message: "Should have authData in consisting of keys \"id\" and \"token\".")
             callbackQueue.async {
-                completion(.failure(error))
+                completion(.failure(.init(code: .unknownError,
+                                          message: "Should have authData in consisting of keys \"id\" and \"token\".")))
             }
             return
         }
