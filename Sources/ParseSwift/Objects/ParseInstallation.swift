@@ -394,13 +394,14 @@ extension ParseInstallation {
                         completion(result)
                     }
                 }
-         } catch let error as ParseError {
-            callbackQueue.async {
-                completion(.failure(error))
-            }
          } catch {
             callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                if let error = error as? ParseError {
+                    completion(.failure(error))
+                } else {
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: error.localizedDescription)))
+                }
             }
          }
     }
@@ -412,8 +413,7 @@ extension ParseInstallation {
 
         var params: [String: String]?
         if let includeParams = include {
-            let joined = includeParams.joined(separator: ",")
-            params = ["include": joined]
+            params = ["include": "\(includeParams)"]
         }
 
         return API.Command(method: .GET,
@@ -611,14 +611,19 @@ public extension Sequence where Element: ParseInstallation {
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
      - important: If an object saved has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
+                 transaction: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
-        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
@@ -664,10 +669,16 @@ public extension Sequence where Element: ParseInstallation {
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = map { $0.saveCommand() }
+        let batchLimit: Int!
+        if transaction {
+            batchLimit = commands.count
+        } else {
+            batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        }
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
             let currentBatch = try API.Command<Self.Element, Self.Element>
-                .batch(commands: $0)
+                .batch(commands: $0, transaction: transaction)
                 .execute(options: options,
                          callbackQueue: .main,
                          childObjects: childObjects,
@@ -683,14 +694,20 @@ public extension Sequence where Element: ParseInstallation {
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
     */
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
+        transaction: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -698,7 +715,6 @@ public extension Sequence where Element: ParseInstallation {
         let queue = DispatchQueue(label: "com.parse.saveAll", qos: .default,
                                   attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
         queue.sync {
-            let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
             var childObjects = [String: PointerType]()
             var childFiles = [UUID: ParseFile]()
             var error: ParseError?
@@ -748,11 +764,17 @@ public extension Sequence where Element: ParseInstallation {
 
             var returnBatch = [(Result<Self.Element, ParseError>)]()
             let commands = map { $0.saveCommand() }
+            let batchLimit: Int!
+            if transaction {
+                batchLimit = commands.count
+            } else {
+                batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            }
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0
             for batch in batches {
                 API.Command<Self.Element, Self.Element>
-                        .batch(commands: batch)
+                        .batch(commands: batch, transaction: transaction)
                         .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
                                       childObjects: childObjects,
@@ -888,6 +910,8 @@ public extension Sequence where Element: ParseInstallation {
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
@@ -900,16 +924,25 @@ public extension Sequence where Element: ParseInstallation {
         instance, a connection failure in the middle of the delete).
      - throws: `ParseError`
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
     */
     func deleteAll(batchLimit limit: Int? = nil,
+                   transaction: Bool = false,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
-        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
+        let batchLimit: Int!
+        if transaction {
+            batchLimit = commands.count
+        } else {
+            batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        }
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
             let currentBatch = try API.Command<Self.Element, (Result<Void, ParseError>)>
-                .batch(commands: $0)
+                .batch(commands: $0, transaction: transaction)
                 .execute(options: options)
             returnBatch.append(contentsOf: currentBatch)
         }
@@ -923,6 +956,8 @@ public extension Sequence where Element: ParseInstallation {
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -936,22 +971,31 @@ public extension Sequence where Element: ParseInstallation {
      caused the delete operation to be aborted partway through (for
      instance, a connection failure in the middle of the delete).
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
     */
     func deleteAll(
         batchLimit limit: Int? = nil,
+        transaction: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
     ) {
-        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         do {
             var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })
+            let batchLimit: Int!
+            if transaction {
+                batchLimit = commands.count
+            } else {
+                batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            }
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0
             for batch in batches {
                 API.Command<Self.Element, ParseError?>
-                        .batch(commands: batch)
+                        .batch(commands: batch, transaction: transaction)
                         .executeAsync(options: options) { results in
                     switch results {
 

@@ -12,13 +12,13 @@ import XCTest
 
 class KeychainStoreTests: XCTestCase {
     var testStore: KeychainStore!
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         testStore = KeychainStore(service: "test")
     }
 
-    override func tearDown() {
-        super.tearDown()
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
         _ = testStore.removeAllObjects()
     }
 

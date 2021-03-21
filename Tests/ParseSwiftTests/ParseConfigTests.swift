@@ -79,7 +79,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
@@ -163,6 +163,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
         do {
             let fetched = try config.fetch()
             XCTAssertEqual(fetched.welcomeMessage, configOnServer.welcomeMessage)
+            XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
 
             #if !os(Linux) && !os(Android)
             //Should be updated in Keychain
@@ -174,7 +175,6 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(keychainConfig.currentConfig?.welcomeMessage, configOnServer.welcomeMessage)
             #endif
 
-            XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -205,6 +205,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             case .success(let fetched):
                 XCTAssertEqual(fetched.welcomeMessage, configOnServer.welcomeMessage)
+                XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
 
                 #if !os(Linux) && !os(Android)
                 //Should be updated in Keychain
@@ -217,7 +218,6 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(keychainConfig.currentConfig?.welcomeMessage, configOnServer.welcomeMessage)
                 #endif
 
-                XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -256,6 +256,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
         do {
             let saved = try config.save()
             XCTAssertTrue(saved)
+            XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
 
             #if !os(Linux) && !os(Android)
             //Should be updated in Keychain
@@ -266,8 +267,6 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             XCTAssertEqual(keychainConfig.currentConfig?.welcomeMessage, config.welcomeMessage)
             #endif
-
-            XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -297,6 +296,7 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             case .success(let saved):
                 XCTAssertTrue(saved)
+                XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
 
                 #if !os(Linux) && !os(Android)
                 //Should be updated in Keychain
@@ -309,7 +309,6 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(keychainConfig.currentConfig?.welcomeMessage, config.welcomeMessage)
                 #endif
 
-                XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }

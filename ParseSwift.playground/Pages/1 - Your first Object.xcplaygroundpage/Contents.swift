@@ -1,3 +1,9 @@
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
+//: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
+//: in the `File Inspector` is `Platform = macOS`. This is because
+//: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
+//: be set to build for `macOS` unless specified.
+
 import PlaygroundSupport
 import Foundation
 import ParseSwift
@@ -38,7 +44,7 @@ let score = GameScore(score: 10)
 let score2 = GameScore(score: 3)
 
 /*: Save asynchronously (preferred way) - Performs work on background
-    queue and returns to designated on designated callbackQueue.
+    queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
 score.save { result in
@@ -80,6 +86,29 @@ var score2ForFetchedLater: GameScore?
 
 //: Saving multiple GameScores at once.
 [score, score2].saveAll { results in
+    switch results {
+    case .success(let otherResults):
+        var index = 0
+        otherResults.forEach { otherResult in
+            switch otherResult {
+            case .success(let savedScore):
+                print("Saved \"\(savedScore.className)\" with score \(savedScore.score) successfully")
+                if index == 1 {
+                    score2ForFetchedLater = savedScore
+                }
+                index += 1
+            case .failure(let error):
+                assertionFailure("Error saving: \(error)")
+            }
+        }
+
+    case .failure(let error):
+        assertionFailure("Error saving: \(error)")
+    }
+}
+
+//: Saving multiple GameScores at once using a transaction.
+[score, score2].saveAll(transaction: true) { results in
     switch results {
     case .success(let otherResults):
         var index = 0
@@ -235,7 +264,7 @@ do {
 }
 
 //: Asynchronously (preferred way) deleteAll GameScores based on it's objectId alone.
-[scoreToFetch, score2ToFetch].deleteAll { result in
+[scoreToFetch, score2ToFetch].deleteAll(transaction: true) { result in
     switch result {
     case .success(let deletedScores):
         deletedScores.forEach { result in

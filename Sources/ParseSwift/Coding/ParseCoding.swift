@@ -18,7 +18,7 @@ extension ParseCoding {
     /// strategy for `Parse`.
     static func jsonEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
-        encoder.dateEncodingStrategy = jsonDateEncodingStrategy
+        encoder.dateEncodingStrategy = parseDateEncodingStrategy
         return encoder
     }
 
@@ -54,9 +54,7 @@ extension ParseCoding {
         return dateFormatter
     }()
 
-    static let jsonDateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .custom(parseDateEncodingStrategy)
-
-    static let parseDateEncodingStrategy: AnyCodable.DateEncodingStrategy = { (date, encoder) in
+    static let parseDateEncodingStrategy: JSONEncoder.DateEncodingStrategy = .custom { (date, encoder) in
         var container = encoder.container(keyedBy: DateEncodingKeys.self)
         try container.encode("Date", forKey: .type)
         let dateString = dateFormatter.string(from: date)
@@ -76,7 +74,7 @@ extension ParseCoding {
                     message: "An invalid date string was provided when decoding dates."
                 )
             }
-        } catch let error {
+        } catch {
             let container = try decoder.container(keyedBy: DateEncodingKeys.self)
 
             if

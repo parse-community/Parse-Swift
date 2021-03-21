@@ -203,7 +203,10 @@ internal extension API {
                                childObjects: [String: PointerType]? = nil,
                                childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
-            let headers = API.getHeaders(options: options)
+            var headers = API.getHeaders(options: options)
+            if !(method == .POST) && !(method == .PUT) {
+                headers.removeValue(forKey: "X-Parse-Request-Id")
+            }
             let url = parseURL == nil ?
                 ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent) : parseURL!
 
@@ -221,7 +224,7 @@ internal extension API {
             var urlRequest = URLRequest(url: urlComponents)
             urlRequest.allHTTPHeaderFields = headers
             if let urlBody = body {
-                if (urlBody as? ParseCloud) != nil {
+                if (urlBody as? CloudType) != nil {
                     guard let bodyData = try? ParseCoding.parseEncoder().encode(urlBody, skipKeys: .cloud) else {
                         return .failure(ParseError(code: .unknownError,
                                                        message: "couldn't encode body \(urlBody)"))
@@ -389,8 +392,7 @@ internal extension API.Command {
 
         var params: [String: String]?
         if let includeParams = include {
-            let joined = includeParams.joined(separator: ",")
-            params = ["include": joined]
+            params = ["include": "\(includeParams)"]
         }
 
         return API.Command<T, T>(
@@ -411,8 +413,8 @@ extension API.Command where T: ParseObject {
         return try? body.getEncoder().encode(body, skipKeys: .object)
     }
 
-    static func batch(commands: [API.Command<T, T>]) -> RESTBatchCommandType<T> {
-        let commands = commands.compactMap { (command) -> API.Command<T, T>? in
+    static func batch(commands: [API.Command<T, T>], transaction: Bool) -> RESTBatchCommandType<T> {
+        let batchCommands = commands.compactMap { (command) -> API.Command<T, T>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
@@ -421,22 +423,16 @@ extension API.Command where T: ParseObject {
                                      body: body, mapper: command.mapper)
         }
 
-        let bodies = commands.compactMap { (command) -> (body: T, command: API.Method)?  in
-            guard let body = command.body else {
-                return nil
-            }
-            return (body: body, command: command.method)
-        }
-
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
 
             let decodingType = [BatchResponseItem<WriteResponse>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
-                return bodies.enumerated().map({ (object) -> (Result<T, ParseError>) in
+                return commands.enumerated().map({ (object) -> (Result<T, ParseError>) in
                     let response = responses[object.offset]
-                    if let success = response.success {
-                        return .success(success.apply(to: object.element.body, method: object.element.command))
+                    if let success = response.success,
+                       let body = object.element.body {
+                        return .success(success.apply(to: body, method: object.element.method))
                     } else {
                         guard let parseError = response.error else {
                             return .failure(ParseError(code: .unknownError, message: "unknown error"))
@@ -453,12 +449,13 @@ extension API.Command where T: ParseObject {
             }
         }
 
-        let batchCommand = BatchCommand(requests: commands)
+        let batchCommand = BatchCommand(requests: batchCommands, transaction: transaction)
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 
     // MARK: Batch - Deleting
-    static func batch(commands: [API.NonParseBodyCommand<NoBody, NoBody>]) -> RESTBatchCommandNoBodyType<NoBody> {
+    static func batch(commands: [API.NonParseBodyCommand<NoBody, NoBody>],
+                      transaction: Bool) -> RESTBatchCommandNoBodyType<NoBody> {
         let commands = commands.compactMap { (command) -> API.NonParseBodyCommand<NoBody, NoBody>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             return API.NonParseBodyCommand<NoBody, NoBody>(
@@ -491,45 +488,54 @@ extension API.Command where T: ParseObject {
             }
         }
 
-        let batchCommand = BatchCommandNoBody(requests: commands)
+        let batchCommand = BatchCommandNoBody(requests: commands, transaction: transaction)
         return RESTBatchCommandNoBodyType<NoBody>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 }
 
-//This has been disabled, looking into getting it working in the future.
-//It's only needed for sending batches of childObjects which currently isn't being used.
-/*
 // MARK: Batch - Child Objects
-extension API.Command where T: ParseType {
+extension API.NonParseBodyCommand {
 
     internal var data: Data? {
         guard let body = body else { return nil }
         return try? ParseCoding.jsonEncoder().encode(body)
     }
 
-    static func batch(commands: [API.Command<T, PointerType>]) -> RESTBatchCommandTypeEncodable<T> {
-        let commands = commands.compactMap { (command) -> API.Command<T, PointerType>? in
-            let path = ParseConfiguration.mountPath + command.path.urlComponent
-            guard let body = command.body else {
+    static func batch(objects: [ParseType],
+                      transaction: Bool) throws -> RESTBatchCommandTypeEncodable<AnyCodable> {
+        let batchCommands = try objects.compactMap { (object) -> API.BatchCommand<AnyCodable, PointerType>? in
+            guard var objectable = object as? Objectable else {
                 return nil
             }
-            return API.Command<T, PointerType>(method: command.method, path: .any(path),
-                                     body: body, mapper: command.mapper)
-        }
-        let bodies = commands.compactMap { (command) -> (body: T, command: API.Method)?  in
-            guard let body = command.body else {
-                return nil
+            let method: API.Method!
+            if objectable.isSaved {
+                method = .PUT
+            } else {
+                method = .POST
             }
-            return (body: body, command: command.method)
+
+            let mapper = { (baseObjectable: BaseObjectable) throws -> PointerType in
+                objectable.objectId = baseObjectable.objectId
+                return try objectable.toPointer()
+            }
+
+            let path = ParseConfiguration.mountPath + objectable.endpoint.urlComponent
+            let encoded = try ParseCoding.parseEncoder().encode(object)
+            let body = try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: encoded)
+            return API.BatchCommand<AnyCodable, PointerType>(method: method,
+                                                             path: .any(path),
+                                                             body: body,
+                                                             mapper: mapper)
         }
+
         let mapper = { (data: Data) -> [Result<PointerType, ParseError>] in
-            let decodingType = [BatchResponseItem<PointerSaveResponse>].self
+            let decodingType = [BatchResponseItem<BaseObjectable>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
-                return bodies.enumerated().map({ (object) -> (Result<PointerType, ParseError>) in
+                return batchCommands.enumerated().map({ (object) -> (Result<PointerType, ParseError>) in
                     let response = responses[object.offset]
                     if let success = response.success {
-                        guard let successfulResponse = try? success.apply(to: object.element.body) else {
+                        guard let successfulResponse = try? object.element.mapper(success) else {
                             return.failure(ParseError(code: .unknownError, message: "unknown error"))
                         }
                         return .success(successfulResponse)
@@ -548,10 +554,14 @@ extension API.Command where T: ParseType {
                 return [(.failure(parseError))]
             }
         }
-        let batchCommand = BatchCommand(requests: commands)
-        return RESTBatchCommandTypeEncodable<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
+        let batchCommand = BatchChildCommand(requests: batchCommands,
+                                              transaction: transaction)
+        return RESTBatchCommandTypeEncodable<AnyCodable>(method: .POST,
+                                                         path: .batch,
+                                                         body: batchCommand,
+                                                         mapper: mapper)
     }
-}*/
+}
 
 // MARK: API.NonParseBodyCommand
 internal extension API {
@@ -561,7 +571,6 @@ internal extension API {
         let path: API.Endpoint
         let body: T?
         let mapper: ((Data) throws -> U)
-        let params: [String: String?]?
 
         init(method: API.Method,
              path: API.Endpoint,
@@ -572,7 +581,6 @@ internal extension API {
             self.path = path
             self.body = body
             self.mapper = mapper
-            self.params = params
         }
 
         func execute(options: API.Options) throws -> U {
@@ -614,19 +622,16 @@ internal extension API {
 
         // MARK: URL Preperation
         func prepareURLRequest(options: API.Options) -> Result<URLRequest, ParseError> {
-            let params = self.params?.getQueryItems()
-            let headers = API.getHeaders(options: options)
+            var headers = API.getHeaders(options: options)
+            if !(method == .POST) && !(method == .PUT) {
+                headers.removeValue(forKey: "X-Parse-Request-Id")
+            }
             let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
 
-            guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
+            guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+                  let urlComponents = components.url else {
                 return .failure(ParseError(code: .unknownError,
                                            message: "couldn't unrwrap url components for \(url)"))
-            }
-            components.queryItems = params
-
-            guard let urlComponents = components.url else {
-                return .failure(ParseError(code: .unknownError,
-                                           message: "couldn't create url from components for \(components)"))
             }
 
             var urlRequest = URLRequest(url: urlComponents)
@@ -650,22 +655,51 @@ internal extension API {
 }
 
 internal extension API.NonParseBodyCommand {
+
     // MARK: Deleting
     static func deleteCommand<T>(_ object: T) throws -> API.NonParseBodyCommand<NoBody, NoBody> where T: ParseObject {
         guard object.isSaved else {
-            throw ParseError(code: .unknownError, message: "Cannot Delete an object without id")
+            throw ParseError(code: .unknownError,
+                             message: "Cannot delete an object without an objectId")
         }
 
-        return API.NonParseBodyCommand<NoBody, NoBody>(
-            method: .DELETE,
-            path: object.endpoint
-        ) { (data) -> NoBody in
-            let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
-            if let error = error {
+        let mapper = { (data: Data) -> NoBody in
+            if let error = try? ParseCoding
+                .jsonDecoder()
+                .decode(ParseError.self,
+                        from: data) {
                 throw error
             } else {
                 return NoBody()
             }
         }
+
+        return API.NonParseBodyCommand<NoBody, NoBody>(method: .DELETE,
+                                                       path: object.endpoint,
+                                                       mapper: mapper)
     }
-} // swiftlint:disable:this file_length
+}
+
+internal extension API {
+    struct BatchCommand<T, U>: Encodable where T: Encodable {
+        typealias ReturnType = U // swiftlint:disable:this nesting
+        let method: API.Method
+        let path: API.Endpoint
+        let body: T?
+        let mapper: ((BaseObjectable) throws -> U)
+
+        init(method: API.Method,
+             path: API.Endpoint,
+             body: T? = nil,
+             mapper: @escaping ((BaseObjectable) throws -> U)) {
+            self.method = method
+            self.path = path
+            self.body = body
+            self.mapper = mapper
+        }
+
+        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
+            case method, body, path
+        }
+    }
+}

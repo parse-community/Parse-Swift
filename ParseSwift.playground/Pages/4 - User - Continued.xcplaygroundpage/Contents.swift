@@ -1,5 +1,11 @@
 //: [Previous](@previous)
 
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
+//: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
+//: in the `File Inspector` is `Platform = macOS`. This is because
+//: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
+//: be set to build for `macOS` unless specified.
+
 import PlaygroundSupport
 import Foundation
 import ParseSwift
@@ -47,24 +53,6 @@ struct GameScore: ParseObject {
     }
 }
 
-/*: Save your first customKey value to your `ParseUser`
-    Asynchrounously - Performs work on background
-    queue and returns to designated on designated callbackQueue.
-    If no callbackQueue is specified it returns to main queue.
-*/
-User.current?.customKey = "myCustom"
-User.current?.score = GameScore(score: 12)
-User.current?.targetScore = GameScore(score: 100)
-User.current?.save { results in
-
-    switch results {
-    case .success(let updatedUser):
-        print("Successfully save custom fields of User to ParseServer: \(updatedUser)")
-    case .failure(let error):
-        print("Failed to update user: \(error)")
-    }
-}
-
 //: Logging out - synchronously
 do {
     try User.logout()
@@ -74,7 +62,7 @@ do {
 }
 
 /*: Login - asynchronously - Performs work on background
-    queue and returns to designated on designated callbackQueue.
+    queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
 User.login(username: "hello", password: "world") { results in
@@ -94,13 +82,31 @@ User.login(username: "hello", password: "world") { results in
     }
 }
 
+/*: Save your first `customKey` value to your `ParseUser`
+    Asynchrounously - Performs work on background
+    queue and returns to specified callbackQueue.
+    If no callbackQueue is specified it returns to main queue.
+*/
+User.current?.customKey = "myCustom"
+User.current?.score = GameScore(score: 12)
+User.current?.targetScore = GameScore(score: 100)
+User.current?.save { results in
+
+    switch results {
+    case .success(let updatedUser):
+        print("Successfully save custom fields of User to ParseServer: \(updatedUser)")
+    case .failure(let error):
+        print("Failed to update user: \(error)")
+    }
+}
+
 //: Looking at the output of user from the previous login, it only has
-//: a pointer to the `score`and `targetScore` fields. You can fetch using `include` to
-//: get the score.
+//: a pointer to the `score` and `targetScore` fields. You can
+//: fetch using `include` to get the score.
 User.current?.fetch(includeKeys: ["score"]) { result in
     switch result {
     case .success:
-        print("Successfully fetched user with score key: \(User.current)")
+        print("Successfully fetched user with score key: \(String(describing: User.current))")
     case .failure(let error):
         print("Error fetching score: \(error)")
     }
@@ -111,41 +117,9 @@ User.current?.fetch(includeKeys: ["score"]) { result in
 User.current?.fetch(includeKeys: ["*"]) { result in
     switch result {
     case .success:
-        print("Successfully fetched user with all keys: \(User.current)")
+        print("Successfully fetched user with all keys: \(String(describing: User.current))")
     case .failure(let error):
         print("Error fetching score: \(error)")
-    }
-}
-
-//: Logging out - synchronously.
-do {
-    try User.logout()
-    print("Successfully logged out")
-} catch let error {
-    print("Error logging out: \(error)")
-}
-
-//: Logging in anonymously.
-User.anonymous.login { result in
-    switch result {
-    case .success:
-        print("Successfully logged in \(String(describing: User.current))")
-    case .failure(let error):
-        print("Error logging in: \(error)")
-    }
-}
-
-//: Convert the anonymous user to a real new user.
-User.current?.username = "bye"
-User.current?.password = "world"
-User.current?.signup { result in
-    switch result {
-
-    case .success(let user):
-        print("Parse signup successful: \(user)")
-
-    case .failure(let error):
-        print("Error logging in: \(error)")
     }
 }
 
@@ -171,6 +145,31 @@ do {
     print("Successfully requested password reset")
 } catch let error {
     print("Error requesting password reset: \(error)")
+}
+
+//: Logging in anonymously.
+User.anonymous.login { result in
+    switch result {
+    case .success:
+        print("Successfully logged in \(String(describing: User.current))")
+        print("Session token: \(String(describing: User.current?.sessionToken))")
+    case .failure(let error):
+        print("Error logging in: \(error)")
+    }
+}
+
+//: Convert the anonymous user to a real new user.
+User.current?.username = "bye"
+User.current?.password = "world"
+User.current?.signup { result in
+    switch result {
+
+    case .success(let user):
+        print("Parse signup successful: \(user)")
+        print("Session token: \(String(describing: User.current?.sessionToken))")
+    case .failure(let error):
+        print("Error logging in: \(error)")
+    }
 }
 
 PlaygroundPage.current.finishExecution()

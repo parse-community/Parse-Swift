@@ -1,14 +1,37 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.6...main)
-* _Contributing to this repo? Add info about your change here to be included in next release_
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.1...main)
+* _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.2.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.0...1.2.1)
+
+__Improvements__
+- Child objects are now automatically saved in batches using transactions. This will result in less network overhead and prevent uneccessary clean up of data on the server if a child objects throws an error while saving ([#94](https://github.com/parse-community/Parse-Swift/pull/94)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- There was a bug after a user first logs in anonymously and then becomes a real user as the server sends a new sessionToken when this occurs, but the SDK used the old sessionToken, resulting in an invalid sessionToken error ([#94](https://github.com/parse-community/Parse-Swift/pull/94)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.2.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.6...1.2.0)
+
+__Breaking changes__
+- Allows return types to be specified for `ParseCloud`, query `hint`, and `explain` (see playgrounds for examples). Changed functionality of synchronous `query.first()`. It use to return nil if no values are found. Now it will throw an error if none are found. ([#92](https://github.com/parse-community/Parse-Swift/pull/92)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__New features__
+- Add transaction support to batch saveAll and deleteAll ([#89](https://github.com/parse-community/Parse-Swift/pull/89)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add modifiers to containsString, hasPrefix, hasSuffix ([#85](https://github.com/parse-community/Parse-Swift/pull/85)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- Better error reporting when decode errors occur ([#92](https://github.com/parse-community/Parse-Swift/pull/92)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Can use a variadic version of exclude. Added examples of select and exclude query in playgrounds ([#88](https://github.com/parse-community/Parse-Swift/pull/88)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.1.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.5...1.1.6)
 
 __Fixes__
-- Send correct SDK version number to Parse Server ([#82](https://github.com/parse-community/Parse-Swift/pull/82)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Send correct SDK version number to Parse Server ([#84](https://github.com/parse-community/Parse-Swift/pull/84)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.1.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.4...1.1.5)

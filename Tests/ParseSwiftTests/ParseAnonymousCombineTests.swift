@@ -14,7 +14,7 @@ import Combine
 @testable import ParseSwift
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-class ParseAuthenticationCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseAnonymousCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
 
@@ -61,7 +61,7 @@ class ParseAuthenticationCombineTests: XCTestCase { // swiftlint:disable:this ty
     }
 
     override func setUpWithError() throws {
-        super.setUp()
+        try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -74,7 +74,7 @@ class ParseAuthenticationCombineTests: XCTestCase { // swiftlint:disable:this ty
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
@@ -126,6 +126,79 @@ class ParseAuthenticationCombineTests: XCTestCase { // swiftlint:disable:this ty
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
             XCTAssertTrue(user.anonymous.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLoginAuthData() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        var serverResponse = LoginSignupResponse()
+        let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
+        serverResponse.username = "hello"
+        serverResponse.password = "world"
+        serverResponse.objectId = "yarr"
+        serverResponse.sessionToken = "myToken"
+        serverResponse.authData = [serverResponse.anonymous.__type: authData]
+        serverResponse.createdAt = Date()
+        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let publisher = User.anonymous.loginPublisher(authData: .init())
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user, userOnServer)
+            XCTAssertEqual(user.username, "hello")
+            XCTAssertEqual(user.password, "world")
+            XCTAssertTrue(user.anonymous.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLink() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        let publisher = User.anonymous.linkPublisher(authData: .init())
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTAssertEqual(error.message, "Not supported")
+                } else {
+                    XCTFail("Should have returned error")
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in
+
+            XCTFail("Should have returned error")
         })
         publisher.store(in: &subscriptions)
 

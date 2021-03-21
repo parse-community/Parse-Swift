@@ -34,7 +34,7 @@ public protocol ParseAuthentication: Codable {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func login(authData: [String: String]?,
+    func login(authData: [String: String],
                options: API.Options,
                callbackQueue: DispatchQueue,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void)
@@ -46,7 +46,7 @@ public protocol ParseAuthentication: Codable {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func link(authData: [String: String]?,
+    func link(authData: [String: String],
               options: API.Options,
               callbackQueue: DispatchQueue,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void)
@@ -104,7 +104,7 @@ public protocol ParseAuthentication: Codable {
      - parameter completion: The block to execute.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(authData: [String: String]?,
+    func loginPublisher(authData: [String: String],
                         options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
     /**
@@ -115,7 +115,7 @@ public protocol ParseAuthentication: Codable {
      - parameter completion: The block to execute.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(authData: [String: String]?,
+    func linkPublisher(authData: [String: String],
                        options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
     /**
@@ -240,12 +240,23 @@ public extension ParseUser {
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
 
         let body = SignupLoginBody(authData: [type: authData])
-        signupCommand(body: body)
-            .executeAsync(options: options) { result in
-                callbackQueue.async {
-                    completion(result)
+        do {
+            try signupCommand(body: body)
+                .executeAsync(options: options) { result in
+                    callbackQueue.async {
+                        completion(result)
+                    }
+            }
+        } catch {
+            callbackQueue.async {
+                if let parseError = error as? ParseError {
+                    completion(.failure(parseError))
+                } else {
+                    let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                    completion(.failure(parseError))
                 }
             }
+        }
     }
 
     // MARK: 3rd Party Authentication - Link

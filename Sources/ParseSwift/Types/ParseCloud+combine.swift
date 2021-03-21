@@ -22,7 +22,7 @@ public extension ParseCloud {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func runFunctionPublisher(options: API.Options = []) -> Future<AnyCodable, ParseError> {
+    func runFunctionPublisher(options: API.Options = []) -> Future<ReturnType, ParseError> {
         Future { promise in
             self.runFunction(options: options,
                              completion: promise)
@@ -37,7 +37,7 @@ public extension ParseCloud {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func startJobPublisher(options: API.Options = []) -> Future<AnyCodable, ParseError> {
+    func startJobPublisher(options: API.Options = []) -> Future<ReturnType, ParseError> {
         Future { promise in
             self.startJob(options: options,
                           completion: promise)

@@ -42,7 +42,7 @@ class ParseOperationCombineTests: XCTestCase { // swiftlint:disable:this type_bo
     }
 
     override func setUpWithError() throws {
-        super.setUp()
+        try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -55,7 +55,7 @@ class ParseOperationCombineTests: XCTestCase { // swiftlint:disable:this type_bo
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()

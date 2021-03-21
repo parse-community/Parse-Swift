@@ -186,8 +186,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    override func setUp() {
-        super.setUp()
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -200,7 +200,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
@@ -244,7 +244,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let className = score.className
         let objectId = "yarr"
         score.objectId = objectId
-        let includeExpected = ["include": "yolo,test"]
+        let includeExpected = ["include": "[\"yolo\", \"test\"]"]
         do {
             let command = try score.fetchCommand(include: ["yolo", "test"])
             XCTAssertNotNil(command)
@@ -255,7 +255,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNil(command.data)
 
             // swiftlint:disable:next line_length
-            guard let urlExpected = URL(string: "http://localhost:1337/1/classes/GameScore/yarr?include=yolo,test") else {
+            guard let urlExpected = URL(string: "http://localhost:1337/1/classes/GameScore/yarr?include=%5B%22yolo%22,%20%22test%22%5D") else {
                 XCTFail("Should have unwrapped")
                 return
             }
@@ -901,7 +901,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
             XCTAssertEqual(command.method, API.Method.DELETE)
-            XCTAssertNil(command.params)
             XCTAssertNil(command.body)
         } catch {
             XCTFail(error.localizedDescription)
@@ -1118,11 +1117,15 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         scoreOnServer.objectId = "yarr"
+
+        let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil)]
+
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
+            encoded = try scoreOnServer.getJSONEncoder().encode(response)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+            let encodedScoreOnServer = try scoreOnServer.getEncoder().encode(scoreOnServer)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encodedScoreOnServer)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -1231,9 +1234,11 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         levelOnServer.ACL = nil
         levelOnServer.objectId = "yarr"
         let pointer = try levelOnServer.toPointer()
+
+        let response = [BatchResponseItem<Pointer<GameScore>>(success: pointer, error: nil)]
         let encoded: Data!
         do {
-            encoded = try ParseCoding.jsonEncoder().encode(pointer)
+            encoded = try ParseCoding.jsonEncoder().encode(response)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -1283,6 +1288,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
         scoreOnServer.objectId = "yarr"
+
         let encoded: Data!
         do {
             encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
@@ -1341,11 +1347,11 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let parseFile = ParseFile(name: "profile.svg", cloudURL: cloudPath)
         game.profilePicture = parseFile
 
-        let response = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: parseURL)
+        let fileResponse = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: parseURL)
 
         let encoded: Data!
         do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
+            encoded = try ParseCoding.jsonEncoder().encode(fileResponse)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -1362,8 +1368,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             var counter = 0
             var savedFile: ParseFile?
             savedChildFiles.forEach { (_, value) in
-                XCTAssertEqual(value.url, response.url)
-                XCTAssertEqual(value.name, response.name)
+                XCTAssertEqual(value.url, fileResponse.url)
+                XCTAssertEqual(value.name, fileResponse.name)
                 if counter == 0 {
                     savedFile = value
                 }

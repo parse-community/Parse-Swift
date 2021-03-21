@@ -41,8 +41,16 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
     }
 
+    struct AnyResultResponse<U: Codable>: Codable {
+        let result: U
+    }
+
+    struct AnyResultsResponse<U: Codable>: Codable {
+        let results: U
+    }
+
     override func setUpWithError() throws {
-        super.setUp()
+        try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -55,7 +63,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
     }
 
     override func tearDownWithError() throws {
-        super.tearDown()
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
@@ -111,7 +119,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        let json = AnyResultsResponse(results: ["yolo": "yarr"])
+        let json = AnyResultsResponse(results: [["yolo": "yarr"]])
 
         let encoded: Data!
         do {
@@ -135,14 +143,8 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
                 }
                 expectation1.fulfill()
 
-        }, receiveValue: { queryResult in
-
-            guard let response = queryResult.value as? [String: String],
-                let expected = json.results?.value as? [String: String] else {
-                XCTFail("Error: Should cast to string")
-                return
-            }
-            XCTAssertEqual(response, expected)
+            }, receiveValue: { (queryResult: [[String: String]]) in
+                XCTAssertEqual(queryResult, json.results)
         })
         publisher.store(in: &subscriptions)
 
@@ -193,7 +195,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        let json = AnyResultsResponse(results: ["yolo": "yarr"])
+        let json = AnyResultsResponse(results: [["yolo": "yarr"]])
 
         let encoded: Data!
         do {
@@ -217,14 +219,8 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
                 }
                 expectation1.fulfill()
 
-        }, receiveValue: { queryResult in
-
-            guard let response = queryResult.value as? [String: String],
-                let expected = json.results?.value as? [String: String] else {
-                XCTFail("Error: Should cast to string")
-                return
-            }
-            XCTAssertEqual(response, expected)
+            }, receiveValue: { (queryResult: [String: String]) in
+                XCTAssertEqual(queryResult, json.results.first)
         })
         publisher.store(in: &subscriptions)
 
@@ -275,7 +271,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        let json = AnyResultsResponse(results: ["yolo": "yarr"])
+        let json = AnyResultsResponse(results: [["yolo": "yarr"]])
 
         let encoded: Data!
         do {
@@ -299,14 +295,8 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
                 }
                 expectation1.fulfill()
 
-        }, receiveValue: { queryResult in
-
-            guard let response = queryResult.value as? [String: String],
-                let expected = json.results?.value as? [String: String] else {
-                XCTFail("Error: Should cast to string")
-                return
-            }
-            XCTAssertEqual(response, expected)
+            }, receiveValue: { (queryResult: [String: String]) in
+                XCTAssertEqual(queryResult, json.results.first)
         })
         publisher.store(in: &subscriptions)
 

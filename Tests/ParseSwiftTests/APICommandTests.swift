@@ -12,8 +12,20 @@ import XCTest
 
 class APICommandTests: XCTestCase {
 
-    override func setUp() {
-        super.setUp()
+    struct Level: ParseObject {
+        var objectId: String?
+
+        var createdAt: Date?
+
+        var updatedAt: Date?
+
+        var ACL: ParseACL?
+
+        var name = "First"
+    }
+
+    override func setUpWithError() throws {
+        try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
             return
@@ -25,13 +37,13 @@ class APICommandTests: XCTestCase {
                               testing: true)
     }
 
-    override func tearDown() {
-        super.tearDown()
+    override func tearDownWithError() throws {
+        try super.tearDownWithError()
         MockURLProtocol.removeAll()
         #if !os(Linux) && !os(Android)
-        try? KeychainStore.shared.deleteAll()
+        try KeychainStore.shared.deleteAll()
         #endif
-        try? ParseStorage.shared.deleteAll()
+        try ParseStorage.shared.deleteAll()
     }
 
     func testExecuteCorrectly() {
@@ -154,5 +166,114 @@ class APICommandTests: XCTestCase {
     func testIdempodency() {
         let headers = API.getHeaders(options: [])
         XCTAssertNotNil(headers["X-Parse-Request-Id"])
+
+        let post = API.Command<Level, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+        switch post.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] == nil {
+                XCTFail("Should contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let put = API.Command<Level, NoBody?>(method: .PUT, path: .login) { _ in
+            return nil
+        }
+        switch put.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] == nil {
+                XCTFail("Should contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let delete = API.Command<Level, NoBody?>(method: .DELETE, path: .login) { _ in
+            return nil
+        }
+        switch delete.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] != nil {
+                XCTFail("Should not contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let get = API.Command<Level, NoBody?>(method: .GET, path: .login) { _ in
+            return nil
+        }
+        switch get.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] != nil {
+                XCTFail("Should not contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testIdempodencyNoParseBody() {
+        let headers = API.getHeaders(options: [])
+        XCTAssertNotNil(headers["X-Parse-Request-Id"])
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+        switch post.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] == nil {
+                XCTFail("Should contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let put = API.NonParseBodyCommand<NoBody, NoBody?>(method: .PUT, path: .login) { _ in
+            return nil
+        }
+        switch put.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] == nil {
+                XCTFail("Should contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let delete = API.NonParseBodyCommand<NoBody, NoBody?>(method: .DELETE, path: .login) { _ in
+            return nil
+        }
+        switch delete.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] != nil {
+                XCTFail("Should not contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let get = API.NonParseBodyCommand<NoBody, NoBody?>(method: .GET, path: .login) { _ in
+            return nil
+        }
+        switch get.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] != nil {
+                XCTFail("Should not contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
     }
 }

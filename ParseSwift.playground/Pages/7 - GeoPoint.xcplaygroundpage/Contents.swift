@@ -1,5 +1,11 @@
 //: [Previous](@previous)
 
+//: For this page, make sure your build target is set to ParseSwift (macOS) and targeting
+//: `My Mac` or whatever the name of your mac is. Also be sure your `Playground Settings`
+//: in the `File Inspector` is `Platform = macOS`. This is because
+//: Keychain in iOS Playgrounds behaves differently. Every page in Playgrounds should
+//: be set to build for `macOS` unless specified.
+
 import PlaygroundSupport
 import Foundation
 import ParseSwift
@@ -16,7 +22,7 @@ struct GameScore: ParseObject {
     var ACL: ParseACL?
     var location: ParseGeoPoint?
     //: Your own properties
-    var score: Int
+    var score: Int?
 
     //: A custom initializer.
     init(score: Int) {
@@ -29,7 +35,7 @@ var score = GameScore(score: 10)
 score.location = ParseGeoPoint(latitude: 40.0, longitude: -30.0)
 
 /*: Save asynchronously (preferred way) - performs work on background
-    queue and returns to designated on designated callbackQueue.
+    queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
 score.save { result in
@@ -120,7 +126,6 @@ query3.find { results in
     switch results {
     case .success(let scores):
 
-        assert(scores.count >= 1)
         scores.forEach { (score) in
             print("""
                 Someone has a score of \"\(score.score)\" with no geopoint \(String(describing: score.location))
@@ -158,7 +163,6 @@ query7.find { results in
     switch results {
     case .success(let scores):
 
-        assert(scores.count >= 1)
         scores.forEach { (score) in
             print("""
                 Someone has a score of \"\(score.score)\" with geopoint using OR \(String(describing: score.location))
@@ -171,11 +175,19 @@ query7.find { results in
 }
 
 //: Explain the previous query.
-let explain = try query2.find(explain: true)
+let explain: AnyDecodable = try query2.first(explain: true)
 print(explain)
 
-let hint = try query2.find(explain: false, hint: "objectId")
-print(hint)
+//: Hint of the previous query (asynchronous)
+query2.find(explain: false,
+            hint: "_id_") { (result: Result<[GameScore], ParseError>) in
+    switch result {
+    case .success(let scores):
+        print(scores)
+    case .failure(let error):
+        print(error.localizedDescription)
+    }
+}
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

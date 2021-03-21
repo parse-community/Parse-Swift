@@ -267,6 +267,7 @@ public func containedBy <T>(key: String, array: [T]) -> QueryConstraint where T:
  $lt, $lte, $gt, and $gte operators.
  - parameter time: The reference time, e.g. "12 days ago".
  - returns: The same instance of `QueryConstraint` as the receiver.
+ - warning: This only works with Parse Servers using mongoDB.
  */
 public func relative(key: String, comparator: QueryConstraint.Comparator, time: String) -> QueryConstraint {
     QueryConstraint(key: key, value: [QueryConstraint.Comparator.relativeTime.rawValue: time], comparator: comparator)
@@ -410,28 +411,22 @@ public func matchesText(key: String, text: String) -> QueryConstraint {
   - warning: This may be slow for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter regex: The regular expression pattern to match.
-  - returns: The same instance of `Query` as the receiver.
- */
-public func matchesRegex(key: String, regex: String) -> QueryConstraint {
-    .init(key: key, value: regex, comparator: .regex)
-}
-
-/**
-  Add a regular expression constraint for finding string values that match the provided regular expression.
-  - warning: This may be slow for large datasets.
-  - parameter key: The key that the string to match is stored in.
-  - parameter regex: The regular expression pattern to match.
-  - parameter modifiers: Any of the following supported PCRE modifiers:
+  - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
   - `i` - Case insensitive search
   - `m` - Search across multiple lines of input
   - returns: The same instance of `Query` as the receiver.
  */
-public func matchesRegex(key: String, regex: String, modifiers: String) -> QueryConstraint {
-    let dictionary = [
-        QueryConstraint.Comparator.regex.rawValue: regex,
-        QueryConstraint.Comparator.regexOptions.rawValue: modifiers
-    ]
-    return .init(key: key, value: dictionary)
+public func matchesRegex(key: String, regex: String, modifiers: String? = nil) -> QueryConstraint {
+
+    if let modifiers = modifiers {
+        let dictionary = [
+            QueryConstraint.Comparator.regex.rawValue: regex,
+            QueryConstraint.Comparator.regexOptions.rawValue: modifiers
+        ]
+        return .init(key: key, value: dictionary)
+    } else {
+        return .init(key: key, value: regex, comparator: .regex)
+    }
 }
 
 private func regexStringForString(_ inputString: String) -> String {
@@ -444,11 +439,14 @@ private func regexStringForString(_ inputString: String) -> String {
   - warning: This will be slow for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter substring: The substring that the value must contain.
+  - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
+    - `i` - Case insensitive search
+    - `m` - Search across multiple lines of input
   - returns: The same instance of `Query` as the receiver.
  */
-public func containsString(key: String, substring: String) -> QueryConstraint {
+public func containsString(key: String, substring: String, modifiers: String? = nil) -> QueryConstraint {
     let regex = regexStringForString(substring)
-    return matchesRegex(key: key, regex: regex)
+    return matchesRegex(key: key, regex: regex, modifiers: modifiers)
 }
 
 /**
@@ -456,11 +454,14 @@ public func containsString(key: String, substring: String) -> QueryConstraint {
   This will use smart indexing, so it will be fast for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter prefix: The substring that the value must start with.
+  - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
+    - `i` - Case insensitive search
+    - `m` - Search across multiple lines of input
   - returns: The same instance of `Query` as the receiver.
  */
-public func hasPrefix(key: String, prefix: String) -> QueryConstraint {
+public func hasPrefix(key: String, prefix: String, modifiers: String? = nil) -> QueryConstraint {
     let regex = "^\(regexStringForString(prefix))"
-    return matchesRegex(key: key, regex: regex)
+    return matchesRegex(key: key, regex: regex, modifiers: modifiers)
 }
 
 /**
@@ -468,11 +469,14 @@ public func hasPrefix(key: String, prefix: String) -> QueryConstraint {
   - warning: This will be slow for large datasets.
   - parameter key: The key that the string to match is stored in.
   - parameter suffix: The substring that the value must end with.
+  - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
+    - `i` - Case insensitive search
+    - `m` - Search across multiple lines of input
   - returns: The same instance of `Query` as the receiver.
  */
-public func hasSuffix(key: String, suffix: String) -> QueryConstraint {
+public func hasSuffix(key: String, suffix: String, modifiers: String? = nil) -> QueryConstraint {
     let regex = "\(regexStringForString(suffix))$"
-    return matchesRegex(key: key, regex: regex)
+    return matchesRegex(key: key, regex: regex, modifiers: modifiers)
 }
 
 /**
@@ -694,9 +698,21 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 
     /**
      Exclude specific keys for a `ParseObject`. Default is to nil.
-      - parameter keys: An arrays of keys to exclude.
+     - parameter keys: A variadic list of keys include in the result.
+     - warning: Requires Parse Server > 4.5.0
+     */
+    public func exclude(_ keys: String...) -> Query<T> {
+        var mutableQuery = self
+        mutableQuery.excludeKeys = keys
+        return mutableQuery
+    }
+
+    /**
+     Exclude specific keys for a `ParseObject`. Default is to nil.
+     - parameter keys: An array of keys to exclude.
+     - warning: Requires Parse Server > 4.5.0
     */
-    public func exclude(_ keys: [String]?) -> Query<T> {
+    public func exclude(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
         mutableQuery.excludeKeys = keys
         return mutableQuery
@@ -706,6 +722,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: A variadic list of keys include in the result.
+     - warning: Requires Parse Server > 4.5.0
      */
     public func select(_ keys: String...) -> Query<T> {
         var mutableQuery = self
@@ -717,6 +734,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys to include in the result.
+     - warning: Requires Parse Server > 4.5.0
      */
     public func select(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
@@ -841,9 +859,11 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
-      - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
+      - returns: Returns a response of `Decodable` type.
     */
-    public func find(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyCodable {
+    public func find<U: Decodable>(explain: Bool,
+                                   hint: String? = nil,
+                                   options: API.Options = []) throws -> [U] {
         try findCommand(explain: explain, hint: hint).execute(options: options)
     }
 
@@ -855,7 +875,8 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ResultType], ParseError>)`.
     */
-    public func find(options: API.Options = [], callbackQueue: DispatchQueue = .main,
+    public func find(options: API.Options = [],
+                     callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
         findCommand().executeAsync(options: options) { result in
             callbackQueue.async {
@@ -872,11 +893,13 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<AnyCodable, ParseError>)`.
+      It should have the following argument signature: `(Result<[Decodable], ParseError>)`.
     */
-    public func find(explain: Bool, hint: String? = nil, options: API.Options = [],
-                     callbackQueue: DispatchQueue = .main,
-                     completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
+    public func find<U: Decodable>(explain: Bool,
+                                   hint: String? = nil,
+                                   options: API.Options = [],
+                                   callbackQueue: DispatchQueue = .main,
+                                   completion: @escaping (Result<[U], ParseError>) -> Void) {
         findCommand(explain: explain, hint: hint).executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -891,9 +914,9 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
-      - returns: Returns a `ParseObject`, or `nil` if none was found.
+      - returns: Returns a `ParseObject`.
     */
-    public func first(options: API.Options = []) throws -> ResultType? {
+    public func first(options: API.Options = []) throws -> ResultType {
         try firstCommand().execute(options: options)
     }
 
@@ -906,9 +929,11 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
-      - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
+      - returns: Returns a response of `Decodable` type.
     */
-    public func first(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyCodable {
+    public func first<U: Decodable>(explain: Bool,
+                                    hint: String? = nil,
+                                    options: API.Options = []) throws -> U {
         try firstCommand(explain: explain, hint: hint).execute(options: options)
     }
 
@@ -921,22 +946,12 @@ extension Query: Queryable {
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
     */
-    public func first(options: API.Options = [], callbackQueue: DispatchQueue = .main,
+    public func first(options: API.Options = [],
+                      callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<ResultType, ParseError>) -> Void) {
         firstCommand().executeAsync(options: options) { result in
-
             callbackQueue.async {
-                switch result {
-                case .success(let first):
-                    guard let first = first else {
-                        completion(.failure(ParseError(code: .objectNotFound,
-                                                       message: "Object not found on the server.")))
-                        return
-                    }
-                    completion(.success(first))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+                completion(result)
             }
         }
     }
@@ -950,11 +965,12 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<ParseObject, ParseError>)`.
+      It should have the following argument signature: `(Result<Decodable, ParseError>)`.
     */
-    public func first(explain: Bool, hint: String? = nil, options: API.Options = [],
-                      callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
+    public func first<U: Decodable>(explain: Bool, hint: String? = nil,
+                                    options: API.Options = [],
+                                    callbackQueue: DispatchQueue = .main,
+                                    completion: @escaping (Result<U, ParseError>) -> Void) {
         firstCommand(explain: explain, hint: hint).executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -982,9 +998,11 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
-      - returns: Returns a dictionary of `AnyResultType` that is the JSON response of the query.
+      - returns: Returns a response of `Decodable` type.
     */
-    public func count(explain: Bool, hint: String? = nil, options: API.Options = []) throws -> AnyCodable {
+    public func count<U: Decodable>(explain: Bool,
+                                    hint: String? = nil,
+                                    options: API.Options = []) throws -> U {
         try countCommand(explain: explain, hint: hint).execute(options: options)
     }
 
@@ -1012,11 +1030,13 @@ extension Query: Queryable {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<Int, ParseError>)`.
+      It should have the following argument signature: `(Result<Decodable, ParseError>)`.
     */
-    public func count(explain: Bool, hint: String? = nil, options: API.Options = [],
-                      callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<AnyCodable, ParseError>) -> Void) {
+    public func count<U: Decodable>(explain: Bool,
+                                    hint: String? = nil,
+                                    options: API.Options = [],
+                                    callbackQueue: DispatchQueue = .main,
+                                    completion: @escaping (Result<U, ParseError>) -> Void) {
         countCommand(explain: explain, hint: hint).executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -1059,7 +1079,7 @@ extension Query: Queryable {
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
         - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<[ResultType], ParseError>)`.
+      It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
         - warning: This hasn't been tested thoroughly.
     */
     public func aggregate(_ pipeline: AggregateType,
@@ -1097,16 +1117,20 @@ extension Query {
 
     func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
         let query = self
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
     }
 
-    func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType?> {
+    func firstCommand() -> API.NonParseBodyCommand<Query<ResultType>, ResultType> {
         var query = self
         query.limit = 1
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
+            if let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first {
+                return decoded
+            }
+            throw ParseError(code: .objectNotFound,
+                              message: "Object not found on the server.")
         }
     }
 
@@ -1114,47 +1138,51 @@ extension Query {
         var query = self
         query.limit = 1
         query.isCount = true
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
+        return API.NonParseBodyCommand(method: .POST,
+                                       path: query.endpoint,
+                                       body: query) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).count ?? 0
         }
     }
 
-    func findCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
+    func findCommand<U: Decodable>(explain: Bool,
+                                   hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
         var query = self
         query.explain = explain
         query.hint = hint
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
-            if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
-                return results
-            }
-            return AnyCodable()
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
+            try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results
         }
     }
 
-    func firstCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
+    func firstCommand<U: Decodable>(explain: Bool,
+                                    hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, U> {
         var query = self
         query.limit = 1
         query.explain = explain
         query.hint = hint
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
-            if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
-                return results
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
+            if let decoded: U = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results.first {
+                return decoded
             }
-            return AnyCodable()
+            throw ParseError(code: .objectNotFound,
+                              message: "Object not found on the server.")
         }
     }
 
-    func countCommand(explain: Bool, hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, AnyCodable> {
+    func countCommand<U: Decodable>(explain: Bool,
+                                    hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, U> {
         var query = self
         query.limit = 1
         query.isCount = true
         query.explain = explain
         query.hint = hint
-        return API.NonParseBodyCommand(method: .POST, path: endpoint, body: query) {
-            if let results = try JSONDecoder().decode(AnyResultsResponse.self, from: $0).results {
-                return results
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
+            if let decoded: U = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results.first {
+                return decoded
             }
-            return AnyCodable()
+            throw ParseError(code: .objectNotFound,
+                              message: "Object not found on the server.")
         }
     }
 
@@ -1163,6 +1191,36 @@ extension Query {
         return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: pipeline) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
         }
+    }
+}
+
+// MARK: Query
+public extension ParseObject {
+
+    /**
+      Create an instance with no constraints.
+     - returns: An instance of query for easy chaining.
+     */
+    static func query() -> Query<Self> {
+        Query<Self>()
+    }
+
+    /**
+      Create an instance with a variadic amount constraints.
+     - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
+     - returns: An instance of query for easy chaining.
+     */
+    static func query(_ constraints: QueryConstraint...) -> Query<Self> {
+        Query<Self>(constraints)
+    }
+
+    /**
+      Create an instance with an array of constraints.
+     - parameter constraints: An array of `QueryConstraint`'s.
+     - returns: An instance of query for easy chaining.
+     */
+    static func query(_ constraints: [QueryConstraint]) -> Query<Self> {
+        Query<Self>(constraints)
     }
 }
 

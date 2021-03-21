@@ -68,6 +68,12 @@ extension ParseUser {
 
         return .users
     }
+
+    static func deleteCurrentKeychain() {
+        deleteCurrentContainerFromKeychain()
+        BaseParseInstallation.deleteCurrentContainerFromKeychain()
+        BaseConfig.deleteCurrentContainerFromKeychain()
+    }
 }
 
 // MARK: CurrentUserContainer
@@ -121,11 +127,7 @@ extension ParseUser {
     public static var current: Self? {
         get { Self.currentUserContainer?.currentUser }
         set {
-            if Self.currentUserContainer?.currentUser?.username != newValue?.username && newValue != nil {
-                Self.currentUserContainer?.currentUser = newValue?.anonymous.strip(newValue!)
-            } else {
-                Self.currentUserContainer?.currentUser = newValue
-            }
+            Self.currentUserContainer?.currentUser = newValue
         }
     }
 
@@ -300,9 +302,7 @@ extension ParseUser {
     public static func logout(options: API.Options = []) throws {
         let error = try? logoutCommand().execute(options: options)
         //Always let user logout locally, no matter the error.
-        deleteCurrentContainerFromKeychain()
-        BaseParseInstallation.deleteCurrentContainerFromKeychain()
-        BaseConfig.deleteCurrentContainerFromKeychain()
+        deleteCurrentKeychain()
         //Wait to throw error
         if let parseError = error {
             throw parseError
@@ -325,9 +325,7 @@ extension ParseUser {
             callbackQueue.async {
 
                 //Always let user logout locally, no matter the error.
-                deleteCurrentContainerFromKeychain()
-                BaseParseInstallation.deleteCurrentContainerFromKeychain()
-                BaseConfig.deleteCurrentContainerFromKeychain()
+                deleteCurrentKeychain()
 
                 switch result {
 
@@ -479,13 +477,8 @@ extension ParseUser {
     */
     public static func signup(username: String,
                               password: String, options: API.Options = []) throws -> Self {
-        if Self.current != nil {
-            Self.current!.username = username
-            Self.current!.password = password
-            Self.current!.anonymous.strip()
-            return try Self.current!.save(options: options)
-        }
-        return try signupCommand(body: SignupLoginBody(username: username, password: password))
+        try signupCommand(body: SignupLoginBody(username: username,
+                                                password: password))
             .execute(options: options)
     }
 
@@ -499,14 +492,8 @@ extension ParseUser {
      - returns: Returns whether the sign up was successful.
     */
     public func signup(options: API.Options = []) throws -> Self {
-        if let current = Self.current {
-            if !current.anonymous.isLinked {
-                return try current.save(options: options)
-            } else {
-                throw ParseError(code: .usernameTaken, message: "Cannot sign up a user that has already signed up.")
-            }
-        }
-        return try signupCommand().execute(options: options, callbackQueue: .main)
+        try signupCommand().execute(options: options,
+                                    callbackQueue: .main)
     }
 
     /**
@@ -522,21 +509,22 @@ extension ParseUser {
     */
     public func signup(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
-        if let current = Self.current {
-            if !current.anonymous.isLinked {
-                current.save(options: options, callbackQueue: callbackQueue, completion: completion)
-            } else {
-                let error = ParseError(code: .usernameTaken,
-                                       message: "Cannot sign up a user that has already signed up.")
-                completion(.failure(error))
+        do {
+            try signupCommand()
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { result in
+                callbackQueue.async {
+                    completion(result)
+                }
             }
-            return
-        }
-        signupCommand()
-            .executeAsync(options: options,
-                          callbackQueue: callbackQueue) { result in
+        } catch {
             callbackQueue.async {
-                completion(result)
+                if let parseError = error as? ParseError {
+                    completion(.failure(parseError))
+                } else {
+                    let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                    completion(.failure(parseError))
+                }
             }
         }
     }
@@ -560,59 +548,124 @@ extension ParseUser {
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void) {
-        if Self.current != nil {
-            Self.current!.username = username
-            Self.current!.password = password
-            Self.current!.anonymous.strip()
-            Self.current!.save(options: options, callbackQueue: callbackQueue, completion: completion)
-            return
-        }
         let body = SignupLoginBody(username: username, password: password)
-        signupCommand(body: body)
-            .executeAsync(options: options) { result in
+        do {
+            try signupCommand(body: body)
+                .executeAsync(options: options) { result in
                 callbackQueue.async {
                     completion(result)
                 }
             }
+        } catch {
+            callbackQueue.async {
+                if let parseError = error as? ParseError {
+                    completion(.failure(parseError))
+                } else {
+                    let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                    completion(.failure(parseError))
+                }
+            }
+        }
     }
 
-    internal static func signupCommand(body: SignupLoginBody) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
+    internal static func signupCommand(body: SignupLoginBody) throws -> API.NonParseBodyCommand<SignupLoginBody, Self> {
 
-        return API.NonParseBodyCommand(method: .POST, path: .users, body: body) { (data) -> Self in
+        var method = API.Method.POST
+        var path = API.Endpoint.users
+        if let current = Self.current {
+            if current.anonymous.isLinked {
+                Self.current!.anonymous.strip()
+                method = .PUT
+                path = current.endpoint
+            } else {
+                throw ParseError(code: .usernameTaken,
+                                 message: "Cannot sign up a user that has already signed up.")
+            }
+        }
 
-            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
-            var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+        return API.NonParseBodyCommand(method: method, path: path, body: body) { (data) -> Self in
+            var user: Self!
+            var sessionToken: String!
 
-            if user.username == nil {
-                if let username = body.username {
-                    user.username = username
+            if method == .POST {
+                sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
+                user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+
+                if user.username == nil {
+                    if let username = body.username {
+                        user.username = username
+                    }
+                }
+                if user.authData == nil {
+                    if let authData = body.authData {
+                        user.authData = authData
+                    }
+                }
+            } else {
+                if let currentUser = Self.current {
+                    let response = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
+                    user = currentUser
+                    if user.authData == nil {
+                        user.authData = body.authData
+                    } else {
+                        if user.authData != body.authData {
+                            if let authData = body.authData {
+                                for (key, value) in authData {
+                                    user.authData![key] = value
+                                }
+                            }
+                        }
+                    }
+                    user.updatedAt = response.updatedAt
+                    sessionToken = response.sessionToken
+                } else {
+                    throw ParseError(code: .usernameTaken,
+                                     message: "Cannot link user when current user is not logged in.")
                 }
             }
-            if user.authData == nil {
-                if let authData = body.authData {
-                    user.authData = authData
-                }
-            }
-
-            Self.currentUserContainer = .init(
-                currentUser: user,
-                sessionToken: response.sessionToken
-            )
+            Self.currentUserContainer = .init(currentUser: user,
+                                              sessionToken: sessionToken)
             Self.saveCurrentContainerToKeychain()
             return user
         }
     }
 
-    internal func signupCommand() -> API.Command<Self, Self> {
-        return API.Command(method: .POST, path: .users, body: self) { (data) -> Self in
+    internal func signupCommand() throws -> API.Command<Self, Self> {
+        var method = API.Method.POST
+        if let currentUser = Self.current {
+            if currentUser.anonymous.isLinked {
+                Self.current!.anonymous.strip()
+                method = .PUT
+            } else {
+                throw ParseError(code: .usernameTaken,
+                                 message: "Cannot sign up a user that has already signed up.")
+            }
+        }
 
-            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
-            var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
-            user.username = self.username
+        return API.Command(method: method,
+                           path: endpoint,
+                           body: self) { (data) -> Self in
+            var user: Self!
+            var sessionToken: String!
 
+            if method == .POST {
+                sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
+                user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+                user.username = self.username
+            } else {
+                if let currentUser = Self.current {
+                    let response = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
+                    user = currentUser
+                    user.updatedAt = response.updatedAt
+                    sessionToken = response.sessionToken
+                } else {
+                    throw ParseError(code: .usernameTaken,
+                                     message: "Cannot link user when current user is not logged in.")
+                }
+            }
             Self.currentUserContainer = .init(
                 currentUser: user,
-                sessionToken: response.sessionToken
+                sessionToken: sessionToken
             )
             Self.saveCurrentContainerToKeychain()
             return user
@@ -706,13 +759,14 @@ extension ParseUser {
                     }
                 }
             }
-         } catch let error as ParseError {
-            callbackQueue.async {
-                completion(.failure(error))
-            }
          } catch {
             callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
+                if let error = error as? ParseError {
+                    completion(.failure(error))
+                } else {
+                    completion(.failure(ParseError(code: .unknownError,
+                                                   message: error.localizedDescription)))
+                }
             }
          }
     }
@@ -724,8 +778,7 @@ extension ParseUser {
 
         var params: [String: String]?
         if let includeParams = include {
-            let joined = includeParams.joined(separator: ",")
-            params = ["include": joined]
+            params = ["include": "\(includeParams)"]
         }
 
         return API.Command(method: .GET,
@@ -921,15 +974,20 @@ public extension Sequence where Element: ParseUser {
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
      - important: If an object saved has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
+                 transaction: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
-        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
@@ -974,10 +1032,16 @@ public extension Sequence where Element: ParseUser {
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = map { $0.saveCommand() }
+        let batchLimit: Int!
+        if transaction {
+            batchLimit = commands.count
+        } else {
+            batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        }
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
             let currentBatch = try API.Command<Self.Element, Self.Element>
-                .batch(commands: $0)
+                .batch(commands: $0, transaction: transaction)
                 .execute(options: options,
                          callbackQueue: .main,
                          childObjects: childObjects,
@@ -993,14 +1057,20 @@ public extension Sequence where Element: ParseUser {
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
     */
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
+        transaction: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1008,7 +1078,6 @@ public extension Sequence where Element: ParseUser {
         let queue = DispatchQueue(label: "com.parse.saveAll", qos: .default,
                                   attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
         queue.sync {
-            let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
             var childObjects = [String: PointerType]()
             var childFiles = [UUID: ParseFile]()
             var error: ParseError?
@@ -1057,11 +1126,17 @@ public extension Sequence where Element: ParseUser {
 
             var returnBatch = [(Result<Self.Element, ParseError>)]()
             let commands = map { $0.saveCommand() }
+            let batchLimit: Int!
+            if transaction {
+                batchLimit = commands.count
+            } else {
+                batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            }
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0
             for batch in batches {
                 API.Command<Self.Element, Self.Element>
-                        .batch(commands: batch)
+                        .batch(commands: batch, transaction: transaction)
                         .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
                                       childObjects: childObjects,
@@ -1195,6 +1270,8 @@ public extension Sequence where Element: ParseUser {
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
@@ -1207,16 +1284,25 @@ public extension Sequence where Element: ParseUser {
         instance, a connection failure in the middle of the delete).
      - throws: `ParseError`
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
     */
     func deleteAll(batchLimit limit: Int? = nil,
+                   transaction: Bool = false,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
-        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
+        let batchLimit: Int!
+        if transaction {
+            batchLimit = commands.count
+        } else {
+            batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        }
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
             let currentBatch = try API.Command<Self.Element, ParseError?>
-                .batch(commands: $0)
+                .batch(commands: $0, transaction: transaction)
                 .execute(options: options)
             returnBatch.append(contentsOf: currentBatch)
         }
@@ -1229,6 +1315,8 @@ public extension Sequence where Element: ParseUser {
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -1242,22 +1330,31 @@ public extension Sequence where Element: ParseUser {
      caused the delete operation to be aborted partway through (for
      instance, a connection failure in the middle of the delete).
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
     */
     func deleteAll(
         batchLimit limit: Int? = nil,
+        transaction: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
     ) {
-        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         do {
             var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })
+            let batchLimit: Int!
+            if transaction {
+                batchLimit = commands.count
+            } else {
+                batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            }
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0
             for batch in batches {
                 API.Command<Self.Element, ParseError?>
-                        .batch(commands: batch)
+                        .batch(commands: batch, transaction: transaction)
                         .executeAsync(options: options) { results in
                     switch results {
 
