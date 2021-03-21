@@ -450,39 +450,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         do {
             let saved = try score.save()
             XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
-            guard let savedCreatedAt = saved.createdAt,
-                let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = scoreOnServer.createdAt,
-                let originalUpdatedAt = scoreOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-
-        do {
-            let saved = try score.save(options: [.useMasterKey])
-            XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
-            guard let savedCreatedAt = saved.createdAt,
-                let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = scoreOnServer.createdAt,
-                let originalUpdatedAt = scoreOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -518,32 +485,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         }
         do {
             let saved = try score.save()
-            guard let savedUpdatedAt = saved.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
-            }
-            guard let originalUpdatedAt = score.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
-            }
-            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(saved.ACL)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-
-        do {
-            let saved = try score.save(options: [.useMasterKey])
-            guard let savedUpdatedAt = saved.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
-            }
-            guard let originalUpdatedAt = score.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
-            }
-            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(saved.ACL)
+            XCTAssertTrue(saved.hasSameObjectId(as: scoreOnServer))
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -566,21 +508,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
 
             case .success(let saved):
                 XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
-                }
-                guard let originalCreatedAt = scoreOnServer.createdAt,
-                    let originalUpdatedAt = scoreOnServer.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation1.fulfill()
-                        return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -594,21 +521,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
 
             case .success(let saved):
                 XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation2.fulfill()
-                        return
-                }
-                guard let originalCreatedAt = scoreOnServer.createdAt,
-                    let originalUpdatedAt = scoreOnServer.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        expectation2.fulfill()
-                        return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -674,18 +586,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
             switch result {
 
             case .success(let saved):
-                guard let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation2.fulfill()
-                    return
-                }
-                guard let originalUpdatedAt = score.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation2.fulfill()
-                    return
-                }
-                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
+                XCTAssertTrue(saved.hasSameObjectId(as: scoreOnServer))
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -762,19 +663,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
 
             case .success(let first):
                 XCTAssert(first.hasSameObjectId(as: scoreOnServer))
-                guard let savedCreatedAt = first.createdAt,
-                    let savedUpdatedAt = first.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                guard let originalCreatedAt = scoreOnServer.createdAt,
-                    let originalUpdatedAt = scoreOnServer.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(first.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -783,19 +671,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
 
             case .success(let second):
                 XCTAssert(second.hasSameObjectId(as: scoreOnServer2))
-                guard let savedCreatedAt = second.createdAt,
-                    let savedUpdatedAt = second.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                guard let originalCreatedAt = scoreOnServer2.createdAt,
-                    let originalUpdatedAt = scoreOnServer2.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(second.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -905,19 +780,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         do {
             let saved = try user.save()
             XCTAssert(saved.hasSameObjectId(as: userOnServer))
-            guard let savedCreatedAt = saved.createdAt,
-                let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = userOnServer.createdAt,
-                let originalUpdatedAt = userOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertEqual(saved.ACL, userOnServer.ACL)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -953,16 +815,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         }
         do {
             let saved = try user.save()
-            guard let savedUpdatedAt = saved.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
-            }
-            guard let originalUpdatedAt = user.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
-            }
-            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(saved.ACL)
+            XCTAssertTrue(saved.hasSameObjectId(as: userOnServer))
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -984,48 +837,13 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
             switch result {
 
             case .success(let saved):
-                guard let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                guard let originalUpdatedAt = userOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
+                XCTAssertTrue(saved.hasSameObjectId(as: userOnServer))
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
             expectation1.fulfill()
         }
-
-        let expectation2 = XCTestExpectation(description: "Update object2")
-        user.save(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
-
-            switch result {
-
-            case .success(let saved):
-                guard let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation2.fulfill()
-                    return
-                }
-                guard let originalUpdatedAt = userOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation2.fulfill()
-                    return
-                }
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
-            expectation2.fulfill()
-        }
-        wait(for: [expectation1, expectation2], timeout: 20.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUserSaveAsyncMainQueue() {
@@ -1060,48 +878,13 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
             switch result {
 
             case .success(let saved):
-                guard let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                guard let originalUpdatedAt = userOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
+                XCTAssertTrue(saved.hasSameObjectId(as: userOnServer))
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
             expectation1.fulfill()
         }
-
-        let expectation2 = XCTestExpectation(description: "Update object2")
-        user.save(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
-
-            switch result {
-
-            case .success(let saved):
-                guard let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation2.fulfill()
-                    return
-                }
-                guard let originalUpdatedAt = userOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation2.fulfill()
-                    return
-                }
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
-            expectation2.fulfill()
-        }
-        wait(for: [expectation1, expectation2], timeout: 20.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUserUpdateAsyncMainQueue() {
@@ -1173,19 +956,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
 
             case .success(let first):
                 XCTAssert(first.hasSameObjectId(as: userOnServer))
-                guard let savedCreatedAt = first.createdAt,
-                    let savedUpdatedAt = first.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                guard let originalCreatedAt = userOnServer.createdAt,
-                    let originalUpdatedAt = userOnServer.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(first.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -1194,19 +964,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
 
             case .success(let second):
                 XCTAssert(second.hasSameObjectId(as: userOnServer2))
-                guard let savedCreatedAt = second.createdAt,
-                    let savedUpdatedAt = second.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                guard let originalCreatedAt = userOnServer2.createdAt,
-                    let originalUpdatedAt = userOnServer2.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(second.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -1316,19 +1073,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         do {
             let saved = try installation.save()
             XCTAssert(saved.hasSameObjectId(as: installationOnServer))
-            guard let savedCreatedAt = saved.createdAt,
-                let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = installationOnServer.createdAt,
-                let originalUpdatedAt = installationOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertEqual(saved.ACL, installationOnServer.ACL)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -1364,16 +1108,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         }
         do {
             let saved = try installation.save()
-            guard let savedUpdatedAt = saved.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
-            }
-            guard let originalUpdatedAt = installation.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
-            }
-            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(saved.ACL)
+            XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -1397,18 +1132,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
             switch result {
 
             case .success(let saved):
-                guard let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                guard let originalUpdatedAt = installationOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
+                XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -1466,48 +1190,13 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
             switch result {
 
             case .success(let saved):
-                guard let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                guard let originalUpdatedAt = installationOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
+                XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
             expectation1.fulfill()
         }
-
-        let expectation2 = XCTestExpectation(description: "Update object2")
-        installation.save(options: [.useMasterKey], callbackQueue: callbackQueue) { result in
-
-            switch result {
-
-            case .success(let saved):
-                guard let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation2.fulfill()
-                    return
-                }
-                guard let originalUpdatedAt = installationOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation2.fulfill()
-                    return
-                }
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
-            expectation2.fulfill()
-        }
-        wait(for: [expectation1, expectation2], timeout: 20.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInstallationUpdateAsyncMainQueue() {
@@ -1602,19 +1291,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
 
             case .success(let second):
                 XCTAssert(second.hasSameObjectId(as: installationOnServer2))
-                guard let savedCreatedAt = second.createdAt,
-                    let savedUpdatedAt = second.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                guard let originalCreatedAt = installationOnServer2.createdAt,
-                    let originalUpdatedAt = installationOnServer2.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(second.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
