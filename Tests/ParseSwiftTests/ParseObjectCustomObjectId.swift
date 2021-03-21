@@ -149,7 +149,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         score.objectId = objectId
         let className = score.className
 
-        let command = try score.saveCommand()
+        let command = score.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -178,7 +178,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         score.createdAt = Date()
         score.updatedAt = score.createdAt
 
-        let command = try score.saveCommand()
+        let command = score.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
@@ -206,7 +206,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         score2.objectId = "yolo"
 
         let objects = [score, score2]
-        let commands = try objects.map { try $0.saveCommand() }
+        let commands = objects.map { $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
         let expected = "{\"requests\":[{\"path\":\"\\/classes\\/GameScore\\/yarr\",\"method\":\"POST\",\"body\":{\"score\":10,\"player\":\"Jen\",\"objectId\":\"yarr\"}},{\"path\":\"\\/classes\\/GameScore\\/yolo\",\"method\":\"POST\",\"body\":{\"score\":20,\"player\":\"Jen\",\"objectId\":\"yolo\"}}],\"transaction\":false}"
@@ -227,7 +227,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         score2.createdAt = Date()
 
         let objects = [score, score2]
-        let commands = try objects.map { try $0.saveCommand() }
+        let commands = objects.map { $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
         let expected = "{\"requests\":[{\"path\":\"\\/classes\\/GameScore\\/yarr\",\"method\":\"PUT\",\"body\":{\"score\":10,\"player\":\"Jen\",\"objectId\":\"yarr\"}},{\"path\":\"\\/classes\\/GameScore\\/yolo\",\"method\":\"PUT\",\"body\":{\"score\":20,\"player\":\"Jen\",\"objectId\":\"yolo\"}}],\"transaction\":false}"
@@ -244,7 +244,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         var user = User()
         user.objectId = objectId
 
-        let command = try user.saveCommand()
+        let command = user.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -271,7 +271,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         user.objectId = objectId
         user.createdAt = Date()
 
-        let command = try user.saveCommand()
+        let command = user.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
@@ -299,7 +299,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         user2.objectId = "yolo"
 
         let objects = [user, user2]
-        let commands = try objects.map { try $0.saveCommand() }
+        let commands = objects.map { $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
         let expected = "{\"requests\":[{\"path\":\"\\/users\\/yarr\",\"method\":\"POST\",\"body\":{\"objectId\":\"yarr\"}},{\"path\":\"\\/users\\/yolo\",\"method\":\"POST\",\"body\":{\"objectId\":\"yolo\"}}],\"transaction\":false}"
@@ -320,7 +320,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         user2.createdAt = Date()
 
         let objects = [user, user2]
-        let commands = try objects.map { try $0.saveCommand() }
+        let commands = objects.map { $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
         let expected = "{\"requests\":[{\"path\":\"\\/users\\/yarr\",\"method\":\"PUT\",\"body\":{\"objectId\":\"yarr\"}},{\"path\":\"\\/users\\/yolo\",\"method\":\"PUT\",\"body\":{\"objectId\":\"yolo\"}}],\"transaction\":false}"
@@ -337,7 +337,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         var installation = Installation()
         installation.objectId = objectId
 
-        let command = try installation.saveCommand()
+        let command = installation.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -364,7 +364,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         installation.objectId = objectId
         installation.createdAt = Date()
 
-        let command = try installation.saveCommand()
+        let command = installation.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
@@ -392,7 +392,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         installation2.objectId = "yolo"
 
         let objects = [installation, installation2]
-        let commands = try objects.map { try $0.saveCommand() }
+        let commands = objects.map { $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
         let expected = "{\"requests\":[{\"path\":\"\\/installations\\/yarr\",\"method\":\"POST\",\"body\":{\"objectId\":\"yarr\"}},{\"path\":\"\\/installations\\/yolo\",\"method\":\"POST\",\"body\":{\"objectId\":\"yolo\"}}],\"transaction\":false}"
@@ -413,7 +413,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         installation2.createdAt = Date()
 
         let objects = [installation, installation2]
-        let commands = try objects.map { try $0.saveCommand() }
+        let commands = objects.map { $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
         let expected = "{\"requests\":[{\"path\":\"\\/installations\\/yarr\",\"method\":\"PUT\",\"body\":{\"objectId\":\"yarr\"}},{\"path\":\"\\/installations\\/yolo\",\"method\":\"PUT\",\"body\":{\"objectId\":\"yolo\"}}],\"transaction\":false}"
@@ -425,87 +425,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         XCTAssertEqual(decoded, expected)
     }
     #endif
-
-    func testSaveCommandNoObjectId() throws {
-        let score = GameScore(score: 10)
-        XCTAssertThrowsError(try score.saveCommand())
-    }
-
-    func testUpdateCommandNoObjectId() throws {
-        var score = GameScore(score: 10)
-        score.createdAt = Date()
-        XCTAssertThrowsError(try score.saveCommand())
-    }
-
-    func testSaveAllNoObjectIdCommand() throws {
-        let score = GameScore(score: 10)
-        let score2 = GameScore(score: 20)
-        let objects = [score, score2]
-        XCTAssertThrowsError(try objects.map { try $0.saveCommand() })
-    }
-
-    func testUpdateAllNoObjectIdCommand() throws {
-        var score = GameScore(score: 10)
-        score.createdAt = Date()
-        var score2 = GameScore(score: 20)
-        score2.createdAt = Date()
-        let objects = [score, score2]
-        XCTAssertThrowsError(try objects.map { try $0.saveCommand() })
-    }
-
-    func testUserSaveCommandNoObjectId() throws {
-        let user = User()
-        XCTAssertThrowsError(try user.saveCommand())
-    }
-
-    func testUserUpdateCommandNoObjectId() throws {
-        var user = User()
-        user.createdAt = Date()
-        XCTAssertThrowsError(try user.saveCommand())
-    }
-
-    func testUserSaveAllNoObjectIdCommand() throws {
-        let user = User()
-        let user2 = User()
-        let objects = [user, user2]
-        XCTAssertThrowsError(try objects.map { try $0.saveCommand() })
-    }
-
-    func testUserUpdateAllNoObjectIdCommand() throws {
-        var user = GameScore(score: 10)
-        user.createdAt = Date()
-        var user2 = GameScore(score: 20)
-        user2.createdAt = Date()
-        let objects = [user, user2]
-        XCTAssertThrowsError(try objects.map { try $0.saveCommand() })
-    }
-
-    func testInstallationSaveCommandNoObjectId() throws {
-        let installation = Installation()
-        XCTAssertThrowsError(try installation.saveCommand())
-    }
-
-    func testInstallationUpdateCommandNoObjectId() throws {
-        var installation = Installation()
-        installation.createdAt = Date()
-        XCTAssertThrowsError(try installation.saveCommand())
-    }
-
-    func testInstallationSaveAllNoObjectIdCommand() throws {
-        let installation = Installation()
-        let installation2 = Installation()
-        let objects = [installation, installation2]
-        XCTAssertThrowsError(try objects.map { try $0.saveCommand() })
-    }
-
-    func testInstallationUpdateAllNoObjectIdCommand() throws {
-        var score = GameScore(score: 10)
-        score.createdAt = Date()
-        var score2 = GameScore(score: 20)
-        score2.createdAt = Date()
-        let objects = [score, score2]
-        XCTAssertThrowsError(try objects.map { try $0.saveCommand() })
-    }
 
     func testSave() { // swiftlint:disable:this function_body_length
         var score = GameScore(score: 10)
@@ -722,22 +641,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         self.saveAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
-    func testSaveNoObjectIdAsyncMainQueue() throws {
-        let score = GameScore(score: 10)
-        XCTAssertThrowsError(try score.save())
-
-        let expectation1 = XCTestExpectation(description: "Save object2")
-        score.save { result in
-            if case let .failure(error) = result {
-                XCTAssertTrue(error.message.contains("objectId"))
-            } else {
-                XCTFail("Should have failed")
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
-    }
-
     func updateAsync(score: GameScore, scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update object1")
@@ -813,23 +716,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         self.updateAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
-    }
-
-    func testUpdateNoObjectIdAsyncMainQueue() throws {
-        var score = GameScore(score: 10)
-        score.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        XCTAssertThrowsError(try score.save())
-
-        let expectation1 = XCTestExpectation(description: "Save object2")
-        score.save { result in
-            if case let .failure(error) = result {
-                XCTAssertTrue(error.message.contains("objectId"))
-            } else {
-                XCTFail("Should have failed")
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testSaveAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity
@@ -1165,22 +1051,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         self.saveUserAsync(user: user, userOnServer: userOnServer, callbackQueue: .main)
     }
 
-    func testUserSaveNoObjectIdAsyncMainQueue() throws {
-        let user = User()
-        XCTAssertThrowsError(try user.save())
-
-        let expectation1 = XCTestExpectation(description: "Save object2")
-        user.save { result in
-            if case let .failure(error) = result {
-                XCTAssertTrue(error.message.contains("objectId"))
-            } else {
-                XCTFail("Should have failed")
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
-    }
-
     func updateUserAsync(user: User, userOnServer: User, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update object1")
@@ -1256,23 +1126,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         self.updateUserAsync(user: user, userOnServer: userOnServer, callbackQueue: .main)
-    }
-
-    func testUserUpdateNoObjectIdAsyncMainQueue() throws {
-        var user = User()
-        user.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        XCTAssertThrowsError(try user.save())
-
-        let expectation1 = XCTestExpectation(description: "Save object2")
-        user.save { result in
-            if case let .failure(error) = result {
-                XCTAssertTrue(error.message.contains("objectId"))
-            } else {
-                XCTFail("Should have failed")
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUserSaveAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity
@@ -1613,22 +1466,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
                                    callbackQueue: .main)
     }
 
-    func testInstallationSaveNoObjectIdAsyncMainQueue() throws {
-        let installation = Installation()
-        XCTAssertThrowsError(try installation.save())
-
-        let expectation1 = XCTestExpectation(description: "Save object2")
-        installation.save { result in
-            if case let .failure(error) = result {
-                XCTAssertTrue(error.message.contains("objectId"))
-            } else {
-                XCTFail("Should have failed")
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
-    }
-
     func updateInstallationAsync(installation: Installation,
                                  installationOnServer: Installation,
                                  callbackQueue: DispatchQueue) {
@@ -1708,23 +1545,6 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         self.updateInstallationAsync(installation: installation,
                                      installationOnServer: installationOnServer,
                                      callbackQueue: .main)
-    }
-
-    func testInstallationUpdateNoObjectIdAsyncMainQueue() throws {
-        var installation = Installation()
-        installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        XCTAssertThrowsError(try installation.save())
-
-        let expectation1 = XCTestExpectation(description: "Save object2")
-        installation.save { result in
-            if case let .failure(error) = result {
-                XCTAssertTrue(error.message.contains("objectId"))
-            } else {
-                XCTFail("Should have failed")
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInstallationSaveAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity

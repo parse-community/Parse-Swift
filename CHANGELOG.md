@@ -4,6 +4,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__New features__
+- Allow custom objectIds ([#100](https://github.com/parse-community/Parse-Swift/pull/100)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.2.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.0...1.2.1)
 

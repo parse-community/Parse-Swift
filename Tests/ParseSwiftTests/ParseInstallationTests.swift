@@ -925,7 +925,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
     func testSaveCommand() throws {
         let installation = Installation()
-        let command = try installation.saveCommand()
+        let command = installation.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/installations")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -938,7 +938,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         let objectId = "yarr"
         installation.objectId = objectId
 
-        let command = try installation.saveCommand()
+        let command = installation.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
