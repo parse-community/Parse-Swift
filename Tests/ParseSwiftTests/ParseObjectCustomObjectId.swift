@@ -1421,18 +1421,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
             switch result {
 
             case .success(let saved):
-                guard let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation2.fulfill()
-                    return
-                }
-                guard let originalUpdatedAt = installationOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation2.fulfill()
-                    return
-                }
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(saved.ACL)
+                XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
