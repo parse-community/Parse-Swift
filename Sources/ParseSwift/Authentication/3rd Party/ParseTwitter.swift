@@ -58,8 +58,8 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
                     AuthenticationKeys.screenName.rawValue: screenName,
                     AuthenticationKeys.consumerKey.rawValue: consumerKey,
                     AuthenticationKeys.consumerSecret.rawValue: consumerSecret,
-             AuthenticationKeys.authToken.rawValue: authToken,
-             AuthenticationKeys.authTokenSecret.rawValue: authTokenSecret]
+                    AuthenticationKeys.authToken.rawValue: authToken,
+                    AuthenticationKeys.authTokenSecret.rawValue: authTokenSecret]
         }
 
         /// Verifies all mandatory keys are in authData.
@@ -124,15 +124,14 @@ public extension ParseTwitter {
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         guard AuthenticationKeys.id.verifyMandatoryKeys(authData: authData) else {
-            let error = ParseError(code: .unknownError,
-                                   message:
-                                    """
-                                    Should have authData consisting of keys \"id,\"
-                                    \"screenName,\" \"consumerKey,\" \"consumerSecret,\"
-                                    \"authToken,\" and \"authTokenSecret\".
-                                    """)
             callbackQueue.async {
-                completion(.failure(error))
+                completion(.failure(.init(code: .unknownError,
+                                          message:
+                                           """
+                                           Should have authData consisting of keys \"id,\"
+                                           \"screenName,\" \"consumerKey,\" \"consumerSecret,\"
+                                           \"authToken,\" and \"authTokenSecret\".
+                                           """)))
             }
             return
         }
