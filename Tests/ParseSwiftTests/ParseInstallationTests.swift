@@ -1067,7 +1067,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         }
                         XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                        #if !os(Linux)
+                        #if !os(Linux) && !os(Linux)
                         //Should be updated in Keychain
                         guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
@@ -1213,7 +1213,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                                 return
                             }
                             XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
-                            #if !os(Linux)
+                            #if !os(Linux) && !os(Linux)
                             //Should be updated in Keychain
                             guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),

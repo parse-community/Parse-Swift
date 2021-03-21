@@ -6,6 +6,7 @@
 
 __New features__
 - Allow custom objectIds ([#100](https://github.com/parse-community/Parse-Swift/pull/100)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add build support for Android ([#90](https://github.com/parse-community/Parse-Swift/pull/90)), thanks to [jt9897253](https://github.com/jt9897253).
 
 ### 1.2.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.0...1.2.1)

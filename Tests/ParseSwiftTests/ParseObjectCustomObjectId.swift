@@ -123,7 +123,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -142,7 +142,7 @@ class ParseObjectCustomObjectId: XCTestCase { // swiftlint:disable:this type_bod
         wait(for: [expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testSaveCommand() throws {
         let objectId = "yarr"
         var score = GameScore(score: 10)

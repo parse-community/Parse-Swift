@@ -1677,7 +1677,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                         }
                         XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                        #if !os(Linux)
+                        #if !os(Linux) && !os(Linux)
                         //Should be updated in Keychain
                         guard let keychainUser: CurrentUserContainer<BaseParseUser>
                             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
@@ -1826,7 +1826,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                             }
                             XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                            #if !os(Linux)
+                            #if !os(Linux) && !os(Linux)
                             //Should be updated in Keychain
                             guard let keychainUser: CurrentUserContainer<BaseParseUser>
                                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
