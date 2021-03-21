@@ -79,7 +79,7 @@ class ParseAnonymousTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -430,7 +430,7 @@ class ParseAnonymousTests: XCTestCase {
                 XCTAssertEqual(User.current?.updatedAt, becomeUpdatedAt)
                 XCTAssertFalse(User.anonymous.isLinked)
 
-                #if !os(Linux)
+                #if !os(Linux) && !os(Android)
                 //Should be updated in Keychain
                 guard let keychainUser: CurrentUserContainer<BaseParseUser>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {

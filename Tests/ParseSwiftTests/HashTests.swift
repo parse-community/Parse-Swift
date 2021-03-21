@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 12/22/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
-#if !os(Linux)
+#if !os(Linux) && !os(Android)
 import Foundation
 import XCTest
 @testable import ParseSwift

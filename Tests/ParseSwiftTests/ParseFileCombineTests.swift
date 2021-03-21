@@ -43,7 +43,7 @@ class ParseFileCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()

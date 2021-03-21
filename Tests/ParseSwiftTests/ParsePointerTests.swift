@@ -44,7 +44,7 @@ class ParsePointerTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -185,7 +185,7 @@ class ParsePointerTests: XCTestCase {
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testThreadSafeFetchAsync() throws {
         var score = GameScore(score: 10)
         let objectId = "yarr"
