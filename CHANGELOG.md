@@ -1,12 +1,18 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.2...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+
+### 1.2.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.1...1.2.2)
 
 __New features__
 - Allow custom objectIds ([#100](https://github.com/parse-community/Parse-Swift/pull/100)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add ParseTwitter and ParseFacebook authentication ([#97](https://github.com/parse-community/Parse-Swift/pull/97)), thanks to [Abdulaziz Alhomaidhi](https://github.com/abs8090).
 - Add build support for Android ([#90](https://github.com/parse-community/Parse-Swift/pull/90)), thanks to [jt9897253](https://github.com/jt9897253).
+
 
 ### 1.2.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.0...1.2.1)

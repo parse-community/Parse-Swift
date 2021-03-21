@@ -1,8 +1,8 @@
 //
-//  ParseAppleTests.swift
+//  ParseTwitterTests.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 1/16/21.
+//  Created by Abdulaziz Alhomaidhi on 3/17/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseAppleTests: XCTestCase {
+class ParseTwitterTests: XCTestCase {
     struct User: ParseUser {
 
         //: Those are required for Object
@@ -94,40 +94,56 @@ class ParseAppleTests: XCTestCase {
     }
 
     func testAuthenticationKeys() throws {
-        guard let tokenData = "test".data(using: .utf8) else {
-            XCTFail("Should have created Data")
-            return
-        }
-        let authData = try ParseApple<User>
-            .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: tokenData)
-        XCTAssertEqual(authData, ["id": "testing", "token": "test"])
+
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
+                                                  authTokenSecret: "authTokenSecret")
+        XCTAssertEqual(authData, ["id": "testing",
+                                  "screenName": "screenName",
+                                  "consumerKey": "consumerKey",
+                                  "consumerSecret": "consumerSecret",
+                                  "authToken": "authToken",
+                                  "authTokenSecret": "authTokenSecret"])
     }
 
     func testVerifyMandatoryKeys() throws {
-        let authData = ["id": "testing", "token": "test"]
-        let authDataWrong = ["id": "testing", "hello": "test"]
-        XCTAssertTrue(ParseApple<User>
+        let authData = ["id": "testing",
+                        "screenName": "screenName",
+                        "consumerKey": "consumerKey",
+                        "consumerSecret": "consumerSecret",
+                        "authToken": "authToken",
+                        "authTokenSecret": "authTokenSecret"]
+        let authDataWrong = ["id": "testing",
+                             "screenName": "screenName",
+                             "consumerKey": "consumerKey",
+                             "consumerSecret": "consumerSecret",
+                             "authToken": "authToken",
+                             "hello": "authTokenSecret"]
+        XCTAssertTrue(ParseTwitter<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData))
-        XCTAssertFalse(ParseApple<User>
+        XCTAssertFalse(ParseTwitter<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong))
     }
 
     func testLogin() throws {
         var serverResponse = LoginSignupResponse()
-        guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
-            return
-        }
 
-        let authData = try ParseApple<User>
-            .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: tokenData)
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
+                                                  authTokenSecret: "authTokenSecret")
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.apple.__type: authData]
+        serverResponse.authData = [serverResponse.twitter.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -148,7 +164,9 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.login(user: "testing", identityToken: tokenData) { result in
+        User.twitter.login(userId: "testing", screenName: "screenName",
+                           authToken: "consumerKey", authTokenSecret: "consumerSecret",
+                           consumerKey: "this", consumerSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):
@@ -156,11 +174,11 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user, userOnServer)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertTrue(user.twitter.isLinked)
 
                 //Test stripping
-                user.apple.strip()
-                XCTAssertFalse(user.apple.isLinked)
+                user.twitter.strip()
+                XCTAssertFalse(user.twitter.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -171,19 +189,19 @@ class ParseAppleTests: XCTestCase {
 
     func testLoginAuthData() throws {
         var serverResponse = LoginSignupResponse()
-        guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
-            return
-        }
 
-        let authData = try ParseApple<User>
-            .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: tokenData)
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
+                                                  authTokenSecret: "authTokenSecret")
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.apple.__type: authData]
+        serverResponse.authData = [serverResponse.twitter.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -203,8 +221,7 @@ class ParseAppleTests: XCTestCase {
         }
 
         let expectation1 = XCTestExpectation(description: "Login")
-
-        User.apple.login(authData: authData) { result in
+        User.twitter.login(authData: authData) { result in
             switch result {
 
             case .success(let user):
@@ -212,11 +229,11 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user, userOnServer)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertTrue(user.twitter.isLinked)
 
                 //Test stripping
-                user.apple.strip()
-                XCTAssertFalse(user.apple.isLinked)
+                user.twitter.strip()
+                XCTAssertFalse(user.twitter.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -231,7 +248,7 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.login(authData: ["hello": "world"]) { result in
+        User.twitter.login(authData: ["hello": "world"]) { result in
 
             if case let .failure(error) = result {
                 XCTAssertTrue(error.message.contains("consisting of keys"))
@@ -279,25 +296,24 @@ class ParseAppleTests: XCTestCase {
         XCTAssertTrue(user.anonymous.isLinked)
     }
 
-    func testReplaceAnonymousWithApple() throws {
+    func testReplaceAnonymousWithTwitter() throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()
-        guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
-            return
-        }
 
-        let authData = try ParseApple<User>
-            .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: tokenData)
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerSecret",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "this",
+                                                  authTokenSecret: "authTokenSecret")
 
         var serverResponse = LoginSignupResponse()
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.apple.__type: authData,
-                                   serverResponse.anonymous.__type: nil]
+        serverResponse.authData = [serverResponse.twitter.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -318,15 +334,17 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.login(user: "testing", identityToken: tokenData) { result in
+        User.twitter.login(userId: "testing", screenName: "screenName",
+                           authToken: "this", authTokenSecret: "authTokenSecret",
+                           consumerKey: "consumerKey", consumerSecret: "consumerSecret") { result in
             switch result {
 
             case .success(let user):
                 XCTAssertEqual(user, User.current)
-                XCTAssertEqual(user.authData, userOnServer.authData)
+                XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertTrue(user.twitter.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -336,7 +354,7 @@ class ParseAppleTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testReplaceAnonymousWithLinkedApple() throws {
+    func testReplaceAnonymousWithLinkedTwitter() throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()
         var serverResponse = LoginSignupResponse()
@@ -359,12 +377,9 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
-            return
-        }
-
-        User.apple.link(user: "testing", identityToken: tokenData) { result in
+        User.twitter.link(userId: "testing", screenName: "screenName",
+                          consumerKey: "consumerKey", consumerSecret: "consumerSecret",
+                          authToken: "this", authTokenSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):
@@ -372,7 +387,7 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertTrue(user.twitter.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -382,7 +397,7 @@ class ParseAppleTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testLinkLoggedInUserWithApple() throws {
+    func testLinkLoggedInUserWithTwitter() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
@@ -406,12 +421,9 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
-            return
-        }
-
-        User.apple.link(user: "testing", identityToken: tokenData) { result in
+        User.twitter.link(userId: "testing", screenName: "screenName",
+                          consumerKey: "consumerKey", consumerSecret: "consumerSecret",
+                          authToken: "this", authTokenSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):
@@ -419,7 +431,7 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "parse")
                 XCTAssertNil(user.password)
-                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertTrue(user.twitter.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -453,16 +465,14 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
-            return
-        }
-
-        let authData = try ParseApple<User>
-            .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: tokenData)
-
-        User.apple.link(authData: authData) { result in
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
+                                                  authTokenSecret: "authTokenSecret")
+        User.twitter.link(authData: authData) { result in
             switch result {
 
             case .success(let user):
@@ -470,7 +480,7 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "parse")
                 XCTAssertNil(user.password)
-                XCTAssertTrue(user.apple.isLinked)
+                XCTAssertTrue(user.twitter.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -480,13 +490,13 @@ class ParseAppleTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testLinkLoggedInUserWrongKeys() throws {
+    func testLinkWrongKeys() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.link(authData: ["hello": "world"]) { result in
+        User.twitter.link(authData: ["hello": "world"]) { result in
 
             if case let .failure(error) = result {
                 XCTAssertTrue(error.message.contains("consisting of keys"))
@@ -501,16 +511,16 @@ class ParseAppleTests: XCTestCase {
     func testUnlink() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
-        guard let tokenData = "this".data(using: .utf8) else {
-            XCTFail("Couldn't convert token data to string")
-            return
-        }
 
-        let authData = try ParseApple<User>
-            .AuthenticationKeys.id.makeDictionary(user: "testing",
-                                                  identityToken: tokenData)
-        User.current?.authData = [User.apple.__type: authData]
-        XCTAssertTrue(User.apple.isLinked)
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenNAme",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "this",
+                                                  authTokenSecret: "authTokenSecret")
+        User.current?.authData = [User.twitter.__type: authData]
+        XCTAssertTrue(User.twitter.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -532,7 +542,7 @@ class ParseAppleTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.apple.unlink { result in
+        User.twitter.unlink { result in
             switch result {
 
             case .success(let user):
@@ -540,7 +550,7 @@ class ParseAppleTests: XCTestCase {
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "parse")
                 XCTAssertNil(user.password)
-                XCTAssertFalse(user.apple.isLinked)
+                XCTAssertFalse(user.twitter.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
