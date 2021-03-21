@@ -48,18 +48,20 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// - parameter authTokenSecret: Required Twitter authSecretToken obtained from Twitter.
         /// - returns: authData dictionary.
         func makeDictionary(userId: String,
-                            screenName: String,
+                            screenName: String?,
                             consumerKey: String,
                             consumerSecret: String,
                             authToken: String,
                             authTokenSecret: String) -> [String: String] {
-
-            return [AuthenticationKeys.id.rawValue: userId,
-                    AuthenticationKeys.screenName.rawValue: screenName,
-                    AuthenticationKeys.consumerKey.rawValue: consumerKey,
-                    AuthenticationKeys.consumerSecret.rawValue: consumerSecret,
-                    AuthenticationKeys.authToken.rawValue: authToken,
-                    AuthenticationKeys.authTokenSecret.rawValue: authTokenSecret]
+            var dictionary = [AuthenticationKeys.id.rawValue: userId,
+                              AuthenticationKeys.consumerKey.rawValue: consumerKey,
+                              AuthenticationKeys.consumerSecret.rawValue: consumerSecret,
+                              AuthenticationKeys.authToken.rawValue: authToken,
+                              AuthenticationKeys.authTokenSecret.rawValue: authTokenSecret]
+            if let screenName = screenName {
+                dictionary[AuthenticationKeys.screenName.rawValue] = screenName
+            }
+            return dictionary
         }
 
         /// Verifies all mandatory keys are in authData.
@@ -97,7 +99,7 @@ public extension ParseTwitter {
      - parameter completion: The block to execute.
      */
     func login(userId: String,
-               screenName: String,
+               screenName: String? = nil,
                authToken: String,
                authTokenSecret: String,
                consumerKey: String,
@@ -157,7 +159,7 @@ public extension ParseTwitter {
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(userId: String,
-                        screenName: String,
+                        screenName: String? = nil,
                         consumerKey: String,
                         consumerSecret: String,
                         authToken: String,
@@ -203,7 +205,7 @@ public extension ParseTwitter {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     func link(userId: String,
-              screenName: String,
+              screenName: String? = nil,
               consumerKey: String,
               consumerSecret: String,
               authToken: String,
@@ -263,7 +265,7 @@ public extension ParseTwitter {
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(userId: String,
-                       screenName: String,
+                       screenName: String? = nil,
                        consumerKey: String,
                        consumerSecret: String,
                        authToken: String,
