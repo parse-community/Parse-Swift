@@ -40,7 +40,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -677,7 +677,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     //URL Mocker is not able to mock this in linux and tests fail, so don't run.
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
 
     func testFetchFileCancelAsync() throws {
         // swiftlint:disable:next line_length

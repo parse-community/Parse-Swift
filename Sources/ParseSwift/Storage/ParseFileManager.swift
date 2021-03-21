@@ -11,7 +11,7 @@ import Foundation
 internal struct ParseFileManager {
 
     private var defaultDirectoryAttributes: [FileAttributeKey: Any]? {
-        #if os(macOS) || os(Linux)
+        #if os(macOS) || os(Linux) || os(Android)
         return nil
         #else
         return [.protectionKey: FileProtectionType.completeUntilFirstUserAuthentication]
@@ -20,14 +20,14 @@ internal struct ParseFileManager {
 
     private var defaultDataWritingOptions: Data.WritingOptions {
         var options = Data.WritingOptions.atomic
-        #if !os(macOS) && !os(Linux)
+        #if !os(macOS) && !os(Linux) && !os(Android)
             options.insert(.completeFileProtectionUntilFirstUserAuthentication)
         #endif
         return options
     }
 
     private var localSandBoxDataDirectoryPath: URL? {
-        #if os(macOS) || os(Linux)
+        #if os(macOS) || os(Linux) || os(Android)
         return self.defaultDataDirectoryPath
         #else
         // swiftlint:disable:next line_length
@@ -49,7 +49,7 @@ internal struct ParseFileManager {
     private let applicationGroupIdentifer: String?
 
     public var defaultDataDirectoryPath: URL? {
-        #if os(macOS) || os(Linux)
+        #if os(macOS) || os(Linux) || os(Android)
         var directoryPath: String!
         let paths = NSSearchPathForDirectoriesInDomains(.applicationSupportDirectory, .userDomainMask, true)
         guard let directory = paths.first else {
@@ -83,7 +83,7 @@ internal struct ParseFileManager {
     }
 
     init?() {
-        #if os(Linux)
+        #if os(Linux) || os(Android)
         guard let applicationId = ParseConfiguration.applicationId else {
             return nil
         }

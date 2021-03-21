@@ -300,7 +300,7 @@ extension ParseACL {
 
         let aclController: DefaultACL?
 
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         aclController = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL)
         #else
         aclController = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.defaultACL)
@@ -380,7 +380,7 @@ extension ParseACL {
                            useCurrentUser: withAccessForCurrentUser)
         }
 
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
         #else
         try ParseStorage.shared.set(aclController, for: ParseStorage.Keys.defaultACL)
