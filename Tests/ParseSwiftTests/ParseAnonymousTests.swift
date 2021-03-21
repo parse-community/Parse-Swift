@@ -351,7 +351,7 @@ class ParseAnonymousTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Login")
 
         User.signup(username: "hello",
-                    password: "password") { result in
+                    password: "world") { result in
             switch result {
 
             case .success(let user):
@@ -365,6 +365,78 @@ class ParseAnonymousTests: XCTestCase {
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testReplaceAnonymousUserSync() throws {
+        try testLogin()
+        guard let user = User.current,
+              let updatedAt = user.updatedAt else {
+            XCTFail("Shold have unwrapped")
+            return
+        }
+        XCTAssertTrue(user.anonymous.isLinked)
+
+        var response = UpdateSessionTokenResponse(updatedAt: updatedAt.addingTimeInterval(+300),
+            sessionToken: "blast")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+            //Get dates in correct format from ParseDecoding strategy
+            response = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.removeAll()
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        User.current?.username = "hello"
+        User.current?.password = "world"
+        guard let signedInUser = try User.current?.signup() else {
+            XCTFail("Shouuld have unwrapped")
+            return
+        }
+        XCTAssertEqual(signedInUser, User.current)
+        XCTAssertEqual(signedInUser.username, "hello")
+        XCTAssertEqual(signedInUser.password, "world")
+        XCTAssertFalse(signedInUser.anonymous.isLinked)
+    }
+
+    func testReplaceAnonymousUserBodySync() throws {
+        try testLogin()
+        guard let user = User.current,
+              let updatedAt = user.updatedAt else {
+            XCTFail("Shold have unwrapped")
+            return
+        }
+        XCTAssertTrue(user.anonymous.isLinked)
+
+        var response = UpdateSessionTokenResponse(updatedAt: updatedAt.addingTimeInterval(+300),
+            sessionToken: "blast")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+            //Get dates in correct format from ParseDecoding strategy
+            response = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.removeAll()
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let signedInUser = try User.signup(username: "hello",
+                                           password: "world")
+        XCTAssertEqual(signedInUser, User.current)
+        XCTAssertEqual(signedInUser.username, "hello")
+        XCTAssertEqual(signedInUser.password, "world")
+        XCTAssertFalse(signedInUser.anonymous.isLinked)
     }
 
     func testReplaceAnonymousWithBecome() throws { // swiftlint:disable:this function_body_length

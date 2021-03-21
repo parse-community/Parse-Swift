@@ -139,6 +139,29 @@ class ParseAuthenticationTests: XCTestCase {
     }
 
     func testLinkCommand() throws {
+        let user = User()
+        let body = SignupLoginBody(authData: ["test": ["id": "yolo"]])
+        let command = user.linkCommand(body: body)
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/users")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNotNil(command.body)
+        XCTAssertEqual(command.body?.authData, body.authData)
+    }
+
+    func testLinkCommandNoBody() throws {
+        var user = User()
+        user.username = "hello"
+        user.password = "world"
+        let command = user.linkCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/users")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.body)
+        XCTAssertNil(command.body?.authData)
+    }
+
+    func testLinkCommandLoggedIn() throws {
         let user = try loginNormally()
         let body = SignupLoginBody(authData: ["test": ["id": "yolo"]])
         let command = user.linkCommand(body: body)
@@ -149,7 +172,7 @@ class ParseAuthenticationTests: XCTestCase {
         XCTAssertEqual(command.body?.authData, body.authData)
     }
 
-    func testLinkCommandNoBody() throws {
+    func testLinkCommandNoBodyLoggedIn() throws {
         let user = try loginNormally()
         let command = user.linkCommand()
         XCTAssertNotNil(command)
