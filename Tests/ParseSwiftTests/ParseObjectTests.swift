@@ -502,7 +502,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let score = GameScore(score: 10)
         let className = score.className
 
-        let command = score.saveCommand()
+        let command = try score.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -531,7 +531,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         score.createdAt = Date()
         score.updatedAt = score.createdAt
 
-        let command = score.saveCommand()
+        let command = try score.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)

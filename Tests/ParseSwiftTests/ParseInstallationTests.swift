@@ -923,9 +923,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testSaveCommand() {
+    func testSaveCommand() throws {
         let installation = Installation()
-        let command = installation.saveCommand()
+        let command = try installation.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/installations")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -933,12 +933,12 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertNotNil(command.body)
     }
 
-    func testUpdateCommand() {
+    func testUpdateCommand() throws {
         var installation = Installation()
         let objectId = "yarr"
         installation.objectId = objectId
 
-        let command = installation.saveCommand()
+        let command = try installation.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)

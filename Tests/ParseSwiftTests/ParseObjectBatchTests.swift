@@ -73,7 +73,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer2.ACL = nil
 
         let objects = [score, score2]
-        let commands = objects.map { $0.saveCommand() }
+        let commands = try objects.map { try $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
         let expected = "{\"requests\":[{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"score\":10}},{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"score\":20}}],\"transaction\":false}"
@@ -284,7 +284,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         score2.updatedAt = score2.createdAt
 
         let objects = [score, score2]
-        let initialCommands = objects.map { $0.saveCommand() }
+        let initialCommands = try objects.map { try $0.saveCommand() }
         let commands = initialCommands.compactMap { (command) -> API.Command<GameScore, GameScore>? in
             let path = ParseConfiguration.mountPath + command.path.urlComponent
             guard let body = command.body else {

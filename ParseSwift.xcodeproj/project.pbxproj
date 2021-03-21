@@ -197,6 +197,9 @@
 		70647E9D259E3A9A004C1004 /* ParseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E9B259E3A9A004C1004 /* ParseType.swift */; };
 		70647E9E259E3A9A004C1004 /* ParseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E9B259E3A9A004C1004 /* ParseType.swift */; };
 		70647E9F259E3A9A004C1004 /* ParseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E9B259E3A9A004C1004 /* ParseType.swift */; };
+		70732C5A2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70732C592606CCAD000CAB81 /* ParseObjectCustomObjectId.swift */; };
+		70732C5B2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70732C592606CCAD000CAB81 /* ParseObjectCustomObjectId.swift */; };
+		70732C5C2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70732C592606CCAD000CAB81 /* ParseObjectCustomObjectId.swift */; };
 		707A3BF125B0A4F0000D215C /* ParseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */; };
 		707A3BF225B0A4F0000D215C /* ParseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */; };
 		707A3BF325B0A4F0000D215C /* ParseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */; };
@@ -579,6 +582,7 @@
 		705D950725BE4C08003EF6F8 /* SubscriptionCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCallback.swift; sourceTree = "<group>"; };
 		70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocallyIdentifiable.swift; sourceTree = "<group>"; };
 		70647E9B259E3A9A004C1004 /* ParseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseType.swift; sourceTree = "<group>"; };
+		70732C592606CCAD000CAB81 /* ParseObjectCustomObjectId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObjectCustomObjectId.swift; sourceTree = "<group>"; };
 		707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthentication.swift; sourceTree = "<group>"; };
 		707A3C1025B0A8E8000D215C /* ParseAnonymous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAnonymous.swift; sourceTree = "<group>"; };
 		707A3C1F25B14BCF000D215C /* ParseApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseApple.swift; sourceTree = "<group>"; };
@@ -791,6 +795,7 @@
 				7044C21F25C5E0160011F6E7 /* ParseConfigCombineTests.swift */,
 				70D1BE0625BB2BF400A42E7C /* ParseConfigTests.swift */,
 				F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */,
+				70732C592606CCAD000CAB81 /* ParseObjectCustomObjectId.swift */,
 				7044C1F825C5CFAB0011F6E7 /* ParseFileCombineTests.swift */,
 				705A99F8259807F900B3547F /* ParseFileManagerTests.swift */,
 				705727882593FF8000F0ADD5 /* ParseFileTests.swift */,
@@ -1624,6 +1629,7 @@
 				70CE1D892545BF730018D572 /* ParsePointerTests.swift in Sources */,
 				70386A4625D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
 				911DB12E24C4837E0027F3C7 /* APICommandTests.swift in Sources */,
+				70732C5A2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */,
 				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
 				7044C24325C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
 				7044C1DF25C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */,
@@ -1768,6 +1774,7 @@
 				709B98532556ECAA00507778 /* ParsePointerTests.swift in Sources */,
 				70386A4825D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
 				709B984C2556ECAA00507778 /* APICommandTests.swift in Sources */,
+				70732C5C2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */,
 				709B984D2556ECAA00507778 /* AnyDecodableTests.swift in Sources */,
 				7044C24525C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
 				7044C1E125C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */,
@@ -1817,6 +1824,7 @@
 				70F2E2B7254F283000B2EA5C /* ParsePointerTests.swift in Sources */,
 				70386A4725D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
 				70F2E2B5254F283000B2EA5C /* ParseEncoderTests.swift in Sources */,
+				70732C5B2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */,
 				70F2E2C2254F283000B2EA5C /* APICommandTests.swift in Sources */,
 				7044C24425C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
 				7044C1E025C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */,

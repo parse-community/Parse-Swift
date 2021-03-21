@@ -313,7 +313,13 @@ internal extension API.Command {
     }
 
     // MARK: Saving ParseObjects
-    static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+    static func saveCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
+        if ParseConfiguration.allowCustomObjectId {
+            if object.objectId == nil {
+                throw ParseError(code: .unknownError,
+                                 message: "objectId must not be nil")
+            }
+        }
         if object.isSaved {
             return updateCommand(object)
         }
@@ -345,6 +351,12 @@ internal extension API.Command {
     static func saveCommand<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
         guard let objectable = object as? Objectable else {
             throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
+        }
+        if ParseConfiguration.allowCustomObjectId {
+            if objectable.objectId == nil {
+                throw ParseError(code: .unknownError,
+                                 message: "objectId must not be nil")
+            }
         }
         if objectable.isSaved {
             return try updateCommand(object)

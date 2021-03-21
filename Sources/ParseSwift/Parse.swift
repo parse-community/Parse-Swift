@@ -13,6 +13,7 @@ internal struct ParseConfiguration {
     static var liveQuerysServerURL: URL?
     static var mountPath: String!
     static var sessionDelegate: ParseURLSessionDelegate!
+    static var allowCustomObjectId = false
     static var isTestingSDK = false //Enable this only for certain tests like ParseFile
 }
 
@@ -29,6 +30,8 @@ public struct ParseSwift {
      - parameter masterKey: The master key of your Parse application.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The server URL to connect to Parse Server.
+     - parameter allowCustomObjectId: Allows objectIds to be created on the client
+     side for each object. Must be enabled on the server to work.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
@@ -45,6 +48,7 @@ public struct ParseSwift {
         masterKey: String? = nil,
         serverURL: URL,
         liveQueryServerURL: URL? = nil,
+        allowCustomObjectId: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
         authentication: ((URLAuthenticationChallenge,
                           (URLSession.AuthChallengeDisposition,
@@ -55,6 +59,7 @@ public struct ParseSwift {
         ParseConfiguration.masterKey = masterKey
         ParseConfiguration.serverURL = serverURL
         ParseConfiguration.liveQuerysServerURL = liveQueryServerURL
+        ParseConfiguration.allowCustomObjectId = allowCustomObjectId
         ParseConfiguration.mountPath = "/" + serverURL.pathComponents
                                                 .filter { $0 != "/" }
                                                 .joined(separator: "/")
@@ -71,6 +76,7 @@ public struct ParseSwift {
                                     masterKey: String? = nil,
                                     serverURL: URL,
                                     liveQueryServerURL: URL? = nil,
+                                    allowCustomObjectId: Bool = false,
                                     primitiveObjectStore: ParseKeyValueStore? = nil,
                                     testing: Bool = false,
                                     authentication: ((URLAuthenticationChallenge,
@@ -83,6 +89,7 @@ public struct ParseSwift {
                    masterKey: masterKey,
                    serverURL: serverURL,
                    liveQueryServerURL: liveQueryServerURL,
+                   allowCustomObjectId: allowCustomObjectId,
                    authentication: authentication)
     }
 }

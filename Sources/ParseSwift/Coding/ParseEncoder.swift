@@ -56,6 +56,7 @@ public struct ParseEncoder {
         case object
         case cloud
         case none
+        case customObjectId
         case custom(Set<String>)
 
         func keys() -> Set<String> {
@@ -63,6 +64,8 @@ public struct ParseEncoder {
 
             case .object:
                 return Set(["createdAt", "updatedAt", "objectId", "className"])
+            case .customObjectId:
+                return Set(["createdAt", "updatedAt", "className"])
             case .cloud:
                 return Set(["functionJobName"])
             case .none:
@@ -99,7 +102,13 @@ public struct ParseEncoder {
     internal func encode<T: ParseObject>(_ value: T,
                                          objectsSavedBeforeThisOne: [String: PointerType]?,
                                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
-        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.object.keys())
+        let keysToSkip: Set<String>!
+        if !ParseConfiguration.allowCustomObjectId {
+            keysToSkip = SkippedKeys.object.keys()
+        } else {
+            keysToSkip = SkippedKeys.customObjectId.keys()
+        }
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: keysToSkip)
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
@@ -110,7 +119,13 @@ public struct ParseEncoder {
     internal func encode(_ value: ParseType, collectChildren: Bool,
                          objectsSavedBeforeThisOne: [String: PointerType]?,
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
-        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.object.keys())
+        let keysToSkip: Set<String>!
+        if !ParseConfiguration.allowCustomObjectId {
+            keysToSkip = SkippedKeys.object.keys()
+        } else {
+            keysToSkip = SkippedKeys.customObjectId.keys()
+        }
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: keysToSkip)
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
