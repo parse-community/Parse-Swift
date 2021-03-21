@@ -15,7 +15,7 @@ import Combine
 /**
  Provides utility functions for working with Facebook User Authentication and `ParseUser`'s.
  Be sure your Parse Server is configured for [sign in with Facebook](https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-sign-in-with-facebook).
- For information on acquiring Facebook sign-in credentials to use with `ParseFacebook`, refer to [Facebook's Documentation](https://developers.facebook.com/docs/facebook-login/limited-login.
+ For information on acquiring Facebook sign-in credentials to use with `ParseFacebook`, refer to [Facebook's Documentation](https://developers.facebook.com/docs/facebook-login/limited-login).
  */
 public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
@@ -35,11 +35,14 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter userId: Required id for the user.
-        /// - parameter authenticationToken: Required identity token for the user for Facebook limited login.
-        /// - parameter accessToken: Required identity token for the user for Facebook graph API
-        /// - parameter expirationDate: Required expiration data for user authentication for Facebook login
+        /// - parameter authenticationToken: Required identity token for Facebook limited login.
+        /// - parameter accessToken: Required identity token for Facebook graph API.
+        /// - parameter expirationDate: Required expiration data for Facebook login.
         /// - returns: authData dictionary.
-        func makeDictionary(userId: String, accessToken: String?, authenticationToken: String?, expirationDate: Date) -> [String: String] {
+        func makeDictionary(userId: String,
+                            accessToken: String?,
+                            authenticationToken: String?,
+                            expirationDate: Date) -> [String: String] {
 
             let dateString = DateFormatter.facebookDateFormatter.string(from: expirationDate)
             var returnDictionary = [AuthenticationKeys.id.rawValue: userId,
@@ -79,10 +82,12 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
 // MARK: Login
 public extension ParseFacebook {
+
     /**
      Login a `ParseUser` *asynchronously* using Facebook authentication for limited login.
      - parameter userId: The `Facebook userId` from `FacebookSDK`.
      - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
+     - parameter expirationDate: Required expiration data for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -108,6 +113,7 @@ public extension ParseFacebook {
      Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login.
      - parameter userId: The `Facebook userId` from `FacebookSDK`.
      - parameter accessToken: The `accessToken` from `FacebookSDK`.
+     - parameter expirationDate: Required expiration data for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -149,11 +155,11 @@ public extension ParseFacebook {
     }
 
     #if canImport(Combine)
-
     /**
      Login a `ParseUser` *asynchronously* using Facebook authentication for limited login. Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
+     - parameter expirationDate: Required expiration data for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
@@ -170,10 +176,12 @@ public extension ParseFacebook {
                        completion: promise)
         }
     }
+
     /**
      Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login. Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter accessToken: The `accessToken` from `FacebookSDK`.
+     - parameter expirationDate: Required expiration data for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
@@ -190,6 +198,7 @@ public extension ParseFacebook {
                        completion: promise)
         }
     }
+
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(authData: [String: String],
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
@@ -199,7 +208,6 @@ public extension ParseFacebook {
                        completion: promise)
         }
     }
-
     #endif
 }
 
@@ -210,6 +218,7 @@ public extension ParseFacebook {
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
+     - parameter expirationDate: Required expiration data for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -235,7 +244,7 @@ public extension ParseFacebook {
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for graph API login.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter accessToken: The `accessToken` from `FacebookSDK`.
-     - parameter expirationDate: the `expirationDate` from `FacebookSDK`
+     - parameter expirationDate: the `expirationDate` from `FacebookSDK`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -281,7 +290,7 @@ public extension ParseFacebook {
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login. Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
-     - parameter expirationDate: the `expirationDate` from `FacebookSDK`
+     - parameter expirationDate: the `expirationDate` from `FacebookSDK`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
@@ -303,7 +312,7 @@ public extension ParseFacebook {
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for graph API login. Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter accessToken: The `accessToken` from `FacebookSDK`.
-     - parameter expirationDate: the `expirationDate` from `FacebookSDK`
+     - parameter expirationDate: the `expirationDate` from `FacebookSDK`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
