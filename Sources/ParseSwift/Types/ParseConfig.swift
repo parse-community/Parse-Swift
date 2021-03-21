@@ -119,7 +119,7 @@ extension ParseConfig {
         get {
             guard let configInMemory: CurrentConfigContainer<Self> =
                 try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
-                #if !os(Linux)
+                #if !os(Linux) && !os(Android)
                     return try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig)
                 #else
                     return nil
@@ -151,14 +151,14 @@ extension ParseConfig {
             = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
             return
         }
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try? KeychainStore.shared.set(currentConfigInMemory, for: ParseStorage.Keys.currentConfig)
         #endif
     }
 
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentConfig)
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentConfig)
         #endif
     }

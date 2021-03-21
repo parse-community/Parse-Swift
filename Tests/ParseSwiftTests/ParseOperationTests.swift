@@ -63,13 +63,13 @@ class ParseOperationTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testSaveCommand() throws {
         var score = GameScore(score: 10)
         let objectId = "hello"
@@ -190,7 +190,7 @@ class ParseOperationTests: XCTestCase {
     }
 
     //Linux decodes in different order
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testIncrement() throws {
         let score = GameScore(score: 10)
         let operations = score.operation

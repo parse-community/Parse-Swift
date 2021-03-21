@@ -26,5 +26,7 @@ enum ParseConstants {
     static let deviceType = "applewatch"
     #elseif os(Linux)
     static let deviceType = "linux"
+    #elseif os(Android)
+    static let deviceType = "android"
     #endif
 }
