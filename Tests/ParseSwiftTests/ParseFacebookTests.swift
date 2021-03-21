@@ -164,7 +164,8 @@ class ParseFacebookTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.facebook.login(userId: "testing", authenticationToken: "authenticationToken", expirationDate: expirationDate) { result in
+        User.facebook.login(userId: "testing", authenticationToken: "authenticationToken",
+                            expirationDate: expirationDate) { result in
             switch result {
 
             case .success(let user):
@@ -386,7 +387,8 @@ class ParseFacebookTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.facebook.login(userId: "testing", authenticationToken: "authenticationToken", expirationDate: expirationDate ) { result in
+        User.facebook.login(userId: "testing", authenticationToken: "authenticationToken",
+                            expirationDate: expirationDate ) { result in
             switch result {
 
             case .success(let user):
@@ -482,7 +484,8 @@ class ParseFacebookTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.facebook.link(userId: "testing", authenticationToken: "authenticationToken", expirationDate: expirationDate) { result in
+        User.facebook.link(userId: "testing", authenticationToken: "authenticationToken",
+                           expirationDate: expirationDate) { result in
             switch result {
 
             case .success(let user):
@@ -565,7 +568,8 @@ class ParseFacebookTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.facebook.link(userId: "testing", authenticationToken: "authenticationToken", expirationDate: expirationDate) { result in
+        User.facebook.link(userId: "testing", authenticationToken: "authenticationToken",
+                           expirationDate: expirationDate) { result in
             switch result {
 
             case .success(let user):

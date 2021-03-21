@@ -112,8 +112,9 @@ class ParseTwitterCombineTests: XCTestCase { // swiftlint:disable:this type_body
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.twitter.loginPublisher(userId: "testing", screenName: "screenName", consumerKey: "consumerKey",
-                                                    consumerSecret: "consumerSecret", authToken: "tokenData", authTokenSecret: "authTokenSecret")
+        let publisher = User.twitter.loginPublisher(userId: "testing", screenName: "screenName",
+                                                    consumerKey: "consumerKey", consumerSecret: "consumerSecret",
+                                                    authToken: "tokenData", authTokenSecret: "authTokenSecret")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {

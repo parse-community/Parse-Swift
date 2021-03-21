@@ -164,7 +164,8 @@ class ParseTwitterTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.twitter.login(userId: "testing", screenName: "screenName", authToken: "consumerKey", authTokenSecret: "consumerSecret",
+        User.twitter.login(userId: "testing", screenName: "screenName",
+                           authToken: "consumerKey", authTokenSecret: "consumerSecret",
                            consumerKey: "this", consumerSecret: "authTokenSecret") { result in
             switch result {
 
@@ -333,7 +334,8 @@ class ParseTwitterTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.twitter.login(userId: "testing", screenName: "screenName", authToken: "this", authTokenSecret: "authTokenSecret",
+        User.twitter.login(userId: "testing", screenName: "screenName",
+                           authToken: "this", authTokenSecret: "authTokenSecret",
                            consumerKey: "consumerKey", consumerSecret: "consumerSecret") { result in
             switch result {
 
@@ -375,7 +377,9 @@ class ParseTwitterTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.twitter.link(userId: "testing", screenName: "screenName", consumerKey: "consumerKey", consumerSecret: "consumerSecret", authToken: "this", authTokenSecret: "authTokenSecret") { result in
+        User.twitter.link(userId: "testing", screenName: "screenName",
+                          consumerKey: "consumerKey", consumerSecret: "consumerSecret",
+                          authToken: "this", authTokenSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):
@@ -417,7 +421,9 @@ class ParseTwitterTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.twitter.link(userId: "testing", screenName: "screenName", consumerKey: "consumerKey", consumerSecret: "consumerSecret", authToken: "this", authTokenSecret: "authTokenSecret") { result in
+        User.twitter.link(userId: "testing", screenName: "screenName",
+                          consumerKey: "consumerKey", consumerSecret: "consumerSecret",
+                          authToken: "this", authTokenSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):

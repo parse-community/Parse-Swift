@@ -112,7 +112,8 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.facebook.loginPublisher(userId: "testing", authenticationToken: "authenticationToken", expirationDate: expirationDate)
+        let publisher = User.facebook.loginPublisher(userId: "testing", authenticationToken: "authenticationToken",
+                                                     expirationDate: expirationDate)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -162,7 +163,8 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.facebook.loginPublisher(userId: "testing", accessToken: "accessToken", expirationDate: expirationDate)
+        let publisher = User.facebook.loginPublisher(userId: "testing", accessToken: "accessToken",
+                                                     expirationDate: expirationDate)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -278,7 +280,8 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.facebook.linkPublisher(userId: "testing", authenticationToken: "authenticationToken", expirationDate: expirationDate)
+        let publisher = User.facebook.linkPublisher(userId: "testing", authenticationToken: "authenticationToken",
+                                                    expirationDate: expirationDate)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
