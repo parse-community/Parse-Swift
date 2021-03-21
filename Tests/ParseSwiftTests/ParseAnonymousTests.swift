@@ -276,58 +276,6 @@ class ParseAnonymousTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testReplaceAnonymousWithUser() throws {
-        let expectedAuth = ["id": "yolo"]
-        var newUser = User()
-        newUser.authData = [newUser.anonymous.__type: expectedAuth]
-        newUser.username = "hello"
-        newUser.password = "world"
-        XCTAssertTrue(newUser.anonymous.isLinked(with: newUser))
-
-        //: Convert the anonymous user to a real new user.
-        var serverResponse = LoginSignupResponse()
-        serverResponse.username = "hello"
-        serverResponse.password = "world"
-        serverResponse.objectId = "yarr"
-        serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.anonymous.__type: nil]
-        serverResponse.createdAt = Date()
-        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
-
-        var userOnServer: User!
-
-        let encoded: Data!
-        do {
-            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
-            //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let expectation1 = XCTestExpectation(description: "Login")
-
-        newUser.anonymous.login { result in
-            switch result {
-
-            case .success(let user):
-                XCTAssertEqual(user, User.current)
-                XCTAssertEqual(user, userOnServer)
-                XCTAssertEqual(user.username, "hello")
-                XCTAssertEqual(user.password, "world")
-                XCTAssertFalse(user.anonymous.isLinked)
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
-    }
-
     func testReplaceAnonymousUser() throws {
         try testLogin()
         guard let user = User.current,
@@ -356,7 +304,54 @@ class ParseAnonymousTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
+        User.current?.username = "hello"
+        User.current?.password = "world"
         User.current?.signup { result in
+            switch result {
+
+            case .success(let user):
+                XCTAssertEqual(user, User.current)
+                XCTAssertEqual(user.username, "hello")
+                XCTAssertEqual(user.password, "world")
+                XCTAssertFalse(user.anonymous.isLinked)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testReplaceAnonymousUserBody() throws {
+        try testLogin()
+        guard let user = User.current,
+              let updatedAt = user.updatedAt else {
+            XCTFail("Shold have unwrapped")
+            return
+        }
+        XCTAssertTrue(user.anonymous.isLinked)
+
+        var response = UpdateSessionTokenResponse(updatedAt: updatedAt.addingTimeInterval(+300),
+            sessionToken: "blast")
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+            //Get dates in correct format from ParseDecoding strategy
+            response = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.removeAll()
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Login")
+
+        User.signup(username: "hello",
+                    password: "password") { result in
             switch result {
 
             case .success(let user):

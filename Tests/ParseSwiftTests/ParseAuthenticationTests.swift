@@ -30,6 +30,36 @@ class ParseAuthenticationTests: XCTestCase {
         var authData: [String: [String: String]?]?
     }
 
+    struct LoginSignupResponse: ParseUser {
+
+        var objectId: String?
+        var createdAt: Date?
+        var sessionToken: String
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        // provided by User
+        var username: String?
+        var email: String?
+        var password: String?
+        var authData: [String: [String: String]?]?
+
+        // Your custom keys
+        var customKey: String?
+
+        init() {
+            let date = Date()
+            self.createdAt = date
+            self.updatedAt = date
+            self.objectId = "yarr"
+            self.ACL = nil
+            self.customKey = "blah"
+            self.sessionToken = "myToken"
+            self.username = "hello10"
+            self.email = "hello@parse.com"
+        }
+    }
+
     struct TestAuth<AuthenticatedUser: ParseUser>: ParseAuthentication {
         static var __type: String { // swiftlint:disable:this identifier_name
             "test"
@@ -94,19 +124,39 @@ class ParseAuthenticationTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
-    func testLinkCommand() {
-        var user = User()
-        let objectId = "yarr"
-        user.objectId = objectId
+    func loginNormally() throws -> User {
+        let loginResponse = LoginSignupResponse()
 
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        return try User.login(username: "parse", password: "user")
+    }
+
+    func testLinkCommand() throws {
+        let user = try loginNormally()
         let body = SignupLoginBody(authData: ["test": ["id": "yolo"]])
-
         let command = user.linkCommand(body: body)
         XCTAssertNotNil(command)
-        XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
+        XCTAssertEqual(command.path.urlComponent, "/users/\("yarr")")
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNotNil(command.body)
         XCTAssertEqual(command.body?.authData, body.authData)
+    }
+
+    func testLinkCommandNoBody() throws {
+        let user = try loginNormally()
+        let command = user.linkCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/users/\("yarr")")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNotNil(command.body)
+        XCTAssertNil(command.body?.authData)
     }
 
     func testIsLinkedWithString() throws {
