@@ -81,7 +81,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
     override func tearDownWithError() throws {
         super.tearDown()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -519,7 +519,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
                     XCTFail("\(installationFromMemory) wasn't deleted from memory during logout")
                 }
 
-                #if !os(Linux)
+                #if !os(Linux) && !os(Android)
                 if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
                     XCTFail("\(installationFromKeychain) wasn't deleted from Keychain during logout")
@@ -609,7 +609,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTAssertEqual(User.current?.updatedAt, becomeUpdatedAt)
 
             //Should be updated in Keychain
-            #if !os(Linux)
+            #if !os(Linux) && !os(Android)
             guard let keychainUser: CurrentUserContainer<BaseParseUser>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
                     XCTFail("Should get object from Keychain")
@@ -689,7 +689,7 @@ class ParseUserOAuthTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 //Should be updated in memory
                 XCTAssertEqual(User.current?.updatedAt, becomeUpdatedAt)
 
-                #if !os(Linux)
+                #if !os(Linux) && !os(Android)
                 //Should be updated in Keychain
                 guard let keychainUser: CurrentUserContainer<BaseParseUser>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
