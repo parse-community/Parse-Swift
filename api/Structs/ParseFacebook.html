@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ParseLDAP Structure Reference</title>
+    <title>ParseFacebook Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/ParseLDAP" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/ParseFacebook" class="dashAnchor"></a>
 
-    <a title="ParseLDAP Structure Reference"></a>
+    <a title="ParseFacebook Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ParseLDAP Structure Reference
+      ParseFacebook Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -281,16 +281,17 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>ParseLDAP</h1>
+            <h1>ParseFacebook</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseLDAP</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseAuthentication.html">ParseAuthentication</a></span> <span class="k">where</span> <span class="kt">AuthenticatedUser</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseUser.html">ParseUser</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseFacebook</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseAuthentication.html">ParseAuthentication</a></span> <span class="k">where</span> <span class="kt">AuthenticatedUser</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseUser.html">ParseUser</a></span></code></pre>
 
                 </div>
               </div>
-            <p>Provides utility functions for working with LDAP User Authentication and <code><a href="../Protocols/ParseUser.html">ParseUser</a></code>&lsquo;s.
-Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-ldap">sign in with LDAP</a>.</p>
+            <p>Provides utility functions for working with Facebook User Authentication and <code><a href="../Protocols/ParseUser.html">ParseUser</a></code>&lsquo;s.
+Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-sign-in-with-facebook">sign in with Facebook</a>.
+For information on acquiring Facebook sign-in credentials to use with <code>ParseFacebook</code>, refer to <a href="https://developers.facebook.com/docs/facebook-login/limited-login">Facebook&rsquo;s Documentation</a>.</p>
 
           </div>
         </section>
@@ -341,9 +342,9 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4LDAPV5login2id8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/login(id:password:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4LDAPV5login2id8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">login(id:<wbr>password:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A8FacebookV5login6userId19authenticationToken14expirationDate7options13callbackQueue10completionySS_SS10Foundation0J0VShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/login(userId:authenticationToken:expirationDate:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8FacebookV5login6userId19authenticationToken14expirationDate7options13callbackQueue10completionySS_SS10Foundation0J0VShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">login(userId:<wbr>authenticationToken:<wbr>expirationDate:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -351,15 +352,16 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using LDAP authentication.</p>
+                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Facebook authentication for limited login.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this identifier_name</span>
-           <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">authenticationToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">expirationDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span>
            <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
            <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
            <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
@@ -373,24 +375,147 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                             <tr>
                               <td>
                                 <code>
-                                <em>id</em>
+                                <em>userId</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The id of the <code>user</code>.</p>
+                                  <p>The <code>Facebook userId</code> from <code>FacebookSDK</code>.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>password</em>
+                                <em>authenticationToken</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The password of the user.</p>
+                                  <p>The <code>authenticationToken</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>expirationDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required expiration data for Facebook login.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A8FacebookV5login6userId11accessToken14expirationDate7options13callbackQueue10completionySS_SS10Foundation0J0VShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/login(userId:accessToken:expirationDate:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8FacebookV5login6userId11accessToken14expirationDate7options13callbackQueue10completionySS_SS10Foundation0J0VShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">login(userId:<wbr>accessToken:<wbr>expirationDate:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Facebook authentication for graph API login.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">accessToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">expirationDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span>
+           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>Facebook userId</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>accessToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>accessToken</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>expirationDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required expiration data for Facebook login.</p>
                                 </div>
                               </td>
                             </tr>
@@ -468,9 +593,9 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4LDAPV14loginPublisher2id8password7options7Combine6FutureCyxAA0A5ErrorVGSS_SSShyAA3APIV6OptionOGtF"></a>
-                    <a name="//apple_ref/swift/Method/loginPublisher(id:password:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4LDAPV14loginPublisher2id8password7options7Combine6FutureCyxAA0A5ErrorVGSS_SSShyAA3APIV6OptionOGtF">loginPublisher(id:<wbr>password:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A8FacebookV14loginPublisher6userId19authenticationToken14expirationDate7options7Combine6FutureCyxAA0A5ErrorVGSS_SS10Foundation0K0VShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/loginPublisher(userId:authenticationToken:expirationDate:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8FacebookV14loginPublisher6userId19authenticationToken14expirationDate7options7Combine6FutureCyxAA0A5ErrorVGSS_SS10Foundation0K0VShyAA3APIV6OptionOGtF">loginPublisher(userId:<wbr>authenticationToken:<wbr>expirationDate:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -478,7 +603,7 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using LDAP authentication. Publishes when complete.</p>
+                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Facebook authentication for limited login. Publishes when complete.</p>
 
                       </div>
                       <div class="declaration">
@@ -486,8 +611,9 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
-<span class="kd">func</span> <span class="nf">loginPublisher</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this identifier_name</span>
-                    <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+<span class="kd">func</span> <span class="nf">loginPublisher</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                    <span class="nv">authenticationToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                    <span class="nv">expirationDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span>
                     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -499,24 +625,126 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                             <tr>
                               <td>
                                 <code>
-                                <em>id</em>
+                                <em>userId</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The id of the <code>user</code>.</p>
+                                  <p>The <code>userId</code> from <code>FacebookSDK</code>.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>password</em>
+                                <em>authenticationToken</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The password of the user.</p>
+                                  <p>The <code>authenticationToken</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>expirationDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required expiration data for Facebook login.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A8FacebookV14loginPublisher6userId11accessToken14expirationDate7options7Combine6FutureCyxAA0A5ErrorVGSS_SS10Foundation0K0VShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/loginPublisher(userId:accessToken:expirationDate:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8FacebookV14loginPublisher6userId11accessToken14expirationDate7options7Combine6FutureCyxAA0A5ErrorVGSS_SS10Foundation0K0VShyAA3APIV6OptionOGtF">loginPublisher(userId:<wbr>accessToken:<wbr>expirationDate:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Facebook authentication for graph API login. Publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">loginPublisher</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                    <span class="nv">accessToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                    <span class="nv">expirationDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span>
+                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>userId</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>accessToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>accessToken</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>expirationDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required expiration data for Facebook login.</p>
                                 </div>
                               </td>
                             </tr>
@@ -586,9 +814,9 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4LDAPV4link2id8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/link(id:password:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4LDAPV4link2id8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">link(id:<wbr>password:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A8FacebookV4link6userId19authenticationToken14expirationDate7options13callbackQueue10completionySS_SS10Foundation0J0VShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/link(userId:authenticationToken:expirationDate:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8FacebookV4link6userId19authenticationToken14expirationDate7options13callbackQueue10completionySS_SS10Foundation0J0VShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">link(userId:<wbr>authenticationToken:<wbr>expirationDate:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -596,15 +824,16 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using LDAP authentication.</p>
+                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Facebook authentication for limited login.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this identifier_name</span>
-          <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">authenticationToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">expirationDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span>
           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
@@ -618,24 +847,147 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                             <tr>
                               <td>
                                 <code>
-                                <em>id</em>
+                                <em>userId</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The id of the <code>user</code>.</p>
+                                  <p>The <code>userId</code> from <code>FacebookSDK</code>.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>password</em>
+                                <em>authenticationToken</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The password of the user.</p>
+                                  <p>The <code>authenticationToken</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>expirationDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Required expiration data for Facebook login.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A8FacebookV4link6userId11accessToken14expirationDate7options13callbackQueue10completionySS_SS10Foundation0J0VShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/link(userId:accessToken:expirationDate:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8FacebookV4link6userId11accessToken14expirationDate7options13callbackQueue10completionySS_SS10Foundation0J0VShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">link(userId:<wbr>accessToken:<wbr>expirationDate:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Facebook authentication for graph API login.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">accessToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">expirationDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span>
+          <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+          <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+          <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>userId</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>accessToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>accessToken</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>expirationDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the <code>expirationDate</code> from <code>FacebookSDK</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -713,9 +1065,9 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4LDAPV13linkPublisher2id8password7options7Combine6FutureCyxAA0A5ErrorVGSS_SSShyAA3APIV6OptionOGtF"></a>
-                    <a name="//apple_ref/swift/Method/linkPublisher(id:password:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4LDAPV13linkPublisher2id8password7options7Combine6FutureCyxAA0A5ErrorVGSS_SSShyAA3APIV6OptionOGtF">linkPublisher(id:<wbr>password:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A8FacebookV13linkPublisher6userId19authenticationToken14expirationDate7options7Combine6FutureCyxAA0A5ErrorVGSS_SS10Foundation0K0VShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/linkPublisher(userId:authenticationToken:expirationDate:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8FacebookV13linkPublisher6userId19authenticationToken14expirationDate7options7Combine6FutureCyxAA0A5ErrorVGSS_SS10Foundation0K0VShyAA3APIV6OptionOGtF">linkPublisher(userId:<wbr>authenticationToken:<wbr>expirationDate:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -723,7 +1075,7 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using LDAP authentication. Publishes when complete.</p>
+                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Facebook authentication for limited login. Publishes when complete.</p>
 
                       </div>
                       <div class="declaration">
@@ -731,8 +1083,9 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
-<span class="kd">func</span> <span class="nf">linkPublisher</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this identifier_name</span>
-                   <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+<span class="kd">func</span> <span class="nf">linkPublisher</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">authenticationToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">expirationDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span>
                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -744,24 +1097,126 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                             <tr>
                               <td>
                                 <code>
-                                <em>id</em>
+                                <em>userId</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The id of the <code>user</code>.</p>
+                                  <p>The <code>userId</code> from <code>FacebookSDK</code>.</p>
                                 </div>
                               </td>
                             </tr>
                             <tr>
                               <td>
                                 <code>
-                                <em>password</em>
+                                <em>authenticationToken</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The password of the user.</p>
+                                  <p>The <code>authenticationToken</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>expirationDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the <code>expirationDate</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A8FacebookV13linkPublisher6userId11accessToken14expirationDate7options7Combine6FutureCyxAA0A5ErrorVGSS_SS10Foundation0K0VShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/linkPublisher(userId:accessToken:expirationDate:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8FacebookV13linkPublisher6userId11accessToken14expirationDate7options7Combine6FutureCyxAA0A5ErrorVGSS_SS10Foundation0K0VShyAA3APIV6OptionOGtF">linkPublisher(userId:<wbr>accessToken:<wbr>expirationDate:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Facebook authentication for graph API login. Publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">linkPublisher</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">accessToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">expirationDate</span><span class="p">:</span> <span class="kt">Date</span><span class="p">,</span>
+                   <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>userId</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>userId</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>accessToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>accessToken</code> from <code>FacebookSDK</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>expirationDate</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>the <code>expirationDate</code> from <code>FacebookSDK</code>.</p>
                                 </div>
                               </td>
                             </tr>

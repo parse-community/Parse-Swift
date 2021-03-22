@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ParseAnonymous Structure Reference</title>
+    <title>ParseTwitter Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/ParseAnonymous" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/ParseTwitter" class="dashAnchor"></a>
 
-    <a title="ParseAnonymous Structure Reference"></a>
+    <a title="ParseTwitter Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ParseAnonymous Structure Reference
+      ParseTwitter Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -281,33 +281,17 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>ParseAnonymous</h1>
+            <h1>ParseTwitter</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseAnonymous</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseAuthentication.html">ParseAuthentication</a></span> <span class="k">where</span> <span class="kt">AuthenticatedUser</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseUser.html">ParseUser</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseTwitter</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseAuthentication.html">ParseAuthentication</a></span> <span class="k">where</span> <span class="kt">AuthenticatedUser</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseUser.html">ParseUser</a></span></code></pre>
 
                 </div>
               </div>
-            <p>Provides utility functions for working with Anonymously logged-in users.</p>
-
-<p>Anonymous users have some unique characteristics:</p>
-
-<ul>
-<li>Anonymous users don&rsquo;t need a user name or password.</li>
-<li>Once logged out, an anonymous user cannot be recovered.</li>
-<li>When the current user is anonymous, the following methods can be used to switch
-to a different user or convert the anonymous user into a regular one:</li>
-<li><em>signup</em> converts an anonymous user to a standard user with the given username and password.
-Data associated with the anonymous user is retained.</li>
-<li><em>login</em> switches users without converting the anonymous user.
-Data associated with the anonymous user will be lost.</li>
-<li>Service <em>login</em> (e.g. Apple, Facebook, Twitter) will attempt to convert
-the anonymous user into a standard user by linking it to the service.
-If a user already exists that is linked to the service, it will instead switch to the existing user.</li>
-<li>Service linking (e.g. Apple, Facebook, Twitter) will convert the anonymous user
-into a standard user by linking it to the service.</li>
-</ul>
+            <p>Provides utility functions for working with Twitter User Authentication and <code><a href="../Protocols/ParseUser.html">ParseUser</a></code>&lsquo;s.
+Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-sign-in-with-twitter">sign in with Twitter</a>.
+For information on acquiring Twitter sign-in credentials to use with <code>ParseTwitter</code>, refer to <a href="https://developer.twitter.com/en/docs/authentication/guides/log-in-with-twitter">Twitter&rsquo;s Documentation</a>.</p>
 
           </div>
         </section>
@@ -358,9 +342,9 @@ into a standard user by linking it to the service.</li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A9AnonymousV5login7optionsxShyAA3APIV6OptionOG_tKF"></a>
-                    <a name="//apple_ref/swift/Method/login(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A9AnonymousV5login7optionsxShyAA3APIV6OptionOG_tKF">login(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A7TwitterV5login6userId10screenName9authToken0iJ6Secret11consumerKey0lK07options13callbackQueue10completionySS_SSSgS4SShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/login(userId:screenName:authToken:authTokenSecret:consumerKey:consumerSecret:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A7TwitterV5login6userId10screenName9authToken0iJ6Secret11consumerKey0lK07options13callbackQueue10completionySS_SSSgS4SShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">login(userId:<wbr>screenName:<wbr>authToken:<wbr>authTokenSecret:<wbr>consumerKey:<wbr>consumerSecret:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -368,209 +352,19 @@ into a standard user by linking it to the service.</li>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>synchronously</em> using the respective authentication type.</p>
-<div class="aside aside-throws">
-    <p class="aside-title">Throws</p>
-    An error of type <code>ParseError</code>.
-
-</div>
+                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Twitter authentication.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">AuthenticatedUser</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>the linked <code><a href="../Protocols/ParseUser.html">ParseUser</a></code>.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A9AnonymousV5login8authData7optionsxSDyS2SG_ShyAA3APIV6OptionOGtKF"></a>
-                    <a name="//apple_ref/swift/Method/login(authData:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A9AnonymousV5login8authData7optionsxSDyS2SG_ShyAA3APIV6OptionOGtKF">login(authData:<wbr>options:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>synchronously</em> using the respective authentication type.</p>
-<div class="aside aside-throws">
-    <p class="aside-title">Throws</p>
-    An error of type <code>ParseError</code>.
-
-</div>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
-           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">AuthenticatedUser</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>authData</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The authData for the respective authentication type. This will be ignored.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>the linked <code><a href="../Protocols/ParseUser.html">ParseUser</a></code>.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A9AnonymousV5login7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/login(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A9AnonymousV5login7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">login(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using the respective authentication type.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
-           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>callbackQueue</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The queue to return to after completion. Default value of .main.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The block to execute.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A9AnonymousV5login8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/login(authData:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A9AnonymousV5login8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">login(authData:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using the respective authentication type.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">screenName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+           <span class="nv">authToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">authTokenSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">consumerKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+           <span class="nv">consumerSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
            <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
            <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
            <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
@@ -584,12 +378,72 @@ into a standard user by linking it to the service.</li>
                             <tr>
                               <td>
                                 <code>
-                                <em>authData</em>
+                                <em>userId</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The authData for the respective authentication type. This will be ignored.</p>
+                                  <p>The <code>Twitter userId</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>screenName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>Twitter screenName</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>consumerKey</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>Twitter consumerKey</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>consumerSecret</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>Twitter consumerSecret</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Twitter <code>authToken</code> obtained from Twitter.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authTokenSecret</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Twitter <code>authSecretToken</code> obtained from Twitter.</p>
                                 </div>
                               </td>
                             </tr>
@@ -638,9 +492,9 @@ into a standard user by linking it to the service.</li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A9AnonymousV14loginPublisher7options7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_tF"></a>
-                    <a name="//apple_ref/swift/Method/loginPublisher(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A9AnonymousV14loginPublisher7options7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_tF">loginPublisher(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A14AuthenticationP5login8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/login(authData:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A14AuthenticationP5login8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF">login(authData:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -648,70 +502,28 @@ into a standard user by linking it to the service.</li>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using the respective authentication type.</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
-<span class="kd">func</span> <span class="nf">loginPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
+           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>callbackQueue</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The queue to return to after completion. Default value of .main.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The block to execute.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A9AnonymousV14loginPublisher8authData7options7Combine6FutureCyxAA0A5ErrorVGSDyS2SG_ShyAA3APIV6OptionOGtF"></a>
-                    <a name="//apple_ref/swift/Method/loginPublisher(authData:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A9AnonymousV14loginPublisher8authData7options7Combine6FutureCyxAA0A5ErrorVGSDyS2SG_ShyAA3APIV6OptionOGtF">loginPublisher(authData:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A7TwitterV14loginPublisher6userId10screenName11consumerKey0J6Secret9authToken0mnL07options7Combine6FutureCyxAA0A5ErrorVGSS_SSSgS4SShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/loginPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A7TwitterV14loginPublisher6userId10screenName11consumerKey0J6Secret9authToken0mnL07options7Combine6FutureCyxAA0A5ErrorVGSS_SSSgS4SShyAA3APIV6OptionOGtF">loginPublisher(userId:<wbr>screenName:<wbr>consumerKey:<wbr>consumerSecret:<wbr>authToken:<wbr>authTokenSecret:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -719,7 +531,7 @@ into a standard user by linking it to the service.</li>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using the respective authentication type.</p>
+                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Twitter authentication. Publishes when complete.</p>
 
                       </div>
                       <div class="declaration">
@@ -727,7 +539,12 @@ into a standard user by linking it to the service.</li>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
-<span class="kd">func</span> <span class="nf">loginPublisher</span><span class="p">(</span><span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
+<span class="kd">func</span> <span class="nf">loginPublisher</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                    <span class="nv">screenName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                    <span class="nv">consumerKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                    <span class="nv">consumerSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                    <span class="nv">authToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                    <span class="nv">authTokenSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -739,12 +556,72 @@ into a standard user by linking it to the service.</li>
                             <tr>
                               <td>
                                 <code>
-                                <em>authData</em>
+                                <em>user</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The authData for the respective authentication type. This will be ignored.</p>
+                                  <p>The <code>userId</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>screenName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>user screenName</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>consumerKey</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>consumerKey</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>consumerSecret</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>consumerSecret</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Twitter <code>authToken</code> obtained from Twitter.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authTokenSecret</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Twitter <code>authSecretToken</code> obtained from Twitter.</p>
                                 </div>
                               </td>
                             </tr>
@@ -760,32 +637,40 @@ into a standard user by linking it to the service.</li>
                                 </div>
                               </td>
                             </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>callbackQueue</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The queue to return to after completion. Default value of .main.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The block to execute.</p>
-                                </div>
-                              </td>
-                            </tr>
                           </tbody>
                         </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A14AuthenticationP14loginPublisher8authData7options7Combine6FutureCy17AuthenticatedUserQzAA0A5ErrorVGSDyS2SG_ShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/loginPublisher(authData:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A14AuthenticationP14loginPublisher8authData7options7Combine6FutureCy17AuthenticatedUserQzAA0A5ErrorVGSDyS2SG_ShyAA3APIV6OptionOGtF">loginPublisher(authData:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">loginPublisher</span><span class="p">(</span><span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
+                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
                       </div>
                     </section>
                   </div>
@@ -806,9 +691,9 @@ into a standard user by linking it to the service.</li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A9AnonymousV4link8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/link(authData:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A9AnonymousV4link8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">link(authData:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A7TwitterV4link6userId10screenName11consumerKey0I6Secret9authToken0lmK07options13callbackQueue10completionySS_SSSgS4SShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/link(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A7TwitterV4link6userId10screenName11consumerKey0I6Secret9authToken0lmK07options13callbackQueue10completionySS_SSSgS4SShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">link(userId:<wbr>screenName:<wbr>consumerKey:<wbr>consumerSecret:<wbr>authToken:<wbr>authTokenSecret:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -816,8 +701,137 @@ into a standard user by linking it to the service.</li>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Unavailable for <code>ParseAnonymous</code>. Will always return an error.</p>
+                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Twitter authentication. Publishes when complete.</p>
 
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">screenName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+          <span class="nv">consumerKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">consumerSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">authToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">authTokenSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+          <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+          <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+          <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>user</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>userId</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>screenName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>user screenName</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>consumerKey</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>consumerKey</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>consumerSecret</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>consumerSecret</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Twitter <code>authToken</code> obtained from Twitter.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authTokenSecret</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Twitter <code>authSecretToken</code> obtained from Twitter.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A14AuthenticationP4link8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/link(authData:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A14AuthenticationP4link8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF">link(authData:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -829,6 +843,135 @@ into a standard user by linking it to the service.</li>
           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A7TwitterV13linkPublisher6userId10screenName11consumerKey0J6Secret9authToken0mnL07options7Combine6FutureCyxAA0A5ErrorVGSS_SSSgS4SShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/linkPublisher(userId:screenName:consumerKey:consumerSecret:authToken:authTokenSecret:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A7TwitterV13linkPublisher6userId10screenName11consumerKey0J6Secret9authToken0mnL07options7Combine6FutureCyxAA0A5ErrorVGSS_SSSgS4SShyAA3APIV6OptionOGtF">linkPublisher(userId:<wbr>screenName:<wbr>consumerKey:<wbr>consumerSecret:<wbr>authToken:<wbr>authTokenSecret:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Twitter authentication. Publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">linkPublisher</span><span class="p">(</span><span class="nv">userId</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">screenName</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                   <span class="nv">consumerKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">consumerSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">authToken</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">authTokenSecret</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                   <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>user</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>user</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>screenName</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>user screenName</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>consumerKey</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>consumerKey</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>consumerSecret</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code>consumerSecret</code> from <code>Twitter</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authToken</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Twitter <code>authToken</code> obtained from Twitter.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authTokenSecret</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The Twitter <code>authSecretToken</code> obtained from Twitter.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
                       </div>
                     </section>
                   </div>

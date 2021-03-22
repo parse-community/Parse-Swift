@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.2.1 Docs
+          ParseSwift 1.2.2 Docs
         </a>
-         (89% documented)
+         (90% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -241,6 +241,9 @@
                 <a class="nav-group-task-link" href="../Structs/ParseApple.html">ParseApple</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseFacebook.html">ParseFacebook</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseFile.html">ParseFile</a>
               </li>
               <li class="nav-group-task">
@@ -257,6 +260,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseSwift.html">ParseSwift</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseTwitter.html">ParseTwitter</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/Query.html">Query</a>
@@ -289,23 +295,25 @@
                 </div>
               </div>
             <p>Objects that conform to the <code>ParseObject</code> protocol have a local representation of data persisted to the Parse cloud.
- This is the main protocol that is used to interact with objects in your app.</p>
+This is the main protocol that is used to interact with objects in your app.</p>
 
 <p>If you plan to use custom encoding/decoding, be sure to add <code>objectId</code>, <code>createdAt</code>, <code>updatedAt</code>, and
- <code>ACL</code> to your <code>ParseObject</code> <code>CodingKeys</code>.</p>
+<code>ACL</code> to your <code>ParseObject</code> <code>CodingKeys</code>.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
-    <code>ParseObject</code>s can be &ldquo;value types&rdquo; (structs) or reference types &ldquo;classes&rdquo;. If you are using value types
-there isn&rsquo;t much else you need to do but to conform to ParseObject. If you are using reference types, see the warning.
+    It is recommended to make your<code>ParseObject</code>s &ldquo;value types&rdquo; (structs).
+If you are using value types there isn&rsquo;t much else you need to do but to conform to ParseObject. If you are thinking of
+using reference types, see the warning.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    If you plan to use &ldquo;reference types&rdquo; (classes), you will need to implement your own <code>==</code> method to conform
-to <code>Equatable</code> along with with the <code>hash</code> method to conform to <code>Hashable</code>. It is important to note that for unsaved
-<code>ParseObject</code>s, you won&rsquo;t be able to rely on <code>objectId</code> for <code>Equatable</code> and <code>Hashable</code> as your unsaved objects
-won&rsquo;t have this value yet and is nil. A possible way to address this is by creating a <code>UUID</code> for your objects locally
-and relying on that for <code>Equatable</code> and <code>Hashable</code>, otherwise it&rsquo;s possible you will get &ldquo;circular dependency errors&rdquo;
-depending on your implementation.
+    If you plan to use &ldquo;reference types&rdquo; (classes), you are using at your risk as this SDK is not designed
+for reference types and may have unexpected behavior when it comes to threading. You will also need to implement
+your own <code>==</code> method to conform to <code>Equatable</code> along with with the <code>hash</code> method to conform to <code>Hashable</code>.
+It is important to note that for unsaved ParseObject<code>s, you won&#39;t be able to rely on</code>objectId<code>for
+</code>Equatable<code>and</code>Hashable<code>as your unsaved objects won&#39;t have this value yet and is nil. A possible way to
+address this is by creating a</code>UUID<code>for your objects locally and relying on that for</code>Equatable<code>and</code>Hashable`,
+otherwise it&rsquo;s possible you will get &ldquo;circular dependency errors&rdquo; depending on your implementation.
 
 </div>
 
@@ -1238,6 +1246,49 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
             </div>
             <div class="task-group">
               <div class="task-name-container">
+                <a name="/ParseOperation"></a>
+                <a name="//apple_ref/swift/Section/ParseOperation" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/ParseOperation"></a>
+                  <h3 class="section-name"><p>ParseOperation</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE9operationAA0A9OperationVyxGvp"></a>
+                    <a name="//apple_ref/swift/Property/operation" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE9operationAA0A9OperationVyxGvp">operation</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create a new operation.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">operation</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseOperation.html">ParseOperation</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
                 <a name="/ParseRelation"></a>
                 <a name="//apple_ref/swift/Section/ParseRelation" class="dashAnchor"></a>
                 <div class="section-name-container">
@@ -1409,13 +1460,166 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                 </li>
               </ul>
             </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Query"></a>
+                <a name="//apple_ref/swift/Section/Query" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Query"></a>
+                  <h3 class="section-name"><p>Query</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE5queryAA5QueryVyxGyFZ"></a>
+                    <a name="//apple_ref/swift/Method/query()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE5queryAA5QueryVyxGyFZ">query()</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create an instance with no constraints.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">query</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An instance of query for easy chaining.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE5queryyAA5QueryVyxGAA0E10ConstraintVd_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/query(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE5queryyAA5QueryVyxGAA0E10ConstraintVd_tFZ">query(_:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create an instance with a variadic amount constraints.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">query</span><span class="p">(</span><span class="n">_</span> <span class="nv">constraints</span><span class="p">:</span> <span class="kt"><a href="../Structs/QueryConstraint.html">QueryConstraint</a></span><span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>constraints</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A variadic amount of zero or more <code><a href="../Structs/QueryConstraint.html">QueryConstraint</a></code>&lsquo;s.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An instance of query for easy chaining.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE5queryyAA5QueryVyxGSayAA0E10ConstraintVGFZ"></a>
+                    <a name="//apple_ref/swift/Method/query(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE5queryyAA5QueryVyxGSayAA0E10ConstraintVGFZ">query(_:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Create an instance with an array of constraints.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">query</span><span class="p">(</span><span class="n">_</span> <span class="nv">constraints</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/QueryConstraint.html">QueryConstraint</a></span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/Query.html">Query</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>constraints</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An array of <code><a href="../Structs/QueryConstraint.html">QueryConstraint</a></code>&lsquo;s.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An instance of query for easy chaining.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
           </div>
         </section>
 
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-03-18)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-03-22)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
