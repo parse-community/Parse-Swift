@@ -1,8 +1,8 @@
 //
-//  ParseLDAPCombineTests.swift
+//  ParseFacebookCombineTests.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 2/14/21.
+//  Created by Abdulaziz Alhomaidhi on 3/19/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
@@ -14,7 +14,7 @@ import Combine
 @testable import ParseSwift
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
 
@@ -83,17 +83,17 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         try ParseStorage.shared.deleteAll()
     }
 
-    func testLogin() {
+    func testLimitedLogin() {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-
+        let expirationDate = Date()
         var serverResponse = LoginSignupResponse()
         let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
+        serverResponse.authData = [serverResponse.facebook.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -112,7 +112,8 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.loginPublisher(id: "testing", password: "this")
+        let publisher = User.facebook.loginPublisher(userId: "testing", authenticationToken: "authenticationToken",
+                                                     expirationDate: expirationDate)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -126,24 +127,24 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user, userOnServer)
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.facebook.isLinked)
         })
         publisher.store(in: &subscriptions)
 
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testLoginAuthData() {
+    func testGraphAPILogin() {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-
+        let expirationDate = Date()
         var serverResponse = LoginSignupResponse()
         let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
+        serverResponse.authData = [serverResponse.facebook.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -162,8 +163,8 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.loginPublisher(authData: (["id": "testing",
-                                                             "password": "this"]))
+        let publisher = User.facebook.loginPublisher(userId: "testing", accessToken: "accessToken",
+                                                     expirationDate: expirationDate)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -177,7 +178,63 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user, userOnServer)
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.facebook.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLoginAuthData() throws {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+        let expirationDate = Date()
+        var serverResponse = LoginSignupResponse()
+        let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
+        serverResponse.username = "hello"
+        serverResponse.password = "world"
+        serverResponse.objectId = "yarr"
+        serverResponse.sessionToken = "myToken"
+        serverResponse.authData = [serverResponse.facebook.__type: authData]
+        serverResponse.createdAt = Date()
+        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let faceookAuthData = ParseFacebook<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  accessToken: "accessToken",
+                                                  authenticationToken: nil,
+                                                  expirationDate: expirationDate)
+
+        let publisher = User.facebook.loginPublisher(authData: faceookAuthData)
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user, userOnServer)
+            XCTAssertEqual(user.username, "hello")
+            XCTAssertEqual(user.password, "world")
+            XCTAssertTrue(user.facebook.isLinked)
         })
         publisher.store(in: &subscriptions)
 
@@ -198,10 +255,10 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         return try User.login(username: "parse", password: "user")
     }
 
-    func testLink() throws {
+    func testLinkLimitedLogin() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-
+        let expirationDate = Date()
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
@@ -223,8 +280,8 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.linkPublisher(authData: ["id": "testing",
-                                                           "password": "this"])
+        let publisher = User.facebook.linkPublisher(userId: "testing", authenticationToken: "authenticationToken",
+                                                    expirationDate: expirationDate)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -238,7 +295,56 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.facebook.isLinked)
+            XCTAssertFalse(user.anonymous.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLinkGraphAPILogin() throws {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+        let expirationDate = Date()
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = Date()
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let publisher = User.facebook.linkPublisher(userId: "testing",
+                                                    accessToken: "accessToken",
+                                                    expirationDate: expirationDate)
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+            XCTAssertEqual(user.username, "parse")
+            XCTAssertNil(user.password)
+            XCTAssertTrue(user.facebook.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
         })
         publisher.store(in: &subscriptions)
@@ -249,7 +355,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
     func testLinkAuthData() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-
+        let expirationDate = Date()
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
@@ -271,7 +377,13 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.linkPublisher(id: "testing", password: "this")
+        let authData = ParseFacebook<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  accessToken: "accessToken",
+                                                  authenticationToken: nil,
+                                                  expirationDate: expirationDate)
+
+        let publisher = User.facebook.linkPublisher(authData: authData)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -285,7 +397,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.facebook.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
         })
         publisher.store(in: &subscriptions)
@@ -293,18 +405,20 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testUnlink() throws {
+    func testUnlinkLimitedLogin() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-
+        let expirationDate = Date()
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
-        let authData = ParseLDAP<User>
-            .AuthenticationKeys.id.makeDictionary(id: "testing",
-                                              password: "this")
-        User.current?.authData = [User.ldap.__type: authData]
-        XCTAssertTrue(User.ldap.isLinked)
+        let authData = ParseFacebook<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  accessToken: nil,
+                                                  authenticationToken: "authenticationToken",
+                                                  expirationDate: expirationDate)
+        User.current?.authData = [User.facebook.__type: authData]
+        XCTAssertTrue(User.facebook.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -324,7 +438,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.unlinkPublisher()
+        let publisher = User.facebook.unlinkPublisher()
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -338,7 +452,61 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertFalse(user.ldap.isLinked)
+            XCTAssertFalse(user.facebook.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testUnlinkGraphAPILogin() throws {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+        let expirationDate = Date()
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        let authData = ParseFacebook<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  accessToken: "accessToken",
+                                                  authenticationToken: nil,
+                                                  expirationDate: expirationDate)
+        User.current?.authData = [User.facebook.__type: authData]
+        XCTAssertTrue(User.facebook.isLinked)
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = Date()
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let publisher = User.facebook.unlinkPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+            XCTAssertEqual(user.username, "parse")
+            XCTAssertNil(user.password)
+            XCTAssertFalse(user.facebook.isLinked)
         })
         publisher.store(in: &subscriptions)
 

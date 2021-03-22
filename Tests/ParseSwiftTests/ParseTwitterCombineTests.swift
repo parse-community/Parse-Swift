@@ -1,8 +1,8 @@
 //
-//  ParseLDAPCombineTests.swift
+//  ParseTwitterCombineTests.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 2/14/21.
+//  Created by Abdulaziz Alhomaidhi on 3/19/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
@@ -14,7 +14,7 @@ import Combine
 @testable import ParseSwift
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseTwitterCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
 
@@ -93,7 +93,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
+        serverResponse.authData = [serverResponse.twitter.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -112,7 +112,9 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.loginPublisher(id: "testing", password: "this")
+        let publisher = User.twitter.loginPublisher(userId: "testing", screenName: "screenName",
+                                                    consumerKey: "consumerKey", consumerSecret: "consumerSecret",
+                                                    authToken: "tokenData", authTokenSecret: "authTokenSecret")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -126,7 +128,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user, userOnServer)
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.twitter.isLinked)
         })
         publisher.store(in: &subscriptions)
 
@@ -143,7 +145,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
+        serverResponse.authData = [serverResponse.twitter.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -162,8 +164,15 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.loginPublisher(authData: (["id": "testing",
-                                                             "password": "this"]))
+        let twitterAuthData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
+                                                  authTokenSecret: "authTokenSecret")
+
+        let publisher = User.twitter.loginPublisher(authData: twitterAuthData)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -177,7 +186,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user, userOnServer)
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.twitter.isLinked)
         })
         publisher.store(in: &subscriptions)
 
@@ -223,8 +232,12 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.linkPublisher(authData: ["id": "testing",
-                                                           "password": "this"])
+        let publisher = User.twitter.linkPublisher(userId: "testing",
+                                                   screenName: "screenName",
+                                                   consumerKey: "consumerKey",
+                                                   consumerSecret: "consumerSecret",
+                                                   authToken: "tokenData",
+                                                   authTokenSecret: "authTokenSecret")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -238,7 +251,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.twitter.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
         })
         publisher.store(in: &subscriptions)
@@ -271,7 +284,14 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.linkPublisher(id: "testing", password: "this")
+        let twitterAuthData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
+                                                  authTokenSecret: "authTokenSecret")
+        let publisher = User.twitter.linkPublisher(authData: twitterAuthData)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -285,7 +305,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.twitter.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
         })
         publisher.store(in: &subscriptions)
@@ -300,11 +320,15 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
-        let authData = ParseLDAP<User>
-            .AuthenticationKeys.id.makeDictionary(id: "testing",
-                                              password: "this")
-        User.current?.authData = [User.ldap.__type: authData]
-        XCTAssertTrue(User.ldap.isLinked)
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "tokenData",
+                                                  authTokenSecret: "authTokenSecret")
+        User.current?.authData = [User.twitter.__type: authData]
+        XCTAssertTrue(User.twitter.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -324,7 +348,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.unlinkPublisher()
+        let publisher = User.twitter.unlinkPublisher()
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -338,7 +362,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertFalse(user.ldap.isLinked)
+            XCTAssertFalse(user.twitter.isLinked)
         })
         publisher.store(in: &subscriptions)
 

@@ -96,7 +96,7 @@ extension ParseUser {
         get {
             guard let currentUserInMemory: CurrentUserContainer<Self>
                 = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
-                #if !os(Linux)
+                #if !os(Linux) && !os(Android)
                 return try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser)
                 #else
                 return nil
@@ -113,14 +113,14 @@ extension ParseUser {
             = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
             return
         }
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try? KeychainStore.shared.set(currentUserInMemory, for: ParseStorage.Keys.currentUser)
         #endif
     }
 
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentUser)
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
         #endif
         BaseParseUser.currentUserContainer = nil
@@ -671,10 +671,17 @@ extension ParseUser {
      - returns: Returns whether the sign up was successful.
     */
     public static func signup(username: String,
-                              password: String, options: API.Options = []) throws -> Self {
-        try signupCommand(body: SignupLoginBody(username: username,
-                                                password: password))
-            .execute(options: options)
+                              password: String,
+                              options: API.Options = []) throws -> Self {
+        let body = SignupLoginBody(username: username,
+                                   password: password)
+        if let current = Self.current {
+            return try current.linkCommand(body: body)
+                .execute(options: options)
+        } else {
+            return try signupCommand(body: body)
+                .execute(options: options)
+        }
     }
 
     /**
@@ -687,8 +694,13 @@ extension ParseUser {
      - returns: Returns whether the sign up was successful.
     */
     public func signup(options: API.Options = []) throws -> Self {
-        try signupCommand().execute(options: options,
-                                    callbackQueue: .main)
+        if let current = Self.current {
+            return try current.linkCommand()
+                .execute(options: options)
+        } else {
+            return try signupCommand().execute(options: options,
+                                               callbackQueue: .main)
+        }
     }
 
     /**
@@ -704,21 +716,30 @@ extension ParseUser {
     */
     public func signup(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
-        do {
-            try signupCommand()
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
-                    completion(result)
+        if let current = Self.current {
+            current.linkCommand()
+                .executeAsync(options: options) { result in
+                    callbackQueue.async {
+                        completion(result)
+                    }
                 }
-            }
-        } catch {
-            callbackQueue.async {
-                if let parseError = error as? ParseError {
-                    completion(.failure(parseError))
-                } else {
-                    let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                    completion(.failure(parseError))
+        } else {
+            do {
+                try signupCommand()
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue) { result in
+                    callbackQueue.async {
+                        completion(result)
+                    }
+                }
+            } catch {
+                callbackQueue.async {
+                    if let parseError = error as? ParseError {
+                        completion(.failure(parseError))
+                    } else {
+                        let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                        completion(.failure(parseError))
+                    }
                 }
             }
         }
@@ -743,89 +764,55 @@ extension ParseUser {
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void) {
+
         let body = SignupLoginBody(username: username, password: password)
-        do {
-            try signupCommand(body: body)
+        if let current = Self.current {
+            current.linkCommand(body: body)
                 .executeAsync(options: options) { result in
-                callbackQueue.async {
-                    completion(result)
+                    callbackQueue.async {
+                        completion(result)
+                    }
                 }
-            }
-        } catch {
-            callbackQueue.async {
-                if let parseError = error as? ParseError {
-                    completion(.failure(parseError))
-                } else {
-                    let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                    completion(.failure(parseError))
+        } else {
+            do {
+                try signupCommand(body: body)
+                    .executeAsync(options: options) { result in
+                    callbackQueue.async {
+                        completion(result)
+                    }
+                }
+            } catch {
+                callbackQueue.async {
+                    if let parseError = error as? ParseError {
+                        completion(.failure(parseError))
+                    } else {
+                        let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                        completion(.failure(parseError))
+                    }
                 }
             }
         }
     }
 
     internal static func signupCommand(body: SignupLoginBody) throws -> API.NonParseBodyCommand<SignupLoginBody, Self> {
+        API.NonParseBodyCommand(method: .POST,
+                                path: .users, body: body) { (data) -> Self in
 
-        var method = API.Method.POST
-        var path = API.Endpoint.users
-        if let current = Self.current {
-            if current.anonymous.isLinked {
-                Self.current!.anonymous.strip()
-                method = .PUT
-                path = current.endpoint
-            } else {
-                throw ParseError(code: .usernameTaken,
-                                 message: "Cannot sign up a user that has already signed up.")
+            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
+            let sessionToken = response.sessionToken
+            let accessToken = response.accessToken
+            let refreshToken = response.refreshToken
+            let expiresAt = response.expiresAt
+            var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+
+            if user.username == nil {
+                if let username = body.username {
+                    user.username = username
+                }
             }
-        }
-
-        return API.NonParseBodyCommand(method: method, path: path, body: body) { (data) -> Self in
-            var user: Self!
-            var sessionToken: String?
-            var accessToken: String?
-            var refreshToken: String?
-            var expiresAt: Date?
-
-            if method == .POST {
-                let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
-                sessionToken = response.sessionToken
-                accessToken = response.accessToken
-                refreshToken = response.refreshToken
-                expiresAt = response.expiresAt
-                user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
-
-                if user.username == nil {
-                    if let username = body.username {
-                        user.username = username
-                    }
-                }
-                if user.authData == nil {
-                    if let authData = body.authData {
-                        user.authData = authData
-                    }
-                }
-            } else {
-                if let currentUser = Self.current {
-                    let response = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
-                    user = currentUser
-                    if user.authData == nil {
-                        user.authData = body.authData
-                    } else {
-                        if user.authData != body.authData {
-                            if let authData = body.authData {
-                                for (key, value) in authData {
-                                    user.authData![key] = value
-                                }
-                            }
-                        }
-                    }
-                    user.updatedAt = response.updatedAt
-                    sessionToken = response.sessionToken
-                    accessToken = response.accessToken
-                    refreshToken = response.refreshToken
-                    expiresAt = response.expiresAt
-                } else {
-                    throw ParseError(code: .usernameTaken,
-                                     message: "Cannot link user when current user is not logged in.")
+            if user.authData == nil {
+                if let authData = body.authData {
+                    user.authData = authData
                 }
             }
 
@@ -842,45 +829,18 @@ extension ParseUser {
     }
 
     internal func signupCommand() throws -> API.Command<Self, Self> {
-        var method = API.Method.POST
-        if let currentUser = Self.current {
-            if currentUser.anonymous.isLinked {
-                Self.current!.anonymous.strip()
-                method = .PUT
-            } else {
-                throw ParseError(code: .usernameTaken,
-                                 message: "Cannot sign up a user that has already signed up.")
-            }
-        }
 
-        return API.Command(method: method,
-                           path: endpoint,
-                           body: self) { (data) -> Self in
-            var user: Self!
-            var sessionToken: String?
-            var accessToken: String?
-            var refreshToken: String?
-            var expiresAt: Date?
+        API.Command(method: .POST,
+                    path: endpoint,
+                    body: self) { (data) -> Self in
 
-            if method == .POST {
-                sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
-                user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
-                user.username = self.username
-            } else {
-                if let currentUser = Self.current {
-                    let response = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
-                    user = currentUser
-                    user.updatedAt = response.updatedAt
-                    sessionToken = response.sessionToken
-                    sessionToken = response.sessionToken
-                    accessToken = response.accessToken
-                    refreshToken = response.refreshToken
-                    expiresAt = response.expiresAt
-                } else {
-                    throw ParseError(code: .usernameTaken,
-                                     message: "Cannot link user when current user is not logged in.")
-                }
-            }
+            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
+            let sessionToken = response.sessionToken
+            let accessToken = response.accessToken
+            let refreshToken = response.refreshToken
+            let expiresAt = response.expiresAt
+            var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
+            user.username = self.username
             Self.currentUserContainer = .init(
                 currentUser: user,
                 sessionToken: sessionToken,

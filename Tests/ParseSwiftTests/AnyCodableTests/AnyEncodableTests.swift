@@ -2,7 +2,7 @@ import XCTest
 @testable import ParseSwift
 
 //Test has objective-c
-#if !os(Linux)
+#if !os(Linux) && !os(Android)
 class AnyEncodableTests: XCTestCase {
     func testJSONEncoding() {
         let dictionary: [String: AnyEncodable] = [

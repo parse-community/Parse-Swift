@@ -1,11 +1,22 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.2...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __New features__
 - Add OAuth 2.0 support ([#91](https://github.com/parse-community/Parse-Swift/pull/91)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.2.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.1...1.2.2)
+
+__New features__
+- Allow custom objectIds ([#100](https://github.com/parse-community/Parse-Swift/pull/100)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add ParseTwitter and ParseFacebook authentication ([#97](https://github.com/parse-community/Parse-Swift/pull/97)), thanks to [Abdulaziz Alhomaidhi](https://github.com/abs8090).
+- Add build support for Android ([#90](https://github.com/parse-community/Parse-Swift/pull/90)), thanks to [jt9897253](https://github.com/jt9897253).
+
+__Fixes__
+- There was another bug after a user first logs in anonymously and then becomes a real user. The authData sent to the server wasn't stripped, keep the user anonymous instead of making them a real user ([#100](https://github.com/parse-community/Parse-Swift/pull/100)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.2.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.0...1.2.1)

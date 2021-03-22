@@ -202,7 +202,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -441,7 +441,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testThreadSafeFetchAsync() {
         var score = GameScore(score: 10)
         let objectId = "yarr"
@@ -497,7 +497,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.fetchAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testSaveCommand() throws {
         let score = GameScore(score: 10)
         let className = score.className
@@ -733,7 +733,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testThreadSafeSaveAsync() {
         let score = GameScore(score: 10)
 
@@ -838,7 +838,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testThreadSafeUpdateAsync() {
         var score = GameScore(score: 10)
         score.objectId = "yarr"
@@ -1005,7 +1005,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     func testThreadSafeDeleteAsync() {
         var score = GameScore(score: 10)
         let objectId = "yarr"
@@ -1332,7 +1332,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    #if !os(Linux)
+    #if !os(Linux) && !os(Android)
     // swiftlint:disable:next function_body_length
     func testDeepSaveObjectWithFile() throws {
         var game = Game2()

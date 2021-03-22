@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-#if !os(Linux)
+#if !os(Linux) && !os(Android)
 class ParseRelationTests: XCTestCase {
     struct GameScore: ParseObject {
         //: Those are required for Object
@@ -63,7 +63,7 @@ class ParseRelationTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux)
+        #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()

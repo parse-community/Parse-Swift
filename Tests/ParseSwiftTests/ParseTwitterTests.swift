@@ -1,8 +1,8 @@
 //
-//  ParseLDAPTests.swift
+//  ParseTwitterTests.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 2/14/21.
+//  Created by Abdulaziz Alhomaidhi on 3/17/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
@@ -10,7 +10,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseLDAPTests: XCTestCase {
+class ParseTwitterTests: XCTestCase {
     struct User: ParseUser {
 
         //: Those are required for Object
@@ -94,31 +94,56 @@ class ParseLDAPTests: XCTestCase {
     }
 
     func testAuthenticationKeys() throws {
-        let authData = ParseLDAP<User>
-            .AuthenticationKeys.id.makeDictionary(id: "testing",
-                                                  password: "this")
-        XCTAssertEqual(authData, ["id": "testing", "password": "this"])
+
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
+                                                  authTokenSecret: "authTokenSecret")
+        XCTAssertEqual(authData, ["id": "testing",
+                                  "screenName": "screenName",
+                                  "consumerKey": "consumerKey",
+                                  "consumerSecret": "consumerSecret",
+                                  "authToken": "authToken",
+                                  "authTokenSecret": "authTokenSecret"])
     }
 
     func testVerifyMandatoryKeys() throws {
-        let authData = ["id": "testing", "password": "this"]
-        let authDataWrong = ["id": "testing", "hello": "test"]
-        XCTAssertTrue(ParseLDAP<User>
+        let authData = ["id": "testing",
+                        "screenName": "screenName",
+                        "consumerKey": "consumerKey",
+                        "consumerSecret": "consumerSecret",
+                        "authToken": "authToken",
+                        "authTokenSecret": "authTokenSecret"]
+        let authDataWrong = ["id": "testing",
+                             "screenName": "screenName",
+                             "consumerKey": "consumerKey",
+                             "consumerSecret": "consumerSecret",
+                             "authToken": "authToken",
+                             "hello": "authTokenSecret"]
+        XCTAssertTrue(ParseTwitter<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData))
-        XCTAssertFalse(ParseLDAP<User>
+        XCTAssertFalse(ParseTwitter<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong))
     }
 
     func testLogin() throws {
         var serverResponse = LoginSignupResponse()
-        let authData = ParseLDAP<User>
-            .AuthenticationKeys.id.makeDictionary(id: "testing",
-                                                  password: "this")
+
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
+                                                  authTokenSecret: "authTokenSecret")
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
+        serverResponse.authData = [serverResponse.twitter.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -139,7 +164,9 @@ class ParseLDAPTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.ldap.login(id: "testing", password: "this") { result in
+        User.twitter.login(userId: "testing", screenName: "screenName",
+                           authToken: "consumerKey", authTokenSecret: "consumerSecret",
+                           consumerKey: "this", consumerSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):
@@ -147,11 +174,66 @@ class ParseLDAPTests: XCTestCase {
                 XCTAssertEqual(user, userOnServer)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.ldap.isLinked)
+                XCTAssertTrue(user.twitter.isLinked)
 
                 //Test stripping
-                user.ldap.strip()
-                XCTAssertFalse(user.ldap.isLinked)
+                user.twitter.strip()
+                XCTAssertFalse(user.twitter.isLinked)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLoginAuthData() throws {
+        var serverResponse = LoginSignupResponse()
+
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
+                                                  authTokenSecret: "authTokenSecret")
+        serverResponse.username = "hello"
+        serverResponse.password = "world"
+        serverResponse.objectId = "yarr"
+        serverResponse.sessionToken = "myToken"
+        serverResponse.authData = [serverResponse.twitter.__type: authData]
+        serverResponse.createdAt = Date()
+        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Login")
+        User.twitter.login(authData: authData) { result in
+            switch result {
+
+            case .success(let user):
+                XCTAssertEqual(user, User.current)
+                XCTAssertEqual(user, userOnServer)
+                XCTAssertEqual(user.username, "hello")
+                XCTAssertEqual(user.password, "world")
+                XCTAssertTrue(user.twitter.isLinked)
+
+                //Test stripping
+                user.twitter.strip()
+                XCTAssertFalse(user.twitter.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -166,7 +248,7 @@ class ParseLDAPTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.ldap.login(authData: ["hello": "world"]) { result in
+        User.twitter.login(authData: ["hello": "world"]) { result in
 
             if case let .failure(error) = result {
                 XCTAssertTrue(error.message.contains("consisting of keys"))
@@ -214,20 +296,24 @@ class ParseLDAPTests: XCTestCase {
         XCTAssertTrue(user.anonymous.isLinked)
     }
 
-    func testReplaceAnonymousWithLDAP() throws {
+    func testReplaceAnonymousWithTwitter() throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()
-        let authData = ParseLDAP<User>
-            .AuthenticationKeys.id.makeDictionary(id: "testing",
-                                                  password: "this")
+
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerSecret",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "this",
+                                                  authTokenSecret: "authTokenSecret")
 
         var serverResponse = LoginSignupResponse()
         serverResponse.username = "hello"
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData,
-                                   serverResponse.anonymous.__type: nil]
+        serverResponse.authData = [serverResponse.twitter.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -248,15 +334,17 @@ class ParseLDAPTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.ldap.login(id: "testing", password: "this") { result in
+        User.twitter.login(userId: "testing", screenName: "screenName",
+                           authToken: "this", authTokenSecret: "authTokenSecret",
+                           consumerKey: "consumerKey", consumerSecret: "consumerSecret") { result in
             switch result {
 
             case .success(let user):
                 XCTAssertEqual(user, User.current)
-                XCTAssertEqual(user.authData, userOnServer.authData)
+                XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.ldap.isLinked)
+                XCTAssertTrue(user.twitter.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -266,7 +354,7 @@ class ParseLDAPTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testReplaceAnonymousWithLinkedLDAP() throws {
+    func testReplaceAnonymousWithLinkedTwitter() throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()
         var serverResponse = LoginSignupResponse()
@@ -289,7 +377,9 @@ class ParseLDAPTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.ldap.link(id: "testing", password: "this") { result in
+        User.twitter.link(userId: "testing", screenName: "screenName",
+                          consumerKey: "consumerKey", consumerSecret: "consumerSecret",
+                          authToken: "this", authTokenSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):
@@ -297,7 +387,7 @@ class ParseLDAPTests: XCTestCase {
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "hello")
                 XCTAssertEqual(user.password, "world")
-                XCTAssertTrue(user.ldap.isLinked)
+                XCTAssertTrue(user.twitter.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -307,7 +397,7 @@ class ParseLDAPTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testLinkLoggedInUserWithLDAP() throws {
+    func testLinkLoggedInUserWithTwitter() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
@@ -331,7 +421,9 @@ class ParseLDAPTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.ldap.link(id: "testing", password: "this") { result in
+        User.twitter.link(userId: "testing", screenName: "screenName",
+                          consumerKey: "consumerKey", consumerSecret: "consumerSecret",
+                          authToken: "this", authTokenSecret: "authTokenSecret") { result in
             switch result {
 
             case .success(let user):
@@ -339,7 +431,7 @@ class ParseLDAPTests: XCTestCase {
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "parse")
                 XCTAssertNil(user.password)
-                XCTAssertTrue(user.ldap.isLinked)
+                XCTAssertTrue(user.twitter.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -349,13 +441,62 @@ class ParseLDAPTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testLinkLoggedInUserWrongKeys() throws {
+    func testLinkLoggedInAuthData() throws {
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = Date()
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Login")
+
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenName",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "authToken",
+                                                  authTokenSecret: "authTokenSecret")
+        User.twitter.link(authData: authData) { result in
+            switch result {
+
+            case .success(let user):
+                XCTAssertEqual(user, User.current)
+                XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+                XCTAssertEqual(user.username, "parse")
+                XCTAssertNil(user.password)
+                XCTAssertTrue(user.twitter.isLinked)
+                XCTAssertFalse(user.anonymous.isLinked)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLinkWrongKeys() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.ldap.link(authData: ["hello": "world"]) { result in
+        User.twitter.link(authData: ["hello": "world"]) { result in
 
             if case let .failure(error) = result {
                 XCTAssertTrue(error.message.contains("consisting of keys"))
@@ -370,11 +511,16 @@ class ParseLDAPTests: XCTestCase {
     func testUnlink() throws {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
-        let authData = ParseLDAP<User>
-            .AuthenticationKeys.id.makeDictionary(id: "testing",
-                                              password: "this")
-        User.current?.authData = [User.ldap.__type: authData]
-        XCTAssertTrue(User.ldap.isLinked)
+
+        let authData = ParseTwitter<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  screenName: "screenNAme",
+                                                  consumerKey: "consumerKey",
+                                                  consumerSecret: "consumerSecret",
+                                                  authToken: "this",
+                                                  authTokenSecret: "authTokenSecret")
+        User.current?.authData = [User.twitter.__type: authData]
+        XCTAssertTrue(User.twitter.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -396,7 +542,7 @@ class ParseLDAPTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.ldap.unlink { result in
+        User.twitter.unlink { result in
             switch result {
 
             case .success(let user):
@@ -404,7 +550,7 @@ class ParseLDAPTests: XCTestCase {
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
                 XCTAssertEqual(user.username, "parse")
                 XCTAssertNil(user.password)
-                XCTAssertFalse(user.ldap.isLinked)
+                XCTAssertFalse(user.twitter.isLinked)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
