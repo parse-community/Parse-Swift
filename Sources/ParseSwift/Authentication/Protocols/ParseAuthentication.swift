@@ -217,8 +217,12 @@ public extension ParseUser {
     static func login(_ type: String,
                       authData: [String: String],
                       options: API.Options) throws -> Self {
-        let body = SignupLoginBody(authData: [type: authData])
-        return try signupCommand(body: body).execute(options: options)
+        if Self.current != nil {
+            return try Self.link(type, authData: authData, options: options)
+        } else {
+            let body = SignupLoginBody(authData: [type: authData])
+            return try signupCommand(body: body).execute(options: options)
+        }
     }
 
     /**
@@ -238,22 +242,28 @@ public extension ParseUser {
                       options: API.Options,
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
-
-        let body = SignupLoginBody(authData: [type: authData])
-        do {
-            try signupCommand(body: body)
-                .executeAsync(options: options) { result in
-                    callbackQueue.async {
-                        completion(result)
+        if Self.current != nil {
+            Self.link(type, authData: authData,
+                      options: options,
+                      callbackQueue: callbackQueue,
+                      completion: completion)
+        } else {
+            let body = SignupLoginBody(authData: [type: authData])
+            do {
+                try signupCommand(body: body)
+                    .executeAsync(options: options) { result in
+                        callbackQueue.async {
+                            completion(result)
+                        }
+                }
+            } catch {
+                callbackQueue.async {
+                    if let parseError = error as? ParseError {
+                        completion(.failure(parseError))
+                    } else {
+                        let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                        completion(.failure(parseError))
                     }
-            }
-        } catch {
-            callbackQueue.async {
-                if let parseError = error as? ParseError {
-                    completion(.failure(parseError))
-                } else {
-                    let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                    completion(.failure(parseError))
                 }
             }
         }
@@ -384,29 +394,47 @@ public extension ParseUser {
             }
     }
 
+    internal func linkCommand() -> API.NonParseBodyCommand<Self, Self> {
+        Self.current?.anonymous.strip()
+        return API.NonParseBodyCommand<Self, Self>(method: .PUT,
+                                         path: endpoint,
+                                         body: Self.current) { (data) -> Self in
+            let user = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
+            Self.current?.updatedAt = user.updatedAt
+            guard let current = Self.current else {
+                throw ParseError(code: .unknownError, message: "Should have a current user.")
+            }
+            Self.currentUserContainer = .init(currentUser: current,
+                                              sessionToken: user.sessionToken)
+            Self.saveCurrentContainerToKeychain()
+            return current
+        }
+    }
+
     internal func linkCommand(body: SignupLoginBody) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
+        var body = body
+        Self.current?.anonymous.strip()
+        if var currentAuthData = Self.current?.authData {
+            if let bodyAuthData = body.authData {
+                bodyAuthData.forEach { (key, value) in
+                    currentAuthData[key] = value
+                }
+            }
+            body.authData = currentAuthData
+        }
 
         return API.NonParseBodyCommand<SignupLoginBody, Self>(method: .PUT,
                                          path: endpoint,
                                          body: body) { (data) -> Self in
-            let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
-            if let authData = body.authData {
-                Self.current?.anonymous.strip()
-                if Self.current?.authData == nil {
-                    Self.current?.authData = authData
-                } else {
-                    authData.forEach { (key, value) in
-                        Self.current?.authData?[key] = value
-                    }
-                }
-                if let updatedAt = user.updatedAt {
-                    Self.current?.updatedAt = updatedAt
-                }
-            }
-            Self.saveCurrentContainerToKeychain()
+            let user = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
+            Self.current?.updatedAt = user.updatedAt
+            Self.current?.authData = body.authData
             guard let current = Self.current else {
                 throw ParseError(code: .unknownError, message: "Should have a current user.")
             }
+            Self.currentUserContainer = .init(currentUser: current,
+                                              sessionToken: user.sessionToken)
+            Self.saveCurrentContainerToKeychain()
             return current
         }
     }

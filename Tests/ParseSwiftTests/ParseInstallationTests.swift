@@ -923,7 +923,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testSaveCommand() {
+    func testSaveCommand() throws {
         let installation = Installation()
         let command = installation.saveCommand()
         XCTAssertNotNil(command)
@@ -933,7 +933,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertNotNil(command.body)
     }
 
-    func testUpdateCommand() {
+    func testUpdateCommand() throws {
         var installation = Installation()
         let objectId = "yarr"
         installation.objectId = objectId
@@ -1067,7 +1067,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         }
                         XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                        #if !os(Linux)
+                        #if !os(Linux) && !os(Android)
                         //Should be updated in Keychain
                         guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
@@ -1213,7 +1213,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                                 return
                             }
                             XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
-                            #if !os(Linux)
+                            #if !os(Linux) && !os(Android)
                             //Should be updated in Keychain
                             guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),

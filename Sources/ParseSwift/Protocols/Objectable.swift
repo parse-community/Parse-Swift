@@ -75,7 +75,11 @@ extension Objectable {
     }
 
     var isSaved: Bool {
-        return objectId != nil
+        if !ParseConfiguration.allowCustomObjectId {
+            return objectId != nil
+        } else {
+            return createdAt != nil
+        }
     }
 
     func toPointer() throws -> PointerType {
