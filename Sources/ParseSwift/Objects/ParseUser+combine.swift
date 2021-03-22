@@ -13,7 +13,7 @@ import Combine
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseUser {
 
-    // MARK: Signing Out - Combine
+    // MARK: Signing Up - Combine
     /**
      Signs up the user *asynchronously* and publishes value.
 
