@@ -1,9 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.2...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.3...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+### 1.2.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.2...1.2.3)
+
+__Fixes__
+- Fixed a bug that prevented custom objectIds from working ([#101](https://github.com/parse-community/Parse-Swift/pull/101)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.2.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.1...1.2.2)

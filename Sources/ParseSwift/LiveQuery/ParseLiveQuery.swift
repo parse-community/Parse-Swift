@@ -37,10 +37,12 @@ import FoundationNetworking
  The above creates a `ParseLiveQuery` using either the `liveQueryServerURL` (if it has been set)
  or `serverURL` when using `ParseSwift.initialize`. All additional queries will be
  created in the same way. The times you will want to initialize a new `ParseLiveQuery` instance
- are: 1) If you want to become a `ParseLiveQueryDelegate` to respond to authentification challenges
+ are:
+ 1. If you want to become a `ParseLiveQueryDelegate` to respond to authentification challenges
  and/or receive metrics and error messages for a `ParseLiveQuery`client.
- 2) You have specific LiveQueries that need to subscribe to a server that have a different url than
- the default. 3) You want to change the default url for all LiveQuery connections when the app is already
+ 2. You have specific LiveQueries that need to subscribe to a server that have a different url than
+ the default.
+ 3. You want to change the default url for all LiveQuery connections when the app is already
  running. Initializing new instances will create a new task/connection to the `ParseLiveQuery` server.
  When an instance is deinitialized it will automatically close it's connection gracefully.
  */

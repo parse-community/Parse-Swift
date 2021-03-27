@@ -85,6 +85,14 @@ extension Objectable {
     func toPointer() throws -> PointerType {
         return try PointerType(self)
     }
+
+    func endpoint(_ method: API.Method) -> API.Endpoint {
+        if !ParseConfiguration.allowCustomObjectId || method != .POST {
+            return endpoint
+        } else {
+            return .objects(className: className)
+        }
+    }
 }
 
 internal struct UniqueObject: Encodable, Decodable, Hashable {

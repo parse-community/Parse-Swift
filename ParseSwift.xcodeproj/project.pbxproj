@@ -197,9 +197,9 @@
 		70647E9D259E3A9A004C1004 /* ParseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E9B259E3A9A004C1004 /* ParseType.swift */; };
 		70647E9E259E3A9A004C1004 /* ParseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E9B259E3A9A004C1004 /* ParseType.swift */; };
 		70647E9F259E3A9A004C1004 /* ParseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E9B259E3A9A004C1004 /* ParseType.swift */; };
-		70732C5A2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70732C592606CCAD000CAB81 /* ParseObjectCustomObjectId.swift */; };
-		70732C5B2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70732C592606CCAD000CAB81 /* ParseObjectCustomObjectId.swift */; };
-		70732C5C2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70732C592606CCAD000CAB81 /* ParseObjectCustomObjectId.swift */; };
+		70732C5A2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70732C592606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift */; };
+		70732C5B2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70732C592606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift */; };
+		70732C5C2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70732C592606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift */; };
 		707A3BF125B0A4F0000D215C /* ParseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */; };
 		707A3BF225B0A4F0000D215C /* ParseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */; };
 		707A3BF325B0A4F0000D215C /* ParseAuthentication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */; };
@@ -602,7 +602,7 @@
 		705D950725BE4C08003EF6F8 /* SubscriptionCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCallback.swift; sourceTree = "<group>"; };
 		70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocallyIdentifiable.swift; sourceTree = "<group>"; };
 		70647E9B259E3A9A004C1004 /* ParseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseType.swift; sourceTree = "<group>"; };
-		70732C592606CCAD000CAB81 /* ParseObjectCustomObjectId.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObjectCustomObjectId.swift; sourceTree = "<group>"; };
+		70732C592606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObjectCustomObjectIdTests.swift; sourceTree = "<group>"; };
 		707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthentication.swift; sourceTree = "<group>"; };
 		707A3C1025B0A8E8000D215C /* ParseAnonymous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAnonymous.swift; sourceTree = "<group>"; };
 		707A3C1F25B14BCF000D215C /* ParseApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseApple.swift; sourceTree = "<group>"; };
@@ -834,7 +834,7 @@
 				7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */,
 				70C7DC2024D20F190050419B /* ParseObjectBatchTests.swift */,
 				7044C1DE25C5C70D0011F6E7 /* ParseObjectCombine.swift */,
-				70732C592606CCAD000CAB81 /* ParseObjectCustomObjectId.swift */,
+				70732C592606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift */,
 				911DB13524C4FC100027F3C7 /* ParseObjectTests.swift */,
 				7044C1EB25C5CC930011F6E7 /* ParseOperationCombineTests.swift */,
 				70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */,
@@ -1665,7 +1665,7 @@
 				89899D772603CF66002E2043 /* ParseFacebookTests.swift in Sources */,
 				70386A4625D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
 				911DB12E24C4837E0027F3C7 /* APICommandTests.swift in Sources */,
-				70732C5A2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */,
+				70732C5A2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */,
 				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
 				7044C24325C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
 				7044C1DF25C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */,
@@ -1816,7 +1816,7 @@
 				89899D822603CF67002E2043 /* ParseFacebookTests.swift in Sources */,
 				70386A4825D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
 				709B984C2556ECAA00507778 /* APICommandTests.swift in Sources */,
-				70732C5C2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */,
+				70732C5C2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */,
 				709B984D2556ECAA00507778 /* AnyDecodableTests.swift in Sources */,
 				7044C24525C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
 				7044C1E125C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */,
@@ -1870,7 +1870,7 @@
 				89899D812603CF67002E2043 /* ParseFacebookTests.swift in Sources */,
 				70386A4725D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
 				70F2E2B5254F283000B2EA5C /* ParseEncoderTests.swift in Sources */,
-				70732C5B2606CCAD000CAB81 /* ParseObjectCustomObjectId.swift in Sources */,
+				70732C5B2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */,
 				70F2E2C2254F283000B2EA5C /* APICommandTests.swift in Sources */,
 				7044C24425C5EA360011F6E7 /* ParseAppleCombineTests.swift in Sources */,
 				7044C1E025C5C70D0011F6E7 /* ParseObjectCombine.swift in Sources */,
@@ -2321,7 +2321,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
@@ -2345,7 +2345,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SKIP_INSTALL = YES;
@@ -2411,7 +2411,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SDKROOT = macosx;
@@ -2437,7 +2437,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.parse.ParseSwift;
 				PRODUCT_NAME = ParseSwift;
 				SDKROOT = macosx;
@@ -2584,7 +2584,7 @@
 				INFOPLIST_FILE = "ParseSwift-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-watchOS";
@@ -2613,7 +2613,7 @@
 				INFOPLIST_FILE = "ParseSwift-watchOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-watchOS";
 				PRODUCT_NAME = ParseSwift;
@@ -2640,7 +2640,7 @@
 				INFOPLIST_FILE = "ParseSwift-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-tvOS";
@@ -2668,7 +2668,7 @@
 				INFOPLIST_FILE = "ParseSwift-tvOS/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
-				MARKETING_VERSION = 1.2.2;
+				MARKETING_VERSION = 1.2.3;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "com.parse.ParseSwift-tvOS";
 				PRODUCT_NAME = ParseSwift;
