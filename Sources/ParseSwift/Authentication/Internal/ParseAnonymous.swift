@@ -18,15 +18,15 @@ import Combine
  - Anonymous users don't need a user name or password.
  - Once logged out, an anonymous user cannot be recovered.
  - When the current user is anonymous, the following methods can be used to switch
- to a different user or convert the anonymous user into a regular one.
- - *signup* converts an anonymous user to a standard user with the given username and password.
+ to a different user or convert the anonymous user into a regular one:
+    - *signup* converts an anonymous user to a standard user with the given username and password.
  Data associated with the anonymous user is retained.
- - *login* switches users without converting the anonymous user.
+    - *login* switches users without converting the anonymous user.
  Data associated with the anonymous user will be lost.
- - Service *login* (e.g. Apple, Facebook, Twitter) will attempt to convert
+    - Service *login* (e.g. Apple, Facebook, Twitter) will attempt to convert
  the anonymous user into a standard user by linking it to the service.
  If a user already exists that is linked to the service, it will instead switch to the existing user.
- - Service linking (e.g. Apple, Facebook, Twitter) will convert the anonymous user
+    - Service linking (e.g. Apple, Facebook, Twitter) will convert the anonymous user
  into a standard user by linking it to the service.
  */
 public struct ParseAnonymous<AuthenticatedUser: ParseUser>: ParseAuthentication {
