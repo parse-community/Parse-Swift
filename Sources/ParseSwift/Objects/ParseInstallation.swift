@@ -97,6 +97,14 @@ extension ParseInstallation {
         return .installations
     }
 
+    func endpoint(_ method: API.Method) -> API.Endpoint {
+        if !ParseConfiguration.allowCustomObjectId || method != .POST {
+            return endpoint
+        } else {
+            return .installations
+        }
+    }
+
     /**
      Sets the device token string property from an `Data`-encoded token.
      - parameter data: A token that identifies the device.
@@ -478,19 +486,29 @@ extension ParseInstallation {
     ) {
         self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
             guard let parseError = error else {
-                self.saveCommand()
-                    .executeAsync(options: options,
-                                  callbackQueue: callbackQueue,
-                                  childObjects: savedChildObjects,
-                                  childFiles: savedChildFiles) { result in
-                        callbackQueue.async {
-                            if case .success(let foundResults) = result {
-                                Self.updateKeychainIfNeeded([foundResults])
-                            }
+                do {
+                    try self.saveCommand()
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue,
+                                      childObjects: savedChildObjects,
+                                      childFiles: savedChildFiles) { result in
+                            callbackQueue.async {
+                                if case .success(let foundResults) = result {
+                                    Self.updateKeychainIfNeeded([foundResults])
+                                }
 
-                            completion(result)
+                                completion(result)
+                            }
+                        }
+                } catch {
+                    callbackQueue.async {
+                        if let parseError = error as? ParseError {
+                            completion(.failure(parseError))
+                        } else {
+                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
                         }
                     }
+                }
                 return
             }
             callbackQueue.async {
@@ -499,7 +517,10 @@ extension ParseInstallation {
         }
     }
 
-    func saveCommand() -> API.Command<Self, Self> {
+    func saveCommand() throws -> API.Command<Self, Self> {
+        if ParseConfiguration.allowCustomObjectId && objectId == nil {
+            throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
+        }
         if isSaved {
             return updateCommand()
         }
@@ -512,9 +533,9 @@ extension ParseInstallation {
             try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: self)
         }
         return API.Command<Self, Self>(method: .POST,
-                                 path: endpoint,
-                                 body: self,
-                                 mapper: mapper)
+                                       path: endpoint(.POST),
+                                       body: self,
+                                       mapper: mapper)
     }
 
     private func updateCommand() -> API.Command<Self, Self> {
@@ -668,7 +689,7 @@ public extension Sequence where Element: ParseInstallation {
         }
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
-        let commands = map { $0.saveCommand() }
+        let commands = try map { try $0.saveCommand() }
         let batchLimit: Int!
         if transaction {
             batchLimit = commands.count
@@ -762,39 +783,49 @@ public extension Sequence where Element: ParseInstallation {
                 }
             }
 
-            var returnBatch = [(Result<Self.Element, ParseError>)]()
-            let commands = map { $0.saveCommand() }
-            let batchLimit: Int!
-            if transaction {
-                batchLimit = commands.count
-            } else {
-                batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-            }
-            let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
-            var completed = 0
-            for batch in batches {
-                API.Command<Self.Element, Self.Element>
-                        .batch(commands: batch, transaction: transaction)
-                        .executeAsync(options: options,
-                                      callbackQueue: callbackQueue,
-                                      childObjects: childObjects,
-                                      childFiles: childFiles) { results in
-                    switch results {
+            do {
+                var returnBatch = [(Result<Self.Element, ParseError>)]()
+                let commands = try map { try $0.saveCommand() }
+                let batchLimit: Int!
+                if transaction {
+                    batchLimit = commands.count
+                } else {
+                    batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+                }
+                let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+                var completed = 0
+                for batch in batches {
+                    API.Command<Self.Element, Self.Element>
+                            .batch(commands: batch, transaction: transaction)
+                            .executeAsync(options: options,
+                                          callbackQueue: callbackQueue,
+                                          childObjects: childObjects,
+                                          childFiles: childFiles) { results in
+                        switch results {
 
-                    case .success(let saved):
-                        returnBatch.append(contentsOf: saved)
-                        if completed == (batches.count - 1) {
-                            callbackQueue.async {
-                                Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
-                                completion(.success(returnBatch))
+                        case .success(let saved):
+                            returnBatch.append(contentsOf: saved)
+                            if completed == (batches.count - 1) {
+                                callbackQueue.async {
+                                    Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
+                                    completion(.success(returnBatch))
+                                }
                             }
+                            completed += 1
+                        case .failure(let error):
+                            callbackQueue.async {
+                                completion(.failure(error))
+                            }
+                            return
                         }
-                        completed += 1
-                    case .failure(let error):
-                        callbackQueue.async {
-                            completion(.failure(error))
-                        }
-                        return
+                    }
+                }
+            } catch {
+                callbackQueue.async {
+                    if let parseError = error as? ParseError {
+                        completion(.failure(parseError))
+                    } else {
+                        completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
                     }
                 }
             }

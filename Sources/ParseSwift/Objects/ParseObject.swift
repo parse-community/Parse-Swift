@@ -121,7 +121,7 @@ public extension Sequence where Element: ParseObject {
         }
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
-        let commands = map { $0.saveCommand() }
+        let commands = try map { try $0.saveCommand() }
         let batchLimit: Int!
         if transaction {
             batchLimit = commands.count
@@ -213,38 +213,48 @@ public extension Sequence where Element: ParseObject {
                 }
             }
 
-            var returnBatch = [(Result<Self.Element, ParseError>)]()
-            let commands = map { $0.saveCommand() }
-            let batchLimit: Int!
-            if transaction {
-                batchLimit = commands.count
-            } else {
-                batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-            }
-            let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
-            var completed = 0
-            for batch in batches {
-                API.Command<Self.Element, Self.Element>
-                        .batch(commands: batch, transaction: transaction)
-                        .executeAsync(options: options,
-                                      callbackQueue: callbackQueue,
-                                      childObjects: childObjects,
-                                      childFiles: childFiles) { results in
-                    switch results {
+            do {
+                var returnBatch = [(Result<Self.Element, ParseError>)]()
+                let commands = try map { try $0.saveCommand() }
+                let batchLimit: Int!
+                if transaction {
+                    batchLimit = commands.count
+                } else {
+                    batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+                }
+                let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
+                var completed = 0
+                for batch in batches {
+                    API.Command<Self.Element, Self.Element>
+                            .batch(commands: batch, transaction: transaction)
+                            .executeAsync(options: options,
+                                          callbackQueue: callbackQueue,
+                                          childObjects: childObjects,
+                                          childFiles: childFiles) { results in
+                        switch results {
 
-                    case .success(let saved):
-                        returnBatch.append(contentsOf: saved)
-                        if completed == (batches.count - 1) {
-                            callbackQueue.async {
-                                completion(.success(returnBatch))
+                        case .success(let saved):
+                            returnBatch.append(contentsOf: saved)
+                            if completed == (batches.count - 1) {
+                                callbackQueue.async {
+                                    completion(.success(returnBatch))
+                                }
                             }
+                            completed += 1
+                        case .failure(let error):
+                            callbackQueue.async {
+                                completion(.failure(error))
+                            }
+                            return
                         }
-                        completed += 1
-                    case .failure(let error):
-                        callbackQueue.async {
-                            completion(.failure(error))
-                        }
-                        return
+                    }
+                }
+            } catch {
+                callbackQueue.async {
+                    if let parseError = error as? ParseError {
+                        completion(.failure(parseError))
+                    } else {
+                        completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
                     }
                 }
             }
@@ -589,12 +599,22 @@ extension ParseObject {
     ) {
         self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
             guard let parseError = error else {
-                self.saveCommand().executeAsync(options: options,
-                                                callbackQueue: callbackQueue,
-                                                childObjects: savedChildObjects,
-                                                childFiles: savedChildFiles) { result in
+                do {
+                    try self.saveCommand().executeAsync(options: options,
+                                                    callbackQueue: callbackQueue,
+                                                    childObjects: savedChildObjects,
+                                                    childFiles: savedChildFiles) { result in
+                        callbackQueue.async {
+                            completion(result)
+                        }
+                    }
+                } catch {
                     callbackQueue.async {
-                        completion(result)
+                        if let parseError = error as? ParseError {
+                            completion(.failure(parseError))
+                        } else {
+                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
+                        }
                     }
                 }
                 return
@@ -605,8 +625,8 @@ extension ParseObject {
         }
     }
 
-    internal func saveCommand() -> API.Command<Self, Self> {
-        API.Command<Self, Self>.saveCommand(self)
+    internal func saveCommand() throws -> API.Command<Self, Self> {
+        try API.Command<Self, Self>.saveCommand(self)
     }
 
     // swiftlint:disable:next function_body_length
