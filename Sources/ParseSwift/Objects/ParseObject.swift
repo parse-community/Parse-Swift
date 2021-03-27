@@ -21,7 +21,7 @@ import Foundation
  - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
  for reference types and may have unexpected behavior when it comes to threading. You will also need to implement
  your own `==` method to conform to `Equatable` along with with the `hash` method to conform to `Hashable`.
- It is important to note that for unsaved ParseObject`s, you won't be able to rely on `objectId` for
+ It is important to note that for unsaved `ParseObject`'s, you won't be able to rely on `objectId` for
  `Equatable` and `Hashable` as your unsaved objects won't have this value yet and is nil. A possible way to
  address this is by creating a `UUID` for your objects locally and relying on that for `Equatable` and `Hashable`,
  otherwise it's possible you will get "circular dependency errors" depending on your implementation.

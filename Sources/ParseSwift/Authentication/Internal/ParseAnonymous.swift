@@ -18,7 +18,7 @@ import Combine
  - Anonymous users don't need a user name or password.
  - Once logged out, an anonymous user cannot be recovered.
  - When the current user is anonymous, the following methods can be used to switch
- to a different user or convert the anonymous user into a regular one:
+ to a different user or convert the anonymous user into a regular one.
  - *signup* converts an anonymous user to a standard user with the given username and password.
  Data associated with the anonymous user is retained.
  - *login* switches users without converting the anonymous user.
