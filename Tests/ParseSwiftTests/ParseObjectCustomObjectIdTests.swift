@@ -800,6 +800,22 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         XCTAssertThrowsError(try [score, score2].saveAll())
     }
 
+    func testSaveAllNoObjectIdAsync() throws {
+        let score = GameScore(score: 10)
+        let score2 = GameScore(score: 20)
+
+        let expectation1 = XCTestExpectation(description: "Save object2")
+        [score, score2].saveAll { result in
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("objectId"))
+            } else {
+                XCTFail("Should have failed")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func testUpdateAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity
         var score = GameScore(score: 10)
         score.objectId = "yarr"
@@ -867,6 +883,24 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var score2 = GameScore(score: 20)
         score2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         XCTAssertThrowsError(try [score, score2].saveAll())
+    }
+
+    func testUpdateAllNoObjectIdAsync() throws {
+        var score = GameScore(score: 10)
+        score.createdAt = Date()
+        var score2 = GameScore(score: 20)
+        score2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+
+        let expectation1 = XCTestExpectation(description: "Save object2")
+        [score, score2].saveAll { result in
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("objectId"))
+            } else {
+                XCTFail("Should have failed")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUserSave() { // swiftlint:disable:this function_body_length
@@ -1126,6 +1160,22 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         XCTAssertThrowsError(try [user, user2].saveAll())
     }
 
+    func testUserSaveAllNoObjectIdAsync() throws {
+        let user = User()
+        let user2 = User()
+
+        let expectation1 = XCTestExpectation(description: "SaveAll user")
+        [user, user2].saveAll { result in
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("objectId"))
+            } else {
+                XCTFail("Should have failed")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func testUserUpdateAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity
         var user = User()
         user.objectId = "yarr"
@@ -1193,6 +1243,24 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var user2 = User()
         user2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         XCTAssertThrowsError(try [user, user2].saveAll())
+    }
+
+    func testUserUpdateAllNoObjectIdAsync() throws {
+        var user = User()
+        user.createdAt = Date()
+        var user2 = User()
+        user2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+
+        let expectation1 = XCTestExpectation(description: "UpdateAll user")
+        [user, user2].saveAll { result in
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("objectId"))
+            } else {
+                XCTFail("Should have failed")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testInstallationSave() { // swiftlint:disable:this function_body_length
@@ -1486,6 +1554,22 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         XCTAssertThrowsError(try [installation, installation2].saveAll())
     }
 
+    func testInstallationSaveAllNoObjectIdAsync() throws {
+        let installation = Installation()
+        let installation2 = Installation()
+
+        let expectation1 = XCTestExpectation(description: "SaveAll installation")
+        [installation, installation2].saveAll { result in
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("objectId"))
+            } else {
+                XCTFail("Should have failed")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func testInstallationUpdateAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity
         var installation = Installation()
         installation.objectId = "yarr"
@@ -1553,5 +1637,23 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var installation2 = Installation()
         installation2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         XCTAssertThrowsError(try [installation, installation2].saveAll())
+    }
+
+    func testInstallationUpdateAllNoObjectIdAsync() throws {
+        var installation = Installation()
+        installation.createdAt = Date()
+        var installation2 = Installation()
+        installation2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+
+        let expectation1 = XCTestExpectation(description: "UpdateAll installation")
+        [installation, installation2].saveAll { result in
+            if case let .failure(error) = result {
+                XCTAssertTrue(error.message.contains("objectId"))
+            } else {
+                XCTFail("Should have failed")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 }
