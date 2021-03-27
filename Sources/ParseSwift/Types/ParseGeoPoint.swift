@@ -5,7 +5,7 @@ import CoreLocation
 
 /**
   `ParseGeoPoint` is used to embed a latitude / longitude point as the value for a key in a `ParseObject`.
-   It could be used to perform queries in a geospatial manner using `ParseQuery.-whereKey:nearGeoPoint:`.
+   It could be used to perform queries in a geospatial manner using `ParseQuery.whereKey:nearGeoPoint:`.
    Currently, instances of `ParseObject` may only have one key associated with a `ParseGeoPoint` type.
 */
 public struct ParseGeoPoint: Codable, Hashable {

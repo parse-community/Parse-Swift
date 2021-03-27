@@ -432,7 +432,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testSaveCommand() throws {
         let user = User()
 
-        let command = user.saveCommand()
+        let command = try user.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/users")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -446,7 +446,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         let objectId = "yarr"
         user.objectId = objectId
 
-        let command = user.saveCommand()
+        let command = try user.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)

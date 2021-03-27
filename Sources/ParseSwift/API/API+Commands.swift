@@ -313,7 +313,10 @@ internal extension API.Command {
     }
 
     // MARK: Saving ParseObjects
-    static func saveCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+    static func saveCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
+        if ParseConfiguration.allowCustomObjectId && object.objectId == nil {
+            throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
+        }
         if object.isSaved {
             return updateCommand(object)
         }
@@ -326,7 +329,7 @@ internal extension API.Command {
             try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
         }
         return API.Command<T, T>(method: .POST,
-                                 path: object.endpoint,
+                                 path: object.endpoint(.POST),
                                  body: object,
                                  mapper: mapper)
     }
@@ -346,6 +349,9 @@ internal extension API.Command {
         guard let objectable = object as? Objectable else {
             throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
         }
+        if ParseConfiguration.allowCustomObjectId && objectable.objectId == nil {
+            throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
+        }
         if objectable.isSaved {
             return try updateCommand(object)
         } else {
@@ -364,9 +370,9 @@ internal extension API.Command {
             return try objectable.toPointer()
         }
         return API.Command<T, PointerType>(method: .POST,
-                                 path: objectable.endpoint,
-                                 body: object,
-                                 mapper: mapper)
+                                           path: objectable.endpoint(.POST),
+                                           body: object,
+                                           mapper: mapper)
     }
 
     private static func updateCommand<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
