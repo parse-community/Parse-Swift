@@ -100,8 +100,7 @@ class ParseFacebookTests: XCTestCase {
                                                   accessToken: nil,
                                                   authenticationToken: "authenticationToken",
                                                   expirationDate: expirationDate)
-        let dateString = DateFormatter
-            .facebookDateFormatter
+        let dateString = ParseCoding.dateFormatter
             .string(from: expirationDate)
         XCTAssertEqual(authData, ["id": "testing",
                                   "authenticationToken": "authenticationToken",
@@ -109,7 +108,7 @@ class ParseFacebookTests: XCTestCase {
     }
 
     func testVerifyMandatoryKeys() throws {
-        let dateString = DateFormatter.facebookDateFormatter.string(from: Date())
+        let dateString = ParseCoding.dateFormatter.string(from: Date())
         let authData = ["id": "testing",
                         "authenticationToken": "authenticationToken",
                         "expirationDate": dateString]
@@ -127,7 +126,7 @@ class ParseFacebookTests: XCTestCase {
                                                   accessToken: "accessToken",
                                                   authenticationToken: nil,
                                                   expirationDate: expirationDate)
-        let dateString = DateFormatter.facebookDateFormatter.string(from: expirationDate)
+        let dateString = ParseCoding.dateFormatter.string(from: expirationDate)
         XCTAssertEqual(authData, ["id": "testing", "accessToken": "accessToken", "expirationDate": dateString])
     }
 
@@ -299,7 +298,7 @@ class ParseFacebookTests: XCTestCase {
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Login")
-        let currentDate = DateFormatter.facebookDateFormatter.string(from: Date())
+        let currentDate = ParseCoding.dateFormatter.string(from: Date())
         let authData = ["id": "hello",
                         "expirationDate": currentDate]
         User.facebook.login(authData: authData) { result in
@@ -682,7 +681,7 @@ class ParseFacebookTests: XCTestCase {
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Login")
-        let currentDate = DateFormatter.facebookDateFormatter.string(from: Date())
+        let currentDate = ParseCoding.dateFormatter.string(from: Date())
         let authData = ["id": "hello",
                         "expirationDate": currentDate]
         User.facebook.link(authData: authData) { result in

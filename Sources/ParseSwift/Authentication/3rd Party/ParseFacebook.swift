@@ -44,7 +44,7 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
                             authenticationToken: String?,
                             expirationDate: Date) -> [String: String] {
 
-            let dateString = DateFormatter.facebookDateFormatter.string(from: expirationDate)
+            let dateString = ParseCoding.dateFormatter.string(from: expirationDate)
             var returnDictionary = [AuthenticationKeys.id.rawValue: userId,
                                     AuthenticationKeys.expirationDate.rawValue: dateString]
 
@@ -355,15 +355,4 @@ public extension ParseUser {
     var facebook: ParseFacebook<Self> {
         Self.facebook
     }
-}
-
-// MARK: Convenience
-internal extension DateFormatter {
-    static let facebookDateFormatter: DateFormatter = {
-        var dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale(identifier: "en_US_POSIX")
-        dateFormatter.timeZone = TimeZone.init(secondsFromGMT: 0)
-        dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'"
-        return dateFormatter
-    }()
 }
