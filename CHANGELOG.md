@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.3...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.4...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.2.4
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.3...1.2.4)
+
+__Fixes__
+- Ensure all dates are encoded/decoded to the proper UTC time ([#103](https://github.com/parse-community/Parse-Swift/pull/103)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.2.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.2...1.2.3)
