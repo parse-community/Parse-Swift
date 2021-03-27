@@ -19,7 +19,9 @@ struct GameScore: ParseObject {
     var updatedAt: Date?
     var ACL: ParseACL?
 
+    //: Your own properties.
     var score: Int?
+    var timeStamp = Date()
     var oldScore: Int?
 }
 
