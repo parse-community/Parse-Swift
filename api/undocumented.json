@@ -9,7 +9,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseFacebook.swift",
-      "line": 80,
+      "line": 84,
       "symbol": "ParseFacebook.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
