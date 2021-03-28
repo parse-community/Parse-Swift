@@ -1,11 +1,17 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.4...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.5...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __New features__
 - Add OAuth 2.0 support ([#91](https://github.com/parse-community/Parse-Swift/pull/91)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.2.5
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.4...1.2.5)
+
+__Fixes__
+- Let ParseFacebook accept expiresIn parameter instead of converting to date ([#104](https://github.com/parse-community/Parse-Swift/pull/104)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.2.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.3...1.2.4)
