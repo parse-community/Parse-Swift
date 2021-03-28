@@ -301,7 +301,7 @@ public extension ParseFacebook {
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(userId: String,
                        authenticationToken: String,
-                       expiresIn: Int,
+                       expiresIn: Int? = nil,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
             self.link(userId: userId,
