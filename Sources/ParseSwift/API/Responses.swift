@@ -25,8 +25,11 @@ internal struct SaveResponse: Decodable {
 }
 
 internal struct UpdateSessionTokenResponse: Decodable {
-    var updatedAt: Date
-    let sessionToken: String
+    var updatedAt: Date?
+    let sessionToken: String?
+    let accessToken: String?
+    let refreshToken: String?
+    let expiresAt: Date?
 }
 
 internal struct UpdateResponse: Decodable {
@@ -87,10 +90,13 @@ internal struct QueryResponse<T>: Codable where T: ParseObject {
 // MARK: ParseUser
 internal struct LoginSignupResponse: Codable {
     let createdAt: Date
-    let objectId: String
-    let sessionToken: String
     var updatedAt: Date?
+    let objectId: String
     let username: String?
+    let sessionToken: String?
+    let accessToken: String?
+    let refreshToken: String?
+    let expiresAt: Date?
 }
 
 // MARK: ParseFile

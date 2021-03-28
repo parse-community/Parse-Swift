@@ -21,6 +21,7 @@ public struct API {
         case object(className: String, objectId: String)
         case users
         case user(objectId: String)
+        case refresh
         case installations
         case installation(objectId: String)
         case sessions
@@ -29,6 +30,7 @@ public struct API {
         case role(objectId: String)
         case login
         case logout
+        case revoke
         case file(fileName: String)
         case passwordReset
         case verificationEmail
@@ -50,6 +52,8 @@ public struct API {
                 return "/users"
             case .user(let objectId):
                 return "/users/\(objectId)"
+            case .refresh:
+                return "/users/refresh"
             case .installations:
                 return "/installations"
             case .installation(let objectId):
@@ -66,6 +70,8 @@ public struct API {
                 return "/login"
             case .logout:
                 return "/logout"
+            case .revoke:
+                return "/revoke"
             case .file(let fileName):
                 return "/files/\(fileName)"
             case .passwordReset:
@@ -117,6 +123,9 @@ public struct API {
         /// Specify tags.
         /// - note: This is typically used indirectly by `ParseFile`.
         case tags([String: String])
+        /// Remove mimeType.
+        /// - note: This is typically used indirectly by `ParseUser` OAuth20.
+        case removeAccessToken
 
         public func hash(into hasher: inout Hasher) {
             switch self {
@@ -136,6 +145,8 @@ public struct API {
                 hasher.combine(7)
             case .tags:
                 hasher.combine(8)
+            case .removeAccessToken:
+                hasher.combine(9)
             }
         }
     }
@@ -148,8 +159,10 @@ public struct API {
             headers["X-Parse-Client-Key"] = clientKey
         }
 
-        if let token = BaseParseUser.currentUserContainer?.sessionToken {
-            headers["X-Parse-Session-Token"] = token
+        if let accessToken = BaseParseUser.currentUserContainer?.accessToken {
+            headers["X-Parse-Session-Token"] = accessToken
+        } else if let sessioinToken = BaseParseUser.currentUserContainer?.sessionToken {
+            headers["X-Parse-Session-Token"] = sessioinToken
         }
 
         if let installationId = BaseParseInstallation.currentInstallationContainer.installationId {
@@ -180,6 +193,8 @@ public struct API {
                 tags.forEach {(key, value) -> Void in
                     headers[key] = value
                 }
+            case .removeAccessToken:
+                headers.removeValue(forKey: "X-Parse-Session-Token")
             }
         }
 

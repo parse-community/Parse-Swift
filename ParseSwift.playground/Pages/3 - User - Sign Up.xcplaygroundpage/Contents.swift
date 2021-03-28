@@ -48,6 +48,12 @@ User.signup(username: "hello", password: "world") { results in
             assertionFailure("Error: these two objects should match")
         } else {
             print("Successfully signed up user \(user)")
+            print("The users' sessionToken is: \(currentUser.sessionToken)")
+            if let accessToken = currentUser.accessToken {
+                print("The users' accessToken is: \(accessToken)")
+                print("The users' refreshToken is: \(currentUser.refreshToken!)")
+                print("The users' token expires at: \(currentUser.expiresAt!)")
+            }
         }
 
     case .failure(let error):

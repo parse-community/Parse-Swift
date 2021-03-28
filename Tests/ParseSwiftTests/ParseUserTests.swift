@@ -785,6 +785,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNil(signedUp.password)
             XCTAssertNotNil(signedUp.objectId)
             XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNil(signedUp.refreshToken)
+            XCTAssertNil(signedUp.expiresAt)
             XCTAssertNotNil(signedUp.customKey)
             XCTAssertNil(signedUp.ACL)
 
@@ -800,6 +802,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNil(userFromKeychain.password)
             XCTAssertNotNil(userFromKeychain.objectId)
             XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.refreshToken)
+            XCTAssertNil(userFromKeychain.expiresAt)
             XCTAssertNil(userFromKeychain.ACL)
 
         } catch {
@@ -868,6 +872,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertNil(signedUp.password)
                 XCTAssertNotNil(signedUp.objectId)
                 XCTAssertNotNil(signedUp.sessionToken)
+                XCTAssertNil(signedUp.refreshToken)
+                XCTAssertNil(signedUp.expiresAt)
                 XCTAssertNotNil(signedUp.customKey)
                 XCTAssertNil(signedUp.ACL)
 
@@ -884,6 +890,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertNil(userFromKeychain.password)
                 XCTAssertNotNil(userFromKeychain.objectId)
                 XCTAssertNotNil(userFromKeychain.sessionToken)
+                XCTAssertNil(userFromKeychain.refreshToken)
+                XCTAssertNil(userFromKeychain.expiresAt)
                 XCTAssertNil(userFromKeychain.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -1032,6 +1040,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertNil(loggedIn.password)
                 XCTAssertNotNil(loggedIn.objectId)
                 XCTAssertNotNil(loggedIn.sessionToken)
+                XCTAssertNil(loggedIn.refreshToken)
+                XCTAssertNil(loggedIn.expiresAt)
                 XCTAssertNotNil(loggedIn.customKey)
                 XCTAssertNil(loggedIn.ACL)
 
@@ -1049,6 +1059,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertNotNil(userFromKeychain.objectId)
                 XCTAssertNotNil(userFromKeychain.sessionToken)
                 XCTAssertNil(userFromKeychain.ACL)
+                XCTAssertNil(userFromKeychain.refreshToken)
+                XCTAssertNil(userFromKeychain.expiresAt)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -2079,7 +2091,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         var user = User()
         user.objectId = "me"
         do {
-            let command = try user.meCommand(sessionToken: "yolo")
+            let command = try user.meCommand(sessionToken: "yolo", refreshToken: nil, expiresAt: nil)
             XCTAssertNotNil(command)
             XCTAssertEqual(command.path.urlComponent, "/users/me")
             XCTAssertEqual(command.method, API.Method.GET)
@@ -2227,6 +2239,44 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 #endif
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testCantRefreshRegularSesstionToken() throws {
+        XCTAssertNil(User.current?.objectId)
+        testLogin()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard User.current != nil else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        XCTAssertThrowsError(try User.refresh())
+    }
+
+    func testCantRefreshRegularSesstionTokenAsync() throws {
+        XCTAssertNil(User.current?.objectId)
+        testLogin()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard User.current != nil else {
+            XCTFail("Should unwrap")
+            return
+        }
+
+        let expectation1 = XCTestExpectation(description: "Refresh user1")
+        User.refresh { result in
+            switch result {
+            case .success:
+                XCTFail("Should not have succeeded")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("missing refreshToken"))
             }
             expectation1.fulfill()
         }

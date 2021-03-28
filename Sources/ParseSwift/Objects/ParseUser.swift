@@ -47,6 +47,11 @@ struct SignupLoginBody: Encodable {
     }
 }
 
+// MARK: RefreshBody
+struct RefreshBody: Encodable {
+    let refreshToken: String
+}
+
 // MARK: EmailBody
 struct EmailBody: Encodable {
     let email: String
@@ -88,6 +93,9 @@ extension ParseUser {
 struct CurrentUserContainer<T: ParseUser>: Codable {
     var currentUser: T?
     var sessionToken: String?
+    var accessToken: String?
+    var refreshToken: String?
+    var expiresAt: Date?
 }
 
 // MARK: Current User Support
@@ -146,6 +154,33 @@ extension ParseUser {
     */
     public var sessionToken: String? {
         Self.currentUserContainer?.sessionToken
+    }
+
+    /**
+     The access token for the `ParseUser`.
+
+     This is set by the server upon successful authentication.
+    */
+    public var accessToken: String? {
+        Self.currentUserContainer?.accessToken
+    }
+
+    /**
+     The OAuth refresh token for the `ParseUser`.
+
+     This is set by the server upon successful authentication.
+    */
+    public var refreshToken: String? {
+        Self.currentUserContainer?.refreshToken
+    }
+
+    /**
+     The OAuth token expiration date for the `ParseUser`.
+
+     This is set by the server upon successful authentication.
+    */
+    public var expiresAt: Date? {
+        Self.currentUserContainer?.expiresAt
     }
 }
 
@@ -210,7 +245,10 @@ extension ParseUser {
 
             Self.currentUserContainer = .init(
                 currentUser: user,
-                sessionToken: response.sessionToken
+                sessionToken: response.sessionToken,
+                accessToken: response.accessToken,
+                refreshToken: response.refreshToken,
+                expiresAt: response.expiresAt
             )
             Self.saveCurrentContainerToKeychain()
             return user
@@ -222,15 +260,29 @@ extension ParseUser {
      to the keychain, so you can retrieve the currently logged in user using *current*.
 
      - parameter sessionToken: The sessionToken of the user to login.
+     - parameter accessToken: The OAuth2.0 accessToken of the user to login.
+     - parameter refreshToken: The OAuth2.0 refreshToken of the user for refreshing.
+     - parameter expiresAt: The date the OAuth2.0 sessionToken expires.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An Error of `ParseError` type.
     */
-    public func become(sessionToken: String, options: API.Options = []) throws -> Self {
+    public func become(sessionToken: String? = nil,
+                       accessToken: String? = nil,
+                       refreshToken: String? = nil,
+                       expiresAt: Date? = nil,
+                       options: API.Options = []) throws -> Self {
         var newUser = self
         newUser.objectId = "me"
         var options = options
-        options.insert(.sessionToken(sessionToken))
-        return try newUser.meCommand(sessionToken: sessionToken)
+        if let accessToken = accessToken {
+            options.insert(.sessionToken(accessToken))
+        } else if let sessionToken = sessionToken {
+            options.insert(.sessionToken(sessionToken))
+        }
+        return try newUser.meCommand(sessionToken: sessionToken,
+                                     accessToken: accessToken,
+                                     refreshToken: refreshToken,
+                                     expiresAt: expiresAt)
             .execute(options: options,
                      callbackQueue: .main)
     }
@@ -240,22 +292,35 @@ extension ParseUser {
      to the keychain, so you can retrieve the currently logged in user using *current*.
 
      - parameter sessionToken: The sessionToken of the user to login.
+     - parameter accessToken: The OAuth2.0 accessToken of the user to login.
+     - parameter refreshToken: The OAuth2.0 refreshToken of the user for refreshing.
+     - parameter The date the OAuth2.0 sessionToken expires.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
-    public func become(sessionToken: String,
+    public func become(sessionToken: String? = nil,
+                       accessToken: String? = nil,
+                       refreshToken: String? = nil,
+                       expiresAt: Date? = nil,
                        options: API.Options = [],
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
         var newUser = self
         newUser.objectId = "me"
         var options = options
-        options.insert(.sessionToken(sessionToken))
+        if let accessToken = accessToken {
+            options.insert(.sessionToken(accessToken))
+        } else if let sessionToken = sessionToken {
+            options.insert(.sessionToken(sessionToken))
+        }
          do {
-            try newUser.meCommand(sessionToken: sessionToken)
+            try newUser.meCommand(sessionToken: sessionToken,
+                                  accessToken: accessToken,
+                                  refreshToken: refreshToken,
+                                  expiresAt: expiresAt)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
                 if case .success(let foundResult) = result {
@@ -279,7 +344,10 @@ extension ParseUser {
          }
     }
 
-    internal func meCommand(sessionToken: String) throws -> API.Command<Self, Self> {
+    internal func meCommand(sessionToken: String? = nil,
+                            accessToken: String? = nil,
+                            refreshToken: String?,
+                            expiresAt: Date?) throws -> API.Command<Self, Self> {
 
         return API.Command(method: .GET,
                     path: endpoint) { (data) -> Self in
@@ -293,7 +361,10 @@ extension ParseUser {
 
             Self.currentUserContainer = .init(
                 currentUser: user,
-                sessionToken: sessionToken
+                sessionToken: sessionToken,
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+                expiresAt: expiresAt
             )
             Self.saveCurrentContainerToKeychain()
             return user
@@ -305,10 +376,17 @@ extension ParseUser {
 extension ParseUser {
 
     /**
-    Logs out the currently logged in user in Keychain *synchronously*.
+     Logs out the currently logged in user in Keychain *synchronously*.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: An Error of `ParseError` type.
     */
     public static func logout(options: API.Options = []) throws {
-        let error = try? logoutCommand().execute(options: options)
+        let error: ParseError?
+        if let refreshToken = BaseParseUser.currentUserContainer?.refreshToken {
+            error = try? revokeCommand(refreshToken: refreshToken).execute(options: options)
+        } else {
+            error = try? logoutCommand().execute(options: options)
+        }
         //Always let user logout locally, no matter the error.
         deleteCurrentKeychain()
         //Wait to throw error
@@ -329,22 +407,44 @@ extension ParseUser {
     */
     public static func logout(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                               completion: @escaping (Result<Void, ParseError>) -> Void) {
-        logoutCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
+        if let refreshToken = BaseParseUser.currentUserContainer?.refreshToken {
+            revokeCommand(refreshToken: refreshToken).executeAsync(options: options) { result in
+                callbackQueue.async {
 
-                //Always let user logout locally, no matter the error.
-                deleteCurrentKeychain()
+                    //Always let user logout locally, no matter the error.
+                    deleteCurrentKeychain()
 
-                switch result {
+                    switch result {
 
-                case .success(let error):
-                    if let error = error {
+                    case .success(let error):
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(()))
+                        }
+                    case .failure(let error):
                         completion(.failure(error))
-                    } else {
-                        completion(.success(()))
                     }
-                case .failure(let error):
-                    completion(.failure(error))
+                }
+            }
+        } else {
+            logoutCommand().executeAsync(options: options) { result in
+                callbackQueue.async {
+
+                    //Always let user logout locally, no matter the error.
+                    deleteCurrentKeychain()
+
+                    switch result {
+
+                    case .success(let error):
+                        if let error = error {
+                            completion(.failure(error))
+                        } else {
+                            completion(.success(()))
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
                 }
             }
         }
@@ -353,12 +453,107 @@ extension ParseUser {
     internal static func logoutCommand() -> API.NonParseBodyCommand<NoBody, ParseError?> {
         return API.NonParseBodyCommand(method: .POST, path: .logout) { (data) -> ParseError? in
             do {
+                return try ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+            } catch {
+                return nil
+            }
+        }
+    }
+}
+
+// MARK: Refresh
+extension ParseUser {
+
+    /**
+     Refreshes the tokens of the currently logged in user in the Keychain *synchronously*.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: The refreshed user.
+     - throws: An Error of `ParseError` type.
+    */
+    public static func refresh(options: API.Options = []) throws -> Self {
+        var options = options
+        options.insert(.removeAccessToken)
+        return try refreshCommand().execute(options: options)
+    }
+
+    /**
+     Refreshes the tokens of the currently logged in user in the Keychain *asynchronously*.
+
+     This will update the session in the Keychain. This is preferable to using `refresh`,
+     unless your code is already running from a background thread.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: A block that will be called when refreshing, completes or fails.
+    */
+    public static func refresh(options: API.Options = [], callbackQueue: DispatchQueue = .main,
+                               completion: @escaping (Result<Self, ParseError>) -> Void) {
+        do {
+            var options = options
+            options.insert(.removeAccessToken)
+            try refreshCommand().executeAsync(options: options) { result in
+                callbackQueue.async {
+                    completion(result)
+                }
+            }
+        } catch {
+            callbackQueue.async {
+                if let parseError = error as? ParseError {
+                    completion(.failure(parseError))
+                } else {
+                    let parseError = ParseError(code: .unknownError,
+                                                message: "couldn't determine refresh error.")
+                    completion(.failure(parseError))
+                }
+            }
+        }
+    }
+
+    internal static func refreshCommand() throws -> API.NonParseBodyCommand<RefreshBody, Self> {
+        guard let refreshToken = BaseParseUser.currentUserContainer?.refreshToken else {
+            throw ParseError(code: .unknownError, message: "current user is missing refreshToken.")
+        }
+        let body = RefreshBody(refreshToken: refreshToken)
+        return API.NonParseBodyCommand(method: .POST,
+                                       path: .refresh,
+                                       body: body) { (data) -> Self in
+
+            guard let user = try? ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data) else {
+                if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) {
+                    throw error
+                } else {
+                    throw ParseError(code: .unknownError, message: "couldn't decode refreshToken.")
+                }
+            }
+
+            if Self.current != nil {
+                Self.currentUserContainer?.sessionToken = user.sessionToken
+                Self.currentUserContainer?.accessToken = user.accessToken
+                Self.currentUserContainer?.refreshToken = user.refreshToken
+                Self.currentUserContainer?.expiresAt = user.expiresAt
+                Self.saveCurrentContainerToKeychain()
+                return Self.current!
+            } else {
+                throw ParseError(code: .unknownError,
+                                 message: "This device doesn't have a current user in the Keychain")
+            }
+       }
+    }
+}
+
+// MARK: Revoke
+extension ParseUser {
+    internal static func revokeCommand(refreshToken: String) -> API.NonParseBodyCommand<RefreshBody, ParseError?> {
+        let body = RefreshBody(refreshToken: refreshToken)
+        return API.NonParseBodyCommand(method: .POST,
+                                       path: .revoke,
+                                       body: body) { (data) -> ParseError? in
+            do {
                 let parseError = try ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
                 return parseError
             } catch {
                 return nil
             }
-       }
+        }
     }
 }
 
@@ -611,8 +806,11 @@ extension ParseUser {
         API.NonParseBodyCommand(method: .POST,
                                 path: .users, body: body) { (data) -> Self in
 
-            let sessionToken = try ParseCoding.jsonDecoder()
-                .decode(LoginSignupResponse.self, from: data).sessionToken
+            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
+            let sessionToken = response.sessionToken
+            let accessToken = response.accessToken
+            let refreshToken = response.refreshToken
+            let expiresAt = response.expiresAt
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
 
             if user.username == nil {
@@ -625,8 +823,14 @@ extension ParseUser {
                     user.authData = authData
                 }
             }
-            Self.currentUserContainer = .init(currentUser: user,
-                                              sessionToken: sessionToken)
+
+            Self.currentUserContainer = .init(
+                currentUser: user,
+                sessionToken: sessionToken,
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+                expiresAt: expiresAt
+            )
             Self.saveCurrentContainerToKeychain()
             return user
         }
@@ -638,14 +842,19 @@ extension ParseUser {
                     path: endpoint,
                     body: self) { (data) -> Self in
 
-            let sessionToken = try ParseCoding.jsonDecoder()
-                .decode(LoginSignupResponse.self, from: data).sessionToken
+            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
+            let sessionToken = response.sessionToken
+            let accessToken = response.accessToken
+            let refreshToken = response.refreshToken
+            let expiresAt = response.expiresAt
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             user.username = self.username
             Self.currentUserContainer = .init(
                 currentUser: user,
-                sessionToken: sessionToken
-            )
+                sessionToken: sessionToken,
+                accessToken: accessToken,
+                refreshToken: refreshToken,
+                expiresAt: expiresAt)
             Self.saveCurrentContainerToKeychain()
             return user
         }

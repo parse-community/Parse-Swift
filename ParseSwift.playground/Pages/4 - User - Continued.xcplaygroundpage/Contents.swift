@@ -53,6 +53,31 @@ struct GameScore: ParseObject {
     }
 }
 
+//: If signed in using OAuth2.0, ask the server to refresh the token
+if let currentUser = User.current,
+    let accessToken = currentUser.accessToken {
+    print("The current sessionToken: \(currentUser.expiresAt)")
+    print("The current accessToken is: \(accessToken)")
+    print("The current refreshToken is: \(currentUser.refreshToken)")
+    print("The current token expires at: \(currentUser.expiresAt)")
+    User.refresh { results in
+
+        switch results {
+        case .success(let updatedUser):
+            print("Successfully refreshed users tokens")
+            if let updatedUser = User.current,
+                let accessToken = updatedUser.accessToken {
+                print("The new sessionToken: \(updatedUser.sessionToken)")
+                print("The new accessToken: \(updatedUser.accessToken)")
+                print("The new refreshToken is: \(updatedUser.refreshToken)")
+                print("The token expires at: \(updatedUser.expiresAt)")
+            }
+        case .failure(let error):
+            print("Failed to update user: \(error)")
+        }
+    }
+}
+
 //: Logging out - synchronously
 do {
     try User.logout()
