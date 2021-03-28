@@ -28,7 +28,7 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
         enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
           case id // swiftlint:disable:this identifier_name
-          case token
+          case authenticationToken = "token"
           case accessToken = "access_token"
           case expirationDate = "expiration_date"
         }
@@ -37,16 +37,21 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// - parameter userId: Required id for the user.
         /// - parameter authenticationToken: Required identity token for Facebook limited login.
         /// - parameter accessToken: Required identity token for Facebook graph API.
-        /// - parameter expirationDate: Required expiration data for Facebook login.
+        /// - parameter expiresIn: Optional expiration in seconds for Facebook login.
         /// - returns: authData dictionary.
         func makeDictionary(userId: String,
                             accessToken: String?,
                             authenticationToken: String?,
-                            expirationDate: Date) -> [String: String] {
+                            expiresIn: Int? = nil) -> [String: String] {
 
-            let dateString = ParseCoding.dateFormatter.string(from: expirationDate)
-            var returnDictionary = [AuthenticationKeys.id.rawValue: userId,
-                                    AuthenticationKeys.expirationDate.rawValue: dateString]
+            var returnDictionary = [AuthenticationKeys.id.rawValue: userId]
+            if let expiresIn = expiresIn,
+                let expirationDate = Calendar.current.date(byAdding: .second,
+                                                             value: expiresIn,
+                                                             to: Date()) {
+                let dateString = ParseCoding.dateFormatter.string(from: expirationDate)
+                returnDictionary[AuthenticationKeys.expirationDate.rawValue] = dateString
+            }
 
             if let accessToken = accessToken {
               returnDictionary[AuthenticationKeys.accessToken.rawValue] = accessToken
@@ -60,8 +65,7 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// - parameter authData: Dictionary containing key/values.
         /// - returns: `true` if all the mandatory keys are present, `false` otherwise.
         func verifyMandatoryKeys(authData: [String: String]) -> Bool {
-            guard authData[AuthenticationKeys.id.rawValue] != nil,
-                  authData[AuthenticationKeys.expirationDate.rawValue] != nil else {
+            guard authData[AuthenticationKeys.id.rawValue] != nil else {
                 return false
             }
 
@@ -87,14 +91,14 @@ public extension ParseFacebook {
      Login a `ParseUser` *asynchronously* using Facebook authentication for limited login.
      - parameter userId: The `Facebook userId` from `FacebookSDK`.
      - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
-     - parameter expirationDate: Required expiration data for Facebook login.
+     - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
     func login(userId: String,
                authenticationToken: String,
-               expirationDate: Date,
+               expiresIn: Int? = nil,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
@@ -102,7 +106,7 @@ public extension ParseFacebook {
         let facebookAuthData = AuthenticationKeys.id
                 .makeDictionary(userId: userId, accessToken: nil,
                                 authenticationToken: authenticationToken,
-                                expirationDate: expirationDate)
+                                expiresIn: expiresIn)
         login(authData: facebookAuthData,
               options: options,
               callbackQueue: callbackQueue,
@@ -113,14 +117,14 @@ public extension ParseFacebook {
      Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login.
      - parameter userId: The `Facebook userId` from `FacebookSDK`.
      - parameter accessToken: The `accessToken` from `FacebookSDK`.
-     - parameter expirationDate: Required expiration data for Facebook login.
+     - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
     func login(userId: String,
                accessToken: String,
-               expirationDate: Date,
+               expiresIn: Int? = nil,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
@@ -129,7 +133,7 @@ public extension ParseFacebook {
                 .makeDictionary(userId: userId,
                                 accessToken: accessToken,
                                 authenticationToken: nil,
-                                expirationDate: expirationDate)
+                                expiresIn: expiresIn)
         login(authData: facebookAuthData,
               options: options,
               callbackQueue: callbackQueue,
@@ -159,19 +163,19 @@ public extension ParseFacebook {
      Login a `ParseUser` *asynchronously* using Facebook authentication for limited login. Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
-     - parameter expirationDate: Required expiration data for Facebook login.
+     - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(userId: String,
                         authenticationToken: String,
-                        expirationDate: Date,
+                        expiresIn: Int? = nil,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
             self.login(userId: userId,
                        authenticationToken: authenticationToken,
-                       expirationDate: expirationDate,
+                       expiresIn: expiresIn,
                        options: options,
                        completion: promise)
         }
@@ -181,19 +185,19 @@ public extension ParseFacebook {
      Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login. Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter accessToken: The `accessToken` from `FacebookSDK`.
-     - parameter expirationDate: Required expiration data for Facebook login.
+     - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func loginPublisher(userId: String,
                         accessToken: String,
-                        expirationDate: Date,
+                        expiresIn: Int? = nil,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
             self.login(userId: userId,
                        accessToken: accessToken,
-                       expirationDate: expirationDate,
+                       expiresIn: expiresIn,
                        options: options,
                        completion: promise)
         }
@@ -218,14 +222,14 @@ public extension ParseFacebook {
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
-     - parameter expirationDate: Required expiration data for Facebook login.
+     - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
     func link(userId: String,
               authenticationToken: String,
-              expirationDate: Date,
+              expiresIn: Int? = nil,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
@@ -233,7 +237,7 @@ public extension ParseFacebook {
             .makeDictionary(userId: userId,
                             accessToken: nil,
                             authenticationToken: authenticationToken,
-                            expirationDate: expirationDate)
+                            expiresIn: expiresIn)
         link(authData: facebookAuthData,
              options: options,
              callbackQueue: callbackQueue,
@@ -244,14 +248,14 @@ public extension ParseFacebook {
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for graph API login.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter accessToken: The `accessToken` from `FacebookSDK`.
-     - parameter expirationDate: the `expirationDate` from `FacebookSDK`.
+     - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
     func link(userId: String,
               accessToken: String,
-              expirationDate: Date,
+              expiresIn: Int? = nil,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
@@ -259,7 +263,7 @@ public extension ParseFacebook {
             .makeDictionary(userId: userId,
                             accessToken: accessToken,
                             authenticationToken: nil,
-                            expirationDate: expirationDate)
+                            expiresIn: expiresIn)
         link(authData: facebookAuthData,
              options: options,
              callbackQueue: callbackQueue,
@@ -290,19 +294,19 @@ public extension ParseFacebook {
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login. Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
-     - parameter expirationDate: the `expirationDate` from `FacebookSDK`.
+     - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(userId: String,
                        authenticationToken: String,
-                       expirationDate: Date,
+                       expiresIn: Int? = nil,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
             self.link(userId: userId,
                       authenticationToken: authenticationToken,
-                      expirationDate: expirationDate,
+                      expiresIn: expiresIn,
                       options: options,
                       completion: promise)
         }
@@ -312,19 +316,19 @@ public extension ParseFacebook {
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for graph API login. Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter accessToken: The `accessToken` from `FacebookSDK`.
-     - parameter expirationDate: the `expirationDate` from `FacebookSDK`.
+     - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func linkPublisher(userId: String,
                        accessToken: String,
-                       expirationDate: Date,
+                       expiresIn: Int? = nil,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
             self.link(userId: userId,
                       accessToken: accessToken,
-                      expirationDate: expirationDate,
+                      expiresIn: expiresIn,
                       options: options,
                       completion: promise)
         }

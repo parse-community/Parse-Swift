@@ -86,7 +86,6 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
     func testLimitedLogin() {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-        let expirationDate = Date()
         var serverResponse = LoginSignupResponse()
         let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
         serverResponse.username = "hello"
@@ -112,8 +111,8 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.facebook.loginPublisher(userId: "testing", authenticationToken: "authenticationToken",
-                                                     expirationDate: expirationDate)
+        let publisher = User.facebook.loginPublisher(userId: "testing",
+                                                     authenticationToken: "authenticationToken")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -137,7 +136,6 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
     func testGraphAPILogin() {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-        let expirationDate = Date()
         var serverResponse = LoginSignupResponse()
         let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
         serverResponse.username = "hello"
@@ -163,8 +161,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.facebook.loginPublisher(userId: "testing", accessToken: "accessToken",
-                                                     expirationDate: expirationDate)
+        let publisher = User.facebook.loginPublisher(userId: "testing", accessToken: "accessToken")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -188,7 +185,6 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
     func testLoginAuthData() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-        let expirationDate = Date()
         var serverResponse = LoginSignupResponse()
         let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
         serverResponse.username = "hello"
@@ -217,8 +213,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
         let faceookAuthData = ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: "accessToken",
-                                                  authenticationToken: nil,
-                                                  expirationDate: expirationDate)
+                                                  authenticationToken: nil)
 
         let publisher = User.facebook.loginPublisher(authData: faceookAuthData)
             .sink(receiveCompletion: { result in
@@ -258,7 +253,6 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
     func testLinkLimitedLogin() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-        let expirationDate = Date()
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
@@ -280,8 +274,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.facebook.linkPublisher(userId: "testing", authenticationToken: "authenticationToken",
-                                                    expirationDate: expirationDate)
+        let publisher = User.facebook.linkPublisher(userId: "testing", authenticationToken: "authenticationToken")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -306,7 +299,6 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
     func testLinkGraphAPILogin() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-        let expirationDate = Date()
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
@@ -329,8 +321,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
         }
 
         let publisher = User.facebook.linkPublisher(userId: "testing",
-                                                    accessToken: "accessToken",
-                                                    expirationDate: expirationDate)
+                                                    accessToken: "accessToken")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -355,7 +346,6 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
     func testLinkAuthData() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-        let expirationDate = Date()
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
@@ -380,8 +370,7 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
         let authData = ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: "accessToken",
-                                                  authenticationToken: nil,
-                                                  expirationDate: expirationDate)
+                                                  authenticationToken: nil)
 
         let publisher = User.facebook.linkPublisher(authData: authData)
             .sink(receiveCompletion: { result in
@@ -408,15 +397,13 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
     func testUnlinkLimitedLogin() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-        let expirationDate = Date()
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
         let authData = ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: nil,
-                                                  authenticationToken: "authenticationToken",
-                                                  expirationDate: expirationDate)
+                                                  authenticationToken: "authenticationToken")
         User.current?.authData = [User.facebook.__type: authData]
         XCTAssertTrue(User.facebook.isLinked)
 
@@ -462,15 +449,13 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
     func testUnlinkGraphAPILogin() throws {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
-        let expirationDate = Date()
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
         let authData = ParseFacebook<User>
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: "accessToken",
-                                                  authenticationToken: nil,
-                                                  expirationDate: expirationDate)
+                                                  authenticationToken: nil)
         User.current?.authData = [User.facebook.__type: authData]
         XCTAssertTrue(User.facebook.isLinked)
 
