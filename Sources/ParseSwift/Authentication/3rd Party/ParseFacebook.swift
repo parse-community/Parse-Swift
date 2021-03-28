@@ -28,7 +28,7 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
         enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
           case id // swiftlint:disable:this identifier_name
-          case token
+          case authenticationToken = "token"
           case accessToken = "access_token"
           case expirationDate = "expiration_date"
         }

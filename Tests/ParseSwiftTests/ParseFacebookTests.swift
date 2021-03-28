@@ -121,11 +121,23 @@ class ParseFacebookTests: XCTestCase {
     func testVerifyMandatoryKeys() throws {
         let authData = ["id": "testing",
                         "authenticationToken": "authenticationToken"]
-        let authDataWrong = ["id": "testing", "hello": "test"]
         XCTAssertTrue(ParseFacebook<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData))
+        let authData2 = ["id": "testing",
+                        "accessToken": "accessToken"]
+        XCTAssertTrue(ParseFacebook<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData2))
+        XCTAssertTrue(ParseFacebook<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData))
+        let authDataWrong = ["id": "testing", "hello": "test"]
         XCTAssertFalse(ParseFacebook<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong))
+        let authDataWrong2 = ["world": "testing", "authenticationToken": "test"]
+        XCTAssertFalse(ParseFacebook<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong2))
+        let authDataWrong3 = ["world": "testing", "accessToken": "test"]
+        XCTAssertFalse(ParseFacebook<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong3))
     }
 
     func testAuthenticationKeysGraphAPILogin() throws {
