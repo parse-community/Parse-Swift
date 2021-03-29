@@ -11,6 +11,11 @@ import Foundation
 public struct ParseError: ParseType, Decodable, Swift.Error {
     public let code: Code
     public let message: String
+    
+    public init(code: Code, message: String) {
+        self.code = code
+        self.message = message
+    }
 
     public var localizedDescription: String {
         return "ParseError code=\(code.rawValue) error=\(message)"
