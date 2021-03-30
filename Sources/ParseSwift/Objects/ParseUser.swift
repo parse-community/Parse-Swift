@@ -88,16 +88,31 @@ extension ParseUser {
 struct CurrentUserContainer<T: ParseUser>: Codable {
     var currentUser: T?
     var sessionToken: String?
+	var authProviderType: String?
 }
 
 // MARK: Current User Support
 extension ParseUser {
     static var currentUserContainer: CurrentUserContainer<Self>? {
         get {
-            guard let currentUserInMemory: CurrentUserContainer<Self>
-                = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
-                #if !os(Linux) && !os(Android)
-                return try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser)
+            guard let currentUserInMemory: CurrentUserContainer<Self> =
+					try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+                #if !os(Linux)
+				if let savedUser: CurrentUserContainer<Self> =
+					try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) {
+					if let authType = savedUser.authProviderType, let authData = savedUser.currentUser?.authData?[authType] {
+						let shouldAllow = ParseAuthenticationRegistry.restoreAuthentication(forType: authType, authData: authData)
+						if shouldAllow {
+							return savedUser
+						} else {
+							// The auth delegate said we shouldn't let this user be restored, the login is invalid for some reason now
+							return nil
+						}
+					}
+					return savedUser
+				} else {
+					return nil
+				}
                 #else
                 return nil
                 #endif
@@ -147,6 +162,19 @@ extension ParseUser {
     public var sessionToken: String? {
         Self.currentUserContainer?.sessionToken
     }
+
+	/**
+	 The 3rd party auth provider used for this user login, if any.
+	*/
+	public var authProviderType: String? {
+		get {
+			Self.currentUserContainer?.authProviderType
+		}
+		set {
+			Self.currentUserContainer?.authProviderType = newValue
+			Self.saveCurrentContainerToKeychain()
+		}
+	}
 }
 
 // MARK: Logging In

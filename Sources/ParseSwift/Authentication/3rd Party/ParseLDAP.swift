@@ -48,7 +48,9 @@ public struct ParseLDAP<AuthenticatedUser: ParseUser>: ParseAuthentication {
     public static var __type: String { // swiftlint:disable:this identifier_name
         "ldap"
     }
-    public init() { }
+    public init() {
+		ParseAuthenticationRegistry.registerAuthenticationDelegate(self, forAuthType: Self.__type)
+	}
 }
 
 // MARK: Login
@@ -66,11 +68,16 @@ public extension ParseLDAP {
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        login(authData: AuthenticationKeys.id.makeDictionary(id: id,
-                                                             password: password),
-              options: options,
-              callbackQueue: callbackQueue,
-              completion: completion)
+        login(authData: AuthenticationKeys.id.makeDictionary(id: id, password: password),
+                         options: options,
+						 callbackQueue: callbackQueue) { result in
+			if var user = try? result.get() {
+				// This call modifies the current user container, so we can make the change
+				// and can then discard the user object
+				user.authProviderType = Self.__type
+			}
+			completion(result)
+		}
     }
 
     func login(authData: [String: String],
@@ -198,6 +205,13 @@ public extension ParseLDAP {
     }
 
     #endif
+}
+
+extension ParseLDAP: ParseAuthenticationDelegate {
+	public func restoreAuthentication(withAuthData authData: [String: String]) -> Bool {
+		// Restore any internal state here
+		return true
+	}
 }
 
 // MARK: 3rd Party Authentication - ParseLDAP
