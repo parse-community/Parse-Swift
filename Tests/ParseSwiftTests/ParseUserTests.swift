@@ -1083,17 +1083,22 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testLogout() {
         testLogin()
         MockURLProtocol.removeAll()
-        DispatchQueue.main.async {
-            let oldInstallationId = BaseParseInstallation.current?.installationId
-            let logoutResponse = NoBody()
 
-            MockURLProtocol.mockRequests { _ in
-                do {
-                    let encoded = try ParseCoding.jsonEncoder().encode(logoutResponse)
-                    return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-                } catch {
-                    return nil
-                }
+        let logoutResponse = NoBody()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(logoutResponse)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        DispatchQueue.main.async {
+            guard let oldInstallationId = BaseParseInstallation.current?.installationId else {
+                XCTFail("Should have unwrapped")
+                return
             }
             do {
                 try User.logout()
@@ -1102,7 +1107,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 }
                 DispatchQueue.main.async {
                     if let installationFromKeychain = BaseParseInstallation.current {
-                        if installationFromKeychain.installationId == oldInstallationId {
+                        if installationFromKeychain.installationId == oldInstallationId
+                            && installationFromKeychain.installationId != nil {
                             XCTFail("\(installationFromKeychain) wasn't deleted then created in Keychain during logout")
                         }
                     }
@@ -1118,7 +1124,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expectation1 = XCTestExpectation(description: "Logout user1")
 
         DispatchQueue.main.async {
-            let oldInstallationId = BaseParseInstallation.current?.installationId
+            guard let oldInstallationId = BaseParseInstallation.current?.installationId else {
+                XCTFail("Should have unwrapped")
+                expectation1.fulfill()
+                return
+            }
+
             User.logout(callbackQueue: callbackQueue) { result in
 
                 switch result {
@@ -1130,7 +1141,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     DispatchQueue.main.async {
                         if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
                             = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
-                            if installationFromMemory.installationId == oldInstallationId {
+                            if installationFromMemory.installationId == oldInstallationId
+                                && installationFromMemory.installationId != nil {
                                 // swiftlint:disable:next line_length
                                 XCTFail("\(installationFromMemory) wasn't deleted and recreated in memory during logout")
                             }
@@ -1139,7 +1151,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                         #if !os(Linux) && !os(Android)
                         if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
                             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
-                            if installationFromKeychain.installationId == oldInstallationId {
+                            if installationFromKeychain.installationId == oldInstallationId
+                                && installationFromKeychain.installationId != nil {
                                 // swiftlint:disable:next line_length
                                 XCTFail("\(installationFromKeychain) wasn't deleted and recreated in Keychain during logout")
                             }
