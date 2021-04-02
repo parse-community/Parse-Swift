@@ -1094,75 +1094,84 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return nil
             }
         }
-
-        DispatchQueue.main.async {
-            guard let oldInstallationId = BaseParseInstallation.current?.installationId else {
-                XCTFail("Should have unwrapped")
-                return
+        let expectation1 = XCTestExpectation(description: "Logout user1")
+        guard let oldInstallationId = BaseParseInstallation.current?.installationId else {
+            XCTFail("Should have unwrapped")
+            expectation1.fulfill()
+            return
+        }
+        do {
+            try User.logout()
+            if let userFromKeychain = BaseParseUser.current {
+                XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
             }
-            do {
-                try User.logout()
-                if let userFromKeychain = BaseParseUser.current {
-                    XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
-                }
-                DispatchQueue.main.async {
-                    if let installationFromKeychain = BaseParseInstallation.current {
+
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                if let installationFromKeychain = BaseParseInstallation.current {
+
                         if installationFromKeychain.installationId == oldInstallationId
-                            && installationFromKeychain.installationId != nil {
+                            || installationFromKeychain.installationId == nil {
                             XCTFail("\(installationFromKeychain) wasn't deleted then created in Keychain during logout")
                         }
-                    }
+
+                } else {
+                    XCTFail("Should have a new installation")
                 }
-            } catch {
-                XCTFail(error.localizedDescription)
+                expectation1.fulfill()
             }
+        } catch {
+            XCTFail(error.localizedDescription)
+            expectation1.fulfill()
         }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func logoutAsync(callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
 
-        DispatchQueue.main.async {
-            guard let oldInstallationId = BaseParseInstallation.current?.installationId else {
-                XCTFail("Should have unwrapped")
-                expectation1.fulfill()
-                return
-            }
+        guard let oldInstallationId = BaseParseInstallation.current?.installationId else {
+            XCTFail("Should have unwrapped")
+            expectation1.fulfill()
+            return
+        }
 
-            User.logout(callbackQueue: callbackQueue) { result in
+        User.logout(callbackQueue: callbackQueue) { result in
 
-                switch result {
+            switch result {
 
-                case .success:
-                    if let userFromKeychain = BaseParseUser.current {
-                        XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
-                    }
-                    DispatchQueue.main.async {
-                        if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
-                            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
-                            if installationFromMemory.installationId == oldInstallationId
-                                && installationFromMemory.installationId != nil {
-                                // swiftlint:disable:next line_length
-                                XCTFail("\(installationFromMemory) wasn't deleted and recreated in memory during logout")
-                            }
-                        }
-
-                        #if !os(Linux) && !os(Android)
-                        if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
-                            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
-                            if installationFromKeychain.installationId == oldInstallationId
-                                && installationFromKeychain.installationId != nil {
-                                // swiftlint:disable:next line_length
-                                XCTFail("\(installationFromKeychain) wasn't deleted and recreated in Keychain during logout")
-                            }
-                        }
-                        #endif
-                    }
-
-                case .failure(let error):
-                    XCTFail(error.localizedDescription)
+            case .success:
+                if let userFromKeychain = BaseParseUser.current {
+                    XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
+                        = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+
+                            if installationFromMemory.installationId == oldInstallationId
+                                || installationFromMemory.installationId == nil {
+                                XCTFail("\(installationFromMemory) wasn't deleted & recreated in memory during logout")
+                            }
+                    } else {
+                        XCTFail("Should have a new installation")
+                    }
+
+                    #if !os(Linux) && !os(Android)
+                    if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
+                        = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                            if installationFromKeychain.installationId == oldInstallationId
+                                || installationFromKeychain.installationId == nil {
+                                // swiftlint:disable:next line_length
+                                XCTFail("\(installationFromKeychain) wasn't deleted & recreated in Keychain during logout")
+                            }
+                    } else {
+                        XCTFail("Should have a new installation")
+                    }
+                    #endif
+                    expectation1.fulfill()
+                }
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
                 expectation1.fulfill()
             }
         }
@@ -1445,29 +1454,24 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testDelete() {
         testLogin()
-        let expectation1 = XCTestExpectation(description: "Delete installation1")
-        DispatchQueue.main.async {
-            guard let user = User.current else {
-                    XCTFail("Should unwrap dates")
-                expectation1.fulfill()
-                    return
-            }
-
-            do {
-                try user.delete(options: [])
-            } catch {
-                XCTFail(error.localizedDescription)
-            }
-
-            do {
-                try user.delete(options: [.useMasterKey])
-            } catch {
-                XCTFail(error.localizedDescription)
-            }
-
+        let expectation1 = XCTestExpectation(description: "Delete user")
+        guard let user = User.current else {
+                XCTFail("Should unwrap dates")
             expectation1.fulfill()
+                return
         }
-        wait(for: [expectation1], timeout: 20.0)
+
+        do {
+            try user.delete(options: [])
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        do {
+            try user.delete(options: [.useMasterKey])
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
 
     func testDeleteAsyncMainQueue() {
@@ -1475,36 +1479,34 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Delete installation1")
-        DispatchQueue.main.async {
-            guard let user = User.current else {
-                XCTFail("Should unwrap")
-                expectation1.fulfill()
-                return
-            }
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            expectation1.fulfill()
+            return
+        }
 
-            var userOnServer = user
-            userOnServer.updatedAt = user.updatedAt?.addingTimeInterval(+300)
+        var userOnServer = user
+        userOnServer.updatedAt = user.updatedAt?.addingTimeInterval(+300)
 
-            let encoded: Data!
-            do {
-                encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
-                //Get dates in correct format from ParseDecoding strategy
-                userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
-            } catch {
-                XCTFail("Should encode/decode. Error \(error)")
-                expectation1.fulfill()
-                return
-            }
-            MockURLProtocol.mockRequests { _ in
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            }
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            expectation1.fulfill()
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
 
-            user.delete { result in
-                if case let .failure(error) = result {
-                    XCTFail(error.localizedDescription)
-                }
-                expectation1.fulfill()
+        user.delete { result in
+            if case let .failure(error) = result {
+                XCTFail(error.localizedDescription)
             }
+            expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
     }
@@ -1514,36 +1516,112 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         testLogin()
         MockURLProtocol.removeAll()
 
+        guard var user = User.current else {
+            XCTFail("Should unwrap dates")
+            return
+        }
+
+        user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
+        user.customKey = "newValue"
+        let userOnServer = QueryResponse<User>(results: [user], count: 1)
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(user)
+            user = try user.getDecoder().decode(User.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let fetched = try [user].fetchAll()
+            fetched.forEach {
+                switch $0 {
+                case .success(let fetched):
+                    XCTAssert(fetched.hasSameObjectId(as: user))
+                    guard let fetchedCreatedAt = fetched.createdAt,
+                        let fetchedUpdatedAt = fetched.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            return
+                    }
+                    guard let originalCreatedAt = user.createdAt,
+                        let originalUpdatedAt = user.updatedAt,
+                        let serverUpdatedAt = user.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            return
+                    }
+                    XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+                    XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+                    XCTAssertEqual(fetchedUpdatedAt, serverUpdatedAt)
+                    XCTAssertEqual(User.current?.customKey, user.customKey)
+
+                    //Should be updated in memory
+                    guard let updatedCurrentDate = User.current?.updatedAt else {
+                        XCTFail("Should unwrap current date")
+                        return
+                    }
+                    XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+
+                    #if !os(Linux) && !os(Android)
+                    //Should be updated in Keychain
+                    guard let keychainUser: CurrentUserContainer<BaseParseUser>
+                        = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
+                        let keychainUpdatedCurrentDate = keychainUser.currentUser?.updatedAt else {
+                            XCTFail("Should get object from Keychain")
+                        return
+                    }
+                    XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    #endif
+                case .failure(let error):
+                    XCTFail("Should have fetched: \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    // swiftlint:disable:next function_body_length
+    func testFetchAllAsyncMainQueue() {
+        testLogin()
+        MockURLProtocol.removeAll()
+
         let expectation1 = XCTestExpectation(description: "Fetch user1")
+        guard var user = User.current else {
+            XCTFail("Should unwrap")
+            expectation1.fulfill()
+            return
+        }
 
-        DispatchQueue.main.async {
-            guard var user = User.current else {
-                    XCTFail("Should unwrap dates")
-                expectation1.fulfill()
-                    return
-            }
+        user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
+        user.customKey = "newValue"
+        let userOnServer = QueryResponse<User>(results: [user], count: 1)
 
-            user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
-            user.customKey = "newValue"
-            let userOnServer = QueryResponse<User>(results: [user], count: 1)
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(user)
+            user = try user.getDecoder().decode(User.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            expectation1.fulfill()
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
 
-            let encoded: Data!
-            do {
-                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
-                //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
-                user = try user.getDecoder().decode(User.self, from: encoded1)
-            } catch {
-                XCTFail("Should encode/decode. Error \(error)")
-                expectation1.fulfill()
-                return
-            }
-            MockURLProtocol.mockRequests { _ in
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            }
+        [user].fetchAll { results in
+            switch results {
 
-            do {
-                let fetched = try [user].fetchAll()
+            case .success(let fetched):
                 fetched.forEach {
                     switch $0 {
                     case .success(let fetched):
@@ -1589,101 +1667,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                         XCTFail("Should have fetched: \(error.localizedDescription)")
                     }
                 }
-            } catch {
-                XCTFail(error.localizedDescription)
+            case .failure(let error):
+                XCTFail("Should have fetched: \(error.localizedDescription)")
             }
-
             expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
-    }
-
-    // swiftlint:disable:next function_body_length
-    func testFetchAllAsyncMainQueue() {
-        testLogin()
-        MockURLProtocol.removeAll()
-
-        let expectation1 = XCTestExpectation(description: "Fetch user1")
-        DispatchQueue.main.async {
-            guard var user = User.current else {
-                XCTFail("Should unwrap")
-                expectation1.fulfill()
-                return
-            }
-
-            user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
-            user.customKey = "newValue"
-            let userOnServer = QueryResponse<User>(results: [user], count: 1)
-
-            let encoded: Data!
-            do {
-                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
-                //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
-                user = try user.getDecoder().decode(User.self, from: encoded1)
-            } catch {
-                XCTFail("Should encode/decode. Error \(error)")
-                expectation1.fulfill()
-                return
-            }
-            MockURLProtocol.mockRequests { _ in
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            }
-
-            [user].fetchAll { results in
-                switch results {
-
-                case .success(let fetched):
-                    fetched.forEach {
-                        switch $0 {
-                        case .success(let fetched):
-                            XCTAssert(fetched.hasSameObjectId(as: user))
-                            guard let fetchedCreatedAt = fetched.createdAt,
-                                let fetchedUpdatedAt = fetched.updatedAt else {
-                                    XCTFail("Should unwrap dates")
-                                    expectation1.fulfill()
-                                    return
-                            }
-                            guard let originalCreatedAt = user.createdAt,
-                                let originalUpdatedAt = user.updatedAt,
-                                let serverUpdatedAt = user.updatedAt else {
-                                    XCTFail("Should unwrap dates")
-                                    expectation1.fulfill()
-                                    return
-                            }
-                            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
-                            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
-                            XCTAssertEqual(fetchedUpdatedAt, serverUpdatedAt)
-                            XCTAssertEqual(User.current?.customKey, user.customKey)
-
-                            //Should be updated in memory
-                            guard let updatedCurrentDate = User.current?.updatedAt else {
-                                XCTFail("Should unwrap current date")
-                                expectation1.fulfill()
-                                return
-                            }
-                            XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
-
-                            #if !os(Linux) && !os(Android)
-                            //Should be updated in Keychain
-                            guard let keychainUser: CurrentUserContainer<BaseParseUser>
-                                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
-                                let keychainUpdatedCurrentDate = keychainUser.currentUser?.updatedAt else {
-                                    XCTFail("Should get object from Keychain")
-                                    expectation1.fulfill()
-                                return
-                            }
-                            XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
-                            #endif
-                        case .failure(let error):
-                            XCTFail("Should have fetched: \(error.localizedDescription)")
-                        }
-                    }
-                case .failure(let error):
-                    XCTFail("Should have fetched: \(error.localizedDescription)")
-                }
-                expectation1.fulfill()
-            }
         }
         wait(for: [expectation1], timeout: 20.0)
     }
@@ -1693,39 +1680,163 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         testLogin()
         MockURLProtocol.removeAll()
 
+        guard var user = User.current else {
+            XCTFail("Should unwrap dates")
+            return
+        }
+
+        user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
+        user.customKey = "newValue"
+        let userOnServer = [BatchResponseItem<User>(success: user, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(user)
+            user = try user.getDecoder().decode(User.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let saved = try [user].saveAll()
+            saved.forEach {
+                switch $0 {
+                case .success(let saved):
+                    XCTAssert(saved.hasSameObjectId(as: user))
+                    guard let savedCreatedAt = saved.createdAt,
+                        let savedUpdatedAt = saved.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            return
+                    }
+                    guard let originalCreatedAt = user.createdAt,
+                        let originalUpdatedAt = user.updatedAt,
+                        let serverUpdatedAt = user.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            return
+                    }
+                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                    XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                    XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
+                    XCTAssertEqual(User.current?.customKey, user.customKey)
+
+                    //Should be updated in memory
+                    guard let updatedCurrentDate = User.current?.updatedAt else {
+                        XCTFail("Should unwrap current date")
+                        return
+                    }
+                    XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+
+                    #if !os(Linux) && !os(Android)
+                    //Should be updated in Keychain
+                    guard let keychainUser: CurrentUserContainer<BaseParseUser>
+                        = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
+                        let keychainUpdatedCurrentDate = keychainUser.currentUser?.updatedAt else {
+                            XCTFail("Should get object from Keychain")
+                        return
+                    }
+                    XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    #endif
+                case .failure(let error):
+                    XCTFail("Should have fetched: \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        do {
+            let saved = try [user].saveAll(transaction: true)
+            saved.forEach {
+                switch $0 {
+                case .success(let saved):
+                    XCTAssert(saved.hasSameObjectId(as: user))
+                    guard let savedCreatedAt = saved.createdAt,
+                        let savedUpdatedAt = saved.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            return
+                    }
+                    guard let originalCreatedAt = user.createdAt,
+                        let originalUpdatedAt = user.updatedAt,
+                        let serverUpdatedAt = user.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            return
+                    }
+                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                    XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                    XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
+                    XCTAssertEqual(User.current?.customKey, user.customKey)
+
+                    //Should be updated in memory
+                    guard let updatedCurrentDate = User.current?.updatedAt else {
+                        XCTFail("Should unwrap current date")
+                        return
+                    }
+                    XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+
+                    #if !os(Linux) && !os(Android)
+                    //Should be updated in Keychain
+                    guard let keychainUser: CurrentUserContainer<BaseParseUser>
+                        = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
+                        let keychainUpdatedCurrentDate = keychainUser.currentUser?.updatedAt else {
+                            XCTFail("Should get object from Keychain")
+                        return
+                    }
+                    XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    #endif
+                case .failure(let error):
+                    XCTFail("Should have fetched: \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    // swiftlint:disable:next function_body_length
+    func testSaveAllAsyncMainQueue() {
+        testLogin()
+        MockURLProtocol.removeAll()
+
         let expectation1 = XCTestExpectation(description: "Save user1")
         let expectation2 = XCTestExpectation(description: "Save user2")
 
-        DispatchQueue.main.async {
-            guard var user = User.current else {
-                    XCTFail("Should unwrap dates")
-                expectation1.fulfill()
-                expectation2.fulfill()
-                    return
-            }
+        guard var user = User.current else {
+            XCTFail("Should unwrap")
+            expectation1.fulfill()
+            expectation2.fulfill()
+            return
+        }
 
-            user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
-            user.customKey = "newValue"
-            let userOnServer = [BatchResponseItem<User>(success: user, error: nil)]
+        user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
+        user.customKey = "newValue"
+        let userOnServer = [BatchResponseItem<User>(success: user, error: nil)]
 
-            let encoded: Data!
-            do {
-                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
-                //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
-                user = try user.getDecoder().decode(User.self, from: encoded1)
-            } catch {
-                XCTFail("Should encode/decode. Error \(error)")
-                expectation1.fulfill()
-                expectation2.fulfill()
-                return
-            }
-            MockURLProtocol.mockRequests { _ in
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            }
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(user)
+            user = try user.getDecoder().decode(User.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            expectation1.fulfill()
+            expectation2.fulfill()
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
 
-            do {
-                let saved = try [user].saveAll()
+        [user].saveAll { results in
+            switch results {
+
+            case .success(let saved):
                 saved.forEach {
                     switch $0 {
                     case .success(let saved):
@@ -1771,14 +1882,16 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                         XCTFail("Should have fetched: \(error.localizedDescription)")
                     }
                 }
-            } catch {
-                XCTFail(error.localizedDescription)
+            case .failure(let error):
+                XCTFail("Should have fetched: \(error.localizedDescription)")
             }
-
             expectation1.fulfill()
+        }
 
-            do {
-                let saved = try [user].saveAll(transaction: true)
+        [user].saveAll(transaction: true) { results in
+            switch results {
+
+            case .success(let saved):
                 saved.forEach {
                     switch $0 {
                     case .success(let saved):
@@ -1824,160 +1937,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                         XCTFail("Should have fetched: \(error.localizedDescription)")
                     }
                 }
-            } catch {
-                XCTFail(error.localizedDescription)
+            case .failure(let error):
+                XCTFail("Should have fetched: \(error.localizedDescription)")
             }
-
             expectation2.fulfill()
-        }
-        wait(for: [expectation1, expectation2], timeout: 20.0)
-    }
-
-    // swiftlint:disable:next function_body_length
-    func testSaveAllAsyncMainQueue() {
-        testLogin()
-        MockURLProtocol.removeAll()
-
-        let expectation1 = XCTestExpectation(description: "Save user1")
-        let expectation2 = XCTestExpectation(description: "Save user2")
-
-        DispatchQueue.main.async {
-            guard var user = User.current else {
-                XCTFail("Should unwrap")
-                expectation1.fulfill()
-                expectation2.fulfill()
-                return
-            }
-
-            user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
-            user.customKey = "newValue"
-            let userOnServer = [BatchResponseItem<User>(success: user, error: nil)]
-
-            let encoded: Data!
-            do {
-                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
-                //Get dates in correct format from ParseDecoding strategy
-                let encoded1 = try ParseCoding.jsonEncoder().encode(user)
-                user = try user.getDecoder().decode(User.self, from: encoded1)
-            } catch {
-                XCTFail("Should encode/decode. Error \(error)")
-                expectation1.fulfill()
-                expectation2.fulfill()
-                return
-            }
-            MockURLProtocol.mockRequests { _ in
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            }
-
-            [user].saveAll { results in
-                switch results {
-
-                case .success(let saved):
-                    saved.forEach {
-                        switch $0 {
-                        case .success(let saved):
-                            XCTAssert(saved.hasSameObjectId(as: user))
-                            guard let savedCreatedAt = saved.createdAt,
-                                let savedUpdatedAt = saved.updatedAt else {
-                                    XCTFail("Should unwrap dates")
-                                    expectation1.fulfill()
-                                    return
-                            }
-                            guard let originalCreatedAt = user.createdAt,
-                                let originalUpdatedAt = user.updatedAt,
-                                let serverUpdatedAt = user.updatedAt else {
-                                    XCTFail("Should unwrap dates")
-                                    expectation1.fulfill()
-                                    return
-                            }
-                            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                            XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
-                            XCTAssertEqual(User.current?.customKey, user.customKey)
-
-                            //Should be updated in memory
-                            guard let updatedCurrentDate = User.current?.updatedAt else {
-                                XCTFail("Should unwrap current date")
-                                expectation1.fulfill()
-                                return
-                            }
-                            XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
-
-                            #if !os(Linux) && !os(Android)
-                            //Should be updated in Keychain
-                            guard let keychainUser: CurrentUserContainer<BaseParseUser>
-                                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
-                                let keychainUpdatedCurrentDate = keychainUser.currentUser?.updatedAt else {
-                                    XCTFail("Should get object from Keychain")
-                                    expectation1.fulfill()
-                                return
-                            }
-                            XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
-                            #endif
-                        case .failure(let error):
-                            XCTFail("Should have fetched: \(error.localizedDescription)")
-                        }
-                    }
-                case .failure(let error):
-                    XCTFail("Should have fetched: \(error.localizedDescription)")
-                }
-                expectation1.fulfill()
-            }
-
-            [user].saveAll(transaction: true) { results in
-                switch results {
-
-                case .success(let saved):
-                    saved.forEach {
-                        switch $0 {
-                        case .success(let saved):
-                            XCTAssert(saved.hasSameObjectId(as: user))
-                            guard let savedCreatedAt = saved.createdAt,
-                                let savedUpdatedAt = saved.updatedAt else {
-                                    XCTFail("Should unwrap dates")
-                                    expectation2.fulfill()
-                                    return
-                            }
-                            guard let originalCreatedAt = user.createdAt,
-                                let originalUpdatedAt = user.updatedAt,
-                                let serverUpdatedAt = user.updatedAt else {
-                                    XCTFail("Should unwrap dates")
-                                    expectation2.fulfill()
-                                    return
-                            }
-                            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                            XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
-                            XCTAssertEqual(User.current?.customKey, user.customKey)
-
-                            //Should be updated in memory
-                            guard let updatedCurrentDate = User.current?.updatedAt else {
-                                XCTFail("Should unwrap current date")
-                                expectation2.fulfill()
-                                return
-                            }
-                            XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
-
-                            #if !os(Linux) && !os(Android)
-                            //Should be updated in Keychain
-                            guard let keychainUser: CurrentUserContainer<BaseParseUser>
-                                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
-                                let keychainUpdatedCurrentDate = keychainUser.currentUser?.updatedAt else {
-                                    XCTFail("Should get object from Keychain")
-                                    expectation2.fulfill()
-                                return
-                            }
-                            XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
-                            #endif
-                        case .failure(let error):
-                            XCTFail("Should have fetched: \(error.localizedDescription)")
-                        }
-                    }
-                case .failure(let error):
-                    XCTFail("Should have fetched: \(error.localizedDescription)")
-                }
-                expectation2.fulfill()
-            }
         }
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
@@ -1986,59 +1949,45 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         testLogin()
         MockURLProtocol.removeAll()
 
-        let expectation1 = XCTestExpectation(description: "Delete user1")
-        let expectation2 = XCTestExpectation(description: "Delete user2")
-
-        DispatchQueue.main.async {
-            guard let user = User.current else {
-                XCTFail("Should unwrap dates")
-                expectation1.fulfill()
-                expectation2.fulfill()
-                return
-            }
-
-            let userOnServer = [BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
-
-            let encoded: Data!
-            do {
-                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
-            } catch {
-                XCTFail("Should encode/decode. Error \(error)")
-                expectation1.fulfill()
-                expectation2.fulfill()
-                return
-            }
-            MockURLProtocol.mockRequests { _ in
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            }
-
-            do {
-                let deleted = try [user].deleteAll()
-                deleted.forEach {
-                    if case let .failure(error) = $0 {
-                        XCTFail("Should have deleted: \(error.localizedDescription)")
-                    }
-                }
-            } catch {
-                XCTFail(error.localizedDescription)
-            }
-
-            expectation1.fulfill()
-
-            do {
-                let deleted = try [user].deleteAll(transaction: true)
-                deleted.forEach {
-                    if case let .failure(error) = $0 {
-                        XCTFail("Should have deleted: \(error.localizedDescription)")
-                    }
-                }
-            } catch {
-                XCTFail(error.localizedDescription)
-            }
-
-            expectation2.fulfill()
+        guard let user = User.current else {
+            XCTFail("Should unwrap dates")
+            return
         }
-        wait(for: [expectation1, expectation2], timeout: 20.0)
+
+        let userOnServer = [BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let deleted = try [user].deleteAll()
+            deleted.forEach {
+                if case let .failure(error) = $0 {
+                    XCTFail("Should have deleted: \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        do {
+            let deleted = try [user].deleteAll(transaction: true)
+            deleted.forEach {
+                if case let .failure(error) = $0 {
+                    XCTFail("Should have deleted: \(error.localizedDescription)")
+                }
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
 
     func testDeleteAllAsyncMainQueue() {
@@ -2048,58 +1997,56 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expectation1 = XCTestExpectation(description: "Delete user1")
         let expectation2 = XCTestExpectation(description: "Delete user2")
 
-        DispatchQueue.main.async {
-            guard let user = User.current else {
-                XCTFail("Should unwrap")
-                expectation1.fulfill()
-                expectation2.fulfill()
-                return
-            }
+        guard let user = User.current else {
+            XCTFail("Should unwrap")
+            expectation1.fulfill()
+            expectation2.fulfill()
+            return
+        }
 
-            let userOnServer = [BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
+        let userOnServer = [BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
 
-            let encoded: Data!
-            do {
-                encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
-            } catch {
-                XCTFail("Should encode/decode. Error \(error)")
-                expectation1.fulfill()
-                expectation2.fulfill()
-                return
-            }
-            MockURLProtocol.mockRequests { _ in
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            }
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            expectation1.fulfill()
+            expectation2.fulfill()
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
 
-            [user].deleteAll { results in
-                switch results {
+        [user].deleteAll { results in
+            switch results {
 
-                case .success(let deleted):
-                    deleted.forEach {
-                        if case let .failure(error) = $0 {
-                            XCTFail("Should have deleted: \(error.localizedDescription)")
-                        }
+            case .success(let deleted):
+                deleted.forEach {
+                    if case let .failure(error) = $0 {
+                        XCTFail("Should have deleted: \(error.localizedDescription)")
                     }
-                case .failure(let error):
-                    XCTFail("Should have deleted: \(error.localizedDescription)")
                 }
-                expectation1.fulfill()
+            case .failure(let error):
+                XCTFail("Should have deleted: \(error.localizedDescription)")
             }
+            expectation1.fulfill()
+        }
 
-            [user].deleteAll(transaction: true) { results in
-                switch results {
+        [user].deleteAll(transaction: true) { results in
+            switch results {
 
-                case .success(let deleted):
-                    deleted.forEach {
-                        if case let .failure(error) = $0 {
-                            XCTFail("Should have deleted: \(error.localizedDescription)")
-                        }
+            case .success(let deleted):
+                deleted.forEach {
+                    if case let .failure(error) = $0 {
+                        XCTFail("Should have deleted: \(error.localizedDescription)")
                     }
-                case .failure(let error):
-                    XCTFail("Should have deleted: \(error.localizedDescription)")
                 }
-                expectation2.fulfill()
+            case .failure(let error):
+                XCTFail("Should have deleted: \(error.localizedDescription)")
             }
+            expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
