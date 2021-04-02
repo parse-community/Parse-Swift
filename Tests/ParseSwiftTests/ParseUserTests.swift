@@ -1083,59 +1083,75 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testLogout() {
         testLogin()
         MockURLProtocol.removeAll()
+        DispatchQueue.main.async {
+            let oldInstallationId = BaseParseInstallation.current?.installationId
+            let logoutResponse = NoBody()
 
-        let logoutResponse = NoBody()
-
-        MockURLProtocol.mockRequests { _ in
+            MockURLProtocol.mockRequests { _ in
+                do {
+                    let encoded = try ParseCoding.jsonEncoder().encode(logoutResponse)
+                    return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+                } catch {
+                    return nil
+                }
+            }
             do {
-                let encoded = try ParseCoding.jsonEncoder().encode(logoutResponse)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+                try User.logout()
+                if let userFromKeychain = BaseParseUser.current {
+                    XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+                }
+                DispatchQueue.main.async {
+                    if let installationFromKeychain = BaseParseInstallation.current {
+                        if installationFromKeychain.installationId == oldInstallationId {
+                            XCTFail("\(installationFromKeychain) wasn't deleted then created in Keychain during logout")
+                        }
+                    }
+                }
             } catch {
-                return nil
+                XCTFail(error.localizedDescription)
             }
-        }
-        do {
-            try User.logout()
-            if let userFromKeychain = BaseParseUser.current {
-                XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
-            }
-
-            if let installationFromKeychain = BaseParseInstallation.current {
-                XCTFail("\(installationFromKeychain) wasn't deleted from Keychain during logout")
-            }
-        } catch {
-            XCTFail(error.localizedDescription)
         }
     }
 
     func logoutAsync(callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        User.logout(callbackQueue: callbackQueue) { result in
 
-            switch result {
+        DispatchQueue.main.async {
+            let oldInstallationId = BaseParseInstallation.current?.installationId
+            User.logout(callbackQueue: callbackQueue) { result in
 
-            case .success:
-                if let userFromKeychain = BaseParseUser.current {
-                    XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+                switch result {
+
+                case .success:
+                    if let userFromKeychain = BaseParseUser.current {
+                        XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+                    }
+                    DispatchQueue.main.async {
+                        if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
+                            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                            if installationFromMemory.installationId == oldInstallationId {
+                                // swiftlint:disable:next line_length
+                                XCTFail("\(installationFromMemory) wasn't deleted and recreated in memory during logout")
+                            }
+                        }
+
+                        #if !os(Linux) && !os(Android)
+                        if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
+                            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                            if installationFromKeychain.installationId == oldInstallationId {
+                                // swiftlint:disable:next line_length
+                                XCTFail("\(installationFromKeychain) wasn't deleted and recreated in Keychain during logout")
+                            }
+                        }
+                        #endif
+                    }
+
+                case .failure(let error):
+                    XCTFail(error.localizedDescription)
                 }
-
-                if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
-                    = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
-                    XCTFail("\(installationFromMemory) wasn't deleted from memory during logout")
-                }
-
-                #if !os(Linux) && !os(Android)
-                if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
-                    = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
-                    XCTFail("\(installationFromKeychain) wasn't deleted from Keychain during logout")
-                }
-                #endif
-
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
+                expectation1.fulfill()
             }
-            expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
     }

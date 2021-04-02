@@ -187,6 +187,10 @@ extension ParseInstallation {
         #if !os(Linux) && !os(Android)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
         #endif
+        //Prepare new installation
+        DispatchQueue.main.async {
+            _ = BaseParseInstallation()
+        }
     }
 
     /**
