@@ -59,7 +59,7 @@ class ParseAnonymousTests: XCTestCase {
 
     struct UpdateSessionTokenResponse: Codable {
         var updatedAt: Date
-        let sessionToken: String
+        let sessionToken: String?
     }
 
     override func setUpWithError() throws {

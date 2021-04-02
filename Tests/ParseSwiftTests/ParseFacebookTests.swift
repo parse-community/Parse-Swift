@@ -30,7 +30,7 @@ class ParseFacebookTests: XCTestCase {
 
         var objectId: String?
         var createdAt: Date?
-        var sessionToken: String
+        var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
 
@@ -572,6 +572,7 @@ class ParseFacebookTests: XCTestCase {
         MockURLProtocol.removeAll()
         let expiresIn = 10
         var serverResponse = LoginSignupResponse()
+        serverResponse.sessionToken = nil
         serverResponse.updatedAt = Date()
 
         var userOnServer: User!
@@ -602,6 +603,7 @@ class ParseFacebookTests: XCTestCase {
                 XCTAssertNil(user.password)
                 XCTAssertTrue(user.facebook.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
+                XCTAssertEqual(User.current?.sessionToken, "myToken")
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -615,6 +617,7 @@ class ParseFacebookTests: XCTestCase {
         MockURLProtocol.removeAll()
         let expiresIn = 10
         var serverResponse = LoginSignupResponse()
+        serverResponse.sessionToken = nil
         serverResponse.updatedAt = Date()
 
         var userOnServer: User!
@@ -644,6 +647,7 @@ class ParseFacebookTests: XCTestCase {
                 XCTAssertNil(user.password)
                 XCTAssertTrue(user.facebook.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
+                XCTAssertEqual(User.current?.sessionToken, "myToken")
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -656,6 +660,7 @@ class ParseFacebookTests: XCTestCase {
         _ = try loginNormally()
         MockURLProtocol.removeAll()
         var serverResponse = LoginSignupResponse()
+        serverResponse.sessionToken = nil
         serverResponse.updatedAt = Date()
 
         var userOnServer: User!
@@ -690,6 +695,7 @@ class ParseFacebookTests: XCTestCase {
                 XCTAssertNil(user.password)
                 XCTAssertTrue(user.facebook.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
+                XCTAssertEqual(User.current?.sessionToken, "myToken")
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }

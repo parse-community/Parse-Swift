@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.5...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.6...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.2.6
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.5...1.2.6)
+
+__Fixes__
+- Crash when linking auth types due to server not sending sessionToken ([#109](https://github.com/parse-community/Parse-Swift/pull/109)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.2.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.4...1.2.5)

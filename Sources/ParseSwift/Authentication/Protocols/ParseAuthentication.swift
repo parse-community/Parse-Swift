@@ -404,8 +404,10 @@ public extension ParseUser {
             guard let current = Self.current else {
                 throw ParseError(code: .unknownError, message: "Should have a current user.")
             }
-            Self.currentUserContainer = .init(currentUser: current,
-                                              sessionToken: user.sessionToken)
+            if let sessionToken = user.sessionToken {
+                Self.currentUserContainer = .init(currentUser: current,
+                                                  sessionToken: sessionToken)
+            }
             Self.saveCurrentContainerToKeychain()
             return current
         }
@@ -432,8 +434,10 @@ public extension ParseUser {
             guard let current = Self.current else {
                 throw ParseError(code: .unknownError, message: "Should have a current user.")
             }
-            Self.currentUserContainer = .init(currentUser: current,
-                                              sessionToken: user.sessionToken)
+            if let sessionToken = user.sessionToken {
+                Self.currentUserContainer = .init(currentUser: current,
+                                                  sessionToken: sessionToken)
+            }
             Self.saveCurrentContainerToKeychain()
             return current
         }
