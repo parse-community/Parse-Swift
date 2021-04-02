@@ -310,7 +310,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             if let userFromKeychain = BaseParseUser.current {
                 XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+            KeychainStore.shared.synchronizationQueue.async {
                 if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
                     = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
                     if installationFromMemory.installationId == oldInstallationId
@@ -372,7 +372,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                 if let userFromKeychain = BaseParseUser.current {
                     XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
                 }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                KeychainStore.shared.synchronizationQueue.async {
                     if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
                         = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
                             if installationFromMemory.installationId == oldInstallationId
