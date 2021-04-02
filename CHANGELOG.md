@@ -8,7 +8,8 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.5...1.2.6)
 
 __Fixes__
-- Crash when linking auth types due to server not sending sessionToken ([#109](https://github.com/parse-community/Parse-Swift/pull/109)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Recreate installation automatically after deletion from Keychain ([#112](https://github.com/parse-community/Parse-Swift/pull/112)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Error when linking auth types due to server not sending sessionToken ([#109](https://github.com/parse-community/Parse-Swift/pull/109)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.2.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.4...1.2.5)
