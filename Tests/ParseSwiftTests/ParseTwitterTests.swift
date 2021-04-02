@@ -30,7 +30,7 @@ class ParseTwitterTests: XCTestCase {
 
         var objectId: String?
         var createdAt: Date?
-        var sessionToken: String
+        var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
 
@@ -402,6 +402,7 @@ class ParseTwitterTests: XCTestCase {
         MockURLProtocol.removeAll()
 
         var serverResponse = LoginSignupResponse()
+        serverResponse.sessionToken = nil
         serverResponse.updatedAt = Date()
 
         var userOnServer: User!
@@ -433,6 +434,7 @@ class ParseTwitterTests: XCTestCase {
                 XCTAssertNil(user.password)
                 XCTAssertTrue(user.twitter.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
+                XCTAssertEqual(User.current?.sessionToken, "myToken")
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -446,6 +448,7 @@ class ParseTwitterTests: XCTestCase {
         MockURLProtocol.removeAll()
 
         var serverResponse = LoginSignupResponse()
+        serverResponse.sessionToken = nil
         serverResponse.updatedAt = Date()
 
         var userOnServer: User!
@@ -482,6 +485,7 @@ class ParseTwitterTests: XCTestCase {
                 XCTAssertNil(user.password)
                 XCTAssertTrue(user.twitter.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
+                XCTAssertEqual(User.current?.sessionToken, "myToken")
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }

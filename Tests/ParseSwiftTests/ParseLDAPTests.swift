@@ -30,7 +30,7 @@ class ParseLDAPTests: XCTestCase {
 
         var objectId: String?
         var createdAt: Date?
-        var sessionToken: String
+        var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
 
@@ -313,6 +313,7 @@ class ParseLDAPTests: XCTestCase {
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
+        serverResponse.sessionToken = nil
 
         var userOnServer: User!
 
@@ -341,6 +342,52 @@ class ParseLDAPTests: XCTestCase {
                 XCTAssertNil(user.password)
                 XCTAssertTrue(user.ldap.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
+                XCTAssertEqual(User.current?.sessionToken, "myToken")
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testLinkLoggedInAuthData() throws {
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = Date()
+        serverResponse.sessionToken = nil
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Login")
+        let authData = ParseLDAP<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing", password: "authenticationToken")
+        User.ldap.link(authData: authData) { result in
+            switch result {
+
+            case .success(let user):
+                XCTAssertEqual(user, User.current)
+                XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+                XCTAssertEqual(user.username, "parse")
+                XCTAssertNil(user.password)
+                XCTAssertTrue(user.ldap.isLinked)
+                XCTAssertFalse(user.anonymous.isLinked)
+                XCTAssertEqual(User.current?.sessionToken, "myToken")
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
