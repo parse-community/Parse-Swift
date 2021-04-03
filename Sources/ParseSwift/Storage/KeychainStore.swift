@@ -29,7 +29,7 @@ func getKeychainQueryTemplate(forService service: String) -> [String: String] {
  first device unlock and are not backed up.
  */
 struct KeychainStore: SecureStorage {
-    private let synchronizationQueue: DispatchQueue
+    let synchronizationQueue: DispatchQueue
     private let keychainQueryTemplate: [String: String]
 
     public static var shared = KeychainStore(service: "shared")

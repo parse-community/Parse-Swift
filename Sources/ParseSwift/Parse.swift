@@ -66,9 +66,7 @@ public struct ParseSwift {
         ParseStorage.shared.use(keyValueStore ?? InMemoryKeyValueStore())
         ParseConfiguration.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main, authentication: authentication)
         //Prepare installation
-        DispatchQueue.main.async {
-            _ = BaseParseInstallation()
-        }
+        _ = BaseParseInstallation()
     }
 
     internal static func initialize(applicationId: String,

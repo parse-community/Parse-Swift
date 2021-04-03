@@ -8,12 +8,6 @@
 
 import Foundation
 
-#if canImport(UIKit)
-import UIKit
-#elseif canImport(AppKit)
-import AppKit
-#endif
-
 /**
  Objects that conform to the `ParseInstallation` protocol have a local representation of an
  installation persisted to the Parse cloud. This protocol inherits from the
@@ -23,8 +17,8 @@ import AppKit
 
  A valid `ParseInstallation` can only be instantiated via
  *current* because the required identifier fields
- are readonly. The `timeZone` and `badge` fields are also readonly properties which
- are automatically updated to match the device's time zone and application badge
+ are readonly. The `timeZone` is also a readonly property which
+ is automatically updated to match the device's time zone
  when the `ParseInstallation` is saved, thus these fields might not reflect the
  latest device state if the installation has not recently been saved.
 
@@ -32,8 +26,9 @@ import AppKit
  the Parse Server can be used to target push notifications. Use `setDeviceToken` to set the
  `deviceToken` properly.
 
- - warning: Only use `ParseInstallation.current` installations on the main thread as they
-   require UIApplication for `badge`
+ - warning: If the use of badge is desired, it should be retrieved by using UIKit, AppKit, etc. and
+ stored in `ParseInstallation.badge` before saving/updating the installation.
+
  - warning: Linux developers should set `appName`, `appIdentifier`, and `appVersion`
  manually as `ParseSwift` doesn't have access to Bundle.main.
 */
@@ -188,9 +183,7 @@ extension ParseInstallation {
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
         #endif
         //Prepare new installation
-        DispatchQueue.main.async {
-            _ = BaseParseInstallation()
-        }
+        _ = BaseParseInstallation()
     }
 
     /**
@@ -200,7 +193,6 @@ extension ParseInstallation {
     */
     public static var current: Self? {
         get {
-            Self.currentInstallationContainer.currentInstallation?.updateBadgeFromDevice()
             return Self.currentInstallationContainer.currentInstallation
         }
         set {
@@ -215,7 +207,6 @@ extension ParseInstallation {
     mutating func updateAutomaticInfo() {
         updateDeviceTypeFromDevice()
         updateTimeZoneFromDevice()
-        updateBadgeFromDevice()
         updateVersionInfoFromDevice()
         updateLocaleIdentifierFromDevice()
     }
@@ -236,29 +227,6 @@ extension ParseInstallation {
         let currentTimeZone = TimeZone.current.identifier
         if timeZone != currentTimeZone {
             timeZone = currentTimeZone
-        }
-    }
-
-    mutating func updateBadgeFromDevice() {
-        let applicationBadge: Int!
-
-        #if canImport(UIKit) && !os(watchOS)
-        applicationBadge = UIApplication.shared.applicationIconBadgeNumber
-        #elseif canImport(AppKit)
-        guard let currentApplicationBadge = NSApplication.shared.dockTile.badgeLabel else {
-            //If badgeLabel not set, assume it's 0
-            applicationBadge = 0
-            return
-        }
-        applicationBadge = Int(currentApplicationBadge)
-        #else
-        applicationBadge = 0
-        #endif
-
-        if badge != applicationBadge {
-            badge = applicationBadge
-            //Since this changes, update the Keychain whenever it changes
-            Self.saveCurrentContainerToKeychain()
         }
     }
 

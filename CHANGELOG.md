@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.6...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.3.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.3.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.6...1.3.0)
+
+__Improvements__
+- (Breaking Change) No longer require dispatch to main queue when using ParseInstallation. The side effect of this is bade is no longer retrieved by the SDK. The developer should retrieve the badge count on their own and save it to `ParseInstallation` if they require badge ([#114](https://github.com/parse-community/Parse-Swift/pull/114)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.2.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.5...1.2.6)
