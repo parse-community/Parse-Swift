@@ -161,6 +161,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertNotEqual(originalInstallation.deviceToken, Installation.current?.customKey)
     }
 
+    #if !os(Linux) && !os(Android)
     func testInstallationImmutableFieldsCannotBeChangedInMemory() {
         guard let originalInstallation = Installation.current,
             let originalInstallationId = originalInstallation.installationId,
@@ -197,7 +198,6 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertEqual(originalLocaleIdentifier, Installation.current?.localeIdentifier)
     }
 
-    #if !os(Linux) && !os(Android)
     func testInstallationCustomValuesNotSavedToKeychain() {
         Installation.current?.customKey = "Changed"
         Installation.saveCurrentContainerToKeychain()
