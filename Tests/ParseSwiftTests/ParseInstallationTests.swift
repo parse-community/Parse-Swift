@@ -161,18 +161,6 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertNotEqual(originalInstallation.deviceToken, Installation.current?.customKey)
     }
 
-    func testInstallationCustomValuesNotSavedToKeychain() {
-        Installation.current?.customKey = "Changed"
-        Installation.saveCurrentContainerToKeychain()
-        #if !os(Linux) && !os(Android)
-        guard let keychainInstallation: CurrentInstallationContainer<Installation>
-            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
-            return
-        }
-        XCTAssertNil(keychainInstallation.currentInstallation?.customKey)
-        #endif
-    }
-
     #if !os(Linux) && !os(Android)
     func testInstallationImmutableFieldsCannotBeChangedInMemory() {
         guard let originalInstallation = Installation.current,
@@ -210,6 +198,16 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertEqual(originalLocaleIdentifier, Installation.current?.localeIdentifier)
     }
 
+    func testInstallationCustomValuesNotSavedToKeychain() {
+        Installation.current?.customKey = "Changed"
+        Installation.saveCurrentContainerToKeychain()
+        guard let keychainInstallation: CurrentInstallationContainer<Installation>
+            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+            return
+        }
+        XCTAssertNil(keychainInstallation.currentInstallation?.customKey)
+    }
+
     // swiftlint:disable:next function_body_length
     func testInstallationImmutableFieldsCannotBeChangedInKeychain() {
         guard let originalInstallation = Installation.current,
@@ -238,7 +236,6 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         Installation.saveCurrentContainerToKeychain()
 
-        #if !os(Linux) && !os(Android)
         guard let keychainInstallation: CurrentInstallationContainer<Installation>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
             XCTFail("Should have unwrapped")
@@ -253,7 +250,6 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertEqual(originalAppVersion, keychainInstallation.currentInstallation?.appVersion)
         XCTAssertEqual(originalParseVersion, keychainInstallation.currentInstallation?.parseVersion)
         XCTAssertEqual(originalLocaleIdentifier, keychainInstallation.currentInstallation?.localeIdentifier)
-        #endif
     }
     #endif
 
@@ -263,6 +259,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         installation.ACL = nil
+        installation.installationId = "hello"
 
         var installationOnServer = installation
         installationOnServer.updatedAt = Date()
@@ -282,28 +279,62 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         do {
             let saved = try installation.save()
+            XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
+            XCTAssertTrue(saved.hasSameInstallationId(as: installationOnServer))
             guard let savedUpdatedAt = saved.updatedAt else {
                 XCTFail("Should unwrap dates")
                 return
             }
-            guard let originalUpdatedAt = installation.updatedAt else {
+            guard let serverUpdatedAt = installationOnServer.updatedAt else {
                 XCTFail("Should unwrap dates")
                 return
             }
-            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
             XCTAssertNil(saved.ACL)
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
 
-    func testUpdateToCurrentInstallation() {
-        testUpdate()
-        guard let savedObjectId = Installation.current?.objectId else {
-            XCTFail("Should unwrap dates")
+    func testSaveCurrentInstallation() throws {
+        guard var installation = Installation.current else {
+            XCTFail("Should unwrap")
             return
         }
-        XCTAssertEqual(savedObjectId, self.testInstallationObjectId)
+        installation.objectId = testInstallationObjectId
+        installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        installation.ACL = nil
+
+        var installationOnServer = installation
+
+        let encoded: Data!
+        do {
+            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let saved = try Installation.current!.save()
+            guard let newCurrentInstallation = Installation.current else {
+                XCTFail("Should have a new current installation")
+                return
+            }
+            XCTAssertTrue(saved.hasSameInstallationId(as: newCurrentInstallation))
+            XCTAssertTrue(saved.hasSameObjectId(as: newCurrentInstallation))
+            XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
+            XCTAssertTrue(saved.hasSameInstallationId(as: installationOnServer))
+            XCTAssertNil(saved.ACL)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
 
     // swiftlint:disable:next function_body_length
@@ -325,15 +356,10 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     expectation1.fulfill()
                     return
                 }
-                guard let installationUpdatedAt = Installation.current?.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    expectation1.fulfill()
-                    return
-                }
+                XCTAssertTrue(saved.hasSameObjectId(as: installation))
+                XCTAssertTrue(saved.hasSameInstallationId(as: installation))
                 XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(saved.ACL)
-                XCTAssertGreaterThan(installationUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(Installation.current?.ACL)
                 expectation1.fulfill()
 
             case .failure(let error):
@@ -345,14 +371,12 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
     }
 
     func testUpdateAsyncMainQueue() {
-        testUpdate()
-        MockURLProtocol.removeAll()
-
         var installation = Installation()
         installation.objectId = testInstallationObjectId
         installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         installation.ACL = nil
+        installation.installationId = "hello"
 
         var installationOnServer = installation
         installationOnServer.updatedAt = Date()
@@ -374,6 +398,83 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
 
         self.updateAsync(installation: installation, installationOnServer: installationOnServer, callbackQueue: .main)
+    }
+
+    // swiftlint:disable:next function_body_length
+    func saveCurrentAsync(installation: Installation,
+                          installationOnServer: Installation,
+                          callbackQueue: DispatchQueue) {
+
+        let expectation1 = XCTestExpectation(description: "Update installation1")
+        installation.save(options: [], callbackQueue: callbackQueue) { result in
+
+            switch result {
+
+            case .success(let saved):
+                guard let currentInstallation = Installation.current else {
+                    XCTFail("Should have current")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertTrue(saved.hasSameObjectId(as: currentInstallation))
+                XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
+                XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
+                XCTAssertTrue(saved.hasSameInstallationId(as: installationOnServer))
+                guard let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+                }
+                guard let serverUpdatedAt = installationOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
+                XCTAssertNil(saved.ACL)
+                XCTAssertNil(currentInstallation.ACL)
+                expectation1.fulfill()
+
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+                expectation1.fulfill()
+            }
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testSaveCurrentAsyncMainQueue() {
+        guard var installation = Installation.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+        installation.objectId = testInstallationObjectId
+        installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        installation.ACL = nil
+
+        var installationOnServer = installation
+
+        let encoded: Data!
+        do {
+            let encodedOriginal = try ParseCoding.jsonEncoder().encode(installation)
+            //Get dates in correct format from ParseDecoding strategy
+            installation = try installation.getDecoder().decode(Installation.self, from: encodedOriginal)
+
+            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        self.saveCurrentAsync(installation: installation,
+                                installationOnServer: installationOnServer,
+                                callbackQueue: .main)
     }
 
     func testFetchCommand() {
@@ -428,8 +529,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertThrowsError(try installation2.fetchCommand(include: nil))
     }
 
-    func testFetchUpdatedCurrentInstallation() { // swiftlint:disable:this function_body_length
-        testUpdate()
+    func testFetchUpdatedCurrentInstallation() throws { // swiftlint:disable:this function_body_length
+        try testSaveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current,
@@ -457,8 +558,15 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
 
         do {
-            let fetched = try installation.fetch(options: [.useMasterKey])
-            XCTAssert(fetched.hasSameObjectId(as: installationOnServer))
+            let fetched = try installation.fetch()
+            guard let currentInstallation = Installation.current else {
+                XCTFail("Should have current installation")
+                return
+            }
+            XCTAssertTrue(fetched.hasSameObjectId(as: currentInstallation))
+            XCTAssertTrue(fetched.hasSameInstallationId(as: currentInstallation))
+            XCTAssertTrue(fetched.hasSameObjectId(as: installationOnServer))
+            XCTAssertTrue(fetched.hasSameInstallationId(as: installationOnServer))
             guard let fetchedCreatedAt = fetched.createdAt,
                 let fetchedUpdatedAt = fetched.updatedAt else {
                     XCTFail("Should unwrap dates")
@@ -497,8 +605,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
     }
 
-    func testFetchUpdatedCurrentInstallationAsync() { // swiftlint:disable:this function_body_length
-        testUpdate()
+    func testFetchUpdatedCurrentInstallationAsync() throws { // swiftlint:disable:this function_body_length
+        try testSaveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Update installation1")
@@ -531,7 +639,14 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
             switch result {
             case .success(let fetched):
-                XCTAssert(fetched.hasSameObjectId(as: installationOnServer))
+                guard let currentInstallation = Installation.current else {
+                    XCTFail("Should have current installation")
+                    return
+                }
+                XCTAssertTrue(fetched.hasSameObjectId(as: currentInstallation))
+                XCTAssertTrue(fetched.hasSameInstallationId(as: currentInstallation))
+                XCTAssertTrue(fetched.hasSameObjectId(as: installationOnServer))
+                XCTAssertTrue(fetched.hasSameInstallationId(as: installationOnServer))
                 guard let fetchedCreatedAt = fetched.createdAt,
                     let fetchedUpdatedAt = fetched.updatedAt else {
                         XCTFail("Should unwrap dates")
@@ -595,8 +710,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertThrowsError(try installation2.deleteCommand())
     }
 
-    func testDelete() {
-        testUpdate()
+    func testDeleteCurrent() throws {
+        try testSaveCurrentInstallation()
 
         guard let installation = Installation.current else {
             XCTFail("Should unwrap dates")
@@ -605,6 +720,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         do {
             try installation.delete(options: [])
+            if let newInstallation = Installation.current {
+                XCTAssertFalse(installation.hasSameInstallationId(as: newInstallation))
+            }
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -616,8 +734,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
     }
 
-    func testDeleteAsyncMainQueue() {
-        testUpdate()
+    func testDeleteCurrentAsyncMainQueue() throws {
+        try testSaveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Delete installation1")
@@ -648,14 +766,17 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             if case let .failure(error) = result {
                 XCTFail(error.localizedDescription)
             }
+            if let newInstallation = Installation.current {
+                XCTAssertFalse(installation.hasSameInstallationId(as: newInstallation))
+            }
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
-    func testFetchAll() {
-        testUpdate()
+    func testFetchAllCurrent() throws {
+        try testSaveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard var installation = Installation.current else {
@@ -686,7 +807,12 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             fetched.forEach {
                 switch $0 {
                 case .success(let fetched):
-                    XCTAssert(fetched.hasSameObjectId(as: installation))
+                    guard let currentInstallation = Installation.current else {
+                        XCTFail("Should have current installation")
+                        return
+                    }
+                    XCTAssertTrue(fetched.hasSameObjectId(as: currentInstallation))
+                    XCTAssertTrue(fetched.hasSameInstallationId(as: currentInstallation))
                     guard let fetchedCreatedAt = fetched.createdAt,
                         let fetchedUpdatedAt = fetched.updatedAt else {
                             XCTFail("Should unwrap dates")
@@ -730,8 +856,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
     }
 
     // swiftlint:disable:next function_body_length
-    func testFetchAllAsyncMainQueue() {
-        testUpdate()
+    func testFetchAllAsyncMainQueueCurrent() throws {
+        try testSaveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Fetch installation1")
@@ -767,7 +893,12 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 fetched.forEach {
                     switch $0 {
                     case .success(let fetched):
-                        XCTAssert(fetched.hasSameObjectId(as: installation))
+                        guard let currentInstallation = Installation.current else {
+                            XCTFail("Should have current installation")
+                            return
+                        }
+                        XCTAssertTrue(fetched.hasSameObjectId(as: currentInstallation))
+                        XCTAssertTrue(fetched.hasSameInstallationId(as: currentInstallation))
                         guard let fetchedCreatedAt = fetched.createdAt,
                             let fetchedUpdatedAt = fetched.updatedAt else {
                                 XCTFail("Should unwrap dates")
@@ -842,8 +973,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
     }
 
     // swiftlint:disable:next function_body_length
-    func testSaveAll() {
-        testUpdate()
+    func testSaveAllCurrent() throws {
+        try testSaveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard var installation = Installation.current else {
@@ -851,9 +982,15 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             return
         }
 
+        var installation2 = installation
+        installation2.objectId = "old"
         installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
         installation.customKey = "newValue"
-        let installationOnServer = [BatchResponseItem<Installation>(success: installation, error: nil)]
+
+        let installationOnServer = [BatchResponseItem<Installation>(success: installation,
+                                                                    error: nil),
+                                    BatchResponseItem<Installation>(success: installation2,
+                                                                    error: nil)]
 
         let encoded: Data!
         do {
@@ -874,7 +1011,14 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             saved.forEach {
                 switch $0 {
                 case .success(let saved):
-                    XCTAssert(saved.hasSameObjectId(as: installation))
+                    guard let currentInstallation = Installation.current else {
+                        XCTFail("Should have current installation")
+                        return
+                    }
+                    XCTAssertTrue(saved.hasSameObjectId(as: currentInstallation))
+                    XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
+                    XCTAssertTrue(saved.hasSameObjectId(as: installation))
+                    XCTAssertTrue(saved.hasSameInstallationId(as: installation))
                     guard let savedCreatedAt = saved.createdAt,
                         let savedUpdatedAt = saved.updatedAt else {
                             XCTFail("Should unwrap dates")
@@ -921,7 +1065,12 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             saved2.forEach {
                 switch $0 {
                 case .success(let saved):
-                    XCTAssert(saved.hasSameObjectId(as: installation))
+                    guard let currentInstallation = Installation.current else {
+                        XCTFail("Should have current installation")
+                        return
+                    }
+                    XCTAssertTrue(saved.hasSameObjectId(as: currentInstallation))
+                    XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
                     guard let savedCreatedAt = saved.createdAt,
                         let savedUpdatedAt = saved.updatedAt else {
                             XCTFail("Should unwrap dates")
@@ -965,8 +1114,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
     }
 
     // swiftlint:disable:next function_body_length
-    func testSaveAllAsyncMainQueue() {
-        testUpdate()
+    func testSaveAllAsyncMainQueueCurrent() throws {
+        try testSaveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Fetch installation1")
@@ -978,9 +1127,14 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             return
         }
 
+        var installation2 = installation
+        installation2.objectId = "old"
         installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
         installation.customKey = "newValue"
-        let installationOnServer = [BatchResponseItem<Installation>(success: installation, error: nil)]
+        let installationOnServer = [BatchResponseItem<Installation>(success: installation,
+                                                                    error: nil),
+                                    BatchResponseItem<Installation>(success: installation2,
+                                                                    error: nil)]
 
         let encoded: Data!
         do {
@@ -1005,7 +1159,14 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 saved.forEach {
                     switch $0 {
                     case .success(let saved):
-                        XCTAssert(saved.hasSameObjectId(as: installation))
+                        guard let currentInstallation = Installation.current else {
+                            XCTFail("Should have current installation")
+                            return
+                        }
+                        XCTAssertTrue(saved.hasSameObjectId(as: currentInstallation))
+                        XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
+                        XCTAssertTrue(saved.hasSameObjectId(as: installation))
+                        XCTAssertTrue(saved.hasSameInstallationId(as: installation))
                         guard let savedCreatedAt = saved.createdAt,
                             let savedUpdatedAt = saved.updatedAt else {
                                 XCTFail("Should unwrap dates")
@@ -1060,7 +1221,12 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 saved.forEach {
                     switch $0 {
                     case .success(let saved):
-                        XCTAssert(saved.hasSameObjectId(as: installation))
+                        guard let currentInstallation = Installation.current else {
+                            XCTFail("Should have current installation")
+                            return
+                        }
+                        XCTAssertTrue(saved.hasSameObjectId(as: currentInstallation))
+                        XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
                         guard let savedCreatedAt = saved.createdAt,
                             let savedUpdatedAt = saved.updatedAt else {
                                 XCTFail("Should unwrap dates")
@@ -1110,8 +1276,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    func testDeleteAll() {
-        testUpdate()
+    func testDeleteAllCurrent() throws {
+        try testSaveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         guard let installation = Installation.current else {
@@ -1138,6 +1304,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 if case let .failure(error) = $0 {
                     XCTFail("Should have deleted: \(error.localizedDescription)")
                 }
+                if let newInstallation = Installation.current {
+                    XCTAssertFalse(installation.hasSameInstallationId(as: newInstallation))
+                }
             }
         } catch {
             XCTFail(error.localizedDescription)
@@ -1155,8 +1324,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
     }
 
-    func testDeleteAllAsyncMainQueue() {
-        testUpdate()
+    func testDeleteAllAsyncMainQueueCurrent() throws {
+        try testSaveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         let expectation1 = XCTestExpectation(description: "Delete installation1")
@@ -1191,6 +1360,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 deleted.forEach {
                     if case let .failure(error) = $0 {
                         XCTFail("Should have deleted: \(error.localizedDescription)")
+                    }
+                    if let newInstallation = Installation.current {
+                        XCTAssertFalse(installation.hasSameInstallationId(as: newInstallation))
                     }
                 }
             case .failure(let error):

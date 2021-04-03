@@ -65,8 +65,16 @@ public struct ParseSwift {
                                                 .joined(separator: "/")
         ParseStorage.shared.use(keyValueStore ?? InMemoryKeyValueStore())
         ParseConfiguration.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main, authentication: authentication)
-        //Prepare installation
-        _ = BaseParseInstallation()
+
+        //Migrate old installations made with ParseSwift < 1.3.0
+        if let currentInstallation = BaseParseInstallation.current {
+            if currentInstallation.objectId == nil {
+                BaseParseInstallation.deleteCurrentContainerFromKeychain()
+            }
+        } else {
+            //Prepare installation
+            _ = BaseParseInstallation()
+        }
     }
 
     internal static func initialize(applicationId: String,

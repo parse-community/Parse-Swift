@@ -131,7 +131,7 @@ do {
     print("Error logging out: \(error)")
 }
 
-//: Password Reset Request - synchronously.
+//: Verification Email - synchronously.
 do {
     try User.verificationEmail(email: "hello@parse.org")
     print("Successfully requested verification email be sent")

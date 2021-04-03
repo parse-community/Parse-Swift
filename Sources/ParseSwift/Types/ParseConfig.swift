@@ -133,10 +133,6 @@ extension ParseConfig {
     }
 
     internal static func updateKeychainIfNeeded(_ result: Self, deleting: Bool = false) {
-        guard BaseParseUser.current != nil else {
-            return
-        }
-
         if !deleting {
             Self.current = result
             Self.saveCurrentContainerToKeychain()

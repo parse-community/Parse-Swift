@@ -56,7 +56,7 @@ struct KeychainStore: SecureStorage {
             return nil
         }
         do {
-            let object = try JSONDecoder().decode(T.self, from: data)
+            let object = try ParseCoding.jsonDecoder().decode(T.self, from: data)
             return object
         } catch {
             return nil
@@ -68,7 +68,7 @@ struct KeychainStore: SecureStorage {
             return removeObject(forKey: key)
         }
         do {
-            let data = try JSONEncoder().encode(object)
+            let data = try ParseCoding.jsonEncoder().encode(object)
             let query = keychainQuery(forKey: key)
             let update = [
                 kSecValueData as String: data

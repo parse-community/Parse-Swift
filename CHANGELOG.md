@@ -10,6 +10,9 @@
 __Improvements__
 - (Breaking Change) No longer require dispatch to main queue when using ParseInstallation. The side effect of this is bade is no longer retrieved by the SDK. The developer should retrieve the badge count on their own and save it to `ParseInstallation` if they require badge ([#114](https://github.com/parse-community/Parse-Swift/pull/114)), thanks to [Corey Baker](https://github.com/cbaker6).
 
+__Fixes__
+- (Breaking Change) Correctly saves objectId of ParseInstallation to Keychain when saving to server. Also fixes issue when using deleteAll with current ParseUser and ParseInstallation. Old installations will automatically be migrated to the new one. If you end up having issues you can delete all of the installations in your ParseDashboard that were created with Parse-Swift < 1.30. If you are not able to do this, you can all log out of devices using Parse-Swift < 1.30 and then log back in ([#116](https://github.com/parse-community/Parse-Swift/pull/116)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.2.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.5...1.2.6)
 
@@ -58,14 +61,12 @@ __Fixes__
 ### 1.2.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.1.6...1.2.0)
 
-__Breaking changes__
-- Allows return types to be specified for `ParseCloud`, query `hint`, and `explain` (see playgrounds for examples). Changed functionality of synchronous `query.first()`. It use to return nil if no values are found. Now it will throw an error if none are found. ([#92](https://github.com/parse-community/Parse-Swift/pull/92)), thanks to [Corey Baker](https://github.com/cbaker6).
-
 __New features__
 - Add transaction support to batch saveAll and deleteAll ([#89](https://github.com/parse-community/Parse-Swift/pull/89)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Add modifiers to containsString, hasPrefix, hasSuffix ([#85](https://github.com/parse-community/Parse-Swift/pull/85)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
+- (Breaking Change) Allows return types to be specified for `ParseCloud`, query `hint`, and `explain` (see playgrounds for examples). Changed functionality of synchronous `query.first()`. It use to return nil if no values are found. Now it will throw an error if none are found. ([#92](https://github.com/parse-community/Parse-Swift/pull/92)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Better error reporting when decode errors occur ([#92](https://github.com/parse-community/Parse-Swift/pull/92)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Can use a variadic version of exclude. Added examples of select and exclude query in playgrounds ([#88](https://github.com/parse-community/Parse-Swift/pull/88)), thanks to [Corey Baker](https://github.com/cbaker6).
 

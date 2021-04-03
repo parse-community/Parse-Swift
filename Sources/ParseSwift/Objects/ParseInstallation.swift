@@ -100,6 +100,10 @@ extension ParseInstallation {
         }
     }
 
+    func hasSameInstallationId<T: ParseInstallation>(as other: T) -> Bool {
+        return other.className == className && other.installationId == installationId && installationId != nil
+    }
+
     /**
      Sets the device token string property from an `Data`-encoded token.
      - parameter data: A token that identifies the device.
@@ -303,23 +307,22 @@ extension ParseInstallation {
 
 // MARK: Fetchable
 extension ParseInstallation {
-    internal static func updateKeychainIfNeeded(_ results: [Self], deleting: Bool = false) {
-        guard BaseParseUser.current != nil,
-              let currentInstallation = BaseParseInstallation.current else {
+    internal static func updateKeychainIfNeeded(_ results: [Self], deleting: Bool = false) throws {
+        guard let currentInstallation = BaseParseInstallation.current else {
             return
         }
 
-        var saveInstallation: Self?
-        let foundCurrentInstallationObjects = results.filter { $0.hasSameObjectId(as: currentInstallation) }
+        var foundCurrentInstallationObjects = results.filter { $0.hasSameInstallationId(as: currentInstallation) }
+        foundCurrentInstallationObjects = try foundCurrentInstallationObjects.sorted(by: {
+            if $0.updatedAt == nil || $1.updatedAt == nil {
+                throw ParseError(code: .unknownError,
+                                 message: "Objects from the server should always have an 'updatedAt'")
+            }
+            return $0.updatedAt!.compare($1.updatedAt!) == .orderedDescending
+        })
         if let foundCurrentInstallation = foundCurrentInstallationObjects.first {
-            saveInstallation = foundCurrentInstallation
-        } else {
-            saveInstallation = results.first
-        }
-
-        if saveInstallation != nil {
             if !deleting {
-                Self.current = saveInstallation
+                Self.current = foundCurrentInstallation
                 Self.saveCurrentContainerToKeychain()
             } else {
                 Self.deleteCurrentContainerFromKeychain()
@@ -341,7 +344,7 @@ extension ParseInstallation {
                       options: API.Options = []) throws -> Self {
         let result: Self = try fetchCommand(include: includeKeys)
             .execute(options: options, callbackQueue: .main)
-        Self.updateKeychainIfNeeded([result])
+        try Self.updateKeychainIfNeeded([result])
         return result
     }
 
@@ -369,9 +372,21 @@ extension ParseInstallation {
                               callbackQueue: callbackQueue) { result in
                     callbackQueue.async {
                         if case .success(let foundResult) = result {
-                            Self.updateKeychainIfNeeded([foundResult])
+                            do {
+                                try Self.updateKeychainIfNeeded([foundResult])
+                                completion(.success(foundResult))
+                            } catch {
+                                let returnError: ParseError!
+                                if let parseError = error as? ParseError {
+                                    returnError = parseError
+                                } else {
+                                    returnError = ParseError(code: .unknownError, message: error.localizedDescription)
+                                }
+                                completion(.failure(returnError))
+                            }
+                        } else {
+                            completion(result)
                         }
-                        completion(result)
                     }
                 }
          } catch {
@@ -438,7 +453,7 @@ extension ParseInstallation {
                      callbackQueue: .main,
                      childObjects: childObjects,
                      childFiles: childFiles)
-        Self.updateKeychainIfNeeded([result])
+        try Self.updateKeychainIfNeeded([result])
         return result
     }
 
@@ -466,10 +481,22 @@ extension ParseInstallation {
                                       childFiles: savedChildFiles) { result in
                             callbackQueue.async {
                                 if case .success(let foundResults) = result {
-                                    Self.updateKeychainIfNeeded([foundResults])
+                                    do {
+                                        try Self.updateKeychainIfNeeded([foundResults])
+                                        completion(.success(foundResults))
+                                    } catch {
+                                        let returnError: ParseError!
+                                        if let parseError = error as? ParseError {
+                                            returnError = parseError
+                                        } else {
+                                            returnError = ParseError(code: .unknownError,
+                                                                     message: error.localizedDescription)
+                                        }
+                                        completion(.failure(returnError))
+                                    }
+                                } else {
+                                    completion(result)
                                 }
-
-                                completion(result)
                             }
                         }
                 } catch {
@@ -533,7 +560,7 @@ extension ParseInstallation {
     */
     public func delete(options: API.Options = []) throws {
         _ = try deleteCommand().execute(options: options)
-        Self.updateKeychainIfNeeded([self], deleting: true)
+        try Self.updateKeychainIfNeeded([self], deleting: true)
     }
 
     /**
@@ -558,8 +585,18 @@ extension ParseInstallation {
                         switch result {
 
                         case .success:
-                            Self.updateKeychainIfNeeded([self], deleting: true)
-                            completion(.success(()))
+                            do {
+                                try Self.updateKeychainIfNeeded([self], deleting: true)
+                                completion(.success(()))
+                            } catch {
+                                let returnError: ParseError!
+                                if let parseError = error as? ParseError {
+                                    returnError = parseError
+                                } else {
+                                    returnError = ParseError(code: .unknownError, message: error.localizedDescription)
+                                }
+                                completion(.failure(returnError))
+                            }
                         case .failure(let error):
                             completion(.failure(error))
                         }
@@ -678,7 +715,7 @@ public extension Sequence where Element: ParseInstallation {
                          childFiles: childFiles)
             returnBatch.append(contentsOf: currentBatch)
         }
-        Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
+        try Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
         return returnBatch
     }
 
@@ -779,7 +816,7 @@ public extension Sequence where Element: ParseInstallation {
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
                                 callbackQueue.async {
-                                    Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
+                                    try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
                                     completion(.success(returnBatch))
                                 }
                             }
@@ -842,7 +879,7 @@ public extension Sequence where Element: ParseInstallation {
                                                                       message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                 }
             }
-            Self.Element.updateKeychainIfNeeded(fetchedObjects)
+            try Self.Element.updateKeychainIfNeeded(fetchedObjects)
             return fetchedObjectsToReturn
         } else {
             throw ParseError(code: .unknownError, message: "all items to fetch must be of the same class")
@@ -891,7 +928,7 @@ public extension Sequence where Element: ParseInstallation {
                         }
                     }
                     callbackQueue.async {
-                        Self.Element.updateKeychainIfNeeded(fetchedObjects)
+                        try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
                         completion(.success(fetchedObjectsToReturn))
                     }
                 case .failure(let error):
@@ -950,7 +987,8 @@ public extension Sequence where Element: ParseInstallation {
             returnBatch.append(contentsOf: currentBatch)
         }
 
-        Self.Element.updateKeychainIfNeeded(compactMap {$0})
+        try Self.Element.updateKeychainIfNeeded(compactMap {$0},
+                                                deleting: true)
         return returnBatch
     }
 
@@ -1006,7 +1044,8 @@ public extension Sequence where Element: ParseInstallation {
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
                             callbackQueue.async {
-                                Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
+                                try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0},
+                                                                         deleting: true)
                                 completion(.success(returnBatch))
                             }
                         }

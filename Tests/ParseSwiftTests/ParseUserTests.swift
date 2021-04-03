@@ -1452,7 +1452,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertThrowsError(try user2.deleteCommand())
     }
 
-    func testDelete() {
+    func testDeleteCurrent() {
         testLogin()
         let expectation1 = XCTestExpectation(description: "Delete user")
         guard let user = User.current else {
@@ -1463,6 +1463,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         do {
             try user.delete(options: [])
+            XCTAssertNil(User.current)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -1474,7 +1475,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testDeleteAsyncMainQueue() {
+    func testDeleteCurrentAsyncMainQueue() {
         testLogin()
         MockURLProtocol.removeAll()
 
@@ -1506,13 +1507,14 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             if case let .failure(error) = result {
                 XCTFail(error.localizedDescription)
             }
+            XCTAssertNil(User.current)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
     }
 
     // swiftlint:disable:next function_body_length
-    func testFetchAll() {
+    func testFetchAllCurrent() {
         testLogin()
         MockURLProtocol.removeAll()
 
@@ -1588,7 +1590,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     // swiftlint:disable:next function_body_length
-    func testFetchAllAsyncMainQueue() {
+    func testFetchAllAsyncMainQueueCurrent() {
         testLogin()
         MockURLProtocol.removeAll()
 
@@ -1676,7 +1678,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     // swiftlint:disable:next function_body_length
-    func testSaveAll() {
+    func testSaveAllCurrent() {
         testLogin()
         MockURLProtocol.removeAll()
 
@@ -1685,9 +1687,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
 
+        var user2 = user
+        user2.customKey = "oldValue"
         user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
         user.customKey = "newValue"
-        let userOnServer = [BatchResponseItem<User>(success: user, error: nil)]
+        let userOnServer = [BatchResponseItem<User>(success: user, error: nil),
+                            BatchResponseItem<User>(success: user2, error: nil)]
 
         let encoded: Data!
         do {
@@ -1799,7 +1804,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     // swiftlint:disable:next function_body_length
-    func testSaveAllAsyncMainQueue() {
+    func testSaveAllAsyncMainQueueCurrent() {
         testLogin()
         MockURLProtocol.removeAll()
 
@@ -1813,9 +1818,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
 
+        var user2 = user
+        user2.customKey = "oldValue"
         user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
         user.customKey = "newValue"
-        let userOnServer = [BatchResponseItem<User>(success: user, error: nil)]
+        let userOnServer = [BatchResponseItem<User>(success: user, error: nil),
+                            BatchResponseItem<User>(success: user2, error: nil)]
 
         let encoded: Data!
         do {
@@ -1945,7 +1953,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    func testDeleteAll() {
+    func testDeleteAllCurrent() {
         testLogin()
         MockURLProtocol.removeAll()
 
@@ -1973,6 +1981,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 if case let .failure(error) = $0 {
                     XCTFail("Should have deleted: \(error.localizedDescription)")
                 }
+                XCTAssertNil(User.current)
             }
         } catch {
             XCTFail(error.localizedDescription)
@@ -1990,7 +1999,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testDeleteAllAsyncMainQueue() {
+    func testDeleteAllAsyncMainQueueCurrent() {
         testLogin()
         MockURLProtocol.removeAll()
 
@@ -2027,6 +2036,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     if case let .failure(error) = $0 {
                         XCTFail("Should have deleted: \(error.localizedDescription)")
                     }
+                    XCTAssertNil(User.current)
                 }
             case .failure(let error):
                 XCTFail("Should have deleted: \(error.localizedDescription)")

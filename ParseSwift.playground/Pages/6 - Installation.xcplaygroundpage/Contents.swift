@@ -53,5 +53,21 @@ Installation.current?.save { results in
     }
 }
 
+/*: Update your `ParseInstallation` `customKey` value.
+    Performs work on background queue and returns to designated on
+    designated callbackQueue. If no callbackQueue is specified it
+    returns to main queue.
+ */
+Installation.current?.customKey = "updatedValue"
+Installation.current?.save { results in
+
+    switch results {
+    case .success(let updatedInstallation):
+        print("Successfully save myCustomInstallationKey to ParseServer: \(updatedInstallation)")
+    case .failure(let error):
+        print("Failed to update installation: \(error)")
+    }
+}
+
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

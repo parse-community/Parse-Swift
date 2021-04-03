@@ -21,7 +21,7 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int?
-    var timeStamp = Date()
+    var timeStamp: Date? = Date()
     var oldScore: Int?
 }
 
