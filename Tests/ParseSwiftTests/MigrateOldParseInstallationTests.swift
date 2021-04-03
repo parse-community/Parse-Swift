@@ -43,6 +43,7 @@ class MigrateOldParseInstallationTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
+    #if !os(Linux) && !os(Android)
     func testDontOverwriteMigratedInstallation() throws {
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
@@ -58,26 +59,21 @@ class MigrateOldParseInstallationTests: XCTestCase {
         Installation.currentInstallationContainer.currentInstallation = newInstallation
         Installation.saveCurrentContainerToKeychain()
 
-        let expectation1 = XCTestExpectation(description: "Migrate Installation")
-
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
                               primitiveObjectStore: memory,
                               testing: true)
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            guard let installation = Installation.current else {
-                XCTFail("Should have installation")
-                return
-            }
-            XCTAssertTrue(installation.hasSameObjectId(as: newInstallation))
-            XCTAssertTrue(installation.hasSameInstallationId(as: newInstallation))
-            expectation1.fulfill()
+        guard let installation = Installation.current else {
+            XCTFail("Should have installation")
+            return
         }
-        wait(for: [expectation1], timeout: 20.0)
+        XCTAssertTrue(installation.hasSameObjectId(as: newInstallation))
+        XCTAssertTrue(installation.hasSameInstallationId(as: newInstallation))
     }
-
+    #endif
+    
     func testOverwriteOldInstallation() throws {
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
