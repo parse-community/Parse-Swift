@@ -170,35 +170,35 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseInstallation.swift",
-      "line": 72,
+      "line": 67,
       "symbol": "ParseInstallation.appName",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseInstallation.swift",
-      "line": 74,
+      "line": 69,
       "symbol": "ParseInstallation.appIdentifier",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseInstallation.swift",
-      "line": 76,
+      "line": 71,
       "symbol": "ParseInstallation.appVersion",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseInstallation.swift",
-      "line": 78,
+      "line": 73,
       "symbol": "ParseInstallation.parseVersion",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Objects/ParseInstallation.swift",
-      "line": 80,
+      "line": 75,
       "symbol": "ParseInstallation.localeIdentifier",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
