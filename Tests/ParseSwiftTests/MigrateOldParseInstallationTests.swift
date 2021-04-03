@@ -58,18 +58,24 @@ class MigrateOldParseInstallationTests: XCTestCase {
         Installation.currentInstallationContainer.currentInstallation = newInstallation
         Installation.saveCurrentContainerToKeychain()
 
+        let expectation1 = XCTestExpectation(description: "Migrate Installation")
+
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
                               primitiveObjectStore: memory,
                               testing: true)
-        guard let installation = Installation.current else {
-            XCTFail("Should have installation")
-            return
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let installation = Installation.current else {
+                XCTFail("Should have installation")
+                return
+            }
+            XCTAssertTrue(installation.hasSameObjectId(as: newInstallation))
+            XCTAssertTrue(installation.hasSameInstallationId(as: newInstallation))
+            expectation1.fulfill()
         }
-        XCTAssertTrue(installation.hasSameObjectId(as: newInstallation))
-        XCTAssertTrue(installation.hasSameInstallationId(as: newInstallation))
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testOverwriteOldInstallation() throws {
