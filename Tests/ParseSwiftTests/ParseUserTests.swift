@@ -1687,9 +1687,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
 
+        var user2 = user
+        user2.customKey = "oldValue"
         user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
         user.customKey = "newValue"
-        let userOnServer = [BatchResponseItem<User>(success: user, error: nil)]
+        let userOnServer = [BatchResponseItem<User>(success: user, error: nil),
+                            BatchResponseItem<User>(success: user2, error: nil)]
 
         let encoded: Data!
         do {
@@ -1815,9 +1818,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
 
+        var user2 = user
+        user2.customKey = "oldValue"
         user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
         user.customKey = "newValue"
-        let userOnServer = [BatchResponseItem<User>(success: user, error: nil)]
+        let userOnServer = [BatchResponseItem<User>(success: user, error: nil),
+                            BatchResponseItem<User>(success: user2, error: nil)]
 
         let encoded: Data!
         do {

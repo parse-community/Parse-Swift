@@ -982,9 +982,15 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             return
         }
 
+        var installation2 = installation
+        installation2.objectId = "old"
         installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
         installation.customKey = "newValue"
-        let installationOnServer = [BatchResponseItem<Installation>(success: installation, error: nil)]
+
+        let installationOnServer = [BatchResponseItem<Installation>(success: installation,
+                                                                    error: nil),
+                                    BatchResponseItem<Installation>(success: installation2,
+                                                                    error: nil)]
 
         let encoded: Data!
         do {
@@ -1011,6 +1017,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     }
                     XCTAssertTrue(saved.hasSameObjectId(as: currentInstallation))
                     XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
+                    XCTAssertTrue(saved.hasSameObjectId(as: installation))
+                    XCTAssertTrue(saved.hasSameInstallationId(as: installation))
                     guard let savedCreatedAt = saved.createdAt,
                         let savedUpdatedAt = saved.updatedAt else {
                             XCTFail("Should unwrap dates")
@@ -1119,9 +1127,14 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             return
         }
 
+        var installation2 = installation
+        installation2.objectId = "old"
         installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
         installation.customKey = "newValue"
-        let installationOnServer = [BatchResponseItem<Installation>(success: installation, error: nil)]
+        let installationOnServer = [BatchResponseItem<Installation>(success: installation,
+                                                                    error: nil),
+                                    BatchResponseItem<Installation>(success: installation2,
+                                                                    error: nil)]
 
         let encoded: Data!
         do {
@@ -1152,6 +1165,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         }
                         XCTAssertTrue(saved.hasSameObjectId(as: currentInstallation))
                         XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
+                        XCTAssertTrue(saved.hasSameObjectId(as: installation))
+                        XCTAssertTrue(saved.hasSameInstallationId(as: installation))
                         guard let savedCreatedAt = saved.createdAt,
                             let savedUpdatedAt = saved.updatedAt else {
                                 XCTFail("Should unwrap dates")
