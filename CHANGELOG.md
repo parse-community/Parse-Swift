@@ -11,7 +11,7 @@ __Improvements__
 - (Breaking Change) No longer require dispatch to main queue when using ParseInstallation. The side effect of this is bade is no longer retrieved by the SDK. The developer should retrieve the badge count on their own and save it to `ParseInstallation` if they require badge ([#114](https://github.com/parse-community/Parse-Swift/pull/114)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
-- Correctly saves objectId of ParseInstallation to Keychain when saving to server. Also fixes issue when using deleteAll with current ParseUser and ParseInstallation ([#116](https://github.com/parse-community/Parse-Swift/pull/116)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Correctly saves objectId of ParseInstallation to Keychain when saving to server. Also fixes issue when using deleteAll with current ParseUser and ParseInstallation. Be sure to delete all installations in your ParseDashboard that were created with Parse-Swift < 1.30. If you are not able to do this, you can all log out of devices using Parse-Swift < 1.30 and then log back in ([#116](https://github.com/parse-community/Parse-Swift/pull/116)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.2.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.5...1.2.6)

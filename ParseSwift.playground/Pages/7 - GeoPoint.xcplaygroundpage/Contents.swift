@@ -58,7 +58,6 @@ score.save { result in
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
     }
-
 }
 
 //: Now we will show how to query based on the `ParseGeoPoint`.

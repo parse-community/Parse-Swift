@@ -53,7 +53,7 @@ Installation.current?.save { results in
     }
 }
 
-/*: Updated you`customKey` value to your `ParseInstallation`.
+/*: Update your `ParseInstallation` `customKey` value.
     Performs work on background queue and returns to designated on
     designated callbackQueue. If no callbackQueue is specified it
     returns to main queue.
@@ -68,8 +68,6 @@ Installation.current?.save { results in
         print("Failed to update installation: \(error)")
     }
 }
-
-print(Installation.current!)
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)
