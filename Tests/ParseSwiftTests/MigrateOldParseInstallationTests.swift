@@ -73,7 +73,7 @@ class MigrateOldParseInstallationTests: XCTestCase {
         XCTAssertTrue(installation.hasSameInstallationId(as: newInstallation))
     }
     #endif
-    
+
     func testOverwriteOldInstallation() throws {
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
