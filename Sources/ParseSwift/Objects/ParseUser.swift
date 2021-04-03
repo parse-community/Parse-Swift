@@ -717,12 +717,12 @@ extension ParseUser {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
-                if case .success(let foundResult) = result {
-                    callbackQueue.async {
+                callbackQueue.async {
+                    if case .success(let foundResult) = result {
                         do {
                             try Self.updateKeychainIfNeeded([foundResult])
                             completion(.success(foundResult))
-                        } catch let error {
+                        } catch {
                             let returnError: ParseError!
                             if let parseError = error as? ParseError {
                                 returnError = parseError
@@ -731,9 +731,7 @@ extension ParseUser {
                             }
                             completion(.failure(returnError))
                         }
-                    }
-                } else {
-                    callbackQueue.async {
+                    } else {
                         completion(result)
                     }
                 }
@@ -1308,7 +1306,8 @@ public extension Sequence where Element: ParseUser {
                 .execute(options: options)
             returnBatch.append(contentsOf: currentBatch)
         }
-        try Self.Element.updateKeychainIfNeeded(compactMap {$0})
+        try Self.Element.updateKeychainIfNeeded(compactMap {$0},
+                                                deleting: true)
         return returnBatch
     }
 
@@ -1364,7 +1363,8 @@ public extension Sequence where Element: ParseUser {
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
                             callbackQueue.async {
-                                try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0})
+                                try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0},
+                                                                         deleting: true)
                                 completion(.success(returnBatch))
                             }
                         }

@@ -130,15 +130,17 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         }
     }
 
-    func update() {
-        var installation = Installation()
+    func saveCurrentInstallation() throws {
+        guard var installation = Installation.current else {
+            XCTFail("Should unwrap")
+            return
+        }
         installation.objectId = testInstallationObjectId
         installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         installation.ACL = nil
 
         var installationOnServer = installation
-        installationOnServer.updatedAt = Date()
 
         let encoded: Data!
         do {
@@ -152,25 +154,25 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
+
         do {
-            let saved = try installation.save()
-            guard let savedUpdatedAt = saved.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            let saved = try Installation.current!.save()
+            guard let newCurrentInstallation = Installation.current else {
+                XCTFail("Should have a new current installation")
+                return
             }
-            guard let originalUpdatedAt = installation.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertTrue(saved.hasSameInstallationId(as: newCurrentInstallation))
+            XCTAssertTrue(saved.hasSameObjectId(as: newCurrentInstallation))
+            XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
+            XCTAssertTrue(saved.hasSameInstallationId(as: installationOnServer))
             XCTAssertNil(saved.ACL)
         } catch {
             XCTFail(error.localizedDescription)
         }
     }
 
-    func testFetch() {
-        update()
+    func testFetch() throws {
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         var subscriptions = Set<AnyCancellable>()
@@ -208,14 +210,15 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         }, receiveValue: { fetched in
 
             XCTAssert(fetched.hasSameObjectId(as: serverResponse))
+            XCTAssert(fetched.hasSameInstallationId(as: serverResponse))
             XCTAssertEqual(Installation.current?.customKey, serverResponse.customKey)
         })
         publisher.store(in: &subscriptions)
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testSave() {
-        update()
+    func testSave() throws {
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         var subscriptions = Set<AnyCancellable>()
@@ -252,14 +255,15 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         }, receiveValue: { fetched in
 
             XCTAssert(fetched.hasSameObjectId(as: serverResponse))
+            XCTAssert(fetched.hasSameInstallationId(as: serverResponse))
             XCTAssertEqual(Installation.current?.customKey, serverResponse.customKey)
         })
         publisher.store(in: &subscriptions)
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testDelete() {
-        update()
+    func testDelete() throws {
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
         var subscriptions = Set<AnyCancellable>()
@@ -294,14 +298,16 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
                 expectation1.fulfill()
 
         }, receiveValue: { _ in
-
+            if let newInstallation = Installation.current {
+                XCTAssertFalse(installation.hasSameInstallationId(as: newInstallation))
+            }
         })
         publisher.store(in: &subscriptions)
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testFetchAll() {
-        update()
+    func testFetchAll() throws {
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Fetch")
@@ -391,8 +397,8 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testSaveAll() {
-        update()
+    func testSaveAll() throws {
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
@@ -436,6 +442,7 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
                 switch $0 {
                 case .success(let saved):
                     XCTAssert(saved.hasSameObjectId(as: installation))
+                    XCTAssert(saved.hasSameInstallationId(as: installation))
                     guard let savedCreatedAt = saved.createdAt,
                         let savedUpdatedAt = saved.updatedAt else {
                             XCTFail("Should unwrap dates")
@@ -482,8 +489,8 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testDeleteAll() {
-        update()
+    func testDeleteAll() throws {
+        try saveCurrentInstallation()
         MockURLProtocol.removeAll()
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
@@ -520,6 +527,9 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
             deleted.forEach {
                 if case let .failure(error) = $0 {
                     XCTFail("Should have deleted: \(error.localizedDescription)")
+                }
+                if let newInstallation = Installation.current {
+                    XCTAssertFalse(installation.hasSameInstallationId(as: newInstallation))
                 }
             }
         })
