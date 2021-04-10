@@ -126,7 +126,7 @@ public extension Sequence where Element: ParseObject {
         if transaction {
             batchLimit = commands.count
         } else {
-            batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            batchLimit = limit ?? ParseConstants.batchLimit
         }
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
@@ -163,8 +163,12 @@ public extension Sequence where Element: ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        let queue = DispatchQueue(label: "com.parse.saveAll", qos: .default,
-                                  attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        let uuid = UUID()
+        let queue = DispatchQueue(label: "com.parse.saveAll.\(uuid)",
+                                  qos: .default,
+                                  attributes: .concurrent,
+                                  autoreleaseFrequency: .inherit,
+                                  target: nil)
         queue.sync {
 
             var childObjects = [String: PointerType]()
@@ -220,7 +224,7 @@ public extension Sequence where Element: ParseObject {
                 if transaction {
                     batchLimit = commands.count
                 } else {
-                    batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+                    batchLimit = limit ?? ParseConstants.batchLimit
                 }
                 let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
                 var completed = 0
@@ -390,7 +394,7 @@ public extension Sequence where Element: ParseObject {
         if transaction {
             batchLimit = commands.count
         } else {
-            batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            batchLimit = limit ?? ParseConstants.batchLimit
         }
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
@@ -439,7 +443,7 @@ public extension Sequence where Element: ParseObject {
             if transaction {
                 batchLimit = commands.count
             } else {
-                batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+                batchLimit = limit ?? ParseConstants.batchLimit
             }
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0
@@ -633,9 +637,12 @@ extension ParseObject {
     internal func ensureDeepSave(options: API.Options = [],
                                  completion: @escaping ([String: PointerType],
                                                         [UUID: ParseFile], ParseError?) -> Void) {
-
-        let queue = DispatchQueue(label: "com.parse.deepSave", qos: .default,
-                                  attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        let uuid = UUID()
+        let queue = DispatchQueue(label: "com.parse.deepSave.\(uuid)",
+                                  qos: .default,
+                                  attributes: .concurrent,
+                                  autoreleaseFrequency: .inherit,
+                                  target: nil)
 
         queue.sync {
             var objectsFinishedSaving = [String: PointerType]()

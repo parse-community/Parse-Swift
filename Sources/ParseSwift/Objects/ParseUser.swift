@@ -1065,8 +1065,12 @@ public extension Sequence where Element: ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        let queue = DispatchQueue(label: "com.parse.saveAll", qos: .default,
-                                  attributes: .concurrent, autoreleaseFrequency: .inherit, target: nil)
+        let uuid = UUID()
+        let queue = DispatchQueue(label: "com.parse.saveAll.\(uuid)",
+                                  qos: .default,
+                                  attributes: .concurrent,
+                                  autoreleaseFrequency: .inherit,
+                                  target: nil)
         queue.sync {
             var childObjects = [String: PointerType]()
             var childFiles = [UUID: ParseFile]()
