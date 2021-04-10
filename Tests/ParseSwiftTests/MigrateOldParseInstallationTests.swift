@@ -39,6 +39,9 @@ class MigrateOldParseInstallationTests: XCTestCase {
         MockURLProtocol.removeAll()
         #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
+        if let identifier = Bundle.main.bundleIdentifier {
+            try KeychainStore(service: "\(identifier).com.parse.sdk").deleteAll()
+        }
         #endif
         try ParseStorage.shared.deleteAll()
     }
@@ -107,4 +110,84 @@ class MigrateOldParseInstallationTests: XCTestCase {
         }
         XCTAssertFalse(installation.hasSameInstallationId(as: newInstallation))
     }
+
+    func testMigrateObjcKeychainMissing() {
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              migrateFromObjcSDK: true,
+                              testing: true)
+        guard let installation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertNotNil(installation.installationId)
+    }
+
+    #if !os(Linux) && !os(Android)
+    func testMigrateObjcSDK() {
+
+        //Set keychain the way objc sets keychain
+        guard let identifier = Bundle.main.bundleIdentifier else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let objcInstallationId = "helloWorld"
+        let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
+        _ = objcParseKeychain.set(object: objcInstallationId, forKey: "installationId")
+
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              migrateFromObjcSDK: true,
+                              testing: true)
+        guard let installation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertEqual(installation.installationId, objcInstallationId)
+        XCTAssertEqual(Installation.currentInstallationContainer.installationId, objcInstallationId)
+    }
+
+    func testMigrateObjcSDKMissingInstallation() {
+
+        //Set keychain the way objc sets keychain
+        guard let identifier = Bundle.main.bundleIdentifier else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let objcInstallationId = "helloWorld"
+        let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
+        _ = objcParseKeychain.set(object: objcInstallationId, forKey: "anotherPlace")
+
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              migrateFromObjcSDK: true,
+                              testing: true)
+        guard let installation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertNotNil(installation.installationId)
+        XCTAssertNotNil(Installation.currentInstallationContainer.installationId)
+        XCTAssertNotEqual(installation.installationId, objcInstallationId)
+        XCTAssertNotEqual(Installation.currentInstallationContainer.installationId, objcInstallationId)
+    }
+    #endif
 }

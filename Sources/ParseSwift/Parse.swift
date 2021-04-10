@@ -88,10 +88,12 @@ public struct ParseSwift {
      `application(... didFinishLaunchingWithOptions launchOptions...)`.
      - parameter configuration: The Parse configuration.
      */
-    static public func initialize(configuration: ParseConfiguration) {
+    static public func initialize(configuration: ParseConfiguration,
+                                  migrateFromObjcSDK: Bool = false) {
         Self.configuration = configuration
         Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
                                                        authentication: configuration.authentication)
+
         //Migrate old installations made with ParseSwift < 1.3.0
         if let currentInstallation = BaseParseInstallation.current {
             if currentInstallation.objectId == nil {
@@ -103,6 +105,23 @@ public struct ParseSwift {
             //Prepare installation
             _ = BaseParseInstallation()
         }
+
+        #if !os(Linux) && !os(Android)
+        if migrateFromObjcSDK {
+            if let identifier = Bundle.main.bundleIdentifier {
+                let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
+                guard let installationId: String = objcParseKeychain.object(forKey: "installationId"),
+                      BaseParseInstallation.current?.installationId != installationId else {
+                    return
+                }
+                var updatedInstallation = BaseParseInstallation.current
+                updatedInstallation?.installationId = installationId
+                BaseParseInstallation.currentInstallationContainer.installationId = installationId
+                BaseParseInstallation.currentInstallationContainer.currentInstallation = updatedInstallation
+                BaseParseInstallation.saveCurrentContainerToKeychain()
+            }
+        }
+        #endif
     }
 
     /**
@@ -119,6 +138,8 @@ public struct ParseSwift {
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
      encrypted one.
+     - parameter migrateFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
+     to `true` will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to `false`.
      - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
      Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
@@ -133,6 +154,7 @@ public struct ParseSwift {
         liveQueryServerURL: URL? = nil,
         allowCustomObjectId: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
+        migrateFromObjcSDK: Bool = false,
         authentication: ((URLAuthenticationChallenge,
                           (URLSession.AuthChallengeDisposition,
                            URLCredential?) -> Void) -> Void)? = nil
@@ -144,7 +166,8 @@ public struct ParseSwift {
                                         liveQueryServerURL: liveQueryServerURL,
                                         allowCustomObjectId: allowCustomObjectId,
                                         keyValueStore: keyValueStore,
-                                        authentication: authentication))
+                                        authentication: authentication),
+                   migrateFromObjcSDK: migrateFromObjcSDK)
     }
 
     internal static func initialize(applicationId: String,
@@ -154,6 +177,7 @@ public struct ParseSwift {
                                     liveQueryServerURL: URL? = nil,
                                     allowCustomObjectId: Bool = false,
                                     keyValueStore: ParseKeyValueStore? = nil,
+                                    migrateFromObjcSDK: Bool = false,
                                     testing: Bool = false,
                                     authentication: ((URLAuthenticationChallenge,
                                                       (URLSession.AuthChallengeDisposition,
@@ -165,7 +189,8 @@ public struct ParseSwift {
                                         liveQueryServerURL: liveQueryServerURL,
                                         allowCustomObjectId: allowCustomObjectId,
                                         keyValueStore: keyValueStore,
-                                        authentication: authentication))
+                                        authentication: authentication),
+                   migrateFromObjcSDK: migrateFromObjcSDK)
         Self.configuration.isTestingSDK = testing
     }
 }
