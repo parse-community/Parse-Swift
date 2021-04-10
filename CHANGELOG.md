@@ -8,7 +8,7 @@ __New features__
 - Migrate installationId from obj-c SDK ([#117](https://github.com/parse-community/Parse-Swift/pull/117)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
-- Added ability to initialize SDK with ParseConfiguration ([#117](https://github.com/parse-community/Parse-Swift/pull/117)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added ability to initialize SDK with ParseConfiguration. Can now update certificate pinning authorization after SDK is initializated ([#117](https://github.com/parse-community/Parse-Swift/pull/117)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.3.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.6...1.3.0)

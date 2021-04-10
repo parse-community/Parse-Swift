@@ -1,5 +1,5 @@
 //
-//  MigrateOldParseInstallationTests.swift
+//  InitializeSDKTests.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 4/3/21.
@@ -9,7 +9,7 @@
 import XCTest
 @testable import ParseSwift
 
-class MigrateOldParseInstallationTests: XCTestCase {
+class InitializeSDKTests: XCTestCase {
 
     struct Installation: ParseInstallation {
         var installationId: String?
@@ -46,6 +46,23 @@ class MigrateOldParseInstallationTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
+    func testUpdateAuthChallenge() {
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url) { (_, credential) in
+            credential(.performDefaultHandling, nil)
+        }
+        XCTAssertNotNil(ParseSwift.sessionDelegate.authentication)
+        ParseSwift.updateAuthentication(nil)
+        XCTAssertNil(ParseSwift.sessionDelegate.authentication)
+    }
+
     #if !os(Linux) && !os(Android)
     func testDontOverwriteMigratedInstallation() throws {
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -66,8 +83,7 @@ class MigrateOldParseInstallationTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory,
-                              testing: true)
+                              keyValueStore: memory)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -102,8 +118,7 @@ class MigrateOldParseInstallationTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              keyValueStore: memory,
-                              testing: true)
+                              keyValueStore: memory)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -120,8 +135,7 @@ class MigrateOldParseInstallationTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              migrateFromObjcSDK: true,
-                              testing: true)
+                              migrateFromObjcSDK: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -149,8 +163,7 @@ class MigrateOldParseInstallationTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              migrateFromObjcSDK: true,
-                              testing: true)
+                              migrateFromObjcSDK: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -178,8 +191,7 @@ class MigrateOldParseInstallationTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              migrateFromObjcSDK: true,
-                              testing: true)
+                              migrateFromObjcSDK: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return

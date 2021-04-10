@@ -170,6 +170,21 @@ public struct ParseSwift {
                    migrateFromObjcSDK: migrateFromObjcSDK)
     }
 
+    /**
+     Update the authentication callback.
+     - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
+     Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
+     It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
+     completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
+     See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
+     */
+    static func updateAuthentication(_ authentication: ((URLAuthenticationChallenge,
+                                                         (URLSession.AuthChallengeDisposition,
+                                                          URLCredential?) -> Void) -> Void)?) {
+        Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
+                                                       authentication: authentication)
+    }
+
     internal static func initialize(applicationId: String,
                                     clientKey: String? = nil,
                                     masterKey: String? = nil,
