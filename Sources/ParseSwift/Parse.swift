@@ -70,6 +70,8 @@ public struct ParseSwift {
         if let currentInstallation = BaseParseInstallation.current {
             if currentInstallation.objectId == nil {
                 BaseParseInstallation.deleteCurrentContainerFromKeychain()
+                //Prepare installation
+                _ = BaseParseInstallation()
             }
         } else {
             //Prepare installation
