@@ -84,7 +84,7 @@ internal struct ParseFileManager {
 
     init?() {
         #if os(Linux) || os(Android)
-        guard let applicationId = ParseConfiguration.applicationId else {
+        guard let applicationId = ParseSwift.configuration.applicationId else {
             return nil
         }
         applicationIdentifier = "com.parse.ParseSwift.\(applicationId)"

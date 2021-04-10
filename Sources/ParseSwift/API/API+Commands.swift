@@ -60,9 +60,9 @@ internal extension API {
             case .success(let urlRequest):
                 if method == .POST || method == .PUT {
                     let task = URLSession.parse.uploadTask(withStreamedRequest: urlRequest)
-                    ParseConfiguration.sessionDelegate.uploadDelegates[task] = uploadProgress
-                    ParseConfiguration.sessionDelegate.streamDelegates[task] = stream
-                    ParseConfiguration.sessionDelegate.taskCallbackQueues[task] = callbackQueue
+                    ParseSwift.sessionDelegate.uploadDelegates[task] = uploadProgress
+                    ParseSwift.sessionDelegate.streamDelegates[task] = stream
+                    ParseSwift.sessionDelegate.taskCallbackQueues[task] = callbackQueue
                     task.resume()
                     return
                 }
@@ -208,7 +208,7 @@ internal extension API {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
             let url = parseURL == nil ?
-                ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent) : parseURL!
+                ParseSwift.configuration.serverURL.appendingPathComponent(path.urlComponent) : parseURL!
 
             guard var components = URLComponents(url: url, resolvingAgainstBaseURL: false) else {
                 return .failure(ParseError(code: .unknownError,
@@ -314,7 +314,7 @@ internal extension API.Command {
 
     // MARK: Saving ParseObjects
     static func saveCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
-        if ParseConfiguration.allowCustomObjectId && object.objectId == nil {
+        if ParseSwift.configuration.allowCustomObjectId && object.objectId == nil {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if object.isSaved {
@@ -349,7 +349,7 @@ internal extension API.Command {
         guard let objectable = object as? Objectable else {
             throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
         }
-        if ParseConfiguration.allowCustomObjectId && objectable.objectId == nil {
+        if ParseSwift.configuration.allowCustomObjectId && objectable.objectId == nil {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if objectable.isSaved {
@@ -421,7 +421,7 @@ extension API.Command where T: ParseObject {
 
     static func batch(commands: [API.Command<T, T>], transaction: Bool) -> RESTBatchCommandType<T> {
         let batchCommands = commands.compactMap { (command) -> API.Command<T, T>? in
-            let path = ParseConfiguration.mountPath + command.path.urlComponent
+            let path = ParseSwift.configuration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
             }
@@ -463,7 +463,7 @@ extension API.Command where T: ParseObject {
     static func batch(commands: [API.NonParseBodyCommand<NoBody, NoBody>],
                       transaction: Bool) -> RESTBatchCommandNoBodyType<NoBody> {
         let commands = commands.compactMap { (command) -> API.NonParseBodyCommand<NoBody, NoBody>? in
-            let path = ParseConfiguration.mountPath + command.path.urlComponent
+            let path = ParseSwift.configuration.mountPath + command.path.urlComponent
             return API.NonParseBodyCommand<NoBody, NoBody>(
                 method: command.method,
                 path: .any(path), mapper: command.mapper)
@@ -525,7 +525,7 @@ extension API.NonParseBodyCommand {
                 return try objectable.toPointer()
             }
 
-            let path = ParseConfiguration.mountPath + objectable.endpoint.urlComponent
+            let path = ParseSwift.configuration.mountPath + objectable.endpoint.urlComponent
             let encoded = try ParseCoding.parseEncoder().encode(object)
             let body = try ParseCoding.jsonDecoder().decode(AnyCodable.self, from: encoded)
             return API.BatchCommand<AnyCodable, PointerType>(method: method,
@@ -632,7 +632,7 @@ internal extension API {
             if !(method == .POST) && !(method == .PUT) {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
-            let url = ParseConfiguration.serverURL.appendingPathComponent(path.urlComponent)
+            let url = ParseSwift.configuration.serverURL.appendingPathComponent(path.urlComponent)
 
             guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
                   let urlComponents = components.url else {

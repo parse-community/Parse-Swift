@@ -286,7 +286,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let objects = [score, score2]
         let initialCommands = try objects.map { try $0.saveCommand() }
         let commands = initialCommands.compactMap { (command) -> API.Command<GameScore, GameScore>? in
-            let path = ParseConfiguration.mountPath + command.path.urlComponent
+            let path = ParseSwift.configuration.mountPath + command.path.urlComponent
             guard let body = command.body else {
                 return nil
             }

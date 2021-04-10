@@ -63,7 +63,7 @@ class MigrateOldParseInstallationTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              primitiveObjectStore: memory,
+                              keyValueStore: memory,
                               testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
@@ -99,7 +99,7 @@ class MigrateOldParseInstallationTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              primitiveObjectStore: memory,
+                              keyValueStore: memory,
                               testing: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
