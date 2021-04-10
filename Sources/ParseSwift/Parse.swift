@@ -33,7 +33,7 @@ public struct ParseConfiguration {
     internal var isTestingSDK = false //Enable this only for certain tests like ParseFile
 
     /**
-     Initialize the configuration.
+     Create a Parse Swift configuration.
      - parameter applicationId: The application id of your Parse application.
      - parameter clientKey: The client key of your Parse application..
      - parameter masterKey: The master key of your Parse application.
@@ -84,7 +84,7 @@ public struct ParseSwift {
     static var sessionDelegate: ParseURLSessionDelegate!
 
     /**
-     Configure the Parse Server. This should only be used when starting your app. Typically in the
+     Configure the Parse Swift client. This should only be used when starting your app. Typically in the
      `application(... didFinishLaunchingWithOptions launchOptions...)`.
      - parameter configuration: The Parse configuration.
      */
@@ -125,7 +125,7 @@ public struct ParseSwift {
     }
 
     /**
-     Configure the Parse Server. This should only be used when starting your app. Typically in the
+     Configure the Parse Swift client. This should only be used when starting your app. Typically in the
      `application(... didFinishLaunchingWithOptions launchOptions...)`.
      - parameter applicationId: The application id of your Parse application.
      - parameter clientKey: The client key of your Parse application.
