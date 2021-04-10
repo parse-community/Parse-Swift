@@ -142,9 +142,9 @@ public struct API {
 
     // swiftlint:disable:next cyclomatic_complexity
     internal static func getHeaders(options: API.Options) -> [String: String] {
-        var headers: [String: String] = ["X-Parse-Application-Id": ParseConfiguration.applicationId,
+        var headers: [String: String] = ["X-Parse-Application-Id": ParseSwift.configuration.applicationId,
                                          "Content-Type": "application/json"]
-        if let clientKey = ParseConfiguration.clientKey {
+        if let clientKey = ParseSwift.configuration.clientKey {
             headers["X-Parse-Client-Key"] = clientKey
         }
 
@@ -161,7 +161,7 @@ public struct API {
         options.forEach { (option) in
             switch option {
             case .useMasterKey:
-                headers["X-Parse-Master-Key"] = ParseConfiguration.masterKey
+                headers["X-Parse-Master-Key"] = ParseSwift.configuration.masterKey
             case .sessionToken(let sessionToken):
                 headers["X-Parse-Session-Token"] = sessionToken
             case .installationId(let installationId):

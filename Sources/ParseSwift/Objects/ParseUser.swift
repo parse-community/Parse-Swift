@@ -70,7 +70,7 @@ extension ParseUser {
     }
 
     func endpoint(_ method: API.Method) -> API.Endpoint {
-        if !ParseConfiguration.allowCustomObjectId || method != .POST {
+        if !ParseSwift.configuration.allowCustomObjectId || method != .POST {
             return endpoint
         } else {
             return .users
@@ -851,7 +851,7 @@ extension ParseUser {
     }
 
     func saveCommand() throws -> API.Command<Self, Self> {
-        if ParseConfiguration.allowCustomObjectId && objectId == nil {
+        if ParseSwift.configuration.allowCustomObjectId && objectId == nil {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved {

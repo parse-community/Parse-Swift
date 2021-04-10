@@ -179,13 +179,10 @@ public final class ParseLiveQuery: NSObject {
 
         if let userSuppliedURL = serverURL {
             url = userSuppliedURL
-        } else if let liveQueryConfigURL = ParseConfiguration.liveQuerysServerURL {
+        } else if let liveQueryConfigURL = ParseSwift.configuration.liveQuerysServerURL {
             url = liveQueryConfigURL
-        } else if let parseServerConfigURL = ParseConfiguration.serverURL {
-            url = parseServerConfigURL
         } else {
-            let error = ParseError(code: .unknownError, message: "ParseLiveQuery Error: no url specified.")
-            throw error
+            url = ParseSwift.configuration.serverURL
         }
 
         guard var components = URLComponents(url: url,
@@ -467,7 +464,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
         notificationQueue.async {
             if let delegate = self.authenticationDelegate {
                 delegate.received(challenge, completionHandler: completionHandler)
-            } else if let parseAuthentication = ParseConfiguration.sessionDelegate.authentication {
+            } else if let parseAuthentication = ParseSwift.sessionDelegate.authentication {
                 parseAuthentication(challenge, completionHandler)
             } else {
                 completionHandler(.performDefaultHandling, nil)

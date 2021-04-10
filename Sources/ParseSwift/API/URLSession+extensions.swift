@@ -14,9 +14,9 @@ import FoundationNetworking
 
 extension URLSession {
     static let parse: URLSession = {
-        if !ParseConfiguration.isTestingSDK {
+        if !ParseSwift.configuration.isTestingSDK {
             return URLSession(configuration: .default,
-                   delegate: ParseConfiguration.sessionDelegate,
+                   delegate: ParseSwift.sessionDelegate,
                    delegateQueue: nil)
         } else {
             return URLSession.shared
@@ -134,8 +134,8 @@ extension URLSession {
             completion(.failure(ParseError(code: .unknownError, message: "data and file both can't be nil")))
         }
         if let task = task {
-            ParseConfiguration.sessionDelegate.uploadDelegates[task] = progress
-            ParseConfiguration.sessionDelegate.taskCallbackQueues[task] = callbackQueue
+            ParseSwift.sessionDelegate.uploadDelegates[task] = progress
+            ParseSwift.sessionDelegate.taskCallbackQueues[task] = callbackQueue
             task.resume()
         }
     }
@@ -152,8 +152,8 @@ extension URLSession {
                                   urlResponse: urlResponse,
                                   responseError: responseError, mapper: mapper))
         }
-        ParseConfiguration.sessionDelegate.downloadDelegates[task] = progress
-        ParseConfiguration.sessionDelegate.taskCallbackQueues[task] = callbackQueue
+        ParseSwift.sessionDelegate.downloadDelegates[task] = progress
+        ParseSwift.sessionDelegate.taskCallbackQueues[task] = callbackQueue
         task.resume()
     }
 
