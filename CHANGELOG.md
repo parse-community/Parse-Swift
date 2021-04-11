@@ -8,7 +8,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.3.1...1.4.0)
 
 __Improvements__
-- (Breaking Change) Set query hint with a method and infer its return type ([#119](https://github.com/parse-community/Parse-Swift/pull/119)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) A query hint can now be set using a method and its returned type is automatically inferred. In addition, a hint can now be any Encodable type instead of just a String ([#119](https://github.com/parse-community/Parse-Swift/pull/119)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.3.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.3.0...1.3.1)

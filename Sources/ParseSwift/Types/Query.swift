@@ -552,7 +552,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     internal var order: [Order]?
     internal var isCount: Bool?
     internal var explain: Bool?
-    internal var hint: String?
+    internal var hint: AnyEncodable?
     internal var `where` = QueryWhere()
     internal var excludeKeys: [String]?
     internal var readPreference: String?
@@ -652,11 +652,11 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 
     /**
       Adds a hint to force index selection.
-      - parameter value: String of index that should be used when executing query.
+      - parameter value: String or Object of index that should be used when executing query.
     */
-    public func hint(_ value: String) -> Query<T> {
+    public func hint<U: Encodable>(_ value: U) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.hint = value
+        mutableQuery.hint = AnyEncodable(value)
         return mutableQuery
     }
 
