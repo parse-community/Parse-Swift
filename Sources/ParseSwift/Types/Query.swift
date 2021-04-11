@@ -687,7 +687,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-     Includes all nested `ParseObject`s.
+     Includes all nested `ParseObject`s one level deep.
      - warning: Requires Parse Server 3.0.0+
      */
     public func includeAll() -> Query<T> {
