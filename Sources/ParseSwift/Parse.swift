@@ -170,21 +170,6 @@ public struct ParseSwift {
                    migrateFromObjcSDK: migrateFromObjcSDK)
     }
 
-    /**
-     Update the authentication callback.
-     - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
-     Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
-     It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
-     completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
-     See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     */
-    static func updateAuthentication(_ authentication: ((URLAuthenticationChallenge,
-                                                         (URLSession.AuthChallengeDisposition,
-                                                          URLCredential?) -> Void) -> Void)?) {
-        Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
-                                                       authentication: authentication)
-    }
-
     internal static func initialize(applicationId: String,
                                     clientKey: String? = nil,
                                     masterKey: String? = nil,
@@ -208,4 +193,33 @@ public struct ParseSwift {
                    migrateFromObjcSDK: migrateFromObjcSDK)
         Self.configuration.isTestingSDK = testing
     }
+
+    /**
+     Update the authentication callback.
+     - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
+     Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
+     It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
+     completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
+     See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
+     */
+    static public func updateAuthentication(_ authentication: ((URLAuthenticationChallenge,
+                                                         (URLSession.AuthChallengeDisposition,
+                                                          URLCredential?) -> Void) -> Void)?) {
+        Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
+                                                       authentication: authentication)
+    }
+
+    #if !os(Linux) && !os(Android)
+    /**
+     Delete the Parse iOS Objective-C SDK Keychain from the device.
+     - note: ParseSwift uses a different Keychain. After migration, the iOS Objective-C SDK Keychain is no longer needed.
+     - warning: The keychain cannot be recovered after deletion.
+     */
+    static public func deleteObjectiveCKeychain() throws {
+        if let identifier = Bundle.main.bundleIdentifier {
+            let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
+            try objcParseKeychain.deleteAll()
+        }
+    }
+    #endif
 }
