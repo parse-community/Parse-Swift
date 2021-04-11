@@ -84,6 +84,21 @@ query.first { results in
     }
 }
 
+//: Query based on relative time. Have to be using mongoDB.
+let queryRelative = GameScore.query(relative(key: "createdAt",
+                                             comparator: .lessThan,
+                                             time: "10 minutes ago"))
+queryRelative.find { results in
+    switch results {
+    case .success(let scores):
+
+        print("Found scores using relative time: \(scores)")
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
 let querySelect = query.select("score")
 querySelect.first { results in
     switch results {
