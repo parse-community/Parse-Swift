@@ -31,12 +31,10 @@ public extension Query {
     /**
      Finds objects *asynchronously* and publishes when complete.
      - parameter explain: Used to toggle the information on the query plan.
-     - parameter hint: String or Object of index that should be used when executing query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     func findPublisher<U: Decodable>(explain: Bool,
-                                     hint: String? = nil,
                                      options: API.Options = []) -> Future<[U], ParseError> {
         Future { promise in
             self.find(explain: explain,
@@ -78,12 +76,10 @@ public extension Query {
     /**
      Gets an object *asynchronously* and publishes when complete.
      - parameter explain: Used to toggle the information on the query plan.
-     - parameter hint: String or Object of index that should be used when executing query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     func firstPublisher<U: Decodable>(explain: Bool,
-                                      hint: String? = nil,
                                       options: API.Options = []) -> Future<U, ParseError> {
         Future { promise in
             self.first(explain: explain,
@@ -107,12 +103,10 @@ public extension Query {
     /**
      Count objects *asynchronously* and publishes when complete.
      - parameter explain: Used to toggle the information on the query plan.
-     - parameter hint: String or Object of index that should be used when executing query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     func countPublisher<U: Decodable>(explain: Bool,
-                                      hint: String? = nil,
                                       options: API.Options = []) -> Future<U, ParseError> {
         Future { promise in
             self.count(explain: explain,
