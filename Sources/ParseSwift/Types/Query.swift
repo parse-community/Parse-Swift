@@ -952,7 +952,7 @@ extension Query: Queryable {
 
             while !finished {
                 do {
-                    let currentResults: [ResultType] = try query.findCommand(explain: false).execute(options: options)
+                    let currentResults = try query.findCommand().execute(options: options)
                     results.append(contentsOf: currentResults)
                     if currentResults.count >= query.limit {
                         guard let lastObjectId = results[results.count - 1].objectId else {
