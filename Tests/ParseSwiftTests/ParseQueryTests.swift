@@ -2248,8 +2248,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let query = GameScore.query()
+            .hint("_id_")
         do {
-            let queryResult: [[String: String]] = try query.find(explain: false, hint: "_id_")
+            let queryResult: [[String: String]] = try query.find(explain: false)
             XCTAssertEqual(queryResult, json.results)
         } catch {
             XCTFail("Error: \(error)")
@@ -2273,8 +2274,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
+            .hint("_id_")
         query.find(explain: false,
-                   hint: "_id_",
                    callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
             switch result {
 
@@ -2304,8 +2305,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let query = GameScore.query()
+            .hint("_id_")
         do {
-            let queryResult: [String: String] = try query.first(explain: false, hint: "_id_")
+            let queryResult: [String: String] = try query.first(explain: false)
             XCTAssertEqual(queryResult, json.results.first)
         } catch {
             XCTFail("Error: \(error)")
@@ -2329,8 +2331,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
+            .hint("_id_")
         query.first(explain: false,
-                    hint: "_id_",
                     callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
             switch result {
 
@@ -2360,8 +2362,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let query = GameScore.query()
+            .hint("_id_")
         do {
-            let queryResult: [String: String] = try query.count(explain: false, hint: "_id_")
+            let queryResult: [String: String] = try query.count(explain: false)
             XCTAssertEqual(queryResult, json.results.first)
         } catch {
             XCTFail("Error: \(error)")
@@ -2385,7 +2388,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
-        query.count(explain: false, hint: "_id_",
+            .hint("_id_")
+        query.count(explain: false,
                     callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
             switch result {
 

@@ -40,7 +40,6 @@ public extension Query {
                                      options: API.Options = []) -> Future<[U], ParseError> {
         Future { promise in
             self.find(explain: explain,
-                      hint: hint,
                       options: options,
                       completion: promise)
         }
@@ -49,19 +48,16 @@ public extension Query {
     /**
      Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query
      and publishes when complete.
-     - parameter hint: String or Object of index that should be used when executing query.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - warning: The items are processed in an unspecified order. The query may not have any sort
      order, and may not use limit or skip.
     */
-    func findAllPublisher(hint: String? = nil,
-                          batchLimit: Int? = nil,
+    func findAllPublisher(batchLimit: Int? = nil,
                           options: API.Options = []) -> Future<[ResultType], ParseError> {
         Future { promise in
-            self.findAll(hint: hint,
-                         batchLimit: batchLimit,
+            self.findAll(batchLimit: batchLimit,
                          options: options,
                          completion: promise)
         }
@@ -91,7 +87,6 @@ public extension Query {
                                       options: API.Options = []) -> Future<U, ParseError> {
         Future { promise in
             self.first(explain: explain,
-                       hint: hint,
                        options: options,
                        completion: promise)
         }
@@ -121,7 +116,6 @@ public extension Query {
                                       options: API.Options = []) -> Future<U, ParseError> {
         Future { promise in
             self.count(explain: explain,
-                       hint: hint,
                        options: options,
                        completion: promise)
         }
