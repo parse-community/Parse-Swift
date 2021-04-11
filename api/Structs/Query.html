@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.3.1 Docs
+          ParseSwift 1.4.0 Docs
         </a>
          (90% documented)
       </p>
@@ -603,6 +603,52 @@ This is useful for pagination. Default is to skip zero results.</p>
                               <td>
                                 <div>
                                   <p><code>n</code> number of results to skip.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV4hintyACyxGqd__SERd__lF"></a>
+                    <a name="//apple_ref/swift/Method/hint(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV4hintyACyxGqd__SERd__lF">hint(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Adds a hint to force index selection.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">hint</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Encodable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>String or Object of index that should be used when executing query.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1962,9 +2008,9 @@ Upon completing the registration, the subscribe handler will be called with the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV16findAllPublisher4hint10batchLimit7options7Combine6FutureCySayxGAA0A5ErrorVGSSSg_SiSgShyAA3APIV6OptionOGtF"></a>
-                    <a name="//apple_ref/swift/Method/findAllPublisher(hint:batchLimit:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV16findAllPublisher4hint10batchLimit7options7Combine6FutureCySayxGAA0A5ErrorVGSSSg_SiSgShyAA3APIV6OptionOGtF">findAllPublisher(hint:<wbr>batchLimit:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV16findAllPublisher10batchLimit7options7Combine6FutureCySayxGAA0A5ErrorVGSiSg_ShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/findAllPublisher(batchLimit:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV16findAllPublisher10batchLimit7options7Combine6FutureCySayxGAA0A5ErrorVGSiSg_ShyAA3APIV6OptionOGtF">findAllPublisher(batchLimit:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -1986,8 +2032,7 @@ order, and may not use limit or skip.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">findAllPublisher</span><span class="p">(</span><span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-                      <span class="nv">batchLimit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">findAllPublisher</span><span class="p">(</span><span class="nv">batchLimit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -1996,18 +2041,6 @@ order, and may not use limit or skip.
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>hint</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>String or Object of index that should be used when executing query.</p>
-                                </div>
-                              </td>
-                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -2433,9 +2466,9 @@ order, and may not use limit or skip.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV4find7explain4hint7optionsSayqd__GSb_SSSgShyAA3APIV6OptionOGtKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/find(explain:hint:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV4find7explain4hint7optionsSayqd__GSb_SSSgShyAA3APIV6OptionOGtKSeRd__lF">find(explain:<wbr>hint:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV4find7explain7optionsSayqd__GSb_ShyAA3APIV6OptionOGtKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/find(explain:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV4find7explain7optionsSayqd__GSb_ShyAA3APIV6OptionOGtKSeRd__lF">find(explain:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2456,7 +2489,6 @@ order, and may not use limit or skip.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">find</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
-                               <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                                <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span></code></pre>
 
                         </div>
@@ -2474,18 +2506,6 @@ order, and may not use limit or skip.
                               <td>
                                 <div>
                                   <p>Used to toggle the information on the query plan.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>hint</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>String or Object of index that should be used when executing query.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2587,9 +2607,9 @@ It should have the following argument signature: <code>(Result&lt;[ResultType], 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV4find7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/find(explain:hint:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV4find7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">find(explain:<wbr>hint:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV4find7explain7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/find(explain:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV4find7explain7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">find(explain:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2605,7 +2625,6 @@ It should have the following argument signature: <code>(Result&lt;[ResultType], 
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">find</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
-                               <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                                <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
@@ -2625,18 +2644,6 @@ It should have the following argument signature: <code>(Result&lt;[ResultType], 
                               <td>
                                 <div>
                                   <p>Used to toggle the information on the query plan.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>hint</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>String or Object of index that should be used when executing query.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2686,9 +2693,9 @@ It should have the following argument signature: <code>(Result&lt;[Decodable], P
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV7findAll4hint10batchLimit7options13callbackQueue10completionySSSg_SiSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayxGAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/findAll(hint:batchLimit:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV7findAll4hint10batchLimit7options13callbackQueue10completionySSSg_SiSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayxGAA0A5ErrorVGctF">findAll(hint:<wbr>batchLimit:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV7findAll10batchLimit7options13callbackQueue10completionySiSg_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayxGAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/findAll(batchLimit:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV7findAll10batchLimit7options13callbackQueue10completionySiSg_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayxGAA0A5ErrorVGctF">findAll(batchLimit:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2703,8 +2710,7 @@ It should have the following argument signature: <code>(Result&lt;[Decodable], P
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">findAll</span><span class="p">(</span><span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-                    <span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">findAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
@@ -2715,18 +2721,6 @@ It should have the following argument signature: <code>(Result&lt;[Decodable], P
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>hint</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>String or Object of index that should be used when executing query.</p>
-                                </div>
-                              </td>
-                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -2852,9 +2846,9 @@ order, and may not use limit or skip.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV5first7explain4hint7optionsqd__Sb_SSSgShyAA3APIV6OptionOGtKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/first(explain:hint:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV5first7explain4hint7optionsqd__Sb_SSSgShyAA3APIV6OptionOGtKSeRd__lF">first(explain:<wbr>hint:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV5first7explain7optionsqd__Sb_ShyAA3APIV6OptionOGtKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/first(explain:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5first7explain7optionsqd__Sb_ShyAA3APIV6OptionOGtKSeRd__lF">first(explain:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -2879,7 +2873,6 @@ order, and may not use limit or skip.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">first</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
-                                <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                                 <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">U</span></code></pre>
 
                         </div>
@@ -2897,18 +2890,6 @@ order, and may not use limit or skip.
                               <td>
                                 <div>
                                   <p>Used to toggle the information on the query plan.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>hint</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>String or Object of index that should be used when executing query.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3015,9 +2996,9 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV5first7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/first(explain:hint:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV5first7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF">first(explain:<wbr>hint:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV5first7explain7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/first(explain:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5first7explain7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF">first(explain:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3037,7 +3018,7 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">first</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span> <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">first</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
                                 <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                 <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                 <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
@@ -3057,18 +3038,6 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                               <td>
                                 <div>
                                   <p>Used to toggle the information on the query plan.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>hint</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>String or Object of index that should be used when executing query.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3173,9 +3142,9 @@ It should have the following argument signature: <code>(Result&lt;Decodable, Par
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV5count7explain4hint7optionsqd__Sb_SSSgShyAA3APIV6OptionOGtKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/count(explain:hint:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV5count7explain4hint7optionsqd__Sb_SSSgShyAA3APIV6OptionOGtKSeRd__lF">count(explain:<wbr>hint:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV5count7explain7optionsqd__Sb_ShyAA3APIV6OptionOGtKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/count(explain:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5count7explain7optionsqd__Sb_ShyAA3APIV6OptionOGtKSeRd__lF">count(explain:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3196,7 +3165,6 @@ It should have the following argument signature: <code>(Result&lt;Decodable, Par
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">count</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
-                                <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                                 <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">U</span></code></pre>
 
                         </div>
@@ -3214,18 +3182,6 @@ It should have the following argument signature: <code>(Result&lt;Decodable, Par
                               <td>
                                 <div>
                                   <p>Used to toggle the information on the query plan.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>hint</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>String or Object of index that should be used when executing query.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3326,9 +3282,9 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV5count7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/count(explain:hint:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV5count7explain4hint7options13callbackQueue10completionySb_SSSgShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF">count(explain:<wbr>hint:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV5count7explain7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/count(explain:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV5count7explain7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF">count(explain:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3344,7 +3300,6 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">count</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">explain</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
-                                <span class="nv">hint</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                                 <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                 <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                 <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
@@ -3364,18 +3319,6 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                               <td>
                                 <div>
                                   <p>Used to toggle the information on the query plan.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>hint</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>String or Object of index that should be used when executing query.</p>
                                 </div>
                               </td>
                             </tr>

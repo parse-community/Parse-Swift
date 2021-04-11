@@ -450,14 +450,14 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 839,
+      "line": 849,
       "symbol": "Query.ResultType",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 840,
+      "line": 850,
       "symbol": "Query.AggregateType",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
