@@ -1,10 +1,15 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.3.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.3.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+### 1.3.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.3.0...1.3.1)
+
 __New features__
+- Add findAll query to find all objects ([#118](https://github.com/parse-community/Parse-Swift/pull/118)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Can now delete the iOS Objective-C SDK Keychain from app ([#118](https://github.com/parse-community/Parse-Swift/pull/118)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Migrate installationId from obj-c SDK ([#117](https://github.com/parse-community/Parse-Swift/pull/117)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__

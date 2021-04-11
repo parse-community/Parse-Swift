@@ -172,6 +172,37 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertEqual(Installation.currentInstallationContainer.installationId, objcInstallationId)
     }
 
+    func testDeleteObjcSDKKeychain() throws {
+
+        //Set keychain the way objc sets keychain
+        guard let identifier = Bundle.main.bundleIdentifier else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        let objcInstallationId = "helloWorld"
+        let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
+        _ = objcParseKeychain.set(object: objcInstallationId, forKey: "installationId")
+
+        guard let retrievedInstallationId: String? = try objcParseKeychain.get(valueFor: "installationId") else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertEqual(retrievedInstallationId, objcInstallationId)
+        XCTAssertNoThrow(try ParseSwift.deleteObjectiveCKeychain())
+        let retrievedInstallationId2: String? = try objcParseKeychain.get(valueFor: "installationId")
+        XCTAssertNil(retrievedInstallationId2)
+
+        //This is needed for tear down
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url)
+    }
+
     func testMigrateObjcSDKMissingInstallation() {
 
         //Set keychain the way objc sets keychain

@@ -73,7 +73,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
 
     func testFind() {
         var subscriptions = Set<AnyCancellable>()
-        let expectation1 = XCTestExpectation(description: "Save")
+        let expectation1 = XCTestExpectation(description: "Find")
 
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.score = 11
@@ -95,6 +95,47 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         let query = GameScore.query()
 
         let publisher = query.findPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { found in
+
+            guard let object = found.first else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            XCTAssert(object.hasSameObjectId(as: scoreOnServer))
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testFindAll() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "FindAll")
+
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = AnyResultsResponse(results: [scoreOnServer])
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        let query = GameScore.query()
+        let publisher = query.findAllPublisher()
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
