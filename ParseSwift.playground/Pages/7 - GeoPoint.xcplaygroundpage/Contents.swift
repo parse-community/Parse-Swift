@@ -175,7 +175,7 @@ query7.find { results in
 
 //: Find all GameScores.
 let query8 = GameScore.query()
-query8.findAll { (result: Result<[GameScore], ParseError>) in
+query8.findAll { result in
     switch result {
     case .success(let scores):
         print(scores)
