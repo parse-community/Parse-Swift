@@ -961,7 +961,7 @@ public extension Sequence where Element: ParseUser {
 
     /**
      Saves a collection of users *synchronously* all at once and throws an error if necessary.
-     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
@@ -1044,7 +1044,7 @@ public extension Sequence where Element: ParseUser {
 
     /**
      Saves a collection of users all at once *asynchronously* and executes the completion block when done.
-     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
@@ -1271,7 +1271,7 @@ public extension Sequence where Element: ParseUser {
 
     /**
      Deletes a collection of users *synchronously* all at once and throws an error if necessary.
-     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
@@ -1317,7 +1317,7 @@ public extension Sequence where Element: ParseUser {
 
     /**
      Deletes a collection of users all at once *asynchronously* and executes the completion block when done.
-     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that

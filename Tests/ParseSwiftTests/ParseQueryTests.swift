@@ -376,6 +376,142 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         findAsync(scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
+    func testFindAllAsync() {
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = AnyResultsResponse(results: [scoreOnServer])
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        let query = GameScore.query()
+        let expectation = XCTestExpectation(description: "Count object1")
+        query.findAll { result in
+
+            switch result {
+
+            case .success(let found):
+                guard let score = found.first else {
+                    XCTFail("Should unwrap score count")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
+    func testFindAllAsyncErrorSkip() {
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = AnyResultsResponse(results: [scoreOnServer])
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        var query = GameScore.query()
+        query.skip = 10
+        let expectation = XCTestExpectation(description: "Count object1")
+        query.findAll { result in
+
+            switch result {
+
+            case .success:
+                XCTFail("Should have failed")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("Cannot iterate"))
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
+    func testFindAllAsyncErrorOrder() {
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = AnyResultsResponse(results: [scoreOnServer])
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        let query = GameScore.query()
+            .order([.ascending("score")])
+        let expectation = XCTestExpectation(description: "Count object1")
+        query.findAll { result in
+
+            switch result {
+
+            case .success:
+                XCTFail("Should have failed")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("Cannot iterate"))
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
+    func testFindAllAsyncErrorLimit() {
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = AnyResultsResponse(results: [scoreOnServer])
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        var query = GameScore.query()
+        query.limit = 10
+        let expectation = XCTestExpectation(description: "Count object1")
+        query.findAll { result in
+
+            switch result {
+
+            case .success:
+                XCTFail("Should have failed")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("Cannot iterate"))
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
     func testFirst() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"

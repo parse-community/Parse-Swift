@@ -908,23 +908,25 @@ extension Query: Queryable {
     }
 
     /**
-      Finds objects *asynchronously* and calls the given block with the results.
-
+     Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query.
+        
       - parameter hint: String or Object of index that should be used when executing query.
-      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
          is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
          Defaults to 50.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[Decodable], ParseError>)`.
+     - warning: The items are processed in an unspecified order. The query may not have any sort
+     order, and may not use limit or skip.
     */
     public func findAll(hint: String? = nil,
                         batchLimit limit: Int? = nil,
                         options: API.Options = [],
                         callbackQueue: DispatchQueue = .main,
                         completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
-        if order != nil || skip > 0 || limit != 100 {
+        if order != nil || skip > 0 || self.limit != 100 {
             let error = ParseError(code: .unknownError,
                              message: "Cannot iterate on a query with sort, skip, or limit.")
             completion(.failure(error))
@@ -948,12 +950,12 @@ extension Query: Queryable {
                 do {
                     let currentResults: [ResultType] = try query.findCommand(explain: false,
                                                                              hint: hint).execute(options: options)
+                    results.append(contentsOf: currentResults)
                     if currentResults.count >= query.limit {
                         guard let lastObjectId = results[results.count - 1].objectId else {
                             throw ParseError(code: .unknownError, message: "Last object should have an id.")
                         }
                         query.where.add("objectId" > lastObjectId)
-                        results.append(contentsOf: currentResults)
                     } else {
                         finished = true
                     }

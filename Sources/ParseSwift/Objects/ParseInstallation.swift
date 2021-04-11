@@ -637,7 +637,7 @@ public extension Sequence where Element: ParseInstallation {
 
     /**
      Saves a collection of installations *synchronously* all at once and throws an error if necessary.
-     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -721,7 +721,7 @@ public extension Sequence where Element: ParseInstallation {
 
     /**
      Saves a collection of installations all at once *asynchronously* and executes the completion block when done.
-     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
@@ -951,7 +951,7 @@ public extension Sequence where Element: ParseInstallation {
 
     /**
      Deletes a collection of installations *synchronously* all at once and throws an error if necessary.
-     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
@@ -998,7 +998,7 @@ public extension Sequence where Element: ParseInstallation {
 
     /**
      Deletes a collection of installations all at once *asynchronously* and executes the completion block when done.
-     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that

@@ -173,6 +173,17 @@ query7.find { results in
     }
 }
 
+//: Find all GameScores.
+let query8 = GameScore.query()
+query8.findAll { (result: Result<[GameScore], ParseError>) in
+    switch result {
+    case .success(let scores):
+        print(scores)
+    case .failure(let error):
+        print(error.localizedDescription)
+    }
+}
+
 //: Explain the previous query.
 let explain: AnyDecodable = try query2.first(explain: true)
 print(explain)
