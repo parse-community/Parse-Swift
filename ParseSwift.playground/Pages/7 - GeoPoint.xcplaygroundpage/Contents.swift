@@ -184,13 +184,9 @@ query8.findAll { result in
     }
 }
 
-//: Explain the previous query.
-let explain: AnyDecodable = try query2.first(explain: true)
-print(explain)
-
 //: Hint of the previous query (asynchronous)
-query2.find(explain: false,
-            hint: "_id_") { (result: Result<[GameScore], ParseError>) in
+query2 = query2.hint("_id_")
+query2.find { result in
     switch result {
     case .success(let scores):
         print(scores)
@@ -198,6 +194,10 @@ query2.find(explain: false,
         print(error.localizedDescription)
     }
 }
+
+//: Explain the previous query.
+let explain: AnyDecodable = try query2.first(explain: true)
+print(explain)
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

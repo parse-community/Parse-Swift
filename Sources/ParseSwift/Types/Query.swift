@@ -552,7 +552,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     internal var order: [Order]?
     internal var isCount: Bool?
     internal var explain: Bool?
-    internal var hint: String?
+    internal var hint: AnyEncodable?
     internal var `where` = QueryWhere()
     internal var excludeKeys: [String]?
     internal var readPreference: String?
@@ -647,6 +647,16 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     public func skip(_ value: Int) -> Query<T> {
         var mutableQuery = self
         mutableQuery.skip = value
+        return mutableQuery
+    }
+
+    /**
+      Adds a hint to force index selection.
+      - parameter value: String or Object of index that should be used when executing query.
+    */
+    public func hint<U: Encodable>(_ value: U) -> Query<T> {
+        var mutableQuery = self
+        mutableQuery.hint = AnyEncodable(value)
         return mutableQuery
     }
 
@@ -855,16 +865,14 @@ extension Query: Queryable {
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
 
       - parameter explain: Used to toggle the information on the query plan.
-      - parameter hint: String or Object of index that should be used when executing query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a response of `Decodable` type.
     */
     public func find<U: Decodable>(explain: Bool,
-                                   hint: String? = nil,
                                    options: API.Options = []) throws -> [U] {
-        try findCommand(explain: explain, hint: hint).execute(options: options)
+        try findCommand(explain: explain).execute(options: options)
     }
 
     /**
@@ -889,18 +897,16 @@ extension Query: Queryable {
       Finds objects *asynchronously* and calls the given block with the results.
 
       - parameter explain: Used to toggle the information on the query plan.
-      - parameter hint: String or Object of index that should be used when executing query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[Decodable], ParseError>)`.
     */
     public func find<U: Decodable>(explain: Bool,
-                                   hint: String? = nil,
                                    options: API.Options = [],
                                    callbackQueue: DispatchQueue = .main,
                                    completion: @escaping (Result<[U], ParseError>) -> Void) {
-        findCommand(explain: explain, hint: hint).executeAsync(options: options) { result in
+        findCommand(explain: explain).executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
             }
@@ -910,7 +916,6 @@ extension Query: Queryable {
     /**
      Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query.
         
-      - parameter hint: String or Object of index that should be used when executing query.
       - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
          is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
          Defaults to 50.
@@ -921,8 +926,7 @@ extension Query: Queryable {
      - warning: The items are processed in an unspecified order. The query may not have any sort
      order, and may not use limit or skip.
     */
-    public func findAll(hint: String? = nil,
-                        batchLimit limit: Int? = nil,
+    public func findAll(batchLimit limit: Int? = nil,
                         options: API.Options = [],
                         callbackQueue: DispatchQueue = .main,
                         completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
@@ -948,8 +952,7 @@ extension Query: Queryable {
 
             while !finished {
                 do {
-                    let currentResults: [ResultType] = try query.findCommand(explain: false,
-                                                                             hint: hint).execute(options: options)
+                    let currentResults = try query.findCommand().execute(options: options)
                     results.append(contentsOf: currentResults)
                     if currentResults.count >= query.limit {
                         guard let lastObjectId = results[results.count - 1].objectId else {
@@ -996,16 +999,14 @@ extension Query: Queryable {
 
       - warning: This method mutates the query. It will reset the limit to `1`.
       - parameter explain: Used to toggle the information on the query plan.
-      - parameter hint: String or Object of index that should be used when executing query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a response of `Decodable` type.
     */
     public func first<U: Decodable>(explain: Bool,
-                                    hint: String? = nil,
                                     options: API.Options = []) throws -> U {
-        try firstCommand(explain: explain, hint: hint).execute(options: options)
+        try firstCommand(explain: explain).execute(options: options)
     }
 
     /**
@@ -1032,17 +1033,16 @@ extension Query: Queryable {
 
       - warning: This method mutates the query. It will reset the limit to `1`.
       - parameter explain: Used to toggle the information on the query plan.
-      - parameter hint: String or Object of index that should be used when executing query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Decodable, ParseError>)`.
     */
-    public func first<U: Decodable>(explain: Bool, hint: String? = nil,
+    public func first<U: Decodable>(explain: Bool,
                                     options: API.Options = [],
                                     callbackQueue: DispatchQueue = .main,
                                     completion: @escaping (Result<U, ParseError>) -> Void) {
-        firstCommand(explain: explain, hint: hint).executeAsync(options: options) { result in
+        firstCommand(explain: explain).executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
             }
@@ -1065,16 +1065,14 @@ extension Query: Queryable {
       Counts objects *synchronously* based on the constructed query and sets an error if there was one.
 
       - parameter explain: Used to toggle the information on the query plan.
-      - parameter hint: String or Object of index that should be used when executing query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a response of `Decodable` type.
     */
     public func count<U: Decodable>(explain: Bool,
-                                    hint: String? = nil,
                                     options: API.Options = []) throws -> U {
-        try countCommand(explain: explain, hint: hint).execute(options: options)
+        try countCommand(explain: explain).execute(options: options)
     }
 
     /**
@@ -1097,18 +1095,16 @@ extension Query: Queryable {
     /**
       Counts objects *asynchronously* and calls the given block with the counts.
       - parameter explain: Used to toggle the information on the query plan.
-      - parameter hint: String or Object of index that should be used when executing query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Decodable, ParseError>)`.
     */
     public func count<U: Decodable>(explain: Bool,
-                                    hint: String? = nil,
                                     options: API.Options = [],
                                     callbackQueue: DispatchQueue = .main,
                                     completion: @escaping (Result<U, ParseError>) -> Void) {
-        countCommand(explain: explain, hint: hint).executeAsync(options: options) { result in
+        countCommand(explain: explain).executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
             }
@@ -1216,22 +1212,18 @@ extension Query {
         }
     }
 
-    func findCommand<U: Decodable>(explain: Bool,
-                                   hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+    func findCommand<U: Decodable>(explain: Bool) -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
         var query = self
         query.explain = explain
-        query.hint = hint
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results
         }
     }
 
-    func firstCommand<U: Decodable>(explain: Bool,
-                                    hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, U> {
+    func firstCommand<U: Decodable>(explain: Bool) -> API.NonParseBodyCommand<Query<ResultType>, U> {
         var query = self
         query.limit = 1
         query.explain = explain
-        query.hint = hint
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let decoded: U = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results.first {
                 return decoded
@@ -1241,13 +1233,11 @@ extension Query {
         }
     }
 
-    func countCommand<U: Decodable>(explain: Bool,
-                                    hint: String?) -> API.NonParseBodyCommand<Query<ResultType>, U> {
+    func countCommand<U: Decodable>(explain: Bool) -> API.NonParseBodyCommand<Query<ResultType>, U> {
         var query = self
         query.limit = 1
         query.isCount = true
         query.explain = explain
-        query.hint = hint
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let decoded: U = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results.first {
                 return decoded
