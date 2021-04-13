@@ -158,24 +158,20 @@ extension ParseFile {
 extension ParseFile {
     /**
      Deletes the file from the Parse cloud.
-     - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+     - requires: `.useMasterKey` has to be available.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
      */
     public func delete(options: API.Options) throws {
         var options = options
+        options.insert(.useMasterKey)
         options = options.union(self.options)
-
-        if !options.contains(.useMasterKey) {
-            throw ParseError(code: .unknownError,
-                             message: "You must specify \"useMasterKey\" in \"options\" in order to delete a file.")
-        }
         _ = try deleteFileCommand().execute(options: options, callbackQueue: .main)
     }
 
     /**
      Deletes the file from the Parse cloud. Completes with `nil` if successful.
-     - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+     - requires: `.useMasterKey` has to be available.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
@@ -185,16 +181,9 @@ extension ParseFile {
                        callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
+        options.insert(.useMasterKey)
         options = options.union(self.options)
 
-        if !options.contains(.useMasterKey) {
-            callbackQueue.async {
-                completion(.failure(ParseError(code: .unknownError,
-                                      // swiftlint:disable:next line_length
-                                      message: "You must specify \"useMasterKey\" in \"options\" in order to delete a file.")))
-            }
-            return
-        }
         deleteFileCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
             callbackQueue.async {
                 switch result {

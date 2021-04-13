@@ -430,7 +430,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        XCTAssertThrowsError(try parseFile.delete(options: [.removeMimeType]))
+        try parseFile.delete(options: [.removeMimeType])
     }
 
     func testSaveAysnc() throws {
@@ -668,8 +668,8 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expectation1 = XCTestExpectation(description: "ParseFile async")
         parseFile.delete(options: [.removeMimeType]) { result in
 
-            if case .success = result {
-                XCTFail("Should have thrown error")
+            if case .failure(let error) = result {
+                XCTFail(error.localizedDescription)
             }
             expectation1.fulfill()
         }

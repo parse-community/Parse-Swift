@@ -365,7 +365,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
 
         let query = GameScore.query()
-        let pipeline = [[String: String]]()
+        let pipeline = [[String: AnyEncodable]]()
         let publisher = query.aggregatePublisher(pipeline)
             .sink(receiveCompletion: { result in
 

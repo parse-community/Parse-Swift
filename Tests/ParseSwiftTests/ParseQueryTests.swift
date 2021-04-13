@@ -2406,7 +2406,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #if !os(Linux) && !os(Android)
     func testAggregateCommand() throws {
         let query = GameScore.query()
-        let pipeline = [[String: String]]()
+        let pipeline = [[String: AnyEncodable]]()
         let aggregate = query.aggregateCommand(pipeline)
 
         let expected = "{\"path\":\"\\/aggregate\\/GameScore\",\"method\":\"POST\",\"body\":[]}"
@@ -2495,7 +2495,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         let query = GameScore.query()
         let expectation = XCTestExpectation(description: "Count object1")
-        let pipeline = [[String: String]]()
+        let pipeline = [[String: AnyEncodable]]()
         query.aggregate(pipeline, options: [], callbackQueue: .main) { result in
 
             switch result {
@@ -2533,7 +2533,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         let query = GameScore.query("score" > 9)
         let expectation = XCTestExpectation(description: "Count object1")
-        let pipeline = [[String: String]]()
+        let pipeline = [[String: AnyEncodable]]()
         query.aggregate(pipeline, options: [], callbackQueue: .main) { result in
 
             switch result {

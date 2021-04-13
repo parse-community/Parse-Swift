@@ -117,12 +117,12 @@ public extension Query {
 
     /**
      Executes an aggregate query *asynchronously* and publishes when complete.
-     - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+     - requires: `.useMasterKey` has to be available.
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func aggregatePublisher(_ pipeline: AggregateType,
+    func aggregatePublisher(_ pipeline: [[String: AnyEncodable]],
                             options: API.Options = []) -> Future<[ResultType], ParseError> {
         Future { promise in
             self.aggregate(pipeline,

@@ -847,7 +847,6 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 extension Query: Queryable {
 
     public typealias ResultType = T
-    public typealias AggregateType = [[String: String]]
 
     /**
       Finds objects *synchronously* based on the constructed query and sets an error if there was one.
@@ -1113,35 +1112,42 @@ extension Query: Queryable {
 
     /**
      Executes an aggregate query *asynchronously* and calls the given.
-      - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+      - requires: `.useMasterKey` has to be available.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
       - warning: This hasn't been tested thoroughly.
       - returns: Returns the `ParseObject`s that match the query.
     */
-    public func aggregate(_ pipeline: AggregateType,
+    public func aggregate(_ pipeline: [[String: Encodable]],
                           options: API.Options = []) throws -> [ResultType] {
         var options = options
         options.insert(.useMasterKey)
 
-        let encoded = try ParseCoding.jsonEncoder()
-            .encode(self.`where`)
-        guard let whereString = String(data: encoded, encoding: .utf8) else {
+        var updatedPipeline = [[String: AnyEncodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+
+        guard let encoded = try? ParseCoding.jsonEncoder()
+                .encode(self.`where`),
+            let whereString = String(data: encoded, encoding: .utf8) else {
             throw ParseError(code: .unknownError, message: "Can't decode where to String.")
         }
-        var updatedPipeline: AggregateType = pipeline
+
+        var finishedPipeline = [[String: AnyEncodable]]()
+
         if whereString != "{}" {
-            updatedPipeline = [["match": whereString]]
-            updatedPipeline.append(contentsOf: pipeline)
+            finishedPipeline = [["match": AnyEncodable(whereString)]]
+            finishedPipeline.append(contentsOf: updatedPipeline)
+        } else {
+            finishedPipeline = updatedPipeline
         }
 
-        return try aggregateCommand(updatedPipeline)
+        return try aggregateCommand(finishedPipeline)
             .execute(options: options)
     }
 
     /**
       Executes an aggregate query *asynchronously* and calls the given.
-        - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+        - requires: `.useMasterKey` has to be available.
         - parameter pipeline: A pipeline of stages to process query.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
@@ -1149,12 +1155,15 @@ extension Query: Queryable {
       It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
         - warning: This hasn't been tested thoroughly.
     */
-    public func aggregate(_ pipeline: AggregateType,
+    public func aggregate(_ pipeline: [[String: AnyEncodable]],
                           options: API.Options = [],
                           callbackQueue: DispatchQueue = .main,
                           completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
         var options = options
         options.insert(.useMasterKey)
+
+        var updatedPipeline = [[String: AnyEncodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
 
         guard let encoded = try? ParseCoding.jsonEncoder()
                 .encode(self.`where`),
@@ -1165,13 +1174,17 @@ extension Query: Queryable {
             }
             return
         }
-        var updatedPipeline: AggregateType = pipeline
+
+        var finishedPipeline = [[String: AnyEncodable]]()
+
         if whereString != "{}" {
-            updatedPipeline = [["match": whereString]]
-            updatedPipeline.append(contentsOf: pipeline)
+            finishedPipeline = [["match": AnyEncodable(whereString)]]
+            finishedPipeline.append(contentsOf: updatedPipeline)
+        } else {
+            finishedPipeline = updatedPipeline
         }
 
-        aggregateCommand(pipeline)
+        aggregateCommand(finishedPipeline)
             .executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -1247,7 +1260,8 @@ extension Query {
         }
     }
 
-    func aggregateCommand(_ pipeline: AggregateType) -> API.NonParseBodyCommand<AggregateType, [ResultType]> {
+    func aggregateCommand(_ pipeline: [[String: AnyEncodable]]) ->
+    API.NonParseBodyCommand<[[String: AnyEncodable]], [ResultType]> {
 
         return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: pipeline) {
             try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
