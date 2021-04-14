@@ -407,6 +407,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         try parseFile.fetch(stream: stream)
     }
 
+    #if !os(Linux) && !os(Android)
     // swiftlint:disable:next inclusive_language
     func testDeleteFileNoMasterKey() throws {
         // swiftlint:disable:next line_length
@@ -430,6 +431,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         try parseFile.delete()
     }
+    #endif
 
     func testSaveAysnc() throws {
 
@@ -640,6 +642,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    #if !os(Linux) && !os(Android)
     // swiftlint:disable:next inclusive_language
     func testDeleteNoMasterKeyFileAysnc() throws {
         // swiftlint:disable:next line_length
@@ -650,11 +653,9 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
         parseFile.url = parseFileURL
 
-        let response = FileUploadResponse(name: "d3a37aed0672a024595b766f97133615_logo.svg",
-                                          url: parseFileURL)
         let encoded: Data!
         do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
+            encoded = try ParseCoding.jsonEncoder().encode(NoBody())
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -675,8 +676,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     //URL Mocker is not able to mock this in linux and tests fail, so don't run.
-    #if !os(Linux) && !os(Android)
-
     func testFetchFileCancelAsync() throws {
         // swiftlint:disable:next line_length
         guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/7793939a2e59b98138c1bbf2412a060c_logo.svg") else {
@@ -992,9 +991,11 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         var parseFile = ParseFile(name: "1b0683d529463e173cbf8046d7d9a613_logo.svg", cloudURL: parseFileURL)
         parseFile.url = parseFileURL
 
+        let response = FileUploadResponse(name: "1b0683d529463e173cbf8046d7d9a613_logo.svg",
+                                          url: parseFileURL)
         let encoded: Data!
         do {
-            encoded = try ParseCoding.jsonEncoder().encode(NoBody())
+            encoded = try ParseCoding.jsonEncoder().encode(response)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
