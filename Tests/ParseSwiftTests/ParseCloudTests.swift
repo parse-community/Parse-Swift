@@ -165,7 +165,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFunctionError() {
 
-        let parseError = ParseError(code: .scriptError, message: "Error: Invalid function")
+        let parseError = ParseError(code: .scriptFailed, message: "Error: Invalid function")
 
         let encoded: Data!
         do {
@@ -245,7 +245,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFunctionMainQueueError() {
-        let parseError = ParseError(code: .scriptError, message: "Error: Invalid function")
+        let parseError = ParseError(code: .scriptFailed, message: "Error: Invalid function")
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -322,7 +322,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testJobError() {
 
-        let parseError = ParseError(code: .scriptError, message: "Error: Invalid function")
+        let parseError = ParseError(code: .scriptFailed, message: "Error: Invalid function")
 
         let encoded: Data!
         do {
@@ -402,7 +402,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testJobMainQueueError() {
-        let parseError = ParseError(code: .scriptError, message: "Error: Invalid function")
+        let parseError = ParseError(code: .scriptFailed, message: "Error: Invalid function")
 
         MockURLProtocol.mockRequests { _ in
             do {

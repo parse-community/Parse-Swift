@@ -142,7 +142,7 @@ class APICommandTests: XCTestCase {
 
     //This is less common as the HTTP won't be able to produce ParseErrors directly, but used for testing
     func testErrorHTTPReturnsParseError1() {
-        let originalError = ParseError(code: .invalidServerResponse, message: "Couldn't decode")
+        let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(error: originalError)
         }
