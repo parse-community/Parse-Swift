@@ -29,7 +29,7 @@ extension URLSession {
                                 mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .invalidServerResponse,
+                return .failure(ParseError(code: .unknownError,
                                            message: "Unable to sync with parse-server: \(responseError)"))
             }
             return .failure(parseError)
@@ -69,7 +69,7 @@ extension URLSession {
                                 mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
-                return .failure(ParseError(code: .invalidServerResponse,
+                return .failure(ParseError(code: .unknownError,
                                            message: "Unable to sync with parse-server: \(responseError)"))
             }
             return .failure(parseError)
