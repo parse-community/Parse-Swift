@@ -417,11 +417,9 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
         parseFile.url = parseFileURL
 
-        let response = FileUploadResponse(name: "d3a37aed0672a024595b766f97133615_logo.svg",
-                                          url: parseFileURL)
         let encoded: Data!
         do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
+            encoded = try ParseCoding.jsonEncoder().encode(NoBody())
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -430,7 +428,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        try parseFile.delete(options: [.removeMimeType])
+        try parseFile.delete()
     }
 
     func testSaveAysnc() throws {
@@ -994,11 +992,9 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         var parseFile = ParseFile(name: "1b0683d529463e173cbf8046d7d9a613_logo.svg", cloudURL: parseFileURL)
         parseFile.url = parseFileURL
 
-        let response = FileUploadResponse(name: "1b0683d529463e173cbf8046d7d9a613_logo.svg",
-                                          url: parseFileURL)
         let encoded: Data!
         do {
-            encoded = try ParseCoding.jsonEncoder().encode(response)
+            encoded = try ParseCoding.jsonEncoder().encode(NoBody())
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return

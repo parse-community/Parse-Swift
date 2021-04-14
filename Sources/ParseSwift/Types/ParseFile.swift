@@ -166,6 +166,7 @@ extension ParseFile {
         var options = options
         options.insert(.useMasterKey)
         options = options.union(self.options)
+
         _ = try deleteFileCommand().execute(options: options, callbackQueue: .main)
     }
 
