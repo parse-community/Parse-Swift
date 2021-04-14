@@ -151,19 +151,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query2.include, ["yolo"])
     }
 
-    #if !os(Linux) && !os(Android)
-    func testDistinct() throws {
-        let query = GameScore.query()
-            .distinct("yolo")
-
-        let expected = "{\"limit\":100,\"skip\":0,\"distinct\":\"yolo\",\"_method\":\"GET\",\"where\":{}}"
-        let encoded = try ParseCoding.parseEncoder()
-            .encode(query)
-        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
-        XCTAssertEqual(decoded, expected)
-    }
-    #endif
-
     func testIncludeAllKeys() {
         let query = GameScore.query()
         XCTAssertNil(query.include)
@@ -238,6 +225,31 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         query = query.`where`("score" > 100, "createdAt" > Date())
         XCTAssertEqual(query.`where`.constraints.values.count, 2)
     }
+
+    #if !os(Linux) && !os(Android)
+    func testFindCommand() throws {
+        let query = GameScore.query()
+        let command = query.findCommand()
+        // swiftlint:disable:next line_length
+        let expected = "{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{}}}"
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(command)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testFindExplainCommand() throws {
+        let query = GameScore.query()
+        let command: API.NonParseBodyCommand<Query<ParseQueryTests.GameScore>,
+                                             [GameScore]> = query.findExplainCommand()
+        // swiftlint:disable:next line_length
+        let expected = "{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"limit\":100,\"skip\":0,\"explain\":true,\"_method\":\"GET\",\"where\":{}}}"
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(command)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+    #endif
 
     // MARK: Querying Parse Server
     func testFind() {
@@ -512,6 +524,31 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    #if !os(Linux) && !os(Android)
+    func testFirstCommand() throws {
+        let query = GameScore.query()
+        let command = query.firstCommand()
+        // swiftlint:disable:next line_length
+        let expected = "{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"limit\":1,\"skip\":0,\"_method\":\"GET\",\"where\":{}}}"
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(command)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testFirstExplainCommand() throws {
+        let query = GameScore.query()
+        let command: API.NonParseBodyCommand<Query<ParseQueryTests.GameScore>,
+                                             GameScore> = query.firstExplainCommand()
+        // swiftlint:disable:next line_length
+        let expected = "{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"limit\":1,\"skip\":0,\"explain\":true,\"_method\":\"GET\",\"where\":{}}}"
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(command)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+    #endif
+
     func testFirst() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
@@ -696,6 +733,31 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         firstAsyncNoObjectFound(scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
+
+    #if !os(Linux) && !os(Android)
+    func testCountCommand() throws {
+        let query = GameScore.query()
+        let command = query.countCommand()
+        // swiftlint:disable:next line_length
+        let expected = "{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"limit\":1,\"skip\":0,\"count\":true,\"_method\":\"GET\",\"where\":{}}}"
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(command)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testCountExplainCommand() throws {
+        let query = GameScore.query()
+        let command: API.NonParseBodyCommand<Query<ParseQueryTests.GameScore>,
+                                             Int> = query.countExplainCommand()
+        // swiftlint:disable:next line_length
+        let expected = "{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"limit\":1,\"skip\":0,\"explain\":true,\"count\":true,\"_method\":\"GET\",\"where\":{}}}"
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(command)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+    #endif
 
     func testCount() {
         var scoreOnServer = GameScore(score: 10)
@@ -2087,7 +2149,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let query = GameScore.query()
         do {
-            let queryResult: [[String: String]] = try query.find(explain: true)
+            let queryResult: [[String: String]] = try query.findExplain()
             XCTAssertEqual(queryResult, json.results)
         } catch {
             XCTFail("Error: \(error)")
@@ -2111,7 +2173,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
-        query.find(explain: true, callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
+        query.findExplain(callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
             switch result {
 
             case .success(let queryResult):
@@ -2141,7 +2203,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let query = GameScore.query()
         do {
-            let queryResult: [String: String] = try query.first(explain: true)
+            let queryResult: [String: String] = try query.firstExplain()
             XCTAssertEqual(queryResult, json.results.first)
         } catch {
             XCTFail("Error: \(error)")
@@ -2165,7 +2227,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
-        query.first(explain: true, callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
+        query.firstExplain(callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
             switch result {
 
             case .success(let queryResult):
@@ -2195,7 +2257,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let query = GameScore.query()
         do {
-            let queryResult: [String: String] = try query.count(explain: true)
+            let queryResult: [String: String] = try query.countExplain()
             XCTAssertEqual(queryResult, json.results.first)
         } catch {
             XCTFail("Error: \(error)")
@@ -2219,7 +2281,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
-        query.count(explain: true, callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
+        query.countExplain(callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
             switch result {
 
             case .success(let queryResult):
@@ -2250,7 +2312,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
             .hint("_id_")
         do {
-            let queryResult: [[String: String]] = try query.find(explain: false)
+            let queryResult: [[String: String]] = try query.findExplain()
             XCTAssertEqual(queryResult, json.results)
         } catch {
             XCTFail("Error: \(error)")
@@ -2275,8 +2337,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
             .hint("_id_")
-        query.find(explain: false,
-                   callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
+        query.findExplain(callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
             switch result {
 
             case .success(let queryResult):
@@ -2307,7 +2368,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
             .hint("_id_")
         do {
-            let queryResult: [String: String] = try query.first(explain: false)
+            let queryResult: [String: String] = try query.firstExplain()
             XCTAssertEqual(queryResult, json.results.first)
         } catch {
             XCTFail("Error: \(error)")
@@ -2332,8 +2393,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
             .hint("_id_")
-        query.first(explain: false,
-                    callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
+        query.firstExplain(callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
             switch result {
 
             case .success(let queryResult):
@@ -2364,7 +2424,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
             .hint("_id_")
         do {
-            let queryResult: [String: String] = try query.count(explain: false)
+            let queryResult: [String: String] = try query.countExplain()
             XCTAssertEqual(queryResult, json.results.first)
         } catch {
             XCTFail("Error: \(error)")
@@ -2389,8 +2449,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
             .hint("_id_")
-        query.count(explain: false,
-                    callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
+        query.countExplain(callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
             switch result {
 
             case .success(let queryResult):
@@ -2405,13 +2464,47 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android)
     func testAggregateCommand() throws {
-        let query = GameScore.query()
-        let pipeline = [[String: AnyEncodable]]()
-        let aggregate = query.aggregateCommand(pipeline)
-
-        let expected = "{\"path\":\"\\/aggregate\\/GameScore\",\"method\":\"POST\",\"body\":[]}"
+        var query = GameScore.query()
+        let value = AnyEncodable("world")
+        query.pipeline = [["hello": value]]
+        let aggregate = query.aggregateCommand()
+        // swiftlint:disable:next line_length
+        let expected = "{\"path\":\"\\/aggregate\\/GameScore\",\"method\":\"POST\",\"body\":{\"pipeline\":[{\"hello\":\"\(value)\"}]}}"
         let encoded = try ParseCoding.jsonEncoder()
             .encode(aggregate)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testAggregateExplainCommand() throws {
+        let query = GameScore.query()
+        let command: API.NonParseBodyCommand<AggregateBody<GameScore>,
+                                             [String]> = query.aggregateExplainCommand()
+        let expected = "{\"path\":\"\\/aggregate\\/GameScore\",\"method\":\"POST\",\"body\":{\"explain\":true}}"
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(command)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testDistinctCommand() throws {
+        let query = GameScore.query()
+        let aggregate = query.distinctCommand(key: "hello")
+        let expected = "{\"path\":\"\\/aggregate\\/GameScore\",\"method\":\"POST\",\"body\":{\"distinct\":\"hello\"}}"
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(aggregate)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testDistinctExplainCommand() throws {
+        let query = GameScore.query()
+        let command: API.NonParseBodyCommand<DistinctBody<GameScore>,
+                                             [String]> = query.distinctExplainCommand(key: "hello")
+        // swiftlint:disable:next line_length
+        let expected = "{\"path\":\"\\/aggregate\\/GameScore\",\"method\":\"POST\",\"body\":{\"explain\":true,\"distinct\":\"hello\"}}"
+        let encoded = try ParseCoding.jsonEncoder()
+            .encode(command)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
@@ -2436,7 +2529,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let query = GameScore.query()
         do {
-            let pipeline = [[String: String]]()
+            let pipeline = [["hello": "world"]]
             guard let score = try query.aggregate(pipeline).first else {
                 XCTFail("Should unwrap first object found")
                 return
@@ -2472,6 +2565,34 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return
             }
             XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testAggregateExplainWithWhere() {
+        let json = AnyResultsResponse(results: [["yolo": "yarr"]])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query("score" > 9)
+        do {
+            let pipeline = [[String: String]]()
+            guard let score: [String: String] = try query.aggregateExplain(pipeline).first else {
+                XCTFail("Should unwrap first object found")
+                return
+            }
+            XCTAssertEqual(score, json.results.first)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -2532,7 +2653,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
         let query = GameScore.query("score" > 9)
-        let expectation = XCTestExpectation(description: "Count object1")
+        let expectation = XCTestExpectation(description: "Aggregate object1")
         let pipeline = [[String: AnyEncodable]]()
         query.aggregate(pipeline, options: [], callbackQueue: .main) { result in
 
@@ -2545,6 +2666,174 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                     return
                 }
                 XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
+    func testAggregateExplainAsyncMainQueue() {
+        let json = AnyResultsResponse(results: [["yolo": "yarr"]])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let expectation = XCTestExpectation(description: "Aggregate object1")
+        let pipeline = [[String: String]]()
+        let query = GameScore.query("score" > 9)
+        query.aggregateExplain(pipeline,
+                               options: [],
+                               callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
+
+            switch result {
+
+            case .success(let found):
+                guard let score = found.first else {
+                    XCTFail("Should unwrap score count")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssertEqual(score, json.results.first)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
+    func testDistinct() {
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query("score" > 9)
+        do {
+            guard let score = try query.distinct("hello").first else {
+                XCTFail("Should unwrap first object found")
+                return
+            }
+            XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testDistinctExplain() {
+        let json = AnyResultsResponse(results: [["yolo": "yarr"]])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query("score" > 9)
+        do {
+            guard let score: [String: String] = try query.distinctExplain("hello").first else {
+                XCTFail("Should unwrap first object found")
+                return
+            }
+            XCTAssertEqual(score, json.results.first)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testDistinctAsyncMainQueue() {
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        let query = GameScore.query("score" > 9)
+        let expectation = XCTestExpectation(description: "Distinct object1")
+        query.distinct("hello", options: [], callbackQueue: .main) { result in
+
+            switch result {
+
+            case .success(let found):
+                guard let score = found.first else {
+                    XCTFail("Should unwrap score count")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssert(score.hasSameObjectId(as: scoreOnServer))
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
+    func testDistinctExplainAsyncMainQueue() {
+        let json = AnyResultsResponse(results: [["yolo": "yarr"]])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let expectation = XCTestExpectation(description: "Aggregate object1")
+        let query = GameScore.query("score" > 9)
+        query.distinctExplain("hello",
+                              options: [],
+                              callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
+
+            switch result {
+
+            case .success(let found):
+                guard let score = found.first else {
+                    XCTFail("Should unwrap score count")
+                    expectation.fulfill()
+                    return
+                }
+                XCTAssertEqual(score, json.results.first)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }

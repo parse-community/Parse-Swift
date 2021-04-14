@@ -538,6 +538,34 @@ internal struct QueryWhere: Encodable, Equatable {
     }
 }
 
+struct AggregateBody<T>: Encodable where T: ParseObject {
+    let pipeline: [[String: AnyEncodable]]?
+    let hint: AnyEncodable?
+    let explain: Bool?
+    let includeReadPreference: String?
+
+    init(query: Query<T>) {
+        pipeline = query.pipeline
+        hint = query.hint
+        explain = query.explain
+        includeReadPreference = query.includeReadPreference
+    }
+}
+
+struct DistinctBody<T>: Encodable where T: ParseObject {
+    let hint: AnyEncodable?
+    let explain: Bool?
+    let includeReadPreference: String?
+    let distinct: String?
+
+    init(query: Query<T>) {
+        distinct = query.distinct
+        hint = query.hint
+        explain = query.explain
+        includeReadPreference = query.includeReadPreference
+    }
+}
+
 // MARK: Query
 /**
   The `Query` class defines a query that is used to query for `ParseObject`s.
@@ -559,6 +587,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
     internal var distinct: String?
+    internal var pipeline: [[String: AnyEncodable]]?
     internal var fields: [String]?
 
     /**
@@ -610,7 +639,8 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
               lhs.excludeKeys == rhs.excludeKeys,
               lhs.readPreference == rhs.readPreference,
               lhs.includeReadPreference == rhs.includeReadPreference,
-              lhs.subqueryReadPreference == rhs.subqueryReadPreference else {
+              lhs.subqueryReadPreference == rhs.subqueryReadPreference,
+              lhs.distinct == rhs.distinct else {
             return false
         }
         return true
@@ -763,16 +793,6 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-      Executes a distinct query and returns unique values. Default is to nil.
-      - parameter keys: A distinct key.
-    */
-    public func distinct(_ key: String?) -> Query<T> {
-        var mutableQuery = self
-        mutableQuery.distinct = key
-        return mutableQuery
-    }
-
-    /**
      A variadic list of fields to receive when receiving a `ParseLiveQuery`.
      
      Suppose the `ParseObject` Player contains three fields name, id and age.
@@ -840,6 +860,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
         case includeReadPreference
         case subqueryReadPreference
         case distinct
+        case pipeline
     }
 }
 
@@ -861,17 +882,16 @@ extension Query: Queryable {
     }
 
     /**
-      Finds objects *synchronously* based on the constructed query and sets an error if there was one.
+      Query plan information for finding objects *synchronously* based on the constructed query and
+        sets an error if there was one.
 
-      - parameter explain: Used to toggle the information on the query plan.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a response of `Decodable` type.
     */
-    public func find<U: Decodable>(explain: Bool,
-                                   options: API.Options = []) throws -> [U] {
-        try findCommand(explain: explain).execute(options: options)
+    public func findExplain<U: Decodable>(options: API.Options = []) throws -> [U] {
+        try findExplainCommand().execute(options: options)
     }
 
     /**
@@ -893,19 +913,17 @@ extension Query: Queryable {
     }
 
     /**
-      Finds objects *asynchronously* and calls the given block with the results.
+     Query plan information for finding objects *asynchronously* and calls the given block with the results.
 
-      - parameter explain: Used to toggle the information on the query plan.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[Decodable], ParseError>)`.
     */
-    public func find<U: Decodable>(explain: Bool,
-                                   options: API.Options = [],
-                                   callbackQueue: DispatchQueue = .main,
-                                   completion: @escaping (Result<[U], ParseError>) -> Void) {
-        findCommand(explain: explain).executeAsync(options: options) { result in
+    public func findExplain<U: Decodable>(options: API.Options = [],
+                                          callbackQueue: DispatchQueue = .main,
+                                          completion: @escaping (Result<[U], ParseError>) -> Void) {
+        findExplainCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
             }
@@ -994,18 +1012,17 @@ extension Query: Queryable {
     }
 
     /**
-      Gets an object *synchronously* based on the constructed query and sets an error if any occurred.
+     Query plan information for getting an object *synchronously* based on the
+     constructed query and sets an error if any occurred.
 
       - warning: This method mutates the query. It will reset the limit to `1`.
-      - parameter explain: Used to toggle the information on the query plan.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a response of `Decodable` type.
     */
-    public func first<U: Decodable>(explain: Bool,
-                                    options: API.Options = []) throws -> U {
-        try firstCommand(explain: explain).execute(options: options)
+    public func firstExplain<U: Decodable>(options: API.Options = []) throws -> U {
+        try firstExplainCommand().execute(options: options)
     }
 
     /**
@@ -1028,20 +1045,18 @@ extension Query: Queryable {
     }
 
     /**
-      Gets an object *asynchronously* and calls the given block with the result.
+     Query plan information for getting an object *asynchronously* and calls the given block with the result.
 
       - warning: This method mutates the query. It will reset the limit to `1`.
-      - parameter explain: Used to toggle the information on the query plan.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Decodable, ParseError>)`.
     */
-    public func first<U: Decodable>(explain: Bool,
-                                    options: API.Options = [],
-                                    callbackQueue: DispatchQueue = .main,
-                                    completion: @escaping (Result<U, ParseError>) -> Void) {
-        firstCommand(explain: explain).executeAsync(options: options) { result in
+    public func firstExplain<U: Decodable>(options: API.Options = [],
+                                           callbackQueue: DispatchQueue = .main,
+                                           completion: @escaping (Result<U, ParseError>) -> Void) {
+        firstExplainCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
             }
@@ -1061,17 +1076,16 @@ extension Query: Queryable {
     }
 
     /**
-      Counts objects *synchronously* based on the constructed query and sets an error if there was one.
+     Query plan information for counting objects *synchronously* based on the
+     constructed query and sets an error if there was one.
 
-      - parameter explain: Used to toggle the information on the query plan.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
 
       - returns: Returns a response of `Decodable` type.
     */
-    public func count<U: Decodable>(explain: Bool,
-                                    options: API.Options = []) throws -> U {
-        try countCommand(explain: explain).execute(options: options)
+    public func countExplain<U: Decodable>(options: API.Options = []) throws -> U {
+        try countExplainCommand().execute(options: options)
     }
 
     /**
@@ -1092,18 +1106,16 @@ extension Query: Queryable {
     }
 
     /**
-      Counts objects *asynchronously* and calls the given block with the counts.
-      - parameter explain: Used to toggle the information on the query plan.
+     Query plan information for counting objects *asynchronously* and calls the given block with the counts.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Decodable, ParseError>)`.
     */
-    public func count<U: Decodable>(explain: Bool,
-                                    options: API.Options = [],
-                                    callbackQueue: DispatchQueue = .main,
-                                    completion: @escaping (Result<U, ParseError>) -> Void) {
-        countCommand(explain: explain).executeAsync(options: options) { result in
+    public func countExplain<U: Decodable>(options: API.Options = [],
+                                           callbackQueue: DispatchQueue = .main,
+                                           completion: @escaping (Result<U, ParseError>) -> Void) {
+        countExplainCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
             }
@@ -1111,7 +1123,7 @@ extension Query: Queryable {
     }
 
     /**
-     Executes an aggregate query *asynchronously* and calls the given.
+     Executes an aggregate query *synchronously* and calls the given.
       - requires: `.useMasterKey` has to be available.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
@@ -1131,17 +1143,18 @@ extension Query: Queryable {
             let whereString = String(data: encoded, encoding: .utf8) else {
             throw ParseError(code: .unknownError, message: "Can't decode where to String.")
         }
-
-        var finishedPipeline = [[String: AnyEncodable]]()
+        var query = self
+        query.`where` = QueryWhere()
 
         if whereString != "{}" {
-            finishedPipeline = [["match": AnyEncodable(whereString)]]
+            var finishedPipeline = [["match": AnyEncodable(whereString)]]
             finishedPipeline.append(contentsOf: updatedPipeline)
+            query.pipeline = finishedPipeline
         } else {
-            finishedPipeline = updatedPipeline
+            query.pipeline = updatedPipeline
         }
 
-        return try aggregateCommand(finishedPipeline)
+        return try query.aggregateCommand()
             .execute(options: options)
     }
 
@@ -1155,7 +1168,7 @@ extension Query: Queryable {
       It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
         - warning: This hasn't been tested thoroughly.
     */
-    public func aggregate(_ pipeline: [[String: AnyEncodable]],
+    public func aggregate(_ pipeline: [[String: Encodable]],
                           options: API.Options = [],
                           callbackQueue: DispatchQueue = .main,
                           completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
@@ -1175,16 +1188,185 @@ extension Query: Queryable {
             return
         }
 
-        var finishedPipeline = [[String: AnyEncodable]]()
+        var query = self
+        query.`where` = QueryWhere()
 
         if whereString != "{}" {
-            finishedPipeline = [["match": AnyEncodable(whereString)]]
+            var finishedPipeline = [["match": AnyEncodable(whereString)]]
             finishedPipeline.append(contentsOf: updatedPipeline)
+            query.pipeline = finishedPipeline
         } else {
-            finishedPipeline = updatedPipeline
+            query.pipeline = updatedPipeline
         }
 
-        aggregateCommand(finishedPipeline)
+        query.aggregateCommand()
+            .executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
+    }
+
+    /**
+     Query plan information for  executing an aggregate query *synchronously* and calls the given.
+      - requires: `.useMasterKey` has to be available.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+      - throws: An error of type `ParseError`.
+      - warning: This hasn't been tested thoroughly.
+      - returns: Returns the `ParseObject`s that match the query.
+    */
+    public func aggregateExplain<U: Decodable>(_ pipeline: [[String: Encodable]],
+                                               options: API.Options = []) throws -> [U] {
+        var options = options
+        options.insert(.useMasterKey)
+
+        var updatedPipeline = [[String: AnyEncodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+
+        guard let encoded = try? ParseCoding.jsonEncoder()
+                .encode(self.`where`),
+            let whereString = String(data: encoded, encoding: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Can't decode where to String.")
+        }
+        var query = self
+        query.`where` = QueryWhere()
+
+        if whereString != "{}" {
+            var finishedPipeline = [["match": AnyEncodable(whereString)]]
+            finishedPipeline.append(contentsOf: updatedPipeline)
+            query.pipeline = finishedPipeline
+        } else {
+            query.pipeline = updatedPipeline
+        }
+
+        return try query.aggregateExplainCommand()
+            .execute(options: options)
+    }
+
+    /**
+     Query plan information for executing an aggregate query *asynchronously* and calls the given.
+        - requires: `.useMasterKey` has to be available.
+        - parameter pipeline: A pipeline of stages to process query.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
+        - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
+        - warning: This hasn't been tested thoroughly.
+    */
+    public func aggregateExplain<U: Decodable>(_ pipeline: [[String: Encodable]],
+                                               options: API.Options = [],
+                                               callbackQueue: DispatchQueue = .main,
+                                               completion: @escaping (Result<[U], ParseError>) -> Void) {
+        var options = options
+        options.insert(.useMasterKey)
+
+        var updatedPipeline = [[String: AnyEncodable]]()
+        pipeline.forEach { updatedPipeline = $0.map { [$0.key: AnyEncodable($0.value)] } }
+
+        guard let encoded = try? ParseCoding.jsonEncoder()
+                .encode(self.`where`),
+            let whereString = String(data: encoded, encoding: .utf8) else {
+            let error = ParseError(code: .unknownError, message: "Can't decode where to String.")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
+
+        var query = self
+        query.`where` = QueryWhere()
+
+        if whereString != "{}" {
+            var finishedPipeline = [["match": AnyEncodable(whereString)]]
+            finishedPipeline.append(contentsOf: updatedPipeline)
+            query.pipeline = finishedPipeline
+        } else {
+            query.pipeline = updatedPipeline
+        }
+
+        query.aggregateExplainCommand()
+            .executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
+    }
+
+    /**
+     Executes an aggregate query *synchronously* and calls the given.
+      - requires: `.useMasterKey` has to be available.
+      - parameter key: A field to find distinct values.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+      - throws: An error of type `ParseError`.
+      - warning: This hasn't been tested thoroughly.
+      - returns: Returns the `ParseObject`s that match the query.
+    */
+    public func distinct(_ key: String,
+                         options: API.Options = []) throws -> [ResultType] {
+        var options = options
+        options.insert(.useMasterKey)
+        return try distinctCommand(key: key)
+            .execute(options: options)
+    }
+
+    /**
+     Executes a distinct query *asynchronously* and returns unique values.
+        - requires: `.useMasterKey` has to be available.
+        - parameter key: A field to find distinct values.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
+        - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
+        - warning: This hasn't been tested thoroughly.
+    */
+    public func distinct(_ key: String,
+                         options: API.Options = [],
+                         callbackQueue: DispatchQueue = .main,
+                         completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
+        var options = options
+        options.insert(.useMasterKey)
+        distinctCommand(key: key)
+            .executeAsync(options: options) { result in
+            callbackQueue.async {
+                completion(result)
+            }
+        }
+    }
+
+    /**
+     Query plan information for executing an aggregate query *synchronously* and calls the given.
+      - requires: `.useMasterKey` has to be available.
+      - parameter key: A field to find distinct values.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+      - throws: An error of type `ParseError`.
+      - warning: This hasn't been tested thoroughly.
+      - returns: Returns the `ParseObject`s that match the query.
+    */
+    public func distinctExplain<U: Decodable>(_ key: String,
+                                              options: API.Options = []) throws -> [U] {
+        var options = options
+        options.insert(.useMasterKey)
+        return try distinctExplainCommand(key: key)
+            .execute(options: options)
+    }
+
+    /**
+     Query plan information for executing a distinct query *asynchronously* and returns unique values.
+        - requires: `.useMasterKey` has to be available.
+        - parameter key: A field to find distinct values.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
+        - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<[Decodable], ParseError>)`.
+        - warning: This hasn't been tested thoroughly.
+    */
+    public func distinctExplain<U: Decodable>(_ key: String,
+                                              options: API.Options = [],
+                                              callbackQueue: DispatchQueue = .main,
+                                              completion: @escaping (Result<[U], ParseError>) -> Void) {
+        var options = options
+        options.insert(.useMasterKey)
+        distinctExplainCommand(key: key)
             .executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -1225,18 +1407,35 @@ extension Query {
         }
     }
 
-    func findCommand<U: Decodable>(explain: Bool) -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+    func aggregateCommand() -> API.NonParseBodyCommand<AggregateBody<ResultType>, [ResultType]> {
+        let query = self
+        let body = AggregateBody(query: query)
+        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
+            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+        }
+    }
+
+    func distinctCommand(key: String) -> API.NonParseBodyCommand<DistinctBody<ResultType>, [ResultType]> {
         var query = self
-        query.explain = explain
+        query.distinct = key
+        let body = DistinctBody(query: query)
+        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
+            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+        }
+    }
+
+    func findExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+        var query = self
+        query.explain = true
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results
         }
     }
 
-    func firstCommand<U: Decodable>(explain: Bool) -> API.NonParseBodyCommand<Query<ResultType>, U> {
+    func firstExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, U> {
         var query = self
         query.limit = 1
-        query.explain = explain
+        query.explain = true
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let decoded: U = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results.first {
                 return decoded
@@ -1246,11 +1445,11 @@ extension Query {
         }
     }
 
-    func countCommand<U: Decodable>(explain: Bool) -> API.NonParseBodyCommand<Query<ResultType>, U> {
+    func countExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, U> {
         var query = self
         query.limit = 1
         query.isCount = true
-        query.explain = explain
+        query.explain = true
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let decoded: U = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results.first {
                 return decoded
@@ -1260,11 +1459,22 @@ extension Query {
         }
     }
 
-    func aggregateCommand(_ pipeline: [[String: AnyEncodable]]) ->
-    API.NonParseBodyCommand<[[String: AnyEncodable]], [ResultType]> {
+    func aggregateExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<AggregateBody<ResultType>, [U]> {
+        var query = self
+        query.explain = true
+        let body = AggregateBody(query: query)
+        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
+            try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
+        }
+    }
 
-        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: pipeline) {
-            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+    func distinctExplainCommand<U: Decodable>(key: String) -> API.NonParseBodyCommand<DistinctBody<ResultType>, [U]> {
+        var query = self
+        query.explain = true
+        query.distinct = key
+        let body = DistinctBody(query: query)
+        return API.NonParseBodyCommand(method: .POST, path: .aggregate(className: T.className), body: body) {
+            try ParseCoding.jsonDecoder().decode(AnyResultsResponse<U>.self, from: $0).results
         }
     }
 }
