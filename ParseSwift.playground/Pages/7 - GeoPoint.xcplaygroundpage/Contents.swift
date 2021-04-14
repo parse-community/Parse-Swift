@@ -199,8 +199,5 @@ query2.find { result in
 let explain: AnyDecodable = try query8.firstExplain()
 print(explain)
 
-let district = try query8.distinct("score")
-print(district)
-
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)
