@@ -80,7 +80,7 @@ public extension ParseFile {
 
     /**
      Deletes the file from the Parse Server. Publishes when complete.
-     - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+     - requires: `.useMasterKey` has to be available.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */

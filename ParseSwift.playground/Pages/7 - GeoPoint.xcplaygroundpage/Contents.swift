@@ -196,7 +196,7 @@ query2.find { result in
 }
 
 //: Explain the previous query.
-let explain: AnyDecodable = try query2.first(explain: true)
+let explain: AnyDecodable = try query8.firstExplain()
 print(explain)
 
 PlaygroundPage.current.finishExecution()

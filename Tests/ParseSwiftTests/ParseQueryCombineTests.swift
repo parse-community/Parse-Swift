@@ -176,7 +176,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         let query = GameScore.query()
 
-        let publisher = query.findPublisher(explain: true)
+        let publisher = query.findExplainPublisher()
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -252,7 +252,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         let query = GameScore.query()
 
-        let publisher = query.firstPublisher(explain: true)
+        let publisher = query.firstExplainPublisher()
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -328,7 +328,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         let query = GameScore.query()
 
-        let publisher = query.countPublisher(explain: true)
+        let publisher = query.countExplainPublisher()
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -365,7 +365,7 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
 
         let query = GameScore.query()
-        let pipeline = [[String: String]]()
+        let pipeline = [[String: AnyEncodable]]()
         let publisher = query.aggregatePublisher(pipeline)
             .sink(receiveCompletion: { result in
 
@@ -381,6 +381,119 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
                 return
             }
             XCTAssert(object.hasSameObjectId(as: scoreOnServer))
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testAggregateExplain() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        let json = AnyResultsResponse(results: [["yolo": "yarr"]])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        let pipeline = [[String: String]]()
+        let publisher = query.aggregateExplainPublisher(pipeline)
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+            }, receiveValue: { (queryResult: [[String: String]]) in
+                XCTAssertEqual(queryResult, json.results)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testDistinct() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        var scoreOnServer = GameScore(score: 10)
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query()
+        let publisher = query.distinctPublisher("hello")
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { found in
+
+            guard let object = found.first else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            XCTAssert(object.hasSameObjectId(as: scoreOnServer))
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testDistinctExplain() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        let json = AnyResultsResponse(results: [["yolo": "yarr"]])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        let publisher = query.distinctExplainPublisher("hello")
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+            }, receiveValue: { (queryResult: [[String: String]]) in
+                XCTAssertEqual(queryResult, json.results)
         })
         publisher.store(in: &subscriptions)
 

@@ -29,17 +29,14 @@ public extension Query {
     }
 
     /**
-     Finds objects *asynchronously* and publishes when complete.
-     - parameter explain: Used to toggle the information on the query plan.
+     Query plan information for finding objects *asynchronously* and publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func findPublisher<U: Decodable>(explain: Bool,
-                                     options: API.Options = []) -> Future<[U], ParseError> {
+    func findExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<[U], ParseError> {
         Future { promise in
-            self.find(explain: explain,
-                      options: options,
-                      completion: promise)
+            self.findExplain(options: options,
+                             completion: promise)
         }
     }
 
@@ -74,17 +71,14 @@ public extension Query {
     }
 
     /**
-     Gets an object *asynchronously* and publishes when complete.
-     - parameter explain: Used to toggle the information on the query plan.
+     Query plan information for getting an object *asynchronously* and publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func firstPublisher<U: Decodable>(explain: Bool,
-                                      options: API.Options = []) -> Future<U, ParseError> {
+    func firstExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<U, ParseError> {
         Future { promise in
-            self.first(explain: explain,
-                       options: options,
-                       completion: promise)
+            self.firstExplain(options: options,
+                              completion: promise)
         }
     }
 
@@ -101,33 +95,79 @@ public extension Query {
     }
 
     /**
-     Count objects *asynchronously* and publishes when complete.
+     Query plan information for counting objects *asynchronously* and publishes when complete.
      - parameter explain: Used to toggle the information on the query plan.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func countPublisher<U: Decodable>(explain: Bool,
-                                      options: API.Options = []) -> Future<U, ParseError> {
+    func countExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<U, ParseError> {
         Future { promise in
-            self.count(explain: explain,
-                       options: options,
-                       completion: promise)
+            self.countExplain(options: options,
+                              completion: promise)
         }
     }
 
     /**
      Executes an aggregate query *asynchronously* and publishes when complete.
-     - requires: `.useMasterKey` has to be available and passed as one of the set of `options`.
+     - requires: `.useMasterKey` has to be available.
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func aggregatePublisher(_ pipeline: AggregateType,
+    func aggregatePublisher(_ pipeline: [[String: Encodable]],
                             options: API.Options = []) -> Future<[ResultType], ParseError> {
         Future { promise in
             self.aggregate(pipeline,
                            options: options,
                            completion: promise)
+        }
+    }
+
+    /**
+     Query plan information for executing an aggregate query *asynchronously* and publishes when complete.
+     - requires: `.useMasterKey` has to be available.
+     - parameter pipeline: A pipeline of stages to process query.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    func aggregateExplainPublisher<U: Decodable>(_ pipeline: [[String: Encodable]],
+                                                 options: API.Options = []) -> Future<[U], ParseError> {
+        Future { promise in
+            self.aggregateExplain(pipeline,
+                           options: options,
+                           completion: promise)
+        }
+    }
+
+    /**
+     Executes a distinct query *asynchronously* and publishes unique values when complete.
+     - requires: `.useMasterKey` has to be available.
+     - parameter key: A field to find distinct values.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    func distinctPublisher(_ key: String,
+                           options: API.Options = []) -> Future<[ResultType], ParseError> {
+        Future { promise in
+            self.distinct(key,
+                          options: options,
+                          completion: promise)
+        }
+    }
+
+    /**
+     Query plan information for executing a distinct query *asynchronously* and publishes unique values when complete.
+     - requires: `.useMasterKey` has to be available.
+     - parameter key: A field to find distinct values.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    func distinctExplainPublisher<U: Decodable>(_ key: String,
+                                                options: API.Options = []) -> Future<[U], ParseError> {
+        Future { promise in
+            self.distinctExplain(key,
+                                 options: options,
+                                 completion: promise)
         }
     }
 }

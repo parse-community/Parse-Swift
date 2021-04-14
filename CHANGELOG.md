@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.4.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.5.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.4.0...1.5.0)
+
+__Improvements__
+- (Breaking Change) Aggregrate takes any Encodable type. Query planning methods are now: findExlpain, firstEplain, countExplain, etc. The distinct query now works. The client will also not throw an error anymore when attempting to delete a File and the masterKey isn't available. The developer will still need to configure the server to delete the file properly ([#122](https://github.com/parse-community/Parse-Swift/pull/122)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.4.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.3.1...1.4.0)
