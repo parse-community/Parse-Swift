@@ -30,7 +30,7 @@ public struct Pointer<T: ParseObject>: Fetchable, Encodable {
     public var className: String
 
     /**
-     Create an Ponter type.
+     Create a Ponter type.
      - parameter target: Object to point to.
      */
     public init(_ target: T) throws {
@@ -39,7 +39,7 @@ public struct Pointer<T: ParseObject>: Fetchable, Encodable {
     }
 
     /**
-     Create an Ponter type.
+     Create a Ponter type.
      - parameter objectId: The id of the object.
      */
     public init(objectId: String) {
