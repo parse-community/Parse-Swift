@@ -6,7 +6,7 @@
 //
 
 // MARK: ParseStorage
-public struct ParseStorage {
+struct ParseStorage {
     public static var shared = ParseStorage()
 
     private var backingStore: ParseKeyValueStore!

@@ -14,18 +14,34 @@ private func getObjectId(target: Objectable) throws -> String {
     return objectId
 }
 
+/// A Pointer referencing a ParseObject.
 public struct Pointer<T: ParseObject>: Fetchable, Encodable {
-    public typealias FetchingType = T
 
     private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
+
+    /**
+    The id of the object.
+    */
     public var objectId: String
+
+    /**
+    The class name of the object.
+    */
     public var className: String
 
+    /**
+     Create an Ponter type.
+     - parameter target: Object to point to.
+     */
     public init(_ target: T) throws {
         self.objectId = try getObjectId(target: target)
         self.className = target.className
     }
 
+    /**
+     Create an Ponter type.
+     - parameter objectId: The id of the object.
+     */
     public init(objectId: String) {
         self.className = T.className
         self.objectId = objectId
@@ -42,8 +58,9 @@ public struct Pointer<T: ParseObject>: Fetchable, Encodable {
     }
 }
 
-extension Pointer {
-    public func fetch(includeKeys: [String]? = nil, options: API.Options = []) throws -> T {
+public extension Pointer {
+    func fetch(includeKeys: [String]? = nil,
+               options: API.Options = []) throws -> T {
         let path = API.Endpoint.object(className: className, objectId: objectId)
         return try API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
@@ -51,8 +68,8 @@ extension Pointer {
         }.execute(options: options)
     }
 
-    public func fetch(options: API.Options = [], callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<T, ParseError>) -> Void) {
+    func fetch(options: API.Options = [], callbackQueue: DispatchQueue = .main,
+               completion: @escaping (Result<T, ParseError>) -> Void) {
         let path = API.Endpoint.object(className: className, objectId: objectId)
         API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
