@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.5.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.0...1.5.1)
+
+__Improvements__
+- Update ParseError to match server and make ParseError documentation public ([#125](https://github.com/parse-community/Parse-Swift/pull/125)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.5.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.4.0...1.5.0)
