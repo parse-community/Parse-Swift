@@ -6,6 +6,11 @@
 //  Copyright © 2020 Parse. All rights reserved.
 //
 
+import Foundation
+#if canImport(Combine)
+import Combine
+#endif
+
 public protocol Fetchable: Decodable {
     associatedtype FetchingType
 
@@ -13,8 +18,8 @@ public protocol Fetchable: Decodable {
     func fetch() throws -> FetchingType
 }
 
-extension Fetchable {
-    public func fetch() throws -> FetchingType {
+public extension Fetchable {
+    func fetch() throws -> FetchingType {
         try fetch(includeKeys: nil, options: [])
     }
 }

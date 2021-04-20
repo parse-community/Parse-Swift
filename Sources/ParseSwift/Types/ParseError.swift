@@ -8,10 +8,14 @@
 
 import Foundation
 
+/*
+ An object with a Parse code and message.
+ */
 public struct ParseError: ParseType, Decodable, Swift.Error {
     public let code: Code
     public let message: String
 
+    /// A textual representation of this error.
     public var localizedDescription: String {
         return "ParseError code=\(code.rawValue) error=\(message)"
     }

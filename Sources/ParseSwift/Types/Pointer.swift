@@ -1,4 +1,7 @@
 import Foundation
+#if canImport(Combine)
+import Combine
+#endif
 
 private func getObjectId<T: ParseObject>(target: T) throws -> String {
     guard let objectId = target.objectId else {
@@ -14,18 +17,34 @@ private func getObjectId(target: Objectable) throws -> String {
     return objectId
 }
 
+/// A Pointer referencing a ParseObject.
 public struct Pointer<T: ParseObject>: Fetchable, Encodable {
-    public typealias FetchingType = T
 
     private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
+
+    /**
+    The id of the object.
+    */
     public var objectId: String
+
+    /**
+    The class name of the object.
+    */
     public var className: String
 
+    /**
+     Create a Pointer type.
+     - parameter target: Object to point to.
+     */
     public init(_ target: T) throws {
         self.objectId = try getObjectId(target: target)
         self.className = target.className
     }
 
+    /**
+     Create a Pointer type.
+     - parameter objectId: The id of the object.
+     */
     public init(objectId: String) {
         self.className = T.className
         self.objectId = objectId
@@ -42,8 +61,18 @@ public struct Pointer<T: ParseObject>: Fetchable, Encodable {
     }
 }
 
-extension Pointer {
-    public func fetch(includeKeys: [String]? = nil, options: API.Options = []) throws -> T {
+public extension Pointer {
+
+    /**
+     Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.
+     - parameter includeKeys: The name(s) of the key(s) to include that are
+     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `includeAll` for `Query`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: An error of `ParseError` type.
+    */
+    func fetch(includeKeys: [String]? = nil,
+               options: API.Options = []) throws -> T {
         let path = API.Endpoint.object(className: className, objectId: objectId)
         return try API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
@@ -51,8 +80,20 @@ extension Pointer {
         }.execute(options: options)
     }
 
-    public func fetch(options: API.Options = [], callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<T, ParseError>) -> Void) {
+    /**
+     Fetches the `ParseObject` *asynchronously* and executes the given callback block.
+     - parameter includeKeys: The name(s) of the key(s) to include. Use `["*"]` to include
+     all keys.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default
+     value of .main.
+     - parameter completion: The block to execute when completed.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+    */
+    func fetch(includeKeys: [String]? = nil,
+               options: API.Options = [],
+               callbackQueue: DispatchQueue = .main,
+               completion: @escaping (Result<T, ParseError>) -> Void) {
         let path = API.Endpoint.object(className: className, objectId: objectId)
         API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
@@ -63,6 +104,27 @@ extension Pointer {
             }
         }
     }
+
+    #if canImport(Combine)
+    /**
+     Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
+     Publishes when complete.
+     - parameter includeKeys: The name(s) of the key(s) to include that are
+     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
+     `includeAll` for `Query`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+    func fetchPublisher(includeKeys: [String]? = nil,
+                        options: API.Options = []) -> Future<T, ParseError> {
+        Future { promise in
+            self.fetch(includeKeys: includeKeys,
+                       options: options,
+                       completion: promise)
+        }
+    }
+    #endif
 }
 
 internal struct PointerType: Encodable {

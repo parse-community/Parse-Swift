@@ -6,7 +6,6 @@
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
 
-#if canImport(XCTest)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -59,6 +58,20 @@ class ParsePointerTests: XCTestCase {
         XCTAssertEqual(pointer.objectId, score.objectId)
         XCTAssertEqual(pointer.className, initializedPointer.className)
         XCTAssertEqual(pointer.objectId, initializedPointer.objectId)
+    }
+
+    func testPointerNoObjectId() throws {
+        let score = GameScore(score: 10)
+        XCTAssertThrowsError(try Pointer(score))
+    }
+
+    func testPointerObjectId() throws {
+        let score = Pointer<GameScore>(objectId: "yarr")
+        var score2 = GameScore(score: 10)
+        score2.objectId = "yarr"
+        let pointer = try score2.toPointer()
+        XCTAssertEqual(pointer.className, score.className)
+        XCTAssertEqual(pointer.objectId, score.objectId)
     }
 
     // swiftlint:disable:next function_body_length
@@ -243,4 +256,3 @@ class ParsePointerTests: XCTestCase {
         self.fetchAsync(score: pointer, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 }
-#endif
