@@ -60,6 +60,20 @@ class ParsePointerTests: XCTestCase {
         XCTAssertEqual(pointer.objectId, initializedPointer.objectId)
     }
 
+    func testPointerNoObjectId() throws {
+        let score = GameScore(score: 10)
+        XCTAssertThrowsError(try Pointer(score))
+    }
+
+    func testPointerObjectId() throws {
+        let score = Pointer<GameScore>(objectId: "yarr")
+        var score2 = GameScore(score: 10)
+        score2.objectId = "yarr"
+        let pointer = try score2.toPointer()
+        XCTAssertEqual(pointer.className, score.className)
+        XCTAssertEqual(pointer.objectId, score.objectId)
+    }
+
     // swiftlint:disable:next function_body_length
     func testFetch() throws {
         var score = GameScore(score: 10)
