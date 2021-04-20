@@ -298,6 +298,9 @@
 		70DFEA8A2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */; };
 		70DFEA8B2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */; };
 		70DFEA8C2618E77800F8EB4B /* InitializeSDKTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */; };
+		70E09E1C262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E09E1B262F0634002DD451 /* ParsePointerCombineTests.swift */; };
+		70E09E1D262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E09E1B262F0634002DD451 /* ParsePointerCombineTests.swift */; };
+		70E09E1E262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70E09E1B262F0634002DD451 /* ParsePointerCombineTests.swift */; };
 		70F2E255254F247000B2EA5C /* ParseSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4AFDA7121F26D9A5002AE4FC /* ParseSwift.framework */; };
 		70F2E2B3254F283000B2EA5C /* ParseUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C7DC1D24D20E530050419B /* ParseUserTests.swift */; };
 		70F2E2B4254F283000B2EA5C /* ParseQueryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70C7DC1F24D20F180050419B /* ParseQueryTests.swift */; };
@@ -636,6 +639,7 @@
 		70D1BE0625BB2BF400A42E7C /* ParseConfigTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseConfigTests.swift; sourceTree = "<group>"; };
 		70D1BE7225BB43EB00A42E7C /* BaseConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseConfig.swift; sourceTree = "<group>"; };
 		70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitializeSDKTests.swift; sourceTree = "<group>"; };
+		70E09E1B262F0634002DD451 /* ParsePointerCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParsePointerCombineTests.swift; sourceTree = "<group>"; };
 		70F2E23E254F246000B2EA5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70F2E250254F247000B2EA5C /* ParseSwiftTestsmacOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParseSwiftTestsmacOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70F2E254254F247000B2EA5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -844,6 +848,7 @@
 				7044C1EB25C5CC930011F6E7 /* ParseOperationCombineTests.swift */,
 				70C5508425B4A68700B5DBC2 /* ParseOperationTests.swift */,
 				70CE1D882545BF730018D572 /* ParsePointerTests.swift */,
+				70E09E1B262F0634002DD451 /* ParsePointerCombineTests.swift */,
 				7044C20525C5D6780011F6E7 /* ParseQueryCombineTests.swift */,
 				70C7DC1F24D20F180050419B /* ParseQueryTests.swift */,
 				70D1BD8625B8C37200A42E7C /* ParseRelationTests.swift */,
@@ -1665,6 +1670,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				911DB13624C4FC100027F3C7 /* ParseObjectTests.swift in Sources */,
+				70E09E1C262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */,
 				89899D592603CF3E002E2043 /* ParseTwitterTests.swift in Sources */,
 				70CE1D892545BF730018D572 /* ParsePointerTests.swift in Sources */,
 				89899D772603CF66002E2043 /* ParseFacebookTests.swift in Sources */,
@@ -1817,6 +1823,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				709B98512556ECAA00507778 /* ParseEncoderTests.swift in Sources */,
+				70E09E1E262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */,
 				89899D642603CF3F002E2043 /* ParseTwitterTests.swift in Sources */,
 				709B98532556ECAA00507778 /* ParsePointerTests.swift in Sources */,
 				89899D822603CF67002E2043 /* ParseFacebookTests.swift in Sources */,
@@ -1872,6 +1879,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				70F2E2B6254F283000B2EA5C /* ParseACLTests.swift in Sources */,
+				70E09E1D262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */,
 				89899D632603CF3E002E2043 /* ParseTwitterTests.swift in Sources */,
 				70F2E2B7254F283000B2EA5C /* ParsePointerTests.swift in Sources */,
 				89899D812603CF67002E2043 /* ParseFacebookTests.swift in Sources */,

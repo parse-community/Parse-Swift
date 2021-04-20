@@ -6,7 +6,6 @@
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
 
-#if canImport(XCTest)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -243,4 +242,3 @@ class ParsePointerTests: XCTestCase {
         self.fetchAsync(score: pointer, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 }
-#endif
