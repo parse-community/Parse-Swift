@@ -233,14 +233,14 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Fetchable.swift",
-      "line": 9,
+      "line": 14,
       "symbol": "Fetchable",
       "symbol_kind": "source.lang.swift.decl.protocol",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Fetchable.swift",
-      "line": 16,
+      "line": 21,
       "symbol": "Fetchable",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
@@ -303,13 +303,6 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Storage/ParseStorage.swift",
-      "line": 9,
-      "symbol": "ParseStorage",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Storage/ParseStorage.swift",
       "line": 34,
       "symbol": "ParseStorage",
       "symbol_kind": "source.lang.swift.decl.extension",
@@ -352,14 +345,14 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/ParseError.swift",
-      "line": 11,
+      "line": 14,
       "symbol": "ParseError",
       "symbol_kind": "source.lang.swift.decl.struct",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/ParseError.swift",
-      "line": 280,
+      "line": 353,
       "symbol": "ParseError",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
@@ -369,20 +362,6 @@
       "line": 21,
       "symbol": "ParseFile.localId",
       "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Pointer.swift",
-      "line": 17,
-      "symbol": "Pointer",
-      "symbol_kind": "source.lang.swift.decl.struct",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Pointer.swift",
-      "line": 45,
-      "symbol": "Pointer",
-      "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
