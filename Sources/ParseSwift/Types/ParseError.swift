@@ -8,7 +8,7 @@
 
 import Foundation
 
-/*
+/**
  An object with a Parse code and message.
  */
 public struct ParseError: ParseType, Decodable, Swift.Error {
