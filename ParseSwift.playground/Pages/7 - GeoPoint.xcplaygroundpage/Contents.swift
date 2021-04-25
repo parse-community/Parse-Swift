@@ -195,9 +195,11 @@ query2.find { result in
     }
 }
 
-//: Explain the previous query.
-let explain: AnyDecodable = try query8.firstExplain()
-print(explain)
+/*: Explain the previous query. Read the documentation note on `explain`
+ queries and use a type-erased wrapper such as AnyCodable.
+ */
+//let explain: AnyDecodable = try query8.firstExplain()
+//print(explain)
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

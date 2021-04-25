@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.6.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.6.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.1...1.6.0)
+
+__Improvements__
+- Make AnyCodable internal. If developers want to use AnyCodable, AnyEncodable, or AnyDecodable for `explain` or `ParseCloud`, they should add the [AnyCodable](https://github.com/Flight-School/AnyCodable) package to their app. In addition developers can create their own type-erased wrappers or use whatever they desire  ([#127](https://github.com/parse-community/Parse-Swift/pull/127)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.5.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.0...1.5.1)
