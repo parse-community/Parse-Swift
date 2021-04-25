@@ -15,11 +15,11 @@ import Foundation
 
  Source: https://github.com/Flight-School/AnyCodable
  */
-public struct AnyCodable: Codable {
+struct AnyCodable: Codable {
 
-    public let value: Any
+    let value: Any
 
-    public init<T>(_ value: T?) {
+    init<T>(_ value: T?) {
         self.value = value ?? ()
     }
 }
@@ -27,7 +27,7 @@ public struct AnyCodable: Codable {
 extension AnyCodable: _AnyEncodable, _AnyDecodable {}
 
 extension AnyCodable: Equatable {
-    public static func == (lhs: AnyCodable, rhs: AnyCodable) -> Bool { // swiftlint:disable:this cyclomatic_complexity line_length
+    static func == (lhs: AnyCodable, rhs: AnyCodable) -> Bool { // swiftlint:disable:this cyclomatic_complexity line_length
         switch (lhs.value, rhs.value) {
         case is (Void, Void):
             return true
@@ -70,7 +70,7 @@ extension AnyCodable: Equatable {
 }
 
 extension AnyCodable: CustomStringConvertible {
-    public var description: String {
+    var description: String {
         switch value {
         case is Void:
             return String(describing: nil as Any?)
@@ -83,7 +83,7 @@ extension AnyCodable: CustomStringConvertible {
 }
 
 extension AnyCodable: CustomDebugStringConvertible {
-    public var debugDescription: String {
+    var debugDescription: String {
         switch value {
         case let value as CustomDebugStringConvertible:
             return "AnyCodable(\(value.debugDescription))"
