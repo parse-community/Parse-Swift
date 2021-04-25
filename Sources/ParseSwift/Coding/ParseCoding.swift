@@ -32,7 +32,7 @@ extension ParseCoding {
     }
 
     /// The Parse Encoder is used to JSON encode all `ParseObject`s and
-    /// types in a way meaninful for the Parse Server to consume.
+    /// types in a way meaninful for a Parse Server to consume.
     static func parseEncoder() -> ParseEncoder {
         ParseEncoder(
             dateEncodingStrategy: parseDateEncodingStrategy

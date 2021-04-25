@@ -8,7 +8,7 @@
 
 import Foundation
 
-/// The REST API for communicating with the Parse Server.
+/// The REST API for communicating with a Parse Server.
 public struct API {
 
     internal enum Method: String, Encodable {
