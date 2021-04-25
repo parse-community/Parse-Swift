@@ -596,7 +596,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
       - parameter key: The key to order by.
     */
     public enum Order: Encodable, Equatable {
+        /// Sort in ascending order based on `key`.
         case ascending(String)
+        /// Sort in descending order based on `key`.
         case descending(String)
 
         public func encode(to encoder: Encoder) throws {
