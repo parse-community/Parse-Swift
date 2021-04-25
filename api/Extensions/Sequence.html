@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.5.1 Docs
+          ParseSwift 1.6.0 Docs
         </a>
-         (91% documented)
+         (92% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -220,15 +220,6 @@
                 <a class="nav-group-task-link" href="../Structs/API/Option.html">– Option</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/AnyCodable.html">AnyCodable</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/AnyDecodable.html">AnyDecodable</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/AnyEncodable.html">AnyEncodable</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseACL.html">ParseACL</a>
               </li>
               <li class="nav-group-task">
@@ -242,6 +233,12 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseConfiguration.html">ParseConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseError.html">ParseError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseError/Code.html">– Code</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseFacebook.html">ParseFacebook</a>
@@ -341,7 +338,7 @@ an error if one occurs. Publishes when complete.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetchAllPublisher</span><span class="p">(</span><span class="nv">includeKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -418,7 +415,7 @@ the transactions can fail.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                       <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -508,7 +505,7 @@ the transactions can fail.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deleteAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -581,7 +578,7 @@ prevents the transaction from completing, then none of the objects are committed
                         <p>Saves a collection of installations <em>synchronously</em> all at once and throws an error if necessary.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p><code>ParseError</code></p>
+    <p><code><a href="../Structs/ParseError.html">ParseError</a></code></p>
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -602,7 +599,7 @@ the transactions can fail.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this function_body_length</span>
              <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-             <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+             <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
                       </div>
@@ -654,7 +651,7 @@ prevents the transaction from completing, then none of the objects are committed
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Returns a Result enum with the object if a save was successful or a <code>ParseError</code> if it failed.</p>
+                        <p>Returns a Result enum with the object if a save was successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
                       </div>
                     </section>
                   </div>
@@ -695,7 +692,7 @@ the transactions can fail.
     <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -790,7 +787,7 @@ It should have the following argument signature: <code>(Result&lt;[(Result&lt;El
                         <p>Fetches a collection of installations <em>synchronously</em> all at once and throws an error if necessary.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p><code>ParseError</code></p>
+    <p><code><a href="../Structs/ParseError.html">ParseError</a></code></p>
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -809,7 +806,7 @@ any particular order.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetchAll</span><span class="p">(</span><span class="nv">includeKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
                       </div>
@@ -848,7 +845,7 @@ any particular order.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Returns a Result enum with the object if a fetch was successful or a <code>ParseError</code> if it failed.</p>
+                        <p>Returns a Result enum with the object if a fetch was successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
                       </div>
                     </section>
                   </div>
@@ -887,7 +884,7 @@ any particular order.
     <span class="nv">includeKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -969,7 +966,7 @@ It should have the following argument signature: <code>(Result&lt;[(Result&lt;El
                         <p>Deletes a collection of installations <em>synchronously</em> all at once and throws an error if necessary.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p><code>ParseError</code></p>
+    <p><code><a href="../Structs/ParseError.html">ParseError</a></code></p>
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -990,7 +987,7 @@ the transactions can fail.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deleteAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-               <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+               <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
                       </div>
@@ -1042,10 +1039,10 @@ prevents the transaction from completing, then none of the objects are committed
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Returns <code>nil</code> if the delete successful or a <code>ParseError</code> if it failed.</p>
+                        <p>Returns <code>nil</code> if the delete successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
 
 <ol>
-<li>A <code>ParseError.Code.aggregateError</code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
+<li>A <code><a href="../Structs/ParseError/Code.html#/s:10ParseSwift0A5ErrorV4CodeO09aggregateC0yA2EmF">ParseError.Code.aggregateError</a></code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
 array of other Parse.Error objects. Each error object in this array
 has an &ldquo;object&rdquo; property that references the object that could not be
 deleted (for instance, because that object could not be found).</li>
@@ -1073,7 +1070,7 @@ instance, a connection failure in the middle of the delete).</li>
                         <p>Deletes a collection of installations all at once <em>asynchronously</em> and executes the completion block when done.</p>
 
 <ul>
-<li>A <code>ParseError.Code.aggregateError</code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
+<li>A <code><a href="../Structs/ParseError/Code.html#/s:10ParseSwift0A5ErrorV4CodeO09aggregateC0yA2EmF">ParseError.Code.aggregateError</a></code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
 array of other Parse.Error objects. Each error object in this array
 has an &ldquo;object&rdquo; property that references the object that could not be
 deleted (for instance, because that object could not be found).</li>
@@ -1102,7 +1099,7 @@ the transactions can fail.
     <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -1172,7 +1169,7 @@ prevents the transaction from completing, then none of the objects are committed
                                 <div>
                                   <p>The block to execute.
 It should have the following argument signature: <code>(Result&lt;[ParseError?], ParseError&gt;)</code>.
-Each element in the array is either <code>nil</code> if the delete successful or a <code>ParseError</code> if it failed.</p>
+Each element in the array is either <code>nil</code> if the delete successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1222,7 +1219,7 @@ an error if one occurs. Publishes when complete.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetchAllPublisher</span><span class="p">(</span><span class="nv">includeKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1299,7 +1296,7 @@ the transactions can fail.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                       <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1389,7 +1386,7 @@ the transactions can fail.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deleteAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1462,7 +1459,7 @@ prevents the transaction from completing, then none of the objects are committed
                         <p>Saves a collection of objects <em>synchronously</em> all at once and throws an error if necessary.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p><code>ParseError</code></p>
+    <p><code><a href="../Structs/ParseError.html">ParseError</a></code></p>
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -1479,7 +1476,7 @@ the transactions can fail.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this function_body_length</span>
              <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-             <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+             <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
                       </div>
@@ -1531,7 +1528,7 @@ prevents the transaction from completing, then none of the objects are committed
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Returns a Result enum with the object if a save was successful or a <code>ParseError</code> if it failed.</p>
+                        <p>Returns a Result enum with the object if a save was successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
                       </div>
                     </section>
                   </div>
@@ -1568,7 +1565,7 @@ the transactions can fail.
     <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -1663,7 +1660,7 @@ It should have the following argument signature: <code>(Result&lt;[(Result&lt;El
                         <p>Fetches a collection of objects <em>synchronously</em> all at once and throws an error if necessary.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p><code>ParseError</code></p>
+    <p><code><a href="../Structs/ParseError.html">ParseError</a></code></p>
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -1678,7 +1675,7 @@ any particular order.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetchAll</span><span class="p">(</span><span class="nv">includeKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
                       </div>
@@ -1717,7 +1714,7 @@ any particular order.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Returns a Result enum with the object if a fetch was successful or a <code>ParseError</code> if it failed.</p>
+                        <p>Returns a Result enum with the object if a fetch was successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
                       </div>
                     </section>
                   </div>
@@ -1752,7 +1749,7 @@ any particular order.
     <span class="nv">includeKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -1834,7 +1831,7 @@ It should have the following argument signature: <code>(Result&lt;[(Result&lt;El
                         <p>Deletes a collection of objects <em>synchronously</em> all at once and throws an error if necessary.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p><code>ParseError</code></p>
+    <p><code><a href="../Structs/ParseError.html">ParseError</a></code></p>
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -1851,7 +1848,7 @@ the transactions can fail.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deleteAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-               <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+               <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
                       </div>
@@ -1903,10 +1900,10 @@ prevents the transaction from completing, then none of the objects are committed
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Returns <code>nil</code> if the delete successful or a <code>ParseError</code> if it failed.</p>
+                        <p>Returns <code>nil</code> if the delete successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
 
 <ol>
-<li>A <code>ParseError.Code.aggregateError</code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
+<li>A <code><a href="../Structs/ParseError/Code.html#/s:10ParseSwift0A5ErrorV4CodeO09aggregateC0yA2EmF">ParseError.Code.aggregateError</a></code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
 array of other Parse.Error objects. Each error object in this array
 has an &ldquo;object&rdquo; property that references the object that could not be
 deleted (for instance, because that object could not be found).</li>
@@ -1934,7 +1931,7 @@ instance, a connection failure in the middle of the delete).</li>
                         <p>Deletes a collection of objects all at once <em>asynchronously</em> and executes the completion block when done.</p>
 
 <ul>
-<li>A <code>ParseError.Code.aggregateError</code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
+<li>A <code><a href="../Structs/ParseError/Code.html#/s:10ParseSwift0A5ErrorV4CodeO09aggregateC0yA2EmF">ParseError.Code.aggregateError</a></code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
 array of other Parse.Error objects. Each error object in this array
 has an &ldquo;object&rdquo; property that references the object that could not be
 deleted (for instance, because that object could not be found).</li>
@@ -1959,7 +1956,7 @@ the transactions can fail.
     <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -2029,7 +2026,7 @@ prevents the transaction from completing, then none of the objects are committed
                                 <div>
                                   <p>The block to execute.
 It should have the following argument signature: <code>(Result&lt;[ParseError?], ParseError&gt;)</code>.
-Each element in the array is <code>nil</code> if the delete successful or a <code>ParseError</code> if it failed.</p>
+Each element in the array is <code>nil</code> if the delete successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2079,7 +2076,7 @@ an error if one occurs. Publishes when complete.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetchAllPublisher</span><span class="p">(</span><span class="nv">includeKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2156,7 +2153,7 @@ the transactions can fail.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                       <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2246,7 +2243,7 @@ the transactions can fail.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deleteAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                         <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2319,7 +2316,7 @@ prevents the transaction from completing, then none of the objects are committed
                         <p>Saves a collection of users <em>synchronously</em> all at once and throws an error if necessary.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p><code>ParseError</code></p>
+    <p><code><a href="../Structs/ParseError.html">ParseError</a></code></p>
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -2340,7 +2337,7 @@ the transactions can fail.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">saveAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this function_body_length</span>
              <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-             <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+             <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
                       </div>
@@ -2392,7 +2389,7 @@ prevents the transaction from completing, then none of the objects are committed
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Returns a Result enum with the object if a save was successful or a <code>ParseError</code> if it failed.</p>
+                        <p>Returns a Result enum with the object if a save was successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
                       </div>
                     </section>
                   </div>
@@ -2433,7 +2430,7 @@ the transactions can fail.
     <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -2528,7 +2525,7 @@ It should have the following argument signature: <code>(Result&lt;[(Result&lt;El
                         <p>Fetches a collection of users <em>synchronously</em> all at once and throws an error if necessary.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p><code>ParseError</code></p>
+    <p><code><a href="../Structs/ParseError.html">ParseError</a></code></p>
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -2547,7 +2544,7 @@ any particular order.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">fetchAll</span><span class="p">(</span><span class="nv">includeKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
                       </div>
@@ -2586,7 +2583,7 @@ any particular order.</p>
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Returns a Result enum with the object if a fetch was successful or a <code>ParseError</code> if it failed.</p>
+                        <p>Returns a Result enum with the object if a fetch was successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
                       </div>
                     </section>
                   </div>
@@ -2625,7 +2622,7 @@ any particular order.
     <span class="nv">includeKeys</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -2707,7 +2704,7 @@ It should have the following argument signature: <code>(Result&lt;[(Result&lt;El
                         <p>Deletes a collection of users <em>synchronously</em> all at once and throws an error if necessary.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p><code>ParseError</code></p>
+    <p><code><a href="../Structs/ParseError.html">ParseError</a></code></p>
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -2728,7 +2725,7 @@ the transactions can fail.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">deleteAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-               <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+               <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
 
                         </div>
                       </div>
@@ -2780,10 +2777,10 @@ prevents the transaction from completing, then none of the objects are committed
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>Returns <code>nil</code> if the delete successful or a <code>ParseError</code> if it failed.</p>
+                        <p>Returns <code>nil</code> if the delete successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
 
 <ol>
-<li>A <code>ParseError.Code.aggregateError</code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
+<li>A <code><a href="../Structs/ParseError/Code.html#/s:10ParseSwift0A5ErrorV4CodeO09aggregateC0yA2EmF">ParseError.Code.aggregateError</a></code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
 array of other Parse.Error objects. Each error object in this array
 has an &ldquo;object&rdquo; property that references the object that could not be
 deleted (for instance, because that object could not be found).</li>
@@ -2811,7 +2808,7 @@ instance, a connection failure in the middle of the delete).</li>
                         <p>Deletes a collection of users all at once <em>asynchronously</em> and executes the completion block when done.</p>
 
 <ul>
-<li>A <code>ParseError.Code.aggregateError</code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
+<li>A <code><a href="../Structs/ParseError/Code.html#/s:10ParseSwift0A5ErrorV4CodeO09aggregateC0yA2EmF">ParseError.Code.aggregateError</a></code>. This object&rsquo;s &ldquo;errors&rdquo; property is an
 array of other Parse.Error objects. Each error object in this array
 has an &ldquo;object&rdquo; property that references the object that could not be
 deleted (for instance, because that object could not be found).</li>
@@ -2840,7 +2837,7 @@ the transactions can fail.
     <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
 <span class="p">)</span></code></pre>
 
                         </div>
@@ -2910,7 +2907,7 @@ prevents the transaction from completing, then none of the objects are committed
                                 <div>
                                   <p>The block to execute.
 It should have the following argument signature: <code>(Result&lt;[ParseError?], ParseError&gt;)</code>.
-Each element in the array is <code>nil</code> if the delete successful or a <code>ParseError</code> if it failed.</p>
+Each element in the array is <code>nil</code> if the delete successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2928,7 +2925,7 @@ Each element in the array is <code>nil</code> if the delete successful or a <cod
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-04-23)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-04-25)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>

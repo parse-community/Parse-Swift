@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.5.1 Docs
+          ParseSwift 1.6.0 Docs
         </a>
-         (91% documented)
+         (92% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -220,15 +220,6 @@
                 <a class="nav-group-task-link" href="../Structs/API/Option.html">– Option</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/AnyCodable.html">AnyCodable</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/AnyDecodable.html">AnyDecodable</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Structs/AnyEncodable.html">AnyEncodable</a>
-              </li>
-              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseACL.html">ParseACL</a>
               </li>
               <li class="nav-group-task">
@@ -242,6 +233,12 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseConfiguration.html">ParseConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseError.html">ParseError</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseError/Code.html">– Code</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseFacebook.html">ParseFacebook</a>
@@ -1856,7 +1853,7 @@ Upon completing the registration, the subscribe handler will be called with the 
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">findPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">findPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1900,13 +1897,21 @@ Upon completing the registration, the subscribe handler will be called with the 
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Query plan information for finding objects <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">findExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">findExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
 
                         </div>
                       </div>
@@ -1964,7 +1969,7 @@ order, and may not use limit or skip.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">findAllPublisher</span><span class="p">(</span><span class="nv">batchLimit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
-                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2026,7 +2031,7 @@ order, and may not use limit or skip.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">firstPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">firstPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2070,13 +2075,21 @@ order, and may not use limit or skip.
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Query plan information for getting an object <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">firstExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">firstExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
 
                         </div>
                       </div>
@@ -2126,7 +2139,7 @@ order, and may not use limit or skip.
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">countPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">countPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2170,13 +2183,21 @@ order, and may not use limit or skip.
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Query plan information for counting objects <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">countExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">countExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
 
                         </div>
                       </div>
@@ -2244,7 +2265,7 @@ order, and may not use limit or skip.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">aggregatePublisher</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">]],</span>
-                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2304,6 +2325,13 @@ order, and may not use limit or skip.
     <p class="aside-title">Requires</p>
     <code>.useMasterKey</code> has to be available.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
 </div>
 
                       </div>
@@ -2312,7 +2340,7 @@ order, and may not use limit or skip.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">aggregateExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">]],</span>
-                                             <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                                             <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2380,7 +2408,7 @@ order, and may not use limit or skip.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">distinctPublisher</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2440,6 +2468,13 @@ order, and may not use limit or skip.
     <p class="aside-title">Requires</p>
     <code>.useMasterKey</code> has to be available.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
 </div>
 
                       </div>
@@ -2448,7 +2483,7 @@ order, and may not use limit or skip.
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">distinctExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                                            <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span></code></pre>
+                                            <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2519,7 +2554,7 @@ order, and may not use limit or skip.
                         <p>Finds objects <em>synchronously</em> based on the constructed query and sets an error if there was one.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p>An error of type <code>ParseError</code>.</p>
+    <p>An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.</p>
 
 </div>
 
@@ -2573,9 +2608,16 @@ order, and may not use limit or skip.
                       <div class="abstract">
                         <p>Query plan information for finding objects <em>synchronously</em> based on the constructed query and
   sets an error if there was one.</p>
-<div class="aside aside-throws">
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
+</div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p>An error of type <code>ParseError</code>.</p>
+    <p>An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.</p>
 
 </div>
 
@@ -2636,7 +2678,7 @@ order, and may not use limit or skip.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">find</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                  <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                 <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                 <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2701,6 +2743,14 @@ It should have the following argument signature: <code>(Result&lt;[ResultType], 
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Query plan information for finding objects <em>asynchronously</em> and calls the given block with the results.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -2709,7 +2759,7 @@ It should have the following argument signature: <code>(Result&lt;[ResultType], 
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">findExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                       <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                                      <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                                      <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2783,7 +2833,7 @@ It should have the following argument signature: <code>(Result&lt;[Decodable], P
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">findAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
                     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -2874,7 +2924,7 @@ order, and may not use limit or skip.
 
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p>An error of type <code>ParseError</code>.</p>
+    <p>An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.</p>
 
 </div>
 
@@ -2932,9 +2982,16 @@ constructed query and sets an error if any occurred.</p>
     <p class="aside-title">Warning</p>
     This method mutates the query. It will reset the limit to <code>1</code>.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p>An error of type <code>ParseError</code>.</p>
+    <p>An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.</p>
 
 </div>
 
@@ -3000,7 +3057,7 @@ constructed query and sets an error if any occurred.</p>
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">first</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                   <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                  <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                  <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">ResultType</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -3069,6 +3126,13 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
     <p class="aside-title">Warning</p>
     This method mutates the query. It will reset the limit to <code>1</code>.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
 </div>
 
                       </div>
@@ -3078,7 +3142,7 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">firstExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                        <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                                       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                                       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -3145,7 +3209,7 @@ It should have the following argument signature: <code>(Result&lt;Decodable, Par
                         <p>Counts objects <em>synchronously</em> based on the constructed query and sets an error if there was one.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p>An error of type <code>ParseError</code>.</p>
+    <p>An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.</p>
 
 </div>
 
@@ -3199,9 +3263,16 @@ It should have the following argument signature: <code>(Result&lt;Decodable, Par
                       <div class="abstract">
                         <p>Query plan information for counting objects <em>synchronously</em> based on the
 constructed query and sets an error if there was one.</p>
-<div class="aside aside-throws">
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
+</div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p>An error of type <code>ParseError</code>.</p>
+    <p>An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.</p>
 
 </div>
 
@@ -3261,7 +3332,7 @@ constructed query and sets an error if there was one.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                  <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                  <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -3326,6 +3397,14 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Query plan information for counting objects <em>asynchronously</em> and calls the given block with the counts.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -3334,7 +3413,7 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">countExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                        <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                                       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                                       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -3405,7 +3484,7 @@ It should have the following argument signature: <code>(Result&lt;Decodable, Par
 
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code>ParseError</code>.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -3481,7 +3560,7 @@ It should have the following argument signature: <code>(Result&lt;Decodable, Par
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">aggregate</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">]],</span>
                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                       <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                      <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                      <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -3562,9 +3641,16 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
     <p class="aside-title">Requires</p>
     <code>.useMasterKey</code> has to be available.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code>ParseError</code>.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -3626,6 +3712,13 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
     <p class="aside-title">Requires</p>
     <code>.useMasterKey</code> has to be available.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     This hasn&rsquo;t been tested thoroughly.
@@ -3640,7 +3733,7 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">aggregateExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">]],</span>
                                            <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                            <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                                           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                                           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -3723,7 +3816,7 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
 
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code>ParseError</code>.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -3811,7 +3904,7 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">distinct</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                      <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -3892,9 +3985,16 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
     <p class="aside-title">Requires</p>
     <code>.useMasterKey</code> has to be available.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code>ParseError</code>.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -3968,6 +4068,13 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
     <p class="aside-title">Requires</p>
     <code>.useMasterKey</code> has to be available.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     This hasn&rsquo;t been tested thoroughly.
@@ -3982,7 +4089,7 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">distinctExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
                                           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                                          <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt">ParseError</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                                          <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -4053,7 +4160,7 @@ It should have the following argument signature: <code>(Result&lt;[Decodable], P
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-04-23)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-04-25)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
