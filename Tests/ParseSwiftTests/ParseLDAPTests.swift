@@ -22,6 +22,7 @@ class ParseLDAPTests: XCTestCase {
         // provided by User
         var username: String?
         var email: String?
+        var emailVerified: Bool?
         var password: String?
         var authData: [String: [String: String]?]?
     }
@@ -37,6 +38,7 @@ class ParseLDAPTests: XCTestCase {
         // provided by User
         var username: String?
         var email: String?
+        var emailVerified: Bool?
         var password: String?
         var authData: [String: [String: String]?]?
 

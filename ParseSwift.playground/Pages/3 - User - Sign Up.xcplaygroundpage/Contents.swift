@@ -23,6 +23,7 @@ struct User: ParseUser {
     //: These are required for `ParseUser`.
     var username: String?
     var email: String?
+    var emailVerified: Bool?
     var password: String?
     var authData: [String: [String: String]?]?
 

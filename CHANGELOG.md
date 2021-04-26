@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.6.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.7.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.6.0...1.7.0)
+
+__Improvements__
+- Add emailVerified to ParseUser. Make relative query take a QueryConstraint as an argument. Add more documentation ([#129](https://github.com/parse-community/Parse-Swift/pull/129)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.6.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.1...1.6.0)

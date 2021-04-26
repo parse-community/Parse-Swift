@@ -40,6 +40,7 @@ class ParseRoleTests: XCTestCase {
         // provided by User
         var username: String?
         var email: String?
+        var emailVerified: Bool?
         var password: String?
         var authData: [String: [String: String]?]?
 

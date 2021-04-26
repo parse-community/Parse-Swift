@@ -27,6 +27,7 @@ class ParseAnonymousCombineTests: XCTestCase { // swiftlint:disable:this type_bo
         // provided by User
         var username: String?
         var email: String?
+        var emailVerified: Bool?
         var password: String?
         var authData: [String: [String: String]?]?
     }
@@ -42,6 +43,7 @@ class ParseAnonymousCombineTests: XCTestCase { // swiftlint:disable:this type_bo
         // provided by User
         var username: String?
         var email: String?
+        var emailVerified: Bool?
         var password: String?
         var authData: [String: [String: String]?]?
 

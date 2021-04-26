@@ -23,7 +23,9 @@ public struct ParseACL: ParseType, Decodable, Equatable, Hashable {
      An enum specifying read and write access controls.
     */
     public enum Access: String, Codable, CodingKey {
+        /// Read access control.
         case read
+        /// Write access control.
         case write
 
         public init(from decoder: Decoder) throws {

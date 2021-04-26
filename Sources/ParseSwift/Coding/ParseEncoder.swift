@@ -49,23 +49,30 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
 // swiftlint:disable cyclomatic_complexity
 
 // MARK: ParseEncoder
+/// An object that encodes Parse instances of a data type as JSON objects.
 public struct ParseEncoder {
     let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy?
 
-    public enum SkippedKeys {
+    /// Keys to skip during encoding.
+    public enum SkipKeys {
+        /// Skip keys for `ParseObject`'s.
         case object
+        /// Skip keys for `ParseCloud` functions or jobs.
         case cloud
+        /// Do not skip any keys.
         case none
+        /// Skip keys for `ParseObject`'s when using custom `objectId`'s.
         case customObjectId
+        /// Specify a custom set of keys to skip.
         case custom(Set<String>)
 
         func keys() -> Set<String> {
             switch self {
 
             case .object:
-                return Set(["createdAt", "updatedAt", "objectId", "className"])
+                return Set(["createdAt", "updatedAt", "objectId", "className", "emailVerified"])
             case .customObjectId:
-                return Set(["createdAt", "updatedAt", "className"])
+                return Set(["createdAt", "updatedAt", "className", "emailVerified"])
             case .cloud:
                 return Set(["functionJobName"])
             case .none:
@@ -83,14 +90,19 @@ public struct ParseEncoder {
     }
 
     func encode(_ value: Encodable) throws -> Data {
-        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkippedKeys.none.keys())
+        let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkipKeys.none.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
         return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil).encoded
     }
 
-    public func encode<T: ParseType>(_ value: T, skipKeys: SkippedKeys) throws -> Data {
+    /**
+     Encodes an instance of the indicated `ParseType`.
+     - parameter value: The `ParseType` instance to encode.
+     - parameter skipKeys: The set of keys to skip during encoding.
+     */
+    public func encode<T: ParseType>(_ value: T, skipKeys: SkipKeys) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skipKeys.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
@@ -104,9 +116,9 @@ public struct ParseEncoder {
                                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
         let keysToSkip: Set<String>!
         if !ParseSwift.configuration.allowCustomObjectId {
-            keysToSkip = SkippedKeys.object.keys()
+            keysToSkip = SkipKeys.object.keys()
         } else {
-            keysToSkip = SkippedKeys.customObjectId.keys()
+            keysToSkip = SkipKeys.customObjectId.keys()
         }
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: keysToSkip)
         if let dateEncodingStrategy = dateEncodingStrategy {
@@ -121,9 +133,9 @@ public struct ParseEncoder {
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
         let keysToSkip: Set<String>!
         if !ParseSwift.configuration.allowCustomObjectId {
-            keysToSkip = SkippedKeys.object.keys()
+            keysToSkip = SkipKeys.object.keys()
         } else {
-            keysToSkip = SkippedKeys.customObjectId.keys()
+            keysToSkip = SkipKeys.customObjectId.keys()
         }
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: keysToSkip)
         if let dateEncodingStrategy = dateEncodingStrategy {
@@ -344,40 +356,51 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
 
     // MARK: - KeyedEncodingContainerProtocol Methods
     mutating func encodeNil(forKey key: Key) throws {
-        if self.encoder.skippedKeys.contains(key.stringValue) { return }
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         container[key.stringValue] = NSNull()
     }
     mutating func encode(_ value: Bool, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Int, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Int8, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Int16, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Int32, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: Int64, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: UInt, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: UInt8, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: UInt16, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: UInt32, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: UInt64, forKey key: Key) throws {
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.container[key.stringValue] = self.encoder.box(value)
     }
     mutating func encode(_ value: String, forKey key: Key) throws {
@@ -386,6 +409,7 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
     }
     mutating func encode(_ value: Float, forKey key: Key) throws {
         // Since the float may be invalid and throw, the coding path needs to contain this key.
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
         self.container[key.stringValue] = try self.encoder.box(value)
@@ -393,13 +417,14 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
 
     mutating func encode(_ value: Double, forKey key: Key) throws {
         // Since the double may be invalid and throw, the coding path needs to contain this key.
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
         self.encoder.codingPath.append(key)
         defer { self.encoder.codingPath.removeLast() }
         self.container[key.stringValue] = try self.encoder.box(value)
     }
 
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
-        if self.encoder.skippedKeys.contains(key.stringValue) { return }
+        if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
 
         var valueToEncode: Encodable = value
         if let parseObject = value as? Objectable {

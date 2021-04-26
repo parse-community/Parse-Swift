@@ -27,6 +27,7 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         // provided by User
         var username: String?
         var email: String?
+        var emailVerified: Bool?
         var password: String?
         var authData: [String: [String: String]?]?
 
@@ -45,6 +46,7 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         // provided by User
         var username: String?
         var email: String?
+        var emailVerified: Bool?
         var password: String?
         var authData: [String: [String: String]?]?
 
