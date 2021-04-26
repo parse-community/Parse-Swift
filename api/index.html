@@ -20,9 +20,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ParseSwift 1.6.0 Docs
+          ParseSwift 1.7.0 Docs
         </a>
-         (92% documented)
+         (95% documented)
       </p>
     
       <p class="header-col--secondary">
@@ -75,6 +75,9 @@
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Enums/Event.html">Event</a>
               </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums.html#/s:10ParseSwift0A6CodingO">ParseCoding</a>
+              </li>
             </ul>
           </li>
           <li class="nav-group-name">
@@ -92,7 +95,25 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_AA0D0VyxGtAA0A6ObjectRzlF">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtSERzlF">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift1loiyAA15QueryConstraintVSS_xtSERzlF">&lt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2leoiyAA15QueryConstraintVSS_xtSERzlF">&lt;=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA0D0VyxGtAA0A6ObjectRzlF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_xtSERzlF">==(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift1goiyAA15QueryConstraintVSS_xtSERzlF">&gt;(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2geoiyAA15QueryConstraintVSS_xtSERzlF">&gt;=(_:_:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">and(queries:)</a>
@@ -152,7 +173,7 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift7related3key6objectAA15QueryConstraintVSS_AA7PointerVyxGtAA0A6ObjectRzlF">related(key:object:)</a>
               </li>
               <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift8relative3key10comparator4timeAA15QueryConstraintVSS_AG10ComparatorOSStF">relative(key:comparator:time:)</a>
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift8relativeyAA15QueryConstraintVADF">relative(_:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift12withinGeoBox3key13fromSouthWest11toNortheastAA15QueryConstraintVSS_AA0aD5PointVAItF">withinGeoBox(key:fromSouthWest:toNortheast:)</a>
@@ -174,6 +195,9 @@
           <li class="nav-group-name">
             <a class="nav-group-name-link" href="Protocols.html">Protocols</a>
             <ul class="nav-group-tasks">
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/Objectable.html">Objectable</a>
+              </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/ParseAuthentication.html">ParseAuthentication</a>
               </li>
@@ -232,6 +256,12 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ParseConfiguration.html">ParseConfiguration</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseEncoder.html">ParseEncoder</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseEncoder/SkipKeys.html">– SkipKeys</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ParseError.html">ParseError</a>
@@ -354,9 +384,7 @@ search field.</p>
 <h2 id='usage-guide' class='heading'>Usage Guide</h2>
 
 <p>After installing ParseSwift, to use it first <code>import ParseSwift</code> in your AppDelegate.swift and then add the following code in your <code>application:didFinishLaunchingWithOptions:</code> method:</p>
-<pre class="highlight swift"><code><span class="kt">ParseSwift</span><span class="o">.</span><span class="nf">initialize</span><span class="p">(</span><span class="nv">applicationId</span><span class="p">:</span> <span class="s">"xxxxxxxxxx"</span><span class="p">,</span> <span class="nv">clientKey</span><span class="p">:</span> <span class="s">"xxxxxxxxxx"</span><span class="p">,</span> <span class="nv">serverURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://example.com"</span><span class="p">)</span><span class="o">!</span><span class="p">,</span> <span class="nv">liveQueryServerURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://example.com"</span><span class="p">)</span><span class="o">!</span><span class="p">,</span> <span class="nv">authentication</span><span class="p">:</span> <span class="p">((</span><span class="kt">URLAuthenticationChallenge</span><span class="p">,</span>
-<span class="p">(</span><span class="kt">URLSession</span><span class="o">.</span><span class="kt">AuthChallengeDisposition</span><span class="p">,</span>
- <span class="kt">URLCredential</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">))</span>
+<pre class="highlight swift"><code><span class="kt">ParseSwift</span><span class="o">.</span><span class="nf">initialize</span><span class="p">(</span><span class="nv">applicationId</span><span class="p">:</span> <span class="s">"xxxxxxxxxx"</span><span class="p">,</span> <span class="nv">clientKey</span><span class="p">:</span> <span class="s">"xxxxxxxxxx"</span><span class="p">,</span> <span class="nv">serverURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://example.com"</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
 </code></pre>
 
 <p>Please checkout the <a href="https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground">Swift Playground</a> for more usage information.</p>
@@ -440,7 +468,7 @@ search field.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-04-25)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-04-26)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
