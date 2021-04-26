@@ -10,7 +10,7 @@ import Foundation
 
 // MARK: ParseCoding
 /// Custom coding for Parse objects.
-public enum ParseCoding {}
+enum ParseCoding {}
 
 // MARK: Coders
 extension ParseCoding {
