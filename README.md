@@ -76,9 +76,7 @@ Run `carthage update`, and you should now have the latest version of ParseSwift 
 
 After installing ParseSwift, to use it first `import ParseSwift` in your AppDelegate.swift and then add the following code in your `application:didFinishLaunchingWithOptions:` method:
 ```swift
-ParseSwift.initialize(applicationId: "xxxxxxxxxx", clientKey: "xxxxxxxxxx", serverURL: URL(string: "https://example.com")!, liveQueryServerURL: URL(string: "https://example.com")!, authentication: ((URLAuthenticationChallenge,
-(URLSession.AuthChallengeDisposition,
- URLCredential?) -> Void) -> Void))
+ParseSwift.initialize(applicationId: "xxxxxxxxxx", clientKey: "xxxxxxxxxx", serverURL: URL(string: "https://example.com")!)
 ```
 Please checkout the [Swift Playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground) for more usage information.
 
