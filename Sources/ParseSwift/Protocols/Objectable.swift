@@ -9,7 +9,7 @@
 import Foundation
 
 /// The base protocol for a `ParseObject`.
-/// - note: You should not use this directly and insteadt use `ParseObject`.
+/// - note: You should not use this directly and instead use `ParseObject`.
 public protocol Objectable: ParseType, Decodable {
     /**
     The class name of the object.
