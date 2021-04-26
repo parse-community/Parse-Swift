@@ -487,10 +487,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         do {
-            let fetched = try user.save(options: [.useMasterKey])
-            XCTAssert(fetched.hasSameObjectId(as: userOnServer))
-            guard let fetchedCreatedAt = fetched.createdAt,
-                let fetchedUpdatedAt = fetched.updatedAt else {
+            let saved = try user.save(options: [.useMasterKey])
+            XCTAssert(saved.hasSameObjectId(as: userOnServer))
+            guard let savedCreatedAt = saved.createdAt,
+                let savedUpdatedAt = saved.updatedAt else {
                     XCTFail("Should unwrap dates")
                     return
             }
@@ -499,12 +499,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     XCTFail("Should unwrap dates")
                     return
             }
-            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
-            XCTAssertGreaterThan(fetchedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(fetched.ACL)
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertNil(saved.ACL)
 
             //Should be updated in memory
-            XCTAssertEqual(User.current?.updatedAt, fetchedUpdatedAt)
+            XCTAssertEqual(User.current?.updatedAt, savedUpdatedAt)
 
             #if !os(Linux) && !os(Android)
             //Should be updated in Keychain
@@ -513,7 +513,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     XCTFail("Should get object from Keychain")
                 return
             }
-            XCTAssertEqual(keychainUser.currentUser?.updatedAt, fetchedUpdatedAt)
+            XCTAssertEqual(keychainUser.currentUser?.updatedAt, savedUpdatedAt)
             #endif
 
         } catch {

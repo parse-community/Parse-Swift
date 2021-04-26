@@ -31,6 +31,7 @@ struct User: ParseUser {
     var customKey: String?
     var score: GameScore?
     var targetScore: GameScore?
+    var allScores: [GameScore]?
 }
 
 //: Create your own value typed `ParseObject`.
@@ -91,6 +92,7 @@ User.login(username: "hello", password: "world") { results in
 User.current?.customKey = "myCustom"
 User.current?.score = GameScore(score: 12)
 User.current?.targetScore = GameScore(score: 100)
+User.current?.allScores = [GameScore(score: 5), GameScore(score: 5)]
 User.current?.save { results in
 
     switch results {
