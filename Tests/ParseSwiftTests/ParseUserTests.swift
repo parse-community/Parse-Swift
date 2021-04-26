@@ -23,6 +23,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         // provided by User
         var username: String?
         var email: String?
+        var emailVerified: Bool?
         var password: String?
         var authData: [String: [String: String]?]?
 
@@ -41,6 +42,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         // provided by User
         var username: String?
         var email: String?
+        var emailVerified: Bool?
         var password: String?
         var authData: [String: [String: String]?]?
 
@@ -57,6 +59,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             self.sessionToken = "myToken"
             self.username = "hello10"
             self.email = "hello@parse.com"
+            self.emailVerified = false
         }
     }
 
@@ -781,6 +784,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertNotNil(signedUp.createdAt)
             XCTAssertNotNil(signedUp.updatedAt)
             XCTAssertNotNil(signedUp.email)
+            XCTAssertNotNil(signedUp.emailVerified)
             XCTAssertNotNil(signedUp.username)
             XCTAssertNil(signedUp.password)
             XCTAssertNotNil(signedUp.objectId)

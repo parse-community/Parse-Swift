@@ -17,6 +17,11 @@ public protocol ParseUser: ParseObject {
     var email: String? { get set }
 
     /**
+    Determines if the email is verified for the `ParseUser`.
+    */
+    var emailVerified: Bool? { get set }
+
+    /**
      The password for the `ParseUser`.
 
      This will not be filled in from the server with the password.

@@ -12,6 +12,7 @@ internal struct BaseParseUser: ParseUser {
     var authData: [String: [String: String]?]?
     var username: String?
     var email: String?
+    var emailVerified: Bool?
     var password: String?
     var objectId: String?
     var createdAt: Date?
