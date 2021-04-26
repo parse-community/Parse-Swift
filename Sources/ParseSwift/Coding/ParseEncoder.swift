@@ -49,14 +49,21 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
 // swiftlint:disable cyclomatic_complexity
 
 // MARK: ParseEncoder
+/// An object that encodes Parse instances of a data type as JSON objects.
 public struct ParseEncoder {
     let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy?
 
+    /// Keys to skip during encoding.
     public enum SkippedKeys {
+        /// Skip keys for `ParseObject`'s.
         case object
+        /// Skip keys for `ParseCloud` functions or jobs.
         case cloud
+        /// Do not skip any keys.
         case none
+        /// Skip keys for `ParseObject`'s when using custom `objectId`'s.
         case customObjectId
+        /// Specify a custom set of keys to skip.
         case custom(Set<String>)
 
         func keys() -> Set<String> {
@@ -90,6 +97,11 @@ public struct ParseEncoder {
         return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil).encoded
     }
 
+    /**
+     Encodes an instance of the indicated `ParseType`.
+     - parameter value: The `ParseType` instance to encode.
+     - parameter skipKeys: The set of keys to skip during encoding.
+     */
     public func encode<T: ParseType>(_ value: T, skipKeys: SkippedKeys) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skipKeys.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {

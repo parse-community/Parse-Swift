@@ -12,7 +12,7 @@ import Foundation
   All available query constraints.
 */
 public struct QueryConstraint: Encodable, Equatable {
-    public enum Comparator: String, CodingKey, Encodable {
+    enum Comparator: String, CodingKey, Encodable {
         case lessThan = "$lt"
         case lessThanOrEqualTo = "$lte"
         case greaterThan = "$gt"
@@ -72,26 +72,62 @@ public struct QueryConstraint: Encodable, Equatable {
     }
 }
 
+/**
+ Add a constraint that requires that a key is greater than a value.
+ - parameter key: The key that the value is stored in.
+ - parameter value: The value to compare.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
 public func > <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     QueryConstraint(key: key, value: value, comparator: .greaterThan)
 }
 
+/**
+ Add a constraint that requires that a key is greater than or equal to a value.
+ - parameter key: The key that the value is stored in.
+ - parameter value: The value to compare.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
 public func >= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     QueryConstraint(key: key, value: value, comparator: .greaterThanOrEqualTo)
 }
 
+/**
+ Add a constraint that requires that a key is less than a value.
+ - parameter key: The key that the value is stored in.
+ - parameter value: The value to compare.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
 public func < <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     QueryConstraint(key: key, value: value, comparator: .lessThan)
 }
 
+/**
+ Add a constraint that requires that a key is less than or equak to a value.
+ - parameter key: The key that the value is stored in.
+ - parameter value: The value to compare.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
 public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     QueryConstraint(key: key, value: value, comparator: .lessThanOrEqualTo)
 }
 
+/**
+ Add a constraint that requires that a key is equal to a value.
+ - parameter key: The key that the value is stored in.
+ - parameter value: The value to compare.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
 public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     QueryConstraint(key: key, value: value)
 }
 
+/**
+ Add a constraint that requires that a key is not equal to a value.
+ - parameter key: The key that the value is stored in.
+ - parameter value: The value to compare.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
 public func != <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
     QueryConstraint(key: key, value: value, comparator: .notEqualTo)
 }
@@ -260,17 +296,20 @@ public func containedBy <T>(key: String, array: [T]) -> QueryConstraint where T:
 }
 
 /**
- Add a constraint to the query that requires a particular key's time is related to a specified time. E.g. "3 days ago".
-
- - parameter key: The key to be constrained. Should be a Date field.
- - parameter comparator: How the relative time should be compared. Currently only supports the
- $lt, $lte, $gt, and $gte operators.
- - parameter time: The reference time, e.g. "12 days ago".
+ Add a constraint to the query that requires a particular key's time is related to a specified time. For example:
+  ~~~
+  let queryRelative = GameScore.query(relative("createdAt" < "3 days ago"))
+  ~~~
+ will create a relative query where `createdAt` is less than 3 days ago.
+ - parameter constraint: The key to be constrained. Should be a Date field. The value is a
+ reference time, e.g. "12 days ago". Currently only comparators supported are: <, <=, >=, and >=.
  - returns: The same instance of `QueryConstraint` as the receiver.
  - warning: This only works with Parse Servers using mongoDB.
  */
-public func relative(key: String, comparator: QueryConstraint.Comparator, time: String) -> QueryConstraint {
-    QueryConstraint(key: key, value: [QueryConstraint.Comparator.relativeTime.rawValue: time], comparator: comparator)
+public func relative(_ constraint: QueryConstraint) -> QueryConstraint {
+    QueryConstraint(key: constraint.key,
+                    value: [QueryConstraint.Comparator.relativeTime.rawValue: AnyEncodable(constraint.value)],
+                    comparator: constraint.comparator)
 }
 
 /**

@@ -1697,14 +1697,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testWhereKeyRelativeToTime() throws {
         let expected: [String: AnyCodable] = [
             "yolo": [
-                "$gte": ["$relativeTime": "3 days ago."]
+                "$gte": ["$relativeTime": "3 days ago"]
             ]
         ]
         var object = GameScore(score: 50)
         object.objectId = "hello"
-        let constraint = relative(key: "yolo",
-                                  comparator: .greaterThanOrEqualTo,
-                                  time: "3 days ago.")
+        let constraint = relative("yolo" >= "3 days ago")
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
 
