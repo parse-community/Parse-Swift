@@ -18,18 +18,7 @@ internal extension Date {
     }
 }
 
-// MARK: JSONEncoder
-extension JSONEncoder {
-    func encodeAsString<T>(_ value: T) throws -> String where T: Encodable {
-        guard let string = String(data: try encode(value), encoding: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Unable to encode object...")
-        }
-
-        return string
-    }
-}
-
-// MARK: ParseObject
+// MARK: Coding
 public extension ParseObject {
     /// The Parse encoder is used to JSON encode all `ParseObject`s and
     /// types in a way meaninful for a Parse Server to consume.
