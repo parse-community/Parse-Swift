@@ -103,7 +103,7 @@ public func < <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
 }
 
 /**
- Add a constraint that requires that a key is less than or equak to a value.
+ Add a constraint that requires that a key is less than or equal to a value.
  - parameter key: The key that the value is stored in.
  - parameter value: The value to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
@@ -298,9 +298,9 @@ public func containedBy <T>(key: String, array: [T]) -> QueryConstraint where T:
 /**
  Add a constraint to the query that requires a particular key's time is related to a specified time. For example:
   ~~~
-  let queryRelative = GameScore.query(relative("createdAt" < "3 days ago"))
+  let queryRelative = GameScore.query(relative("createdAt" < "12 days ago"))
   ~~~
- will create a relative query where `createdAt` is less than 3 days ago.
+ will create a relative query where `createdAt` is less than 12 days ago.
  - parameter constraint: The key to be constrained. Should be a Date field. The value is a
  reference time, e.g. "12 days ago". Currently only comparators supported are: <, <=, >=, and >=.
  - returns: The same instance of `QueryConstraint` as the receiver.
