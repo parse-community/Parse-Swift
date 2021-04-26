@@ -55,7 +55,7 @@ public struct QueryConstraint: Encodable, Equatable {
 
     public func encode(to encoder: Encoder) throws {
         if let value = value as? Date {
-            // Special case for date... Not sure why encoder don't like
+            // Parse uses special case for date
             try value.parseRepresentation.encode(to: encoder)
         } else {
             try value.encode(to: encoder)
