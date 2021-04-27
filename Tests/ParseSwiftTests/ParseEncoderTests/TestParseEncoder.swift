@@ -20,7 +20,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-class TestJSONEncoder: XCTestCase {
+class TestParseEncoder: XCTestCase {
 
     override func setUpWithError() throws {
         try super.setUpWithError()
