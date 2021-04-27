@@ -95,6 +95,9 @@
 		7033ECB825584A83009770F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECB625584A83009770F3 /* Main.storyboard */; };
 		7033ECBA25584A85009770F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECB925584A85009770F3 /* Assets.xcassets */; };
 		7033ECBD25584A85009770F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7033ECBB25584A85009770F3 /* LaunchScreen.storyboard */; };
+		7037DAB226384DE1005D7E62 /* TestJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7037DAB126384DE1005D7E62 /* TestJSONEncoder.swift */; };
+		7037DAB326384DE1005D7E62 /* TestJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7037DAB126384DE1005D7E62 /* TestJSONEncoder.swift */; };
+		7037DAB426384DE1005D7E62 /* TestJSONEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7037DAB126384DE1005D7E62 /* TestJSONEncoder.swift */; };
 		70386A0625D9718C0048EC1B /* Data+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data+hexString.swift */; };
 		70386A0725D9718C0048EC1B /* Data+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data+hexString.swift */; };
 		70386A0825D9718C0048EC1B /* Data+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data+hexString.swift */; };
@@ -579,6 +582,7 @@
 		7033ECB925584A85009770F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7033ECBC25584A85009770F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7033ECBE25584A85009770F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7037DAB126384DE1005D7E62 /* TestJSONEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestJSONEncoder.swift; sourceTree = "<group>"; };
 		70386A0525D9718C0048EC1B /* Data+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+hexString.swift"; sourceTree = "<group>"; };
 		70386A3725D998D90048EC1B /* ParseLDAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLDAP.swift; sourceTree = "<group>"; };
 		70386A4525D99C8B0048EC1B /* ParseLDAPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLDAPTests.swift; sourceTree = "<group>"; };
@@ -858,6 +862,7 @@
 				89899CDC2603CE73002E2043 /* ParseTwitterTests.swift */,
 				7016ED3F25C4A25A00038648 /* ParseUserCombineTests.swift */,
 				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
+				7037DAC726384E46005D7E62 /* ParseEncoderTests */,
 				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
 			);
@@ -980,6 +985,14 @@
 				7033ECBE25584A85009770F3 /* Info.plist */,
 			);
 			path = TestHostTV;
+			sourceTree = "<group>";
+		};
+		7037DAC726384E46005D7E62 /* ParseEncoderTests */ = {
+			isa = PBXGroup;
+			children = (
+				7037DAB126384DE1005D7E62 /* TestJSONEncoder.swift */,
+			);
+			path = ParseEncoderTests;
 			sourceTree = "<group>";
 		};
 		70510AAA259EE23700FEA700 /* LiveQuery */ = {
@@ -1691,6 +1704,7 @@
 				705A99F9259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
 				7044C20625C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */,
 				70C5508525B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
+				7037DAB226384DE1005D7E62 /* TestJSONEncoder.swift in Sources */,
 				7004C24D25B69207005E0AD9 /* ParseRoleTests.swift in Sources */,
 				91678706259BC5D400BB5B4E /* ParseCloudTests.swift in Sources */,
 				70386A5C25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */,
@@ -1844,6 +1858,7 @@
 				705A99FB259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
 				7044C20825C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */,
 				70C5508725B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
+				7037DAB426384DE1005D7E62 /* TestJSONEncoder.swift in Sources */,
 				7004C26125B6920B005E0AD9 /* ParseRoleTests.swift in Sources */,
 				9167871A259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */,
 				70386A5E25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */,
@@ -1900,6 +1915,7 @@
 				705A99FA259807F900B3547F /* ParseFileManagerTests.swift in Sources */,
 				7044C20725C5D6780011F6E7 /* ParseQueryCombineTests.swift in Sources */,
 				70C5508625B4A68700B5DBC2 /* ParseOperationTests.swift in Sources */,
+				7037DAB326384DE1005D7E62 /* TestJSONEncoder.swift in Sources */,
 				7004C25725B6920A005E0AD9 /* ParseRoleTests.swift in Sources */,
 				91678710259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */,
 				70386A5D25D9A4020048EC1B /* ParseLDAPCombineTests.swift in Sources */,
