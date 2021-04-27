@@ -153,8 +153,9 @@ class TestJSONEncoder: XCTestCase {
     }
   }
     #endif
-/*
-  func testEncodingConflictedTypeNestedContainersWithTheSameTopLevelKey() {
+
+    /*
+  func testEncodingConflictedTypeNestedContainersWithTheSameTopLevelKey() throws {
     struct Model: Encodable, Equatable {
       let first: String
 
@@ -1026,7 +1027,7 @@ class TestJSONEncoder: XCTestCase {
     _testRoundTripTypeCoercionFailure(of: [0.0, 1.0] as [Float], as: [Bool].self)
     _testRoundTripTypeCoercionFailure(of: [0.0, 1.0] as [Double], as: [Bool].self)
   }
-/*
+
   func testDecodingConcreteTypeParameter() {
       let encoder = ParseEncoder()
       guard let json = try? encoder.encode(Employee.testValue) else {
@@ -1039,9 +1040,8 @@ class TestJSONEncoder: XCTestCase {
           XCTAssertThrowsError("Failed to decode Employee as Person from JSON.")
           return
       }
-
-      XCTAssertEqual(type(of: decoded), Employee.self, "Expected decoded value to be of type Employee; got \(type(of: decoded)) instead.")
-  }*/
+    XCTAssertTrue(type(of: decoded) == Employee.self, "Expected decoded value to be of type Employee; got \(type(of: decoded)) instead.")
+  }
 
   // MARK: - Encoder State
   // SR-6078
