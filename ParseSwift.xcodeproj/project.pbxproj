@@ -833,7 +833,6 @@
 				916786EF259BC59600BB5B4E /* ParseCloudTests.swift */,
 				7044C21F25C5E0160011F6E7 /* ParseConfigCombineTests.swift */,
 				70D1BE0625BB2BF400A42E7C /* ParseConfigTests.swift */,
-				F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */,
 				89899DB426045DC4002E2043 /* ParseFacebookCombineTests.swift */,
 				89899CF32603CE9D002E2043 /* ParseFacebookTests.swift */,
 				7044C1F825C5CFAB0011F6E7 /* ParseFileCombineTests.swift */,
@@ -862,9 +861,9 @@
 				89899CDC2603CE73002E2043 /* ParseTwitterTests.swift */,
 				7016ED3F25C4A25A00038648 /* ParseUserCombineTests.swift */,
 				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
-				7037DAC726384E46005D7E62 /* ParseEncoderTests */,
 				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
+				7037DAC726384E46005D7E62 /* ParseEncoderTests */,
 			);
 			path = ParseSwiftTests;
 			sourceTree = "<group>";
@@ -990,6 +989,7 @@
 		7037DAC726384E46005D7E62 /* ParseEncoderTests */ = {
 			isa = PBXGroup;
 			children = (
+				F971F4F524DE381A006CB79B /* ParseEncoderTests.swift */,
 				7037DAB126384DE1005D7E62 /* TestJSONEncoder.swift */,
 			);
 			path = ParseEncoderTests;

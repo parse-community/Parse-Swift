@@ -222,7 +222,7 @@ class TestJSONEncoder: XCTestCase {
   }*/
 
   // MARK: - Date Strategy Tests
-
+    #if !os(Linux) && !os(Android)
   // Disabled for now till we resolve rdar://52618414
   func x_testEncodingDate() throws {
 
@@ -277,6 +277,7 @@ class TestJSONEncoder: XCTestCase {
     // Optional dates should encode the same way.
     try localTestRoundTrip(of: Optional(Date()))
   }
+    #endif
 
   func testEncodingDateSecondsSince1970() {
     // Cannot encode an arbitrary number of seconds since we've lost precision since 1970.
