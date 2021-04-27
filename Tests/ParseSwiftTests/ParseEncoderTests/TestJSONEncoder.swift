@@ -58,12 +58,14 @@ class TestJSONEncoder: XCTestCase {
     _testRoundTrip(of: address)
   }
 
+    #if !os(Linux) && !os(Android)
   func testEncodingTopLevelStructuredClass() {
     // Person is a class with multiple fields.
     let expectedJSON = "{\"name\":\"Johnny Appleseed\",\"email\":\"appleseed@apple.com\"}".data(using: .utf8)!
     let person = Person.testValue
     _testRoundTrip(of: person, expectedJSON: expectedJSON)
   }
+    #endif
 
   func testEncodingTopLevelStructuredSingleStruct() {
     // Numbers is a struct which encodes as an array through a single value container.
@@ -196,11 +198,13 @@ class TestJSONEncoder: XCTestCase {
   }*/
 
   // MARK: - Output Formatting Tests
+    #if !os(Linux) && !os(Android)
   func testEncodingOutputFormattingDefault() {
     let expectedJSON = "{\"name\":\"Johnny Appleseed\",\"email\":\"appleseed@apple.com\"}".data(using: .utf8)!
     let person = Person.testValue
     _testRoundTrip(of: person, expectedJSON: expectedJSON)
   }
+    #endif
 /*
   func testEncodingOutputFormattingPrettyPrinted() {
     let expectedJSON = "{\n  \"name\" : \"Johnny Appleseed\",\n  \"email\" : \"appleseed@apple.com\"\n}".data(using: .utf8)!
@@ -712,147 +716,8 @@ class TestJSONEncoder: XCTestCase {
     XCTAssertEqual(3, callCount)
   }
 */
-  private struct DecodeMe: Decodable {
-    let found: Bool
-    init(from coder: Decoder) throws {
-      let c = try coder.container(keyedBy: _TestKey.self)
-      // Get the key that we expect to be passed in (camel case)
-      let camelCaseKey = try c.decode(String.self, forKey: _TestKey(stringValue: "camelCaseKey")!)
-
-      // Use the camel case key to decode from the JSON. The decoder should convert it to snake case to find it.
-      found = try c.decode(Bool.self, forKey: _TestKey(stringValue: camelCaseKey)!)
-    }
-  }
-
-  func testDecodingKeyStrategyCamel() {
-    let fromSnakeCaseTests = [
-      ("", ""), // don't die on empty string
-      ("a", "a"), // single character
-      ("ALLCAPS", "ALLCAPS"), // If no underscores, we leave the word as-is
-      ("ALL_CAPS", "allCaps"), // Conversion from screaming snake case
-      ("single", "single"), // do not capitalize anything with no underscore
-      ("snake_case", "snakeCase"), // capitalize a character
-      ("one_two_three", "oneTwoThree"), // more than one word
-      ("one_2_three", "one2Three"), // numerics
-      ("one2_three", "one2Three"), // numerics, part 2
-      ("snake_Ćase", "snakeĆase"), // do not further modify a capitalized diacritic
-      ("snake_ćase", "snakeĆase"), // capitalize a diacritic
-      ("alreadyCamelCase", "alreadyCamelCase"), // do not modify already camel case
-      ("__this_and_that", "__thisAndThat"),
-      ("_this_and_that", "_thisAndThat"),
-      ("this__and__that", "thisAndThat"),
-      ("this_and_that__", "thisAndThat__"),
-      ("this_aNd_that", "thisAndThat"),
-      ("_one_two_three", "_oneTwoThree"),
-      ("one_two_three_", "oneTwoThree_"),
-      ("__one_two_three", "__oneTwoThree"),
-      ("one_two_three__", "oneTwoThree__"),
-      ("_one_two_three_", "_oneTwoThree_"),
-      ("__one_two_three", "__oneTwoThree"),
-      ("__one_two_three__", "__oneTwoThree__"),
-      ("_test", "_test"),
-      ("_test_", "_test_"),
-      ("__test", "__test"),
-      ("test__", "test__"),
-      ("_", "_"),
-      ("__", "__"),
-      ("___", "___"),
-      ("m͉̟̹y̦̳G͍͚͎̳r̤͉̤͕ͅea̲͕t͇̥̼͖U͇̝̠R͙̻̥͓̣L̥̖͎͓̪̫ͅR̩͖̩eq͈͓u̞e̱s̙t̤̺ͅ", "m͉̟̹y̦̳G͍͚͎̳r̤͉̤͕ͅea̲͕t͇̥̼͖U͇̝̠R͙̻̥͓̣L̥̖͎͓̪̫ͅR̩͖̩eq͈͓u̞e̱s̙t̤̺ͅ"), // because Itai wanted to test this
-      ("🐧_🐟", "🐧🐟") // fishy emoji example?
-    ]
-
-    for test in fromSnakeCaseTests {
-      // This JSON contains the camel case key that the test object should decode with, then it uses the snake case key (test.0) as the actual key for the boolean value.
-      let input = "{\"camelCaseKey\":\"\(test.1)\",\"\(test.0)\":true}".data(using: .utf8)!
-
-      let decoder = JSONDecoder()
-      decoder.keyDecodingStrategy = .convertFromSnakeCase
-
-      let result = try! decoder.decode(DecodeMe.self, from: input)
-
-      XCTAssertTrue(result.found)
-    }
-  }
-
-  private struct DecodeMe2: Decodable { var hello: String }
-
-  func testDecodingKeyStrategyCustom() {
-    let input = "{\"----hello\":\"test\"}".data(using: .utf8)!
-    let decoder = JSONDecoder()
-    let customKeyConversion = { (_ path: [CodingKey]) -> CodingKey in
-      // This converter removes the first 4 characters from the start of all string keys, if it has more than 4 characters
-      let string = path.last!.stringValue
-      guard string.count > 4 else { return path.last! }
-      let newString = String(string.dropFirst(4))
-      return _TestKey(stringValue: newString)!
-    }
-    decoder.keyDecodingStrategy = .custom(customKeyConversion)
-    let result = try! decoder.decode(DecodeMe2.self, from: input)
-
-    XCTAssertEqual("test", result.hello)
-  }
-
-  func testDecodingDictionaryStringKeyConversionUntouched() {
-    let input = "{\"leave_me_alone\":\"test\"}".data(using: .utf8)!
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    let result = try! decoder.decode([String: String].self, from: input)
-
-    XCTAssertEqual(["leave_me_alone": "test"], result)
-  }
-
-  func testDecodingDictionaryFailureKeyPath() {
-    let input = "{\"leave_me_alone\":\"test\"}".data(using: .utf8)!
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    do {
-      _ = try decoder.decode([String: Int].self, from: input)
-    } catch DecodingError.typeMismatch(_, let context) {
-      XCTAssertEqual(1, context.codingPath.count)
-      XCTAssertEqual("leave_me_alone", context.codingPath[0].stringValue)
-    } catch {
-      XCTAssertThrowsError("Unexpected error: \(String(describing: error))")
-    }
-  }
-
-  private struct DecodeFailure: Decodable {
-    var intValue: Int
-  }
-
-  private struct DecodeFailureNested: Decodable {
-    var nestedValue: DecodeFailure
-  }
-
-  func testDecodingDictionaryFailureKeyPathNested() {
-    let input = "{\"top_level\": {\"sub_level\": {\"nested_value\": {\"int_value\": \"not_an_int\"}}}}".data(using: .utf8)!
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    do {
-      _ = try decoder.decode([String: [String: DecodeFailureNested]].self, from: input)
-    } catch DecodingError.typeMismatch(_, let context) {
-      XCTAssertEqual(4, context.codingPath.count)
-      XCTAssertEqual("top_level", context.codingPath[0].stringValue)
-      XCTAssertEqual("sub_level", context.codingPath[1].stringValue)
-      XCTAssertEqual("nestedValue", context.codingPath[2].stringValue)
-      XCTAssertEqual("intValue", context.codingPath[3].stringValue)
-    } catch {
-      XCTAssertThrowsError("Unexpected error: \(String(describing: error))")
-    }
-  }
-
-  private struct DecodeMe3: Codable {
-      var thisIsCamelCase: String
-  }
-
-  func testEncodingKeyStrategySnakeGenerated() {
-    // Test that this works with a struct that has automatically generated keys
-    let input = "{\"this_is_camel_case\":\"test\"}".data(using: .utf8)!
-    let decoder = JSONDecoder()
-    decoder.keyDecodingStrategy = .convertFromSnakeCase
-    let result = try! decoder.decode(DecodeMe3.self, from: input)
-
-    XCTAssertEqual("test", result.thisIsCamelCase)
-  }
+    
+    
 /*
   func testDecodingKeyStrategyCamelGenerated() {
     let encoded = DecodeMe3(thisIsCamelCase: "test")
@@ -1119,40 +984,6 @@ class TestJSONEncoder: XCTestCase {
 
     _ = try? encoder.encode(ReferencingEncoderWrapper(Data()))
   }*/
-
-  // MARK: - Decoder State
-  // SR-6048
-  func testDecoderStateThrowOnDecode() {
-    // The container stack here starts as [[1,2,3]]. Attempting to decode as [String] matches the outer layer (Array), and begins decoding the array.
-    // Once Array decoding begins, 1 is pushed onto the container stack ([[1,2,3], 1]), and 1 is attempted to be decoded as String. This throws a .typeMismatch, but the container is not popped off the stack.
-    // When attempting to decode [Int], the container stack is still ([[1,2,3], 1]), and 1 fails to decode as [Int].
-    let json = "[1,2,3]".data(using: .utf8)!
-    _ = try! JSONDecoder().decode(EitherDecodable<[String], [Int]>.self, from: json)
-  }
-
-  func testDecoderStateThrowOnDecodeCustomDate() {
-    // This test is identical to testDecoderStateThrowOnDecode, except we're going to fail because our closure throws an error, not because we hit a type mismatch.
-    let decoder = JSONDecoder()
-    decoder.dateDecodingStrategy = .custom({ _ in
-      enum CustomError: Error { case foo }
-      throw CustomError.foo
-    })
-
-    let json = "1".data(using: .utf8)!
-    _ = try! decoder.decode(EitherDecodable<Date, Int>.self, from: json)
-  }
-
-  func testDecoderStateThrowOnDecodeCustomData() {
-    // This test is identical to testDecoderStateThrowOnDecode, except we're going to fail because our closure throws an error, not because we hit a type mismatch.
-    let decoder = JSONDecoder()
-    decoder.dataDecodingStrategy = .custom({ _ in
-      enum CustomError: Error { case foo }
-      throw CustomError.foo
-    })
-
-    let json = "1".data(using: .utf8)!
-    _ = try! decoder.decode(EitherDecodable<Data, Int>.self, from: json)
-  }
 
   // MARK: - Helper Functions
   private var _jsonEmptyDictionary: Data {
@@ -1681,89 +1512,3 @@ private struct DoubleNaNPlaceholder: Codable, Equatable {
     return true
   }
 }
-
-private enum EitherDecodable<T : Decodable, U : Decodable>: Decodable {
-  case t(T)
-  case u(U)
-
-  init(from decoder: Decoder) throws {
-    let container = try decoder.singleValueContainer()
-    do {
-      self = .t(try container.decode(T.self))
-    } catch {
-      self = .u(try container.decode(U.self))
-    }
-  }
-}
-
-// MARK: - Run Tests
-/*
-#if !FOUNDATION_XCTEST
-var JSONEncoderTests = TestSuite("TestJSONEncoder")
-JSONEncoderTests.test("testEncodingTopLevelEmptyStruct") { TestJSONEncoder().testEncodingTopLevelEmptyStruct() }
-JSONEncoderTests.test("testEncodingTopLevelEmptyClass") { TestJSONEncoder().testEncodingTopLevelEmptyClass() }
-JSONEncoderTests.test("testEncodingTopLevelSingleValueEnum") { TestJSONEncoder().testEncodingTopLevelSingleValueEnum() }
-JSONEncoderTests.test("testEncodingTopLevelSingleValueStruct") { TestJSONEncoder().testEncodingTopLevelSingleValueStruct() }
-JSONEncoderTests.test("testEncodingTopLevelSingleValueClass") { TestJSONEncoder().testEncodingTopLevelSingleValueClass() }
-JSONEncoderTests.test("testEncodingTopLevelStructuredStruct") { TestJSONEncoder().testEncodingTopLevelStructuredStruct() }
-JSONEncoderTests.test("testEncodingTopLevelStructuredClass") { TestJSONEncoder().testEncodingTopLevelStructuredClass() }
-JSONEncoderTests.test("testEncodingTopLevelStructuredSingleStruct") { TestJSONEncoder().testEncodingTopLevelStructuredSingleStruct() }
-JSONEncoderTests.test("testEncodingTopLevelStructuredSingleClass") { TestJSONEncoder().testEncodingTopLevelStructuredSingleClass() }
-JSONEncoderTests.test("testEncodingTopLevelDeepStructuredType") { TestJSONEncoder().testEncodingTopLevelDeepStructuredType()}
-JSONEncoderTests.test("testEncodingClassWhichSharesEncoderWithSuper") { TestJSONEncoder().testEncodingClassWhichSharesEncoderWithSuper() }
-JSONEncoderTests.test("testEncodingTopLevelNullableType") { TestJSONEncoder().testEncodingTopLevelNullableType() }
-JSONEncoderTests.test("testEncodingMultipleNestedContainersWithTheSameTopLevelKey") { TestJSONEncoder().testEncodingMultipleNestedContainersWithTheSameTopLevelKey() }
-JSONEncoderTests.test("testEncodingConflictedTypeNestedContainersWithTheSameTopLevelKey") {
-  expectCrash {
-    TestJSONEncoder().testEncodingConflictedTypeNestedContainersWithTheSameTopLevelKey()
-  }
-}
-JSONEncoderTests.test("testEncodingOutputFormattingDefault") { TestJSONEncoder().testEncodingOutputFormattingDefault() }
-JSONEncoderTests.test("testEncodingOutputFormattingPrettyPrinted") { TestJSONEncoder().testEncodingOutputFormattingPrettyPrinted() }
-JSONEncoderTests.test("testEncodingOutputFormattingSortedKeys") { TestJSONEncoder().testEncodingOutputFormattingSortedKeys() }
-JSONEncoderTests.test("testEncodingOutputFormattingPrettyPrintedSortedKeys") { TestJSONEncoder().testEncodingOutputFormattingPrettyPrintedSortedKeys() }
-// disabled for now due to a Date bug rdar://52618414
-// JSONEncoderTests.test("testEncodingDate") { TestJSONEncoder().testEncodingDate() }
-JSONEncoderTests.test("testEncodingDateSecondsSince1970") { TestJSONEncoder().testEncodingDateSecondsSince1970() }
-JSONEncoderTests.test("testEncodingDateMillisecondsSince1970") { TestJSONEncoder().testEncodingDateMillisecondsSince1970() }
-JSONEncoderTests.test("testEncodingDateISO8601") { TestJSONEncoder().testEncodingDateISO8601() }
-JSONEncoderTests.test("testEncodingDateFormatted") { TestJSONEncoder().testEncodingDateFormatted() }
-JSONEncoderTests.test("testEncodingDateCustom") { TestJSONEncoder().testEncodingDateCustom() }
-JSONEncoderTests.test("testEncodingDateCustomEmpty") { TestJSONEncoder().testEncodingDateCustomEmpty() }
-JSONEncoderTests.test("testEncodingData") { TestJSONEncoder().testEncodingData() }
-JSONEncoderTests.test("testEncodingDataBase64") { TestJSONEncoder().testEncodingDataBase64() }
-JSONEncoderTests.test("testEncodingDataCustom") { TestJSONEncoder().testEncodingDataCustom() }
-JSONEncoderTests.test("testEncodingDataCustomEmpty") { TestJSONEncoder().testEncodingDataCustomEmpty() }
-JSONEncoderTests.test("testEncodingNonConformingFloats") { TestJSONEncoder().testEncodingNonConformingFloats() }
-JSONEncoderTests.test("testEncodingNonConformingFloatStrings") { TestJSONEncoder().testEncodingNonConformingFloatStrings() }
-JSONEncoderTests.test("testEncodingKeyStrategySnake") { TestJSONEncoder().testEncodingKeyStrategySnake() }
-JSONEncoderTests.test("testEncodingKeyStrategyCustom") { TestJSONEncoder().testEncodingKeyStrategyCustom() }
-JSONEncoderTests.test("testEncodingDictionaryStringKeyConversionUntouched") { TestJSONEncoder().testEncodingDictionaryStringKeyConversionUntouched() }
-JSONEncoderTests.test("testEncodingKeyStrategyPath") { TestJSONEncoder().testEncodingKeyStrategyPath() }
-JSONEncoderTests.test("testDecodingKeyStrategyCamel") { TestJSONEncoder().testDecodingKeyStrategyCamel() }
-JSONEncoderTests.test("testDecodingKeyStrategyCustom") { TestJSONEncoder().testDecodingKeyStrategyCustom() }
-JSONEncoderTests.test("testDecodingDictionaryStringKeyConversionUntouched") { TestJSONEncoder().testDecodingDictionaryStringKeyConversionUntouched() }
-JSONEncoderTests.test("testEncodingKeyStrategySnakeGenerated") { TestJSONEncoder().testEncodingKeyStrategySnakeGenerated() }
-JSONEncoderTests.test("testDecodingKeyStrategyCamelGenerated") { TestJSONEncoder().testDecodingKeyStrategyCamelGenerated() }
-JSONEncoderTests.test("testKeyStrategySnakeGeneratedAndCustom") { TestJSONEncoder().testKeyStrategySnakeGeneratedAndCustom() }
-JSONEncoderTests.test("testKeyStrategyDuplicateKeys") { TestJSONEncoder().testKeyStrategyDuplicateKeys() }
-JSONEncoderTests.test("testNestedContainerCodingPaths") { TestJSONEncoder().testNestedContainerCodingPaths() }
-JSONEncoderTests.test("testSuperEncoderCodingPaths") { TestJSONEncoder().testSuperEncoderCodingPaths() }
-JSONEncoderTests.test("testInterceptDecimal") { TestJSONEncoder().testInterceptDecimal() }
-JSONEncoderTests.test("testInterceptURL") { TestJSONEncoder().testInterceptURL() }
-JSONEncoderTests.test("testInterceptURLWithoutEscapingOption") { TestJSONEncoder().testInterceptURLWithoutEscapingOption() }
-JSONEncoderTests.test("testTypeCoercion") { TestJSONEncoder().testTypeCoercion() }
-JSONEncoderTests.test("testDecodingConcreteTypeParameter") { TestJSONEncoder().testDecodingConcreteTypeParameter() }
-JSONEncoderTests.test("testEncoderStateThrowOnEncode") { TestJSONEncoder().testEncoderStateThrowOnEncode() }
-JSONEncoderTests.test("testEncoderStateThrowOnEncodeCustomDate") { TestJSONEncoder().testEncoderStateThrowOnEncodeCustomDate() }
-JSONEncoderTests.test("testEncoderStateThrowOnEncodeCustomData") { TestJSONEncoder().testEncoderStateThrowOnEncodeCustomData() }
-JSONEncoderTests.test("testDecoderStateThrowOnDecode") { TestJSONEncoder().testDecoderStateThrowOnDecode() }
-JSONEncoderTests.test("testDecoderStateThrowOnDecodeCustomDate") { TestJSONEncoder().testDecoderStateThrowOnDecodeCustomDate() }
-JSONEncoderTests.test("testDecoderStateThrowOnDecodeCustomData") { TestJSONEncoder().testDecoderStateThrowOnDecodeCustomData() }
-JSONEncoderTests.test("testEncodingDictionaryFailureKeyPath") { TestJSONEncoder().testEncodingDictionaryFailureKeyPath() }
-JSONEncoderTests.test("testEncodingDictionaryFailureKeyPathNested") { TestJSONEncoder().testEncodingDictionaryFailureKeyPathNested() }
-JSONEncoderTests.test("testDecodingDictionaryFailureKeyPath") { TestJSONEncoder().testDecodingDictionaryFailureKeyPath() }
-JSONEncoderTests.test("testDecodingDictionaryFailureKeyPathNested") { TestJSONEncoder().testDecodingDictionaryFailureKeyPathNested() }
-runAllTests()
-#endif
-*/
