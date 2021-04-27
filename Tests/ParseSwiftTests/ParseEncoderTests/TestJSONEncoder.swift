@@ -96,6 +96,7 @@ class TestJSONEncoder: XCTestCase {
     _testRoundTrip(of: EnhancedBool.fileNotFound, expectedJSON: "null".data(using: .utf8)!)
   }
 
+    #if !os(Linux) && !os(Android)
   func testEncodingMultipleNestedContainersWithTheSameTopLevelKey() {
     struct Model: Codable, Equatable {
       let first: String
@@ -151,6 +152,7 @@ class TestJSONEncoder: XCTestCase {
       _testRoundTrip(of: model)
     }
   }
+    #endif
 /*
   func testEncodingConflictedTypeNestedContainersWithTheSameTopLevelKey() {
     struct Model: Encodable, Equatable {
