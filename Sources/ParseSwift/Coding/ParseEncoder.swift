@@ -34,10 +34,6 @@ private protocol _JSONStringDictionaryEncodableMarker { }
 #endif
 extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, Value: Encodable { }
 
-/// `JSONEncoder` facilitates the encoding of `Encodable` values into JSON.
-/// `ParseEncoder` facilitates the encoding of `ObjectType` values into JSON.
-/// All Credit to Apple, this is a simple encoder with capability of skipping keys at runtime.
-
 // This rule doesn't allow types with underscores in their names.
 // swiftlint:disable type_name
 // swiftlint:disable colon
@@ -49,7 +45,13 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
 // swiftlint:disable cyclomatic_complexity
 
 // MARK: ParseEncoder
-/// An object that encodes Parse instances of a data type as JSON objects.
+/** An object that encodes Parse instances of a data type as JSON objects.
+ - note: `JSONEncoder` facilitates the encoding of `Encodable` values into JSON.
+ `ParseEncoder` facilitates the encoding of `ParseType` values into JSON.
+ All Credit to Apple, this is a custom encoder with capability of skipping keys at runtime.
+ ParseEncoder matches the features of the [Swift 5.4 JSONEncoder ](https://github.com/apple/swift/blob/main/stdlib/public/Darwin/Foundation/JSONEncoder.swift).
+ Update commits as needed for improvement.
+ */
 public struct ParseEncoder {
     let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy?
 

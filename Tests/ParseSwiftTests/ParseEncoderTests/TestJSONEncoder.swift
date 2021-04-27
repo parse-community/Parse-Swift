@@ -11,10 +11,14 @@
 // REQUIRES: objc_interop
 // REQUIRES: rdar55727144
 
+/*
+All Credit to Apple, this testsuite matches the encoder tests found in [Swift 5.4](https://github.com/apple/swift/blob/main/test/stdlib/TestJSONEncoder.swift).
+Update commits as needed for improvement.
+*/
+
 import Foundation
 import XCTest
 @testable import ParseSwift
-// MARK: - Test Suite
 
 class TestJSONEncoder: XCTestCase {
 
