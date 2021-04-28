@@ -111,13 +111,8 @@ class ParseHealthTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Health check")
         ParseHealth.check { result in
-            switch result {
-
-            case .success:
+            if case .success = result {
                 XCTFail("Should have thrown error")
-
-            case .failure(let error):
-                XCTAssertTrue(error.message.contains("data couldn"))
             }
             expectation.fulfill()
         }
