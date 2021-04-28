@@ -17,7 +17,7 @@ public extension ParseConfig {
     // MARK: Fetchable - Combine
 
     /**
-     Fetch the Config *asynchronously*.
+     Fetch the Config *asynchronously*. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */

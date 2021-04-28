@@ -36,6 +36,7 @@ public struct API {
         case jobs(name: String)
         case aggregate(className: String)
         case config
+        case health
         case any(String)
 
         var urlComponent: String {
@@ -80,6 +81,8 @@ public struct API {
                 return "/aggregate/\(className)"
             case .config:
                 return "/config"
+            case .health:
+                return "/health"
             case .any(let path):
                 return path
             }

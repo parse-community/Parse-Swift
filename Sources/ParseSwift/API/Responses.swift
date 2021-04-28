@@ -124,3 +124,8 @@ internal struct ConfigFetchResponse<T>: Codable where T: ParseConfig {
 internal struct ConfigUpdateResponse: Codable {
     let result: Bool
 }
+
+// MARK: HealthResponse
+internal struct HealthResponse: Codable {
+    let status: String
+}

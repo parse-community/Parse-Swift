@@ -32,7 +32,7 @@ public extension ParseCloud {
     // MARK: Jobs - Combine
 
     /**
-     Starts a Cloud Code job *asynchronously* and returns a result with the jobStatusId of the job.
+     Starts a Cloud Code Job *asynchronously* and returns a result with the jobStatusId of the job.
      Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.

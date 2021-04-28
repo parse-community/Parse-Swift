@@ -42,7 +42,7 @@ extension ParseCloud {
      Calls a Cloud Code function *asynchronously* and returns a result of it's execution.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-        - parameter completion: A block that will be called when logging out, completes or fails.
+        - parameter completion: A block that will be called when the Cloud Code completes or fails.
         It should have the following argument signature: `(Result<ReturnType, ParseError>)`.
     */
     public func runFunction(options: API.Options = [],
@@ -70,7 +70,7 @@ extension ParseCloud {
 // MARK: Jobs
 extension ParseCloud {
     /**
-     Starts a Cloud Code job *synchronously* and returns a result with the jobStatusId of the job.
+     Starts a Cloud Code Job *synchronously* and returns a result with the jobStatusId of the job.
           - parameter options: A set of header options sent to the server. Defaults to an empty set.
           - returns: Returns a `Decodable` type.
     */
@@ -79,10 +79,10 @@ extension ParseCloud {
     }
 
     /**
-     Starts a Cloud Code job *asynchronously* and returns a result with the jobStatusId of the job.
+     Starts a Cloud Code Job *asynchronously* and returns a result with the jobStatusId of the job.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-        - parameter completion: A block that will be called when logging out, completes or fails.
+        - parameter completion: A block that will be called when the Cloud Code Job completes or fails.
         It should have the following argument signature: `(Result<ReturnType, ParseError>)`.
     */
     public func startJob(options: API.Options = [],
