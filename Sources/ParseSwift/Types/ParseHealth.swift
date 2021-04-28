@@ -48,16 +48,3 @@ public struct ParseHealth: ParseType, Decodable {
         }
     }
 }
-
-// MARK: CustomDebugStringConvertible
-extension ParseHealth {
-    public var debugDescription: String {
-        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
-            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
-            let objectType = "\(type(of: self))"
-            return "\(objectType.components(separatedBy: ".").first!) ()" // strip .Type
-        }
-
-        return "\(descriptionString)"
-    }
-}
