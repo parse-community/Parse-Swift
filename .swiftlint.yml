@@ -5,3 +5,5 @@ disabled_rules:
   - type_body_length
   - inclusive_language
   - comment_spacing
+excluded: # paths to ignore during linting. Takes precedence over `included`.
+  - Tests/ParseSwiftTests/ParseEncoderTests
