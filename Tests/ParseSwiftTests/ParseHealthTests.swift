@@ -117,7 +117,7 @@ class ParseHealthTests: XCTestCase {
                 XCTFail("Should have thrown error")
 
             case .failure(let error):
-                XCTAssertTrue(error.message.contains("data couldn’t be read"))
+                XCTAssertTrue(error.message.contains("data couldn"))
             }
             expectation.fulfill()
         }
