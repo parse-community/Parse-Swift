@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ParseKeyValueStore Protocol Reference</title>
+    <title>ParseHealth Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Protocol/ParseKeyValueStore" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/ParseHealth" class="dashAnchor"></a>
 
-    <a title="ParseKeyValueStore Protocol Reference"></a>
+    <a title="ParseHealth Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ParseKeyValueStore Protocol Reference
+      ParseHealth Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -314,16 +314,15 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>ParseKeyValueStore</h1>
+            <h1>ParseHealth</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseKeyValueStore</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseHealth</span> <span class="p">:</span> <span class="kt">ParseType</span><span class="p">,</span> <span class="kt">Decodable</span></code></pre>
 
                 </div>
               </div>
-            <p>A store that supports key/value storage. It should be able
-to handle any object that conforms to encodable and decodable.</p>
+            <p><code>ParseHealth</code> allows you to check the health of a Parse Server.</p>
 
           </div>
         </section>
@@ -335,9 +334,9 @@ to handle any object that conforms to encodable and decodable.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A13KeyValueStoreP6delete8valueForySS_tKF"></a>
-                    <a name="//apple_ref/swift/Method/delete(valueFor:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A13KeyValueStoreP6delete8valueForySS_tKF">delete(valueFor:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A6HealthV5check7optionsSSShyAA3APIV6OptionOG_tKFZ"></a>
+                    <a name="//apple_ref/swift/Method/check(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6HealthV5check7optionsSSShyAA3APIV6OptionOG_tKFZ">check(options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -345,14 +344,19 @@ to handle any object that conforms to encodable and decodable.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Delete an object from the store.</p>
+                        <p>Calls the health check function <em>synchronously</em> and returns a result of it&rsquo;s execution.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">mutating</span> <span class="kd">func</span> <span class="nf">delete</span><span class="p">(</span><span class="n">valueFor</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kd">func</span> <span class="nf">check</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">String</span></code></pre>
 
                         </div>
                       </div>
@@ -363,44 +367,21 @@ to handle any object that conforms to encodable and decodable.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>key</em>
+                                <em>options</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The unique key value of the object.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A13KeyValueStoreP9deleteAllyyKF"></a>
-                    <a name="//apple_ref/swift/Method/deleteAll()" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A13KeyValueStoreP9deleteAllyyKF">deleteAll()</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Delete all objects from the store.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">mutating</span> <span class="kd">func</span> <span class="nf">deleteAll</span><span class="p">()</span> <span class="k">throws</span></code></pre>
-
-                        </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns the status of the server.</p>
                       </div>
                     </section>
                   </div>
@@ -408,9 +389,9 @@ to handle any object that conforms to encodable and decodable.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A13KeyValueStoreP3get8valueForqd__SgSS_tKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/get(valueFor:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A13KeyValueStoreP3get8valueForqd__SgSS_tKSeRd__lF">get(valueFor:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A6HealthV5check7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySSAA0A5ErrorVGctFZ"></a>
+                    <a name="//apple_ref/swift/Method/check(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6HealthV5check7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySSAA0A5ErrorVGctFZ">check(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -418,14 +399,16 @@ to handle any object that conforms to encodable and decodable.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Gets an object from the store based on its <code>key</code>.</p>
+                        <p>Calls the health check function <em>asynchronously</em> and returns a result of it&rsquo;s execution.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">mutating</span> <span class="kd">func</span> <span class="k">get</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">valueFor</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">T</span><span class="p">?</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">public</span> <span class="kd">func</span> <span class="nf">check</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                         <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                         <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -436,12 +419,37 @@ to handle any object that conforms to encodable and decodable.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>key</em>
+                                <em>options</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The unique key value of the object.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A block that will be called when the health check completes or fails.
+It should have the following argument signature: <code>(Result&lt;String, ParseError&gt;)</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -451,12 +459,25 @@ to handle any object that conforms to encodable and decodable.</p>
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Check%20-%20Combine"></a>
+                <a name="//apple_ref/swift/Section/Check - Combine" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Check%20-%20Combine"></a>
+                  <h3 class="section-name"><p>Check - Combine</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A13KeyValueStoreP3set_3foryqd___SStKSERd__lF"></a>
-                    <a name="//apple_ref/swift/Method/set(_:for:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A13KeyValueStoreP3set_3foryqd___SStKSERd__lF">set(_:<wbr>for:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A6HealthV14checkPublisher7options7Combine6FutureCySSAA0A5ErrorVGShyAA3APIV6OptionOG_tFZ"></a>
+                    <a name="//apple_ref/swift/Method/checkPublisher(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6HealthV14checkPublisher7options7Combine6FutureCySSAA0A5ErrorVGShyAA3APIV6OptionOG_tFZ">checkPublisher(options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -464,14 +485,14 @@ to handle any object that conforms to encodable and decodable.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Stores an object in the store with a given <code>key</code>.</p>
+                        <p>Calls the health check function <em>asynchronously</em>. Publishes when complete.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">mutating</span> <span class="kd">func</span> <span class="k">set</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">object</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="k">for</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">)</span> <span class="k">throws</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Encodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="kd">func</span> <span class="nf">checkPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">String</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -482,29 +503,21 @@ to handle any object that conforms to encodable and decodable.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>object</em>
+                                <em>options</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The object to store.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>key</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The unique key value of the object.</p>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
                       </div>
                     </section>
                   </div>
