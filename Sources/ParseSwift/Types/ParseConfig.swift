@@ -32,7 +32,7 @@ extension ParseConfig {
      Fetch the Config *asynchronously*.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-        - parameter completion: A block that will be called when logging out, completes or fails.
+        - parameter completion: A block that will be called when retrieving the config completes or fails.
         It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
     public func fetch(options: API.Options = [],
@@ -73,7 +73,7 @@ extension ParseConfig {
      Update the Config *asynchronously*.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-        - parameter completion: A block that will be called when logging out, completes or fails.
+        - parameter completion: A block that will be called when retrieving the config completes or fails.
         It should have the following argument signature: `(Result<Bool, ParseError>)`.
     */
     public func save(options: API.Options = [],

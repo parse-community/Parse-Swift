@@ -331,7 +331,7 @@ extension ParseUser {
      unless your code is already running from a background thread.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter completion: A block that will be called when logging out, completes or fails.
+     - parameter completion: A block that will be called when logging out completes or fails.
     */
     public static func logout(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                               completion: @escaping (Result<Void, ParseError>) -> Void) {
