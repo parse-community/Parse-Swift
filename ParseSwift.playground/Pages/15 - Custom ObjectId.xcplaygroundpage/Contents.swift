@@ -38,7 +38,8 @@ struct GameScore: ParseObject {
     }
 }
 
-//: Define initial GameScore.
+//: Define initial GameScore this time with custom `objectId`.
+//: customObjectId has to be enabled on the server for this to work.
 var score = GameScore(objectId: "myObjectId", score: 10)
 
 /*: Save asynchronously (preferred way) - Performs work on background
@@ -54,6 +55,8 @@ score.save { result in
         assert(savedScore.ACL == nil)
         assert(savedScore.score == 10)
 
+        //: Now that this object has a `createdAt`, it's properly saved to the server.
+        //: Any changes to `createdAt` and `objectId` will not be saved to the server.
         print("Saved score: \(savedScore)")
 
         /*: To modify, need to make it a var as the value type
@@ -61,6 +64,7 @@ score.save { result in
         */
         var changedScore = savedScore
         changedScore.score = 200
+        changedScore.createdAt = Date()
         changedScore.save { result in
             switch result {
             case .success(var savedChangedScore):
