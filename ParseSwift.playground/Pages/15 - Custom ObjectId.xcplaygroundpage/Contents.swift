@@ -64,7 +64,6 @@ score.save { result in
         */
         var changedScore = savedScore
         changedScore.score = 200
-        changedScore.createdAt = Date()
         changedScore.save { result in
             switch result {
             case .success(var savedChangedScore):
