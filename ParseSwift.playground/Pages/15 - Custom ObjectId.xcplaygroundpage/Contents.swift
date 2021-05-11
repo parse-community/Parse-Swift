@@ -81,12 +81,14 @@ score.save { result in
 }
 
 //: Fetch object
-do {
-    try score.fetch()
-} catch {
-    print(error)
+score.fetch { result in
+    switch result {
+    case .success(let fetchedScore):
+        print("Successfully fetched: \(fetchedScore)")
+    case .failure(let error):
+        assertionFailure("Error fetching: \(error)")
+    }
 }
-print(score)
 
 //: Query object
 let query = GameScore.query("objectId" == "myObjectId")
