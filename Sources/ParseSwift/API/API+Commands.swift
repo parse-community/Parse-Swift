@@ -392,7 +392,7 @@ internal extension API.Command {
 
     // MARK: Fetching
     static func fetchCommand<T>(_ object: T, include: [String]?) throws -> API.Command<T, T> where T: ParseObject {
-        guard object.isSaved else {
+        guard object.objectId != nil else {
             throw ParseError(code: .unknownError, message: "Cannot Fetch an object without id")
         }
 

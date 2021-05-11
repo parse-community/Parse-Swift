@@ -4,6 +4,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__Fixes__
+- Fixed issue where Swift SDK prevented fetching of Parse objects when custom objectId was enabled ([#139](https://github.com/parse-community/Parse-Swift/pull/139)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 __Improvements__
 - Add playground example of saving Parse objects with a custom objectId ([#137](https://github.com/parse-community/Parse-Swift/pull/137)), thanks to [Corey Baker](https://github.com/cbaker6).
 
