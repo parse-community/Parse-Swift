@@ -80,7 +80,7 @@ extension Objectable {
         if !ParseSwift.configuration.allowCustomObjectId {
             return objectId != nil
         } else {
-            return createdAt != nil && objectId != nil
+            return objectId != nil && createdAt != nil
         }
     }
 
