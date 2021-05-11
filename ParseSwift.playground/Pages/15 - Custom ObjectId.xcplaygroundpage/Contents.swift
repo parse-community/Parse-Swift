@@ -80,4 +80,34 @@ score.save { result in
     }
 }
 
+//: Fetch object
+do {
+    try score.fetch()
+} catch {
+    print(error)
+}
+print(score)
+
+//: Query object
+let query = GameScore.query("objectId" == "myObjectId")
+query.first { result in
+    switch result {
+    case .success(let found):
+        print(found)
+    case .failure(let error):
+        print(error)
+    }
+}
+
+//: Query object
+let query = GameScore.query("objectId" == "myObjectId")
+query.find { result in
+    switch result {
+    case .success(let found):
+        print(found)
+    case .failure(let error):
+        print(error)
+    }
+}
+
 //: [Next](@next)

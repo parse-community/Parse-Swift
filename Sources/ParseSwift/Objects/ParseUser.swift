@@ -755,7 +755,7 @@ extension ParseUser {
     }
 
     func fetchCommand(include: [String]?) throws -> API.Command<Self, Self> {
-        guard isSaved else {
+        guard objectId != nil else {
             throw ParseError(code: .unknownError, message: "Cannot fetch an object without id")
         }
 
