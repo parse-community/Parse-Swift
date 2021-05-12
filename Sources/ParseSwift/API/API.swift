@@ -122,6 +122,7 @@ public struct API {
         /// - note: This is typically used indirectly by `ParseFile`.
         case tags([String: String])
         /// Add context.
+        /// - warning: Requires Parse Server > 4.5.0.
         case context(Encodable)
 
         public func hash(into hasher: inout Hasher) {

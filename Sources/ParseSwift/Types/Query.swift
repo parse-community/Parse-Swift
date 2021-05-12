@@ -405,12 +405,12 @@ public func withinGeoBox(key: String, fromSouthWest southwest: ParseGeoPoint,
  Add a constraint to the query that requires a particular key's
  coordinates be contained within and on the bounds of a given polygon
  Supports closed and open (last point is connected to first) paths.
- (Requires parse-server@2.5.0)
 
  Polygon must have at least 3 points.
 
  - parameter key: The key to be constrained.
  - parameter points: The polygon points as an Array of `ParseGeoPoint`'s.
+ - warning: Requires Parse Server 2.5.0+.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func withinPolygon(key: String, points: [ParseGeoPoint]) -> QueryConstraint {
@@ -420,12 +420,11 @@ public func withinPolygon(key: String, points: [ParseGeoPoint]) -> QueryConstrai
 
 /**
  Add a constraint to the query that requires a particular key's
- coordinates that contains a `ParseGeoPoint`
- (Requires parse-server@2.6.0)
+ coordinates that contains a `ParseGeoPoint`.
 
  - parameter key: The key to be constrained.
  - parameter point: The point the polygon contains `ParseGeoPoint`.
-
+ - warning: Requires Parse Server 2.6.0+.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func polygonContains(key: String, point: ParseGeoPoint) -> QueryConstraint {
@@ -769,7 +768,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 
     /**
      Includes all nested `ParseObject`s one level deep.
-     - warning: Requires Parse Server 3.0.0+
+     - warning: Requires Parse Server 3.0.0+.
      */
     public func includeAll() -> Query<T> {
         var mutableQuery = self
@@ -780,7 +779,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
      Exclude specific keys for a `ParseObject`. Default is to nil.
      - parameter keys: A variadic list of keys include in the result.
-     - warning: Requires Parse Server > 4.5.0
+     - warning: Requires Parse Server > 4.5.0.
      */
     public func exclude(_ keys: String...) -> Query<T> {
         var mutableQuery = self
@@ -791,7 +790,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     /**
      Exclude specific keys for a `ParseObject`. Default is to nil.
      - parameter keys: An array of keys to exclude.
-     - warning: Requires Parse Server > 4.5.0
+     - warning: Requires Parse Server > 4.5.0.
     */
     public func exclude(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
@@ -803,7 +802,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: A variadic list of keys include in the result.
-     - warning: Requires Parse Server > 4.5.0
+     - warning: Requires Parse Server > 4.5.0.
      */
     public func select(_ keys: String...) -> Query<T> {
         var mutableQuery = self
@@ -815,7 +814,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys to include in the result.
-     - warning: Requires Parse Server > 4.5.0
+     - warning: Requires Parse Server > 4.5.0.
      */
     public func select(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
