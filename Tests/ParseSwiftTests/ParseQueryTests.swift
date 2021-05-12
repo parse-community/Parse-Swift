@@ -90,6 +90,23 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query4.`where`.constraints.values.count, 2)
     }
 
+    func testCompareQueries() {
+
+        let query1 = GameScore.query("score" > 100, "createdAt" > Date())
+        let query2 = GameScore.query([containsString(key: "hello",
+                                                     substring: "world"),
+                                      "score" > 100,
+                                      "createdAt" > Date()])
+        let query3 = GameScore.query([containsString(key: "hello",
+                                                     substring: "world"),
+                                      "score" > 101,
+                                      "createdAt" > Date()])
+        XCTAssertEqual(query1, query1)
+        XCTAssertEqual(query2, query2)
+        XCTAssertNotEqual(query1, query2)
+        XCTAssertNotEqual(query2, query3)
+    }
+
     func testEndPoints() {
         let query = Query<GameScore>()
         let userQuery = Query<BaseParseUser>()
