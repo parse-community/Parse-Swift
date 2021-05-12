@@ -1,14 +1,21 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.2...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.7.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.1...1.7.2)
+
+__New features__
+- Added ability to send context with object by specifying it within options ([#140](https://github.com/parse-community/Parse-Swift/pull/140)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
 - Fixed issue where Swift SDK prevented fetching of Parse objects when custom objectId was enabled ([#139](https://github.com/parse-community/Parse-Swift/pull/139)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
 - Add playground example of saving Parse objects with a custom objectId ([#137](https://github.com/parse-community/Parse-Swift/pull/137)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Improved comparison of query constraints by comparing value ([#140](https://github.com/parse-community/Parse-Swift/pull/140)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.7.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.0...1.7.1)
