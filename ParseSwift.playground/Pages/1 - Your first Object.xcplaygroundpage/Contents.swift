@@ -13,8 +13,7 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
 */
 
-/*: In Xcode, make sure you are building the "ParseSwift (macOS)" framework.
- */
+//: In Xcode, make sure you are building the "ParseSwift (macOS)" framework.
 
 initializeParse()
 

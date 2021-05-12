@@ -44,6 +44,42 @@ cloud.runFunction { result in
 }
 
 //: Jobs can be run the same way by using the method `startJob()`.
+
+//: Saving objects with context for beforeSave, afterSave, etc.
+//: Create your own value typed `ParseObject`.
+struct GameScore: ParseObject {
+    //: Those are required for Object
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseACL?
+
+    //: Your own properties.
+    var score: Int = 0
+
+    //: Custom initializer.
+    init(score: Int) {
+        self.score = score
+    }
+
+    init(objectId: String?) {
+        self.objectId = objectId
+    }
+}
+
+//: Define a GameScore.
+let score = GameScore(score: 10)
+
+//: Save asynchronously (preferred way) with the context option.
+score.save(options: .init(.context(["hello": "world"]))) { result in
+    switch result {
+    case .success(let savedScore):
+        print("Successfully saved \(savedScore)")
+    case .failure(let error):
+        assertionFailure("Error saving: \(error)")
+    }
+}
+
 PlaygroundPage.current.finishExecution()
 
 //: [Next](@next)

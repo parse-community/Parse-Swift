@@ -62,10 +62,10 @@ public struct QueryConstraint: Encodable, Equatable {
         }
     }
 
-    /// - warning: Doesn't compare "value"
     public static func == (lhs: QueryConstraint, rhs: QueryConstraint) -> Bool {
         guard lhs.key == rhs.key,
-              lhs.comparator == rhs.comparator else {
+              lhs.comparator == rhs.comparator,
+              AnyEncodable(lhs.value) == AnyEncodable(rhs.value) else {
             return false
         }
         return true
