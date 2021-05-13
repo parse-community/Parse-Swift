@@ -100,7 +100,7 @@ The LiveQuery client interface is based around the concept of `Subscription`s. Y
 ```swift
 let myQuery = Message.query("from" == "parse")
 guard let subscription = myQuery.subscribe else {
-    "Error subscribing..."
+    print("Error subscribing...")
     return
 }
 ```
