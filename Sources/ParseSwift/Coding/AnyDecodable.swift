@@ -43,7 +43,7 @@ protocol _AnyDecodable {
 extension AnyDecodable: _AnyDecodable {}
 
 extension _AnyDecodable {
-    public init(from decoder: Decoder) throws {
+    init(from decoder: Decoder) throws {
         let container = try decoder.singleValueContainer()
 
         if container.decodeNil() {
@@ -74,7 +74,7 @@ extension _AnyDecodable {
 }
 
 extension AnyDecodable: Equatable {
-    public static func == (lhs: AnyDecodable, rhs: AnyDecodable) -> Bool {
+    static func == (lhs: AnyDecodable, rhs: AnyDecodable) -> Bool {
         switch (lhs.value, rhs.value) {
 #if canImport(Foundation)
         case is (NSNull, NSNull), is (Void, Void):
