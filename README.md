@@ -159,7 +159,8 @@ or by calling the `subscribe(_ client: ParseLiveQuery)` method of a query. If yo
 
 ### Traditional Callbacks
 
-The LiveQuery client interface is based around the concept of `Subscription`s. You can register any `Query` for live updates from the associated live query server, by simply using the `subscribe` property of a query:
+You can also use asynchronous call backs to subscribe to a LiveQuery:
+
 ```swift
 let myQuery = Message.query("from" == "parse")
 guard let subscription = myQuery.subscribeCallback else {
@@ -173,6 +174,7 @@ or by calling the `subscribeCallback(_ client: ParseLiveQuery)` method of a quer
 Where `Message` is a ParseObject.
 
 Once you've subscribed to a query, you can `handle` events on them, like so:
+
 ```swift
 subscription.handleSubscribe { subscribedQuery, isNew in
 
