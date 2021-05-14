@@ -53,16 +53,16 @@ extension _AnyEncodable {
 
         var container = encoder.singleValueContainer()
         switch self.value {
-        case let dictionary as [String: Any?]:
-            try container.encode(dictionary.mapValues { AnyCodable($0) })
-        case let array as [Any?]:
-            try container.encode(array.map { AnyCodable($0) })
-        case let url as URL:
-            try container.encode(url)
-        case let string as String:
-            try container.encode(string)
-        case let date as Date:
-            try container.encode(date)
+        #if canImport(Foundation)
+        case let number as NSNumber:
+            try encode(nsnumber: number, into: &container)
+        case is NSNull:
+            try container.encodeNil()
+        #endif
+        case is Void:
+            try container.encodeNil()
+        case let bool as Bool:
+            try container.encode(bool)
         case let int as Int:
             try container.encode(int)
         case let int8 as Int8:
@@ -87,44 +87,55 @@ extension _AnyEncodable {
             try container.encode(float)
         case let double as Double:
             try container.encode(double)
-        case let bool as Bool:
-            try container.encode(bool)
-        case is Void:
-            try container.encodeNil()
+        case let string as String:
+            try container.encode(string)
+        #if canImport(Foundation)
+        case let date as Date:
+            try container.encode(date)
+        case let url as URL:
+            try container.encode(url)
+        #endif
+        case let array as [Any?]:
+            try container.encode(array.map { AnyEncodable($0) })
+        case let dictionary as [String: Any?]:
+            try container.encode(dictionary.mapValues { AnyEncodable($0) })
         default:
             let context = EncodingError.Context(codingPath: container.codingPath,
-                                                debugDescription: "AnyCodable value cannot be encoded")
-            throw EncodingError.invalidValue(self.value, context)
+                                                debugDescription: "AnyEncodable value cannot be encoded")
+            throw EncodingError.invalidValue(value, context)
         }
     }
 
-    #if !os(Linux) && !os(Android)
-    private func encode(nsnumber: NSNumber, into container: inout SingleValueEncodingContainer) throws { // swiftlint:disable:this cyclomatic_complexity line_length
-        switch CFNumberGetType(nsnumber) {
-        case .charType:
+    #if canImport(Foundation)
+    private func encode(nsnumber: NSNumber, into container: inout SingleValueEncodingContainer) throws {
+        switch Character(Unicode.Scalar(UInt8(nsnumber.objCType.pointee))) {
+        case "c", "C":
             try container.encode(nsnumber.boolValue)
-        case .sInt8Type:
+        case "s":
             try container.encode(nsnumber.int8Value)
-        case .sInt16Type:
+        case "i":
             try container.encode(nsnumber.int16Value)
-        case .sInt32Type:
+        case "l":
             try container.encode(nsnumber.int32Value)
-        case .sInt64Type:
+        case "q":
             try container.encode(nsnumber.int64Value)
-        case .shortType:
+        case "S":
+            try container.encode(nsnumber.uint8Value)
+        case "I":
             try container.encode(nsnumber.uint16Value)
-        case .longType:
+        case "L":
             try container.encode(nsnumber.uint32Value)
-        case .longLongType:
+        case "Q":
             try container.encode(nsnumber.uint64Value)
-        case .intType, .nsIntegerType, .cfIndexType:
-            try container.encode(nsnumber.intValue)
-        case .floatType, .float32Type:
+        case "f":
             try container.encode(nsnumber.floatValue)
-        case .doubleType, .float64Type, .cgFloatType:
+        case "d":
             try container.encode(nsnumber.doubleValue)
-        @unknown default:
-            fatalError()
+        default:
+            let context = EncodingError.Context(codingPath: container.codingPath,
+                                                // swiftlint:disable:next line_length
+                                                debugDescription: "NSNumber cannot be encoded because its type is not handled")
+            throw EncodingError.invalidValue(nsnumber, context)
         }
     }
     #endif
@@ -202,11 +213,12 @@ extension AnyEncodable: ExpressibleByBooleanLiteral {}
 extension AnyEncodable: ExpressibleByIntegerLiteral {}
 extension AnyEncodable: ExpressibleByFloatLiteral {}
 extension AnyEncodable: ExpressibleByStringLiteral {}
+extension AnyEncodable: ExpressibleByStringInterpolation {}
 extension AnyEncodable: ExpressibleByArrayLiteral {}
 extension AnyEncodable: ExpressibleByDictionaryLiteral {}
 
 extension _AnyEncodable {
-    init(nilLiteral: ()) {
+    init(nilLiteral _: ()) {
         self.init(nil as Any?)
     }
 
