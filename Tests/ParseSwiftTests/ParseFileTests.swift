@@ -68,14 +68,14 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    func testUploadCommand() {
+    func testUploadCommand() throws {
         guard let url = URL(string: "http://localhost/") else {
             XCTFail("Should have created url")
             return
         }
         let file = ParseFile(name: "a", cloudURL: url)
 
-        let command = file.uploadFileCommand()
+        let command = try file.uploadFileCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/files/a")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -84,12 +84,23 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let file2 = ParseFile(cloudURL: url)
 
-        let command2 = file2.uploadFileCommand()
+        let command2 = try file2.uploadFileCommand()
         XCTAssertNotNil(command2)
         XCTAssertEqual(command2.path.urlComponent, "/files/file")
         XCTAssertEqual(command2.method, API.Method.POST)
         XCTAssertNil(command2.params)
         XCTAssertNil(command2.body)
+    }
+
+    func testUploadCommandDontAllowUpdate() throws {
+        guard let url = URL(string: "http://localhost/") else {
+            XCTFail("Should have created url")
+            return
+        }
+
+        var file = ParseFile(cloudURL: url)
+        file.url = url
+        XCTAssertThrowsError(try file.uploadFileCommand())
     }
 
     func testDeleteCommand() {
@@ -375,6 +386,19 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testUpdateFileError() throws {
+        guard let sampleData = "Hello World".data(using: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have converted to data")
+        }
+        var parseFile = ParseFile(name: "sampleData.txt",
+                                  data: sampleData,
+                                  metadata: ["Testing": "123"],
+                                  tags: ["Hey": "now"])
+        parseFile.url = URL(string: "http://localhost/")
+
+        XCTAssertThrowsError(try parseFile.save())
+    }
+
     func testFetchFileStream() throws {
         let tempFilePath = URL(fileURLWithPath: "\(temporaryDirectory)sampleData.dat")
         guard let sampleData = "Hello World".data(using: .utf8) else {
@@ -636,6 +660,28 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(saved.localURL, tempFilePath)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testUpdateErrorAysnc() throws {
+
+        guard let sampleData = "Hello World".data(using: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have converted to data")
+        }
+        var parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
+        parseFile.url = URL(string: "http://localhost/")
+
+        let expectation1 = XCTestExpectation(description: "ParseFile async")
+        parseFile.save { result in
+
+            switch result {
+            case .success:
+                XCTFail("Should have returned error")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("File is already"))
             }
             expectation1.fulfill()
         }

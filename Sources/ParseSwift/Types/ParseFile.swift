@@ -427,14 +427,25 @@ extension ParseFile {
                 switch result {
 
                 case .success(let fetched):
-                    fetched.uploadFileCommand()
-                        .executeAsync(options: options,
+                    do {
+                        try fetched.uploadFileCommand()
+                            .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
                                       uploadProgress: progress) { result in
-                            callbackQueue.async {
-                                completion(result)
+                                callbackQueue.async {
+                                    completion(result)
+                                }
+                            }
+                    } catch {
+                        callbackQueue.async {
+                            if let parseError = error as? ParseError {
+                                completion(.failure(parseError))
+                            } else {
+                                let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                                completion(.failure(parseError))
                             }
                         }
+                    }
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))
@@ -442,20 +453,31 @@ extension ParseFile {
                 }
             }
         } else {
-            uploadFileCommand()
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue,
-                              uploadProgress: progress) { result in
-                    callbackQueue.async {
-                        completion(result)
+            do {
+                try uploadFileCommand()
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue,
+                                  uploadProgress: progress) { result in
+                        callbackQueue.async {
+                            completion(result)
+                        }
+                    }
+            } catch {
+                callbackQueue.async {
+                    if let parseError = error as? ParseError {
+                        completion(.failure(parseError))
+                    } else {
+                        let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
+                        completion(.failure(parseError))
                     }
                 }
+            }
         }
 
     }
 
-    internal func uploadFileCommand() -> API.Command<Self, Self> {
-        return API.Command<Self, Self>.uploadFileCommand(self)
+    internal func uploadFileCommand() throws -> API.Command<Self, Self> {
+        try API.Command<Self, Self>.uploadFileCommand(self)
     }
 }
 

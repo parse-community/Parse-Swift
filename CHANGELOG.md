@@ -11,6 +11,7 @@ __New features__
 - Added ability to send context with object by specifying it within options ([#140](https://github.com/parse-community/Parse-Swift/pull/140)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
+- ParseFiles can't be updated from the client and will now throw an error if attempted. Instead another file should be created and the older file should be deleted by the developer. ([#144](https://github.com/parse-community/Parse-Swift/pull/144)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Fixed issue where Swift SDK prevented fetching of Parse objects when custom objectId was enabled ([#139](https://github.com/parse-community/Parse-Swift/pull/139)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
