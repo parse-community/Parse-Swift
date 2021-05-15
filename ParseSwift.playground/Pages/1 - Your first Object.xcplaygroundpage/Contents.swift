@@ -23,7 +23,7 @@ do {
 } catch {
     print(error)
 }
-    
+
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
     //: Those are required for Object
