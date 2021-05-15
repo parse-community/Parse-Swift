@@ -135,6 +135,7 @@ jobs:
         id: cache-gradle
         uses: actions/cache@v2
         with:
+          path: .
           key: ${{ runner.os }}-gradle-v1-${{ hashFiles('**/build.gradle') }}
           restore-keys: |
             ${{ runner.os }}-gradle-v1
