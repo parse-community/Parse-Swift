@@ -1,7 +1,7 @@
 package com.example
 
 import android.os.Bundle
-import com.parse.ParseSwift
+import com.parse.parseswift.ParseSwift
 
 class MainActivity {
     companion object {
