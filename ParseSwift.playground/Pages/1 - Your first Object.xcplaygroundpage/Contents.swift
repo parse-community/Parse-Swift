@@ -18,8 +18,12 @@ npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey -
 initializeParse()
 
 //: Check the health of your Parse Server.
-print(try ParseHealth.check())
-
+do {
+    print("Server health is: \(try ParseHealth.check())")
+} catch {
+    print(error)
+}
+    
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
     //: Those are required for Object
