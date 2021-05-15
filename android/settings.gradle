@@ -1,0 +1,4 @@
+include ':app'
+
+include ':parseswift'
+project(':parseswift').projectDir = new File(rootProject.projectDir, '../')

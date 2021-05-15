@@ -127,17 +127,21 @@ jobs:
 
   android:
     runs-on: ubuntu-18.04
-    container: flowkey/androidswift5:latest
+    container:
+      image: flowkey/androidswift5:latest
     steps:
       - uses: actions/checkout@v2
+      - name: Cache Gradle
+        id: cache-gradle
+        uses: actions/cache@v2
+        with:
+          key: ${{ runner.os }}-gradle-v1-${{ hashFiles('**/build.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-v1
       - name: Build
-        run: swift build
-      - name: Test
-        run: swift test --enable-test-discovery --enable-code-coverage
-      - name: Prepare codecov
-        run: llvm-cov export -format="lcov" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info.lcov
-      - name: Send codecov
-        run: bash <(curl https://codecov.io/bash)
+        run: |
+          cd android
+          ./gradlew assembleDebug
 
   docs:
     needs: xcode-build-watchos
