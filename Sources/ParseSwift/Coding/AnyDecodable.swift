@@ -47,33 +47,39 @@ extension _AnyDecodable {
         let container = try decoder.singleValueContainer()
 
         if container.decodeNil() {
-            self.init(())
-        } else if let dictionary = try? container.decode([String: AnyCodable].self) {
-            self.init(dictionary.mapValues { $0.value })
-        } else if let array = try? container.decode([AnyCodable].self) {
-            self.init(array.map { $0.value })
-        } else if let string = try? container.decode(String.self) {
-            self.init(string)
+            #if canImport(Foundation)
+                self.init(NSNull())
+            #else
+                self.init(Self?.none)
+            #endif
+        } else if let bool = try? container.decode(Bool.self) {
+            self.init(bool)
         } else if let int = try? container.decode(Int.self) {
             self.init(int)
         } else if let uint = try? container.decode(UInt.self) {
             self.init(uint)
         } else if let double = try? container.decode(Double.self) {
             self.init(double)
-        } else if let bool = try? container.decode(Bool.self) {
-            self.init(bool)
+        } else if let string = try? container.decode(String.self) {
+            self.init(string)
+        } else if let array = try? container.decode([AnyDecodable].self) {
+            self.init(array.map { $0.value })
+        } else if let dictionary = try? container.decode([String: AnyDecodable].self) {
+            self.init(dictionary.mapValues { $0.value })
         } else {
             throw DecodingError.dataCorruptedError(in: container,
-                                                   debugDescription: "AnyCodable value cannot be decoded")
+                                                   debugDescription: "AnyDecodable value cannot be decoded")
         }
     }
 }
 
 extension AnyDecodable: Equatable {
-    static func == (lhs: AnyDecodable, rhs: AnyDecodable) -> Bool { // swiftlint:disable:this cyclomatic_complexity line_length
+    static func == (lhs: AnyDecodable, rhs: AnyDecodable) -> Bool {
         switch (lhs.value, rhs.value) {
-        case is (Void, Void):
+#if canImport(Foundation)
+        case is (NSNull, NSNull), is (Void, Void):
             return true
+#endif
         case let (lhs as Bool, rhs as Bool):
             return lhs == rhs
         case let (lhs as Int, rhs as Int):
@@ -102,9 +108,9 @@ extension AnyDecodable: Equatable {
             return lhs == rhs
         case let (lhs as String, rhs as String):
             return lhs == rhs
-        case (let lhs as [String: AnyDecodable], let rhs as [String: AnyDecodable]):
+        case let (lhs as [String: AnyDecodable], rhs as [String: AnyDecodable]):
             return lhs == rhs
-        case (let lhs as [AnyDecodable], let rhs as [AnyDecodable]):
+        case let (lhs as [AnyDecodable], rhs as [AnyDecodable]):
             return lhs == rhs
         default:
             return false

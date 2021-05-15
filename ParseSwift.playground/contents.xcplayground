@@ -15,5 +15,6 @@
         <page name='12 - Roles and Relations'/>
         <page name='13 - Operations'/>
         <page name='14 - Config'/>
+        <page name='15 - Custom ObjectId'/>
     </pages>
 </playground>
