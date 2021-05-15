@@ -254,25 +254,18 @@ internal extension API {
 
 internal extension API.Command {
     // MARK: Uploading File
-    static func uploadFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
-        if object.isSaved {
-            return updateFileCommand(object)
+    static func uploadFileCommand(_ object: ParseFile) throws -> API.Command<ParseFile, ParseFile> {
+        if !object.isSaved {
+            return createFileCommand(object)
+        } else {
+            throw ParseError(code: .unknownError,
+                             message: "File is already saved and cannot be updated.")
         }
-        return createFileCommand(object)
     }
 
     // MARK: Uploading File - private
     private static func createFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
         API.Command(method: .POST,
-                    path: .file(fileName: object.name),
-                    uploadData: object.data,
-                    uploadFile: object.localURL) { (data) -> ParseFile in
-            try ParseCoding.jsonDecoder().decode(FileUploadResponse.self, from: data).apply(to: object)
-        }
-    }
-
-    private static func updateFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
-        API.Command(method: .PUT,
                     path: .file(fileName: object.name),
                     uploadData: object.data,
                     uploadFile: object.localURL) { (data) -> ParseFile in
