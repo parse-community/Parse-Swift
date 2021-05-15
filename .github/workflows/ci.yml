@@ -142,7 +142,7 @@ jobs:
       - name: Build
         run: |
           cd android
-          ./gradlew assembleDebug
+          ./gradlew build
 
   docs:
     needs: xcode-build-watchos
