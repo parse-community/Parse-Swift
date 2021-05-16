@@ -20,7 +20,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ParseSwift 1.7.1 Docs
+          ParseSwift 1.7.2 Docs
         </a>
          (95% documented)
       </p>
@@ -390,6 +390,8 @@ search field.</p>
 <p>Please checkout the <a href="https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground">Swift Playground</a> for more usage information.</p>
 <h2 id='livequery' class='heading'>LiveQuery</h2>
 
+<p><strong>Requires: iOS 13.0+, macOS 10.15+, macCatalyst 13.0+, tvOS 13.0+, watchOS 6.0+</strong></p>
+
 <p><code><a href="Structs/Query.html">Query</a></code> is one of the key concepts on the Parse Platform. It allows you to retrieve <code><a href="Protocols/ParseObject.html">ParseObject</a></code>s by specifying some conditions, making it easy to build apps such as a dashboard, a todo list or even some strategy games. However, <code><a href="Structs/Query.html">Query</a></code> is based on a pull model, which is not suitable for apps that need real-time support.</p>
 
 <p>Suppose you are building an app that allows multiple users to edit the same file at the same time. <code><a href="Structs/Query.html">Query</a></code> would not be an ideal tool since you can not know when to query from the server to get the updates.</p>
@@ -401,14 +403,75 @@ search field.</p>
 
 <p>The easiest way to setup the LiveQuery server is to make it run with the <a href="https://github.com/ParsePlatform/parse-server/wiki/Parse-LiveQuery#server-setup">Open Source Parse Server</a>.</p>
 <h3 id='use-client' class='heading'>Use Client</h3>
+<h4 id='swiftui-view-models-using-combine' class='heading'>SwiftUI View Models Using Combine</h4>
 
-<p>The LiveQuery client interface is based around the concept of <code><a href="Classes/Subscription.html">Subscription</a></code>s. You can register any <code><a href="Structs/Query.html">Query</a></code> for live updates from the associated live query server, by simply calling <code>subscribe()</code> on a query:</p>
+<p>The LiveQuery client interface is based around the concept of <code><a href="Classes/Subscription.html">Subscription</a></code>s. You can register any <code><a href="Structs/Query.html">Query</a></code> for live updates from the associated live query server and use the query as a view model for a SwiftUI view by simply using the <code>subscribe</code> property of a query:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myQuery</span> <span class="o">=</span> <span class="kt">GameScore</span><span class="o">.</span><span class="nf">query</span><span class="p">(</span><span class="s">"score"</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">)</span>
+
+<span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+
+    <span class="c1">//: A LiveQuery subscription can be used as a view model in SwiftUI</span>
+    <span class="kd">@ObservedObject</span> <span class="k">var</span> <span class="nv">subscription</span> <span class="o">=</span> <span class="n">myQuery</span><span class="o">.</span><span class="n">subscribe</span><span class="o">!</span>
+
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+        <span class="kt">VStack</span> <span class="p">{</span>
+
+            <span class="k">if</span> <span class="n">subscription</span><span class="o">.</span><span class="n">subscribed</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Subscribed to query!"</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="n">subscription</span><span class="o">.</span><span class="n">unsubscribed</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Unsubscribed from query!"</span><span class="p">)</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="k">let</span> <span class="nv">event</span> <span class="o">=</span> <span class="n">subscription</span><span class="o">.</span><span class="n">event</span> <span class="p">{</span>
+
+                <span class="c1">//: This is how you register to receive notificaitons of events related to your LiveQuery.</span>
+                <span class="k">switch</span> <span class="n">event</span><span class="o">.</span><span class="n">event</span> <span class="p">{</span>
+
+                <span class="k">case</span> <span class="o">.</span><span class="nf">entered</span><span class="p">(</span><span class="k">let</span> <span class="nv">object</span><span class="p">):</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Entered with score: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">score</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                <span class="k">case</span> <span class="o">.</span><span class="nf">left</span><span class="p">(</span><span class="k">let</span> <span class="nv">object</span><span class="p">):</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Left with score: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">score</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                <span class="k">case</span> <span class="o">.</span><span class="nf">created</span><span class="p">(</span><span class="k">let</span> <span class="nv">object</span><span class="p">):</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Created with score: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">score</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                <span class="k">case</span> <span class="o">.</span><span class="nf">updated</span><span class="p">(</span><span class="k">let</span> <span class="nv">object</span><span class="p">):</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Updated with score: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">score</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                <span class="k">case</span> <span class="o">.</span><span class="nf">deleted</span><span class="p">(</span><span class="k">let</span> <span class="nv">object</span><span class="p">):</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Deleted with score: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">score</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Not subscribed to a query"</span><span class="p">)</span>
+            <span class="p">}</span>
+
+            <span class="kt">Spacer</span><span class="p">()</span>
+
+            <span class="kt">Text</span><span class="p">(</span><span class="s">"Update GameScore in Parse Dashboard to see changes here"</span><span class="p">)</span>
+
+            <span class="kt">Button</span><span class="p">(</span><span class="nv">action</span><span class="p">:</span> <span class="p">{</span>
+                <span class="k">try</span><span class="p">?</span> <span class="n">query</span><span class="o">.</span><span class="nf">unsubscribe</span><span class="p">()</span>
+            <span class="p">},</span> <span class="nv">label</span><span class="p">:</span> <span class="p">{</span>
+                <span class="kt">Text</span><span class="p">(</span><span class="s">"Unsubscribe"</span><span class="p">)</span>
+                    <span class="o">.</span><span class="nf">font</span><span class="p">(</span><span class="o">.</span><span class="n">headline</span><span class="p">)</span>
+                    <span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">red</span><span class="p">)</span>
+                    <span class="o">.</span><span class="nf">foregroundColor</span><span class="p">(</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
+                    <span class="o">.</span><span class="nf">padding</span><span class="p">()</span>
+                    <span class="o">.</span><span class="nf">cornerRadius</span><span class="p">(</span><span class="mf">20.0</span><span class="p">)</span>
+                    <span class="o">.</span><span class="nf">frame</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">300</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">50</span><span class="p">)</span>
+            <span class="p">})</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre>
+
+<p>or by calling the <code>subscribe(_ client: ParseLiveQuery)</code> method of a query. If you want to customize your view model more you can subclass <code><a href="Classes/Subscription.html">Subscription</a></code> or add the subscription to your own view model. You can test out LiveQuery subscriptions in <a href="https://github.com/parse-community/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L38-L95">Swift Playgrounds</a>.</p>
+<h4 id='traditional-callbacks' class='heading'>Traditional Callbacks</h4>
+
+<p>You can also use asynchronous call backs to subscribe to a LiveQuery:</p>
 <pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myQuery</span> <span class="o">=</span> <span class="kt">Message</span><span class="o">.</span><span class="nf">query</span><span class="p">(</span><span class="s">"from"</span> <span class="o">==</span> <span class="s">"parse"</span><span class="p">)</span>
-<span class="k">guard</span> <span class="k">let</span> <span class="nv">subscription</span> <span class="o">=</span> <span class="n">myQuery</span><span class="o">.</span><span class="n">subscribe</span> <span class="k">else</span> <span class="p">{</span>
-    <span class="s">"Error subscribing..."</span>
+<span class="k">guard</span> <span class="k">let</span> <span class="nv">subscription</span> <span class="o">=</span> <span class="n">myQuery</span><span class="o">.</span><span class="n">subscribeCallback</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s">"Error subscribing..."</span><span class="p">)</span>
     <span class="k">return</span>
 <span class="p">}</span>
 </code></pre>
+
+<p>or by calling the <code>subscribeCallback(_ client: ParseLiveQuery)</code> method of a query.</p>
 
 <p>Where <code>Message</code> is a ParseObject.</p>
 
@@ -456,7 +519,7 @@ search field.</p>
 <span class="p">}</span>
 </code></pre>
 
-<p>Handling errors is and other events is similar, take a look at the <code><a href="Classes/Subscription.html">Subscription</a></code> class for more information.</p>
+<p>Handling errors is and other events is similar, take a look at the <code><a href="Classes/Subscription.html">Subscription</a></code> class for more information. You can test out LiveQuery subscriptions in <a href="https://github.com/parse-community/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L97-L142">Swift Playgrounds</a>.</p>
 <h3 id='advanced-usage' class='heading'>Advanced Usage</h3>
 
 <p>You are not limited to a single Live Query Client - you can create multiple instances of <code><a href="Classes/ParseLiveQuery.html">ParseLiveQuery</a></code>, use certificate authentication and pinning, receive metrics about each client connection, connect to individual server URLs, and more.</p>
@@ -468,8 +531,8 @@ search field.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-04-28)</p>
-      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.6</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-05-16)</p>
+      <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.7</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
 </div>
