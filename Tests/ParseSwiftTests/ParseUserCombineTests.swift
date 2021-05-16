@@ -334,9 +334,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                     expectation1.fulfill()
                 }
 
-        }, receiveValue: { _ in
-
-        })
+        }, receiveValue: { _ in })
         publisher.store(in: &subscriptions)
         wait(for: [expectation1], timeout: 20.0)
     }
