@@ -63,7 +63,6 @@ add_library(ParseSwift SHARED
     Sources/ParseSwift/Operations/ParseOperation.swift
     Sources/ParseSwift/Operations/Remove.swift
     Sources/ParseSwift/Operations/RemoveRelation.swift
-    Sources/ParseSwift/Parse.h
     Sources/ParseSwift/Parse.swift
     Sources/ParseSwift/ParseConstants.swift
     Sources/ParseSwift/Protocols/Deletable.swift
@@ -79,7 +78,6 @@ add_library(ParseSwift SHARED
     Sources/ParseSwift/Storage/ParseKeyValueStore.swift
     Sources/ParseSwift/Storage/ParseStorage.swift
     Sources/ParseSwift/Storage/SecureStorage.swift
-    Sources/ParseSwift/Types/Parse.h
     Sources/ParseSwift/Types/ParseACL.swift
     Sources/ParseSwift/Types/ParseCloud+combine.swift
     Sources/ParseSwift/Types/ParseCloud.swift
