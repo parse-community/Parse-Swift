@@ -306,36 +306,36 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                 if case let .failure(error) = result {
                     XCTFail(error.localizedDescription)
                 }
-                expectation1.fulfill()
+                if let userFromKeychain = BaseParseUser.current {
+                    XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
+                        = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                        if installationFromMemory.installationId == oldInstallationId
+                            || installationFromMemory.installationId == nil {
+                            XCTFail("\(installationFromMemory) wasn't deleted and recreated in memory during logout")
+                        }
+                    } else {
+                        XCTFail("Should have a new installation")
+                    }
+
+                    #if !os(Linux) && !os(Android)
+                    if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
+                        = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
+                        if installationFromKeychain.installationId == oldInstallationId
+                            || installationFromKeychain.installationId == nil {
+                            XCTFail("\(installationFromKeychain) wasn't deleted & recreated in Keychain during logout")
+                        }
+                    } else {
+                        XCTFail("Should have a new installation")
+                    }
+                    #endif
+                    expectation1.fulfill()
+                }
 
         }, receiveValue: { _ in
-            if let userFromKeychain = BaseParseUser.current {
-                XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
-            }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
-                    = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
-                    if installationFromMemory.installationId == oldInstallationId
-                        || installationFromMemory.installationId == nil {
-                        XCTFail("\(installationFromMemory) wasn't deleted and recreated in memory during logout")
-                    }
-                } else {
-                    XCTFail("Should have a new installation")
-                }
 
-                #if !os(Linux) && !os(Android)
-                if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
-                    = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
-                    if installationFromKeychain.installationId == oldInstallationId
-                        || installationFromKeychain.installationId == nil {
-                        XCTFail("\(installationFromKeychain) wasn't deleted & recreated in Keychain during logout")
-                    }
-                } else {
-                    XCTFail("Should have a new installation")
-                }
-                #endif
-                expectation1.fulfill()
-            }
         })
         publisher.store(in: &subscriptions)
         wait(for: [expectation1], timeout: 20.0)
