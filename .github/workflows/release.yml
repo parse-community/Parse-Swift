@@ -26,9 +26,9 @@ jobs:
         uses: actions/cache@v2
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gem-v3-${{ hashFiles('**/Gemfile.lock') }}
+          key: ${{ runner.os }}-gem-v4-${{ hashFiles('**/Gemfile.lock') }}
           restore-keys: |
-            ${{ runner.os }}-gem-v3
+            ${{ runner.os }}-gem-v4
       - name: Install Bundle
         run: |
           bundle config path vendor/bundle

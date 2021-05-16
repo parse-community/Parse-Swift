@@ -99,6 +99,7 @@ public struct API {
 
     /// Options available to send to Parse Server.
     public enum Option: Hashable {
+
         /// Use the masterKey if it was provided during initial configuraration.
         case useMasterKey // swiftlint:disable:this inclusive_language
         /// Use a specific session token.
@@ -120,6 +121,9 @@ public struct API {
         /// Specify tags.
         /// - note: This is typically used indirectly by `ParseFile`.
         case tags([String: String])
+        /// Add context.
+        /// - warning: Requires Parse Server > 4.5.0.
+        case context(Encodable)
 
         public func hash(into hasher: inout Hasher) {
             switch self {
@@ -139,7 +143,13 @@ public struct API {
                 hasher.combine(7)
             case .tags:
                 hasher.combine(8)
+            case .context:
+                hasher.combine(9)
             }
+        }
+
+        public static func == (lhs: API.Option, rhs: API.Option) -> Bool {
+            return AnyEncodable(lhs) == AnyEncodable(rhs)
         }
     }
 
@@ -182,6 +192,12 @@ public struct API {
             case .tags(let tags):
                 tags.forEach {(key, value) -> Void in
                     headers[key] = value
+                }
+            case .context(let context):
+                let context = AnyEncodable(context)
+                if let encoded = try? ParseCoding.jsonEncoder().encode(context),
+                   let encodedString = String(data: encoded, encoding: .utf8) {
+                    headers["X-Parse-Context"] = encodedString
                 }
             }
         }

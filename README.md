@@ -81,6 +81,9 @@ ParseSwift.initialize(applicationId: "xxxxxxxxxx", clientKey: "xxxxxxxxxx", serv
 Please checkout the [Swift Playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground) for more usage information.
 
 ## LiveQuery
+
+**Requires: iOS 13.0+, macOS 10.15+, macCatalyst 13.0+, tvOS 13.0+, watchOS 6.0+**
+
 `Query` is one of the key concepts on the Parse Platform. It allows you to retrieve `ParseObject`s by specifying some conditions, making it easy to build apps such as a dashboard, a todo list or even some strategy games. However, `Query` is based on a pull model, which is not suitable for apps that need real-time support.
 
 Suppose you are building an app that allows multiple users to edit the same file at the same time. `Query` would not be an ideal tool since you can not know when to query from the server to get the updates.
@@ -96,18 +99,85 @@ The easiest way to setup the LiveQuery server is to make it run with the [Open S
 
 ### Use Client
 
-The LiveQuery client interface is based around the concept of `Subscription`s. You can register any `Query` for live updates from the associated live query server, by simply calling `subscribe()` on a query:
+#### SwiftUI View Models Using Combine
+
+The LiveQuery client interface is based around the concept of `Subscription`s. You can register any `Query` for live updates from the associated live query server and use the query as a view model for a SwiftUI view by simply using the `subscribe` property of a query:
+
+```swift
+let myQuery = GameScore.query("score" > 9)
+
+struct ContentView: View {
+
+    //: A LiveQuery subscription can be used as a view model in SwiftUI
+    @ObservedObject var subscription = myQuery.subscribe!
+    
+    var body: some View {
+        VStack {
+
+            if subscription.subscribed != nil {
+                Text("Subscribed to query!")
+            } else if subscription.unsubscribed != nil {
+                Text("Unsubscribed from query!")
+            } else if let event = subscription.event {
+
+                //: This is how you register to receive notificaitons of events related to your LiveQuery.
+                switch event.event {
+
+                case .entered(let object):
+                    Text("Entered with score: \(object.score)")
+                case .left(let object):
+                    Text("Left with score: \(object.score)")
+                case .created(let object):
+                    Text("Created with score: \(object.score)")
+                case .updated(let object):
+                    Text("Updated with score: \(object.score)")
+                case .deleted(let object):
+                    Text("Deleted with score: \(object.score)")
+                }
+            } else {
+                Text("Not subscribed to a query")
+            }
+
+            Spacer()
+
+            Text("Update GameScore in Parse Dashboard to see changes here")
+
+            Button(action: {
+                try? query.unsubscribe()
+            }, label: {
+                Text("Unsubscribe")
+                    .font(.headline)
+                    .background(Color.red)
+                    .foregroundColor(.white)
+                    .padding()
+                    .cornerRadius(20.0)
+                    .frame(width: 300, height: 50)
+            })
+        }
+    }
+}
+```
+
+or by calling the `subscribe(_ client: ParseLiveQuery)` method of a query. If you want to customize your view model more you can subclass `Subscription` or add the subscription to your own view model. You can test out LiveQuery subscriptions in [Swift Playgrounds](https://github.com/parse-community/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L38-L95).
+
+#### Traditional Callbacks
+
+You can also use asynchronous call backs to subscribe to a LiveQuery:
+
 ```swift
 let myQuery = Message.query("from" == "parse")
-guard let subscription = myQuery.subscribe else {
-    "Error subscribing..."
+guard let subscription = myQuery.subscribeCallback else {
+    print("Error subscribing...")
     return
 }
 ```
 
+or by calling the `subscribeCallback(_ client: ParseLiveQuery)` method of a query.
+
 Where `Message` is a ParseObject.
 
 Once you've subscribed to a query, you can `handle` events on them, like so:
+
 ```swift
 subscription.handleSubscribe { subscribedQuery, isNew in
 
@@ -154,7 +224,7 @@ do {
 }
 ```
 
-Handling errors is and other events is similar, take a look at the `Subscription` class for more information.
+Handling errors is and other events is similar, take a look at the `Subscription` class for more information. You can test out LiveQuery subscriptions in [Swift Playgrounds](https://github.com/parse-community/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L97-L142).
 
 ### Advanced Usage
 

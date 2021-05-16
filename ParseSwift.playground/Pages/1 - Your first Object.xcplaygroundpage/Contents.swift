@@ -13,13 +13,16 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey --mountPath /1
 */
 
-/*: In Xcode, make sure you are building the "ParseSwift (macOS)" framework.
- */
+//: In Xcode, make sure you are building the "ParseSwift (macOS)" framework.
 
 initializeParse()
 
 //: Check the health of your Parse Server.
-print(try ParseHealth.check())
+do {
+    print("Server health is: \(try ParseHealth.check())")
+} catch {
+    print(error)
+}
 
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {

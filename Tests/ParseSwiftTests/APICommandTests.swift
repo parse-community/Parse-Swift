@@ -46,6 +46,77 @@ class APICommandTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
+    struct User: ParseUser {
+
+        //: Those are required for Object
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        // provided by User
+        var username: String?
+        var email: String?
+        var emailVerified: Bool?
+        var password: String?
+        var authData: [String: [String: String]?]?
+
+        // Your custom keys
+        var customKey: String?
+    }
+
+    struct LoginSignupResponse: ParseUser {
+
+        var objectId: String?
+        var createdAt: Date?
+        var sessionToken: String
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        // provided by User
+        var username: String?
+        var email: String?
+        var emailVerified: Bool?
+        var password: String?
+        var authData: [String: [String: String]?]?
+
+        // Your custom keys
+        var customKey: String?
+
+        init() {
+            let date = Date()
+            self.createdAt = date
+            self.updatedAt = date
+            self.objectId = "yarr"
+            self.ACL = nil
+            self.customKey = "blah"
+            self.sessionToken = "myToken"
+            self.username = "hello10"
+            self.email = "hello@parse.com"
+        }
+    }
+
+    func userLogin() {
+        let loginResponse = LoginSignupResponse()
+        let loginUserName = "hello10"
+        let loginPassword = "world"
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            _ = try User.login(username: loginUserName, password: loginPassword)
+            MockURLProtocol.removeAll()
+        } catch {
+            XCTFail("Should login")
+        }
+    }
+
     func testExecuteCorrectly() {
         let originalObject = "test"
         MockURLProtocol.mockRequests { _ in
@@ -163,6 +234,212 @@ class APICommandTests: XCTestCase {
         }
     }
 
+    func testApplicationIdHeader() {
+        let headers = API.getHeaders(options: [])
+        XCTAssertEqual(headers["X-Parse-Application-Id"], ParseSwift.configuration.applicationId)
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Application-Id"],
+                           ParseSwift.configuration.applicationId)
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testClientKeyHeader() throws {
+        guard let clientKey = ParseSwift.configuration.clientKey else {
+            throw ParseError(code: .unknownError, message: "Parse configuration should contain key")
+        }
+
+        let headers = API.getHeaders(options: [])
+        XCTAssertEqual(headers["X-Parse-Client-Key"], clientKey)
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Client-Key"],
+                           clientKey)
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testPrimaryKeyHeader() throws {
+        guard let primaryKey = ParseSwift.configuration.masterKey else {
+            throw ParseError(code: .unknownError, message: "Parse configuration should contain key")
+        }
+
+        let headers = API.getHeaders(options: [])
+        XCTAssertNil(headers["X-Parse-Master-Key"])
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: [.useMasterKey]) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Master-Key"],
+                           primaryKey)
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testSessionTokenHeader() throws {
+        userLogin()
+        guard let sessionToken = BaseParseUser.currentUserContainer?.sessionToken else {
+            throw ParseError(code: .unknownError, message: "Parse current user should have session token")
+        }
+
+        let headers = API.getHeaders(options: [])
+        XCTAssertEqual(headers["X-Parse-Session-Token"], sessionToken)
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Session-Token"],
+                           sessionToken)
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testReplaceSessionTokenHeader() throws {
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: [.sessionToken("hello")]) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Session-Token"],
+                           "hello")
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testInstallationIdHeader() throws {
+        guard let installationId = BaseParseInstallation.currentInstallationContainer.installationId else {
+            throw ParseError(code: .unknownError, message: "Parse current user should have session token")
+        }
+
+        let headers = API.getHeaders(options: [])
+        XCTAssertEqual(headers["X-Parse-Installation-Id"], installationId)
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Installation-Id"],
+                           installationId)
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testReplaceInstallationIdHeader() throws {
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: [.installationId("hello")]) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Installation-Id"],
+                           "hello")
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testContentHeader() {
+        let headers = API.getHeaders(options: [])
+        XCTAssertEqual(headers["Content-Type"], "application/json")
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"],
+                           "application/json")
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testReplaceContentHeader() {
+        let headers = API.getHeaders(options: [])
+        XCTAssertEqual(headers["Content-Type"], "application/json")
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: [.mimeType("application/html")]) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["Content-Type"],
+                           "application/html")
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testContentLengthHeader() {
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: [.fileSize("512")]) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["Content-Length"],
+                           "512")
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testRemoveContentHeader() {
+        let headers = API.getHeaders(options: [])
+        XCTAssertEqual(headers["Content-Type"], "application/json")
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: [.removeMimeType]) {
+
+        case .success(let request):
+            XCTAssertNil(request.allHTTPHeaderFields?["Content-Type"])
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func testIdempodency() {
         let headers = API.getHeaders(options: [])
         XCTAssertNotNil(headers["X-Parse-Request-Id"])
@@ -272,6 +549,51 @@ class APICommandTests: XCTestCase {
             if request.allHTTPHeaderFields?["X-Parse-Request-Id"] != nil {
                 XCTFail("Should not contain idempotent header ID")
             }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testMetaDataHeader() {
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: [.metadata(["hello": "world"])]) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["hello"], "world")
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testTagsHeader() {
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: [.tags(["hello": "world"])]) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["hello"], "world")
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testContextHeader() {
+        let headers = API.getHeaders(options: [])
+        XCTAssertNil(headers["X-Parse-Context"])
+
+        let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+
+        switch post.prepareURLRequest(options: [.context(["hello": "world"])]) {
+
+        case .success(let request):
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Context"], "{\"hello\":\"world\"}")
         case .failure(let error):
             XCTFail(error.localizedDescription)
         }
