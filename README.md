@@ -80,7 +80,10 @@ ParseSwift.initialize(applicationId: "xxxxxxxxxx", clientKey: "xxxxxxxxxx", serv
 ```
 Please checkout the [Swift Playground](https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground) for more usage information.
 
-## LiveQuery (iOS 13.0+, macOS 10.15+, macCatalyst 13.0+, tvOS 13.0+, watchOS 6.0+)
+## LiveQuery
+
+**Requires: iOS 13.0+, macOS 10.15+, macCatalyst 13.0+, tvOS 13.0+, watchOS 6.0+**
+
 `Query` is one of the key concepts on the Parse Platform. It allows you to retrieve `ParseObject`s by specifying some conditions, making it easy to build apps such as a dashboard, a todo list or even some strategy games. However, `Query` is based on a pull model, which is not suitable for apps that need real-time support.
 
 Suppose you are building an app that allows multiple users to edit the same file at the same time. `Query` would not be an ideal tool since you can not know when to query from the server to get the updates.
@@ -96,7 +99,7 @@ The easiest way to setup the LiveQuery server is to make it run with the [Open S
 
 ### Use Client
 
-### SwiftUI View Models using Combine
+#### SwiftUI View Models Using Combine
 
 The LiveQuery client interface is based around the concept of `Subscription`s. You can register any `Query` for live updates from the associated live query server and use the query as a view model for a SwiftUI view by simply using the `subscribe` property of a query:
 
@@ -155,9 +158,9 @@ struct ContentView: View {
 }
 ```
 
-or by calling the `subscribe(_ client: ParseLiveQuery)` method of a query. If you want to customize your view model more you can subclass `Subscription` or add the subscription to your own view model. Feel free to test out LiveQuery subscriptions in [Swift Playgrounds](https://github.com/parse-community/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L38-L95).
+or by calling the `subscribe(_ client: ParseLiveQuery)` method of a query. If you want to customize your view model more you can subclass `Subscription` or add the subscription to your own view model. You can test out LiveQuery subscriptions in [Swift Playgrounds](https://github.com/parse-community/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L38-L95).
 
-### Traditional Callbacks
+#### Traditional Callbacks
 
 You can also use asynchronous call backs to subscribe to a LiveQuery:
 
@@ -221,7 +224,7 @@ do {
 }
 ```
 
-Handling errors is and other events is similar, take a look at the `Subscription` class for more information. Feel free to test out LiveQuery subscriptions in [Swift Playgrounds](https://github.com/parse-community/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L97-L142).
+Handling errors is and other events is similar, take a look at the `Subscription` class for more information. You can test out LiveQuery subscriptions in [Swift Playgrounds](https://github.com/parse-community/Parse-Swift/blob/a8b3d00b848f3351d2c61a569d4ad4a3c96890d2/ParseSwift.playground/Pages/11%20-%20LiveQuery.xcplaygroundpage/Contents.swift#L97-L142).
 
 ### Advanced Usage
 
