@@ -9,7 +9,8 @@
 import Foundation
 
 enum ParseConstants {
-    static let parseVersion = "1.7.2"
+    static let sdk = "swift"
+    static let version = "1.7.2"
     static let hashingKey = "parseSwift"
     static let fileManagementDirectory = "parse/"
     static let fileManagementPrivateDocumentsDirectory = "Private Documents/"

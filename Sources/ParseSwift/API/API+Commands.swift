@@ -58,7 +58,7 @@ internal extension API {
             switch self.prepareURLRequest(options: options, childObjects: childObjects, childFiles: childFiles) {
 
             case .success(let urlRequest):
-                if method == .POST || method == .PUT {
+                if method == .POST || method == .PUT || method == .PATCH {
                     let task = URLSession.parse.uploadTask(withStreamedRequest: urlRequest)
                     ParseSwift.sessionDelegate.uploadDelegates[task] = uploadProgress
                     ParseSwift.sessionDelegate.streamDelegates[task] = stream
@@ -128,7 +128,7 @@ internal extension API {
                 }
             } else {
                 //ParseFiles are handled with a dedicated URLSession
-                if method == .POST || method == .PUT {
+                if method == .POST || method == .PUT || method == .PATCH {
                     switch self.prepareURLRequest(options: options,
                                                   childObjects: childObjects,
                                                   childFiles: childFiles) {
@@ -204,7 +204,7 @@ internal extension API {
                                childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
             var headers = API.getHeaders(options: options)
-            if !(method == .POST) && !(method == .PUT) {
+            if !(method == .POST) && !(method == .PUT) && !(method == .PATCH) {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
             let url = parseURL == nil ?
@@ -622,7 +622,7 @@ internal extension API {
         // MARK: URL Preperation
         func prepareURLRequest(options: API.Options) -> Result<URLRequest, ParseError> {
             var headers = API.getHeaders(options: options)
-            if !(method == .POST) && !(method == .PUT) {
+            if !(method == .POST) && !(method == .PUT) && !(method == .PATCH) {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
             let url = ParseSwift.configuration.serverURL.appendingPathComponent(path.urlComponent)

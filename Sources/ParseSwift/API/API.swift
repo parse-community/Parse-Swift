@@ -12,7 +12,7 @@ import Foundation
 public struct API {
 
     internal enum Method: String, Encodable {
-        case GET, POST, PUT, DELETE
+        case GET, POST, PUT, PATCH, DELETE
     }
 
     internal enum Endpoint: Encodable {
@@ -169,6 +169,7 @@ public struct API {
             headers["X-Parse-Installation-Id"] = installationId
         }
 
+        headers["X-Parse-Client-Version"] = clientVersion()
         headers["X-Parse-Request-Id"] = UUID().uuidString.lowercased()
 
         options.forEach { (option) in
@@ -203,6 +204,10 @@ public struct API {
         }
 
         return headers
+    }
+
+    internal static func clientVersion() -> String {
+        ParseConstants.sdk+ParseConstants.version
     }
 }
 
