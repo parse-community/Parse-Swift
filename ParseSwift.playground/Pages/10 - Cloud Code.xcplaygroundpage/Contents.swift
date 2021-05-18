@@ -71,7 +71,7 @@ struct GameScore: ParseObject {
 let score = GameScore(score: 10)
 
 //: Save asynchronously (preferred way) with the context option.
-score.save(options: .init(.context(["hello": "world"]))) { result in
+score.save(options: [.context(["hello": "world"])]) { result in
     switch result {
     case .success(let savedScore):
         print("Successfully saved \(savedScore)")

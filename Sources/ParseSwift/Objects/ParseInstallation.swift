@@ -272,8 +272,8 @@ extension ParseInstallation {
         }
         #endif
 
-        if parseVersion != ParseConstants.parseVersion {
-            parseVersion = ParseConstants.parseVersion
+        if parseVersion != ParseConstants.version {
+            parseVersion = ParseConstants.version
         }
     }
 

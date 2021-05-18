@@ -440,6 +440,95 @@ class APICommandTests: XCTestCase {
         }
     }
 
+    func testClientVersionAPIMethod() {
+        let clientVersion = API.clientVersion()
+        XCTAssertTrue(clientVersion.contains(ParseConstants.sdk))
+        XCTAssertTrue(clientVersion.contains(ParseConstants.version))
+
+        let splitString = clientVersion
+            .components(separatedBy: ParseConstants.sdk)
+        XCTAssertEqual(splitString.count, 2)
+        //If successful, will remove `swift` resulting in ""
+        XCTAssertEqual(splitString[0], "")
+        XCTAssertEqual(splitString[1], ParseConstants.version)
+
+        //Test incorrect split
+        let splitString2 = clientVersion
+            .components(separatedBy: "hello")
+        XCTAssertEqual(splitString2.count, 1)
+        XCTAssertEqual(splitString2[0], clientVersion)
+    }
+
+    func testClientVersionHeader() {
+        let headers = API.getHeaders(options: [])
+        XCTAssertEqual(headers["X-Parse-Client-Version"], API.clientVersion())
+
+        let post = API.Command<Level, NoBody?>(method: .POST, path: .login) { _ in
+            return nil
+        }
+        switch post.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Client-Version"] != API.clientVersion() {
+                XCTFail("Should contain correct Client Version header")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let put = API.Command<Level, NoBody?>(method: .PUT, path: .login) { _ in
+            return nil
+        }
+        switch put.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Client-Version"] != API.clientVersion() {
+                XCTFail("Should contain correct Client Version header")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let patch = API.Command<Level, NoBody?>(method: .PATCH, path: .login) { _ in
+            return nil
+        }
+        switch patch.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Client-Version"] != API.clientVersion() {
+                XCTFail("Should contain correct Client Version header")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let delete = API.Command<Level, NoBody?>(method: .DELETE, path: .login) { _ in
+            return nil
+        }
+        switch delete.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Client-Version"] != API.clientVersion() {
+                XCTFail("Should contain correct Client Version header")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let get = API.Command<Level, NoBody?>(method: .GET, path: .login) { _ in
+            return nil
+        }
+        switch get.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Client-Version"] != API.clientVersion() {
+                XCTFail("Should contain correct Client Version header")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func testIdempodency() {
         let headers = API.getHeaders(options: [])
         XCTAssertNotNil(headers["X-Parse-Request-Id"])
