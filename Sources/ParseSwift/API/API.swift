@@ -25,6 +25,7 @@ public struct API {
         case installation(objectId: String)
         case sessions
         case session(objectId: String)
+        case event(event: String)
         case roles
         case role(objectId: String)
         case login
@@ -59,6 +60,10 @@ public struct API {
                 return "/sessions"
             case .session(let objectId):
                 return "/sessions/\(objectId)"
+            case .event(let event):
+                return "/events/\(event)"
+            case .aggregate(let className):
+                return "/aggregate/\(className)"
             case .roles:
                 return "/roles"
             case .role(let objectId):
@@ -77,8 +82,6 @@ public struct API {
                 return "/functions/\(name)"
             case .jobs(name: let name):
                 return "/jobs/\(name)"
-            case .aggregate(let className):
-                return "/aggregate/\(className)"
             case .config:
                 return "/config"
             case .health:
