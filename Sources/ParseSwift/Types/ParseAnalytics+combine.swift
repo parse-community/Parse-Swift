@@ -69,7 +69,6 @@ public extension ParseAnalytics {
         }
     }
 
-
     /**
      Tracks *asynchronously* the occurrence of a custom event with additional dimensions.
      Publishes when complete.
