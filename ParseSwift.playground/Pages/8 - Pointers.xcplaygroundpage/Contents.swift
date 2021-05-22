@@ -139,5 +139,36 @@ query3.first { results in
     }
 }
 
+do {
+    let test = try newBook.toPointer()
+let query4 = Author.query("book" == test)
+    .includeAll()
+
+query4.first { results in
+    switch results {
+    case .success(let author):
+        print("Found author and included all: \(author)")
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+} catch {
+    print("\(error)")
+}
+
+let query5 = Author.query("book" == newBook)
+    .includeAll()
+
+query5.first { results in
+    switch results {
+    case .success(let author):
+        print("Found author and included all: \(author)")
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

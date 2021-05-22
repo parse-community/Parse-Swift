@@ -123,6 +123,24 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
 }
 
 /**
+ Add a constraint that requires that a key is equal to a `ParseObject`.
+ - parameter key: The key that the value is stored in.
+ - parameter value: The `ParseObject` to compare.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func == <T>(key: String, value: T) throws -> QueryConstraint where T: ParseObject {
+    do {
+        return try QueryConstraint(key: key, value: value.toPointer())
+    } catch {
+        guard let parseError = error as? ParseError else {
+            throw ParseError(code: .unknownError,
+                             message: error.localizedDescription)
+        }
+        throw parseError
+    }
+}
+
+/**
  Add a constraint that requires that a key is not equal to a value.
  - parameter key: The key that the value is stored in.
  - parameter value: The value to compare.
