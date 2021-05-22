@@ -7,7 +7,7 @@
 //
 
 import Foundation
-#if canImport(UIKit)
+#if os(iOS)
 import UIKit
 #endif
 
@@ -46,7 +46,7 @@ public struct ParseAnalytics: ParseType {
         self.at = at
     }
 
-    #if canImport(UIKit)
+    #if os(iOS)
     /**
      Tracks *asynchronously* this application being launched. If this happened as the result of the
      user opening a push notification, this method sends along information to
