@@ -55,8 +55,7 @@ class ParseAnalyticsTests: XCTestCase {
         XCTAssertEqual(command2.body?.dimensions, dimensions)
 
         event2.at = nil //Clear date for comparison
-        let encoded = try ParseCoding.jsonEncoder().encode(event2)
-        let decoded = String(data: encoded, encoding: .utf8)
+        let decoded = event2.debugDescription
         let expected = "{\"dimensions\":{\"stop\":\"drop\"}}"
         XCTAssertEqual(decoded, expected)
     }

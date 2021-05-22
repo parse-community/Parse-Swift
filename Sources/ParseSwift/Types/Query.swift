@@ -1632,4 +1632,15 @@ enum RawCodingKey: CodingKey {
         fatalError()
     }
 }
+
+// MARK: CustomDebugStringConvertible
+extension Query {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+                return "\(className)"
+        }
+        return "\(className) (\(descriptionString))"
+    }
+}
 // swiftlint:disable:this file_length
