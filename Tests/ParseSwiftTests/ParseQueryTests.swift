@@ -942,6 +942,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    #if os(iOS)
     func testWhereKeyEqualToParseObject() throws {
         var compareObject = GameScore(score: 11)
         compareObject.objectId = "hello"
@@ -950,7 +951,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}})"
         XCTAssertEqual(query.debugDescription, expected)
     }
-
+    #endif
+    
     func testWhereKeyNotEqualTo() {
         let expected: [String: AnyCodable] = [
             "yolo": ["$ne": "yarr"]
