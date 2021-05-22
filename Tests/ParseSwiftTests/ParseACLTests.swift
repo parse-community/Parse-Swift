@@ -206,12 +206,9 @@ class ParseACLTests: XCTestCase {
         } else {
             XCTAssertNil(encoded)
         }
-
-        let expected = "ACL ({\"b\":{\"read\":true},\"d\":{\"write\":true}})"
-        XCTAssertEqual(acl.debugDescription, expected)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if os(iOS)
     func testDebugString() {
         var acl = ParseACL()
         acl.setReadAccess(objectId: "a", value: false)

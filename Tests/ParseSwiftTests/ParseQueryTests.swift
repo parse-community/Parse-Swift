@@ -942,13 +942,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testWhereKeyEqualToParseObject() {
-        let expected: [String: String] = [
-            "yolo": "yarr"
-        ]
+    func testWhereKeyEqualToParseObject() throws {
         var compareObject = GameScore(score: 11)
         compareObject.objectId = "hello"
-        let query = GameScore.query("yolo" == compareObject)
+        let query = try GameScore.query("yolo" == compareObject)
+        // swiftlint:disable:next line_length
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}})"
+        XCTAssertEqual(query.debugDescription, expected)
     }
 
     func testWhereKeyNotEqualTo() {

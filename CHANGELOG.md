@@ -13,6 +13,8 @@ __New features__
 __Improvements__
 - Future proof SDK by always sending client version header. Also added http method PATCH to API for future use ([#146](https://github.com/parse-community/Parse-Swift/pull/146)), thanks to [Corey Baker](https://github.com/cbaker6).
 
+- Add == query ([#146](https://github.com/parse-community/Parse-Swift/pull/146)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.7.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.1...1.7.2)
 
