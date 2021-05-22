@@ -38,7 +38,7 @@ class ParseAnanlyticsCombineTests: XCTestCase { // swiftlint:disable:this type_b
         try ParseStorage.shared.deleteAll()
     }
 
-    #if canImport(UIKit)
+    #if os(iOS)
     func testTrackAppOpenedUIKit() {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")

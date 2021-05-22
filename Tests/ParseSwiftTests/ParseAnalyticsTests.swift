@@ -61,7 +61,7 @@ class ParseAnalyticsTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
-    #if canImport(UIKit)
+    #if os(iOS)
     func testTrackAppOpenedUIKit() {
         let serverResponse = NoBody()
         let encoded: Data!
