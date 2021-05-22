@@ -18,17 +18,32 @@ import UIKit
 public struct ParseAnalytics: ParseType {
 
     /// The name of the custom event to report to Parse as having happened.
-    var name: String
+    let name: String
 
     /// Explicitly set the time associated with a given event. If not provided the server
     /// time will be used.
     var at: Date? // swiftlint:disable:this identifier_name
 
-    /// The dimensions The dictionary of information by which to segment this event.
+    /// The dictionary of information by which to segment this event.
     var dimensions: [String: String]?
 
     enum CodingKeys: String, CodingKey {
         case at, dimensions // swiftlint:disable:this identifier_name
+    }
+
+    /**
+     Create an instance of ParseAnalytics for tracking.
+     - parameter name: The name of the custom event to report to Parse as having happened.
+     - parameter dimensions: The dictionary of information by which to segment this event. Defaults to `nil`.
+     - parameter at: Explicitly set the time associated with a given event. If not provided the server
+     time will be used. Defaults to `nil`.
+     */
+    public init (name: String,
+                 dimensions: [String: String]? = nil,
+                 at: Date? = nil) { // swiftlint:disable:this identifier_name
+        self.name = name
+        self.dimensions = dimensions
+        self.at = at
     }
 
     #if canImport(UIKit)
@@ -57,8 +72,8 @@ public struct ParseAnalytics: ParseType {
             userInfo = remoteOptions
         }
         let appOppened = ParseAnalytics(name: "AppOpened",
-                                        at: date,
-                                        dimensions: userInfo)
+                                        dimensions: userInfo,
+                                        at: date)
         appOppened.saveCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 switch result {
@@ -73,9 +88,7 @@ public struct ParseAnalytics: ParseType {
     #endif
 
     /**
-     Tracks *asynchronously* this application being launched. If this happened as the result of the
-     user opening a push notification, this method sends along information to
-     correlate this open with that push.
+     Tracks *asynchronously* this application being launched with additional dimensions.
      
      - parameter dimensions: The dictionary of information by which to segment this
      event and can be empty or `nil`.
@@ -92,8 +105,8 @@ public struct ParseAnalytics: ParseType {
                                       callbackQueue: DispatchQueue = .main,
                                       completion: @escaping (Result<Void, ParseError>) -> Void) {
         let appOppened = ParseAnalytics(name: "AppOpened",
-                                        at: date,
-                                        dimensions: dimensions)
+                                        dimensions: dimensions,
+                                        at: date)
         appOppened.saveCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 switch result {
@@ -124,8 +137,8 @@ public struct ParseAnalytics: ParseType {
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Void, ParseError>) -> Void) {
         let event = ParseAnalytics(name: name,
-                                   at: date,
-                                   dimensions: dimensions)
+                                   dimensions: dimensions,
+                                   at: date)
         event.saveCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 switch result {
@@ -140,7 +153,8 @@ public struct ParseAnalytics: ParseType {
 
     internal func saveCommand() -> API.NonParseBodyCommand<Self, NoBody> {
         return API.NonParseBodyCommand(method: .POST,
-                                       path: .event(event: name)) { (data) -> NoBody in
+                                       path: .event(event: name),
+                                       body: self) { (data) -> NoBody in
             return try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
         }
     }

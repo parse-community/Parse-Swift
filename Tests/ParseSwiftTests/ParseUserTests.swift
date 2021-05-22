@@ -1,5 +1,5 @@
 //
-//  ParseUserCommandTests.swift
+//  ParseUserTests.swift
 //  ParseSwiftTests
 //
 //  Created by Corey Baker on 7/21/20.

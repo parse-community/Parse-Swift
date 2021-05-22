@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<playground version='6.0' target-platform='macos' display-mode='raw' buildActiveScheme='true' timelineScrubberEnabled='true' last-migration='1130'>
+<playground version='6.0' target-platform='macos' display-mode='raw' buildActiveScheme='true' last-migration='1130'>
     <pages>
         <page name='1 - Your first Object'/>
         <page name='2 - Finding Objects'/>
@@ -16,5 +16,6 @@
         <page name='13 - Operations'/>
         <page name='14 - Config'/>
         <page name='15 - Custom ObjectId'/>
+        <page name='16 - Analytics'/>
     </pages>
 </playground>
