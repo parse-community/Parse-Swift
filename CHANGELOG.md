@@ -11,11 +11,11 @@ __New features__
 - Add ParseAnalytics. Requires app tracking authorization in latest OS's ([#147](https://github.com/parse-community/Parse-Swift/pull/147)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
-- Adds the ability to dirrectly use == as a QueryConstraint on a field that's a ParseObject ([#147](https://github.com/parse-community/Parse-Swift/pull/147)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Adds the ability to directly use == as a QueryConstraint on a field that's a ParseObject ([#147](https://github.com/parse-community/Parse-Swift/pull/147)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Future proof SDK by always sending client version header. Also added http method PATCH to API for future use ([#146](https://github.com/parse-community/Parse-Swift/pull/146)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
-- Fixed an error when deleting a ParseFile it would accidently download instead ([#147](https://github.com/parse-community/Parse-Swift/pull/147)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Fixed an error that occured when deleting a ParseFile which resulted in the file being downloaded locally ([#147](https://github.com/parse-community/Parse-Swift/pull/147)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.7.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.1...1.7.2)
