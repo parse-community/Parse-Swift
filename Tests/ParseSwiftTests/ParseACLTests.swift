@@ -208,7 +208,6 @@ class ParseACLTests: XCTestCase {
         }
     }
 
-    #if os(iOS)
     func testDebugString() {
         var acl = ParseACL()
         acl.setReadAccess(objectId: "a", value: false)
@@ -216,10 +215,9 @@ class ParseACLTests: XCTestCase {
         acl.setWriteAccess(objectId: "c", value: false)
         acl.setWriteAccess(objectId: "d", value: true)
 
-        let expected = "ACL ({\"b\":{\"read\":true},\"d\":{\"write\":true}})"
-        XCTAssertEqual(acl.debugDescription, expected)
+        XCTAssertTrue(acl.debugDescription.contains("\"b\":{\"read\":true}"))
+        XCTAssertTrue(acl.debugDescription.contains("\"d\":{\"write\":true}}"))
     }
-    #endif
 
     func testDefaultACLNoUser() {
         var newACL = ParseACL()

@@ -942,7 +942,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    #if os(iOS)
+    #if !os(Linux) && !os(Android)
     func testWhereKeyEqualToParseObject() throws {
         var compareObject = GameScore(score: 11)
         compareObject.objectId = "hello"
@@ -952,7 +952,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query.debugDescription, expected)
     }
     #endif
-    
+
     func testWhereKeyNotEqualTo() {
         let expected: [String: AnyCodable] = [
             "yolo": ["$ne": "yarr"]
