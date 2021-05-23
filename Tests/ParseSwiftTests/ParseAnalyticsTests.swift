@@ -114,23 +114,24 @@ class ParseAnalyticsTests: XCTestCase {
     }
 
     #if canImport(AppTrackingTransparency)
-    @available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *)
     func testTrackAppOpenedUIKitNotAuthorized() {
-        ParseSwift.configuration.isTestingSDK = false //Allow authorization check
-        let expectation = XCTestExpectation(description: "Analytics save")
-        let options = [UIApplication.LaunchOptionsKey.remoteNotification: ["stop": "drop"]]
-        ParseAnalytics.trackAppOpened(launchOptions: options) { result in
+        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
+            ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+            let expectation = XCTestExpectation(description: "Analytics save")
+            let options = [UIApplication.LaunchOptionsKey.remoteNotification: ["stop": "drop"]]
+            ParseAnalytics.trackAppOpened(launchOptions: options) { result in
 
-            switch result {
+                switch result {
 
-            case .success:
-                XCTFail("Should have failed with not authorized.")
-            case .failure(let error):
-                XCTAssertTrue(error.message.contains("request permissions"))
+                case .success:
+                    XCTFail("Should have failed with not authorized.")
+                case .failure(let error):
+                    XCTAssertTrue(error.message.contains("request permissions"))
+                }
+                expectation.fulfill()
             }
-            expectation.fulfill()
+            wait(for: [expectation], timeout: 10.0)
         }
-        wait(for: [expectation], timeout: 10.0)
     }
     #endif
     #endif
@@ -186,23 +187,24 @@ class ParseAnalyticsTests: XCTestCase {
     }
 
     #if canImport(AppTrackingTransparency)
-    @available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *)
     func testTrackAppOpenedNotAuthorized() {
-        ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
+            ParseSwift.configuration.isTestingSDK = false //Allow authorization check
 
-        let expectation = XCTestExpectation(description: "Analytics save")
-        ParseAnalytics.trackAppOpened(dimensions: ["stop": "drop"]) { result in
+            let expectation = XCTestExpectation(description: "Analytics save")
+            ParseAnalytics.trackAppOpened(dimensions: ["stop": "drop"]) { result in
 
-            switch result {
+                switch result {
 
-            case .success:
-                XCTFail("Should have failed with not authorized.")
-            case .failure(let error):
-                XCTAssertTrue(error.message.contains("request permissions"))
+                case .success:
+                    XCTFail("Should have failed with not authorized.")
+                case .failure(let error):
+                    XCTAssertTrue(error.message.contains("request permissions"))
+                }
+                expectation.fulfill()
             }
-            expectation.fulfill()
+            wait(for: [expectation], timeout: 10.0)
         }
-        wait(for: [expectation], timeout: 10.0)
     }
     #endif
 
@@ -259,24 +261,25 @@ class ParseAnalyticsTests: XCTestCase {
     }
 
     #if canImport(AppTrackingTransparency)
-    @available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *)
     func testTrackEventNotAuthorized() {
-        ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
+            ParseSwift.configuration.isTestingSDK = false //Allow authorization check
 
-        let expectation = XCTestExpectation(description: "Analytics save")
-        var event = ParseAnalytics(name: "hello")
-        event.track { result in
+            let expectation = XCTestExpectation(description: "Analytics save")
+            var event = ParseAnalytics(name: "hello")
+            event.track { result in
 
-            switch result {
+                switch result {
 
-            case .success:
-                XCTFail("Should have failed with not authorized.")
-            case .failure(let error):
-                XCTAssertTrue(error.message.contains("request permissions"))
+                case .success:
+                    XCTFail("Should have failed with not authorized.")
+                case .failure(let error):
+                    XCTAssertTrue(error.message.contains("request permissions"))
+                }
+                expectation.fulfill()
             }
-            expectation.fulfill()
+            wait(for: [expectation], timeout: 10.0)
         }
-        wait(for: [expectation], timeout: 10.0)
     }
     #endif
 }
