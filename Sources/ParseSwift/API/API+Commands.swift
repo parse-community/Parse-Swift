@@ -154,6 +154,25 @@ internal extension API {
                     case .failure(let error):
                         completion(.failure(error))
                     }
+                } else if method == .DELETE {
+
+                    switch self.prepareURLRequest(options: options,
+                                                  childObjects: childObjects,
+                                                  childFiles: childFiles) {
+                    case .success(let urlRequest):
+                        URLSession.parse.dataTask(with: urlRequest, mapper: mapper) { result in
+                            switch result {
+
+                            case .success(let decoded):
+                                completion(.success(decoded))
+                            case .failure(let error):
+                                completion(.failure(error))
+                            }
+                        }
+                    case .failure(let error):
+                        completion(.failure(error))
+                    }
+
                 } else {
 
                     if parseURL != nil {
@@ -301,7 +320,13 @@ internal extension API.Command {
         API.Command(method: .DELETE,
                     path: .file(fileName: object.name),
                     parseURL: object.url) { (data) -> NoBody in
-            try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+            let parseError: ParseError!
+            do {
+                parseError = try ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+            } catch {
+                return try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+            }
+            throw parseError
         }
     }
 

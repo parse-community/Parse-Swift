@@ -155,7 +155,13 @@ public struct ParseAnalytics: ParseType {
         return API.NonParseBodyCommand(method: .POST,
                                        path: .event(event: name),
                                        body: self) { (data) -> NoBody in
-            return try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+            let parseError: ParseError!
+            do {
+                parseError = try ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
+            } catch {
+                return try ParseCoding.jsonDecoder().decode(NoBody.self, from: data)
+            }
+            throw parseError
         }
     }
 }

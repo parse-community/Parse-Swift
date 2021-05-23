@@ -431,32 +431,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         try parseFile.fetch(stream: stream)
     }
 
-    #if !os(Linux) && !os(Android)
-    // swiftlint:disable:next inclusive_language
-    func testDeleteFileNoMasterKey() throws {
-        // swiftlint:disable:next line_length
-        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
-        parseFile.url = parseFileURL
-
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(NoBody())
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        try parseFile.delete()
-    }
-    #endif
-
     func testSaveAysnc() throws {
 
         guard let sampleData = "Hello World".data(using: .utf8) else {
@@ -689,37 +663,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     #if !os(Linux) && !os(Android)
-    // swiftlint:disable:next inclusive_language
-    func testDeleteNoMasterKeyFileAysnc() throws {
-        // swiftlint:disable:next line_length
-        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/d3a37aed0672a024595b766f97133615_logo.svg") else {
-            XCTFail("Should create URL")
-            return
-        }
-        var parseFile = ParseFile(name: "d3a37aed0672a024595b766f97133615_logo.svg", cloudURL: parseFileURL)
-        parseFile.url = parseFileURL
-
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(NoBody())
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let expectation1 = XCTestExpectation(description: "ParseFile async")
-        parseFile.delete(options: [.removeMimeType]) { result in
-
-            if case .failure(let error) = result {
-                XCTFail(error.localizedDescription)
-            }
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
-    }
 
     //URL Mocker is not able to mock this in linux and tests fail, so don't run.
     func testFetchFileCancelAsync() throws {
@@ -1055,6 +998,38 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             if case let .failure(error) = result {
                 XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testDeleteFileAysncError() throws {
+        // swiftlint:disable:next line_length
+        guard let parseFileURL = URL(string: "http://localhost:1337/1/files/applicationId/1b0683d529463e173cbf8046d7d9a613_logo.svg") else {
+            XCTFail("Should create URL")
+            return
+        }
+        var parseFile = ParseFile(name: "1b0683d529463e173cbf8046d7d9a613_logo.svg", cloudURL: parseFileURL)
+        parseFile.url = parseFileURL
+
+        let response = ParseError(code: .fileTooLarge, message: "Too large.")
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "ParseFile async")
+        parseFile.delete(options: [.useMasterKey]) { result in
+
+            if case .success = result {
+                XCTFail("Should have failed with error")
             }
             expectation1.fulfill()
         }

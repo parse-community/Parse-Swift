@@ -942,6 +942,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testWhereKeyEqualToParseObjectError() throws {
+        let compareObject = GameScore(score: 11)
+        XCTAssertThrowsError(try GameScore.query("yolo" == compareObject))
+    }
+
     #if !os(Linux) && !os(Android)
     func testWhereKeyEqualToParseObject() throws {
         var compareObject = GameScore(score: 11)

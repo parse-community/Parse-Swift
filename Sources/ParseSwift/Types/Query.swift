@@ -129,8 +129,9 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func == <T>(key: String, value: T) throws -> QueryConstraint where T: ParseObject {
+    let constraint: QueryConstraint!
     do {
-        return try QueryConstraint(key: key, value: value.toPointer())
+        constraint = try QueryConstraint(key: key, value: value.toPointer())
     } catch {
         guard let parseError = error as? ParseError else {
             throw ParseError(code: .unknownError,
@@ -138,6 +139,7 @@ public func == <T>(key: String, value: T) throws -> QueryConstraint where T: Par
         }
         throw parseError
     }
+    return constraint
 }
 
 /**
