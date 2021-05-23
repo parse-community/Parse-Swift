@@ -160,6 +160,45 @@ public struct ParseAnalytics: ParseType, Hashable {
     }
 
     /**
+     Tracks *asynchronously* the occurrence of a custom event.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: A block that will be called when file deletes or fails.
+     It should have the following argument signature: `(Result<Void, ParseError>)`
+    */
+    public func track(options: API.Options = [],
+                      callbackQueue: DispatchQueue = .main,
+                      completion: @escaping (Result<Void, ParseError>) -> Void) {
+        #if canImport(AppTrackingTransparency)
+        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
+            if !ParseSwift.configuration.isTestingSDK {
+                let status = ATTrackingManager.trackingAuthorizationStatus
+                if status != .authorized {
+                    callbackQueue.async {
+                        let error = ParseError(code: .unknownError,
+                                               // swiftlint:disable:next line_length
+                                               message: "App tracking not authorized. Please request permissions from user.")
+                        completion(.failure(error))
+                    }
+                    return
+                }
+            }
+        }
+        #endif
+        self.saveCommand().executeAsync(options: options) { result in
+            callbackQueue.async {
+                switch result {
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
+                }
+            }
+        }
+    }
+
+    /**
      Tracks *asynchronously* the occurrence of a custom event with additional dimensions.
      
      - parameter dimensions: The dictionary of information by which to segment this
@@ -171,7 +210,7 @@ public struct ParseAnalytics: ParseType, Hashable {
      - parameter completion: A block that will be called when file deletes or fails.
      It should have the following argument signature: `(Result<Void, ParseError>)`
     */
-    public mutating func track(dimensions: [String: String]? = nil,
+    public mutating func track(dimensions: [String: String]?,
                                at date: Date? = nil,
                                options: API.Options = [],
                                callbackQueue: DispatchQueue = .main,

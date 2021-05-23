@@ -70,6 +70,19 @@ public extension ParseAnalytics {
     }
 
     /**
+     Tracks *asynchronously* the occurrence of a custom event. Publishes when complete.
+  
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    func trackPublisher(options: API.Options = []) -> Future<Void, ParseError> {
+        Future { promise in
+            self.track(options: options,
+                       completion: promise)
+        }
+    }
+
+    /**
      Tracks *asynchronously* the occurrence of a custom event with additional dimensions.
      Publishes when complete.
   
@@ -79,8 +92,10 @@ public extension ParseAnalytics {
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: This method makes a copy of the current `ParseAnalytics` and then mutates
+     it. You will not have access to the mutated analytic after calling this method.
     */
-    func trackPublisher(dimensions: [String: String]? = nil,
+    func trackPublisher(dimensions: [String: String]?,
                         at date: Date? = nil,
                         options: API.Options = []) -> Future<Void, ParseError> {
         Future { promise in

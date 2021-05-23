@@ -223,8 +223,34 @@ class ParseAnalyticsTests: XCTestCase {
         }
 
         let expectation = XCTestExpectation(description: "Analytics save")
-        var event = ParseAnalytics(name: "hello")
+        let event = ParseAnalytics(name: "hello")
         event.track { result in
+
+            if case .failure(let error) = result {
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+
+    func testTrackEventMutated() {
+        let serverResponse = NoBody()
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation = XCTestExpectation(description: "Analytics save")
+        var event = ParseAnalytics(name: "hello")
+        event.track(dimensions: nil) { result in
 
             if case .failure(let error) = result {
                 XCTFail(error.localizedDescription)
@@ -249,8 +275,34 @@ class ParseAnalyticsTests: XCTestCase {
         }
 
         let expectation = XCTestExpectation(description: "Analytics save")
-        var event = ParseAnalytics(name: "hello")
+        let event = ParseAnalytics(name: "hello")
         event.track { result in
+
+            if case .success = result {
+                XCTFail("Should have failed with error.")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+
+    func testTrackEventErrorMutated() {
+        let serverResponse = ParseError(code: .missingObjectId, message: "Object missing objectId")
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation = XCTestExpectation(description: "Analytics save")
+        var event = ParseAnalytics(name: "hello")
+        event.track(dimensions: nil) { result in
 
             if case .success = result {
                 XCTFail("Should have failed with error.")
@@ -266,8 +318,29 @@ class ParseAnalyticsTests: XCTestCase {
             ParseSwift.configuration.isTestingSDK = false //Allow authorization check
 
             let expectation = XCTestExpectation(description: "Analytics save")
-            var event = ParseAnalytics(name: "hello")
+            let event = ParseAnalytics(name: "hello")
             event.track { result in
+
+                switch result {
+
+                case .success:
+                    XCTFail("Should have failed with not authorized.")
+                case .failure(let error):
+                    XCTAssertTrue(error.message.contains("request permissions"))
+                }
+                expectation.fulfill()
+            }
+            wait(for: [expectation], timeout: 10.0)
+        }
+    }
+
+    func testTrackEventNotAuthorizedMutated() {
+        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
+            ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+
+            let expectation = XCTestExpectation(description: "Analytics save")
+            var event = ParseAnalytics(name: "hello")
+            event.track(dimensions: nil) { result in
 
                 switch result {
 

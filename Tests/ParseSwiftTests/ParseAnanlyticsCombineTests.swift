@@ -117,6 +117,36 @@ class ParseAnanlyticsCombineTests: XCTestCase { // swiftlint:disable:this type_b
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         let event = ParseAnalytics(name: "hello")
+        let publisher = event.trackPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { _ in })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testTrackEventMutated() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        let serverResponse = NoBody()
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let event = ParseAnalytics(name: "hello")
         let publisher = event.trackPublisher(dimensions: ["stop": "drop"])
             .sink(receiveCompletion: { result in
 
