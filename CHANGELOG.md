@@ -8,7 +8,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.2...1.8.0)
 
 __New features__
-- Add ParseAnalytics  ([#147](https://github.com/parse-community/Parse-Swift/pull/147)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add ParseAnalytics. Requires app tracking authorization in latest OS's ([#147](https://github.com/parse-community/Parse-Swift/pull/147)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
 - Adds the ability to dirrectly use == as a QueryConstraint on a field that's a ParseObject ([#147](https://github.com/parse-community/Parse-Swift/pull/147)), thanks to [Corey Baker](https://github.com/cbaker6).

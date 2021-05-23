@@ -21,7 +21,7 @@ ParseAnalytics.trackAppOpened { result in
 }
 
 //: To track any event, do the following.
-let friendEvent = ParseAnalytics(name: "openedFriendList")
+var friendEvent = ParseAnalytics(name: "openedFriendList")
 friendEvent.track { result in
     if case .success = result {
         print("Saved analytics for custom event.")

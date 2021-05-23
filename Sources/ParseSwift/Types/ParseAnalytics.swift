@@ -11,21 +11,29 @@ import Foundation
 import UIKit
 #endif
 
+#if canImport(AppTrackingTransparency)
+import AppTrackingTransparency
+#endif
+
 /**
   `ParseAnalytics` provides an interface to Parse's logging and analytics
  backend.
+ 
+ - warning: For iOS 14.0, macOS 11.0, macCatalyst 14.0, tvOS 14.0, you
+ will need to request tracking authorization for ParseAnalytics to work.
+ See Apple's [documentation](https://developer.apple.com/documentation/apptrackingtransparency) for more for details.
  */
-public struct ParseAnalytics: ParseType {
+public struct ParseAnalytics: ParseType, Hashable {
 
     /// The name of the custom event to report to Parse as having happened.
-    let name: String
+    public let name: String
 
     /// Explicitly set the time associated with a given event. If not provided the server
     /// time will be used.
-    var at: Date? // swiftlint:disable:this identifier_name
+    public var at: Date? // swiftlint:disable:this identifier_name
 
     /// The dictionary of information by which to segment this event.
-    var dimensions: [String: String]?
+    public var dimensions: [String: String]?
 
     enum CodingKeys: String, CodingKey {
         case at, dimensions // swiftlint:disable:this identifier_name
@@ -67,6 +75,22 @@ public struct ParseAnalytics: ParseType {
                                       options: API.Options = [],
                                       callbackQueue: DispatchQueue = .main,
                                       completion: @escaping (Result<Void, ParseError>) -> Void) {
+        #if canImport(AppTrackingTransparency)
+        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
+            if !ParseSwift.configuration.isTestingSDK {
+                let status = ATTrackingManager.trackingAuthorizationStatus
+                if status != .authorized {
+                    callbackQueue.async {
+                        let error = ParseError(code: .unknownError,
+                                               // swiftlint:disable:next line_length
+                                               message: "App tracking not authorized. Please request permissions from user.")
+                        completion(.failure(error))
+                    }
+                    return
+                }
+            }
+        }
+        #endif
         var userInfo: [String: String]?
         if let remoteOptions = launchOptions?[.remoteNotification] as? [String: String] {
             userInfo = remoteOptions
@@ -104,6 +128,22 @@ public struct ParseAnalytics: ParseType {
                                       options: API.Options = [],
                                       callbackQueue: DispatchQueue = .main,
                                       completion: @escaping (Result<Void, ParseError>) -> Void) {
+        #if canImport(AppTrackingTransparency)
+        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
+            if !ParseSwift.configuration.isTestingSDK {
+                let status = ATTrackingManager.trackingAuthorizationStatus
+                if status != .authorized {
+                    callbackQueue.async {
+                        let error = ParseError(code: .unknownError,
+                                               // swiftlint:disable:next line_length
+                                               message: "App tracking not authorized. Please request permissions from user.")
+                        completion(.failure(error))
+                    }
+                    return
+                }
+            }
+        }
+        #endif
         let appOppened = ParseAnalytics(name: "AppOpened",
                                         dimensions: dimensions,
                                         at: date)
@@ -131,15 +171,30 @@ public struct ParseAnalytics: ParseType {
      - parameter completion: A block that will be called when file deletes or fails.
      It should have the following argument signature: `(Result<Void, ParseError>)`
     */
-    public func track(dimensions: [String: String]? = nil,
-                      at date: Date? = nil,
-                      options: API.Options = [],
-                      callbackQueue: DispatchQueue = .main,
-                      completion: @escaping (Result<Void, ParseError>) -> Void) {
-        let event = ParseAnalytics(name: name,
-                                   dimensions: dimensions,
-                                   at: date)
-        event.saveCommand().executeAsync(options: options) { result in
+    public mutating func track(dimensions: [String: String]? = nil,
+                               at date: Date? = nil,
+                               options: API.Options = [],
+                               callbackQueue: DispatchQueue = .main,
+                               completion: @escaping (Result<Void, ParseError>) -> Void) {
+        #if canImport(AppTrackingTransparency)
+        if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
+            if !ParseSwift.configuration.isTestingSDK {
+                let status = ATTrackingManager.trackingAuthorizationStatus
+                if status != .authorized {
+                    callbackQueue.async {
+                        let error = ParseError(code: .unknownError,
+                                               // swiftlint:disable:next line_length
+                                               message: "App tracking not authorized. Please request permissions from user.")
+                        completion(.failure(error))
+                    }
+                    return
+                }
+            }
+        }
+        #endif
+        self.dimensions = dimensions
+        self.at = date
+        self.saveCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 switch result {
                 case .success:

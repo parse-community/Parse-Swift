@@ -112,6 +112,27 @@ class ParseAnalyticsTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 10.0)
     }
+
+    #if canImport(AppTrackingTransparency)
+    @available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *)
+    func testTrackAppOpenedUIKitNotAuthorized() {
+        ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+        let expectation = XCTestExpectation(description: "Analytics save")
+        let options = [UIApplication.LaunchOptionsKey.remoteNotification: ["stop": "drop"]]
+        ParseAnalytics.trackAppOpened(launchOptions: options) { result in
+
+            switch result {
+
+            case .success:
+                XCTFail("Should have failed with not authorized.")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("request permissions"))
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    #endif
     #endif
 
     func testTrackAppOpened() {
@@ -164,6 +185,27 @@ class ParseAnalyticsTests: XCTestCase {
         wait(for: [expectation], timeout: 10.0)
     }
 
+    #if canImport(AppTrackingTransparency)
+    @available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *)
+    func testTrackAppOpenedNotAuthorized() {
+        ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+
+        let expectation = XCTestExpectation(description: "Analytics save")
+        ParseAnalytics.trackAppOpened(dimensions: ["stop": "drop"]) { result in
+
+            switch result {
+
+            case .success:
+                XCTFail("Should have failed with not authorized.")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("request permissions"))
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    #endif
+
     func testTrackEvent() {
         let serverResponse = NoBody()
         let encoded: Data!
@@ -179,7 +221,7 @@ class ParseAnalyticsTests: XCTestCase {
         }
 
         let expectation = XCTestExpectation(description: "Analytics save")
-        let event = ParseAnalytics(name: "hello")
+        var event = ParseAnalytics(name: "hello")
         event.track { result in
 
             if case .failure(let error) = result {
@@ -205,7 +247,7 @@ class ParseAnalyticsTests: XCTestCase {
         }
 
         let expectation = XCTestExpectation(description: "Analytics save")
-        let event = ParseAnalytics(name: "hello")
+        var event = ParseAnalytics(name: "hello")
         event.track { result in
 
             if case .success = result {
@@ -215,4 +257,26 @@ class ParseAnalyticsTests: XCTestCase {
         }
         wait(for: [expectation], timeout: 10.0)
     }
+
+    #if canImport(AppTrackingTransparency)
+    @available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *)
+    func testTrackEventNotAuthorized() {
+        ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+
+        let expectation = XCTestExpectation(description: "Analytics save")
+        var event = ParseAnalytics(name: "hello")
+        event.track { result in
+
+            switch result {
+
+            case .success:
+                XCTFail("Should have failed with not authorized.")
+            case .failure(let error):
+                XCTAssertTrue(error.message.contains("request permissions"))
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 10.0)
+    }
+    #endif
 }

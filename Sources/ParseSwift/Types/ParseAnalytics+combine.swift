@@ -84,10 +84,11 @@ public extension ParseAnalytics {
                         at date: Date? = nil,
                         options: API.Options = []) -> Future<Void, ParseError> {
         Future { promise in
-            self.track(dimensions: dimensions,
-                       at: date,
-                       options: options,
-                       completion: promise)
+            var analytic = self
+            analytic.track(dimensions: dimensions,
+                           at: date,
+                           options: options,
+                           completion: promise)
         }
     }
 }
