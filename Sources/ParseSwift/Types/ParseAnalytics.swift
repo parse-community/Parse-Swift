@@ -83,7 +83,7 @@ public struct ParseAnalytics: ParseType, Hashable {
                     callbackQueue.async {
                         let error = ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "App tracking not authorized. Please request permissions from user.")
+                                               message: "App tracking not authorized. Please request permission from user.")
                         completion(.failure(error))
                     }
                     return
@@ -136,7 +136,7 @@ public struct ParseAnalytics: ParseType, Hashable {
                     callbackQueue.async {
                         let error = ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "App tracking not authorized. Please request permissions from user.")
+                                               message: "App tracking not authorized. Please request permission from user.")
                         completion(.failure(error))
                     }
                     return
@@ -178,7 +178,7 @@ public struct ParseAnalytics: ParseType, Hashable {
                     callbackQueue.async {
                         let error = ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "App tracking not authorized. Please request permissions from user.")
+                                               message: "App tracking not authorized. Please request permission from user.")
                         completion(.failure(error))
                     }
                     return
@@ -223,7 +223,7 @@ public struct ParseAnalytics: ParseType, Hashable {
                     callbackQueue.async {
                         let error = ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "App tracking not authorized. Please request permissions from user.")
+                                               message: "App tracking not authorized. Please request permission from user.")
                         completion(.failure(error))
                     }
                     return
