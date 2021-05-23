@@ -126,7 +126,7 @@ class ParseAnalyticsTests: XCTestCase {
                 case .success:
                     XCTFail("Should have failed with not authorized.")
                 case .failure(let error):
-                    XCTAssertTrue(error.message.contains("request permissions"))
+                    XCTAssertTrue(error.message.contains("request permission"))
                 }
                 expectation.fulfill()
             }
@@ -199,7 +199,7 @@ class ParseAnalyticsTests: XCTestCase {
                 case .success:
                     XCTFail("Should have failed with not authorized.")
                 case .failure(let error):
-                    XCTAssertTrue(error.message.contains("request permissions"))
+                    XCTAssertTrue(error.message.contains("request permission"))
                 }
                 expectation.fulfill()
             }
@@ -326,7 +326,7 @@ class ParseAnalyticsTests: XCTestCase {
                 case .success:
                     XCTFail("Should have failed with not authorized.")
                 case .failure(let error):
-                    XCTAssertTrue(error.message.contains("request permissions"))
+                    XCTAssertTrue(error.message.contains("request permission"))
                 }
                 expectation.fulfill()
             }
@@ -347,7 +347,7 @@ class ParseAnalyticsTests: XCTestCase {
                 case .success:
                     XCTFail("Should have failed with not authorized.")
                 case .failure(let error):
-                    XCTAssertTrue(error.message.contains("request permissions"))
+                    XCTAssertTrue(error.message.contains("request permission"))
                 }
                 expectation.fulfill()
             }
