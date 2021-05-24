@@ -7,7 +7,7 @@ import FoundationNetworking
   A `ParseFile` object representes a file of binary data stored on the Parse server.
   This can be a image, video, or anything else that an application needs to reference in a non-relational way.
  */
-public struct ParseFile: Fileable, Savable, Fetchable, Deletable {
+public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
 
     internal let __type: String = "File" // swiftlint:disable:this identifier_name
 

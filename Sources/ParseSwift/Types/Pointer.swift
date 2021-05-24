@@ -18,7 +18,7 @@ private func getObjectId(target: Objectable) throws -> String {
 }
 
 /// A Pointer referencing a ParseObject.
-public struct Pointer<T: ParseObject>: Fetchable, Encodable {
+public struct Pointer<T: ParseObject>: Fetchable, Encodable, Hashable {
 
     private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
 

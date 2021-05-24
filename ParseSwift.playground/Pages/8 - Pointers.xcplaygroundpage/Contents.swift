@@ -47,7 +47,7 @@ struct Author: ParseObject {
     }
 }
 
-let newBook = Book(title: "hello")
+var newBook = Book(title: "hello")
 let author = Author(name: "Alice", book: newBook)
 
 author.save { result in
@@ -114,6 +114,9 @@ let query2 = Author.query("name" == "Bruce")
 query2.first { results in
     switch results {
     case .success(let author):
+        //: Save the book to use later
+        newBook = author.book
+
         print("Found author and included \"book\": \(author)")
 
     case .failure(let error):
@@ -137,6 +140,24 @@ query3.first { results in
     case .failure(let error):
         assertionFailure("Error querying: \(error)")
     }
+}
+
+//: You can also check if a field is equal to a ParseObject.
+do {
+    let query4 = try Author.query("book" == newBook)
+        .includeAll()
+
+    query4.first { results in
+        switch results {
+        case .success(let author):
+            print("Found author and included all: \(author)")
+
+        case .failure(let error):
+            assertionFailure("Error querying: \(error)")
+        }
+    }
+} catch {
+    print("\(error)")
 }
 
 PlaygroundPage.current.finishExecution()

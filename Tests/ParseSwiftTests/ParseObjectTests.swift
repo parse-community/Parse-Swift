@@ -509,17 +509,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.data)
 
-        guard let body = command.body else {
-            XCTFail("Should be able to unwrap")
-            return
-        }
-
-        let expected = "{\"score\":10,\"player\":\"Jen\"}"
-        let encoded = try ParseCoding.parseEncoder()
-            .encode(body, collectChildren: false,
-                    objectsSavedBeforeThisOne: nil,
-                    filesSavedBeforeThisOne: nil).encoded
-        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        let expected = "GameScore ({\"score\":10,\"player\":\"Jen\"})"
+        let decoded = score.debugDescription
         XCTAssertEqual(decoded, expected)
     }
 

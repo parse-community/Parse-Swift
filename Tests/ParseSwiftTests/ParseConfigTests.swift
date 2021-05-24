@@ -144,6 +144,15 @@ class ParseConfigTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(command.body)
     }
 
+    #if !os(Linux) && !os(Android)
+    func testDebugString() {
+        var config = Config()
+        config.welcomeMessage = "Hello"
+        let expected = "{\"welcomeMessage\":\"Hello\"}"
+        XCTAssertEqual(config.debugDescription, expected)
+    }
+    #endif
+
     func testFetch() {
         userLogin()
         let config = Config()
