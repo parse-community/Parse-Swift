@@ -80,7 +80,7 @@ User.login(username: "hello", password: "world") { result in
     case .success(let user):
 
         guard let currentUser = User.current else {
-            assertionFailure("Error: current user currently not stored locally")
+            assertionFailure("Error: current user not stored locally")
             return
         }
         assert(currentUser.hasSameObjectId(as: user))
@@ -152,11 +152,11 @@ newUser.signup { result in
     case .success(let user):
 
         guard let currentUser = User.current else {
-            assertionFailure("Error: current user currently not stored locally")
+            assertionFailure("Error: current user not stored locally")
             return
         }
         assert(currentUser.hasSameObjectId(as: user))
-        print("Successfully logged in as user: \(user)")
+        print("Successfully signed up as user: \(user)")
 
     case .failure(let error):
         print("Error logging in: \(error)")
