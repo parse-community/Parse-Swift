@@ -74,9 +74,9 @@ do {
     queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
-User.login(username: "hello", password: "world") { results in
+User.login(username: "hello", password: "world") { result in
 
-    switch results {
+    switch result {
     case .success(let user):
 
         guard let currentUser = User.current else {
@@ -100,9 +100,9 @@ User.current?.customKey = "myCustom"
 User.current?.score = GameScore(score: 12)
 User.current?.targetScore = GameScore(score: 100)
 User.current?.allScores = [GameScore(score: 5), GameScore(score: 8)]
-User.current?.save { results in
+User.current?.save { result in
 
-    switch results {
+    switch result {
     case .success(let updatedUser):
         print("Successfully save custom fields of User to ParseServer: \(updatedUser)")
     case .failure(let error):
