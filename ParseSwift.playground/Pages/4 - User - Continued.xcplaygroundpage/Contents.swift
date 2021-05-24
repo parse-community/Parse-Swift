@@ -32,6 +32,13 @@ struct User: ParseUser {
     var score: GameScore?
     var targetScore: GameScore?
     var allScores: [GameScore]?
+
+    //: Custom init for signup.
+    init(username: String, password: String, email: String) {
+        self.username = username
+        self.password = password
+        self.email = email
+    }
 }
 
 //: Create your own value typed `ParseObject`.
@@ -67,13 +74,13 @@ do {
     queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
 */
-User.login(username: "hello", password: "world") { results in
+User.login(username: "hello", password: "world") { result in
 
-    switch results {
+    switch result {
     case .success(let user):
 
         guard let currentUser = User.current else {
-            assertionFailure("Error: current user currently not stored locally")
+            assertionFailure("Error: current user not stored locally")
             return
         }
         assert(currentUser.hasSameObjectId(as: user))
@@ -93,9 +100,9 @@ User.current?.customKey = "myCustom"
 User.current?.score = GameScore(score: 12)
 User.current?.targetScore = GameScore(score: 100)
 User.current?.allScores = [GameScore(score: 5), GameScore(score: 8)]
-User.current?.save { results in
+User.current?.save { result in
 
-    switch results {
+    switch result {
     case .success(let updatedUser):
         print("Successfully save custom fields of User to ParseServer: \(updatedUser)")
     case .failure(let error):
@@ -123,6 +130,36 @@ User.current?.fetch(includeKeys: ["*"]) { result in
         print("Successfully fetched user with all keys: \(String(describing: User.current))")
     case .failure(let error):
         print("Error fetching score: \(error)")
+    }
+}
+
+//: Logging out - synchronously.
+do {
+    try User.logout()
+    print("Successfully logged out")
+} catch let error {
+    print("Error logging out: \(error)")
+}
+
+//: To add additional information when signing up a user,
+//: you should create an instance of your user first.
+var newUser = User(username: "parse", password: "aPassword*", email: "parse@parse.com")
+//: Add any other additional information.
+newUser.targetScore = .init(score: 40)
+newUser.signup { result in
+
+    switch result {
+    case .success(let user):
+
+        guard let currentUser = User.current else {
+            assertionFailure("Error: current user not stored locally")
+            return
+        }
+        assert(currentUser.hasSameObjectId(as: user))
+        print("Successfully signed up as user: \(user)")
+
+    case .failure(let error):
+        print("Error logging in: \(error)")
     }
 }
 
