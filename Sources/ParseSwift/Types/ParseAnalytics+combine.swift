@@ -14,11 +14,10 @@ import Combine
 import UIKit
 #endif
 
-// MARK: Combine
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseAnalytics {
 
-    // MARK: Check - Combine
+    // MARK: Combine
 
     #if os(iOS)
     /**
