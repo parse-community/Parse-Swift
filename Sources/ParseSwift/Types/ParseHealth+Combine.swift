@@ -10,11 +10,10 @@
 import Foundation
 import Combine
 
-// MARK: Combine
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseHealth {
 
-    // MARK: Check - Combine
+    // MARK: Combine
 
     /**
      Calls the health check function *asynchronously*. Publishes when complete.
