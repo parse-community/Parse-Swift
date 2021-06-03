@@ -36,6 +36,10 @@ struct GameScore: ParseObject {
         self.objectId = objectId
         self.score = score
     }
+
+    init(objectId: String) {
+        self.objectId = objectId
+    }
 }
 
 //: Define initial GameScore this time with custom `objectId`.
@@ -101,14 +105,16 @@ query.first { result in
     }
 }
 
-//: Query object
-let query = GameScore.query("objectId" == "myObjectId")
-query.find { result in
+//: Now we will attempt to fetch a ParseObject that isn't saved.
+let scoreToFetch = GameScore(objectId: "hello")
+
+//: Asynchronously (preferred way) fetch this GameScore based on it's objectId alone.
+scoreToFetch.fetch { result in
     switch result {
-    case .success(let found):
-        print(found)
+    case .success(let fetchedScore):
+        print("Successfully fetched: \(fetchedScore)")
     case .failure(let error):
-        print(error)
+        assertionFailure("Error fetching: \(error)")
     }
 }
 
