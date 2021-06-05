@@ -162,7 +162,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query2.include?.first, "yolo")
         query2 = query2.include(["hello", "wow"])
         XCTAssertEqual(query2.include?.count, 3)
-        XCTAssertEqual(query2.include, ["yolo", "hello", "wow"])
+        XCTAssertEqual(query2.include, Set(["yolo", "hello", "wow"]))
     }
 
     func testIncludeKeysVariadic() {
@@ -173,7 +173,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query2.include?.first, "yolo")
         query2 = query2.include("hello", "wow")
         XCTAssertEqual(query2.include?.count, 3)
-        XCTAssertEqual(query2.include, ["yolo", "hello", "wow"])
+        XCTAssertEqual(query2.include, Set(["yolo", "hello", "wow"]))
     }
 
     func testIncludeAllKeys() {
@@ -207,7 +207,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have casted")
             return
         }
-        XCTAssertEqual(decodedValues2, ["yolo", "hello", "wow"])
+        XCTAssertEqual(Set(decodedValues2), Set(["yolo", "hello", "wow"]))
     }
 
     func testExcludeKeysVariadic() throws {
@@ -233,7 +233,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have casted")
             return
         }
-        XCTAssertEqual(decodedValues2, ["yolo", "hello", "wow"])
+        XCTAssertEqual(Set(decodedValues2), Set(["yolo", "hello", "wow"]))
     }
 
     func testSelectKeys() throws {
@@ -262,7 +262,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have casted")
             return
         }
-        XCTAssertEqual(decodedValues2, ["yolo", "hello", "wow"])
+        XCTAssertEqual(Set(decodedValues2), Set(["yolo", "hello", "wow"]))
     }
 
     func testSelectKeysVariadic() throws {
@@ -291,7 +291,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have casted")
             return
         }
-        XCTAssertEqual(decodedValues2, ["yolo", "hello", "wow"])
+        XCTAssertEqual(Set(decodedValues2), Set(["yolo", "hello", "wow"]))
     }
 
     func testAddingConstraints() {

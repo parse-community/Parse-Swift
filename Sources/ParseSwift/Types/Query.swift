@@ -633,20 +633,20 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     private let method: String = "GET"
     internal var limit: Int = 100
     internal var skip: Int = 0
-    internal var keys: [String]?
-    internal var include: [String]?
+    internal var keys: Set<String>?
+    internal var include: Set<String>?
     internal var order: [Order]?
     internal var isCount: Bool?
     internal var explain: Bool?
     internal var hint: AnyEncodable?
     internal var `where` = QueryWhere()
-    internal var excludeKeys: [String]?
+    internal var excludeKeys: Set<String>?
     internal var readPreference: String?
     internal var includeReadPreference: String?
     internal var subqueryReadPreference: String?
     internal var distinct: String?
     internal var pipeline: [[String: AnyEncodable]]?
-    internal var fields: [String]?
+    internal var fields: Set<String>?
 
     /**
       An enum that determines the order to sort the results based on a given key.
@@ -774,9 +774,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     public func include(_ keys: String...) -> Query<T> {
         var mutableQuery = self
         if mutableQuery.include != nil {
-            mutableQuery.include?.append(contentsOf: keys)
+            mutableQuery.include = mutableQuery.include?.union(keys)
         } else {
-            mutableQuery.include = keys
+            mutableQuery.include = Set(keys)
         }
         return mutableQuery
     }
@@ -789,9 +789,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     public func include(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
         if mutableQuery.include != nil {
-            mutableQuery.include?.append(contentsOf: keys)
+            mutableQuery.include = mutableQuery.include?.union(keys)
         } else {
-            mutableQuery.include = keys
+            mutableQuery.include = Set(keys)
         }
         return mutableQuery
     }
@@ -815,9 +815,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     public func exclude(_ keys: String...) -> Query<T> {
         var mutableQuery = self
         if mutableQuery.excludeKeys != nil {
-            mutableQuery.excludeKeys?.append(contentsOf: keys)
+            mutableQuery.excludeKeys = mutableQuery.excludeKeys?.union(keys)
         } else {
-            mutableQuery.excludeKeys = keys
+            mutableQuery.excludeKeys = Set(keys)
         }
         return mutableQuery
     }
@@ -831,9 +831,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     public func exclude(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
         if mutableQuery.excludeKeys != nil {
-            mutableQuery.excludeKeys?.append(contentsOf: keys)
+            mutableQuery.excludeKeys = mutableQuery.excludeKeys?.union(keys)
         } else {
-            mutableQuery.excludeKeys = keys
+            mutableQuery.excludeKeys = Set(keys)
         }
         return mutableQuery
     }
@@ -847,9 +847,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     public func select(_ keys: String...) -> Query<T> {
         var mutableQuery = self
         if mutableQuery.keys != nil {
-            mutableQuery.keys?.append(contentsOf: keys)
+            mutableQuery.keys = mutableQuery.keys?.union(keys)
         } else {
-            mutableQuery.keys = keys
+            mutableQuery.keys = Set(keys)
         }
         return mutableQuery
     }
@@ -863,9 +863,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     public func select(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
         if mutableQuery.keys != nil {
-            mutableQuery.keys?.append(contentsOf: keys)
+            mutableQuery.keys = mutableQuery.keys?.union(keys)
         } else {
-            mutableQuery.keys = keys
+            mutableQuery.keys = Set(keys)
         }
         return mutableQuery
     }
@@ -895,9 +895,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     public func fields(_ keys: String...) -> Query<T> {
         var mutableQuery = self
         if mutableQuery.fields != nil {
-            mutableQuery.fields?.append(contentsOf: keys)
+            mutableQuery.fields = mutableQuery.fields?.union(keys)
         } else {
-            mutableQuery.fields = keys
+            mutableQuery.fields = Set(keys)
         }
         return mutableQuery
     }
@@ -917,9 +917,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     public func fields(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
         if mutableQuery.fields != nil {
-            mutableQuery.fields?.append(contentsOf: keys)
+            mutableQuery.fields = mutableQuery.fields?.union(keys)
         } else {
-            mutableQuery.fields = keys
+            mutableQuery.fields = Set(keys)
         }
         return mutableQuery
     }

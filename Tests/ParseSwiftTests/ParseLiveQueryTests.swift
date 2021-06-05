@@ -192,7 +192,7 @@ class ParseLiveQueryTests: XCTestCase {
     func testSubscribeMessageEncoding() throws {
         // swiftlint:disable:next line_length
         let expected = "{\"op\":\"subscribe\",\"requestId\":1,\"query\":{\"className\":\"GameScore\",\"where\":{\"score\":{\"$gt\":9}},\"fields\":[\"score\"]}}"
-        var query = GameScore.query("score" > 9)
+        let query = GameScore.query("score" > 9)
             .fields(["score"])
         let message = SubscribeMessage(operation: .subscribe,
                                        requestId: RequestId(value: 1),
@@ -202,43 +202,32 @@ class ParseLiveQueryTests: XCTestCase {
             .encode(message)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
-        // swiftlint:disable:next line_length
-        let expected2 = "{\"op\":\"subscribe\",\"requestId\":1,\"query\":{\"className\":\"GameScore\",\"where\":{\"score\":{\"$gt\":9}},\"fields\":[\"score\",\"hello\",\"wow\"]}}"
-        query = query.fields(["hello", "wow"])
-        let message2 = SubscribeMessage(operation: .subscribe,
-                                       requestId: RequestId(value: 1),
-                                       query: query,
-                                       additionalProperties: true)
-        let encoded2 = try ParseCoding.jsonEncoder()
-            .encode(message2)
-        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
-        XCTAssertEqual(decoded2, expected2)
     }
 
-    func testSubscribeMessageEncodingVariadic() throws {
-        // swiftlint:disable:next line_length
-        let expected = "{\"op\":\"subscribe\",\"requestId\":1,\"query\":{\"className\":\"GameScore\",\"where\":{\"score\":{\"$gt\":9}},\"fields\":[\"score\"]}}"
-        var query = GameScore.query("score" > 9)
-            .fields("score")
-        let message = SubscribeMessage(operation: .subscribe,
-                                       requestId: RequestId(value: 1),
-                                       query: query,
-                                       additionalProperties: true)
-        let encoded = try ParseCoding.jsonEncoder()
-            .encode(message)
-        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
-        XCTAssertEqual(decoded, expected)
-        // swiftlint:disable:next line_length
-        let expected2 = "{\"op\":\"subscribe\",\"requestId\":1,\"query\":{\"className\":\"GameScore\",\"where\":{\"score\":{\"$gt\":9}},\"fields\":[\"score\",\"hello\",\"wow\"]}}"
-        query = query.fields("hello", "wow")
-        let message2 = SubscribeMessage(operation: .subscribe,
-                                       requestId: RequestId(value: 1),
-                                       query: query,
-                                       additionalProperties: true)
-        let encoded2 = try ParseCoding.jsonEncoder()
-            .encode(message2)
-        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
-        XCTAssertEqual(decoded2, expected2)
+    func testFieldKeys() throws {
+        let query = GameScore.query()
+        XCTAssertNil(query.keys)
+
+        var query2 = GameScore.query().fields(["yolo"])
+        XCTAssertEqual(query2.fields?.count, 1)
+        XCTAssertEqual(query2.fields?.first, "yolo")
+
+        query2 = query2.fields(["hello", "wow"])
+        XCTAssertEqual(query2.fields?.count, 3)
+        XCTAssertEqual(query2.fields, ["yolo", "hello", "wow"])
+    }
+
+    func testFieldKeysVariadic() throws {
+        let query = GameScore.query()
+        XCTAssertNil(query.keys)
+
+        var query2 = GameScore.query().fields("yolo")
+        XCTAssertEqual(query2.fields?.count, 1)
+        XCTAssertEqual(query2.fields?.first, "yolo")
+
+        query2 = query2.fields("hello", "wow")
+        XCTAssertEqual(query2.fields?.count, 3)
+        XCTAssertEqual(query2.fields, ["yolo", "hello", "wow"])
     }
 
     func testRedirectResponseDecoding() throws {

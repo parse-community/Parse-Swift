@@ -38,7 +38,7 @@ struct StandardMessage: LiveQueryable, Codable {
 struct SubscribeQuery: Encodable {
     let className: String
     let `where`: QueryWhere
-    let fields: [String]?
+    let fields: Set<String>?
 }
 
 struct SubscribeMessage<T: ParseObject>: LiveQueryable, Encodable {
