@@ -4,6 +4,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__Improvements__
+- Append instead of replace when using query select, exclude, include, and fields ([#155](https://github.com/parse-community/Parse-Swift/pull/155)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.8.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.2...1.8.0)
 

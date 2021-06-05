@@ -193,7 +193,7 @@ class ParseLiveQueryTests: XCTestCase {
         // swiftlint:disable:next line_length
         let expected = "{\"op\":\"subscribe\",\"requestId\":1,\"query\":{\"className\":\"GameScore\",\"where\":{\"score\":{\"$gt\":9}},\"fields\":[\"score\"]}}"
         let query = GameScore.query("score" > 9)
-            .fields("score")
+            .fields(["score"])
         let message = SubscribeMessage(operation: .subscribe,
                                        requestId: RequestId(value: 1),
                                        query: query,
@@ -202,6 +202,32 @@ class ParseLiveQueryTests: XCTestCase {
             .encode(message)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
+    }
+
+    func testFieldKeys() throws {
+        let query = GameScore.query()
+        XCTAssertNil(query.keys)
+
+        var query2 = GameScore.query().fields(["yolo"])
+        XCTAssertEqual(query2.fields?.count, 1)
+        XCTAssertEqual(query2.fields?.first, "yolo")
+
+        query2 = query2.fields(["hello", "wow"])
+        XCTAssertEqual(query2.fields?.count, 3)
+        XCTAssertEqual(query2.fields, ["yolo", "hello", "wow"])
+    }
+
+    func testFieldKeysVariadic() throws {
+        let query = GameScore.query()
+        XCTAssertNil(query.keys)
+
+        var query2 = GameScore.query().fields("yolo")
+        XCTAssertEqual(query2.fields?.count, 1)
+        XCTAssertEqual(query2.fields?.first, "yolo")
+
+        query2 = query2.fields("hello", "wow")
+        XCTAssertEqual(query2.fields?.count, 3)
+        XCTAssertEqual(query2.fields, ["yolo", "hello", "wow"])
     }
 
     func testRedirectResponseDecoding() throws {
