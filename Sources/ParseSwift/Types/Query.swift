@@ -768,21 +768,31 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
 
     /**
      Make the query include `ParseObject`s that have a reference stored at the provided keys.
+     If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: A variadic list of keys to load child `ParseObject`s for.
      */
     public func include(_ keys: String...) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.include = keys
+        if mutableQuery.include != nil {
+            mutableQuery.include?.append(contentsOf: keys)
+        } else {
+            mutableQuery.include = keys
+        }
         return mutableQuery
     }
 
     /**
      Make the query include `ParseObject`s that have a reference stored at the provided keys.
+     If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys to load child `ParseObject`s for.
      */
     public func include(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.include = keys
+        if mutableQuery.include != nil {
+            mutableQuery.include?.append(contentsOf: keys)
+        } else {
+            mutableQuery.include = keys
+        }
         return mutableQuery
     }
 
@@ -797,24 +807,34 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-     Exclude specific keys for a `ParseObject`. Default is to nil.
+     Exclude specific keys for a `ParseObject`.
+     If this is called multiple times, then all of the keys specified in each of the calls will be excluded.
      - parameter keys: A variadic list of keys include in the result.
      - warning: Requires Parse Server > 4.5.0.
      */
     public func exclude(_ keys: String...) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.excludeKeys = keys
+        if mutableQuery.excludeKeys != nil {
+            mutableQuery.excludeKeys?.append(contentsOf: keys)
+        } else {
+            mutableQuery.excludeKeys = keys
+        }
         return mutableQuery
     }
 
     /**
-     Exclude specific keys for a `ParseObject`. Default is to nil.
-     - parameter keys: An array of keys to exclude.
+     Exclude specific keys for a `ParseObject`.
+     If this is called multiple times, then all of the keys specified in each of the calls will be excluded.
+     - parameter keys: An array of keys to exclude in the result.
      - warning: Requires Parse Server > 4.5.0.
     */
     public func exclude(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.excludeKeys = keys
+        if mutableQuery.excludeKeys != nil {
+            mutableQuery.excludeKeys?.append(contentsOf: keys)
+        } else {
+            mutableQuery.excludeKeys = keys
+        }
         return mutableQuery
     }
 
@@ -826,7 +846,11 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public func select(_ keys: String...) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.keys = keys
+        if mutableQuery.keys != nil {
+            mutableQuery.keys?.append(contentsOf: keys)
+        } else {
+            mutableQuery.keys = keys
+        }
         return mutableQuery
     }
 
@@ -838,7 +862,11 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      */
     public func select(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.keys = keys
+        if mutableQuery.keys != nil {
+            mutableQuery.keys?.append(contentsOf: keys)
+        } else {
+            mutableQuery.keys = keys
+        }
         return mutableQuery
     }
 
@@ -859,13 +887,18 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      If you are only interested in the change of the name field, you can set `query.fields` to "name".
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
+     If this is called multiple times, then all of the keys specified in each of the calls will be received.
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: String...) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.fields = keys
+        if mutableQuery.fields != nil {
+            mutableQuery.fields?.append(contentsOf: keys)
+        } else {
+            mutableQuery.fields = keys
+        }
         return mutableQuery
     }
 
@@ -876,13 +909,18 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      If you are only interested in the change of the name field, you can set `query.fields` to "name".
      In this situation, when the change of a Player `ParseObject` fulfills the subscription, only the
      name field will be sent to the clients instead of the full Player `ParseObject`.
+     If this is called multiple times, then all of the keys specified in each of the calls will be received.
      - warning: This is only for `ParseLiveQuery`.
      - parameter keys: An array of fields to receive back instead of the whole `ParseObject`.
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     public func fields(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
-        mutableQuery.fields = keys
+        if mutableQuery.fields != nil {
+            mutableQuery.fields?.append(contentsOf: keys)
+        } else {
+            mutableQuery.fields = keys
+        }
         return mutableQuery
     }
 

@@ -157,15 +157,23 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testIncludeKeys() {
         let query = GameScore.query()
         XCTAssertNil(query.include)
+        var query2 = GameScore.query().include(["yolo"])
+        XCTAssertEqual(query2.include?.count, 1)
+        XCTAssertEqual(query2.include?.first, "yolo")
+        query2 = query2.include(["hello", "wow"])
+        XCTAssertEqual(query2.include?.count, 3)
+        XCTAssertEqual(query2.include, ["yolo", "hello", "wow"])
+    }
+
+    func testIncludeKeysVariadic() {
+        let query = GameScore.query()
+        XCTAssertNil(query.include)
         var query2 = GameScore.query().include("yolo")
         XCTAssertEqual(query2.include?.count, 1)
         XCTAssertEqual(query2.include?.first, "yolo")
-        query2 = query2.include("yolo", "wow")
-        XCTAssertEqual(query2.include?.count, 2)
-        XCTAssertEqual(query2.include, ["yolo", "wow"])
-        query2 = query2.include(["yolo"])
-        XCTAssertEqual(query2.include?.count, 1)
-        XCTAssertEqual(query2.include, ["yolo"])
+        query2 = query2.include("hello", "wow")
+        XCTAssertEqual(query2.include?.count, 3)
+        XCTAssertEqual(query2.include, ["yolo", "hello", "wow"])
     }
 
     func testIncludeAllKeys() {
@@ -179,8 +187,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testExcludeKeys() throws {
         let query = GameScore.query()
         XCTAssertNil(query.excludeKeys)
-        var query2 = GameScore.query().exclude("yolo")
-        XCTAssertEqual(query2.excludeKeys, ["yolo"])
+        var query2 = GameScore.query().exclude(["yolo"])
         XCTAssertEqual(query2.excludeKeys, ["yolo"])
         let encoded = try ParseCoding.jsonEncoder().encode(query2)
         let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
@@ -191,9 +198,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         XCTAssertEqual(decodedValues, ["yolo"])
 
-        query2 = GameScore.query().exclude(["yolo", "wow"])
-        XCTAssertEqual(query2.excludeKeys, ["yolo", "wow"])
-        XCTAssertEqual(query2.excludeKeys, ["yolo", "wow"])
+        query2 = query2.exclude(["hello", "wow"])
+        XCTAssertEqual(query2.excludeKeys, ["yolo", "hello", "wow"])
         let encoded2 = try ParseCoding.jsonEncoder().encode(query2)
         let decodedDictionary2 = try JSONDecoder().decode([String: AnyCodable].self, from: encoded2)
         guard let decodedKeys2 = decodedDictionary2["excludeKeys"],
@@ -201,10 +207,65 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have casted")
             return
         }
-        XCTAssertEqual(decodedValues2, ["yolo", "wow"])
+        XCTAssertEqual(decodedValues2, ["yolo", "hello", "wow"])
+    }
+
+    func testExcludeKeysVariadic() throws {
+        let query = GameScore.query()
+        XCTAssertNil(query.excludeKeys)
+        var query2 = GameScore.query().exclude("yolo")
+        XCTAssertEqual(query2.excludeKeys, ["yolo"])
+        let encoded = try ParseCoding.jsonEncoder().encode(query2)
+        let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+        guard let decodedKeys = decodedDictionary["excludeKeys"],
+            let decodedValues = decodedKeys.value as? [String] else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(decodedValues, ["yolo"])
+
+        query2 = query2.exclude("hello", "wow")
+        XCTAssertEqual(query2.excludeKeys, ["yolo", "hello", "wow"])
+        let encoded2 = try ParseCoding.jsonEncoder().encode(query2)
+        let decodedDictionary2 = try JSONDecoder().decode([String: AnyCodable].self, from: encoded2)
+        guard let decodedKeys2 = decodedDictionary2["excludeKeys"],
+            let decodedValues2 = decodedKeys2.value as? [String] else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(decodedValues2, ["yolo", "hello", "wow"])
     }
 
     func testSelectKeys() throws {
+        let query = GameScore.query()
+        XCTAssertNil(query.keys)
+
+        var query2 = GameScore.query().select(["yolo"])
+        XCTAssertEqual(query2.keys?.count, 1)
+        XCTAssertEqual(query2.keys?.first, "yolo")
+        let encoded = try ParseCoding.jsonEncoder().encode(query2)
+        let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+        guard let decodedKeys = decodedDictionary["keys"],
+            let decodedValues = decodedKeys.value as? [String] else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(decodedValues, ["yolo"])
+
+        query2 = query2.select(["hello", "wow"])
+        XCTAssertEqual(query2.keys?.count, 3)
+        XCTAssertEqual(query2.keys, ["yolo", "hello", "wow"])
+        let encoded2 = try ParseCoding.jsonEncoder().encode(query2)
+        let decodedDictionary2 = try JSONDecoder().decode([String: AnyCodable].self, from: encoded2)
+        guard let decodedKeys2 = decodedDictionary2["keys"],
+            let decodedValues2 = decodedKeys2.value as? [String] else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(decodedValues2, ["yolo", "hello", "wow"])
+    }
+
+    func testSelectKeysVariadic() throws {
         let query = GameScore.query()
         XCTAssertNil(query.keys)
 
@@ -220,9 +281,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         XCTAssertEqual(decodedValues, ["yolo"])
 
-        query2 = query2.select(["yolo", "wow"])
-        XCTAssertEqual(query2.keys?.count, 2)
-        XCTAssertEqual(query2.keys, ["yolo", "wow"])
+        query2 = query2.select("hello", "wow")
+        XCTAssertEqual(query2.keys?.count, 3)
+        XCTAssertEqual(query2.keys, ["yolo", "hello", "wow"])
         let encoded2 = try ParseCoding.jsonEncoder().encode(query2)
         let decodedDictionary2 = try JSONDecoder().decode([String: AnyCodable].self, from: encoded2)
         guard let decodedKeys2 = decodedDictionary2["keys"],
@@ -230,7 +291,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should have casted")
             return
         }
-        XCTAssertEqual(decodedValues2, ["yolo", "wow"])
+        XCTAssertEqual(decodedValues2, ["yolo", "hello", "wow"])
     }
 
     func testAddingConstraints() {
