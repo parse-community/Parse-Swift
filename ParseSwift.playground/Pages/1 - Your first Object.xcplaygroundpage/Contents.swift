@@ -114,7 +114,8 @@ var score2ForFetchedLater: GameScore?
 }
 
 //: Saving multiple GameScores at once using a transaction.
-[score, score2].saveAll(transaction: true) { results in
+//: Currently doesn't work on mongo
+/*[score, score2].saveAll(transaction: true) { results in
     switch results {
     case .success(let otherResults):
         var index = 0
@@ -134,7 +135,7 @@ var score2ForFetchedLater: GameScore?
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
     }
-}
+}*/
 
 //: Save synchronously (not preferred - all operations on main queue).
 let savedScore: GameScore?
@@ -270,7 +271,7 @@ do {
 }
 
 //: Asynchronously (preferred way) deleteAll GameScores based on it's objectId alone.
-[scoreToFetch, score2ToFetch].deleteAll(transaction: true) { result in
+[scoreToFetch, score2ToFetch].deleteAll { result in
     switch result {
     case .success(let deletedScores):
         deletedScores.forEach { result in

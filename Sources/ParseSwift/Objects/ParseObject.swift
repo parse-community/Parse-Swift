@@ -725,7 +725,7 @@ extension ParseObject {
 // MARK: Savable Encodable Version
 internal extension ParseType {
     func saveAll(objects: [ParseType],
-                 transaction: Bool = true,
+                 transaction: Bool = ParseSwift.configuration.useTransactionsInternally,
                  options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         try API.NonParseBodyCommand<AnyCodable, PointerType>
                 .batch(objects: objects,
