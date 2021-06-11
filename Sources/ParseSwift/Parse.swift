@@ -45,6 +45,7 @@ public struct ParseConfiguration {
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowCustomObjectId: Allows objectIds to be created on the client.
      side for each object. Must be enabled on the server to work.
+     - parameter useTransactionsInternally: Use transactions inside the Client SDK.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
@@ -140,6 +141,7 @@ public struct ParseSwift {
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowCustomObjectId: Allows objectIds to be created on the client.
      side for each object. Must be enabled on the server to work.
+     - parameter useTransactionsInternally: Use transactions inside the Client SDK.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
