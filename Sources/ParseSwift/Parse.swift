@@ -26,6 +26,10 @@ public struct ParseConfiguration {
     /// Allows objectIds to be created on the client.
     var allowCustomObjectId = false
 
+    /// Use transactions inside the Client SDK.
+    /// - warning: This is experimental and known not to work with mongoDB.
+    var useTransactionsInternally = false
+
     internal var authentication: ((URLAuthenticationChallenge,
                                    (URLSession.AuthChallengeDisposition,
                                     URLCredential?) -> Void) -> Void)?
@@ -57,6 +61,7 @@ public struct ParseConfiguration {
                 serverURL: URL,
                 liveQueryServerURL: URL? = nil,
                 allowCustomObjectId: Bool = false,
+                useTransactionsInternally: Bool = false,
                 keyValueStore: ParseKeyValueStore? = nil,
                 authentication: ((URLAuthenticationChallenge,
                                   (URLSession.AuthChallengeDisposition,
@@ -67,6 +72,7 @@ public struct ParseConfiguration {
         self.serverURL = serverURL
         self.liveQuerysServerURL = liveQueryServerURL
         self.allowCustomObjectId = allowCustomObjectId
+        self.useTransactionsInternally = useTransactionsInternally
         self.mountPath = "/" + serverURL.pathComponents
             .filter { $0 != "/" }
             .joined(separator: "/")
@@ -153,6 +159,7 @@ public struct ParseSwift {
         serverURL: URL,
         liveQueryServerURL: URL? = nil,
         allowCustomObjectId: Bool = false,
+        useTransactionsInternally: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
         migrateFromObjcSDK: Bool = false,
         authentication: ((URLAuthenticationChallenge,
@@ -165,6 +172,7 @@ public struct ParseSwift {
                                         serverURL: serverURL,
                                         liveQueryServerURL: liveQueryServerURL,
                                         allowCustomObjectId: allowCustomObjectId,
+                                        useTransactionsInternally: useTransactionsInternally,
                                         keyValueStore: keyValueStore,
                                         authentication: authentication),
                    migrateFromObjcSDK: migrateFromObjcSDK)
@@ -176,6 +184,7 @@ public struct ParseSwift {
                                     serverURL: URL,
                                     liveQueryServerURL: URL? = nil,
                                     allowCustomObjectId: Bool = false,
+                                    useTransactionsInternally: Bool = false,
                                     keyValueStore: ParseKeyValueStore? = nil,
                                     migrateFromObjcSDK: Bool = false,
                                     testing: Bool = false,
@@ -188,6 +197,7 @@ public struct ParseSwift {
                                         serverURL: serverURL,
                                         liveQueryServerURL: liveQueryServerURL,
                                         allowCustomObjectId: allowCustomObjectId,
+                                        useTransactionsInternally: useTransactionsInternally,
                                         keyValueStore: keyValueStore,
                                         authentication: authentication),
                    migrateFromObjcSDK: migrateFromObjcSDK)
