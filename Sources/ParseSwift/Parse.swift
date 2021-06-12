@@ -55,6 +55,7 @@ public struct ParseConfiguration {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
+     - warning: `useTransactionsInternally` is experimental and known not to work with mongoDB.
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
@@ -153,6 +154,7 @@ public struct ParseSwift {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
+     - warning: `useTransactionsInternally` is experimental and known not to work with mongoDB.
      */
     static public func initialize(
         applicationId: String,
