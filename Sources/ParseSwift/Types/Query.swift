@@ -700,7 +700,9 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
               lhs.readPreference == rhs.readPreference,
               lhs.includeReadPreference == rhs.includeReadPreference,
               lhs.subqueryReadPreference == rhs.subqueryReadPreference,
-              lhs.distinct == rhs.distinct else {
+              lhs.distinct == rhs.distinct,
+              lhs.pipeline == rhs.pipeline,
+              lhs.fields == rhs.fields else {
             return false
         }
         return true
