@@ -377,7 +377,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
     }
-    
+
     func jobAsync(serverResponse: [String: String], callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")

@@ -14,7 +14,7 @@ import Foundation
 public struct ParseError: ParseType, Decodable, Swift.Error {
     public let code: Code
     public let message: String
-    public var intCode: Int? = nil
+    public var intCode: Int?
     public init(code: Code, message: String) {
         self.code = code
         self.message = message
@@ -353,7 +353,7 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
          a non-2XX status code.
          */
         case xDomainRequest = 602
-        
+
         /**
          Error code indicating any other custom error sent from Parse Cloud
          */
