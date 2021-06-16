@@ -39,7 +39,15 @@ extension URLSession {
             do {
                 return try .success(mapper(responseData))
             } catch {
-                if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
+                if var error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
+                    do {
+                        let json = try JSONSerialization.jsonObject(with: responseData, options: []) as? [String : Any]
+                        if let code = json?["code"] as? Int {
+                            error.intCode = code
+                        }
+                    } catch {
+                        /* */
+                    }
                     return .failure(error)
                 }
                 guard let parseError = error as? ParseError else {

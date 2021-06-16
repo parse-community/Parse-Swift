@@ -356,6 +356,28 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testCustomError() {
+
+        let encoded: Data = "{\"error\":\"Error: Custom Error\",\"code\":2000}".data(using: .utf8)!
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let cloud = Cloud(functionJobName: "test")
+            _ = try cloud.runFunction()
+            XCTFail("Should have thrown ParseError")
+        } catch {
+            if let error = error as? ParseError {
+                XCTAssertEqual(error.code, .other)
+                XCTAssertEqual(error.message, "Error: Custom Error")
+                XCTAssertEqual(error.intCode, 2000)
+            } else {
+                XCTFail("Should have thrown ParseError")
+            }
+        }
+    }
+    
     func jobAsync(serverResponse: [String: String], callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Logout user1")

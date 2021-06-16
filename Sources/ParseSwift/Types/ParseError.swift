@@ -14,6 +14,12 @@ import Foundation
 public struct ParseError: ParseType, Decodable, Swift.Error {
     public let code: Code
     public let message: String
+    public var intCode: Int? = nil
+    init(code: Code, message: String) {
+        self.code = code
+        self.message = message
+        self.intCode = code.rawValue
+    }
 
     /// A textual representation of this error.
     public var localizedDescription: String {
@@ -347,6 +353,12 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
          a non-2XX status code.
          */
         case xDomainRequest = 602
+        
+        /**
+         Error code indicating any other custom error sent from Parse Cloud
+         */
+
+        case other
     }
 }
 
@@ -354,7 +366,12 @@ extension ParseError {
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        code = try values.decode(Code.self, forKey: .code)
+        do {
+            code = try values.decode(Code.self, forKey: .code)
+            intCode = code.rawValue
+        } catch {
+            code = .other
+        }
         message = try values.decode(String.self, forKey: .message)
     }
 
