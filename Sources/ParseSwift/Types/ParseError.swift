@@ -15,7 +15,7 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
     public let code: Code
     public let message: String
     public var intCode: Int? = nil
-    init(code: Code, message: String) {
+    public init(code: Code, message: String) {
         self.code = code
         self.message = message
         self.intCode = code.rawValue
