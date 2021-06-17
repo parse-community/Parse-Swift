@@ -21,7 +21,7 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
     init(code: Code, message: String) {
         self.code = code
         self.message = message
-        self.otherCode = code.rawValue
+        self.otherCode = nil
     }
 
     /// A textual representation of this error.
