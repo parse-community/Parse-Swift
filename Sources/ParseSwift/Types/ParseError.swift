@@ -362,7 +362,7 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
         case xDomainRequest = 602
 
         /**
-         Error code indicating any other custom error sent from Parse Cloud
+         Error code indicating any other custom error sent from the Parse Server.
          */
         case other
     }
