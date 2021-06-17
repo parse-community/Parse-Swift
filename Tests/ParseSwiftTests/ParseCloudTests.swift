@@ -358,7 +358,10 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testCustomError() {
 
-        let encoded: Data = "{\"error\":\"Error: Custom Error\",\"code\":2000}".data(using: .utf8)!
+        guard let encoded: Data = "{\"error\":\"Error: Custom Error\",\"code\":2000}".data(using: .utf8) else {
+            XCTFail("Could not unwrap encoded data")
+            return
+        }
 
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
