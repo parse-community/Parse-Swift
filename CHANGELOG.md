@@ -1,8 +1,11 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.2...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.8.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.1...1.8.2)
 
 __Improvements__
 - Ensure pipeline and fields are checked when comparing queries  ([#163](https://github.com/parse-community/Parse-Swift/pull/163)), thanks to [Corey Baker](https://github.com/cbaker6).

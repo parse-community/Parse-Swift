@@ -43,6 +43,38 @@ cloud.runFunction { result in
     }
 }
 
+/*: Assuming you have the Cloud Function named "testCloudCode" on your parse-server.
+ You can catch custom errors created in Cloud Code:
+     // main.js
+     Parse.Cloud.define("testCloudCode", async() => {
+        throw new Parse.Error(3000, "cloud has an error on purpose.");
+     });
+ */
+let cloudError = Cloud(functionJobName: "testCloudCode")
+
+cloudError.runFunction { result in
+    switch result {
+    case .success:
+        assertionFailure("Should have thrown a custom error")
+    case .failure(let error):
+        switch error.code {
+        case .other:
+            guard let otherCode = error.otherCode else {
+                assertionFailure("Should have unwrapped otherCode")
+                return
+            }
+            switch otherCode {
+            case 3000:
+                print("Received Cloud Code error: \(error)")
+            default:
+                assertionFailure("Should have received code \"3000\"")
+            }
+        default:
+            assertionFailure("Should have been case \"other\"")
+        }
+    }
+}
+
 //: Jobs can be run the same way by using the method `startJob()`.
 
 //: Saving objects with context for beforeSave, afterSave, etc.
