@@ -50,7 +50,7 @@ class ParseErrorTests: XCTestCase {
     func testEncodeOther() throws {
         let code = 2000
         let message = "testing ParseError"
-        guard let encoded: Data = "{\"error\":\"\(message)\",\"code\":\(code)}".data(using: .utf8) else {
+        guard let encoded = "{\"error\":\"\(message)\",\"code\":\(code)}".data(using: .utf8) else {
             XCTFail("Should have unwrapped")
             return
         }
