@@ -374,7 +374,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
             if let error = error as? ParseError {
                 XCTAssertEqual(error.code, .other)
                 XCTAssertEqual(error.message, "Error: Custom Error")
-                XCTAssertEqual(error.intCode, 2000)
+                XCTAssertEqual(error.otherCode, 2000)
             } else {
                 XCTFail("Should have thrown ParseError")
             }
