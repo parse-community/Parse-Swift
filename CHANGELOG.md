@@ -6,6 +6,7 @@
 
 __Improvements__
 - Ensure pipeline and fields are checked when comparing queries  ([#163](https://github.com/parse-community/Parse-Swift/pull/163)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Allow custom error codes to be thrown from Cloud Functions ([#165](https://github.com/parse-community/Parse-Swift/pull/165)), thanks to [Daniel Blyth](https://github.com/dblythy).
 
 ### 1.8.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.0...1.8.1)

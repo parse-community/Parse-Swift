@@ -12,12 +12,25 @@ import Foundation
  An object with a Parse code and message.
  */
 public struct ParseError: ParseType, Decodable, Swift.Error {
+    /// The value representing the error from the Parse Server.
     public let code: Code
+    /// The text representing the error from the Parse Server.
     public let message: String
+    /// An error value representing a custom error from the Parse Server.
+    public let otherCode: Int?
+    init(code: Code, message: String) {
+        self.code = code
+        self.message = message
+        self.otherCode = nil
+    }
 
     /// A textual representation of this error.
     public var localizedDescription: String {
-        return "ParseError code=\(code.rawValue) error=\(message)"
+        if let otherCode = otherCode {
+            return "ParseError code=\(code.rawValue) error=\(message) otherCode=\(otherCode)"
+        } else {
+            return "ParseError code=\(code.rawValue) error=\(message)"
+        }
     }
 
     enum CodingKeys: String, CodingKey {
@@ -347,6 +360,11 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
          a non-2XX status code.
          */
         case xDomainRequest = 602
+
+        /**
+         Error code indicating any other custom error sent from the Parse Server.
+         */
+        case other
     }
 }
 
@@ -354,7 +372,13 @@ extension ParseError {
 
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        code = try values.decode(Code.self, forKey: .code)
+        do {
+            code = try values.decode(Code.self, forKey: .code)
+            otherCode = nil
+        } catch {
+            code = .other
+            otherCode = try values.decode(Int.self, forKey: .code)
+        }
         message = try values.decode(String.self, forKey: .message)
     }
 

@@ -177,7 +177,7 @@ class APICommandTests: XCTestCase {
         let errorKey = "error"
         let errorValue = "yarr"
         let codeKey = "code"
-        let codeValue = 100500
+        let codeValue = 100
         let responseDictionary: [String: Any] = [
             errorKey: errorValue,
             codeKey: codeValue
