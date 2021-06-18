@@ -20,7 +20,7 @@ struct Book: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-    //var relatedBook: Pointer<Book>?
+    var relatedBook: Pointer<Book>?
 
     //: Your own properties.
     var title: String?
