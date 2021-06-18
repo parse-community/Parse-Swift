@@ -21,6 +21,7 @@ class ParsePointerTests: XCTestCase {
 
         //: Your own properties
         var score: Int
+        var other: Pointer<GameScore>?
 
         //: a custom initializer
         init(score: Int) {
@@ -254,5 +255,52 @@ class ParsePointerTests: XCTestCase {
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         self.fetchAsync(score: pointer, scoreOnServer: scoreOnServer, callbackQueue: .main)
+    }
+
+    // swiftlint:disable:next function_body_length
+    func testSaveEmbeddedPointer() throws {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        var score2 = GameScore(score: 50)
+        score2.other = try score.toPointer()
+
+        var scoreOnServer = score2
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+        let encoded: Data!
+        do {
+            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let fetched = try score2.save(options: [])
+            XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
+            guard let fetchedCreatedAt = fetched.createdAt,
+                let fetchedUpdatedAt = fetched.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = scoreOnServer.createdAt,
+                let originalUpdatedAt = scoreOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+            XCTAssertNil(fetched.ACL)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
 }

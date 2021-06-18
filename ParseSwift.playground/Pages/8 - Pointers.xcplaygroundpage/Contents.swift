@@ -20,6 +20,7 @@ struct Book: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var relatedBook: Pointer<Book>?
 
     //: Your own properties.
     var title: String?
@@ -78,7 +79,18 @@ author2.save { result in
         assert(savedAuthorAndBook.ACL == nil)
         assert(savedAuthorAndBook.otherBooks?.count == 2)
 
+        //: Notice the pointer objects haven't been updated on the client.
         print("Saved \(savedAuthorAndBook)")
+
+        //: Need to fetch the object to get updated pointer objects from server.
+        do {
+            //: Store globally so we can use this updated author for later.
+            author2 = try savedAuthorAndBook.fetch(includeKeys: ["book"])
+        } catch {
+            print("Error fetching updated author: \(error.localizedDescription)")
+        }
+        print("Fetched author from server: \(author2)")
+
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
     }
@@ -159,6 +171,27 @@ do {
 } catch {
     print("\(error)")
 }
+
+//: When referencing the same type
+var currentBook = author2.book
+currentBook.relatedBook = try? author2.otherBooks!.first!.toPointer()
+
+currentBook.save { result in
+    switch result {
+    case .success(let updatedBook):
+        assert(updatedBook.objectId != nil)
+        assert(updatedBook.createdAt != nil)
+        assert(updatedBook.updatedAt != nil)
+        assert(updatedBook.ACL == nil)
+        assert(updatedBook.relatedBook != nil)
+
+        print("Saved \(updatedBook)")
+    case .failure(let error):
+        assertionFailure("Error saving: \(error)")
+    }
+}
+
+print(currentBook)
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)
