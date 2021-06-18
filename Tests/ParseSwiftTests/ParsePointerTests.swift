@@ -75,6 +75,25 @@ class ParsePointerTests: XCTestCase {
         XCTAssertEqual(pointer.objectId, score.objectId)
     }
 
+    func testEncodeEmbeddedPointer() throws {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        var score2 = GameScore(score: 50)
+        score2.other = try score.toPointer()
+
+        let encoded = try score2.getEncoder().encode(score2,
+                                                     collectChildren: false,
+                                                     objectsSavedBeforeThisOne: nil,
+                                                     filesSavedBeforeThisOne: nil)
+
+        let decoded = String(data: encoded.encoded, encoding: .utf8)
+        XCTAssertEqual(decoded,
+                       // swiftlint:disable:next line_length
+                       "{\"score\":50,\"other\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"}}")
+    }
+
     // swiftlint:disable:next function_body_length
     func testFetch() throws {
         var score = GameScore(score: 10)
@@ -255,52 +274,5 @@ class ParsePointerTests: XCTestCase {
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         self.fetchAsync(score: pointer, scoreOnServer: scoreOnServer, callbackQueue: .main)
-    }
-
-    // swiftlint:disable:next function_body_length
-    func testSaveEmbeddedPointer() throws {
-        var score = GameScore(score: 10)
-        let objectId = "yarr"
-        score.objectId = objectId
-
-        var score2 = GameScore(score: 50)
-        score2.other = try score.toPointer()
-
-        var scoreOnServer = score2
-        scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = scoreOnServer.createdAt
-        scoreOnServer.ACL = nil
-        let encoded: Data!
-        do {
-            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
-            //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-        do {
-            let fetched = try score2.save(options: [])
-            XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
-            guard let fetchedCreatedAt = fetched.createdAt,
-                let fetchedUpdatedAt = fetched.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = scoreOnServer.createdAt,
-                let originalUpdatedAt = scoreOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(fetched.ACL)
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
     }
 }

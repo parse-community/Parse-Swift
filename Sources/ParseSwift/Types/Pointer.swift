@@ -3,6 +3,8 @@ import Foundation
 import Combine
 #endif
 
+protocol ParsePointer { }
+
 private func getObjectId<T: ParseObject>(target: T) throws -> String {
     guard let objectId = target.objectId else {
         throw ParseError(code: .missingObjectId, message: "Cannot set a pointer to an unsaved object")
@@ -18,7 +20,7 @@ private func getObjectId(target: Objectable) throws -> String {
 }
 
 /// A Pointer referencing a ParseObject.
-public struct Pointer<T: ParseObject>: Fetchable, Encodable, Hashable {
+public struct Pointer<T: ParseObject>: ParsePointer, Fetchable, Encodable, Hashable {
 
     private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
 
@@ -130,10 +132,10 @@ public extension Pointer {
 internal struct PointerType: Encodable {
 
     var __type: String = "Pointer" // swiftlint:disable:this identifier_name
-    public var objectId: String
-    public var className: String
+    var objectId: String
+    var className: String
 
-    public init(_ target: Objectable) throws {
+    init(_ target: Objectable) throws {
         self.objectId = try getObjectId(target: target)
         self.className = target.className
     }

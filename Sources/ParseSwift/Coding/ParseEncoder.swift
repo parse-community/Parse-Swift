@@ -426,9 +426,9 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
     }
 
     mutating func encode<T>(_ value: T, forKey key: Key) throws where T: Encodable {
+        var valueToEncode: Encodable = value
         if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
 
-        var valueToEncode: Encodable = value
         if let parseObject = value as? Objectable {
             if let replacedObject = try self.encoder.deepFindAndReplaceParseObjects(parseObject) {
                 valueToEncode = replacedObject
@@ -893,7 +893,7 @@ extension _ParseEncoder {
             //COREY: DON'T remove the force unwrap, it will crash the app
             // swiftlint:disable:next force_cast
             return try self.box(value as! [String : Encodable])
-        } else if value is PointerType {
+        } else if value is ParsePointer {
             ignoreSkipKeys = true
         }
 

@@ -20,7 +20,7 @@ struct Book: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-    var relatedBook: Pointer<Book>?
+    //var relatedBook: Pointer<Book>?
 
     //: Your own properties.
     var title: String?
@@ -174,7 +174,7 @@ do {
 
 //: When referencing the same type
 var currentBook = author2.book
-currentBook.relatedBook = try? author2.otherBooks!.first!.toPointer()
+currentBook.relatedBook = try? author2.otherBooks?.first?.toPointer()
 
 currentBook.save { result in
     switch result {

@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.2...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.3...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.8.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.2...1.8.3)
+
+__Fixes__
+- Fixed a bug that prevented saving ParseObjects that had Pointers as properties ([#169](https://github.com/parse-community/Parse-Swift/pull/169)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.8.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.1...1.8.2)
