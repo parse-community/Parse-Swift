@@ -21,6 +21,7 @@ class ParsePointerTests: XCTestCase {
 
         //: Your own properties
         var score: Int
+        var other: Pointer<GameScore>?
 
         //: a custom initializer
         init(score: Int) {
@@ -199,6 +200,40 @@ class ParsePointerTests: XCTestCase {
     }
 
     #if !os(Linux) && !os(Android)
+    func testEncodeEmbeddedPointer() throws {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        var score2 = GameScore(score: 50)
+        score2.other = try score.toPointer()
+
+        let encoded = try score2.getEncoder().encode(score2,
+                                                     collectChildren: false,
+                                                     objectsSavedBeforeThisOne: nil,
+                                                     filesSavedBeforeThisOne: nil)
+
+        let decoded = String(data: encoded.encoded, encoding: .utf8)
+        XCTAssertEqual(decoded,
+                       // swiftlint:disable:next line_length
+                       "{\"score\":50,\"other\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"}}")
+        XCTAssertEqual(encoded.unique.count, 0)
+        XCTAssertEqual(encoded.unsavedChildren.count, 0)
+    }
+
+    func testPointerTypeEncoding() throws {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+
+        let pointerType = try PointerType(score)
+
+        let encoded = try ParseCoding.parseEncoder().encode(pointerType)
+        let decoded = String(data: encoded, encoding: .utf8)
+        XCTAssertEqual(decoded,
+                       "{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"}")
+    }
+
     func testThreadSafeFetchAsync() throws {
         var score = GameScore(score: 10)
         let objectId = "yarr"

@@ -20,6 +20,7 @@ struct Book: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var relatedBook: Pointer<Book>?
 
     //: Your own properties.
     var title: String?
@@ -78,7 +79,9 @@ author2.save { result in
         assert(savedAuthorAndBook.ACL == nil)
         assert(savedAuthorAndBook.otherBooks?.count == 2)
 
+        //: Notice the pointer objects haven't been updated on the client.
         print("Saved \(savedAuthorAndBook)")
+
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
     }
@@ -152,6 +155,41 @@ do {
         case .success(let author):
             print("Found author and included all: \(author)")
 
+        case .failure(let error):
+            assertionFailure("Error querying: \(error)")
+        }
+    }
+} catch {
+    print("\(error)")
+}
+
+//: Here's an example of saving Pointers as properties
+do {
+    // First we query
+    let query5 = try Author.query("book" == newBook)
+        .include("book")
+
+    query5.first { results in
+        switch results {
+        case .success(let author):
+            print("Found author and included all: \(author)")
+            //: Setup related books.
+            newBook.relatedBook = try? author.otherBooks?.first?.toPointer()
+
+            newBook.save { result in
+                switch result {
+                case .success(let updatedBook):
+                    assert(updatedBook.objectId != nil)
+                    assert(updatedBook.createdAt != nil)
+                    assert(updatedBook.updatedAt != nil)
+                    assert(updatedBook.ACL == nil)
+                    assert(updatedBook.relatedBook != nil)
+
+                    print("Saved \(updatedBook)")
+                case .failure(let error):
+                    assertionFailure("Error saving: \(error)")
+                }
+            }
         case .failure(let error):
             assertionFailure("Error querying: \(error)")
         }

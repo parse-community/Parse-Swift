@@ -893,7 +893,7 @@ extension _ParseEncoder {
             //COREY: DON'T remove the force unwrap, it will crash the app
             // swiftlint:disable:next force_cast
             return try self.box(value as! [String : Encodable])
-        } else if value is PointerType {
+        } else if value is ParsePointer {
             ignoreSkipKeys = true
         }
 
