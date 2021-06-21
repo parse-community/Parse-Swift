@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.3...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.4...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.8.4
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.3...1.8.4)
+
+__Fixes__
+- Switched context header X-Parse-Context to X-Parse-Cloud-Context to match server ([#170](https://github.com/parse-community/Parse-Swift/pull/170)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.8.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.2...1.8.3)
