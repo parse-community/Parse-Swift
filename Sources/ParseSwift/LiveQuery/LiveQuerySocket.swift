@@ -104,6 +104,15 @@ extension LiveQuerySocket {
     }
 }
 
+// MARK: Ping
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+extension LiveQuerySocket {
+
+    func sendPing(_ task: URLSessionWebSocketTask, pongReceiveHandler: @escaping (Error?) -> Void) {
+        task.sendPing(pongReceiveHandler: pongReceiveHandler)
+    }
+}
+
 // MARK: URLSession
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension URLSession {

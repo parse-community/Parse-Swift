@@ -529,6 +529,25 @@ extension ParseLiveQuery {
         }
     }
 
+    /// Manually disconnect all sessions and subscriptions from the `ParseLiveQuery` Server.
+    public func closeAll() {
+        synchronizationQueue.sync {
+            URLSession.liveQuery.closeAll()
+        }
+    }
+
+    /**
+     Sends a ping frame from the client side, with a closure to receive the pong from the server endpoint.
+     - parameter pongReceiveHandler: A closure called by the task when it receives the pong
+     from the server. The closure receives an  `Error` that indicates a lost connection or other problem,
+     or nil if no error occurred.
+     */
+    public func sendPing(pongReceiveHandler: @escaping (Error?) -> Void) {
+        synchronizationQueue.sync {
+            URLSession.liveQuery.sendPing(task, pongReceiveHandler: pongReceiveHandler)
+        }
+    }
+
     func close(useDedicatedQueue: Bool) {
         if useDedicatedQueue {
             synchronizationQueue.async {
