@@ -53,6 +53,9 @@ extension LiveQuerySocket {
             .encode(StandardMessage(operation: .connect,
                                     additionalProperties: true))
         guard let encodedAsString = String(data: encoded, encoding: .utf8) else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Couldn't encode connect message: \(encoded)")
+            completion(error)
             return
         }
         task.send(.string(encodedAsString)) { error in

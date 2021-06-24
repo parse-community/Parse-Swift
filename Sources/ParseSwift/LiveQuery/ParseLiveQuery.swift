@@ -502,10 +502,15 @@ extension ParseLiveQuery {
                 return
             }
             if isSocketEstablished {
-                try? URLSession.liveQuery.connect(task: self.task) { error in
-                    if error == nil {
-                        self.isConnecting = true
+                do {
+                    try URLSession.liveQuery.connect(task: self.task) { error in
+                        if error == nil {
+                            self.isConnecting = true
+                        }
                     }
+                    completion(nil)
+                } catch {
+                    completion(error)
                 }
             } else {
                 self.synchronizationQueue
@@ -513,6 +518,9 @@ extension ParseLiveQuery {
                                     .seconds(reconnectInterval)) {
                     self.createTask()
                     self.attempts += 1
+                    let error = ParseError(code: .unknownError,
+                                           message: "Attempted to open socket \(self.attempts)")
+                    completion(error)
                 }
             }
         }
