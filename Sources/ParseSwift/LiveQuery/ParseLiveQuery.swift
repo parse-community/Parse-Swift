@@ -213,7 +213,7 @@ public final class ParseLiveQuery: NSObject {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
-    static var client = try? ParseLiveQuery()
+    public private(set) static var client = try? ParseLiveQuery()
 
     var reconnectInterval: Int {
         let min = NSDecimalNumber(decimal: Swift.min(30, pow(2, attempts) - 1))

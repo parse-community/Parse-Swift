@@ -10,7 +10,12 @@
 import PlaygroundSupport
 import Foundation
 import ParseSwift
+#if canImport(SwiftUI)
 import SwiftUI
+#if canImport(Combine)
+import Combine
+#endif
+#endif
 PlaygroundPage.current.needsIndefiniteExecution = true
 
 initializeParse()
@@ -39,7 +44,8 @@ struct GameScore: ParseObject {
 
 //: Create a query just as you normally would.
 var query = GameScore.query("score" > 9)
-
+/*
+#if canImport(SwiftUI)
 //: To use subscriptions inside of SwiftUI
 struct ContentView: View {
 
@@ -93,7 +99,8 @@ struct ContentView: View {
 }
 
 PlaygroundPage.current.setLiveView(ContentView())
-
+#endif
+*/
 //: This is how you subscribe to your created query using callbacks.
 let subscription = query.subscribeCallback!
 
@@ -140,6 +147,21 @@ do {
 } catch {
     print(error)
 }
+
+//: Ping the LiveQuery server
+ParseLiveQuery.client?.sendPing { error in
+    if let error = error {
+        print("Error pinging LiveQuery server: \(error)")
+    } else {
+        print("Successfully pinged server!")
+    }
+}
+
+//: To close the current LiveQuery connection.
+ParseLiveQuery.client?.close()
+
+//: To close all LiveQuery connections.
+ParseLiveQuery.client?.closeAll()
 
 //: Create a new query.
 var query2 = GameScore.query("score" > 50)
