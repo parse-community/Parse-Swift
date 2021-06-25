@@ -53,7 +53,13 @@ public final class ParseLiveQuery: NSObject {
     let notificationQueue: DispatchQueue
 
     //Task
-    var task: URLSessionWebSocketTask!
+    var task: URLSessionWebSocketTask! {
+        willSet {
+            if newValue == nil && isSocketEstablished == true {
+                isSocketEstablished = false
+            }
+        }
+    }
     var url: URL!
     var clientId: String!
     var attempts: Int = 1 {
@@ -205,7 +211,11 @@ public final class ParseLiveQuery: NSObject {
         close(useDedicatedQueue: false)
         authenticationDelegate = nil
         receiveDelegate = nil
-        URLSession.liveQuery.delegates.removeValue(forKey: task)
+        if task != nil {
+            URLSession.liveQuery.delegates.removeValue(forKey: task)
+        } else {
+            task = nil
+        }
     }
 }
 
@@ -213,6 +223,7 @@ public final class ParseLiveQuery: NSObject {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
+    /// Current LiveQuery client.
     public private(set) static var client = try? ParseLiveQuery()
 
     var reconnectInterval: Int {
@@ -533,7 +544,10 @@ extension ParseLiveQuery {
                 self.task.cancel()
                 self.isDisconnectedByUser = true
             }
-            URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            if task != nil {
+                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            }
+            self.task = nil
         }
     }
 
@@ -568,7 +582,9 @@ extension ParseLiveQuery {
             if self.isConnected {
                 self.task.cancel()
             }
-            URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            if self.task != nil {
+                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            }
         }
     }
 
@@ -577,6 +593,8 @@ extension ParseLiveQuery {
             self.pendingSubscriptions.append((requestId, record))
             if self.isConnected {
                 URLSession.liveQuery.send(record.messageData, task: self.task, completion: completion)
+            } else {
+                self.open(completion: completion)
             }
         }
     }
