@@ -388,6 +388,9 @@
 		918CED5A2684C74000CFDC83 /* ParseLiveQuery+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918CED582684C74000CFDC83 /* ParseLiveQuery+combine.swift */; };
 		918CED5B2684C74000CFDC83 /* ParseLiveQuery+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918CED582684C74000CFDC83 /* ParseLiveQuery+combine.swift */; };
 		918CED5C2684C74000CFDC83 /* ParseLiveQuery+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918CED582684C74000CFDC83 /* ParseLiveQuery+combine.swift */; };
+		918CED5E268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918CED5D268618C600CFDC83 /* ParseLiveQueryCombineTests.swift */; };
+		918CED5F268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918CED5D268618C600CFDC83 /* ParseLiveQueryCombineTests.swift */; };
+		918CED60268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918CED5D268618C600CFDC83 /* ParseLiveQueryCombineTests.swift */; };
 		9194657824F16E330070296B /* ParseACLTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9194657724F16E330070296B /* ParseACLTests.swift */; };
 		91B40651267A66ED00B129CD /* ParseErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B40650267A66ED00B129CD /* ParseErrorTests.swift */; };
 		91B40652267A66ED00B129CD /* ParseErrorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91B40650267A66ED00B129CD /* ParseErrorTests.swift */; };
@@ -712,6 +715,7 @@
 		916786E1259B7DDA00BB5B4E /* ParseCloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCloud.swift; sourceTree = "<group>"; };
 		916786EF259BC59600BB5B4E /* ParseCloudTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCloudTests.swift; sourceTree = "<group>"; };
 		918CED582684C74000CFDC83 /* ParseLiveQuery+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseLiveQuery+combine.swift"; sourceTree = "<group>"; };
+		918CED5D268618C600CFDC83 /* ParseLiveQueryCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQueryCombineTests.swift; sourceTree = "<group>"; };
 		9194657724F16E330070296B /* ParseACLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseACLTests.swift; sourceTree = "<group>"; };
 		91B40650267A66ED00B129CD /* ParseErrorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseErrorTests.swift; sourceTree = "<group>"; };
 		91CB9536265966DF0043E5D6 /* ParseAnanlyticsCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAnanlyticsCombineTests.swift; sourceTree = "<group>"; };
@@ -894,6 +898,7 @@
 				70386A5B25D9A4010048EC1B /* ParseLDAPCombineTests.swift */,
 				70386A4525D99C8B0048EC1B /* ParseLDAPTests.swift */,
 				7003963A25A288100052CB31 /* ParseLiveQueryTests.swift */,
+				918CED5D268618C600CFDC83 /* ParseLiveQueryCombineTests.swift */,
 				70C7DC2024D20F190050419B /* ParseObjectBatchTests.swift */,
 				7044C1DE25C5C70D0011F6E7 /* ParseObjectCombine.swift */,
 				70732C592606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift */,
@@ -1742,6 +1747,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				918CED5E268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */,
 				911DB13624C4FC100027F3C7 /* ParseObjectTests.swift in Sources */,
 				70E09E1C262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */,
 				89899D592603CF3E002E2043 /* ParseTwitterTests.swift in Sources */,
@@ -1906,6 +1912,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				918CED60268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */,
 				709B98512556ECAA00507778 /* ParseEncoderExtraTests.swift in Sources */,
 				70E09E1E262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */,
 				89899D642603CF3F002E2043 /* ParseTwitterTests.swift in Sources */,
@@ -1968,6 +1975,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				918CED5F268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */,
 				70F2E2B6254F283000B2EA5C /* ParseACLTests.swift in Sources */,
 				70E09E1D262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */,
 				89899D632603CF3E002E2043 /* ParseTwitterTests.swift in Sources */,

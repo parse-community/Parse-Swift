@@ -243,6 +243,15 @@ extension ParseLiveQuery {
         //Remove in subscriptions just in case the server
         //responded before this was called
         self.subscriptions.removeValue(forKey: requestIdToRemove)
+        closeWebsocketIfNoSubscriptions()
+    }
+
+    func closeWebsocketIfNoSubscriptions() {
+        self.notificationQueue.async {
+            if self.subscriptions.isEmpty && self.pendingSubscriptions.isEmpty {
+                self.close()
+            }
+        }
     }
 
     /// Set a specific ParseLiveQuery client to be the default for all `ParseLiveQuery` connections.
@@ -288,6 +297,7 @@ extension ParseLiveQuery {
     public func removePendingSubscription<T: ParseObject>(_ query: Query<T>) throws {
         let queryData = try ParseCoding.jsonEncoder().encode(query)
         pendingSubscriptions.removeAll(where: { (_, value) -> Bool in
+            self.closeWebsocketIfNoSubscriptions()
             if queryData == value.queryData {
                 return true
             } else {

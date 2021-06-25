@@ -314,7 +314,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should be able to get client")
             return
         }
-        client.isSocketEstablished = true // Socket neets to be true
+        client.isSocketEstablished = true // Socket needs to be true
         client.isConnecting = true
         client.isConnected = true
         client.attempts = 5
@@ -325,6 +325,19 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertEqual(client.clientId, "yolo")
         XCTAssertEqual(client.attempts, 5)
+
+        // Test too many attempts and close
+        client.isSocketEstablished = true // Socket needs to be true
+        client.isConnecting = true
+        client.isConnected = true
+        client.attempts = ParseLiveQueryConstants.maxConnectionAttempts + 1
+        client.clientId = "yolo"
+        client.isDisconnectedByUser = false
+
+        XCTAssertEqual(client.isSocketEstablished, false)
+        XCTAssertEqual(client.isConnecting, false)
+        XCTAssertEqual(client.clientId, "yolo")
+        XCTAssertEqual(client.attempts, ParseLiveQueryConstants.maxConnectionAttempts + 1)
     }
 
     func testDisconnectedState() throws {
@@ -332,7 +345,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should be able to get client")
             return
         }
-        client.isSocketEstablished = true // Socket neets to be true
+        client.isSocketEstablished = true // Socket needs to be true
         client.isConnecting = true
         client.isConnected = true
         client.clientId = "yolo"
@@ -353,7 +366,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should be able to get client")
             return
         }
-        client.isSocketEstablished = true // Socket neets to be true
+        client.isSocketEstablished = true // Socket needs to be true
         client.isConnecting = true
         client.isConnected = true
         client.clientId = "yolo"
@@ -390,6 +403,70 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertNil(client.clientId)
         XCTAssertEqual(client.isDisconnectedByUser, true)
+    }
+
+    func testOpenSocket() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        client.close()
+        client.open(isUserWantsToConnect: true) { error in
+            XCTAssertNotNil(error) //Should always fail since WS isn't intercepted.
+        }
+    }
+
+    func testCloseAll() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        client.closeAll()
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
+            XCTAssertFalse(client.isSocketEstablished)
+            XCTAssertNil(client.task)
+        }
+    }
+
+    func testPingSocketNotEstablished() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        client.close()
+        let expectation1 = XCTestExpectation(description: "Send Ping")
+        client.sendPing { error in
+            XCTAssertEqual(client.isSocketEstablished, false)
+            XCTAssertNil(client.task)
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted to ParseError.")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(parseError.code, ParseError.Code.unknownError)
+            XCTAssertTrue(parseError.message.contains("pinged"))
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testPing() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            XCTFail("Should be able to get client")
+            return
+        }
+        client.isSocketEstablished = true // Socket needs to be true
+        client.isConnecting = true
+        client.isConnected = true
+        client.clientId = "yolo"
+
+        let expectation1 = XCTestExpectation(description: "Send Ping")
+        client.sendPing { error in
+            XCTAssertEqual(client.isSocketEstablished, true)
+            XCTAssertNotNil(error) // Should have error because testcases don't intercept websocket
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testReconnectInterval() throws {
@@ -546,6 +623,9 @@ class ParseLiveQueryTests: XCTestCase {
             //Unsubscribe
             subscription.handleUnsubscribe { query in
                 XCTAssertEqual(query, subscribedQuery)
+                XCTAssertTrue(client.pendingSubscriptions.isEmpty)
+                XCTAssertTrue(client.subscriptions.isEmpty)
+                XCTAssertFalse(client.isSocketEstablished)
                 expectation2.fulfill()
             }
             XCTAssertNotNil(try? query.unsubscribe())
