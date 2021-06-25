@@ -525,7 +525,7 @@ extension ParseLiveQuery {
                     self.createTask()
                     self.attempts += 1
                     let error = ParseError(code: .unknownError,
-                                           message: "Attempted to open socket \(self.attempts)")
+                                           message: "Attempted to open socket \(self.attempts) time(s)")
                     completion(error)
                 }
             }
@@ -561,7 +561,13 @@ extension ParseLiveQuery {
      */
     public func sendPing(pongReceiveHandler: @escaping (Error?) -> Void) {
         synchronizationQueue.sync {
-            URLSession.liveQuery.sendPing(task, pongReceiveHandler: pongReceiveHandler)
+            if isSocketEstablished {
+                URLSession.liveQuery.sendPing(task, pongReceiveHandler: pongReceiveHandler)
+            } else {
+                let error = ParseError(code: .unknownError,
+                                       message: "Need to open the websocket before it can be pinged.")
+                pongReceiveHandler(error)
+            }
         }
     }
 
