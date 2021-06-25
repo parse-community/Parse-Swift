@@ -316,14 +316,15 @@ class ParseLiveQueryTests: XCTestCase {
         }
         client.isSocketEstablished = true // Socket neets to be true
         client.isConnecting = true
-        client.attempts = 50
         client.isConnected = true
+        client.attempts = 5
         client.clientId = "yolo"
+        client.isDisconnectedByUser = false
 
         XCTAssertEqual(client.isSocketEstablished, true)
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertEqual(client.clientId, "yolo")
-        XCTAssertEqual(client.attempts, 1)
+        XCTAssertEqual(client.attempts, 5)
     }
 
     func testDisconnectedState() throws {
@@ -384,7 +385,7 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.clientId, "yolo")
         client.close()
 
-        XCTAssertEqual(client.isSocketEstablished, true)
+        XCTAssertEqual(client.isSocketEstablished, false)
         XCTAssertEqual(client.isConnected, false)
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertNil(client.clientId)

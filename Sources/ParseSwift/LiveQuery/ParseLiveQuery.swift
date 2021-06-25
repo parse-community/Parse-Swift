@@ -211,11 +211,6 @@ public final class ParseLiveQuery: NSObject {
         close(useDedicatedQueue: false)
         authenticationDelegate = nil
         receiveDelegate = nil
-        if task != nil {
-            URLSession.liveQuery.delegates.removeValue(forKey: task)
-        } else {
-            task = nil
-        }
     }
 }
 
@@ -518,8 +513,8 @@ extension ParseLiveQuery {
                         if error == nil {
                             self.isConnecting = true
                         }
+                        completion(error)
                     }
-                    completion(nil)
                 } catch {
                     completion(error)
                 }
