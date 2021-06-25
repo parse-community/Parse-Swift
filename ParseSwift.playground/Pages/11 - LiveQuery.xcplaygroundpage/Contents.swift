@@ -44,7 +44,7 @@ struct GameScore: ParseObject {
 
 //: Create a query just as you normally would.
 var query = GameScore.query("score" > 9)
-/*
+
 #if canImport(SwiftUI)
 //: To use subscriptions inside of SwiftUI
 struct ContentView: View {
@@ -100,7 +100,7 @@ struct ContentView: View {
 
 PlaygroundPage.current.setLiveView(ContentView())
 #endif
-*/
+
 //: This is how you subscribe to your created query using callbacks.
 let subscription = query.subscribeCallback!
 
