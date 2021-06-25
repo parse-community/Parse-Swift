@@ -314,20 +314,16 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should be able to get client")
             return
         }
-        client.isSocketEstablished = true // Socket needs to be true
+        client.isSocketEstablished = true // Socket neets to be true
         client.isConnecting = true
         client.attempts = 50
         client.isConnected = true
         client.clientId = "yolo"
-        let expectation1 = XCTestExpectation(description: "Synch")
-        client.synchronizationQueue.sync {
-            XCTAssertEqual(client.isSocketEstablished, true)
-            XCTAssertEqual(client.isConnecting, false)
-            XCTAssertEqual(client.clientId, "yolo")
-            XCTAssertEqual(client.attempts, 1)
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
+
+        XCTAssertEqual(client.isSocketEstablished, true)
+        XCTAssertEqual(client.isConnecting, false)
+        XCTAssertEqual(client.clientId, "yolo")
+        XCTAssertEqual(client.attempts, 1)
     }
 
     func testDisconnectedState() throws {
@@ -335,7 +331,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should be able to get client")
             return
         }
-        client.isSocketEstablished = true // Socket needs to be true
+        client.isSocketEstablished = true // Socket neets to be true
         client.isConnecting = true
         client.isConnected = true
         client.clientId = "yolo"
@@ -356,7 +352,7 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should be able to get client")
             return
         }
-        client.isSocketEstablished = true // Socket needs to be true
+        client.isSocketEstablished = true // Socket neets to be true
         client.isConnecting = true
         client.isConnected = true
         client.clientId = "yolo"
@@ -388,13 +384,11 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.clientId, "yolo")
         client.close()
 
-        DispatchQueue.main.asyncAfter(deadline: .now()) {
-            XCTAssertEqual(client.isSocketEstablished, true)
-            XCTAssertEqual(client.isConnected, false)
-            XCTAssertEqual(client.isConnecting, false)
-            XCTAssertNil(client.clientId)
-            XCTAssertEqual(client.isDisconnectedByUser, true)
-        }
+        XCTAssertEqual(client.isSocketEstablished, true)
+        XCTAssertEqual(client.isConnected, false)
+        XCTAssertEqual(client.isConnecting, false)
+        XCTAssertNil(client.clientId)
+        XCTAssertEqual(client.isDisconnectedByUser, true)
     }
 
     func testReconnectInterval() throws {
