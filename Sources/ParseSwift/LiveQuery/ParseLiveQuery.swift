@@ -588,6 +588,7 @@ extension ParseLiveQuery {
                     self.task.cancel()
                 }
                 URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+                self.task = nil
             }
         } else {
             if self.isConnected {
@@ -596,6 +597,7 @@ extension ParseLiveQuery {
             if self.task != nil {
                 URLSession.liveQuery.delegates.removeValue(forKey: self.task)
             }
+            self.task = nil
         }
     }
 

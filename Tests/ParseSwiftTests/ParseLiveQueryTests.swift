@@ -751,9 +751,8 @@ class ParseLiveQueryTests: XCTestCase {
             XCTFail("Should be able to get client")
             return
         }
-        try pretendToBeConnected()
 
-        guard let url = URL(string: "http://parse.com") else {
+        guard let url = URL(string: "wss://parse.com") else {
             XCTFail("should create url")
             return
         }
