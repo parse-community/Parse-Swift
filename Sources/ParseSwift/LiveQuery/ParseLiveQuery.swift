@@ -238,11 +238,7 @@ extension ParseLiveQuery {
     }
 
     func removePendingSubscription(_ requestId: Int) {
-        let requestIdToRemove = RequestId(value: requestId)
         self.pendingSubscriptions.removeAll(where: { $0.0.value == requestId })
-        //Remove in subscriptions just in case the server
-        //responded before this was called
-        self.subscriptions.removeValue(forKey: requestIdToRemove)
         closeWebsocketIfNoSubscriptions()
     }
 
@@ -422,8 +418,8 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                         } else {
                             isNew = true
                         }
-                        self.removePendingSubscription(subscribed.0.value)
                         self.subscriptions[subscribed.0] = subscribed.1
+                        self.removePendingSubscription(subscribed.0.value)
                         self.notificationQueue.async {
                             subscribed.1.subscribeHandlerClosure?(isNew)
                         }
@@ -433,6 +429,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                     guard let subscription = self.subscriptions[requestId] else {
                         return
                     }
+                    self.subscriptions.removeValue(forKey: requestId)
                     self.removePendingSubscription(preliminaryMessage.requestId)
                     self.notificationQueue.async {
                         subscription.unsubscribeHandlerClosure?()
@@ -721,10 +718,6 @@ extension ParseLiveQuery {
                 let updatedRecord = value
                 updatedRecord.messageData = encoded
                 self.send(record: updatedRecord, requestId: key) { _ in }
-            } else {
-                let error = ParseError(code: .unknownError,
-                                       message: "ParseLiveQuery Error: Not subscribed to this query")
-                throw error
             }
         }
     }

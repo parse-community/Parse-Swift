@@ -43,7 +43,7 @@ struct GameScore: ParseObject {
 //: Be sure you have LiveQuery enabled on your server.
 
 //: Create a query just as you normally would.
-var query = GameScore.query("score" > 9)
+var query = GameScore.query("score" < 11)
 
 #if canImport(SwiftUI)
 //: To use subscriptions inside of SwiftUI
@@ -61,7 +61,7 @@ struct ContentView: View {
                 Text("Unsubscribed from query!")
             } else if let event = subscription.event {
 
-                //: This is how you register to receive notificaitons of events related to your LiveQuery.
+                //: This is how you register to receive notifications of events related to your LiveQuery.
                 switch event.event {
 
                 case .entered(let object):
@@ -116,7 +116,7 @@ subscription.handleSubscribe { subscribedQuery, isNew in
     }
 }
 
-//: This is how you register to receive notificaitons of events related to your LiveQuery.
+//: This is how you register to receive notifications of events related to your LiveQuery.
 subscription.handleEvent { _, event in
     switch event {
 
@@ -133,10 +133,19 @@ subscription.handleEvent { _, event in
     }
 }
 
+//: Ping the LiveQuery server
+ParseLiveQuery.client?.sendPing { error in
+    if let error = error {
+        print("Error pinging LiveQuery server: \(error)")
+    } else {
+        print("Successfully pinged server!")
+    }
+}
+
 //: Now go to your dashboard, go to the GameScore table and add, update or remove rows.
 //: You should receive notifications for each.
 
-//: This is how you register to receive notificaitons about being unsubscribed.
+//: This is how you register to receive notifications about being unsubscribed.
 subscription.handleUnsubscribe { query in
     print("Unsubscribed from \(query)")
 }
@@ -148,7 +157,8 @@ do {
     print(error)
 }
 
-//: Ping the LiveQuery server
+//: Ping the LiveQuery server. This should produce an error
+//: because LiveQuery is disconnected.
 ParseLiveQuery.client?.sendPing { error in
     if let error = error {
         print("Error pinging LiveQuery server: \(error)")
@@ -156,12 +166,6 @@ ParseLiveQuery.client?.sendPing { error in
         print("Successfully pinged server!")
     }
 }
-
-//: To close the current LiveQuery connection.
-ParseLiveQuery.client?.close()
-
-//: To close all LiveQuery connections.
-ParseLiveQuery.client?.closeAll()
 
 //: Create a new query.
 var query2 = GameScore.query("score" > 50)
@@ -199,11 +203,86 @@ subscription2.handleEvent { _, event in
     }
 }
 
-//: Now go to your dashboard, go to the GameScore table and add, update or remove rows.
-//: You should receive notifications for each, but only with your fields information.
+//: To close the current LiveQuery connection.
+ParseLiveQuery.client?.close()
 
-//: This is how you register to receive notificaitons about being unsubscribed.
-subscription2.handleUnsubscribe { query in
+//: To close all LiveQuery connections use:
+//ParseLiveQuery.client?.closeAll()
+
+//: Ping the LiveQuery server. This should produce an error
+//: because LiveQuery is disconnected.
+ParseLiveQuery.client?.sendPing { error in
+    if let error = error {
+        print("Error pinging LiveQuery server: \(error)")
+    } else {
+        print("Successfully pinged server!")
+    }
+}
+
+//: Subscribe to your new query.
+let subscription3 = query2.subscribeCallback!
+
+//: As before, setup your subscription and event handlers.
+subscription3.handleSubscribe { subscribedQuery, isNew in
+
+    //: You can check this subscription is for this query.
+    if isNew {
+        print("Successfully subscribed to new query \(subscribedQuery)")
+    } else {
+        print("Successfully updated subscription to new query \(subscribedQuery)")
+    }
+}
+
+subscription3.handleEvent { _, event in
+    switch event {
+
+    case .entered(let object):
+        print("Entered: \(object)")
+    case .left(let object):
+        print("Left: \(object)")
+    case .created(let object):
+        print("Created: \(object)")
+    case .updated(let object):
+        print("Updated: \(object)")
+    case .deleted(let object):
+        print("Deleted: \(object)")
+    }
+}
+
+//: Now lets subscribe to an additional query.
+let subscription4 = query.subscribeCallback!
+
+//: This is how you receive notifications about the success
+//: of your subscription.
+subscription4.handleSubscribe { subscribedQuery, isNew in
+
+    //: You can check this subscription is for this query
+    if isNew {
+        print("Successfully subscribed to new query \(subscribedQuery)")
+    } else {
+        print("Successfully updated subscription to new query \(subscribedQuery)")
+    }
+}
+
+//: This is how you register to receive notifications of events related to your LiveQuery.
+subscription4.handleEvent { _, event in
+    switch event {
+
+    case .entered(let object):
+        print("Entered: \(object)")
+    case .left(let object):
+        print("Left: \(object)")
+    case .created(let object):
+        print("Created: \(object)")
+    case .updated(let object):
+        print("Updated: \(object)")
+    case .deleted(let object):
+        print("Deleted: \(object)")
+    }
+}
+
+//: Now we will will unsubscribe from one of the subsriptions, but maintain the connection.
+subscription3.handleUnsubscribe { query in
     print("Unsubscribed from \(query)")
 }
 
@@ -212,6 +291,15 @@ do {
     try query2.unsubscribe()
 } catch {
     print(error)
+}
+
+//: Ping the LiveQuery server
+ParseLiveQuery.client?.sendPing { error in
+    if let error = error {
+        print("Error pinging LiveQuery server: \(error)")
+    } else {
+        print("Successfully pinged server!")
+    }
 }
 
 PlaygroundPage.current.finishExecution()
