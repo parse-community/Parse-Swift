@@ -690,7 +690,7 @@ class ParseLiveQueryTests: XCTestCase {
                 XCTAssertNotNil(ParseLiveQuery.client?.task)
                 originalTask = ParseLiveQuery.client?.task
                 expectation1.fulfill()
-            } else if count == 2 {
+            } else {
                 XCTAssertNotNil(ParseLiveQuery.client?.task)
                 XCTAssertFalse(originalTask == ParseLiveQuery.client?.task)
                 expectation2.fulfill()
@@ -704,6 +704,8 @@ class ParseLiveQueryTests: XCTestCase {
                 XCTAssertFalse(socketEstablished)
             } else {
                 XCTFail("Should have socket that isn't established")
+                expectation2.fulfill()
+                return
             }
 
             //Resubscribe
@@ -712,15 +714,17 @@ class ParseLiveQueryTests: XCTestCase {
                 subscription = try Query<GameScore>.subscribe(handler)
             } catch {
                 XCTFail("\(error)")
+                expectation2.fulfill()
+                return
             }
 
             try? self.pretendToBeConnected()
-
             let response2 = PreliminaryMessageResponse(op: .subscribed,
                                                        requestId: 2,
                                                        clientId: "yolo",
                                                        installationId: "naw")
             guard let encoded2 = try? ParseCoding.jsonEncoder().encode(response2) else {
+                XCTFail("Should have encoded second response")
                 expectation2.fulfill()
                 return
             }
