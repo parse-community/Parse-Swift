@@ -53,6 +53,9 @@ extension LiveQuerySocket {
             .encode(StandardMessage(operation: .connect,
                                     additionalProperties: true))
         guard let encodedAsString = String(data: encoded, encoding: .utf8) else {
+            let error = ParseError(code: .unknownError,
+                                   message: "Couldn't encode connect message: \(encoded)")
+            completion(error)
             return
         }
         task.send(.string(encodedAsString)) { error in
@@ -101,6 +104,15 @@ extension LiveQuerySocket {
                 self.delegates[task]?.receivedError(parseError)
             }
         }
+    }
+}
+
+// MARK: Ping
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+extension LiveQuerySocket {
+
+    func sendPing(_ task: URLSessionWebSocketTask, pongReceiveHandler: @escaping (Error?) -> Void) {
+        task.sendPing(pongReceiveHandler: pongReceiveHandler)
     }
 }
 
