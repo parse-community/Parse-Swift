@@ -11,7 +11,7 @@ import Foundation
 /**
  An object with a Parse code and message.
  */
-public struct ParseError: ParseType, Decodable, Swift.Error {
+public struct ParseError: ParseType, Decodable, Swift.Error, CustomDebugStringConvertible {
     /// The value representing the error from the Parse Server.
     public let code: Code
     /// The text representing the error from the Parse Server.
@@ -22,15 +22,6 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
         self.code = code
         self.message = message
         self.otherCode = nil
-    }
-
-    /// A textual representation of this error.
-    public var localizedDescription: String {
-        if let otherCode = otherCode {
-            return "ParseError code=\(code.rawValue) error=\(message) otherCode=\(otherCode)"
-        } else {
-            return "ParseError code=\(code.rawValue) error=\(message)"
-        }
     }
 
     enum CodingKeys: String, CodingKey {
@@ -368,6 +359,17 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
     }
 }
 
+// MARK: Encodable
+extension ParseError {
+
+    public func encode(to encoder: Encoder) throws {
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        try container.encode(code, forKey: .code)
+        try container.encode(message, forKey: .message)
+    }
+}
+
+// MARK: Decodable
 extension ParseError {
 
     public init(from decoder: Decoder) throws {
@@ -381,10 +383,14 @@ extension ParseError {
         }
         message = try values.decode(String.self, forKey: .message)
     }
+}
 
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        try container.encode(code, forKey: .code)
-        try container.encode(message, forKey: .message)
+// MARK: CustomDebugStringConvertible
+extension ParseError {
+    public var debugDescription: String {
+        guard let otherCode = otherCode else {
+            return "ParseError code=\(code.rawValue) error=\(message)"
+        }
+        return "ParseError code=\(code.rawValue) error=\(message) otherCode=\(otherCode)"
     }
 }
