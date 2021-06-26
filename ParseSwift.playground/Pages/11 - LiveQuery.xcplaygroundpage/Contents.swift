@@ -157,6 +157,9 @@ do {
     print(error)
 }
 
+//: If you look at your server log, you will notice the client and server disconnnected.
+//: This is because there is no more LiveQuery subscriptions.
+
 //: Ping the LiveQuery server. This should produce an error
 //: because LiveQuery is disconnected.
 ParseLiveQuery.client?.sendPing { error in
@@ -176,7 +179,7 @@ query2.fields("score")
 //: Subscribe to your new query.
 let subscription2 = query2.subscribeCallback!
 
-//: As before, setup your subscription and event handlers.
+//: As before, setup your subscription, event, and unsubscribe handlers.
 subscription2.handleSubscribe { subscribedQuery, isNew in
 
     //: You can check this subscription is for this query.
@@ -203,6 +206,10 @@ subscription2.handleEvent { _, event in
     }
 }
 
+subscription2.handleUnsubscribe { query in
+    print("Unsubscribed from \(query)")
+}
+
 //: To close the current LiveQuery connection.
 ParseLiveQuery.client?.close()
 
@@ -219,41 +226,15 @@ ParseLiveQuery.client?.sendPing { error in
     }
 }
 
-//: Subscribe to your new query.
+//: Resubscribe to your previous query.
+//: Since we never unsubscribed you can use your previous handlers.
 let subscription3 = query2.subscribeCallback!
 
-//: As before, setup your subscription and event handlers.
-subscription3.handleSubscribe { subscribedQuery, isNew in
-
-    //: You can check this subscription is for this query.
-    if isNew {
-        print("Successfully subscribed to new query \(subscribedQuery)")
-    } else {
-        print("Successfully updated subscription to new query \(subscribedQuery)")
-    }
-}
-
-subscription3.handleEvent { _, event in
-    switch event {
-
-    case .entered(let object):
-        print("Entered: \(object)")
-    case .left(let object):
-        print("Left: \(object)")
-    case .created(let object):
-        print("Created: \(object)")
-    case .updated(let object):
-        print("Updated: \(object)")
-    case .deleted(let object):
-        print("Deleted: \(object)")
-    }
-}
-
-//: Now lets subscribe to an additional query.
+//: Resubscribe to another previous query.
+//: This one needs new handlers.
 let subscription4 = query.subscribeCallback!
 
-//: This is how you receive notifications about the success
-//: of your subscription.
+//: Need a new handler because we previously unsubscribed.
 subscription4.handleSubscribe { subscribedQuery, isNew in
 
     //: You can check this subscription is for this query
@@ -264,7 +245,7 @@ subscription4.handleSubscribe { subscribedQuery, isNew in
     }
 }
 
-//: This is how you register to receive notifications of events related to your LiveQuery.
+//: Need a new event handler because we previously unsubscribed.
 subscription4.handleEvent { _, event in
     switch event {
 
@@ -281,8 +262,8 @@ subscription4.handleEvent { _, event in
     }
 }
 
-//: Now we will will unsubscribe from one of the subsriptions, but maintain the connection.
-subscription3.handleUnsubscribe { query in
+//: Need a new unsubscribe handler because we previously unsubscribed.
+subscription4.handleUnsubscribe { query in
     print("Unsubscribed from \(query)")
 }
 
@@ -301,6 +282,16 @@ ParseLiveQuery.client?.sendPing { error in
         print("Successfully pinged server!")
     }
 }
+
+//: To unsubscribe from your your last query.
+do {
+    try query.unsubscribe()
+} catch {
+    print(error)
+}
+
+//: If you look at your server log, you will notice the client and server disconnnected.
+//: This is because there is no more LiveQuery subscriptions.
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

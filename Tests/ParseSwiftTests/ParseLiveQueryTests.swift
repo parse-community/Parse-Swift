@@ -67,6 +67,7 @@ class ParseLiveQueryTests: XCTestCase {
         guard let originalURL = URL(string: "http://localhost:1337/1"),
             var components = URLComponents(url: originalURL,
                                              resolvingAgainstBaseURL: false) else {
+            XCTFail("Should have retrieved URL components")
             return
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
@@ -93,6 +94,7 @@ class ParseLiveQueryTests: XCTestCase {
         guard let originalURL = URL(string: "http://parse:1337/1"),
             var components = URLComponents(url: originalURL,
                                              resolvingAgainstBaseURL: false) else {
+            XCTFail("Should have retrieved URL components")
             return
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
@@ -514,8 +516,8 @@ class ParseLiveQueryTests: XCTestCase {
 
     func pretendToBeConnected() throws {
         guard let client = ParseLiveQuery.getDefault() else {
-            XCTFail("Should be able to get client")
-            return
+            throw ParseError(code: .unknownError,
+                             message: "Should be able to get client")
         }
         client.task = URLSession.liveQuery.createTask(client.url)
         client.status(.open)
@@ -571,10 +573,11 @@ class ParseLiveQueryTests: XCTestCase {
 
             //Received Unsubscribe
             let response2 = PreliminaryMessageResponse(op: .unsubscribed,
-                                                               requestId: 1,
-                                                               clientId: "yolo",
-                                                               installationId: "naw")
+                                                       requestId: 1,
+                                                       clientId: "yolo",
+                                                       installationId: "naw")
             guard let encoded2 = try? ParseCoding.jsonEncoder().encode(response2) else {
+                XCTFail("Should have encoded second response")
                 expectation2.fulfill()
                 return
             }
@@ -639,6 +642,7 @@ class ParseLiveQueryTests: XCTestCase {
                                                                clientId: "yolo",
                                                                installationId: "naw")
             guard let encoded2 = try? ParseCoding.jsonEncoder().encode(response2) else {
+                XCTFail("Should have encoded second response")
                 expectation2.fulfill()
                 return
             }
