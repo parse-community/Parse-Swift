@@ -53,7 +53,13 @@ public final class ParseLiveQuery: NSObject {
     let notificationQueue: DispatchQueue
 
     //Task
-    var task: URLSessionWebSocketTask!
+    var task: URLSessionWebSocketTask! {
+        willSet {
+            if newValue == nil && isSocketEstablished == true {
+                isSocketEstablished = false
+            }
+        }
+    }
     var url: URL!
     var clientId: String!
     var attempts: Int = 1 {
@@ -205,7 +211,6 @@ public final class ParseLiveQuery: NSObject {
         close(useDedicatedQueue: false)
         authenticationDelegate = nil
         receiveDelegate = nil
-        URLSession.liveQuery.delegates.removeValue(forKey: task)
     }
 }
 
@@ -213,7 +218,8 @@ public final class ParseLiveQuery: NSObject {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
-    static var client = try? ParseLiveQuery()
+    /// Current LiveQuery client.
+    public private(set) static var client = try? ParseLiveQuery()
 
     var reconnectInterval: Int {
         let min = NSDecimalNumber(decimal: Swift.min(30, pow(2, attempts) - 1))
@@ -232,11 +238,16 @@ extension ParseLiveQuery {
     }
 
     func removePendingSubscription(_ requestId: Int) {
-        let requestIdToRemove = RequestId(value: requestId)
         self.pendingSubscriptions.removeAll(where: { $0.0.value == requestId })
-        //Remove in subscriptions just in case the server
-        //responded before this was called
-        self.subscriptions.removeValue(forKey: requestIdToRemove)
+        closeWebsocketIfNoSubscriptions()
+    }
+
+    func closeWebsocketIfNoSubscriptions() {
+        self.notificationQueue.async {
+            if self.subscriptions.isEmpty && self.pendingSubscriptions.isEmpty {
+                self.close()
+            }
+        }
     }
 
     /// Set a specific ParseLiveQuery client to be the default for all `ParseLiveQuery` connections.
@@ -282,6 +293,7 @@ extension ParseLiveQuery {
     public func removePendingSubscription<T: ParseObject>(_ query: Query<T>) throws {
         let queryData = try ParseCoding.jsonEncoder().encode(query)
         pendingSubscriptions.removeAll(where: { (_, value) -> Bool in
+            self.closeWebsocketIfNoSubscriptions()
             if queryData == value.queryData {
                 return true
             } else {
@@ -406,8 +418,8 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                         } else {
                             isNew = true
                         }
-                        self.removePendingSubscription(subscribed.0.value)
                         self.subscriptions[subscribed.0] = subscribed.1
+                        self.removePendingSubscription(subscribed.0.value)
                         self.notificationQueue.async {
                             subscribed.1.subscribeHandlerClosure?(isNew)
                         }
@@ -417,6 +429,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                     guard let subscription = self.subscriptions[requestId] else {
                         return
                     }
+                    self.subscriptions.removeValue(forKey: requestId)
                     self.removePendingSubscription(preliminaryMessage.requestId)
                     self.notificationQueue.async {
                         subscription.unsubscribeHandlerClosure?()
@@ -502,10 +515,15 @@ extension ParseLiveQuery {
                 return
             }
             if isSocketEstablished {
-                try? URLSession.liveQuery.connect(task: self.task) { error in
-                    if error == nil {
-                        self.isConnecting = true
+                do {
+                    try URLSession.liveQuery.connect(task: self.task) { error in
+                        if error == nil {
+                            self.isConnecting = true
+                        }
+                        completion(error)
                     }
+                } catch {
+                    completion(error)
                 }
             } else {
                 self.synchronizationQueue
@@ -513,6 +531,9 @@ extension ParseLiveQuery {
                                     .seconds(reconnectInterval)) {
                     self.createTask()
                     self.attempts += 1
+                    let error = ParseError(code: .unknownError,
+                                           message: "Attempted to open socket \(self.attempts) time(s)")
+                    completion(error)
                 }
             }
         }
@@ -525,7 +546,35 @@ extension ParseLiveQuery {
                 self.task.cancel()
                 self.isDisconnectedByUser = true
             }
-            URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            if task != nil {
+                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            }
+            self.task = nil
+        }
+    }
+
+    /// Manually disconnect all sessions and subscriptions from the `ParseLiveQuery` Server.
+    public func closeAll() {
+        synchronizationQueue.sync {
+            URLSession.liveQuery.closeAll()
+        }
+    }
+
+    /**
+     Sends a ping frame from the client side, with a closure to receive the pong from the server endpoint.
+     - parameter pongReceiveHandler: A closure called by the task when it receives the pong
+     from the server. The closure receives an  `Error` that indicates a lost connection or other problem,
+     or nil if no error occurred.
+     */
+    public func sendPing(pongReceiveHandler: @escaping (Error?) -> Void) {
+        synchronizationQueue.sync {
+            if isSocketEstablished {
+                URLSession.liveQuery.sendPing(task, pongReceiveHandler: pongReceiveHandler)
+            } else {
+                let error = ParseError(code: .unknownError,
+                                       message: "Need to open the websocket before it can be pinged.")
+                pongReceiveHandler(error)
+            }
         }
     }
 
@@ -536,12 +585,16 @@ extension ParseLiveQuery {
                     self.task.cancel()
                 }
                 URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+                self.task = nil
             }
         } else {
             if self.isConnected {
                 self.task.cancel()
             }
-            URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            if self.task != nil {
+                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            }
+            self.task = nil
         }
     }
 
@@ -550,6 +603,8 @@ extension ParseLiveQuery {
             self.pendingSubscriptions.append((requestId, record))
             if self.isConnected {
                 URLSession.liveQuery.send(record.messageData, task: self.task, completion: completion)
+            } else {
+                self.open(completion: completion)
             }
         }
     }
@@ -663,10 +718,6 @@ extension ParseLiveQuery {
                 let updatedRecord = value
                 updatedRecord.messageData = encoded
                 self.send(record: updatedRecord, requestId: key) { _ in }
-            } else {
-                let error = ParseError(code: .unknownError,
-                                       message: "ParseLiveQuery Error: Not subscribed to this query")
-                throw error
             }
         }
     }

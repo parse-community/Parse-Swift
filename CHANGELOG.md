@@ -9,6 +9,7 @@
 
 __Fixes__
 - Switched context header X-Parse-Context to X-Parse-Cloud-Context to match server ([#170](https://github.com/parse-community/Parse-Swift/pull/170)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Fixed a bug in LiveQuery that prevented reconnecting after a connection was closed. Also added a sendPing method to LiveQuery ([#172](https://github.com/parse-community/Parse-Swift/pull/172)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.8.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.2...1.8.3)
