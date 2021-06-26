@@ -544,13 +544,13 @@ class ParseLiveQueryTests: XCTestCase {
             guard let subscribed = subscription.subscribed else {
                 XCTFail("Should unwrap subscribed.")
                 expectation1.fulfill()
+                expectation2.fulfill()
                 return
             }
             XCTAssertEqual(query, subscribed.query)
             XCTAssertTrue(subscribed.isNew)
             XCTAssertNil(subscription.unsubscribed)
             XCTAssertNil(subscription.event)
-            expectation1.fulfill()
 
             //Unsubscribe
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -581,6 +581,7 @@ class ParseLiveQueryTests: XCTestCase {
             client.received(encoded2)
             XCTAssertEqual(client.pendingSubscriptions.count, 0)
             XCTAssertEqual(client.subscriptions.count, 0)
+            expectation1.fulfill()
         }
 
         XCTAssertFalse(try client.isSubscribed(query))
