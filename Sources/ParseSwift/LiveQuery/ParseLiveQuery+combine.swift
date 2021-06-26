@@ -15,7 +15,7 @@ extension ParseLiveQuery {
     // MARK: Functions - Combine
 
     /**
-     Manually establish a connection to the `ParseLiveQuery` Server.. Publishes when established.
+     Manually establish a connection to the `ParseLiveQuery` Server. Publishes when established.
       - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to `true`.
       - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
