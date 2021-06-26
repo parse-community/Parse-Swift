@@ -543,7 +543,7 @@ extension ParseLiveQuery {
     public func close() {
         synchronizationQueue.sync {
             if self.isConnected {
-                self.task.cancel()
+                self.task.cancel(with: .goingAway, reason: nil)
                 self.isDisconnectedByUser = true
             }
             if task != nil {
@@ -582,14 +582,14 @@ extension ParseLiveQuery {
         if useDedicatedQueue {
             synchronizationQueue.async {
                 if self.isConnected {
-                    self.task.cancel()
+                    self.task.cancel(with: .goingAway, reason: nil)
                 }
                 URLSession.liveQuery.delegates.removeValue(forKey: self.task)
                 self.task = nil
             }
         } else {
             if self.isConnected {
-                self.task.cancel()
+                self.task.cancel(with: .goingAway, reason: nil)
             }
             if self.task != nil {
                 URLSession.liveQuery.delegates.removeValue(forKey: self.task)
