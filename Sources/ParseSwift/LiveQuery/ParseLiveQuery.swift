@@ -344,7 +344,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
                 //Turn LiveQuery error into ParseError
                 let parseError = ParseError(code: .unknownError,
-                                            message: "LiveQuery error code: \(error.code) message: \(error.error)")
+                                            message: "ParseLiveQuery error code: \(error.code), message: \(error.error)")
                 self.notificationQueue.async {
                     self.receiveDelegate?.received(parseError)
                 }
@@ -532,7 +532,7 @@ extension ParseLiveQuery {
                     self.resumeTask()
                     self.attempts += 1
                     let error = ParseError(code: .unknownError,
-                                           message: "Attempted to open socket \(self.attempts) time(s)")
+                                           message: "ParseLiveQuery Error: attempted to open socket \(self.attempts) time(s)")
                     completion(error)
                 }
             }
@@ -572,7 +572,7 @@ extension ParseLiveQuery {
             } else {
                 let error = ParseError(code: .unknownError,
                                        // swiftlint:disable:next line_length
-                                       message: "Socket status needs to be \"\(URLSessionTask.State.running.rawValue)\" before pinging server. Current status is \"\(self.task.state.rawValue)\". Try calling \"open()\" to change socket status.")
+                                       message: "ParseLiveQuery Error: socket status needs to be \"\(URLSessionTask.State.running.rawValue)\" before pinging server. Current status is \"\(self.task.state.rawValue)\". Try calling \"open()\" to change socket status.")
                 pongReceiveHandler(error)
             }
         }

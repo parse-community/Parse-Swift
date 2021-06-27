@@ -444,7 +444,7 @@ class ParseLiveQueryTests: XCTestCase {
                 return
             }
             XCTAssertEqual(parseError.code, ParseError.Code.unknownError)
-            XCTAssertTrue(parseError.message.contains("Socket status"))
+            XCTAssertTrue(parseError.message.contains("socket status"))
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
