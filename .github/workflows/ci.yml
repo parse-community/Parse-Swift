@@ -135,7 +135,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Update Framework Version
-        run: ./update_build
+        run: ./Scripts/update_build
         env:
           BUILD_VERSION: '1.8.3'
       - name: CocoaPods
