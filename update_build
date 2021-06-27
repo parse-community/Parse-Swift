@@ -1,0 +1,15 @@
+#!/bin/bash
+
+BUILD_VERSION=$(cat ParseSwift.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' ')
+
+#Update framework files
+sed -i 's/1\.8\.3/${BUILD_VERSION}/g' Sources/ParseSwift/ParseConstants.swift
+
+# Prepare podspec update
+TEMPLATE_FILE_NAME="ParseSwift.podtemplate"
+OUT_FILE_NAME="ParseSwift.podspec"
+
+# Load the template podspec and replace version
+TEMPLATE=$(cat "$TEMPLATE_FILE_NAME" | sed "s/\[\[VERSION\]\]/${BUILD_VERSION}/g")
+
+echo "$TEMPLATE" > "$OUT_FILE_NAME"
