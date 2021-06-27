@@ -345,7 +345,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                 //Turn LiveQuery error into ParseError
                 let parseError = ParseError(code: .unknownError,
                                             // swiftlint:disable:next line_length
-                                            message: "ParseLiveQuery Error: code: \(error.code), message: \(error.error)")
+                                            message: "ParseLiveQuery Error: code: \(error.code), message: \(error.message)")
                 self.notificationQueue.async {
                     self.receiveDelegate?.received(parseError)
                 }
