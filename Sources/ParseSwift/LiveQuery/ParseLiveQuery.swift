@@ -572,7 +572,7 @@ extension ParseLiveQuery {
             } else {
                 let error = ParseError(code: .unknownError,
                                        // swiftlint:disable:next line_length
-                                       message: "Socket status needs to be \"\(URLSessionTask.State.running.rawValue)\" before pinging server. Current status is \"\(self.task.state.rawValue)\".")
+                                       message: "Socket status needs to be \"\(URLSessionTask.State.running.rawValue)\" before pinging server. Current status is \"\(self.task.state.rawValue)\". Try calling \"open()\" to change socket status.")
                 pongReceiveHandler(error)
             }
         }
