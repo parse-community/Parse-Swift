@@ -128,16 +128,18 @@ extension LiveQuerySocket: URLSessionWebSocketDelegate {
     func urlSession(_ session: URLSession,
                     webSocketTask: URLSessionWebSocketTask,
                     didOpenWithProtocol protocol: String?) {
-        delegates[webSocketTask]?.status(.open)
+        delegates[webSocketTask]?.status(.open,
+                                         closeCode: nil,
+                                         reason: nil)
     }
 
     func urlSession(_ session: URLSession,
                     webSocketTask: URLSessionWebSocketTask,
                     didCloseWith closeCode: URLSessionWebSocketTask.CloseCode,
                     reason: Data?) {
-        self.delegates.forEach { (_, value) -> Void in
-            value.status(.closed)
-        }
+        delegates[webSocketTask]?.status(.closed,
+                                         closeCode: closeCode,
+                                         reason: reason)
     }
 
     func urlSession(_ session: URLSession,
@@ -151,11 +153,12 @@ extension LiveQuerySocket: URLSessionWebSocketDelegate {
     }
 
     #if !os(watchOS)
-    func urlSession(_ session: URLSession, task: URLSessionTask, didFinishCollecting metrics: URLSessionTaskMetrics) {
-        if let socketTask = task as? URLSessionWebSocketTask {
-            if let transactionMetrics = metrics.transactionMetrics.last {
+    func urlSession(_ session: URLSession,
+                    task: URLSessionTask,
+                    didFinishCollecting metrics: URLSessionTaskMetrics) {
+        if let socketTask = task as? URLSessionWebSocketTask,
+           let transactionMetrics = metrics.transactionMetrics.last {
                 delegates[socketTask]?.received(transactionMetrics)
-            }
         }
     }
     #endif

@@ -13,7 +13,9 @@ import FoundationNetworking
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 protocol LiveQuerySocketDelegate: AnyObject {
-    func status(_ status: LiveQuerySocket.Status)
+    func status(_ status: LiveQuerySocket.Status,
+                closeCode: URLSessionWebSocketTask.CloseCode?,
+                reason: Data?)
     func close(useDedicatedQueue: Bool)
     func receivedError(_ error: ParseError)
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?)

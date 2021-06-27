@@ -4,6 +4,12 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.4...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__Fixes__
+- Fixed a bug in LiveQuery when a close frame is sent from the server that resulted in closing
+all running websocket tasks instead of the particular task the request was intended for. The fix
+includes a new delegate method named `closingSocket()` which provides the close code 
+and reason the server closed the connection ([#176](https://github.com/parse-community/Parse-Swift/pull/176)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.8.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.3...1.8.4)
 

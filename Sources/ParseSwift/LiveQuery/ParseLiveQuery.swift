@@ -307,13 +307,18 @@ extension ParseLiveQuery {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery: LiveQuerySocketDelegate {
 
-    func status(_ status: LiveQuerySocket.Status) {
+    func status(_ status: LiveQuerySocket.Status,
+                closeCode: URLSessionWebSocketTask.CloseCode? = nil,
+                reason: Data? = nil) {
         switch status {
 
         case .open:
             self.isSocketEstablished = true
             self.open(isUserWantsToConnect: false) { _ in }
         case .closed:
+            self.notificationQueue.async {
+                self.receiveDelegate?.closingSocket(closeCode, reason: reason)
+            }
             self.isSocketEstablished = false
             if !self.isDisconnectedByUser {
                 //Try to reconnect
