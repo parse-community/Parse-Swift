@@ -344,7 +344,8 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
                 //Turn LiveQuery error into ParseError
                 let parseError = ParseError(code: .unknownError,
-                                            message: "ParseLiveQuery error code: \(error.code), message: \(error.error)")
+                                            // swiftlint:disable:next line_length
+                                            message: "ParseLiveQuery Error: code: \(error.code), message: \(error.error)")
                 self.notificationQueue.async {
                     self.receiveDelegate?.received(parseError)
                 }
@@ -532,6 +533,7 @@ extension ParseLiveQuery {
                     self.resumeTask()
                     self.attempts += 1
                     let error = ParseError(code: .unknownError,
+                                           // swiftlint:disable:next line_length
                                            message: "ParseLiveQuery Error: attempted to open socket \(self.attempts) time(s)")
                     completion(error)
                 }
