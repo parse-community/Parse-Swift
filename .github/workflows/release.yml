@@ -13,7 +13,7 @@ jobs:
       - name: Get release version
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Update Framework Version
-        run: ./update_build
+        run: ./Scripts/update_build
         env:
           BUILD_VERSION: ${{ env.TAG }}
       - name: CocoaPods
