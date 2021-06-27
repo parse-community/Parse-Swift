@@ -86,14 +86,13 @@ class ParseLiveQueryCombineTests: XCTestCase {
                     XCTFail("Should have produced failure")
                 case .failure(let error):
                     XCTAssertEqual(client.isSocketEstablished, false)
-                    XCTAssertNil(client.task)
                     guard let parseError = error as? ParseError else {
                         XCTFail("Should have casted to ParseError.")
                         expectation1.fulfill()
                         return
                     }
                     XCTAssertEqual(parseError.code, ParseError.Code.unknownError)
-                    XCTAssertTrue(parseError.message.contains("pinged"))
+                    XCTAssertTrue(parseError.message.contains("Socket status"))
                 }
                 expectation1.fulfill()
 
