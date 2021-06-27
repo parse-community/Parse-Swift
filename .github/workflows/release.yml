@@ -10,8 +10,12 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Get release version
+        run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Update Framework Version
         run: ./update_build
+        env:
+          BUILD_VERSION: ${{ env.TAG }}
       - name: CocoaPods
         run: set -o pipefail && env NSUnbufferedIO=YES pod lib lint --allow-warnings --verbose
       - name: Deploy CocoaPods
@@ -23,6 +27,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Get release version
+        run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Cache Gems
         id: cache-gems
         uses: actions/cache@v2
@@ -39,6 +45,8 @@ jobs:
         run: ./update_build
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
+        env:
+          BUILD_VERSION: ${{ env.TAG }}
       - name: Deploy Jazzy Docs
         uses: peaceiris/actions-gh-pages@v3
         with:

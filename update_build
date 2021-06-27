@@ -1,7 +1,5 @@
 #!/bin/bash
 
-BUILD_VERSION=$(cat ParseSwift.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' ')
-
 #Update framework files
 sed -i '' -e "s/1\.8\.1/${BUILD_VERSION}/g" Sources/ParseSwift/ParseConstants.swift
 
