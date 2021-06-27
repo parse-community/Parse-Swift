@@ -317,7 +317,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             self.open(isUserWantsToConnect: false) { _ in }
         case .closed:
             self.notificationQueue.async {
-                self.receiveDelegate?.closingSocket(closeCode, reason: reason)
+                self.receiveDelegate?.closedSocket(closeCode, reason: reason)
             }
             self.isSocketEstablished = false
             if !self.isDisconnectedByUser {
