@@ -34,8 +34,14 @@ class ParseLiveQueryTests: XCTestCase {
 
     class TestDelegate: ParseLiveQueryDelegate {
         var error: ParseError?
+        var code: URLSessionWebSocketTask.CloseCode?
+        var reason: Data?
         func received(_ error: ParseError) {
             self.error = error
+        }
+        func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?) {
+            self.code = code
+            self.reason = reason
         }
     }
 
@@ -416,6 +422,24 @@ class ParseLiveQueryTests: XCTestCase {
         client.open(isUserWantsToConnect: true) { error in
             XCTAssertNotNil(error) //Should always fail since WS isn't intercepted.
         }
+    }
+
+    func testCloseFromServer() throws {
+        guard let client = ParseLiveQuery.getDefault() else {
+            throw ParseError(code: .unknownError,
+                             message: "Should be able to get client")
+        }
+        let delegate = TestDelegate()
+        client.receiveDelegate = delegate
+        client.task = URLSession.liveQuery.createTask(client.url)
+        client.status(.closed, closeCode: .goingAway, reason: nil)
+        let expectation1 = XCTestExpectation(description: "Response delegate")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            XCTAssertEqual(delegate.code, .goingAway)
+            XCTAssertNil(delegate.reason)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testCloseAll() throws {

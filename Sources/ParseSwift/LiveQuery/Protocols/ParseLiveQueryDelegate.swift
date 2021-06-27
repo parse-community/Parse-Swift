@@ -57,6 +57,14 @@ public protocol ParseLiveQueryDelegate: AnyObject {
      */
     func received(_ metrics: URLSessionTaskTransactionMetrics)
     #endif
+
+    /**
+    Receive notifications when the ParseLiveQuery closes a task/connection.
+     - parameter code: The close code provided by the server.
+     - parameter reason: The close reason provided by the server.
+     If the close frame didn’t include a reason, this value is nil.
+     */
+    func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?)
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
@@ -69,5 +77,6 @@ extension ParseLiveQueryDelegate {
     func received(_ error: ParseError) { }
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?) { }
     func received(_ metrics: URLSessionTaskTransactionMetrics) { }
+    func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?) { }
 }
 #endif
