@@ -220,7 +220,7 @@ public final class ParseLiveQuery: NSObject {
 extension ParseLiveQuery {
 
     /// Current LiveQuery client.
-    public internal(set) static var client = try? ParseLiveQuery()
+    public private(set) static var client = try? ParseLiveQuery()
 
     var reconnectInterval: Int {
         let min = NSDecimalNumber(decimal: Swift.min(30, pow(2, attempts) - 1))
