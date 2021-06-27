@@ -41,12 +41,8 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install
-      - name: Update Framework Version
-        run: ./update_build
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
-        env:
-          BUILD_VERSION: ${{ env.TAG }}
       - name: Deploy Jazzy Docs
         uses: peaceiris/actions-gh-pages@v3
         with:

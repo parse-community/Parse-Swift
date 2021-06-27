@@ -1,8 +1,5 @@
 #!/bin/bash
 
-#Update framework files
-sed -i '' -e "s/1\.8\.3/${BUILD_VERSION}/g" Sources/ParseSwift/ParseConstants.swift
-
 # Prepare podspec update
 TEMPLATE_FILE_NAME="ParseSwift.podtemplate"
 OUT_FILE_NAME="ParseSwift.podspec"

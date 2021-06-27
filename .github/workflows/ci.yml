@@ -126,10 +126,6 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install
-      - name: Update Framework Version
-        run: ./update_build
-        env:
-          BUILD_VERSION: '1.8.3'
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
 
