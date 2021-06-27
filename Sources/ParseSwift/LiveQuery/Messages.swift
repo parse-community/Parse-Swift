@@ -93,8 +93,15 @@ struct EventResponse<T: ParseObject>: LiveQueryable, Codable {
 struct ErrorResponse: LiveQueryable, Codable {
     let op: OperationErrorResponse // swiftlint:disable:this identifier_name
     let code: Int
-    let error: String
+    let message: String
     let reconnect: Bool
+
+    enum CodingKeys: String, CodingKey {
+        case op // swiftlint:disable:this identifier_name
+        case code
+        case message = "error"
+        case reconnect
+    }
 }
 
 struct PreliminaryMessageResponse: LiveQueryable, Codable {

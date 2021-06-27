@@ -280,7 +280,7 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testErrorResponseDecoding() throws {
         let expected = "{\"code\":1,\"op\":\"error\",\"error\":\"message\",\"reconnect\":true}"
-        let message = ErrorResponse(op: .error, code: 1, error: "message", reconnect: true)
+        let message = ErrorResponse(op: .error, code: 1, message: "message", reconnect: true)
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
@@ -783,7 +783,7 @@ class ParseLiveQueryTests: XCTestCase {
             return
         }
         XCTAssertNotEqual(client.url, url)
-        let response = ErrorResponse(op: .error, code: 1, error: "message", reconnect: true)
+        let response = ErrorResponse(op: .error, code: 1, message: "message", reconnect: true)
         let encoded = try ParseCoding.jsonEncoder().encode(response)
         client.received(encoded)
         let expectation1 = XCTestExpectation(description: "Response delegate")
@@ -810,7 +810,7 @@ class ParseLiveQueryTests: XCTestCase {
             return
         }
         XCTAssertNotEqual(client.url, url)
-        let response = ErrorResponse(op: .error, code: 1, error: "message", reconnect: false)
+        let response = ErrorResponse(op: .error, code: 1, message: "message", reconnect: false)
         let encoded = try ParseCoding.jsonEncoder().encode(response)
         client.received(encoded)
         let expectation1 = XCTestExpectation(description: "Response delegate")
