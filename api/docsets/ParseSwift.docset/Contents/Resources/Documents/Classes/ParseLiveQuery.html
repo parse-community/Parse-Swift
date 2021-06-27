@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.8.3 Docs
+          ParseSwift 1.8.4 Docs
         </a>
          (95% documented)
       </p>
@@ -589,6 +589,101 @@ Defaults value of false.</p>
             </div>
             <div class="task-group">
               <div class="task-name-container">
+                <a name="/Functions%20-%20Combine"></a>
+                <a name="//apple_ref/swift/Section/Functions - Combine" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Functions%20-%20Combine"></a>
+                  <h3 class="section-name"><p>Functions - Combine</p>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9LiveQueryC13openPublisher20isUserWantsToConnect7Combine6FutureCyyts5Error_pGSb_tF"></a>
+                    <a name="//apple_ref/swift/Method/openPublisher(isUserWantsToConnect:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9LiveQueryC13openPublisher20isUserWantsToConnect7Combine6FutureCyyts5Error_pGSb_tF">openPublisher(isUserWantsToConnect:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Manually establish a connection to the <code>ParseLiveQuery</code> Server. Publishes when established.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">openPublisher</span><span class="p">(</span><span class="nv">isUserWantsToConnect</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">true</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUserWantsToConnect</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Specifies if the user is calling this function. Defaults to <code>true</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9LiveQueryC17sendPingPublisher7Combine6FutureCyyts5Error_pGyF"></a>
+                    <a name="//apple_ref/swift/Method/sendPingPublisher()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9LiveQueryC17sendPingPublisher7Combine6FutureCyyts5Error_pGyF">sendPingPublisher()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sends a ping frame from the client side. Publishes when a pong is received from the
+server endpoint.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendPingPublisher</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">Void</span><span class="p">,</span> <span class="kt">Error</span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
                 <a name="/Helpers"></a>
                 <a name="//apple_ref/swift/Section/Helpers" class="dashAnchor"></a>
                 <div class="section-name-container">
@@ -598,6 +693,33 @@ Defaults value of false.</p>
                 </div>
               </div>
               <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9LiveQueryC6clientACSgvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/client" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9LiveQueryC6clientACSgvpZ">client</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Current LiveQuery client.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">private(set)</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">client</span><span class="p">:</span> <span class="kt">ParseLiveQuery</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
                 <li class="item">
                   <div>
                     <code>
@@ -907,6 +1029,81 @@ Defaults value of false.</p>
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9LiveQueryC8closeAllyyF"></a>
+                    <a name="//apple_ref/swift/Method/closeAll()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9LiveQueryC8closeAllyyF">closeAll()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Manually disconnect all sessions and subscriptions from the <code>ParseLiveQuery</code> Server.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">closeAll</span><span class="p">()</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A9LiveQueryC8sendPing18pongReceiveHandleryys5Error_pSgc_tF"></a>
+                    <a name="//apple_ref/swift/Method/sendPing(pongReceiveHandler:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9LiveQueryC8sendPing18pongReceiveHandleryys5Error_pSgc_tF">sendPing(pongReceiveHandler:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Sends a ping frame from the client side, with a closure to receive the pong from the server endpoint.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sendPing</span><span class="p">(</span><span class="nv">pongReceiveHandler</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Error</span><span class="p">?)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>pongReceiveHandler</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A closure called by the task when it receives the pong
+from the server. The closure receives an  <code>Error</code> that indicates a lost connection or other problem,
+or nil if no error occurred.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
           </div>
@@ -915,7 +1112,7 @@ Defaults value of false.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-06-19)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-06-27)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.7</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
