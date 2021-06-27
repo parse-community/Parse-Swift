@@ -67,6 +67,7 @@ class ParseLiveQueryTests: XCTestCase {
         guard let originalURL = URL(string: "http://localhost:1337/1"),
             var components = URLComponents(url: originalURL,
                                              resolvingAgainstBaseURL: false) else {
+            XCTFail("Should have retrieved URL components")
             return
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
@@ -93,6 +94,7 @@ class ParseLiveQueryTests: XCTestCase {
         guard let originalURL = URL(string: "http://parse:1337/1"),
             var components = URLComponents(url: originalURL,
                                              resolvingAgainstBaseURL: false) else {
+            XCTFail("Should have retrieved URL components")
             return
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
@@ -424,7 +426,6 @@ class ParseLiveQueryTests: XCTestCase {
         client.closeAll()
         client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
             XCTAssertFalse(client.isSocketEstablished)
-            XCTAssertNil(client.task)
         }
     }
 
@@ -437,14 +438,13 @@ class ParseLiveQueryTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Send Ping")
         client.sendPing { error in
             XCTAssertEqual(client.isSocketEstablished, false)
-            XCTAssertNil(client.task)
             guard let parseError = error as? ParseError else {
                 XCTFail("Should have casted to ParseError.")
                 expectation1.fulfill()
                 return
             }
             XCTAssertEqual(parseError.code, ParseError.Code.unknownError)
-            XCTAssertTrue(parseError.message.contains("pinged"))
+            XCTAssertTrue(parseError.message.contains("socket status"))
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -514,8 +514,8 @@ class ParseLiveQueryTests: XCTestCase {
 
     func pretendToBeConnected() throws {
         guard let client = ParseLiveQuery.getDefault() else {
-            XCTFail("Should be able to get client")
-            return
+            throw ParseError(code: .unknownError,
+                             message: "Should be able to get client")
         }
         client.task = URLSession.liveQuery.createTask(client.url)
         client.status(.open)
@@ -544,13 +544,13 @@ class ParseLiveQueryTests: XCTestCase {
             guard let subscribed = subscription.subscribed else {
                 XCTFail("Should unwrap subscribed.")
                 expectation1.fulfill()
+                expectation2.fulfill()
                 return
             }
             XCTAssertEqual(query, subscribed.query)
             XCTAssertTrue(subscribed.isNew)
             XCTAssertNil(subscription.unsubscribed)
             XCTAssertNil(subscription.event)
-            expectation1.fulfill()
 
             //Unsubscribe
             DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
@@ -571,16 +571,18 @@ class ParseLiveQueryTests: XCTestCase {
 
             //Received Unsubscribe
             let response2 = PreliminaryMessageResponse(op: .unsubscribed,
-                                                               requestId: 1,
-                                                               clientId: "yolo",
-                                                               installationId: "naw")
+                                                       requestId: 1,
+                                                       clientId: "yolo",
+                                                       installationId: "naw")
             guard let encoded2 = try? ParseCoding.jsonEncoder().encode(response2) else {
+                XCTFail("Should have encoded second response")
                 expectation2.fulfill()
                 return
             }
             client.received(encoded2)
             XCTAssertEqual(client.pendingSubscriptions.count, 0)
             XCTAssertEqual(client.subscriptions.count, 0)
+            expectation1.fulfill()
         }
 
         XCTAssertFalse(try client.isSubscribed(query))
@@ -638,6 +640,7 @@ class ParseLiveQueryTests: XCTestCase {
                                                                clientId: "yolo",
                                                                installationId: "naw")
             guard let encoded2 = try? ParseCoding.jsonEncoder().encode(response2) else {
+                XCTFail("Should have encoded second response")
                 expectation2.fulfill()
                 return
             }
@@ -689,7 +692,7 @@ class ParseLiveQueryTests: XCTestCase {
                 XCTAssertNotNil(ParseLiveQuery.client?.task)
                 originalTask = ParseLiveQuery.client?.task
                 expectation1.fulfill()
-            } else if count == 2 {
+            } else {
                 XCTAssertNotNil(ParseLiveQuery.client?.task)
                 XCTAssertFalse(originalTask == ParseLiveQuery.client?.task)
                 expectation2.fulfill()
@@ -698,11 +701,12 @@ class ParseLiveQueryTests: XCTestCase {
 
             ParseLiveQuery.client?.close()
             ParseLiveQuery.client?.synchronizationQueue.sync {
-            XCTAssertNil(ParseLiveQuery.client?.task)
             if let socketEstablished = ParseLiveQuery.client?.isSocketEstablished {
                 XCTAssertFalse(socketEstablished)
             } else {
                 XCTFail("Should have socket that isn't established")
+                expectation2.fulfill()
+                return
             }
 
             //Resubscribe
@@ -711,15 +715,17 @@ class ParseLiveQueryTests: XCTestCase {
                 subscription = try Query<GameScore>.subscribe(handler)
             } catch {
                 XCTFail("\(error)")
+                expectation2.fulfill()
+                return
             }
 
             try? self.pretendToBeConnected()
-
             let response2 = PreliminaryMessageResponse(op: .subscribed,
                                                        requestId: 2,
                                                        clientId: "yolo",
                                                        installationId: "naw")
             guard let encoded2 = try? ParseCoding.jsonEncoder().encode(response2) else {
+                XCTFail("Should have encoded second response")
                 expectation2.fulfill()
                 return
             }

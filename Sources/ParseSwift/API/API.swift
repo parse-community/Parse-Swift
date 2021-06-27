@@ -201,7 +201,7 @@ public struct API {
                 let context = AnyEncodable(context)
                 if let encoded = try? ParseCoding.jsonEncoder().encode(context),
                    let encodedString = String(data: encoded, encoding: .utf8) {
-                    headers["X-Parse-Context"] = encodedString
+                    headers["X-Parse-Cloud-Context"] = encodedString
                 }
             }
         }

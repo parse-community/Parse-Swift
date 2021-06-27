@@ -199,7 +199,8 @@ public final class ParseLiveQuery: NSObject {
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
         url = components.url
-        self.createTask()
+        self.task = URLSession.liveQuery.createTask(self.url)
+        self.resumeTask()
 
         if isDefault {
             Self.setDefault(self)
@@ -226,12 +227,11 @@ extension ParseLiveQuery {
         return Int.random(in: 0 ..< Int(truncating: min))
     }
 
-    func createTask() {
+    func resumeTask() {
         synchronizationQueue.sync {
-            if self.task == nil {
-                self.task = URLSession.liveQuery.createTask(self.url)
+            if self.task.state == .suspended {
+                self.task.resume()
             }
-            self.task.resume()
             URLSession.liveQuery.receive(self.task)
             URLSession.liveQuery.delegates[self.task] = self
         }
@@ -317,7 +317,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             self.isSocketEstablished = false
             if !self.isDisconnectedByUser {
                 //Try to reconnect
-                self.createTask()
+                self.resumeTask()
             }
         }
     }
@@ -329,7 +329,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                 if self.isConnected {
                     self.close(useDedicatedQueue: true)
                     //Try to reconnect
-                    self.createTask()
+                    self.resumeTask()
                 }
             }
             return
@@ -344,7 +344,8 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
                 //Turn LiveQuery error into ParseError
                 let parseError = ParseError(code: .unknownError,
-                                            message: "LiveQuery error code: \(error.code) message: \(error.error)")
+                                            // swiftlint:disable:next line_length
+                                            message: "ParseLiveQuery Error: code: \(error.code), message: \(error.error)")
                 self.notificationQueue.async {
                     self.receiveDelegate?.received(parseError)
                 }
@@ -529,10 +530,11 @@ extension ParseLiveQuery {
                 self.synchronizationQueue
                     .asyncAfter(deadline: .now() + DispatchTimeInterval
                                     .seconds(reconnectInterval)) {
-                    self.createTask()
+                    self.resumeTask()
                     self.attempts += 1
                     let error = ParseError(code: .unknownError,
-                                           message: "Attempted to open socket \(self.attempts) time(s)")
+                                           // swiftlint:disable:next line_length
+                                           message: "ParseLiveQuery Error: attempted to open socket \(self.attempts) time(s)")
                     completion(error)
                 }
             }
@@ -543,13 +545,12 @@ extension ParseLiveQuery {
     public func close() {
         synchronizationQueue.sync {
             if self.isConnected {
-                self.task.cancel()
+                self.task.cancel(with: .goingAway, reason: nil)
                 self.isDisconnectedByUser = true
             }
-            if task != nil {
-                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
-            }
-            self.task = nil
+            URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            isSocketEstablished = false
+            self.task = URLSession.liveQuery.createTask(self.url) // Prepare new task for future use.
         }
     }
 
@@ -568,11 +569,12 @@ extension ParseLiveQuery {
      */
     public func sendPing(pongReceiveHandler: @escaping (Error?) -> Void) {
         synchronizationQueue.sync {
-            if isSocketEstablished {
+            if self.task.state == .running {
                 URLSession.liveQuery.sendPing(task, pongReceiveHandler: pongReceiveHandler)
             } else {
                 let error = ParseError(code: .unknownError,
-                                       message: "Need to open the websocket before it can be pinged.")
+                                       // swiftlint:disable:next line_length
+                                       message: "ParseLiveQuery Error: socket status needs to be \"\(URLSessionTask.State.running.rawValue)\" before pinging server. Current status is \"\(self.task.state.rawValue)\". Try calling \"open()\" to change socket status.")
                 pongReceiveHandler(error)
             }
         }
@@ -582,19 +584,18 @@ extension ParseLiveQuery {
         if useDedicatedQueue {
             synchronizationQueue.async {
                 if self.isConnected {
-                    self.task.cancel()
+                    self.task.cancel(with: .goingAway, reason: nil)
                 }
                 URLSession.liveQuery.delegates.removeValue(forKey: self.task)
-                self.task = nil
+                self.task = URLSession.liveQuery.createTask(self.url) // Prepare new task for future use.
             }
         } else {
             if self.isConnected {
-                self.task.cancel()
+                self.task.cancel(with: .goingAway, reason: nil)
             }
-            if self.task != nil {
-                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
-            }
-            self.task = nil
+            URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            isSocketEstablished = false
+            self.task = URLSession.liveQuery.createTask(self.url) // Prepare new task for future use.
         }
     }
 

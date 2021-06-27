@@ -673,7 +673,7 @@ class APICommandTests: XCTestCase {
 
     func testContextHeader() {
         let headers = API.getHeaders(options: [])
-        XCTAssertNil(headers["X-Parse-Context"])
+        XCTAssertNil(headers["X-Parse-Cloud-Context"])
 
         let post = API.NonParseBodyCommand<NoBody, NoBody?>(method: .POST, path: .login) { _ in
             return nil
@@ -682,7 +682,7 @@ class APICommandTests: XCTestCase {
         switch post.prepareURLRequest(options: [.context(["hello": "world"])]) {
 
         case .success(let request):
-            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Context"], "{\"hello\":\"world\"}")
+            XCTAssertEqual(request.allHTTPHeaderFields?["X-Parse-Cloud-Context"], "{\"hello\":\"world\"}")
         case .failure(let error):
             XCTFail(error.localizedDescription)
         }

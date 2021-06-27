@@ -128,12 +128,18 @@ jobs:
           bundle install
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
+        env:
+          BUILD_VERSION: '1.8.3'
 
   cocoapods:
     needs: xcode-build-watchos
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Update Framework Version
+        run: ./Scripts/update_build
+        env:
+          BUILD_VERSION: '1.8.3'
       - name: CocoaPods
         run: pod lib lint --allow-warnings
 
