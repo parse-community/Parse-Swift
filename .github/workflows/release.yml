@@ -10,6 +10,8 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+      - name: Update Framework Version
+        run: ./update_build
       - name: CocoaPods
         run: set -o pipefail && env NSUnbufferedIO=YES pod lib lint --allow-warnings --verbose
       - name: Deploy CocoaPods
@@ -33,6 +35,8 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install
+      - name: Update Framework Version
+        run: ./update_build
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
       - name: Deploy Jazzy Docs
