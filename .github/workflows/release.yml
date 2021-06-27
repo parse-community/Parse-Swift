@@ -39,8 +39,12 @@ jobs:
         run: |
           bundle config path vendor/bundle
           bundle install
+      - name: Get release version
+        run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
+        env:
+          BUILD_VERSION: ${{ env.TAG }}
       - name: Deploy Jazzy Docs
         uses: peaceiris/actions-gh-pages@v3
         with:

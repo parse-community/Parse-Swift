@@ -1,11 +1,10 @@
-ver=`cat ParseSwift.xcodeproj/project.pbxproj | grep -m1 'MARKETING_VERSION' | cut -d'=' -f2 | tr -d ';' | tr -d ' '`
 bundle exec jazzy \
   --clean \
   --author "Parse Community" \
   --author_url http://parseplatform.org \
   --github_url https://github.com/parse-community/Parse-Swift \
   --root-url http://parseplatform.org/Parse-Swift/api/ \
-  --module-version ${ver} \
+  --module-version ${BUILD_VERSION} \
   --theme fullwidth \
   --skip-undocumented \
   --output ./docs/api \
