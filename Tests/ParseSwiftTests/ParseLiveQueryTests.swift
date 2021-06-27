@@ -426,7 +426,6 @@ class ParseLiveQueryTests: XCTestCase {
         client.closeAll()
         client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
             XCTAssertFalse(client.isSocketEstablished)
-            XCTAssertNil(client.task)
         }
     }
 
@@ -439,14 +438,13 @@ class ParseLiveQueryTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Send Ping")
         client.sendPing { error in
             XCTAssertEqual(client.isSocketEstablished, false)
-            XCTAssertNil(client.task)
             guard let parseError = error as? ParseError else {
                 XCTFail("Should have casted to ParseError.")
                 expectation1.fulfill()
                 return
             }
             XCTAssertEqual(parseError.code, ParseError.Code.unknownError)
-            XCTAssertTrue(parseError.message.contains("pinged"))
+            XCTAssertTrue(parseError.message.contains("Socket status"))
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -703,7 +701,6 @@ class ParseLiveQueryTests: XCTestCase {
 
             ParseLiveQuery.client?.close()
             ParseLiveQuery.client?.synchronizationQueue.sync {
-            XCTAssertNil(ParseLiveQuery.client?.task)
             if let socketEstablished = ParseLiveQuery.client?.isSocketEstablished {
                 XCTAssertFalse(socketEstablished)
             } else {
