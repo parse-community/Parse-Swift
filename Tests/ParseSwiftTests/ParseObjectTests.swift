@@ -221,6 +221,57 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation2], timeout: 20.0)
     }
 
+    func testAnyEncodableHash() throws {
+        var score = GameScore(score: 10)
+        score.level = Level()
+        score.objectId = "hello"
+        var game = Game(score: score)
+        game.objectId = "nice"
+
+        let hash = AnyEncodable(score)
+        var dictionary = [AnyEncodable: String]()
+        dictionary[hash] = "hello"
+        XCTAssertEqual(dictionary[hash], "hello")
+        let score2 = score
+        let hash2 = AnyEncodable(score2)
+        XCTAssertEqual(dictionary[hash2], "hello")
+        XCTAssertEqual(dictionary[hash], dictionary[hash2])
+    }
+
+    func testAnyDecodableHash() throws {
+        var score = GameScore(score: 10)
+        score.level = Level()
+        score.objectId = "hello"
+        var game = Game(score: score)
+        game.objectId = "nice"
+
+        let hash = AnyDecodable(score)
+        var dictionary = [AnyDecodable: String]()
+        dictionary[hash] = "hello"
+        XCTAssertEqual(dictionary[hash], "hello")
+        let score2 = score
+        let hash2 = AnyDecodable(score2)
+        XCTAssertEqual(dictionary[hash2], "hello")
+        XCTAssertEqual(dictionary[hash], dictionary[hash2])
+    }
+
+    func testAnyCodableHash() throws {
+        var score = GameScore(score: 10)
+        score.level = Level()
+        score.objectId = "hello"
+        var game = Game(score: score)
+        game.objectId = "nice"
+
+        let hash = AnyCodable(score)
+        var dictionary = [AnyCodable: String]()
+        dictionary[hash] = "hello"
+        XCTAssertEqual(dictionary[hash], "hello")
+        let score2 = score
+        let hash2 = AnyCodable(score2)
+        XCTAssertEqual(dictionary[hash2], "hello")
+        XCTAssertEqual(dictionary[hash], dictionary[hash2])
+    }
+
     func testFetchCommand() {
         var score = GameScore(score: 10)
         let className = score.className

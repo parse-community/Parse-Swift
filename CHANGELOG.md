@@ -1,11 +1,8 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.5...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.4...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
-
-### 1.8.5
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.4...1.8.5)
 
 __Improvements__
 - Use hashable when saving child ParseObjects  ([#177](https://github.com/parse-community/Parse-Swift/pull/177)), thanks to [Corey Baker](https://github.com/cbaker6).
