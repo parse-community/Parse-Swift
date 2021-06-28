@@ -1,8 +1,11 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.4...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.5...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.8.5
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.4...1.8.5)
 
 __Fixes__
 - Fixed a bug in LiveQuery when a close frame is sent from the server that resulted in closing
