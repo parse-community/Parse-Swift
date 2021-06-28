@@ -431,7 +431,7 @@ extension ParseInstallation {
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     public func save(options: API.Options = []) throws -> Self {
-        var childObjects: [String: PointerType]?
+        var childObjects: [AnyEncodable: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
         let group = DispatchGroup()
@@ -654,7 +654,7 @@ public extension Sequence where Element: ParseInstallation {
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
                  transaction: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
-        var childObjects = [String: PointerType]()
+        var childObjects = [AnyEncodable: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
 
@@ -749,7 +749,7 @@ public extension Sequence where Element: ParseInstallation {
                                   autoreleaseFrequency: .inherit,
                                   target: nil)
         queue.sync {
-            var childObjects = [String: PointerType]()
+            var childObjects = [AnyEncodable: PointerType]()
             var childFiles = [UUID: ParseFile]()
             var error: ParseError?
 

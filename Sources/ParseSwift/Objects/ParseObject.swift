@@ -77,7 +77,7 @@ public extension Sequence where Element: ParseObject {
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
                  transaction: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
-        var childObjects = [String: PointerType]()
+        var childObjects = [AnyEncodable: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
 
@@ -171,7 +171,7 @@ public extension Sequence where Element: ParseObject {
                                   target: nil)
         queue.sync {
 
-            var childObjects = [String: PointerType]()
+            var childObjects = [AnyEncodable: PointerType]()
             var childFiles = [UUID: ParseFile]()
             var error: ParseError?
 
@@ -564,7 +564,7 @@ extension ParseObject {
      - returns: Returns saved `ParseObject`.
     */
     public func save(options: API.Options = []) throws -> Self {
-        var childObjects: [String: PointerType]?
+        var childObjects: [AnyEncodable: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
         let group = DispatchGroup()
@@ -635,7 +635,7 @@ extension ParseObject {
 
     // swiftlint:disable:next function_body_length
     internal func ensureDeepSave(options: API.Options = [],
-                                 completion: @escaping ([String: PointerType],
+                                 completion: @escaping ([AnyEncodable: PointerType],
                                                         [UUID: ParseFile], ParseError?) -> Void) {
         let uuid = UUID()
         let queue = DispatchQueue(label: "com.parse.deepSave.\(uuid)",
@@ -645,7 +645,7 @@ extension ParseObject {
                                   target: nil)
 
         queue.sync {
-            var objectsFinishedSaving = [String: PointerType]()
+            var objectsFinishedSaving = [AnyEncodable: PointerType]()
             var filesFinishedSaving = [UUID: ParseFile]()
 
             do {
@@ -684,7 +684,6 @@ extension ParseObject {
                         }
                     }
                     waitingToBeSaved = nextBatch
-
                     if savableObjects.count == 0 && savableFiles.count == 0 {
                         completion(objectsFinishedSaving,
                                    filesFinishedSaving,
@@ -698,7 +697,7 @@ extension ParseObject {
                                                                  options: options)
                         let savedChildPointers = try savedChildObjects.compactMap { try $0.get() }
                         for (index, object) in savableObjects.enumerated() {
-                            let hash = try BaseObjectable.createHash(object)
+                            let hash = AnyEncodable(object)
                             objectsFinishedSaving[hash] = savedChildPointers[index]
                         }
                     }

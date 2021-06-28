@@ -52,18 +52,6 @@ extension Objectable {
     public var className: String {
         return Self.className
     }
-
-    static func createHash(_ object: Encodable) throws -> String {
-        let encoded = try ParseCoding.parseEncoder().encode(object)
-        #if !os(Linux) && !os(Android)
-        return ParseHash.md5HashFromData(encoded)
-        #else
-        guard let hashString = String(data: encoded, encoding: .utf8) else {
-            throw ParseError(code: .unknownError, message: "Couldn't create hash")
-        }
-        return hashString
-        #endif
-    }
 }
 
 // MARK: Convenience

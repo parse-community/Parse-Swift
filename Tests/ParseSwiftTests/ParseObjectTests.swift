@@ -1216,6 +1216,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testDeepSaveTwoDeep() throws {
         var score = GameScore(score: 10)
         score.level = Level()
+        score.objectId = "hello"
         var game = Game(score: score)
         game.objectId = "nice"
 
@@ -1242,17 +1243,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         game.ensureDeepSave { (savedChildren, savedChildFiles, parseError) in
 
             XCTAssertEqual(savedChildFiles.count, 0)
-            XCTAssertEqual(savedChildren.count, 2)
-            let gameScore = savedChildren.compactMap { (_, value) -> PointerType? in
-                if value.className == "GameScore" {
-                    return value
-                } else {
-                    return nil
-                }
-            }
-            XCTAssertEqual(gameScore.count, 1)
-            XCTAssertEqual(gameScore.first?.className, "GameScore")
-            XCTAssertEqual(gameScore.first?.objectId, "yarr")
+            XCTAssertEqual(savedChildren.count, 1)
 
             let level = savedChildren.compactMap { (_, value) -> PointerType? in
                 if value.className == "Level" {

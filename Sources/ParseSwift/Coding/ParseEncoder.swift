@@ -114,7 +114,7 @@ public struct ParseEncoder {
 
     // swiftlint:disable large_tuple
     internal func encode<T: ParseObject>(_ value: T,
-                                         objectsSavedBeforeThisOne: [String: PointerType]?,
+                                         objectsSavedBeforeThisOne: [AnyEncodable: PointerType]?,
                                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
         let keysToSkip: Set<String>!
         if !ParseSwift.configuration.allowCustomObjectId {
@@ -131,7 +131,7 @@ public struct ParseEncoder {
 
     // swiftlint:disable large_tuple
     internal func encode(_ value: ParseType, collectChildren: Bool,
-                         objectsSavedBeforeThisOne: [String: PointerType]?,
+                         objectsSavedBeforeThisOne: [AnyEncodable: PointerType]?,
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
         let keysToSkip: Set<String>!
         if !ParseSwift.configuration.allowCustomObjectId {
@@ -156,7 +156,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
     var uniqueFiles = Set<ParseFile>()
     var newObjects = [Encodable]()
     var collectChildren = false
-    var objectsSavedBeforeThisOne: [String: PointerType]?
+    var objectsSavedBeforeThisOne: [AnyEncodable: PointerType]?
     var filesSavedBeforeThisOne: [UUID: ParseFile]?
     /// The encoder's storage.
     var storage: _ParseEncodingStorage
@@ -207,7 +207,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
     }
 
     func encodeObject(_ value: Encodable, collectChildren: Bool,
-                      objectsSavedBeforeThisOne: [String: PointerType]?,
+                      objectsSavedBeforeThisOne: [AnyEncodable: PointerType]?,
                       filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
 
         let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
@@ -297,7 +297,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
                 valueToEncode = try value.toPointer()
             }
         } else {
-            let hashOfCurrentObject = try BaseObjectable.createHash(value)
+            let hashOfCurrentObject = AnyEncodable(value)
             if self.collectChildren {
                 if let pointerForCurrentObject = self.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
                     valueToEncode = pointerForCurrentObject
@@ -947,7 +947,7 @@ private class _ParseReferencingEncoder: _ParseEncoder {
     // MARK: - Initialization
 
     /// Initializes `self` by referencing the given array container in the given encoder.
-    init(referencing encoder: _ParseEncoder, at index: Int, wrapping array: NSMutableArray, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [String: PointerType]?, filesSavedBeforeThisOne: [UUID: ParseFile]?) {
+    init(referencing encoder: _ParseEncoder, at index: Int, wrapping array: NSMutableArray, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [AnyEncodable: PointerType]?, filesSavedBeforeThisOne: [UUID: ParseFile]?) {
         self.encoder = encoder
         self.reference = .array(array, index)
         super.init(codingPath: encoder.codingPath, dictionary: NSMutableDictionary(), skippingKeys: skippingKeys)
@@ -958,7 +958,7 @@ private class _ParseReferencingEncoder: _ParseEncoder {
     }
 
     /// Initializes `self` by referencing the given dictionary container in the given encoder.
-    init(referencing encoder: _ParseEncoder, key: CodingKey, wrapping dictionary: NSMutableDictionary, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [String: PointerType]?, filesSavedBeforeThisOne: [UUID: ParseFile]?) {
+    init(referencing encoder: _ParseEncoder, key: CodingKey, wrapping dictionary: NSMutableDictionary, skippingKeys: Set<String>, collectChildren: Bool, objectsSavedBeforeThisOne: [AnyEncodable: PointerType]?, filesSavedBeforeThisOne: [UUID: ParseFile]?) {
         self.encoder = encoder
         self.reference = .dictionary(dictionary, key.stringValue)
         super.init(codingPath: encoder.codingPath, dictionary: dictionary, skippingKeys: skippingKeys)

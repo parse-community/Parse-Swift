@@ -51,7 +51,7 @@ internal extension API {
         // MARK: Synchronous Execution
         func executeStream(options: API.Options,
                            callbackQueue: DispatchQueue,
-                           childObjects: [String: PointerType]? = nil,
+                           childObjects: [AnyEncodable: PointerType]? = nil,
                            childFiles: [UUID: ParseFile]? = nil,
                            uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                            stream: InputStream) throws {
@@ -73,7 +73,7 @@ internal extension API {
 
         func execute(options: API.Options,
                      callbackQueue: DispatchQueue,
-                     childObjects: [String: PointerType]? = nil,
+                     childObjects: [AnyEncodable: PointerType]? = nil,
                      childFiles: [UUID: ParseFile]? = nil,
                      uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                      downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) throws -> U {
@@ -102,7 +102,7 @@ internal extension API {
         // swiftlint:disable:next function_body_length cyclomatic_complexity
         func executeAsync(options: API.Options,
                           callbackQueue: DispatchQueue,
-                          childObjects: [String: PointerType]? = nil,
+                          childObjects: [AnyEncodable: PointerType]? = nil,
                           childFiles: [UUID: ParseFile]? = nil,
                           uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                           downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
@@ -219,7 +219,7 @@ internal extension API {
 
         // MARK: URL Preperation
         func prepareURLRequest(options: API.Options,
-                               childObjects: [String: PointerType]? = nil,
+                               childObjects: [AnyEncodable: PointerType]? = nil,
                                childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
             var headers = API.getHeaders(options: options)
