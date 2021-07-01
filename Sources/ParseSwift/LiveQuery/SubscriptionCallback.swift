@@ -39,7 +39,7 @@ open class SubscriptionCallback<T: ParseObject>: ParseSubscription {
     }
 
     /**
-     Register a callback for when a client succesfully subscribes to a query.
+     Register a callback for when a client successfully subscribes to a query.
      - parameter handler: The callback to register.
      - returns: The same subscription, for easy chaining.
      */
