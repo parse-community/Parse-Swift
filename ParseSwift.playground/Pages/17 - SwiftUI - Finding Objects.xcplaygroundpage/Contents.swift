@@ -97,6 +97,7 @@ struct ContentView: View {
             if let error = viewModel.error {
                 Text(error.debugDescription)
             } else {
+                //: Warning - List seems to only work in Playgrounds Xcode 13+.
                 List(viewModel.objects, id: \.objectId) { object in
                     VStack(alignment: .leading) {
                         Text("Score: \(object.score)")
