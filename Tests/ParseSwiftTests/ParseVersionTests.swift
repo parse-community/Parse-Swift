@@ -45,39 +45,70 @@ class ParseVersionTests: XCTestCase {
 
     func testEqualTo() throws {
         let version1 = try ParseVersion("1.0.0")
-        let version2 = version1
-        XCTAssertTrue(version1 == version2)
+        let version2 = try ParseVersion("0.9.0")
+        XCTAssertTrue(version1 == version1)
+        XCTAssertFalse(version1 == version2)
     }
 
     func testLessThan() throws {
         let version1 = try ParseVersion("1.0.0")
         var version2 = try ParseVersion("2.0.0")
+        XCTAssertFalse(version1 < version1)
         XCTAssertTrue(version1 < version2)
+        XCTAssertFalse(version2 < version1)
         version2 = try ParseVersion("1.1.0")
         XCTAssertTrue(version1 < version2)
+        XCTAssertFalse(version2 < version1)
         version2 = try ParseVersion("1.0.1")
         XCTAssertTrue(version1 < version2)
+        XCTAssertFalse(version2 < version1)
     }
 
     func testLessThanEqual() throws {
         let version1 = try ParseVersion("1.0.0")
-        let version2 = version1
+        var version2 = version1
         XCTAssertTrue(version1 <= version2)
+        version2 = try ParseVersion("0.9.0")
+        XCTAssertFalse(version1 <= version2)
+        version2 = try ParseVersion("2.0.0")
+        XCTAssertTrue(version1 <= version2)
+        XCTAssertFalse(version2 <= version1)
+        version2 = try ParseVersion("1.1.0")
+        XCTAssertTrue(version1 <= version2)
+        XCTAssertFalse(version2 <= version1)
+        version2 = try ParseVersion("1.0.1")
+        XCTAssertTrue(version1 <= version2)
+        XCTAssertFalse(version2 <= version1)
     }
 
     func testGreaterThan() throws {
         let version1 = try ParseVersion("1.0.0")
         var version2 = try ParseVersion("2.0.0")
+        XCTAssertFalse(version1 > version1)
         XCTAssertTrue(version2 > version1)
+        XCTAssertFalse(version1 > version2)
         version2 = try ParseVersion("1.1.0")
         XCTAssertTrue(version2 > version1)
+        XCTAssertFalse(version1 > version2)
         version2 = try ParseVersion("1.0.1")
         XCTAssertTrue(version2 > version1)
+        XCTAssertFalse(version1 > version2)
     }
 
     func testGreaterThanEqual() throws {
         let version1 = try ParseVersion("1.0.0")
-        let version2 = version1
+        var version2 = version1
         XCTAssertTrue(version1 >= version2)
+        version2 = try ParseVersion("0.9.0")
+        XCTAssertFalse(version1 >= version2)
+        version2 = try ParseVersion("2.0.0")
+        XCTAssertTrue(version2 >= version1)
+        XCTAssertFalse(version1 >= version2)
+        version2 = try ParseVersion("1.1.0")
+        XCTAssertTrue(version2 >= version1)
+        XCTAssertFalse(version1 >= version2)
+        version2 = try ParseVersion("1.0.1")
+        XCTAssertTrue(version2 >= version1)
+        XCTAssertFalse(version1 >= version2)
     }
 }
