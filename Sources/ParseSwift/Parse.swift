@@ -105,6 +105,9 @@ public struct ParseSwift {
         do {
             let previousSDKVersion = try ParseVersion(ParseVersion.current)
             let currentSDKVersion = try ParseVersion(ParseConstants.version)
+
+            // All migrations from previous versions to current should occur here:
+
             if currentSDKVersion > previousSDKVersion {
                 ParseVersion.current = currentSDKVersion.string
             }
