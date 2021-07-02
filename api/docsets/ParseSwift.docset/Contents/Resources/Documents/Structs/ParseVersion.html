@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ParseEncoder Structure Reference</title>
+    <title>ParseVersion Structure Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/ParseEncoder" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Struct/ParseVersion" class="dashAnchor"></a>
 
-    <a title="ParseEncoder Structure Reference"></a>
+    <a title="ParseVersion Structure Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ParseEncoder Structure Reference
+      ParseVersion Structure Reference
     </p>
 
     <div class="content-wrapper">
@@ -323,24 +323,15 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>ParseEncoder</h1>
+            <h1>ParseVersion</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseEncoder</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseVersion</span></code></pre>
 
                 </div>
               </div>
-            <p>An object that encodes Parse instances of a data type as JSON objects.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    <code>JSONEncoder</code> facilitates the encoding of <code>Encodable</code> values into JSON.
-<code>ParseEncoder</code> facilitates the encoding of <code>ParseType</code> values into JSON.
-All Credit to Apple, this is a custom encoder with capability of skipping keys at runtime.
-ParseEncoder matches the features of the <a href="https://github.com/apple/swift/blob/main/stdlib/public/Darwin/Foundation/JSONEncoder.swift">Swift 5.4 JSONEncoder </a>.
-Update commits as needed for improvement.
-
-</div>
+            <p><code>ParseVersion</code> is used to determine the version of the SDK.</p>
 
           </div>
         </section>
@@ -352,9 +343,9 @@ Update commits as needed for improvement.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A7EncoderV8SkipKeysO"></a>
-                    <a name="//apple_ref/swift/Enum/SkipKeys" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A7EncoderV8SkipKeysO">SkipKeys</a>
+                    <a name="/s:10ParseSwift0A7VersionV7currentSSSgvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/current" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A7VersionV7currentSSSgvpZ">current</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -362,75 +353,16 @@ Update commits as needed for improvement.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Keys to skip during encoding.</p>
-
-                        <a href="../Structs/ParseEncoder/SkipKeys.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="kt">SkipKeys</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A7EncoderV6encode_8skipKeys10Foundation4DataVx_AC04SkipF0OtKAA0A4TypeRzlF"></a>
-                    <a name="//apple_ref/swift/Method/encode(_:skipKeys:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A7EncoderV6encode_8skipKeys10Foundation4DataVx_AC04SkipF0OtKAA0A4TypeRzlF">encode(_:<wbr>skipKeys:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Encodes an instance of the indicated <code>ParseType</code>.</p>
+                        <p>Current version of the SDK.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">encode</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">T</span><span class="p">,</span> <span class="nv">skipKeys</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseEncoder/SkipKeys.html">SkipKeys</a></span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Data</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">ParseType</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">current</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
 
                         </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>value</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The <code>ParseType</code> instance to encode.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>skipKeys</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The set of keys to skip during encoding.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
                       </div>
                     </section>
                   </div>

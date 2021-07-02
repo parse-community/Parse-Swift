@@ -212,7 +212,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Storage/ParseStorage.swift",
-      "line": 34,
+      "line": 35,
       "symbol": "ParseStorage",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
