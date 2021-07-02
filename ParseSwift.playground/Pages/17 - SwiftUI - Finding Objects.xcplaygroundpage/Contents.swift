@@ -21,7 +21,17 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 //: Create your own value typed ParseObject.
-struct GameScore: ParseObject {
+struct GameScore: ParseObject, Identifiable {
+
+    //: Conform to Identifiable for iOS13+
+    var id: String { // swiftlint:disable:this identifier_name
+        if let objectId = self.objectId {
+            return objectId
+        } else {
+            return UUID().uuidString
+        }
+    }
+
     //: These are required for any Object.
     var objectId: String?
     var createdAt: Date?
@@ -54,7 +64,7 @@ class ViewModel: ObservableObject {
     }
 
     func fetchScores() {
-        let query = GameScore.query("score" > 50)
+        let query = GameScore.query("score" > 2)
             .order([.descending("score")])
         let publisher = query
             .findPublisher()
@@ -70,7 +80,7 @@ class ViewModel: ObservableObject {
             receiveValue: {
                 // Publish found objects
                 self.objects = $0
-                print("Found objects: \(self.objects)")
+                print("Found \(self.objects.count), objects: \(self.objects)")
             })
         publisher.store(in: &subscriptions)
     }
@@ -84,26 +94,12 @@ struct ContentView: View {
 
     var body: some View {
         NavigationView {
-
-            Button(action: {
-                viewModel.fetchScores()
-            }, label: {
-                Text("Refresh")
-                    .font(.headline)
-                    .background(Color.red)
-                    .foregroundColor(.white)
-                    .padding()
-                    .cornerRadius(20.0)
-                    .frame(width: 300, height: 50)
-            })
-
             if let error = viewModel.error {
                 Text(error.debugDescription)
             } else {
-
                 List(viewModel.objects, id: \.objectId) { object in
                     VStack(alignment: .leading) {
-                        Text("\(object.score)")
+                        Text("Score: \(object.score)")
                             .font(.headline)
                         if let createdAt = object.createdAt {
                             Text("\(createdAt.description)")
@@ -111,6 +107,7 @@ struct ContentView: View {
                     }
                 }
             }
+            Spacer()
         }
     }
 }

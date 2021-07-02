@@ -230,6 +230,9 @@
 		708D035325215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035425215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035525215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
+		709B40C1268F999000ED2EAC /* IOS13Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709B40C0268F999000ED2EAC /* IOS13Tests.swift */; };
+		709B40C2268F999000ED2EAC /* IOS13Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709B40C0268F999000ED2EAC /* IOS13Tests.swift */; };
+		709B40C3268F999000ED2EAC /* IOS13Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 709B40C0268F999000ED2EAC /* IOS13Tests.swift */; };
 		709B98352556EC7400507778 /* ParseSwift.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 912C9BD824D3011F009947C3 /* ParseSwift.framework */; };
 		709B984B2556ECAA00507778 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB13224C494390027F3C7 /* MockURLProtocol.swift */; };
 		709B984C2556ECAA00507778 /* APICommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB12D24C4837E0027F3C7 /* APICommandTests.swift */; };
@@ -658,6 +661,7 @@
 		707A3C1025B0A8E8000D215C /* ParseAnonymous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAnonymous.swift; sourceTree = "<group>"; };
 		707A3C1F25B14BCF000D215C /* ParseApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseApple.swift; sourceTree = "<group>"; };
 		708D035125215F9B00646C70 /* Deletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deletable.swift; sourceTree = "<group>"; };
+		709B40C0268F999000ED2EAC /* IOS13Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOS13Tests.swift; sourceTree = "<group>"; };
 		709B98302556EC7400507778 /* ParseSwiftTeststvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParseSwiftTeststvOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		709B98342556EC7400507778 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70A2D81E25B36A7D001BEB7D /* ParseAuthenticationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthenticationTests.swift; sourceTree = "<group>"; };
@@ -871,6 +875,7 @@
 				7003957525A0EE770052CB31 /* BatchUtilsTests.swift */,
 				705726ED2592C91C00F0ADD5 /* HashTests.swift */,
 				70DFEA892618E77800F8EB4B /* InitializeSDKTests.swift */,
+				709B40C0268F999000ED2EAC /* IOS13Tests.swift */,
 				4AA8076E1F794C1C008CD551 /* KeychainStoreTests.swift */,
 				9194657724F16E330070296B /* ParseACLTests.swift */,
 				70170A4D2656EBA50070C905 /* ParseAnalyticsTests.swift */,
@@ -1790,6 +1795,7 @@
 				70CE1D892545BF730018D572 /* ParsePointerTests.swift in Sources */,
 				89899D772603CF66002E2043 /* ParseFacebookTests.swift in Sources */,
 				70386A4625D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
+				709B40C1268F999000ED2EAC /* IOS13Tests.swift in Sources */,
 				911DB12E24C4837E0027F3C7 /* APICommandTests.swift in Sources */,
 				70732C5A2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */,
 				911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */,
@@ -1955,6 +1961,7 @@
 				709B98532556ECAA00507778 /* ParsePointerTests.swift in Sources */,
 				89899D822603CF67002E2043 /* ParseFacebookTests.swift in Sources */,
 				70386A4825D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
+				709B40C3268F999000ED2EAC /* IOS13Tests.swift in Sources */,
 				709B984C2556ECAA00507778 /* APICommandTests.swift in Sources */,
 				70732C5C2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */,
 				709B984D2556ECAA00507778 /* AnyDecodableTests.swift in Sources */,
@@ -2018,6 +2025,7 @@
 				70F2E2B7254F283000B2EA5C /* ParsePointerTests.swift in Sources */,
 				89899D812603CF67002E2043 /* ParseFacebookTests.swift in Sources */,
 				70386A4725D99C8B0048EC1B /* ParseLDAPTests.swift in Sources */,
+				709B40C2268F999000ED2EAC /* IOS13Tests.swift in Sources */,
 				70F2E2B5254F283000B2EA5C /* ParseEncoderExtraTests.swift in Sources */,
 				70732C5B2606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift in Sources */,
 				70F2E2C2254F283000B2EA5C /* APICommandTests.swift in Sources */,
