@@ -8,7 +8,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.5...1.8.6)
 
 __Improvements__
-- Added SwiftUI query combine example to playgrounds ([#181](https://github.com/parse-community/Parse-Swift/pull/181)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added SwiftUI query combine example to playgrounds. Skip id when encoding ParseObjects ([#181](https://github.com/parse-community/Parse-Swift/pull/181)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Persist current SDK version for migrating between versions ([#182](https://github.com/parse-community/Parse-Swift/pull/182)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.8.5
