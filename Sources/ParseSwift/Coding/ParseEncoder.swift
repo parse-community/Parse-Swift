@@ -76,7 +76,7 @@ public struct ParseEncoder {
             case .customObjectId:
                 return Set(["createdAt", "updatedAt", "className", "emailVerified", "id"])
             case .cloud:
-                return Set(["functionJobName", "id"])
+                return Set(["functionJobName"])
             case .none:
                 return .init()
             case .custom(let keys):
