@@ -387,6 +387,13 @@
 		91678706259BC5D400BB5B4E /* ParseCloudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916786EF259BC59600BB5B4E /* ParseCloudTests.swift */; };
 		91678710259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916786EF259BC59600BB5B4E /* ParseCloudTests.swift */; };
 		9167871A259BC5D600BB5B4E /* ParseCloudTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 916786EF259BC59600BB5B4E /* ParseCloudTests.swift */; };
+		91679D64268E596300F71809 /* ParseVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91679D63268E596300F71809 /* ParseVersion.swift */; };
+		91679D65268E596300F71809 /* ParseVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91679D63268E596300F71809 /* ParseVersion.swift */; };
+		91679D66268E596300F71809 /* ParseVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91679D63268E596300F71809 /* ParseVersion.swift */; };
+		91679D67268E596300F71809 /* ParseVersion.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91679D63268E596300F71809 /* ParseVersion.swift */; };
+		91679D6D268F261800F71809 /* ParseVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91679D68268F25EA00F71809 /* ParseVersionTests.swift */; };
+		91679D6E268F261900F71809 /* ParseVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91679D68268F25EA00F71809 /* ParseVersionTests.swift */; };
+		91679D6F268F261A00F71809 /* ParseVersionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91679D68268F25EA00F71809 /* ParseVersionTests.swift */; };
 		918CED592684C74000CFDC83 /* ParseLiveQuery+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918CED582684C74000CFDC83 /* ParseLiveQuery+combine.swift */; };
 		918CED5A2684C74000CFDC83 /* ParseLiveQuery+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918CED582684C74000CFDC83 /* ParseLiveQuery+combine.swift */; };
 		918CED5B2684C74000CFDC83 /* ParseLiveQuery+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 918CED582684C74000CFDC83 /* ParseLiveQuery+combine.swift */; };
@@ -718,6 +725,8 @@
 		9158916A256A07DD0024BE9A /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		916786E1259B7DDA00BB5B4E /* ParseCloud.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCloud.swift; sourceTree = "<group>"; };
 		916786EF259BC59600BB5B4E /* ParseCloudTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCloudTests.swift; sourceTree = "<group>"; };
+		91679D63268E596300F71809 /* ParseVersion.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseVersion.swift; sourceTree = "<group>"; };
+		91679D68268F25EA00F71809 /* ParseVersionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseVersionTests.swift; sourceTree = "<group>"; };
 		918CED582684C74000CFDC83 /* ParseLiveQuery+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseLiveQuery+combine.swift"; sourceTree = "<group>"; };
 		918CED5D268618C600CFDC83 /* ParseLiveQueryCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLiveQueryCombineTests.swift; sourceTree = "<group>"; };
 		9194657724F16E330070296B /* ParseACLTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseACLTests.swift; sourceTree = "<group>"; };
@@ -841,8 +850,8 @@
 		4A5EE4601F49EA0600D3CAE3 /* Tests */ = {
 			isa = PBXGroup;
 			children = (
-				4AA8076C1F794C1C008CD551 /* ParseSwiftTests */,
 				4A1120BF1F49FC3300E32D94 /* LinuxMain.swift */,
+				4AA8076C1F794C1C008CD551 /* ParseSwiftTests */,
 			);
 			path = Tests;
 			sourceTree = "<group>";
@@ -921,6 +930,7 @@
 				89899CDC2603CE73002E2043 /* ParseTwitterTests.swift */,
 				7016ED3F25C4A25A00038648 /* ParseUserCombineTests.swift */,
 				70C7DC1D24D20E530050419B /* ParseUserTests.swift */,
+				91679D68268F25EA00F71809 /* ParseVersionTests.swift */,
 				7FFF552A2217E729007C3B4E /* AnyCodableTests */,
 				911DB12A24C3F7260027F3C7 /* NetworkMocking */,
 				7037DAC726384E46005D7E62 /* ParseEncoderTests */,
@@ -1200,6 +1210,7 @@
 				70F79A182639CE6F00731C46 /* ParseHealth.swift */,
 				70F79A262639D84600731C46 /* ParseHealth+combine.swift */,
 				7004C21F25B63C7A005E0AD9 /* ParseRelation.swift */,
+				91679D63268E596300F71809 /* ParseVersion.swift */,
 				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
 				F97B45BB24D9C6F200F4A88B /* Query.swift */,
 				7044C1AC25C4FC080011F6E7 /* Query+combine.swift */,
@@ -1711,6 +1722,7 @@
 				70110D52250680140091CC1D /* ParseConstants.swift in Sources */,
 				70D1BDBA25BB17A600A42E7C /* ParseConfig.swift in Sources */,
 				F97B465224D9C78C00F4A88B /* AddUnique.swift in Sources */,
+				91679D64268E596300F71809 /* ParseVersion.swift in Sources */,
 				F97B45D624D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				70F79A272639D84600731C46 /* ParseHealth+combine.swift in Sources */,
 				700395A325A119430052CB31 /* Operations.swift in Sources */,
@@ -1789,6 +1801,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				918CED5E268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */,
+				91679D6D268F261800F71809 /* ParseVersionTests.swift in Sources */,
 				911DB13624C4FC100027F3C7 /* ParseObjectTests.swift in Sources */,
 				70E09E1C262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */,
 				89899D592603CF3E002E2043 /* ParseTwitterTests.swift in Sources */,
@@ -1868,6 +1881,7 @@
 				70110D53250680140091CC1D /* ParseConstants.swift in Sources */,
 				70D1BDBB25BB17A600A42E7C /* ParseConfig.swift in Sources */,
 				F97B465324D9C78C00F4A88B /* AddUnique.swift in Sources */,
+				91679D65268E596300F71809 /* ParseVersion.swift in Sources */,
 				F97B45D724D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
 				70F79A282639D84600731C46 /* ParseHealth+combine.swift in Sources */,
 				700395A425A119430052CB31 /* Operations.swift in Sources */,
@@ -1955,6 +1969,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				918CED60268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */,
+				91679D6F268F261A00F71809 /* ParseVersionTests.swift in Sources */,
 				709B98512556ECAA00507778 /* ParseEncoderExtraTests.swift in Sources */,
 				70E09E1E262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */,
 				89899D642603CF3F002E2043 /* ParseTwitterTests.swift in Sources */,
@@ -2019,6 +2034,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				918CED5F268618C600CFDC83 /* ParseLiveQueryCombineTests.swift in Sources */,
+				91679D6E268F261900F71809 /* ParseVersionTests.swift in Sources */,
 				70F2E2B6254F283000B2EA5C /* ParseACLTests.swift in Sources */,
 				70E09E1D262F0634002DD451 /* ParsePointerCombineTests.swift in Sources */,
 				89899D632603CF3E002E2043 /* ParseTwitterTests.swift in Sources */,
@@ -2098,6 +2114,7 @@
 				F97B45E124D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				70D1BDBD25BB17A600A42E7C /* ParseConfig.swift in Sources */,
 				F97B45E524D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
+				91679D67268E596300F71809 /* ParseVersion.swift in Sources */,
 				F97B465D24D9C78C00F4A88B /* Increment.swift in Sources */,
 				70F79A2A2639D84600731C46 /* ParseHealth+combine.swift in Sources */,
 				700395A625A119430052CB31 /* Operations.swift in Sources */,
@@ -2191,6 +2208,7 @@
 				F97B45E024D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				70D1BDBC25BB17A600A42E7C /* ParseConfig.swift in Sources */,
 				F97B45E424D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
+				91679D66268E596300F71809 /* ParseVersion.swift in Sources */,
 				F97B465C24D9C78C00F4A88B /* Increment.swift in Sources */,
 				70F79A292639D84600731C46 /* ParseHealth+combine.swift in Sources */,
 				700395A525A119430052CB31 /* Operations.swift in Sources */,

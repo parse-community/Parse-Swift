@@ -17,6 +17,11 @@ npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey -
 
 initializeParse()
 
+//: Get current SDK version
+if let version = ParseVersion.current {
+    print("Current Swift SDK version is \"\(version)\"")
+}
+
 //: Check the health of your Parse Server.
 do {
     print("Server health is: \(try ParseHealth.check())")
