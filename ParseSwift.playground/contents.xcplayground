@@ -17,5 +17,6 @@
         <page name='14 - Config'/>
         <page name='15 - Custom ObjectId'/>
         <page name='16 - Analytics'/>
+        <page name='17 - SwiftUI - Finding Objects'/>
     </pages>
 </playground>

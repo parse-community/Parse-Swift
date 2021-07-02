@@ -786,4 +786,4 @@ extension ParseObject {
     internal func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, NoBody> {
         try API.NonParseBodyCommand<NoBody, NoBody>.deleteCommand(self)
     }
-}// swiftlint:disable:this file_length
+} // swiftlint:disable:this file_length
