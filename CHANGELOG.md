@@ -1,8 +1,15 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.5...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.6...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.8.6
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.5...1.8.6)
+
+__Improvements__
+- Added SwiftUI query combine example to playgrounds ([#181](https://github.com/parse-community/Parse-Swift/pull/181)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Persist current SDK version for migrating between versions ([#182](https://github.com/parse-community/Parse-Swift/pull/182)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.8.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.4...1.8.5)
@@ -30,7 +37,7 @@ __Fixes__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.1...1.8.2)
 
 __Improvements__
-- Ensure pipeline and fields are checked when comparing queries  ([#163](https://github.com/parse-community/Parse-Swift/pull/163)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Ensure pipeline and fields are checked when comparing queries ([#163](https://github.com/parse-community/Parse-Swift/pull/163)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Allow custom error codes to be thrown from Cloud Functions ([#165](https://github.com/parse-community/Parse-Swift/pull/165)), thanks to [Daniel Blyth](https://github.com/dblythy).
 
 ### 1.8.1
@@ -85,7 +92,7 @@ __Improvements__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.1...1.6.0)
 
 __Improvements__
-- Make AnyCodable internal. If developers want to use AnyCodable, AnyEncodable, or AnyDecodable for `explain` or `ParseCloud`, they should add the [AnyCodable](https://github.com/Flight-School/AnyCodable) package to their app. In addition developers can create their own type-erased wrappers or use whatever they desire  ([#127](https://github.com/parse-community/Parse-Swift/pull/127)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Make AnyCodable internal. If developers want to use AnyCodable, AnyEncodable, or AnyDecodable for `explain` or `ParseCloud`, they should add the [AnyCodable](https://github.com/Flight-School/AnyCodable) package to their app. In addition developers can create their own type-erased wrappers or use whatever they desire ([#127](https://github.com/parse-community/Parse-Swift/pull/127)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.5.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.5.0...1.5.1)
@@ -120,7 +127,7 @@ __Improvements__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.2.6...1.3.0)
 
 __Improvements__
-- (Breaking Change) No longer require dispatch to main queue when using ParseInstallation. The side effect of this is bade is no longer retrieved by the SDK. The developer should retrieve the badge count on their own and save it to `ParseInstallation` if they require badge ([#114](https://github.com/parse-community/Parse-Swift/pull/114)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) No longer require dispatch to main queue when using ParseInstallation. The side effect of this is badge is no longer retrieved by the SDK. The developer should retrieve the badge count on their own and save it to `ParseInstallation` if they require badge ([#114](https://github.com/parse-community/Parse-Swift/pull/114)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
 - (Breaking Change) Correctly saves objectId of ParseInstallation to Keychain when saving to server. Also fixes issue when using deleteAll with current ParseUser and ParseInstallation. Old installations will automatically be migrated to the new one. If you end up having issues you can delete all of the installations in your ParseDashboard that were created with Parse-Swift < 1.30. If you are not able to do this, you can all log out of devices using Parse-Swift < 1.30 and then log back in ([#116](https://github.com/parse-community/Parse-Swift/pull/116)), thanks to [Corey Baker](https://github.com/cbaker6).

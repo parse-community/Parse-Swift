@@ -102,16 +102,25 @@ public struct ParseSwift {
         Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
                                                        authentication: configuration.authentication)
 
-        //Migrate old installations made with ParseSwift < 1.3.0
-        if let currentInstallation = BaseParseInstallation.current {
-            if currentInstallation.objectId == nil {
-                BaseParseInstallation.deleteCurrentContainerFromKeychain()
-                //Prepare installation
+        do {
+            let previousSDKVersion = try ParseVersion(ParseVersion.current)
+            let currentSDKVersion = try ParseVersion(ParseConstants.version)
+            if currentSDKVersion > previousSDKVersion {
+                ParseVersion.current = currentSDKVersion.string
+            }
+        } catch {
+            // Migrate old installations made with ParseSwift < 1.3.0
+            if let currentInstallation = BaseParseInstallation.current {
+                if currentInstallation.objectId == nil {
+                    BaseParseInstallation.deleteCurrentContainerFromKeychain()
+                    // Prepare installation
+                    _ = BaseParseInstallation()
+                }
+            } else {
+                // Prepare installation
                 _ = BaseParseInstallation()
             }
-        } else {
-            //Prepare installation
-            _ = BaseParseInstallation()
+            ParseVersion.current = ParseConstants.version
         }
 
         #if !os(Linux) && !os(Android)

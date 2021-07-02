@@ -126,6 +126,112 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertFalse(installation.hasSameInstallationId(as: newInstallation))
     }
 
+    func testDontOverwriteOldInstallationBecauseVersionLess() throws {
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        let memory = InMemoryKeyValueStore()
+        ParseStorage.shared.use(memory)
+        ParseVersion.current = "0.0.0"
+        var newInstallation = Installation()
+        newInstallation.updateAutomaticInfo()
+        newInstallation.installationId = UUID().uuidString.lowercased()
+        Installation.currentInstallationContainer.installationId = newInstallation.installationId
+        Installation.currentInstallationContainer.currentInstallation = newInstallation
+        Installation.saveCurrentContainerToKeychain()
+
+        XCTAssertNil(newInstallation.objectId)
+        guard let oldInstallation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertTrue(oldInstallation.hasSameInstallationId(as: newInstallation))
+
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              keyValueStore: memory)
+        guard let installation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertTrue(installation.hasSameInstallationId(as: newInstallation))
+        XCTAssertEqual(ParseVersion.current, ParseConstants.version)
+    }
+
+    func testDontOverwriteOldInstallationBecauseVersionEqual() throws {
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        let memory = InMemoryKeyValueStore()
+        ParseStorage.shared.use(memory)
+        ParseVersion.current = ParseConstants.version
+        var newInstallation = Installation()
+        newInstallation.updateAutomaticInfo()
+        newInstallation.installationId = UUID().uuidString.lowercased()
+        Installation.currentInstallationContainer.installationId = newInstallation.installationId
+        Installation.currentInstallationContainer.currentInstallation = newInstallation
+        Installation.saveCurrentContainerToKeychain()
+
+        XCTAssertNil(newInstallation.objectId)
+        guard let oldInstallation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertTrue(oldInstallation.hasSameInstallationId(as: newInstallation))
+
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              keyValueStore: memory)
+        guard let installation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertTrue(installation.hasSameInstallationId(as: newInstallation))
+        XCTAssertEqual(ParseVersion.current, ParseConstants.version)
+    }
+
+    func testDontOverwriteOldInstallationBecauseVersionGreater() throws {
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        let memory = InMemoryKeyValueStore()
+        ParseStorage.shared.use(memory)
+        let newVersion = "1000.0.0"
+        ParseVersion.current = newVersion
+        var newInstallation = Installation()
+        newInstallation.updateAutomaticInfo()
+        newInstallation.installationId = UUID().uuidString.lowercased()
+        Installation.currentInstallationContainer.installationId = newInstallation.installationId
+        Installation.currentInstallationContainer.currentInstallation = newInstallation
+        Installation.saveCurrentContainerToKeychain()
+
+        XCTAssertNil(newInstallation.objectId)
+        guard let oldInstallation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertTrue(oldInstallation.hasSameInstallationId(as: newInstallation))
+
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              keyValueStore: memory)
+        guard let installation = Installation.current else {
+            XCTFail("Should have installation")
+            return
+        }
+        XCTAssertTrue(installation.hasSameInstallationId(as: newInstallation))
+        XCTAssertEqual(ParseVersion.current, newVersion)
+    }
+
     func testMigrateObjcKeychainMissing() {
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
