@@ -23,7 +23,7 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
     /// Updates and notifies when the new results have been retrieved.
     open internal(set) var results = [Object]() {
         willSet {
-            count = results.count
+            count = newValue.count
             objectWillChange.send()
         }
     }
