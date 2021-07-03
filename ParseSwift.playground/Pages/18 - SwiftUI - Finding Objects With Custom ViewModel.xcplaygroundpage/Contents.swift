@@ -68,14 +68,14 @@ class ViewModel: ObservableObject {
             .sink(receiveCompletion: { result in
                 switch result {
                 case .failure(let error):
-                    // Publish error.
+                    //: Publish error.
                     self.error = error
                 case .finished:
                     print("Successfully queried data")
                 }
             },
             receiveValue: {
-                // Publish found objects
+                //: Publish found objects
                 self.objects = $0
                 print("Found \(self.objects.count), objects: \(self.objects)")
             })
