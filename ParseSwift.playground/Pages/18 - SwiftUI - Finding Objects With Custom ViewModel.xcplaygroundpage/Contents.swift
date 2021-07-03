@@ -52,13 +52,45 @@ struct GameScore: ParseObject, Identifiable {
 
 //: To use queries with SwiftUI
 
+//: To create a custom view model that queries GameScore's.
+class ViewModel: ObservableObject {
+    @Published var objects = [GameScore]()
+    @Published var error: ParseError?
+
+    private var subscriptions = Set<AnyCancellable>()
+
+    init() {
+        fetchScores()
+    }
+
+    func fetchScores() {
+        let query = GameScore.query("score" > 2)
+            .order([.descending("score")])
+        let publisher = query
+            .findPublisher()
+            .sink(receiveCompletion: { result in
+                switch result {
+                case .failure(let error):
+                    // Publish error.
+                    self.error = error
+                case .finished:
+                    print("Successfully queried data")
+                }
+            },
+            receiveValue: {
+                // Publish found objects
+                self.objects = $0
+                print("Found \(self.objects.count), objects: \(self.objects)")
+            })
+        publisher.store(in: &subscriptions)
+    }
+}
+
 //: Create a SwiftUI view.
-struct ContentView: View {
+struct ContentView2: View {
 
     //: A view model in SwiftUI
-    @ObservedObject var viewModel = GameScore.query("score" > 2)
-        .order([.descending("score")])
-        .viewModel
+    @ObservedObject var viewModel = ViewModel()
 
     var body: some View {
         NavigationView {
@@ -66,7 +98,7 @@ struct ContentView: View {
                 Text(error.debugDescription)
             } else {
                 //: Warning - List seems to only work in Playgrounds Xcode 13+.
-                List(viewModel.results, id: \.objectId) { object in
+                List(viewModel.objects, id: \.objectId) { object in
                     VStack(alignment: .leading) {
                         Text("Score: \(object.score)")
                             .font(.headline)
@@ -81,7 +113,7 @@ struct ContentView: View {
     }
 }
 
-PlaygroundPage.current.setLiveView(ContentView())
+PlaygroundPage.current.setLiveView(ContentView2())
 #endif
 
 //: [Next](@next)
