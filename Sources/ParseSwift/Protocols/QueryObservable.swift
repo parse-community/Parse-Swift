@@ -23,6 +23,11 @@ public protocol QueryObservable: ObservableObject {
     var query: Query<Object> { get set }
 
     /**
+     Creates a new view model that can be used to handle updates.
+     */
+    init(query: Query<Object>)
+
+    /**
       Finds objects *asynchronously* based on the constructed query and updates the view model
      when complete.
 

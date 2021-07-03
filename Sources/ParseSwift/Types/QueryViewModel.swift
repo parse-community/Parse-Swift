@@ -49,7 +49,7 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
     /**
      Creates a new view model that can be used to handle updates.
      */
-    public init(query: Query<T>) {
+    required public init(query: Query<T>) {
         self.query = query
     }
 

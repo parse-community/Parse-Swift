@@ -101,7 +101,7 @@ open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
     /**
      Creates a new subscription that can be used to handle updates.
      */
-    public override init(query: Query<T>) {
+    public required init(query: Query<T>) {
         super.init(query: query)
         self.subscribed = nil
         self.event = nil

@@ -22,6 +22,11 @@ public protocol  QuerySubscribable: AnyObject {
     var query: Query<Object> { get set }
 
     /**
+     Creates a new subscription that can be used to handle updates.
+     */
+    init(query: Query<Object>)
+
+    /**
      Tells the handler that an event has been received from the `ParseLiveQuery` Server.
      - parameter eventData: The event data that has been recieved from the server.
      */

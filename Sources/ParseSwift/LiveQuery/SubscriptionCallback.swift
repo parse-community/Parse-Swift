@@ -22,7 +22,7 @@ open class SubscriptionCallback<T: ParseObject>: QuerySubscribable {
     /**
      Creates a new subscription that can be used to handle updates.
      */
-    public init(query: Query<T>) {
+    required public init(query: Query<T>) {
         self.query = query
     }
 
