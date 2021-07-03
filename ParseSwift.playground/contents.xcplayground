@@ -19,5 +19,6 @@
         <page name='16 - Analytics'/>
         <page name='17 - SwiftUI - Finding Objects'/>
         <page name='18 - SwiftUI - Finding Objects With Custom ViewModel'/>
+        <page name='19 - SwiftUI - LiveQuery'/>
     </pages>
 </playground>

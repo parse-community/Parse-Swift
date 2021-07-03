@@ -213,5 +213,4 @@ User.current?.signup { result in
 }
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)

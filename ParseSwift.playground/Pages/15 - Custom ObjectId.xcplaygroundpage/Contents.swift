@@ -118,4 +118,5 @@ scoreToFetch.fetch { result in
     }
 }
 
+PlaygroundPage.current.finishExecution()
 //: [Next](@next)

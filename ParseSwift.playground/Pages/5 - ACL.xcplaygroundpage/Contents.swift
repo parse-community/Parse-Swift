@@ -66,5 +66,4 @@ score.save { result in
 }
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)

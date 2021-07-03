@@ -1,5 +1,6 @@
 //: [Previous](@previous)
 
+//: If you are using Xcode 13+, ignore the comments below:
 //: For this page, make sure your build target is set to ParseSwift (iOS) and targeting
 //: an iPhone, iPod, or iPad. Also be sure your `Playground Settings`
 //: in the `File Inspector` is `Platform = iOS`. This is because
@@ -7,14 +8,11 @@
 //: Be sure to switch your target and `Playground Settings` back to
 //: macOS after leaving this page.
 
-#if canImport(SwiftUI)
 import PlaygroundSupport
 import Foundation
 import ParseSwift
 import SwiftUI
-#if canImport(Combine)
 import Combine
-#endif
 
 PlaygroundPage.current.needsIndefiniteExecution = true
 
@@ -113,6 +111,6 @@ struct ContentView: View {
 }
 
 PlaygroundPage.current.setLiveView(ContentView())
-#endif
 
+PlaygroundPage.current.finishExecution()
 //: [Next](@next)

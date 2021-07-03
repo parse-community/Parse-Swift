@@ -57,5 +57,4 @@ User.signup(username: "hello", password: "world") { results in
 }
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)

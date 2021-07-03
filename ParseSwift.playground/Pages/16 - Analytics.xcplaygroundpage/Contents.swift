@@ -36,5 +36,4 @@ friendEvent.track(dimensions: ["more": "info"]) { result in
 }
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)
