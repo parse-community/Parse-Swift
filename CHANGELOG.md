@@ -10,6 +10,9 @@
 __New features__
 - (Breaking Change) Added a new type, `QueryViewModel` which conforms to `ObservableObject`. The new type serves as a view model property for any Parse `Query`. Simply call `query.viewModel` to use the view model with any SwiftUI view. `QueryViewModel` can be subclassed for customization. In addition, developers can create their own view models for queries by conforming to `QueryObservable`. LiveQuery `Subscription`'s inherrit from `QueryViewModel` meaning instances of `Subscription` provides a single view model that publishes updates from LiveQuery events and traditional find, first, count, and aggregate queries. A breaking change is introduced for those use custom subscriptions as `ParseSubscription` has been renamed to `QuerySubscribable` ([#183](https://github.com/parse-community/Parse-Swift/pull/183)), thanks to [Corey Baker](https://github.com/cbaker6).
 
+__Improvements__
+- Removed CommonCrypto and now uses encoded string as a hash for child ParseObjects across all OS's ([#184](https://github.com/parse-community/Parse-Swift/pull/184)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.8.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.5...1.8.6)
 
