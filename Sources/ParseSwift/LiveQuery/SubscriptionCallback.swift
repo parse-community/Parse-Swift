@@ -11,10 +11,9 @@ import Foundation
 /**
  A default implementation of the `ParseSubscription` protocol using closures for callbacks.
  */
-open class SubscriptionCallback<T: ParseObject>: ParseSubscription {
-    //The query subscribed to.
+open class SubscriptionCallback<T: ParseObject>: QuerySubscribable {
+
     public var query: Query<T>
-    //The ParseObject
     public typealias Object = T
     fileprivate var eventHandlers: [(Query<T>, Event<T>) -> Void] = []
     fileprivate var subscribeHandlers: [(Query<T>, Bool) -> Void] = []

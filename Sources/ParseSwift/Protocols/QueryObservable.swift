@@ -1,0 +1,59 @@
+//
+//  QueryObservable.swift
+//  ParseSwift
+//
+//  Created by Corey Baker on 7/3/21.
+//  Copyright © 2021 Parse Community. All rights reserved.
+//
+
+import Foundation
+#if canImport(SwiftUI)
+
+/**
+ This protocol describes the interface for creating a view model for a `Query`.
+ You can use this protocol on any custom class of yours, instead of `QueryObservable`, if it fits your use case better.
+ */
+@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+public protocol QueryObservable: ObservableObject {
+
+    /// The `ParseObject` associated with this view model.
+    associatedtype Object: ParseObject
+
+    /// The query associated with this view model.
+    var query: Query<Object> { get set }
+
+    /**
+      Finds objects *asynchronously* based on the constructed query and updates the view model
+     when complete.
+
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+    */
+    func find(options: API.Options)
+
+    /**
+      Gets an object *asynchronously* and updates the view model when complete.
+
+      - warning: This method mutates the query. It will reset the limit to `1`.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+    */
+    func first(options: API.Options)
+
+    /**
+      Counts objects *synchronously* based on the constructed query and updates the view model
+     when complete.
+
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+    */
+    func count(options: API.Options)
+
+    /**
+      Executes an aggregate query *asynchronously* and updates the view model when complete.
+        - requires: `.useMasterKey` has to be available.
+        - parameter pipeline: A pipeline of stages to process query.
+        - parameter options: A set of header options sent to the server. Defaults to an empty set.
+        - warning: This hasn't been tested thoroughly.
+    */
+    func aggregate(_ pipeline: [[String: Encodable]],
+                   options: API.Options)
+}
+#endif

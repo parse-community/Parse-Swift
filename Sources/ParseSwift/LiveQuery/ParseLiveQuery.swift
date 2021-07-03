@@ -628,7 +628,7 @@ extension ParseLiveQuery {
         var subscribeHandlerClosure: ((Bool) -> Void)?
         var unsubscribeHandlerClosure: (() -> Void)?
 
-        init?<T: ParseSubscription>(query: Query<T.Object>, message: SubscribeMessage<T.Object>, handler: T) {
+        init?<T: QuerySubscribable>(query: Query<T.Object>, message: SubscribeMessage<T.Object>, handler: T) {
             guard let queryData = try? ParseCoding.jsonEncoder().encode(query),
                   let encoded = try? ParseCoding.jsonEncoder().encode(message) else {
                 return nil
@@ -683,7 +683,7 @@ extension ParseLiveQuery {
         try subscribe(SubscriptionCallback(query: query))
     }
 
-    func subscribe<T>(_ handler: T) throws -> T where T: ParseSubscription {
+    func subscribe<T>(_ handler: T) throws -> T where T: QuerySubscribable {
 
         let requestId = requestIdGenerator()
         let message = SubscribeMessage<T.Object>(operation: .subscribe, requestId: requestId, query: handler.query)
@@ -709,7 +709,7 @@ extension ParseLiveQuery {
         try unsubscribe { $0.queryData == unsubscribeQuery }
     }
 
-    func unsubscribe<T>(_ handler: T) throws where T: ParseSubscription {
+    func unsubscribe<T>(_ handler: T) throws where T: QuerySubscribable {
         let unsubscribeQuery = try ParseCoding.jsonEncoder().encode(handler.query)
         try unsubscribe { $0.queryData == unsubscribeQuery && $0.subscriptionHandler === handler }
     }
@@ -733,7 +733,7 @@ extension ParseLiveQuery {
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
-    func update<T>(_ handler: T) throws where T: ParseSubscription {
+    func update<T>(_ handler: T) throws where T: QuerySubscribable {
         try subscriptions.forEach {(key, value) -> Void in
             if value.subscriptionHandler === handler {
                 let message = SubscribeMessage<T.Object>(operation: .update, requestId: key, query: handler.query)
@@ -778,7 +778,7 @@ public extension Query {
      - parameter handler: A custom subscription handler. 
      - returns: Your subscription handler, for easy chaining.
     */
-    static func subscribe<T: ParseSubscription>(_ handler: T) throws -> T {
+    static func subscribe<T: QuerySubscribable>(_ handler: T) throws -> T {
         if let client = ParseLiveQuery.client {
             return try client.subscribe(handler)
         } else {
@@ -792,7 +792,7 @@ public extension Query {
      - parameter client: A specific client.
      - returns: Your subscription handler, for easy chaining.
     */
-    static func subscribe<T: ParseSubscription>(_ handler: T, client: ParseLiveQuery) throws -> T {
+    static func subscribe<T: QuerySubscribable>(_ handler: T, client: ParseLiveQuery) throws -> T {
         try client.subscribe(handler)
     }
 
@@ -840,7 +840,7 @@ public extension Query {
      `ParseLiveQuery` client.
      - parameter handler: The specific handler to unsubscribe from.
      */
-    func unsubscribe<T: ParseSubscription>(_ handler: T) throws {
+    func unsubscribe<T: QuerySubscribable>(_ handler: T) throws {
         try ParseLiveQuery.client?.unsubscribe(handler)
     }
 
@@ -850,7 +850,7 @@ public extension Query {
      - parameter handler: The specific handler to unsubscribe from.
      - parameter client: A specific client.
      */
-    func unsubscribe<T: ParseSubscription>(_ handler: T, client: ParseLiveQuery) throws {
+    func unsubscribe<T: QuerySubscribable>(_ handler: T, client: ParseLiveQuery) throws {
         try client.unsubscribe(handler)
     }
 }
@@ -863,7 +863,7 @@ public extension Query {
      Upon completing the registration, the subscribe handler will be called with the new query.
      - parameter handler: The specific handler to update.
      */
-    func update<T: ParseSubscription>(_ handler: T) throws {
+    func update<T: QuerySubscribable>(_ handler: T) throws {
         try ParseLiveQuery.client?.update(handler)
     }
 
@@ -873,7 +873,7 @@ public extension Query {
      - parameter handler: The specific handler to update.
      - parameter client: A specific client.
      */
-    func update<T: ParseSubscription>(_ handler: T, client: ParseLiveQuery) throws {
+    func update<T: QuerySubscribable>(_ handler: T, client: ParseLiveQuery) throws {
         try client.update(handler)
     }
 }

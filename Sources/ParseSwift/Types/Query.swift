@@ -1182,7 +1182,6 @@ extension Query: Queryable {
 
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
-
       - returns: Returns the number of `ParseObject`s that match the query, or `-1` if there is an error.
     */
     public func count(options: API.Options = []) throws -> Int {
@@ -1244,8 +1243,9 @@ extension Query: Queryable {
     }
 
     /**
-     Executes an aggregate query *synchronously* and calls the given.
+     Executes an aggregate query *synchronously*.
       - requires: `.useMasterKey` has to be available.
+      - parameter pipeline: A pipeline of stages to process query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
       - warning: This hasn't been tested thoroughly.
@@ -1280,7 +1280,7 @@ extension Query: Queryable {
     }
 
     /**
-      Executes an aggregate query *asynchronously* and calls the given.
+      Executes an aggregate query *asynchronously*.
         - requires: `.useMasterKey` has to be available.
         - parameter pipeline: A pipeline of stages to process query.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -1329,12 +1329,13 @@ extension Query: Queryable {
     }
 
     /**
-     Query plan information for  executing an aggregate query *synchronously* and calls the given.
+     Query plan information for  executing an aggregate query *synchronously*.
       - requires: `.useMasterKey` has to be available.
       - note: An explain query will have many different underlying types. Since Swift is a strongly
       typed language, a developer should specify the type expected to be decoded which will be
       different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
       such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
+      - parameter pipeline: A pipeline of stages to process query.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
       - warning: This hasn't been tested thoroughly.
@@ -1369,7 +1370,7 @@ extension Query: Queryable {
     }
 
     /**
-     Query plan information for executing an aggregate query *asynchronously* and calls the given.
+     Query plan information for executing an aggregate query *asynchronously*.
         - requires: `.useMasterKey` has to be available.
         - note: An explain query will have many different underlying types. Since Swift is a strongly
         typed language, a developer should specify the type expected to be decoded which will be
