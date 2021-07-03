@@ -66,18 +66,20 @@ struct ContentView: View {
                 Text(error.debugDescription)
             } else {
                 //: Warning - List seems to only work in Playgrounds Xcode 13+.
-                List(viewModel.results, id: \.objectId) { object in
+                List(viewModel.results, id: \.objectId) { result in
                     VStack(alignment: .leading) {
-                        Text("Score: \(object.score)")
+                        Text("Score: \(result.score)")
                             .font(.headline)
-                        if let createdAt = object.createdAt {
+                        if let createdAt = result.createdAt {
                             Text("\(createdAt.description)")
                         }
                     }
                 }
             }
             Spacer()
-        }
+        }.onAppear(perform: {
+            viewModel.find()
+        })
     }
 }
 

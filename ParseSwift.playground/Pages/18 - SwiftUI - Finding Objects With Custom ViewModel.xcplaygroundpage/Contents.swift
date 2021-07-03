@@ -87,7 +87,7 @@ class ViewModel: ObservableObject {
 }
 
 //: Create a SwiftUI view.
-struct ContentView2: View {
+struct ContentView: View {
 
     //: A view model in SwiftUI
     @ObservedObject var viewModel = ViewModel()
@@ -113,7 +113,7 @@ struct ContentView2: View {
     }
 }
 
-PlaygroundPage.current.setLiveView(ContentView2())
+PlaygroundPage.current.setLiveView(ContentView())
 #endif
 
 //: [Next](@next)
