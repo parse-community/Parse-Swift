@@ -25,11 +25,10 @@ struct GameScore: ParseObject, Identifiable {
 
     //: Conform to Identifiable for iOS13+
     var id: String { // swiftlint:disable:this identifier_name
-        if let objectId = self.objectId {
-            return objectId
-        } else {
+        guard let objectId = self.objectId else {
             return UUID().uuidString
         }
+        return objectId
     }
 
     //: These are required for any Object.
