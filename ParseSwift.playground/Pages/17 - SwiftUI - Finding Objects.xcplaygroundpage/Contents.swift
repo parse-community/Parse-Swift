@@ -59,7 +59,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             if let error = viewModel.error {
-                Text(error.debugDescription)
+                Text(error)
             } else {
                 //: Warning - List seems to only work in Playgrounds Xcode 13+.
                 List(viewModel.results, id: \.objectId) { result in
