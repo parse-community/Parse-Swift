@@ -320,6 +320,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
         let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{}})"
         XCTAssertEqual(query.debugDescription, expected)
+        XCTAssertEqual(query.description, expected)
     }
 
     func testFindExplainCommand() throws {

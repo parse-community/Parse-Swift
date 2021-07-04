@@ -222,3 +222,21 @@ public extension ParseObject {
         ParseRelation(parent: self, key: key, child: child)
     }
 }
+
+// MARK: CustomDebugStringConvertible
+extension ParseRelation: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+            return "ParseRelation ()"
+        }
+        return "ParseRelation (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseRelation: CustomStringConvertible {
+    public var description: String {
+        debugDescription
+    }
+}

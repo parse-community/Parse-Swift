@@ -9,7 +9,7 @@
 import Foundation
 
 /// `ParseVersion` is used to determine the version of the SDK.
-public struct ParseVersion {
+public struct ParseVersion: Encodable {
 
     var string: String
 
@@ -45,6 +45,24 @@ public struct ParseVersion {
                              message: "Can't initialize with nil value.")
         }
         self.string = newString
+    }
+}
+
+// MARK: CustomDebugStringConvertible
+extension ParseVersion: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+            return "ParseVersion ()"
+        }
+        return "ParseVersion (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseVersion: CustomStringConvertible {
+    public var description: String {
+        debugDescription
     }
 }
 

@@ -189,6 +189,22 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(parseFile1, parseFile2, "no urls, but localIds shoud be the same")
     }
 
+    #if !os(Linux) && !os(Android)
+    func testDebugString() throws {
+        guard let sampleData = "Hello World".data(using: .utf8) else {
+            throw ParseError(code: .unknownError, message: "Should have converted to data")
+        }
+        let parseFile = ParseFile(name: "sampleData.txt",
+                                  data: sampleData,
+                                  metadata: ["Testing": "123"],
+                                  tags: ["Hey": "now"])
+        XCTAssertEqual(parseFile.debugDescription,
+                       "ParseFile ({\"name\":\"sampleData.txt\",\"__type\":\"File\"})")
+        XCTAssertEqual(parseFile.description,
+                       "ParseFile ({\"name\":\"sampleData.txt\",\"__type\":\"File\"})")
+    }
+    #endif
+
     func testSave() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
             throw ParseError(code: .unknownError, message: "Should have converted to data")

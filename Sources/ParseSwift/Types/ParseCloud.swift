@@ -8,7 +8,9 @@
 
 import Foundation
 
-public protocol CloudType: Decodable, CustomDebugStringConvertible { }
+public protocol CloudType: Decodable,
+                           CustomDebugStringConvertible,
+                           CustomStringConvertible { }
 
 /**
  Objects that conform to the `ParseCloud` protocol are able to call Parse Cloud Functions and Jobs.
@@ -115,5 +117,12 @@ extension ParseCloud {
         }
 
         return "\(descriptionString)"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseCloud {
+    public var description: String {
+        debugDescription
     }
 }

@@ -129,6 +129,24 @@ public extension Pointer {
     #endif
 }
 
+// MARK: CustomDebugStringConvertible
+extension Pointer: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+            return "PointerType ()"
+        }
+        return "PointerType (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension Pointer: CustomStringConvertible {
+    public var description: String {
+        debugDescription
+    }
+}
+
 internal struct PointerType: ParsePointer, Encodable {
 
     var __type: String = "Pointer" // swiftlint:disable:this identifier_name
