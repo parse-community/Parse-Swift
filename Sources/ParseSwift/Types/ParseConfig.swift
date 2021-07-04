@@ -13,7 +13,10 @@ import Foundation
  When conforming to `ParseConfig`, any properties added can be retrieved by the client or updated on
  the server.
 */
-public protocol ParseConfig: ParseType, Decodable, CustomDebugStringConvertible { }
+public protocol ParseConfig: ParseType,
+                             Decodable,
+                             CustomDebugStringConvertible,
+                             CustomStringConvertible { }
 
 // MARK: Update
 extension ParseConfig {
@@ -186,5 +189,12 @@ extension ParseConfig {
         }
 
         return "\(descriptionString)"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseConfig {
+    public var description: String {
+        debugDescription
     }
 }

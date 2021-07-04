@@ -512,6 +512,9 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected = "GameScore ({\"score\":10,\"player\":\"Jen\"})"
         let decoded = score.debugDescription
         XCTAssertEqual(decoded, expected)
+        let expected2 = "GameScore ({\"score\":10,\"player\":\"Jen\"})"
+        let decoded2 = score.description
+        XCTAssertEqual(decoded2, expected2)
     }
 
     func testUpdateCommand() throws {

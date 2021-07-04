@@ -31,7 +31,8 @@ public protocol ParseObject: Objectable,
                              Savable,
                              Deletable,
                              Hashable,
-                             CustomDebugStringConvertible {}
+                             CustomDebugStringConvertible,
+                             CustomStringConvertible {}
 
 // MARK: Default Implementations
 extension ParseObject {
@@ -491,6 +492,13 @@ extension ParseObject {
         }
 
         return "\(className) (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseObject {
+    public var description: String {
+        debugDescription
     }
 }
 

@@ -666,4 +666,22 @@ extension ParseFile {
     internal func downloadFileCommand() -> API.Command<Self, Self> {
         return API.Command<Self, Self>.downloadFileCommand(self)
     }
+}
+
+// MARK: CustomDebugStringConvertible
+extension ParseFile: CustomDebugStringConvertible {
+    public var debugDescription: String {
+        guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
+            let descriptionString = String(data: descriptionData, encoding: .utf8) else {
+            return "ParseFile ()"
+        }
+        return "ParseFile (\(descriptionString))"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseFile: CustomStringConvertible {
+    public var description: String {
+        debugDescription
+    }
 } // swiftlint:disable:this file_length

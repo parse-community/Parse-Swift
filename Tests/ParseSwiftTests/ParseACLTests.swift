@@ -217,6 +217,8 @@ class ParseACLTests: XCTestCase {
 
         XCTAssertTrue(acl.debugDescription.contains("\"b\":{\"read\":true}"))
         XCTAssertTrue(acl.debugDescription.contains("\"d\":{\"write\":true}"))
+        XCTAssertTrue(acl.description.contains("\"b\":{\"read\":true}"))
+        XCTAssertTrue(acl.description.contains("\"d\":{\"write\":true}"))
     }
 
     func testDefaultACLNoUser() {

@@ -261,7 +261,7 @@ public struct ParseAnalytics: ParseType, Hashable {
 }
 
 // MARK: CustomDebugStringConvertible
-extension ParseAnalytics {
+extension ParseAnalytics: CustomDebugStringConvertible {
     public var debugDescription: String {
         guard let descriptionData = try? ParseCoding.jsonEncoder().encode(self),
             let descriptionString = String(data: descriptionData, encoding: .utf8) else {
@@ -269,5 +269,12 @@ extension ParseAnalytics {
         }
 
         return "\(descriptionString)"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseAnalytics: CustomStringConvertible {
+    public var description: String {
+        debugDescription
     }
 }
