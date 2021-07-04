@@ -61,6 +61,18 @@ class ParsePointerTests: XCTestCase {
         XCTAssertEqual(pointer.objectId, initializedPointer.objectId)
     }
 
+    #if !os(Linux) && !os(Android)
+    func testDebugString() throws {
+        var score = GameScore(score: 10)
+        score.objectId = "yarr"
+        let pointer = try score.toPointer()
+        XCTAssertEqual(pointer.debugDescription,
+                       "PointerType ({\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"})")
+        XCTAssertEqual(pointer.description,
+                       "PointerType ({\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"})")
+    }
+    #endif
+
     func testPointerNoObjectId() throws {
         let score = GameScore(score: 10)
         XCTAssertThrowsError(try Pointer(score))

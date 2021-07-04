@@ -45,6 +45,7 @@ class ParseErrorTests: XCTestCase {
         XCTAssertEqual(decoded.code.rawValue, code)
         XCTAssertEqual(decoded.message, message)
         XCTAssertEqual(decoded.debugDescription, "ParseError code=\(code) error=\(message)")
+        XCTAssertEqual(decoded.description, "ParseError code=\(code) error=\(message)")
     }
 
     func testEncodeOther() throws {

@@ -85,6 +85,10 @@ class ParseRelationTests: XCTestCase {
         let encoded2 = try ParseCoding.jsonEncoder().encode(relation)
         let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
+        XCTAssertEqual(relation.debugDescription,
+                       "ParseRelation ({\"className\":\"hello\",\"__type\":\"Relation\"})")
+        XCTAssertEqual(relation.description,
+                       "ParseRelation ({\"className\":\"hello\",\"__type\":\"Relation\"})")
     }
 
     func testParseObjectRelation() throws {

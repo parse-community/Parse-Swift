@@ -58,6 +58,9 @@ class ParseAnalyticsTests: XCTestCase {
         let decoded = event2.debugDescription
         let expected = "{\"dimensions\":{\"stop\":\"drop\"}}"
         XCTAssertEqual(decoded, expected)
+        let decoded2 = event2.description
+        let expected2 = "{\"dimensions\":{\"stop\":\"drop\"}}"
+        XCTAssertEqual(decoded2, expected2)
     }
 
     #if os(iOS)

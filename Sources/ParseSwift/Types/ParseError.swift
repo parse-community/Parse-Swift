@@ -11,7 +11,7 @@ import Foundation
 /**
  An object with a Parse code and message.
  */
-public struct ParseError: ParseType, Decodable, Swift.Error, CustomDebugStringConvertible {
+public struct ParseError: ParseType, Decodable, Swift.Error {
     /// The value representing the error from the Parse Server.
     public let code: Code
     /// The text representing the error from the Parse Server.
@@ -386,11 +386,18 @@ extension ParseError {
 }
 
 // MARK: CustomDebugStringConvertible
-extension ParseError {
+extension ParseError: CustomDebugStringConvertible {
     public var debugDescription: String {
         guard let otherCode = otherCode else {
             return "ParseError code=\(code.rawValue) error=\(message)"
         }
         return "ParseError code=\(code.rawValue) error=\(message) otherCode=\(otherCode)"
+    }
+}
+
+// MARK: CustomStringConvertible
+extension ParseError: CustomStringConvertible {
+    public var description: String {
+        debugDescription
     }
 }
