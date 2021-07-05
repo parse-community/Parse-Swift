@@ -92,10 +92,10 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
             if let error = viewModel.error {
-                Text(error)
+                Text(error.description)
             } else {
                 //: Warning - List seems to only work in Playgrounds Xcode 13+.
-                List(viewModel.objects, id: \.objectId) { object in
+                List(viewModel.objects, id: \.id) { object in
                     VStack(alignment: .leading) {
                         Text("Score: \(object.score)")
                             .font(.headline)
