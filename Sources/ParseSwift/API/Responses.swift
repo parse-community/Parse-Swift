@@ -91,6 +91,16 @@ internal struct LoginSignupResponse: Codable {
     let sessionToken: String
     var updatedAt: Date?
     let username: String?
+
+    func applySignup<T>(to object: T) -> T where T: ParseUser {
+        var object = object
+        object.objectId = objectId
+        object.createdAt = createdAt
+        object.updatedAt = createdAt
+        object.password = nil // password should be removed
+
+        return object
+    }
 }
 
 // MARK: ParseFile

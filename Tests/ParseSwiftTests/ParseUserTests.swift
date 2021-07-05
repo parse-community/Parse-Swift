@@ -767,6 +767,20 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.body?.password, body.password)
     }
 
+    func testSignupCommandNoBody() throws {
+        var user = User()
+        user.username = "test"
+        user.password = "user"
+        user.customKey = "hello"
+        let command = try user.signupCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/users")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertEqual(command.body?.username, "test")
+        XCTAssertEqual(command.body?.password, "user")
+        XCTAssertEqual(command.body?.customKey, "hello")
+    }
+
     func testUserSignUp() {
         let loginResponse = LoginSignupResponse()
 
@@ -812,7 +826,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testUserSignUpNoBody() {
-        let loginResponse = LoginSignupResponse()
+        var loginResponse = LoginSignupResponse()
+        loginResponse.email = nil
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -826,11 +841,12 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             var user = User()
             user.username = loginUserName
             user.password = loginPassword
+            user.customKey = "blah"
             let signedUp = try user.signup()
             XCTAssertNotNil(signedUp)
             XCTAssertNotNil(signedUp.createdAt)
             XCTAssertNotNil(signedUp.updatedAt)
-            XCTAssertNotNil(signedUp.email)
+            XCTAssertNil(signedUp.email)
             XCTAssertNotNil(signedUp.username)
             XCTAssertNil(signedUp.password)
             XCTAssertNotNil(signedUp.objectId)
@@ -845,7 +861,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             XCTAssertNotNil(userFromKeychain.createdAt)
             XCTAssertNotNil(userFromKeychain.updatedAt)
-            XCTAssertNotNil(userFromKeychain.email)
+            XCTAssertNil(userFromKeychain.email)
             XCTAssertNotNil(userFromKeychain.username)
             XCTAssertNil(userFromKeychain.password)
             XCTAssertNotNil(userFromKeychain.objectId)
@@ -918,13 +934,14 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         var user = User()
         user.username = loginUserName
         user.password = loginPassword
+        user.customKey = "blah"
         user.signup(callbackQueue: callbackQueue) { result in
             switch result {
 
             case .success(let signedUp):
                 XCTAssertNotNil(signedUp.createdAt)
                 XCTAssertNotNil(signedUp.updatedAt)
-                XCTAssertNotNil(signedUp.email)
+                XCTAssertNil(signedUp.email)
                 XCTAssertNotNil(signedUp.username)
                 XCTAssertNil(signedUp.password)
                 XCTAssertNotNil(signedUp.objectId)
@@ -940,7 +957,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
                 XCTAssertNotNil(userFromKeychain.createdAt)
                 XCTAssertNotNil(userFromKeychain.updatedAt)
-                XCTAssertNotNil(userFromKeychain.email)
+                XCTAssertNil(userFromKeychain.email)
                 XCTAssertNotNil(userFromKeychain.username)
                 XCTAssertNil(userFromKeychain.password)
                 XCTAssertNotNil(userFromKeychain.objectId)
@@ -955,7 +972,8 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testSignUpAsyncMainQueueNoBody() {
-        let loginResponse = LoginSignupResponse()
+        var loginResponse = LoginSignupResponse()
+        loginResponse.email = nil
 
         MockURLProtocol.mockRequests { _ in
             do {
