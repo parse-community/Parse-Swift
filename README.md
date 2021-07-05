@@ -21,7 +21,7 @@
     <a href="https://github.com/parse-community/Parse-Swift/actions?query=workflow%3Aci+branch%3Amain"><img alt="CI status" src="https://github.com/parse-community/Parse-Swift/workflows/ci/badge.svg?branch=main"></a>
     <a href="https://github.com/parse-community/Parse-Swift/actions?query=workflow%3Arelease"><img alt="Release status" src="https://github.com/parse-community/Parse-Swift/workflows/release/badge.svg"></a>
     <a href="https://codecov.io/gh/parse-community/Parse-Swift/branches"><img alt="Code coverage" src="https://codecov.io/gh/parse-community/Parse-Swift/branch/main/graph/badge.svg"></a>
-    <a href="http://parseplatform.org/Parse-Swift/api/"><img alt="Cocoapods" src="https://github.com/parse-community/Parse-Swift/blob/gh-pages/api/badge.svg"></a>
+    <a href="http://parseplatform.org/Parse-Swift/api/"><img alt="Documentation" src="https://github.com/parse-community/Parse-Swift/blob/gh-pages/api/badge.svg"></a>
     <a href="https://github.com/parse-community/Parse-Swift"><img alt="Dependencies" src="https://img.shields.io/badge/dependencies-0-yellowgreen.svg"></a>
     <a href="https://community.parseplatform.org/"><img alt="Join the conversation" src="https://img.shields.io/discourse/https/community.parseplatform.org/topics.svg"></a>
     <a href="https://cocoapods.org/pods/ParseSwift"><img alt="Cocoapods" src="https://img.shields.io/cocoapods/v/ParseSwift.svg"></a>
