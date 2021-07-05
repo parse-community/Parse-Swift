@@ -248,7 +248,7 @@ public func != <T>(key: String, query: Query<T>) -> QueryConstraint {
 /**
  Adds a constraint that requires that a key's value matches a value in another key
  in objects returned by a sub query.
- - parameter key: The key that the value is stored.
+ - parameter key: The key that contains the value that is being matched.
  - parameter queryKey: The key in objects in the returned by the sub query whose value should match.
  - parameter query: The query to run.
  - returns: The same instance of `QueryConstraint` as the receiver.
@@ -261,7 +261,7 @@ public func matchesKeyInQuery <T>(key: String, queryKey: String, query: Query<T>
 /**
  Adds a constraint that requires that a key's value *not* match a value in another key
  in objects returned by a sub query.
- - parameter key: The key that the value is stored.
+ - parameter key: The key that contains the value that is being excluded.
  - parameter queryKey: The key in objects returned by the sub query whose value should match.
  - parameter query: The query to run.
  - returns: The same instance of `QueryConstraint` as the receiver.
