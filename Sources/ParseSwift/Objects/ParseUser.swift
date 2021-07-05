@@ -210,13 +210,13 @@ extension ParseUser {
         return API.NonParseBodyCommand<SignupLoginBody, Self>(method: .POST,
                                          path: .login,
                                          body: body) { (data) -> Self in
-            let response = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data)
+            let sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             user.username = username
 
             Self.currentUserContainer = .init(
                 currentUser: user,
-                sessionToken: response.sessionToken
+                sessionToken: sessionToken
             )
             Self.saveCurrentContainerToKeychain()
             return user
@@ -644,13 +644,12 @@ extension ParseUser {
                     path: endpoint,
                     body: self) { (data) -> Self in
 
-            let sessionToken = try ParseCoding.jsonDecoder()
-                .decode(LoginSignupResponse.self, from: data).sessionToken
-            var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
-            user.username = self.username
+            let response = try ParseCoding.jsonDecoder()
+                .decode(LoginSignupResponse.self, from: data)
+            let user = response.applySignup(to: self)
             Self.currentUserContainer = .init(
                 currentUser: user,
-                sessionToken: sessionToken
+                sessionToken: response.sessionToken
             )
             Self.saveCurrentContainerToKeychain()
             return user
