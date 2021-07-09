@@ -978,7 +978,10 @@ extension Query: Queryable {
       - returns: Returns an array of `ParseObject`s that were found.
     */
     public func find(options: API.Options = []) throws -> [ResultType] {
-        try findCommand().execute(options: options)
+        if limit == 0 {
+            return [ResultType]()
+        }
+        return try findCommand().execute(options: options)
     }
 
     /**
@@ -994,7 +997,10 @@ extension Query: Queryable {
       - returns: Returns a response of `Decodable` type.
     */
     public func findExplain<U: Decodable>(options: API.Options = []) throws -> [U] {
-        try findExplainCommand().execute(options: options)
+        if limit == 0 {
+            return [U]()
+        }
+        return try findExplainCommand().execute(options: options)
     }
 
     /**
@@ -1008,6 +1014,12 @@ extension Query: Queryable {
     public func find(options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
                      completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
+        if limit == 0 {
+            callbackQueue.async {
+                completion(.success([ResultType]()))
+            }
+            return
+        }
         findCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -1029,6 +1041,12 @@ extension Query: Queryable {
     public func findExplain<U: Decodable>(options: API.Options = [],
                                           callbackQueue: DispatchQueue = .main,
                                           completion: @escaping (Result<[U], ParseError>) -> Void) {
+        if limit == 0 {
+            callbackQueue.async {
+                completion(.success([U]()))
+            }
+            return
+        }
         findExplainCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -1053,6 +1071,12 @@ extension Query: Queryable {
                         options: API.Options = [],
                         callbackQueue: DispatchQueue = .main,
                         completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
+        if self.limit == 0 {
+            callbackQueue.async {
+                completion(.success([ResultType]()))
+            }
+            return
+        }
         if order != nil || skip > 0 || self.limit != 100 {
             let error = ParseError(code: .unknownError,
                              message: "Cannot iterate on a query with sort, skip, or limit.")
@@ -1114,7 +1138,11 @@ extension Query: Queryable {
       - returns: Returns a `ParseObject`.
     */
     public func first(options: API.Options = []) throws -> ResultType {
-        try firstCommand().execute(options: options)
+        if limit == 0 {
+            throw ParseError(code: .objectNotFound,
+                             message: "Object not found on the server.")
+        }
+        return try firstCommand().execute(options: options)
     }
 
     /**
@@ -1132,7 +1160,11 @@ extension Query: Queryable {
       - returns: Returns a response of `Decodable` type.
     */
     public func firstExplain<U: Decodable>(options: API.Options = []) throws -> U {
-        try firstExplainCommand().execute(options: options)
+        if limit == 0 {
+            throw ParseError(code: .objectNotFound,
+                             message: "Object not found on the server.")
+        }
+        return try firstExplainCommand().execute(options: options)
     }
 
     /**
@@ -1147,6 +1179,14 @@ extension Query: Queryable {
     public func first(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<ResultType, ParseError>) -> Void) {
+        if limit == 0 {
+            let error = ParseError(code: .objectNotFound,
+                                   message: "Object not found on the server.")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
         firstCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -1170,6 +1210,14 @@ extension Query: Queryable {
     public func firstExplain<U: Decodable>(options: API.Options = [],
                                            callbackQueue: DispatchQueue = .main,
                                            completion: @escaping (Result<U, ParseError>) -> Void) {
+        if limit == 0 {
+            let error = ParseError(code: .objectNotFound,
+                                   message: "Object not found on the server.")
+            callbackQueue.async {
+                completion(.failure(error))
+            }
+            return
+        }
         firstExplainCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -1186,7 +1234,10 @@ extension Query: Queryable {
       - returns: Returns the number of `ParseObject`s that match the query, or `-1` if there is an error.
     */
     public func count(options: API.Options = []) throws -> Int {
-        try countCommand().execute(options: options)
+        if limit == 0 {
+            return 0
+        }
+        return try countCommand().execute(options: options)
     }
 
     /**
@@ -1201,8 +1252,11 @@ extension Query: Queryable {
 
       - returns: Returns a response of `Decodable` type.
     */
-    public func countExplain<U: Decodable>(options: API.Options = []) throws -> U {
-        try countExplainCommand().execute(options: options)
+    public func countExplain<U: Decodable>(options: API.Options = []) throws -> [U] {
+        if limit == 0 {
+            return [U]()
+        }
+        return try countExplainCommand().execute(options: options)
     }
 
     /**
@@ -1215,6 +1269,12 @@ extension Query: Queryable {
     */
     public func count(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Int, ParseError>) -> Void) {
+        if limit == 0 {
+            callbackQueue.async {
+                completion(.success(0))
+            }
+            return
+        }
         countCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -1235,7 +1295,13 @@ extension Query: Queryable {
     */
     public func countExplain<U: Decodable>(options: API.Options = [],
                                            callbackQueue: DispatchQueue = .main,
-                                           completion: @escaping (Result<U, ParseError>) -> Void) {
+                                           completion: @escaping (Result<[U], ParseError>) -> Void) {
+        if limit == 0 {
+            callbackQueue.async {
+                completion(.success([U]()))
+            }
+            return
+        }
         countExplainCommand().executeAsync(options: options) { result in
             callbackQueue.async {
                 completion(result)
@@ -1253,6 +1319,9 @@ extension Query: Queryable {
     */
     public func aggregate(_ pipeline: [[String: Encodable]],
                           options: API.Options = []) throws -> [ResultType] {
+        if limit == 0 {
+            return [ResultType]()
+        }
         var options = options
         options.insert(.useMasterKey)
 
@@ -1293,6 +1362,12 @@ extension Query: Queryable {
                           options: API.Options = [],
                           callbackQueue: DispatchQueue = .main,
                           completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
+        if limit == 0 {
+            callbackQueue.async {
+                completion(.success([ResultType]()))
+            }
+            return
+        }
         var options = options
         options.insert(.useMasterKey)
 
@@ -1342,6 +1417,9 @@ extension Query: Queryable {
     */
     public func aggregateExplain<U: Decodable>(_ pipeline: [[String: Encodable]],
                                                options: API.Options = []) throws -> [U] {
+        if limit == 0 {
+            return [U]()
+        }
         var options = options
         options.insert(.useMasterKey)
 
@@ -1386,6 +1464,12 @@ extension Query: Queryable {
                                                options: API.Options = [],
                                                callbackQueue: DispatchQueue = .main,
                                                completion: @escaping (Result<[U], ParseError>) -> Void) {
+        if limit == 0 {
+            callbackQueue.async {
+                completion(.success([U]()))
+            }
+            return
+        }
         var options = options
         options.insert(.useMasterKey)
 
@@ -1432,6 +1516,9 @@ extension Query: Queryable {
     */
     public func distinct(_ key: String,
                          options: API.Options = []) throws -> [ResultType] {
+        if limit == 0 {
+            return [ResultType]()
+        }
         var options = options
         options.insert(.useMasterKey)
         return try distinctCommand(key: key)
@@ -1452,6 +1539,12 @@ extension Query: Queryable {
                          options: API.Options = [],
                          callbackQueue: DispatchQueue = .main,
                          completion: @escaping (Result<[ResultType], ParseError>) -> Void) {
+        if limit == 0 {
+            callbackQueue.async {
+                completion(.success([ResultType]()))
+            }
+            return
+        }
         var options = options
         options.insert(.useMasterKey)
         distinctCommand(key: key)
@@ -1477,6 +1570,9 @@ extension Query: Queryable {
     */
     public func distinctExplain<U: Decodable>(_ key: String,
                                               options: API.Options = []) throws -> [U] {
+        if limit == 0 {
+            return [U]()
+        }
         var options = options
         options.insert(.useMasterKey)
         return try distinctExplainCommand(key: key)
@@ -1501,6 +1597,12 @@ extension Query: Queryable {
                                               options: API.Options = [],
                                               callbackQueue: DispatchQueue = .main,
                                               completion: @escaping (Result<[U], ParseError>) -> Void) {
+        if limit == 0 {
+            callbackQueue.async {
+                completion(.success([U]()))
+            }
+            return
+        }
         var options = options
         options.insert(.useMasterKey)
         distinctExplainCommand(key: key)
@@ -1582,17 +1684,14 @@ extension Query {
         }
     }
 
-    func countExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, U> {
+    func countExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
         var query = self
         query.limit = 1
         query.isCount = true
         query.explain = true
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            if let decoded: U = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results.first {
-                return decoded
-            }
-            throw ParseError(code: .objectNotFound,
-                              message: "Object not found on the server.")
+            let decoded: [U] = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results
+            return decoded
         }
     }
 

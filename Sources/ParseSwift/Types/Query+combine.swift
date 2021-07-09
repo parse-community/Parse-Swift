@@ -112,7 +112,7 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func countExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<U, ParseError> {
+    func countExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<[U], ParseError> {
         Future { promise in
             self.countExplain(options: options,
                               completion: promise)

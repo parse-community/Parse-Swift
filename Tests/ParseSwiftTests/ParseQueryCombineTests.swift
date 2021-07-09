@@ -336,8 +336,8 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
                 }
                 expectation1.fulfill()
 
-            }, receiveValue: { (queryResult: [String: String]) in
-                XCTAssertEqual(queryResult, json.results.first)
+            }, receiveValue: { (queryResult: [[String: String]]) in
+                XCTAssertEqual(queryResult, json.results)
         })
         publisher.store(in: &subscriptions)
 
