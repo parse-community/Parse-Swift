@@ -1928,11 +1928,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     // MARK: GeoPoint
-    func testWhereKeyNearGeoPoint() {
+    func testWhereKeyNearGeoPoint() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"]]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = near(key: "yolo", geoPoint: geoPoint)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1968,13 +1968,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     #if !os(Linux) && !os(Android)
-    func testWhereKeyNearGeoPointWithinMiles() {
+    func testWhereKeyNearGeoPointWithinMiles() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
                      "$maxDistance": 1
             ]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinMiles(key: "yolo", geoPoint: geoPoint, distance: 3958.8)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -2016,13 +2016,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     #if !os(Linux) && !os(Android)
-    func testWhereKeyNearGeoPointWithinKilometers() {
+    func testWhereKeyNearGeoPointWithinKilometers() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
                      "$maxDistance": 1
             ]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinKilometers(key: "yolo", geoPoint: geoPoint, distance: 6371.0)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -2062,13 +2062,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testWhereKeyNearGeoPointWithinRadians() {
+    func testWhereKeyNearGeoPointWithinRadians() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
                      "$maxDistance": 10
             ]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinRadians(key: "yolo", geoPoint: geoPoint, distance: 10.0)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -2108,13 +2108,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testWhereKeyNearGeoPointWithinRadiansNotSorted() {
+    func testWhereKeyNearGeoPointWithinRadiansNotSorted() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$centerSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
                      "$geoWithin": 10
             ]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinRadians(key: "yolo", geoPoint: geoPoint, distance: 10.0, sorted: false)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -2156,7 +2156,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     // swiftlint:disable:next function_body_length
-    func testWhereKeyNearGeoBox() {
+    func testWhereKeyNearGeoBox() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$within": ["$box": [
                                     ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
@@ -2164,8 +2164,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                                 ]
             ]
         ]
-        let geoPoint1 = ParseGeoPoint(latitude: 10, longitude: 20)
-        let geoPoint2 = ParseGeoPoint(latitude: 20, longitude: 30)
+        let geoPoint1 = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint2 = try ParseGeoPoint(latitude: 20, longitude: 30)
         let constraint = withinGeoBox(key: "yolo", fromSouthWest: geoPoint1, toNortheast: geoPoint2)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -2212,19 +2212,20 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     // swiftlint:disable:next function_body_length
-    func testWhereKeyWithinPolygon() {
+    func testWhereKeyWithinPolygonPoints() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$geoWithin": ["$polygon": [
-                                    ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
-                                    ["latitude": 20, "longitude": 30, "__type": "GeoPoint"],
-                                    ["latitude": 30, "longitude": 40, "__type": "GeoPoint"]]
+                                        [10.1, 20.1],
+                                        [20.1, 30.1],
+                                        [30.1, 40.1]]
                                 ]
             ]
         ]
-        let geoPoint1 = ParseGeoPoint(latitude: 10, longitude: 20)
-        let geoPoint2 = ParseGeoPoint(latitude: 20, longitude: 30)
-        let geoPoint3 = ParseGeoPoint(latitude: 30, longitude: 40)
-        let constraint = withinPolygon(key: "yolo", points: [geoPoint1, geoPoint2, geoPoint3])
+        let geoPoint1 = try ParseGeoPoint(latitude: 10.1, longitude: 20.1)
+        let geoPoint2 = try ParseGeoPoint(latitude: 20.1, longitude: 30.1)
+        let geoPoint3 = try ParseGeoPoint(latitude: 30.1, longitude: 40.1)
+        let polygon = [geoPoint1, geoPoint2, geoPoint3]
+        let constraint = withinPolygon(key: "yolo", points: polygon)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
 
@@ -2233,44 +2234,18 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
-            guard let expectedValues = expected.values.first?.value as? [String: [String: [[String: Any]]]],
-                  let expectedBox = expectedValues["$geoWithin"]?["$polygon"],
-                  let expectedLongitude = expectedBox.first?["longitude"] as? Int,
-                  let expectedLatitude = expectedBox.first?["latitude"] as? Int,
-                  let expectedType = expectedBox.first?["__type"] as? String,
-                  let expectedLongitude2 = expectedBox[1]["longitude"] as? Int,
-                  let expectedLatitude2 = expectedBox[1]["latitude"] as? Int,
-                  let expectedType2 = expectedBox[1]["__type"] as? String,
-                  let expectedLongitude3 = expectedBox.last?["longitude"] as? Int,
-                  let expectedLatitude3 = expectedBox.last?["latitude"] as? Int,
-                  let expectedType3 = expectedBox.last?["__type"] as? String else {
+            guard let expectedValues = expected.values.first?.value as? [String: [String: [[Double]]]],
+                  let expectedBox = expectedValues["$geoWithin"]?["$polygon"] else {
                 XCTFail("Should have casted")
                 return
             }
 
-            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[String: Any]]]],
-                  let decodedBox = decodedValues["$geoWithin"]?["$polygon"],
-                  let decodedLongitude = decodedBox.first?["longitude"] as? Int,
-                  let decodedLatitude = decodedBox.first?["latitude"] as? Int,
-                  let decodedType = decodedBox.first?["__type"] as? String,
-                  let decodedLongitude2 = decodedBox[1]["longitude"] as? Int,
-                  let decodedLatitude2 = decodedBox[1]["latitude"] as? Int,
-                  let decodedType2 = decodedBox[1]["__type"] as? String,
-                  let decodedLongitude3 = decodedBox.last?["longitude"] as? Int,
-                  let decodedLatitude3 = decodedBox.last?["latitude"] as? Int,
-                  let decodedType3 = decodedBox.last?["__type"] as? String else {
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[Double]]]],
+                  let decodedBox = decodedValues["$geoWithin"]?["$polygon"] else {
                 XCTFail("Should have casted")
                 return
             }
-            XCTAssertEqual(expectedLongitude, decodedLongitude)
-            XCTAssertEqual(expectedLatitude, decodedLatitude)
-            XCTAssertEqual(expectedType, decodedType)
-            XCTAssertEqual(expectedLongitude2, decodedLongitude2)
-            XCTAssertEqual(expectedLatitude2, decodedLatitude2)
-            XCTAssertEqual(expectedType2, decodedType2)
-            XCTAssertEqual(expectedLongitude3, decodedLongitude3)
-            XCTAssertEqual(expectedLatitude3, decodedLatitude3)
-            XCTAssertEqual(expectedType3, decodedType3)
+            XCTAssertEqual(expectedBox, decodedBox)
 
         } catch {
             XCTFail(error.localizedDescription)
@@ -2278,14 +2253,56 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testWhereKeyPolygonContains() {
+    // swiftlint:disable:next function_body_length
+    func testWhereKeyWithinPolygon() throws {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$geoWithin": ["$polygon": [
+                                        [10.1, 20.1],
+                                        [20.1, 30.1],
+                                        [30.1, 40.1]]
+                                ]
+            ]
+        ]
+        let geoPoint1 = try ParseGeoPoint(latitude: 10.1, longitude: 20.1)
+        let geoPoint2 = try ParseGeoPoint(latitude: 20.1, longitude: 30.1)
+        let geoPoint3 = try ParseGeoPoint(latitude: 30.1, longitude: 40.1)
+        let polygon = try ParsePolygon(geoPoint1, geoPoint2, geoPoint3)
+        let constraint = withinPolygon(key: "yolo", polygon: polygon)
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: [[Double]]]],
+                  let expectedBox = expectedValues["$geoWithin"]?["$polygon"] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[Double]]]],
+                  let decodedBox = decodedValues["$geoWithin"]?["$polygon"] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedBox, decodedBox)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereKeyPolygonContains() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$geoIntersects": ["$point":
                                     ["latitude": 10, "longitude": 20, "__type": "GeoPoint"]
                                 ]
             ]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = polygonContains(key: "yolo", point: geoPoint)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
