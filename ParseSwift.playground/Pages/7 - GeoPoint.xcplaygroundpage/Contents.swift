@@ -32,7 +32,9 @@ struct GameScore: ParseObject {
 
 //: Define initial GameScore.
 var score = GameScore(score: 10)
-score.location = ParseGeoPoint(latitude: 40.0, longitude: -30.0)
+do {
+    try score.location = ParseGeoPoint(latitude: 40.0, longitude: -30.0)
+}
 
 /*: Save asynchronously (preferred way) - performs work on background
     queue and returns to specified callbackQueue.
@@ -61,22 +63,24 @@ score.save { result in
 }
 
 //: Now we will show how to query based on the `ParseGeoPoint`.
-let pointToFind = ParseGeoPoint(latitude: 40.0, longitude: -30.0)
-var constraints = [QueryConstraint]()
-constraints.append(near(key: "location", geoPoint: pointToFind))
+do {
+    let pointToFind = try ParseGeoPoint(latitude: 40.0, longitude: -30.0)
+    var constraints = [QueryConstraint]()
+    constraints.append(near(key: "location", geoPoint: pointToFind))
 
-let query = GameScore.query(constraints)
-query.find { results in
-    switch results {
-    case .success(let scores):
+    let query = GameScore.query(constraints)
+    query.find { results in
+        switch results {
+        case .success(let scores):
 
-        assert(scores.count >= 1)
-        scores.forEach { (score) in
-            print("Someone with objectId \"\(score.objectId!)\" has a score of \"\(score.score)\" near me")
+            assert(scores.count >= 1)
+            scores.forEach { (score) in
+                print("Someone with objectId \"\(score.objectId!)\" has a score of \"\(score.score)\" near me")
+            }
+
+        case .failure(let error):
+            assertionFailure("Error querying: \(error)")
         }
-
-    case .failure(let error):
-        assertionFailure("Error querying: \(error)")
     }
 }
 

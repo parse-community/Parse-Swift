@@ -39,6 +39,8 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int = 0
+    var bytes: ParseBytes?
+    var polygon: ParsePolygon?
 
     //: Custom initializer.
     init(score: Int) {
@@ -164,6 +166,15 @@ guard var changedScore = savedScore else {
     fatalError()
 }
 changedScore.score = 200
+changedScore.bytes = ParseBytes(data: "hello world".data(using: .utf8)!)
+let points = [
+    try ParseGeoPoint(latitude: 0, longitude: 0),
+    try ParseGeoPoint(latitude: 0, longitude: 1),
+    try ParseGeoPoint(latitude: 1, longitude: 1),
+    try ParseGeoPoint(latitude: 1, longitude: 0),
+    try ParseGeoPoint(latitude: 0, longitude: 0)
+]
+changedScore.polygon = ParsePolygon(points)
 
 let savedChangedScore: GameScore?
 do {
