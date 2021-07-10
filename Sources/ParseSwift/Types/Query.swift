@@ -434,16 +434,33 @@ public func withinGeoBox(key: String, fromSouthWest southwest: ParseGeoPoint,
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
 public func withinPolygon(key: String, points: [ParseGeoPoint]) -> QueryConstraint {
-    let dictionary = [QueryConstraint.Comparator.polygon.rawValue: points]
+    let polygon = points.flatMap { [[$0.latitude, $0.longitude]]}
+    let dictionary = [QueryConstraint.Comparator.polygon.rawValue: polygon]
     return .init(key: key, value: dictionary, comparator: .geoWithin)
 }
 
 /**
  Add a constraint to the query that requires a particular key's
- coordinates that contains a `ParseGeoPoint`.
+ coordinates be contained within and on the bounds of a given polygon
+ Supports closed and open (last point is connected to first) paths.
 
  - parameter key: The key to be constrained.
- - parameter point: The point the polygon contains `ParseGeoPoint`.
+ - parameter polygon: The `ParsePolygon`.
+ - warning: Requires Parse Server 2.5.0+.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func withinPolygon(key: String, polygon: ParsePolygon) -> QueryConstraint {
+    let polygon = polygon.coordinates.flatMap { [[$0.latitude, $0.longitude]]}
+    let dictionary = [QueryConstraint.Comparator.polygon.rawValue: polygon]
+    return .init(key: key, value: dictionary, comparator: .geoWithin)
+}
+
+/**
+ Add a constraint to the query that requires a particular key's
+ coordinates contains a `ParseGeoPoint`.
+
+ - parameter key: The key of the `ParsePolygon`.
+ - parameter point: The `ParseGeoPoint` to check for containment.
  - warning: Requires Parse Server 2.6.0+.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */

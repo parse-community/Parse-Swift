@@ -102,15 +102,32 @@ public struct ParsePolygon: Codable, Hashable {
 extension ParsePolygon {
     public init(from decoder: Decoder) throws {
         let values = try decoder.container(keyedBy: CodingKeys.self)
-        coordinates = try values.decode([ParseGeoPoint].self, forKey: .coordinates)
+        var decodedCoordinates = [ParseGeoPoint]()
+        let points = try values.decode([[Double]].self, forKey: .coordinates)
+        try points.forEach {
+            if $0.count == 2 {
+                guard let latitude = $0.first,
+                      let longitude = $0.last else {
+                    throw ParseError(code: .unknownError, message: "Could not decode ParsePolygon: \(points)")
+                }
+                decodedCoordinates.append(try ParseGeoPoint(latitude: latitude,
+                                                 longitude: longitude))
+            } else {
+                throw ParseError(code: .unknownError, message: "Could not decode ParsePolygon: \(points)")
+            }
+        }
+        coordinates = decodedCoordinates
         try validate()
     }
 
     public func encode(to encoder: Encoder) throws {
+        try validate()
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(__type, forKey: .__type)
-        try container.encode(coordinates, forKey: .coordinates)
-        try validate()
+        var nestedUnkeyedContainer = container.nestedUnkeyedContainer(forKey: .coordinates)
+        try coordinates.forEach {
+            try nestedUnkeyedContainer.encode([$0.latitude, $0.longitude])
+        }
     }
 }
 

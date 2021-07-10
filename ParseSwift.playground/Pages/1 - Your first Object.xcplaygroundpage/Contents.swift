@@ -39,8 +39,6 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int = 0
-    var bytes: ParseBytes?
-    var polygon: ParsePolygon?
 
     //: Custom initializer.
     init(score: Int) {
@@ -49,6 +47,25 @@ struct GameScore: ParseObject {
 
     init(objectId: String?) {
         self.objectId = objectId
+    }
+}
+
+struct GameData: ParseObject {
+    //: Those are required for Object
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseACL?
+
+    //: Your own properties.
+    var polygon: ParsePolygon?
+    //: `ParseBytes` needs to be a part of the original schema
+    //: or else you will need your masterKey to force an upgrade.
+    var bytes: ParseBytes?
+
+    init (bytes: ParseBytes?, polygon: ParsePolygon) {
+        self.bytes = bytes
+        self.polygon = polygon
     }
 }
 
@@ -166,15 +183,6 @@ guard var changedScore = savedScore else {
     fatalError()
 }
 changedScore.score = 200
-changedScore.bytes = ParseBytes(data: "hello world".data(using: .utf8)!)
-let points = [
-    try ParseGeoPoint(latitude: 0, longitude: 0),
-    try ParseGeoPoint(latitude: 0, longitude: 1),
-    try ParseGeoPoint(latitude: 1, longitude: 1),
-    try ParseGeoPoint(latitude: 1, longitude: 0),
-    try ParseGeoPoint(latitude: 0, longitude: 0)
-]
-changedScore.polygon = ParsePolygon(points)
 
 let savedChangedScore: GameScore?
 do {
@@ -318,6 +326,24 @@ do {
 } catch {
     assertionFailure("Error deleting: \(error)")
 }*/
+
+//: How to add `ParseBytes` and `ParsePolygon` to objects.
+let points = [
+    try ParseGeoPoint(latitude: 0, longitude: 0),
+    try ParseGeoPoint(latitude: 0, longitude: 1),
+    try ParseGeoPoint(latitude: 1, longitude: 1),
+    try ParseGeoPoint(latitude: 1, longitude: 0),
+    try ParseGeoPoint(latitude: 0, longitude: 0)
+]
+do {
+    let polygon = try ParsePolygon(points)
+    let bytes = ParseBytes(data: "hello world".data(using: .utf8)!)
+    var gameData = GameData(bytes: bytes, polygon: polygon)
+    gameData = try gameData.save()
+    print("Successfully saved: \(gameData)")
+} catch {
+    print("Error saving: \(error.localizedDescription)")
+}
 
 PlaygroundPage.current.finishExecution()
 

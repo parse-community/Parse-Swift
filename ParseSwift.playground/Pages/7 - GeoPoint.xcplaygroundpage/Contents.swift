@@ -63,12 +63,14 @@ score.save { result in
 }
 
 //: Now we will show how to query based on the `ParseGeoPoint`.
+var query: Query<GameScore> //: Store query for later user
+var constraints = [QueryConstraint]()
+
 do {
     let pointToFind = try ParseGeoPoint(latitude: 40.0, longitude: -30.0)
-    var constraints = [QueryConstraint]()
     constraints.append(near(key: "location", geoPoint: pointToFind))
 
-    let query = GameScore.query(constraints)
+    query = GameScore.query(constraints)
     query.find { results in
         switch results {
         case .success(let scores):

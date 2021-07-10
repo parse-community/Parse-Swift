@@ -32,6 +32,13 @@ class ParseBytesTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
+    func testDecode() throws {
+        let bytes = ParseBytes(base64: "ZnJveW8=")
+        let encoded = try ParseCoding.jsonEncoder().encode(bytes)
+        let decoded = try ParseCoding.jsonDecoder().decode(ParseBytes.self, from: encoded)
+        XCTAssertEqual(decoded, bytes)
+    }
+
     #if !os(Linux) && !os(Android)
     func testDebugString() {
         let bytes = ParseBytes(base64: "ZnJveW8=")

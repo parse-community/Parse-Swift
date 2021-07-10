@@ -10,6 +10,12 @@ import XCTest
 @testable import ParseSwift
 
 class ParsePolygonTests: XCTestCase {
+
+    struct FakeParsePolygon: Encodable, Hashable {
+        private let __type: String = "Polygon" // swiftlint:disable:this identifier_name
+        public let coordinates: [[Double]]
+    }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -57,18 +63,68 @@ class ParsePolygonTests: XCTestCase {
         XCTAssertThrowsError(try ParsePolygon(point, point))
     }
 
+    func testDecode() throws {
+        let polygon = try ParsePolygon(points)
+        let encoded = try ParseCoding.jsonEncoder().encode(polygon)
+        let decoded = try ParseCoding.jsonDecoder().decode(ParsePolygon.self, from: encoded)
+        XCTAssertEqual(decoded, polygon)
+    }
+
+    func testDecodeFailNotEnoughPoints() throws {
+        let fakePolygon = FakeParsePolygon(coordinates: [[0.0, 0.0], [0.0, 1.0]])
+        let encoded = try ParseCoding.jsonEncoder().encode(fakePolygon)
+        do {
+            _ = try ParseCoding.jsonDecoder().decode(ParsePolygon.self, from: encoded)
+            XCTFail("Should have failed")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("3 ParseGeoPoint"))
+        }
+    }
+
+    func testDecodeFailWrongData() throws {
+        let fakePolygon = FakeParsePolygon(coordinates: [[0.0], [1.0]])
+        let encoded = try ParseCoding.jsonEncoder().encode(fakePolygon)
+        do {
+            _ = try ParseCoding.jsonDecoder().decode(ParsePolygon.self, from: encoded)
+            XCTFail("Should have failed")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("decode ParsePolygon"))
+        }
+    }
+
+    func testDecodeFailTooMuchCoordinates() throws {
+        let fakePolygon = FakeParsePolygon(coordinates: [[0.0, 0.0, 0.0], [0.0, 1.0, 1.0]])
+        let encoded = try ParseCoding.jsonEncoder().encode(fakePolygon)
+        do {
+            _ = try ParseCoding.jsonDecoder().decode(ParsePolygon.self, from: encoded)
+            XCTFail("Should have failed")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("decode ParsePolygon"))
+        }
+    }
+
     #if !os(Linux) && !os(Android)
     func testDebugString() throws {
         let polygon = try ParsePolygon(points)
-        // swiftlint:disable:next line_length
-        let expected = "ParsePolygon ({\"__type\":\"Polygon\",\"coordinates\":[{\"__type\":\"GeoPoint\",\"longitude\":0,\"latitude\":0},{\"__type\":\"GeoPoint\",\"longitude\":1,\"latitude\":0},{\"__type\":\"GeoPoint\",\"longitude\":1,\"latitude\":1},{\"__type\":\"GeoPoint\",\"longitude\":0,\"latitude\":1},{\"__type\":\"GeoPoint\",\"longitude\":0,\"latitude\":0}]})"
+        let expected = "ParsePolygon ({\"__type\":\"Polygon\",\"coordinates\":[[0,0],[0,1],[1,1],[1,0],[0,0]]})"
         XCTAssertEqual(polygon.debugDescription, expected)
     }
 
     func testDescription() throws {
         let polygon = try ParsePolygon(points)
-        // swiftlint:disable:next line_length
-        let expected = "ParsePolygon ({\"__type\":\"Polygon\",\"coordinates\":[{\"__type\":\"GeoPoint\",\"longitude\":0,\"latitude\":0},{\"__type\":\"GeoPoint\",\"longitude\":1,\"latitude\":0},{\"__type\":\"GeoPoint\",\"longitude\":1,\"latitude\":1},{\"__type\":\"GeoPoint\",\"longitude\":0,\"latitude\":1},{\"__type\":\"GeoPoint\",\"longitude\":0,\"latitude\":0}]})"
+        let expected = "ParsePolygon ({\"__type\":\"Polygon\",\"coordinates\":[[0,0],[0,1],[1,1],[1,0],[0,0]]})"
         XCTAssertEqual(polygon.description, expected)
     }
     #endif
