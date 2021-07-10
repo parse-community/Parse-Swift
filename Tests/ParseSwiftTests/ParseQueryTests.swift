@@ -368,6 +368,17 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     }
 
+    func testFindLimit() {
+        let query = GameScore.query()
+            .limit(0)
+        do {
+            let scores = try query.find(options: [])
+            XCTAssert(scores.isEmpty)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     // MARK: Querying Parse Server
     func testFindEncoded() throws {
 
@@ -471,6 +482,23 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
         findAsync(scoreOnServer: scoreOnServer, callbackQueue: .main)
+    }
+
+    func testFindLimitAsync() {
+        let query = GameScore.query()
+            .limit(0)
+        let expectation = XCTestExpectation(description: "Count object1")
+        query.find { results in
+            switch results {
+
+            case .success(let scores):
+                XCTAssert(scores.isEmpty)
+            case .failure(let error):
+                XCTFail(error.description)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
     }
 
     func testFindAllAsync() {
@@ -609,6 +637,23 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    func testFindAllLimit() {
+        let query = GameScore.query()
+            .limit(0)
+        let expectation = XCTestExpectation(description: "Count object1")
+        query.findAll { results in
+            switch results {
+
+            case .success(let scores):
+                XCTAssert(scores.isEmpty)
+            case .failure(let error):
+                XCTFail(error.description)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
     #if !os(Linux) && !os(Android)
     func testFirstCommand() throws {
         let query = GameScore.query()
@@ -702,9 +747,15 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail("Should have casted as ParseError")
                 return
             }
-            XCTAssertEqual(error.code.rawValue, 101)
+            XCTAssertEqual(error.code, .objectNotFound)
         }
 
+    }
+
+    func testFirstLimit() {
+        let query = GameScore.query()
+            .limit(0)
+        XCTAssertThrowsError(try query.first())
     }
 
     func firstAsyncNoObjectFound(scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
@@ -718,7 +769,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail("Should have failed")
 
             case .failure(let error):
-                XCTAssertEqual(error.code.rawValue, 101)
+                XCTAssertEqual(error.code, .objectNotFound)
             }
             expectation.fulfill()
         }
@@ -819,6 +870,24 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         firstAsyncNoObjectFound(scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
+    func testFirstAsyncLimit() {
+        let query = GameScore.query()
+            .limit(0)
+        let expectation = XCTestExpectation(description: "Find object1")
+        query.first { results in
+            switch results {
+
+            case .success:
+                XCTFail("Should have thrown error.")
+            case .failure(let error):
+                XCTAssertEqual(error.code, .objectNotFound)
+
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
     #if !os(Linux) && !os(Android)
     func testCountCommand() throws {
         let query = GameScore.query()
@@ -834,7 +903,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testCountExplainCommand() throws {
         let query = GameScore.query()
         let command: API.NonParseBodyCommand<Query<ParseQueryTests.GameScore>,
-                                             Int> = query.countExplainCommand()
+                                             [Int]> = query.countExplainCommand()
         // swiftlint:disable:next line_length
         let expected = "{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"limit\":1,\"skip\":0,\"explain\":true,\"count\":true,\"_method\":\"GET\",\"where\":{}}}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -870,6 +939,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail(error.localizedDescription)
         }
 
+    }
+
+    func testCountLimit() throws {
+        let query = GameScore.query()
+            .limit(0)
+        let count = try query.count()
+        XCTAssertEqual(count, 0)
     }
 
     func countAsync(scoreOnServer: GameScore, callbackQueue: DispatchQueue) {
@@ -930,6 +1006,23 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
         countAsync(scoreOnServer: scoreOnServer, callbackQueue: .main)
+    }
+
+    func testCountAsyncLimit() throws {
+        let query = GameScore.query()
+            .limit(0)
+        let expectation = XCTestExpectation(description: "Count object1")
+        query.count { result in
+            switch result {
+
+            case .success(let count):
+                XCTAssertEqual(count, 0)
+            case .failure(let error):
+                XCTFail(error.description)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
     }
 
     // MARK: Standard Conditions
@@ -1835,11 +1928,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     // MARK: GeoPoint
-    func testWhereKeyNearGeoPoint() {
+    func testWhereKeyNearGeoPoint() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"]]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = near(key: "yolo", geoPoint: geoPoint)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1875,13 +1968,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     #if !os(Linux) && !os(Android)
-    func testWhereKeyNearGeoPointWithinMiles() {
+    func testWhereKeyNearGeoPointWithinMiles() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
                      "$maxDistance": 1
             ]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinMiles(key: "yolo", geoPoint: geoPoint, distance: 3958.8)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1923,13 +2016,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     #if !os(Linux) && !os(Android)
-    func testWhereKeyNearGeoPointWithinKilometers() {
+    func testWhereKeyNearGeoPointWithinKilometers() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
                      "$maxDistance": 1
             ]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinKilometers(key: "yolo", geoPoint: geoPoint, distance: 6371.0)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -1969,13 +2062,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testWhereKeyNearGeoPointWithinRadians() {
+    func testWhereKeyNearGeoPointWithinRadians() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
                      "$maxDistance": 10
             ]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinRadians(key: "yolo", geoPoint: geoPoint, distance: 10.0)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -2015,13 +2108,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testWhereKeyNearGeoPointWithinRadiansNotSorted() {
+    func testWhereKeyNearGeoPointWithinRadiansNotSorted() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$centerSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
                      "$geoWithin": 10
             ]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = withinRadians(key: "yolo", geoPoint: geoPoint, distance: 10.0, sorted: false)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -2063,7 +2156,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     // swiftlint:disable:next function_body_length
-    func testWhereKeyNearGeoBox() {
+    func testWhereKeyNearGeoBox() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$within": ["$box": [
                                     ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
@@ -2071,8 +2164,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                                 ]
             ]
         ]
-        let geoPoint1 = ParseGeoPoint(latitude: 10, longitude: 20)
-        let geoPoint2 = ParseGeoPoint(latitude: 20, longitude: 30)
+        let geoPoint1 = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint2 = try ParseGeoPoint(latitude: 20, longitude: 30)
         let constraint = withinGeoBox(key: "yolo", fromSouthWest: geoPoint1, toNortheast: geoPoint2)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -2119,19 +2212,20 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     // swiftlint:disable:next function_body_length
-    func testWhereKeyWithinPolygon() {
+    func testWhereKeyWithinPolygonPoints() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$geoWithin": ["$polygon": [
-                                    ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
-                                    ["latitude": 20, "longitude": 30, "__type": "GeoPoint"],
-                                    ["latitude": 30, "longitude": 40, "__type": "GeoPoint"]]
+                                        [10.1, 20.1],
+                                        [20.1, 30.1],
+                                        [30.1, 40.1]]
                                 ]
             ]
         ]
-        let geoPoint1 = ParseGeoPoint(latitude: 10, longitude: 20)
-        let geoPoint2 = ParseGeoPoint(latitude: 20, longitude: 30)
-        let geoPoint3 = ParseGeoPoint(latitude: 30, longitude: 40)
-        let constraint = withinPolygon(key: "yolo", points: [geoPoint1, geoPoint2, geoPoint3])
+        let geoPoint1 = try ParseGeoPoint(latitude: 10.1, longitude: 20.1)
+        let geoPoint2 = try ParseGeoPoint(latitude: 20.1, longitude: 30.1)
+        let geoPoint3 = try ParseGeoPoint(latitude: 30.1, longitude: 40.1)
+        let polygon = [geoPoint1, geoPoint2, geoPoint3]
+        let constraint = withinPolygon(key: "yolo", points: polygon)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
 
@@ -2140,44 +2234,18 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
             XCTAssertEqual(expected.keys, decodedDictionary.keys)
 
-            guard let expectedValues = expected.values.first?.value as? [String: [String: [[String: Any]]]],
-                  let expectedBox = expectedValues["$geoWithin"]?["$polygon"],
-                  let expectedLongitude = expectedBox.first?["longitude"] as? Int,
-                  let expectedLatitude = expectedBox.first?["latitude"] as? Int,
-                  let expectedType = expectedBox.first?["__type"] as? String,
-                  let expectedLongitude2 = expectedBox[1]["longitude"] as? Int,
-                  let expectedLatitude2 = expectedBox[1]["latitude"] as? Int,
-                  let expectedType2 = expectedBox[1]["__type"] as? String,
-                  let expectedLongitude3 = expectedBox.last?["longitude"] as? Int,
-                  let expectedLatitude3 = expectedBox.last?["latitude"] as? Int,
-                  let expectedType3 = expectedBox.last?["__type"] as? String else {
+            guard let expectedValues = expected.values.first?.value as? [String: [String: [[Double]]]],
+                  let expectedBox = expectedValues["$geoWithin"]?["$polygon"] else {
                 XCTFail("Should have casted")
                 return
             }
 
-            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[String: Any]]]],
-                  let decodedBox = decodedValues["$geoWithin"]?["$polygon"],
-                  let decodedLongitude = decodedBox.first?["longitude"] as? Int,
-                  let decodedLatitude = decodedBox.first?["latitude"] as? Int,
-                  let decodedType = decodedBox.first?["__type"] as? String,
-                  let decodedLongitude2 = decodedBox[1]["longitude"] as? Int,
-                  let decodedLatitude2 = decodedBox[1]["latitude"] as? Int,
-                  let decodedType2 = decodedBox[1]["__type"] as? String,
-                  let decodedLongitude3 = decodedBox.last?["longitude"] as? Int,
-                  let decodedLatitude3 = decodedBox.last?["latitude"] as? Int,
-                  let decodedType3 = decodedBox.last?["__type"] as? String else {
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[Double]]]],
+                  let decodedBox = decodedValues["$geoWithin"]?["$polygon"] else {
                 XCTFail("Should have casted")
                 return
             }
-            XCTAssertEqual(expectedLongitude, decodedLongitude)
-            XCTAssertEqual(expectedLatitude, decodedLatitude)
-            XCTAssertEqual(expectedType, decodedType)
-            XCTAssertEqual(expectedLongitude2, decodedLongitude2)
-            XCTAssertEqual(expectedLatitude2, decodedLatitude2)
-            XCTAssertEqual(expectedType2, decodedType2)
-            XCTAssertEqual(expectedLongitude3, decodedLongitude3)
-            XCTAssertEqual(expectedLatitude3, decodedLatitude3)
-            XCTAssertEqual(expectedType3, decodedType3)
+            XCTAssertEqual(expectedBox, decodedBox)
 
         } catch {
             XCTFail(error.localizedDescription)
@@ -2185,14 +2253,56 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testWhereKeyPolygonContains() {
+    // swiftlint:disable:next function_body_length
+    func testWhereKeyWithinPolygon() throws {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$geoWithin": ["$polygon": [
+                                        [10.1, 20.1],
+                                        [20.1, 30.1],
+                                        [30.1, 40.1]]
+                                ]
+            ]
+        ]
+        let geoPoint1 = try ParseGeoPoint(latitude: 10.1, longitude: 20.1)
+        let geoPoint2 = try ParseGeoPoint(latitude: 20.1, longitude: 30.1)
+        let geoPoint3 = try ParseGeoPoint(latitude: 30.1, longitude: 40.1)
+        let polygon = try ParsePolygon(geoPoint1, geoPoint2, geoPoint3)
+        let constraint = withinPolygon(key: "yolo", polygon: polygon)
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: [[Double]]]],
+                  let expectedBox = expectedValues["$geoWithin"]?["$polygon"] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: [String: [[Double]]]],
+                  let decodedBox = decodedValues["$geoWithin"]?["$polygon"] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedBox, decodedBox)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereKeyPolygonContains() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$geoIntersects": ["$point":
                                     ["latitude": 10, "longitude": 20, "__type": "GeoPoint"]
                                 ]
             ]
         ]
-        let geoPoint = ParseGeoPoint(latitude: 10, longitude: 20)
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
         let constraint = polygonContains(key: "yolo", point: geoPoint)
         let query = GameScore.query(constraint)
         let queryWhere = query.`where`
@@ -2255,6 +2365,17 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testExplainFindLimitSynchronous() {
+        let query = GameScore.query()
+            .limit(0)
+        do {
+            let queryResult: [[String: String]] = try query.findExplain()
+            XCTAssertTrue(queryResult.isEmpty)
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
     func testExplainFindAsynchronous() {
         let json = AnyResultsResponse(results: [["yolo": "yarr"]])
 
@@ -2285,6 +2406,24 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    func testExplainFindLimitAsynchronous() {
+
+        let expectation = XCTestExpectation(description: "Fetch object")
+        let query = GameScore.query()
+            .limit(0)
+        query.findExplain(callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
+            switch result {
+
+            case .success(let queryResult):
+                XCTAssertTrue(queryResult.isEmpty)
+            case .failure(let error):
+                XCTFail("Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
     func testExplainFirstSynchronous() {
         let json = AnyResultsResponse(results: [["yolo": "yarr"]])
 
@@ -2306,6 +2445,21 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(queryResult, json.results.first)
         } catch {
             XCTFail("Error: \(error)")
+        }
+    }
+
+    func testExplainFirstLimitSynchronous() {
+        let query = GameScore.query()
+            .limit(0)
+        do {
+            let _: [[String: String]] = try query.firstExplain()
+            XCTFail("Should have produced error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("Should have casted as ParseError")
+                return
+            }
+            XCTAssertEqual(error.code, .objectNotFound)
         }
     }
 
@@ -2339,6 +2493,24 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    func testExplainFirstLimitAsynchronous() {
+
+        let expectation = XCTestExpectation(description: "Fetch object")
+        let query = GameScore.query()
+            .limit(0)
+        query.firstExplain(callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
+            switch result {
+
+            case .success:
+                XCTFail("Should have produced error")
+            case .failure(let error):
+                XCTAssertEqual(error.code, .objectNotFound)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
     func testExplainCountSynchronous() {
         let json = AnyResultsResponse(results: [["yolo": "yarr"]])
 
@@ -2356,8 +2528,20 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let query = GameScore.query()
         do {
-            let queryResult: [String: String] = try query.countExplain()
-            XCTAssertEqual(queryResult, json.results.first)
+            let queryResult: [[String: String]] = try query.countExplain()
+            XCTAssertEqual(queryResult, json.results)
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
+    func testExplainCountLimitSynchronous() {
+
+        let query = GameScore.query()
+            .limit(0)
+        do {
+            let queryResult: [[String: String]] = try query.countExplain()
+            XCTAssertTrue(queryResult.isEmpty)
         } catch {
             XCTFail("Error: \(error)")
         }
@@ -2380,11 +2564,29 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
-        query.countExplain(callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
+        query.countExplain(callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
             switch result {
 
             case .success(let queryResult):
-                XCTAssertEqual(queryResult, json.results.first)
+                XCTAssertEqual(queryResult, json.results)
+            case .failure(let error):
+                XCTFail("Error: \(error)")
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
+    func testExplainCountLimitAsynchronous() {
+
+        let expectation = XCTestExpectation(description: "Fetch object")
+        let query = GameScore.query()
+            .limit(0)
+        query.countExplain(callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
+            switch result {
+
+            case .success(let queryResult):
+                XCTAssertTrue(queryResult.isEmpty)
             case .failure(let error):
                 XCTFail("Error: \(error)")
             }
@@ -2523,8 +2725,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query()
             .hint("_id_")
         do {
-            let queryResult: [String: String] = try query.countExplain()
-            XCTAssertEqual(queryResult, json.results.first)
+            let queryResult: [[String: String]] = try query.countExplain()
+            XCTAssertEqual(queryResult, json.results)
         } catch {
             XCTFail("Error: \(error)")
         }
@@ -2548,11 +2750,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expectation = XCTestExpectation(description: "Fetch object")
         let query = GameScore.query()
             .hint("_id_")
-        query.countExplain(callbackQueue: .main) { (result: Result<[String: String], ParseError>) in
+        query.countExplain(callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
             switch result {
 
             case .success(let queryResult):
-                XCTAssertEqual(queryResult, json.results.first)
+                XCTAssertEqual(queryResult, json.results)
             case .failure(let error):
                 XCTFail("Error: \(error)")
             }
@@ -2669,6 +2871,19 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testAggregateLimit() {
+
+        let query = GameScore.query()
+            .limit(0)
+        do {
+            let pipeline = [["hello": "world"]]
+            let scores = try query.aggregate(pipeline)
+            XCTAssertTrue(scores.isEmpty)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func testAggregateExplainWithWhere() {
         let json = AnyResultsResponse(results: [["yolo": "yarr"]])
 
@@ -2692,6 +2907,19 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return
             }
             XCTAssertEqual(score, json.results.first)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testAggregateExplainWithWhereLimit() {
+
+        let query = GameScore.query("score" > 9)
+            .limit(0)
+        do {
+            let pipeline = [[String: String]]()
+            let scores: [[String: String]] = try query.aggregateExplain(pipeline)
+            XCTAssertTrue(scores.isEmpty)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -2773,6 +3001,26 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    func testAggregateAsyncMainQueueLimit() {
+
+        let query = GameScore.query()
+            .limit(0)
+        let expectation = XCTestExpectation(description: "Count object1")
+        let pipeline = [[String: AnyEncodable]]()
+        query.aggregate(pipeline, options: [], callbackQueue: .main) { result in
+
+            switch result {
+
+            case .success(let found):
+                XCTAssertTrue(found.isEmpty)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
     func testAggregateExplainAsyncMainQueue() {
         let json = AnyResultsResponse(results: [["yolo": "yarr"]])
 
@@ -2811,6 +3059,28 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    func testAggregateExplainAsyncMainQueueLimit() {
+
+        let expectation = XCTestExpectation(description: "Aggregate object1")
+        let pipeline = [[String: String]]()
+        let query = GameScore.query("score" > 9)
+            .limit(0)
+        query.aggregateExplain(pipeline,
+                               options: [],
+                               callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
+
+            switch result {
+
+            case .success(let found):
+                XCTAssertTrue(found.isEmpty)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
     func testDistinct() {
         var scoreOnServer = GameScore(score: 10)
         scoreOnServer.objectId = "yarr"
@@ -2840,6 +3110,18 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testDistinctLimit() {
+
+        let query = GameScore.query("score" > 9)
+            .limit(0)
+        do {
+            let scores = try query.distinct("hello")
+            XCTAssertTrue(scores.isEmpty)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func testDistinctExplain() {
         let json = AnyResultsResponse(results: [["yolo": "yarr"]])
 
@@ -2862,6 +3144,18 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return
             }
             XCTAssertEqual(score, json.results.first)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testDistinctExplainLimit() {
+
+        let query = GameScore.query("score" > 9)
+            .limit(0)
+        do {
+            let scores: [[String: String]] = try query.distinctExplain("hello")
+            XCTAssertTrue(scores.isEmpty)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -2904,6 +3198,24 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
+    func testDistinctAsyncMainQueueLimit() {
+        let query = GameScore.query("score" > 9)
+            .limit(0)
+        let expectation = XCTestExpectation(description: "Distinct object1")
+        query.distinct("hello", options: [], callbackQueue: .main) { result in
+
+            switch result {
+
+            case .success(let found):
+                XCTAssertTrue(found.isEmpty)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
     func testDistinctExplainAsyncMainQueue() {
         let json = AnyResultsResponse(results: [["yolo": "yarr"]])
 
@@ -2933,6 +3245,26 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                     return
                 }
                 XCTAssertEqual(score, json.results.first)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation.fulfill()
+        }
+        wait(for: [expectation], timeout: 20.0)
+    }
+
+    func testDistinctExplainAsyncMainQueueLimit() {
+        let expectation = XCTestExpectation(description: "Aggregate object1")
+        let query = GameScore.query("score" > 9)
+            .limit(0)
+        query.distinctExplain("hello",
+                              options: [],
+                              callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
+
+            switch result {
+
+            case .success(let found):
+                XCTAssertTrue(found.isEmpty)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
