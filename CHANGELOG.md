@@ -8,16 +8,19 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.6...1.9.0)
 
 __New features__
-- (Breaking Change) Added a new type, `QueryViewModel` which conforms to `ObservableObject`. The new type serves as a view model property for any Parse `Query`. Simply call `query.viewModel` to use the view model with any SwiftUI view. `QueryViewModel` can be subclassed for customization. In addition, developers can create their own view models for queries by conforming to `QueryObservable`. LiveQuery `Subscription`'s inherrit from `QueryViewModel` meaning instances of `Subscription` provides a single view model that publishes updates from LiveQuery events and traditional find, first, count, and aggregate queries. A breaking change is introduced for those use custom subscriptions as `ParseSubscription` has been renamed to `QuerySubscribable` ([#183](https://github.com/parse-community/Parse-Swift/pull/183)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Added a new type, QueryViewModel which conforms to ObservableObject. The new type serves as a view model property for any Parse Query. Simply call query.viewModel to use the view model with any SwiftUI view. QueryViewModel can be subclassed for customization. In addition, developers can create their own view models for queries by conforming to QueryObservable. LiveQuery Subscription's inherrit from QueryViewModel meaning instances of Subscription provides a single view model that publishes updates from LiveQuery events and traditional find, first, count, and aggregate queries. A breaking change is introduced for those use custom subscriptions as ParseSubscription has been renamed to QuerySubscribable ([#183](https://github.com/parse-community/Parse-Swift/pull/183)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added two missing Parse types, ParseBytes and ParsePolygon ([#190](https://github.com/parse-community/Parse-Swift/pull/190)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
 - Removed CommonCrypto and now uses encoded string as a hash for child ParseObjects across all OS's ([#184](https://github.com/parse-community/Parse-Swift/pull/184)), thanks to [Corey Baker](https://github.com/cbaker6).
 - All types now conform to CustomStringConvertible ([#185](https://github.com/parse-community/Parse-Swift/pull/185)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Setting limit = 0 of a query doesn't query the server and instead just returns empty or no results depending on the query ([#189](https://github.com/parse-community/Parse-Swift/pull/189)), thanks to [Corey Baker](https://github.com/cbaker6).
+- ParseGeoPoint initializer now throws if geopoints are out-of-bounds instead of asserting ([#190](https://github.com/parse-community/Parse-Swift/pull/190)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
 - Fixed a bug when signing up from a ParseUser instance resulted in custom keys not being persisted to the keychain ([#187](https://github.com/parse-community/Parse-Swift/pull/187)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Fixed a bug where `countExplain` query result wasn't returned as an array  ([#189](https://github.com/parse-community/Parse-Swift/pull/189)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Fixed a bug where countExplain query result wasn't returned as an array  ([#189](https://github.com/parse-community/Parse-Swift/pull/189)), thanks to [Corey Baker](https://github.com/cbaker6).
+- The query withinPolygon(key: String, points: [ParseGeoPoint]) now works correctly and sends an array of doubles instead of an array of GeoPoint's ([#190](https://github.com/parse-community/Parse-Swift/pull/190)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.8.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.5...1.8.6)
