@@ -6,8 +6,8 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-import Foundation
 #if canImport(SwiftUI)
+import Foundation
 
 /**
  A default implementation of the `QueryObservable` protocol. Suitable for `ObjectObserved`
@@ -46,15 +46,26 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
         }
     }
 
-    /**
-     Creates a new view model that can be used to handle updates.
-     */
     required public init(query: Query<T>) {
         self.query = query
     }
 
     open func find(options: API.Options = []) {
         query.find(options: options) { result in
+            switch result {
+            case .success(let results):
+                self.results = results
+            case .failure(let error):
+                self.error = error
+            }
+        }
+    }
+
+    open func findAll(batchLimit: Int? = nil,
+                      options: API.Options = []) {
+
+        query.findAll(batchLimit: batchLimit,
+                      options: options) { result in
             switch result {
             case .success(let results):
                 self.results = results

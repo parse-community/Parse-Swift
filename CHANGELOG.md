@@ -9,6 +9,7 @@
 
 __New features__
 - (Breaking Change) Added a new type, QueryViewModel which conforms to ObservableObject. The new type serves as a view model property for any Parse Query. Simply call query.viewModel to use the view model with any SwiftUI view. QueryViewModel can be subclassed for customization. In addition, developers can create their own view models for queries by conforming to QueryObservable. LiveQuery Subscription's inherrit from QueryViewModel meaning instances of Subscription provides a single view model that publishes updates from LiveQuery events and traditional find, first, count, and aggregate queries. A breaking change is introduced for those use custom subscriptions as ParseSubscription has been renamed to QuerySubscribable ([#183](https://github.com/parse-community/Parse-Swift/pull/183)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added a new type, CloudViewModel which conforms to ObservableObject. The new type serves as a view model property for any Cloud Code. Simply call cloud.viewModel to use the view model with any SwiftUI view. CloudViewModel can be subclassed for customization. In addition, developers can create their own view models for queries by conforming to CloudObservable ([#183](https://github.com/parse-community/Parse-Swift/pull/183)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Added two missing Parse types, ParseBytes and ParsePolygon ([#190](https://github.com/parse-community/Parse-Swift/pull/190)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__

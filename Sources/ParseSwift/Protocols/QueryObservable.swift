@@ -6,12 +6,12 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-import Foundation
 #if canImport(SwiftUI)
+import Foundation
 
 /**
  This protocol describes the interface for creating a view model for a `Query`.
- You can use this protocol on any custom class of yours, instead of `QueryObservable`, if it fits your use case better.
+ You can use this protocol on any custom class of yours, instead of `QueryViewModel`, if it fits your use case better.
  */
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol QueryObservable: ObservableObject {
@@ -34,6 +34,17 @@ public protocol QueryObservable: ObservableObject {
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
     */
     func find(options: API.Options)
+
+    /**
+     Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query
+     and updates the view model when complete..
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - warning: The items are processed in an unspecified order. The query may not have any sort
+     order, and may not use limit or skip.
+    */
+    func findAll(batchLimit: Int?,
+                 options: API.Options)
 
     /**
       Gets an object *asynchronously* and updates the view model when complete.

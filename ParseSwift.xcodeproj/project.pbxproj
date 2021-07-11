@@ -426,6 +426,17 @@
 		91CB9537265966DF0043E5D6 /* ParseAnanlyticsCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB9536265966DF0043E5D6 /* ParseAnanlyticsCombineTests.swift */; };
 		91CB9538265966DF0043E5D6 /* ParseAnanlyticsCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB9536265966DF0043E5D6 /* ParseAnanlyticsCombineTests.swift */; };
 		91CB9539265966DF0043E5D6 /* ParseAnanlyticsCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91CB9536265966DF0043E5D6 /* ParseAnanlyticsCombineTests.swift */; };
+		91F346B9269B766C005727B6 /* CloudViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346B8269B766C005727B6 /* CloudViewModel.swift */; };
+		91F346BA269B766D005727B6 /* CloudViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346B8269B766C005727B6 /* CloudViewModel.swift */; };
+		91F346BB269B766D005727B6 /* CloudViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346B8269B766C005727B6 /* CloudViewModel.swift */; };
+		91F346BC269B766D005727B6 /* CloudViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346B8269B766C005727B6 /* CloudViewModel.swift */; };
+		91F346BE269B77B5005727B6 /* CloudObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346BD269B77B5005727B6 /* CloudObservable.swift */; };
+		91F346BF269B77B5005727B6 /* CloudObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346BD269B77B5005727B6 /* CloudObservable.swift */; };
+		91F346C0269B77B5005727B6 /* CloudObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346BD269B77B5005727B6 /* CloudObservable.swift */; };
+		91F346C1269B77B5005727B6 /* CloudObservable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346BD269B77B5005727B6 /* CloudObservable.swift */; };
+		91F346C3269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */; };
+		91F346C4269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */; };
+		91F346C5269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */; };
 		F971F4F624DE381A006CB79B /* ParseEncoderExtraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971F4F524DE381A006CB79B /* ParseEncoderExtraTests.swift */; };
 		F97B45CE24D9C6F200F4A88B /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B424D9C6F200F4A88B /* ParseCoding.swift */; };
 		F97B45CF24D9C6F200F4A88B /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B424D9C6F200F4A88B /* ParseCoding.swift */; };
@@ -755,6 +766,9 @@
 		91BB8FCE2690BA70005A6BA5 /* QueryObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryObservable.swift; sourceTree = "<group>"; };
 		91BB8FD32690D586005A6BA5 /* ParseQueryViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseQueryViewModelTests.swift; sourceTree = "<group>"; };
 		91CB9536265966DF0043E5D6 /* ParseAnanlyticsCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAnanlyticsCombineTests.swift; sourceTree = "<group>"; };
+		91F346B8269B766C005727B6 /* CloudViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudViewModel.swift; sourceTree = "<group>"; };
+		91F346BD269B77B5005727B6 /* CloudObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudObservable.swift; sourceTree = "<group>"; };
+		91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCloudViewModelTests.swift; sourceTree = "<group>"; };
 		F971F4F524DE381A006CB79B /* ParseEncoderExtraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoderExtraTests.swift; sourceTree = "<group>"; };
 		F97B45B424D9C6F200F4A88B /* ParseCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCoding.swift; sourceTree = "<group>"; };
 		F97B45B524D9C6F200F4A88B /* AnyDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
@@ -919,6 +933,7 @@
 				91285B172698E66D0051B544 /* ParseBytesTests.swift */,
 				7044C21225C5DE490011F6E7 /* ParseCloudCombineTests.swift */,
 				916786EF259BC59600BB5B4E /* ParseCloudTests.swift */,
+				91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */,
 				7044C21F25C5E0160011F6E7 /* ParseConfigCombineTests.swift */,
 				70D1BE0625BB2BF400A42E7C /* ParseConfigTests.swift */,
 				91B40650267A66ED00B129CD /* ParseErrorTests.swift */,
@@ -1064,6 +1079,7 @@
 				70647E8D259E3375004C1004 /* LocallyIdentifiable.swift */,
 				70647E9B259E3A9A004C1004 /* ParseType.swift */,
 				91BB8FCE2690BA70005A6BA5 /* QueryObservable.swift */,
+				91F346BD269B77B5005727B6 /* CloudObservable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1221,11 +1237,11 @@
 		F97B45BA24D9C6F200F4A88B /* Types */ = {
 			isa = PBXGroup;
 			children = (
+				91F346B8269B766C005727B6 /* CloudViewModel.swift */,
 				F97B45C024D9C6F200F4A88B /* ParseACL.swift */,
 				70170A432656B02C0070C905 /* ParseAnalytics.swift */,
 				70170A482656E2FE0070C905 /* ParseAnalytics+combine.swift */,
 				91285B122698DBF20051B544 /* ParseBytes.swift */,
-				91285B1B26990D7F0051B544 /* ParsePolygon.swift */,
 				916786E1259B7DDA00BB5B4E /* ParseCloud.swift */,
 				7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */,
 				70D1BDB925BB17A600A42E7C /* ParseConfig.swift */,
@@ -1236,6 +1252,7 @@
 				F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */,
 				70F79A182639CE6F00731C46 /* ParseHealth.swift */,
 				70F79A262639D84600731C46 /* ParseHealth+combine.swift */,
+				91285B1B26990D7F0051B544 /* ParsePolygon.swift */,
 				7004C21F25B63C7A005E0AD9 /* ParseRelation.swift */,
 				91679D63268E596300F71809 /* ParseVersion.swift */,
 				F97B45BE24D9C6F200F4A88B /* Pointer.swift */,
@@ -1738,6 +1755,7 @@
 			files = (
 				F97B463724D9C74400F4A88B /* Responses.swift in Sources */,
 				916786E2259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
+				91F346B9269B766C005727B6 /* CloudViewModel.swift in Sources */,
 				F97B461624D9C6F200F4A88B /* Queryable.swift in Sources */,
 				F97B45DA24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				70C5503825B406B800B5DBC2 /* ParseSession.swift in Sources */,
@@ -1794,6 +1812,7 @@
 				7004C22025B63C7A005E0AD9 /* ParseRelation.swift in Sources */,
 				7003959525A10DFC0052CB31 /* Messages.swift in Sources */,
 				70C5655925AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */,
+				91F346BE269B77B5005727B6 /* CloudObservable.swift in Sources */,
 				F97B462F24D9C74400F4A88B /* BatchUtils.swift in Sources */,
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
 				F97B45EA24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
@@ -1857,6 +1876,7 @@
 				70C5504625B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				70110D5C2506ED0E0091CC1D /* ParseInstallationTests.swift in Sources */,
 				7016ED4025C4A25A00038648 /* ParseUserCombineTests.swift in Sources */,
+				91F346C3269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */,
 				91B40651267A66ED00B129CD /* ParseErrorTests.swift in Sources */,
 				705727B12593FF8800F0ADD5 /* ParseFileTests.swift in Sources */,
 				70BC0B33251903D1001556DB /* ParseGeoPointTests.swift in Sources */,
@@ -1902,6 +1922,7 @@
 			files = (
 				F97B463824D9C74400F4A88B /* Responses.swift in Sources */,
 				916786E3259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
+				91F346BA269B766D005727B6 /* CloudViewModel.swift in Sources */,
 				F97B461724D9C6F200F4A88B /* Queryable.swift in Sources */,
 				F97B45DB24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				70C5503925B406B800B5DBC2 /* ParseSession.swift in Sources */,
@@ -1958,6 +1979,7 @@
 				7004C22125B63C7A005E0AD9 /* ParseRelation.swift in Sources */,
 				7003959625A10DFC0052CB31 /* Messages.swift in Sources */,
 				70C5655A25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */,
+				91F346BF269B77B5005727B6 /* CloudObservable.swift in Sources */,
 				F97B463024D9C74400F4A88B /* BatchUtils.swift in Sources */,
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
 				F97B45EB24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
@@ -2030,6 +2052,7 @@
 				70C5504825B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				709B98572556ECAA00507778 /* ParseACLTests.swift in Sources */,
 				7016ED4225C4A25A00038648 /* ParseUserCombineTests.swift in Sources */,
+				91F346C5269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */,
 				91B40653267A66ED00B129CD /* ParseErrorTests.swift in Sources */,
 				705727BC2593FF8C00F0ADD5 /* ParseFileTests.swift in Sources */,
 				709B984F2556ECAA00507778 /* AnyCodableTests.swift in Sources */,
@@ -2097,6 +2120,7 @@
 				70C5504725B40D5200B5DBC2 /* ParseSessionTests.swift in Sources */,
 				70F2E2BC254F283000B2EA5C /* ParseObjectTests.swift in Sources */,
 				7016ED4125C4A25A00038648 /* ParseUserCombineTests.swift in Sources */,
+				91F346C4269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */,
 				91B40652267A66ED00B129CD /* ParseErrorTests.swift in Sources */,
 				705727BB2593FF8B00F0ADD5 /* ParseFileTests.swift in Sources */,
 				70F2E2BD254F283000B2EA5C /* AnyDecodableTests.swift in Sources */,
@@ -2142,6 +2166,7 @@
 			files = (
 				F97B45D524D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
 				916786E5259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
+				91F346BC269B766D005727B6 /* CloudViewModel.swift in Sources */,
 				F97B45E924D9C6F200F4A88B /* Query.swift in Sources */,
 				F97B463624D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
 				70C5503B25B406B800B5DBC2 /* ParseSession.swift in Sources */,
@@ -2198,6 +2223,7 @@
 				7004C22325B63C7A005E0AD9 /* ParseRelation.swift in Sources */,
 				7003959825A10DFC0052CB31 /* Messages.swift in Sources */,
 				70C5655C25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */,
+				91F346C1269B77B5005727B6 /* CloudObservable.swift in Sources */,
 				70BDA2B6250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B465924D9C78C00F4A88B /* Remove.swift in Sources */,
 				70110D5A2506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
@@ -2239,6 +2265,7 @@
 			files = (
 				F97B45D424D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
 				916786E4259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
+				91F346BB269B766D005727B6 /* CloudViewModel.swift in Sources */,
 				F97B45E824D9C6F200F4A88B /* Query.swift in Sources */,
 				F97B463524D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
 				70C5503A25B406B800B5DBC2 /* ParseSession.swift in Sources */,
@@ -2295,6 +2322,7 @@
 				7004C22225B63C7A005E0AD9 /* ParseRelation.swift in Sources */,
 				7003959725A10DFC0052CB31 /* Messages.swift in Sources */,
 				70C5655B25AA147B00BDD57F /* ParseLiveQueryConstants.swift in Sources */,
+				91F346C0269B77B5005727B6 /* CloudObservable.swift in Sources */,
 				70BDA2B5250536FF00FC2237 /* ParseInstallation.swift in Sources */,
 				F97B465824D9C78C00F4A88B /* Remove.swift in Sources */,
 				70110D592506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
