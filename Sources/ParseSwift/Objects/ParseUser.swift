@@ -114,13 +114,8 @@ extension ParseUser {
     }
 
     internal static func saveCurrentContainerToKeychain() {
-        //Only save the BaseParseUser to keep Keychain footprint finite
-        guard let currentUserInMemory: CurrentUserContainer<BaseParseUser>
-            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
-            return
-        }
         #if !os(Linux) && !os(Android)
-        try? KeychainStore.shared.set(currentUserInMemory, for: ParseStorage.Keys.currentUser)
+        try? KeychainStore.shared.set(Self.currentUserContainer, for: ParseStorage.Keys.currentUser)
         #endif
     }
 
