@@ -1442,9 +1442,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.verificationEmailAsyncError(parseError: parseError, callbackQueue: .main)
     }
 
-    func testUserCustomValuesNotSavedToKeychain() {
+    func testUserCustomValuesSavedToKeychain() {
         testLogin()
-        User.current?.customKey = "Changed"
+        let customField = "Changed"
+        User.current?.customKey = customField
         User.saveCurrentContainerToKeychain()
         #if !os(Linux) && !os(Android)
         guard let keychainUser: CurrentUserContainer<User>
@@ -1452,7 +1453,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail("Should get object from Keychain")
             return
         }
-        XCTAssertNil(keychainUser.currentUser?.customKey)
+        XCTAssertEqual(keychainUser.currentUser?.customKey, customField)
         #endif
     }
 

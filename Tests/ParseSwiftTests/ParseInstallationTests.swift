@@ -200,14 +200,15 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertEqual(originalLocaleIdentifier, Installation.current?.localeIdentifier)
     }
 
-    func testInstallationCustomValuesNotSavedToKeychain() {
-        Installation.current?.customKey = "Changed"
+    func testInstallationCustomValuesSavedToKeychain() {
+        let customField = "Changed"
+        Installation.current?.customKey = customField
         Installation.saveCurrentContainerToKeychain()
         guard let keychainInstallation: CurrentInstallationContainer<Installation>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
             return
         }
-        XCTAssertNil(keychainInstallation.currentInstallation?.customKey)
+        XCTAssertEqual(keychainInstallation.currentInstallation?.customKey, customField)
     }
 
     // swiftlint:disable:next function_body_length

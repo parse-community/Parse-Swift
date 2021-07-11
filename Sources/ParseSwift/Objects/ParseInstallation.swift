@@ -171,13 +171,8 @@ extension ParseInstallation {
     }
 
     internal static func saveCurrentContainerToKeychain() {
-        //Only save the BaseParseInstallation to keep Keychain footprint finite
-        guard let currentInstallationInMemory: CurrentInstallationContainer<BaseParseInstallation>
-            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
-            return
-        }
         #if !os(Linux) && !os(Android)
-        try? KeychainStore.shared.set(currentInstallationInMemory, for: ParseStorage.Keys.currentInstallation)
+        try? KeychainStore.shared.set(Self.currentInstallationContainer, for: ParseStorage.Keys.currentInstallation)
         #endif
     }
 

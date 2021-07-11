@@ -145,13 +145,8 @@ extension ParseConfig {
     }
 
     internal static func saveCurrentContainerToKeychain() {
-
-        guard let currentConfigInMemory: CurrentConfigContainer<Self>
-            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
-            return
-        }
         #if !os(Linux) && !os(Android)
-        try? KeychainStore.shared.set(currentConfigInMemory, for: ParseStorage.Keys.currentConfig)
+        try? KeychainStore.shared.set(Self.currentConfigContainer, for: ParseStorage.Keys.currentConfig)
         #endif
     }
 
