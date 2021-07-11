@@ -16,6 +16,7 @@ __Improvements__
 - All types now conform to CustomStringConvertible ([#185](https://github.com/parse-community/Parse-Swift/pull/185)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Setting limit = 0 of a query doesn't query the server and instead just returns empty or no results depending on the query ([#189](https://github.com/parse-community/Parse-Swift/pull/189)), thanks to [Corey Baker](https://github.com/cbaker6).
 - ParseGeoPoint initializer now throws if geopoints are out-of-bounds instead of asserting ([#190](https://github.com/parse-community/Parse-Swift/pull/190)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Persist all properties of ParseUser and ParseInstallation to keychain so they can be accessed via current. Developers don't have to fetch the ParseUser or ParseInstlation after app restart anymore ([#191](https://github.com/parse-community/Parse-Swift/pull/191)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
 - Fixed a bug when signing up from a ParseUser instance resulted in custom keys not being persisted to the keychain ([#187](https://github.com/parse-community/Parse-Swift/pull/187)), thanks to [Corey Baker](https://github.com/cbaker6).
