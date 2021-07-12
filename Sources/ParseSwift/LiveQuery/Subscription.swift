@@ -66,7 +66,7 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
 open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
 
     /// Updates and notifies when there's a new event related to a specific query.
-    open internal(set) var event: (query: Query<T>, event: Event<T>)? {
+    open var event: (query: Query<T>, event: Event<T>)? {
         willSet {
             if newValue != nil {
                 subscribed = nil
@@ -77,7 +77,7 @@ open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
     }
 
     /// Updates and notifies when a subscription request has been fulfilled and if it is new.
-    open internal(set) var subscribed: (query: Query<T>, isNew: Bool)? {
+    open var subscribed: (query: Query<T>, isNew: Bool)? {
         willSet {
             if newValue != nil {
                 unsubscribed = nil
@@ -88,7 +88,7 @@ open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
     }
 
     /// Updates and notifies when an unsubscribe request has been fulfilled.
-    open internal(set) var unsubscribed: Query<T>? {
+    open var unsubscribed: Query<T>? {
         willSet {
             if newValue != nil {
                 subscribed = nil
