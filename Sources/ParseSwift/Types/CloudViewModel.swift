@@ -19,7 +19,7 @@ open class CloudViewModel<T: ParseCloud>: CloudObservable {
     public var cloudCode: T
 
     /// Updates and notifies when the new results have been retrieved.
-    open internal(set) var results = [T.ReturnType]() {
+    open internal(set) var results: T.ReturnType? {
         willSet {
             self.error = nil
             objectWillChange.send()
@@ -30,7 +30,7 @@ open class CloudViewModel<T: ParseCloud>: CloudObservable {
     open internal(set) var error: ParseError? = nil {
         willSet {
             if newValue != nil {
-                self.results.removeAll()
+                self.results = nil
                 objectWillChange.send()
             }
         }
@@ -45,7 +45,7 @@ open class CloudViewModel<T: ParseCloud>: CloudObservable {
             switch results {
 
             case .success(let results):
-                self.results = [results]
+                self.results = results
             case .failure(let error):
                 self.error = error
             }
@@ -57,7 +57,7 @@ open class CloudViewModel<T: ParseCloud>: CloudObservable {
             switch results {
 
             case .success(let results):
-                self.results = [results]
+                self.results = results
             case .failure(let error):
                 self.error = error
             }

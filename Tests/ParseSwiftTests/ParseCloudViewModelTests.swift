@@ -61,7 +61,7 @@ class ParseCloudViewModelTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Run Function")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(viewModel.results.count, 1)
+            XCTAssertEqual(viewModel.results, "hello")
             XCTAssertNil(viewModel.error)
             expectation.fulfill()
         }
@@ -85,7 +85,7 @@ class ParseCloudViewModelTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Run Function")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertTrue(viewModel.results.isEmpty)
+            XCTAssertEqual(viewModel.results, nil)
             XCTAssertNotNil(viewModel.error)
             expectation.fulfill()
         }
@@ -109,7 +109,7 @@ class ParseCloudViewModelTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Start Job")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(viewModel.results.count, 1)
+            XCTAssertEqual(viewModel.results, "hello")
             XCTAssertNil(viewModel.error)
             expectation.fulfill()
         }
@@ -133,7 +133,7 @@ class ParseCloudViewModelTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Start Job")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertEqual(viewModel.results.count, 1)
+            XCTAssertEqual(viewModel.results, "hello")
             XCTAssertNil(viewModel.error)
             expectation.fulfill()
         }
@@ -157,7 +157,7 @@ class ParseCloudViewModelTests: XCTestCase {
 
         let expectation = XCTestExpectation(description: "Start Job")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            XCTAssertTrue(viewModel.results.isEmpty)
+            XCTAssertEqual(viewModel.results, nil)
             XCTAssertNotNil(viewModel.error)
             expectation.fulfill()
         }
