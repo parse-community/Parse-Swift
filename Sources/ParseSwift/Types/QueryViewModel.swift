@@ -20,7 +20,7 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
     public typealias Object = T
 
     /// Updates and notifies when the new results have been retrieved.
-    open internal(set) var results = [Object]() {
+    open var results = [Object]() {
         willSet {
             count = newValue.count
             objectWillChange.send()
@@ -28,7 +28,7 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
     }
 
     /// Updates and notifies when the count of the results have been retrieved.
-    open internal(set) var count = 0 {
+    open var count = 0 {
         willSet {
             error = nil
             objectWillChange.send()
@@ -36,7 +36,7 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
     }
 
     /// Updates and notifies when there is an error retrieving the results.
-    open internal(set) var error: ParseError? = nil {
+    open var error: ParseError? = nil {
         willSet {
             if newValue != nil {
                 results.removeAll()
