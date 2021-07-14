@@ -432,9 +432,7 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
         if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
 
         var valueToEncode: Encodable = value
-        if ((value as? Objectable) != nil)
-            || ((try? PointerType(value)) != nil)
-            || ((value as? ParsePointer) != nil) {
+        if ((value as? Objectable) != nil) || ((value as? ParsePointer) != nil) {
             if let replacedObject = try self.encoder.deepFindAndReplaceParseObjects(value) {
                 valueToEncode = replacedObject
             }
