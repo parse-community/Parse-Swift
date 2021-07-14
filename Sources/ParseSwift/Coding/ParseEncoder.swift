@@ -115,7 +115,7 @@ public struct ParseEncoder {
     // swiftlint:disable large_tuple
     internal func encode<T: ParseObject>(_ value: T,
                                          objectsSavedBeforeThisOne: [String: PointerType]?,
-                                         filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+                                         filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
         let keysToSkip: Set<String>!
         if !ParseSwift.configuration.allowCustomObjectId {
             keysToSkip = SkipKeys.object.keys()
@@ -132,7 +132,7 @@ public struct ParseEncoder {
     // swiftlint:disable large_tuple
     internal func encode(_ value: ParseType, collectChildren: Bool,
                          objectsSavedBeforeThisOne: [String: PointerType]?,
-                         filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+                         filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
         let keysToSkip: Set<String>!
         if !ParseSwift.configuration.allowCustomObjectId {
             keysToSkip = SkipKeys.object.keys()
@@ -152,7 +152,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
     var codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
     let skippedKeys: Set<String>
-    var uniqueObjects = Set<UniqueObject>()
+    var uniqueObject: PointerType?
     var uniqueFiles = Set<ParseFile>()
     var newObjects = [Encodable]()
     var collectChildren = false
@@ -208,7 +208,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
 
     func encodeObject(_ value: Encodable, collectChildren: Bool,
                       objectsSavedBeforeThisOne: [String: PointerType]?,
-                      filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: Set<UniqueObject>, unsavedChildren: [Encodable]) {
+                      filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
 
         let encoder = _ParseEncoder(codingPath: codingPath, dictionary: dictionary, skippingKeys: skippedKeys)
         encoder.collectChildren = collectChildren
@@ -220,6 +220,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         encoder.userInfo = userInfo
         encoder.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
         encoder.filesSavedBeforeThisOne = filesSavedBeforeThisOne
+        encoder.uniqueObject = try? PointerType(value)
 
         guard let topLevel = try encoder.box_(value) else {
             throw EncodingError.invalidValue(value,
@@ -229,7 +230,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         let writingOptions = JSONSerialization.WritingOptions(rawValue: self.outputFormatting.rawValue).union(.fragmentsAllowed)
         do {
             let serialized = try JSONSerialization.data(withJSONObject: topLevel, options: writingOptions)
-            return (serialized, encoder.uniqueObjects, encoder.newObjects)
+            return (serialized, encoder.uniqueObject, encoder.newObjects)
         } catch {
             throw EncodingError.invalidValue(value,
                                              EncodingError.Context(codingPath: [], debugDescription: "Unable to encode the given top-level value to JSON.", underlyingError: error))
@@ -284,17 +285,19 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         )
     }
 
-    func deepFindAndReplaceParseObjects(_ value: Objectable) throws -> Encodable? {
+    func deepFindAndReplaceParseObjects(_ value: Encodable) throws -> Encodable? {
         var valueToEncode: Encodable?
-        if let object = UniqueObject(target: value) {
-            if self.uniqueObjects.contains(object) {
-                throw ParseError(code: .unknownError, message: "Found a circular dependency when encoding.")
+        if let object = try? PointerType(value) {
+            if let uniqueObject = self.uniqueObject,
+               uniqueObject.className == object.className,
+               uniqueObject.objectId == object.objectId {
+                throw ParseError(code: .unknownError,
+                                 message: "Found a circular dependency when encoding.")
             }
-            self.uniqueObjects.insert(object)
             if !self.collectChildren && codingPath.count > 0 {
                 valueToEncode = value
             } else if !self.collectChildren {
-                valueToEncode = try value.toPointer()
+                valueToEncode = object
             }
         } else {
             let hashOfCurrentObject = try BaseObjectable.createHash(value)
@@ -429,9 +432,27 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
         if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
 
         var valueToEncode: Encodable = value
-        if let parseObject = value as? Objectable {
-            if let replacedObject = try self.encoder.deepFindAndReplaceParseObjects(parseObject) {
+        if ((value as? Objectable) != nil)
+            || ((try? PointerType(value)) != nil)
+            || ((value as? ParsePointer) != nil) {
+            if let replacedObject = try self.encoder.deepFindAndReplaceParseObjects(value) {
                 valueToEncode = replacedObject
+            }
+        } else if let parsePointers = value as? [ParsePointer] {
+            let replacedPointers = try parsePointers.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }
+            if replacedPointers.count > 0 {
+                self.encoder.codingPath.append(key)
+                defer { self.encoder.codingPath.removeLast() }
+                self.container[key.stringValue] = try replacedPointers.map { try self.encoder.box($0) }
+                return
+            }
+        } else if let parsePointers = value as? [PointerType] {
+            let replacedPointers = try parsePointers.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }
+            if replacedPointers.count > 0 {
+                self.encoder.codingPath.append(key)
+                defer { self.encoder.codingPath.removeLast() }
+                self.container[key.stringValue] = try replacedPointers.map { try self.encoder.box($0) }
+                return
             }
         } else if let parseObjects = value as? [Objectable] {
             let replacedObjects = try parseObjects.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }

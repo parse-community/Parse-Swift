@@ -3,7 +3,14 @@ import Foundation
 import Combine
 #endif
 
-protocol ParsePointer { }
+protocol ParsePointer: Encodable {
+
+    var __type: String { get } // swiftlint:disable:this identifier_name
+
+    var className: String { get }
+
+    var objectId: String { get set }
+}
 
 private func getObjectId<T: ParseObject>(target: T) throws -> String {
     guard let objectId = target.objectId else {
@@ -22,7 +29,7 @@ private func getObjectId(target: Objectable) throws -> String {
 /// A Pointer referencing a ParseObject.
 public struct Pointer<T: ParseObject>: ParsePointer, Fetchable, Encodable, Hashable {
 
-    private let __type: String = "Pointer" // swiftlint:disable:this identifier_name
+    internal let __type: String = "Pointer" // swiftlint:disable:this identifier_name
 
     /**
     The id of the object.
@@ -156,6 +163,16 @@ internal struct PointerType: ParsePointer, Encodable {
     init(_ target: Objectable) throws {
         self.objectId = try getObjectId(target: target)
         self.className = target.className
+    }
+
+    init(_ target: Encodable) throws {
+        guard let objectable = target as? Objectable,
+              let objectId = objectable.objectId else {
+            throw ParseError(code: .unknownError,
+                             message: "Not able to convert to a pointer")
+        }
+        self.objectId = objectId
+        self.className = objectable.className
     }
 
     private enum CodingKeys: String, CodingKey {

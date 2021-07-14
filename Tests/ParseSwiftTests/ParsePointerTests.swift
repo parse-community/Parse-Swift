@@ -22,6 +22,7 @@ class ParsePointerTests: XCTestCase {
         //: Your own properties
         var score: Int
         var other: Pointer<GameScore>?
+        var others: [Pointer<GameScore>]?
 
         //: a custom initializer
         init(score: Int) {
@@ -85,6 +86,36 @@ class ParsePointerTests: XCTestCase {
         let pointer = try score2.toPointer()
         XCTAssertEqual(pointer.className, score.className)
         XCTAssertEqual(pointer.objectId, score.objectId)
+    }
+
+    func testDetectCircularDependency() throws {
+        var score = GameScore(score: 10)
+        score.objectId = "nice"
+        score.other = try score.toPointer()
+
+        score.ensureDeepSave { (_, _, parseError) in
+            guard let error = parseError else {
+                XCTFail("Should have failed with an error of detecting a circular dependency")
+                return
+            }
+            XCTAssertTrue(error.message.contains("circular"))
+        }
+    }
+
+    func testDetectCircularDependencyArray() throws {
+        var score = GameScore(score: 10)
+        score.objectId = "nice"
+        let first = try score.toPointer()
+        let second = try score.toPointer()
+        score.others = [first, second]
+
+        score.ensureDeepSave { (_, _, parseError) in
+            guard let error = parseError else {
+                XCTFail("Should have failed with an error of detecting a circular dependency")
+                return
+            }
+            XCTAssertTrue(error.message.contains("circular"))
+        }
     }
 
     // swiftlint:disable:next function_body_length
@@ -229,7 +260,7 @@ class ParsePointerTests: XCTestCase {
         XCTAssertEqual(decoded,
                        // swiftlint:disable:next line_length
                        "{\"score\":50,\"other\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"}}")
-        XCTAssertEqual(encoded.unique.count, 0)
+        XCTAssertNil(encoded.unique)
         XCTAssertEqual(encoded.unsavedChildren.count, 0)
     }
 
