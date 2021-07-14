@@ -23,6 +23,7 @@ __Fixes__
 - Fixed a bug when signing up from a ParseUser instance resulted in custom keys not being persisted to the keychain ([#187](https://github.com/parse-community/Parse-Swift/pull/187)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Fixed a bug where countExplain query result wasn't returned as an array  ([#189](https://github.com/parse-community/Parse-Swift/pull/189)), thanks to [Corey Baker](https://github.com/cbaker6).
 - The query withinPolygon(key: String, points: [ParseGeoPoint]) now works correctly and sends an array of doubles instead of an array of GeoPoint's ([#190](https://github.com/parse-community/Parse-Swift/pull/190)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Fixed a bug where the ParseEncoder incorrectly detects a circular dependency when two child objects are the same ([#194](https://github.com/parse-community/Parse-Swift/pull/194)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.8.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.5...1.8.6)
