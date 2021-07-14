@@ -35,6 +35,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var player: String?
         var level: Level?
         var levels: [Level]?
+        var nextLevel: Level?
 
         //custom initializers
         init (objectId: String?) {
@@ -1213,6 +1214,18 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return
             }
             XCTAssertTrue(error.message.contains("circular"))
+        }
+    }
+
+    func testAllowFieldsWithSameObject() throws {
+        var score = GameScore(score: 10)
+        var level = Level()
+        level.objectId = "nice"
+        score.level = level
+        score.nextLevel = level
+
+        score.ensureDeepSave { (_, _, parseError) in
+            XCTAssertNil(parseError)
         }
     }
 
