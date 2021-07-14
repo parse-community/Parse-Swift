@@ -72,7 +72,8 @@ extension Objectable {
         return .objects(className: className)
     }
 
-    var isSaved: Bool {
+    /// Specifies if a `ParseObject` has been saved.
+    public var isSaved: Bool {
         if !ParseSwift.configuration.allowCustomObjectId {
             return objectId != nil
         } else {
@@ -89,26 +90,6 @@ extension Objectable {
             return endpoint
         } else {
             return .objects(className: className)
-        }
-    }
-}
-
-internal struct UniqueObject: Encodable, Decodable, Hashable {
-    let objectId: String
-
-    init?(target: Encodable) {
-        guard let objectable = target as? Objectable,
-              let objectId = objectable.objectId else {
-            return nil
-        }
-        self.objectId = objectId
-    }
-
-    init?(target: Objectable) {
-        if let objectId = target.objectId {
-            self.objectId = objectId
-        } else {
-            return nil
         }
     }
 }
