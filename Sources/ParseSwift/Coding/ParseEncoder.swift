@@ -439,21 +439,9 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
                 valueToEncode = replacedObject
             }
         } else if let parsePointers = value as? [ParsePointer] {
-            let replacedPointers = try parsePointers.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }
-            if replacedPointers.count > 0 {
-                self.encoder.codingPath.append(key)
-                defer { self.encoder.codingPath.removeLast() }
-                self.container[key.stringValue] = try replacedPointers.map { try self.encoder.box($0) }
-                return
-            }
+            _ = try parsePointers.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }
         } else if let parsePointers = value as? [PointerType] {
-            let replacedPointers = try parsePointers.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }
-            if replacedPointers.count > 0 {
-                self.encoder.codingPath.append(key)
-                defer { self.encoder.codingPath.removeLast() }
-                self.container[key.stringValue] = try replacedPointers.map { try self.encoder.box($0) }
-                return
-            }
+            _ = try parsePointers.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }
         } else if let parseObjects = value as? [Objectable] {
             let replacedObjects = try parseObjects.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }
             if replacedObjects.count > 0 {
