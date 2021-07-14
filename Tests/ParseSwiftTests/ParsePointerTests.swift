@@ -106,8 +106,7 @@ class ParsePointerTests: XCTestCase {
         var score = GameScore(score: 10)
         score.objectId = "nice"
         let first = try score.toPointer()
-        let second = try score.toPointer()
-        score.others = [first, second]
+        score.others = [first, first]
 
         score.ensureDeepSave { (_, _, parseError) in
             guard let error = parseError else {

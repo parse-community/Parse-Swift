@@ -440,8 +440,6 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
             }
         } else if let parsePointers = value as? [ParsePointer] {
             _ = try parsePointers.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }
-        } else if let parsePointers = value as? [PointerType] {
-            _ = try parsePointers.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }
         } else if let parseObjects = value as? [Objectable] {
             let replacedObjects = try parseObjects.compactMap { try self.encoder.deepFindAndReplaceParseObjects($0) }
             if replacedObjects.count > 0 {
