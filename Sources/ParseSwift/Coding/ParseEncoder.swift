@@ -152,7 +152,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
     var codingPath: [CodingKey]
     let dictionary: NSMutableDictionary
     let skippedKeys: Set<String>
-    var uniqueObject: PointerType?
+    var uniquePointer: PointerType?
     var uniqueFiles = Set<ParseFile>()
     var newObjects = [Encodable]()
     var collectChildren = false
@@ -220,7 +220,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         encoder.userInfo = userInfo
         encoder.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
         encoder.filesSavedBeforeThisOne = filesSavedBeforeThisOne
-        encoder.uniqueObject = try? PointerType(value)
+        encoder.uniquePointer = try? PointerType(value)
 
         guard let topLevel = try encoder.box_(value) else {
             throw EncodingError.invalidValue(value,
@@ -230,7 +230,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         let writingOptions = JSONSerialization.WritingOptions(rawValue: self.outputFormatting.rawValue).union(.fragmentsAllowed)
         do {
             let serialized = try JSONSerialization.data(withJSONObject: topLevel, options: writingOptions)
-            return (serialized, encoder.uniqueObject, encoder.newObjects)
+            return (serialized, encoder.uniquePointer, encoder.newObjects)
         } catch {
             throw EncodingError.invalidValue(value,
                                              EncodingError.Context(codingPath: [], debugDescription: "Unable to encode the given top-level value to JSON.", underlyingError: error))
@@ -287,17 +287,17 @@ private class _ParseEncoder: JSONEncoder, Encoder {
 
     func deepFindAndReplaceParseObjects(_ value: Encodable) throws -> Encodable? {
         var valueToEncode: Encodable?
-        if let object = try? PointerType(value) {
-            if let uniqueObject = self.uniqueObject,
-               uniqueObject.className == object.className,
-               uniqueObject.objectId == object.objectId {
+        if let pointer = try? PointerType(value) {
+            if let uniquePointer = self.uniquePointer,
+               uniquePointer.className == pointer.className,
+               uniquePointer.objectId == pointer.objectId {
                 throw ParseError(code: .unknownError,
                                  message: "Found a circular dependency when encoding.")
             }
             if !self.collectChildren && codingPath.count > 0 {
                 valueToEncode = value
-            } else if !self.collectChildren {
-                valueToEncode = object
+            } else {
+                valueToEncode = pointer
             }
         } else {
             let hashOfCurrentObject = try BaseObjectable.createHash(value)
