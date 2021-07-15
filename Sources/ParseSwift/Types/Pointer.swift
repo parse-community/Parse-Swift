@@ -177,31 +177,4 @@ internal struct PointerType: ParsePointer, Codable {
         self.objectId = try getObjectId(target: target)
         self.className = target.className
     }
-/*
-    init<T: Encodable>(_ target: T) throws {
-        if let pointer = target as? PointerType {
-            self.className = pointer.className
-            self.objectId = pointer.objectId
-            return
-        }
-        guard let encoded = try? ParseCoding.jsonEncoder().encode(target),
-              let pointer = try? ParseCoding.jsonDecoder().decode(PointerType.self, from: encoded) else {
-            throw ParseError(code: .unknownError,
-                             message: "Not able to convert to a pointer")
-        }
-        self.className = pointer.className
-        self.objectId = pointer.objectId
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case __type, objectId, className
-    }*/
 }
-/*
-extension PointerType {
-    init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        className = try values.decode(String.self, forKey: .className)
-        objectId = try values.decode(String.self, forKey: .objectId)
-    }
-}*/
