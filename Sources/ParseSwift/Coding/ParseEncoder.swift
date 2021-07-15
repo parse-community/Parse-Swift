@@ -96,7 +96,10 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
-        return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil).encoded
+        return try encoder.encodeObject(value, collectChildren: false,
+                                        uniquePointer: nil,
+                                        objectsSavedBeforeThisOne: nil,
+                                        filesSavedBeforeThisOne: nil).encoded
     }
 
     /**
@@ -109,7 +112,11 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
-        return try encoder.encodeObject(value, collectChildren: false, objectsSavedBeforeThisOne: nil, filesSavedBeforeThisOne: nil).encoded
+        return try encoder.encodeObject(value,
+                                        collectChildren: false,
+                                        uniquePointer: nil,
+                                        objectsSavedBeforeThisOne: nil,
+                                        filesSavedBeforeThisOne: nil).encoded
     }
 
     // swiftlint:disable large_tuple
@@ -126,7 +133,11 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
-        return try encoder.encodeObject(value, collectChildren: true, objectsSavedBeforeThisOne: objectsSavedBeforeThisOne, filesSavedBeforeThisOne: filesSavedBeforeThisOne)
+        return try encoder.encodeObject(value,
+                                        collectChildren: true,
+                                        uniquePointer: try? value.toPointer(),
+                                        objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                                        filesSavedBeforeThisOne: filesSavedBeforeThisOne)
     }
 
     // swiftlint:disable large_tuple
@@ -143,7 +154,11 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
-        return try encoder.encodeObject(value, collectChildren: collectChildren, objectsSavedBeforeThisOne: objectsSavedBeforeThisOne, filesSavedBeforeThisOne: filesSavedBeforeThisOne)
+        return try encoder.encodeObject(value,
+                                        collectChildren: collectChildren,
+                                        uniquePointer: nil,
+                                        objectsSavedBeforeThisOne: objectsSavedBeforeThisOne,
+                                        filesSavedBeforeThisOne: filesSavedBeforeThisOne)
     }
 }
 
@@ -206,7 +221,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         throw ParseError(code: .unknownError, message: "This method shouldn't be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
     }
 
-    func encodeObject(_ value: Encodable, collectChildren: Bool,
+    func encodeObject(_ value: Encodable, collectChildren: Bool, uniquePointer: PointerType?,
                       objectsSavedBeforeThisOne: [String: PointerType]?,
                       filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
 
@@ -220,7 +235,7 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         encoder.userInfo = userInfo
         encoder.objectsSavedBeforeThisOne = objectsSavedBeforeThisOne
         encoder.filesSavedBeforeThisOne = filesSavedBeforeThisOne
-        encoder.uniquePointer = try? PointerType(value)
+        encoder.uniquePointer = uniquePointer
 
         guard let topLevel = try encoder.box_(value) else {
             throw EncodingError.invalidValue(value,
@@ -287,10 +302,21 @@ private class _ParseEncoder: JSONEncoder, Encoder {
 
     func deepFindAndReplaceParseObjects(_ value: Encodable) throws -> Encodable? {
         var valueToEncode: Encodable?
-        if let pointer = try? PointerType(value) {
+        if let pointer = value as? ParsePointer {
             if let uniquePointer = self.uniquePointer,
-               uniquePointer.className == pointer.className,
-               uniquePointer.objectId == pointer.objectId {
+               uniquePointer.hasSameObjectId(as: pointer) {
+                throw ParseError(code: .unknownError,
+                                 message: "Found a circular dependency when encoding.")
+            }
+            if !self.collectChildren && codingPath.count > 0 {
+                valueToEncode = value
+            } else {
+                valueToEncode = pointer
+            }
+        } else if let object = value as? Objectable,
+                  let pointer = try? PointerType(object) {
+            if let uniquePointer = self.uniquePointer,
+               uniquePointer.hasSameObjectId(as: pointer) {
                 throw ParseError(code: .unknownError,
                                  message: "Found a circular dependency when encoding.")
             }
@@ -432,7 +458,8 @@ private struct _ParseEncoderKeyedEncodingContainer<Key: CodingKey>: KeyedEncodin
         if self.encoder.skippedKeys.contains(key.stringValue) && !self.encoder.ignoreSkipKeys { return }
 
         var valueToEncode: Encodable = value
-        if ((value as? Objectable) != nil) || ((value as? ParsePointer) != nil) {
+        if ((value as? Objectable) != nil)
+            || ((value as? ParsePointer) != nil) {
             if let replacedObject = try self.encoder.deepFindAndReplaceParseObjects(value) {
                 valueToEncode = replacedObject
             }

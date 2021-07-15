@@ -655,7 +655,6 @@ extension ParseObject {
         queue.sync {
             var objectsFinishedSaving = [String: PointerType]()
             var filesFinishedSaving = [UUID: ParseFile]()
-
             do {
                 let object = try ParseCoding.parseEncoder()
                     .encode(self,
@@ -693,7 +692,7 @@ extension ParseObject {
                     }
                     waitingToBeSaved = nextBatch
 
-                    if savableObjects.count == 0 && savableFiles.count == 0 {
+                    if waitingToBeSaved.count > 0 && savableObjects.count == 0 && savableFiles.count == 0 {
                         completion(objectsFinishedSaving,
                                    filesFinishedSaving,
                                    ParseError(code: .unknownError,
