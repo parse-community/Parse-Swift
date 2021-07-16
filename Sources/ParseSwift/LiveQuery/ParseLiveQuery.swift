@@ -310,156 +310,161 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
     func status(_ status: LiveQuerySocket.Status,
                 closeCode: URLSessionWebSocketTask.CloseCode? = nil,
                 reason: Data? = nil) {
-        switch status {
+        synchronizationQueue.sync {
+            switch status {
 
-        case .open:
-            self.isSocketEstablished = true
-            self.open(isUserWantsToConnect: false) { _ in }
-        case .closed:
-            self.notificationQueue.async {
-                self.receiveDelegate?.closedSocket(closeCode, reason: reason)
-            }
-            self.isSocketEstablished = false
-            if !self.isDisconnectedByUser {
-                //Try to reconnect
-                self.resumeTask()
+            case .open:
+                self.isSocketEstablished = true
+                self.open(isUserWantsToConnect: false) { _ in }
+            case .closed:
+                self.notificationQueue.async {
+                    self.receiveDelegate?.closedSocket(closeCode, reason: reason)
+                }
+                self.isSocketEstablished = false
+                if !self.isDisconnectedByUser {
+                    //Try to reconnect
+                    self.resumeTask()
+                }
             }
         }
     }
 
     func received(_ data: Data) {
-        if let redirect = try? ParseCoding.jsonDecoder().decode(RedirectResponse.self, from: data) {
-            if redirect.op == .redirect {
-                self.url = redirect.url
-                if self.isConnected {
-                    self.close(useDedicatedQueue: true)
-                    //Try to reconnect
-                    self.resumeTask()
+        synchronizationQueue.sync {
+            if let redirect = try? ParseCoding.jsonDecoder().decode(RedirectResponse.self, from: data) {
+                if redirect.op == .redirect {
+                    self.url = redirect.url
+                    if self.isConnected {
+                        self.close(useDedicatedQueue: true)
+                        //Try to reconnect
+                        self.resumeTask()
+                    }
                 }
+                return
             }
-            return
-        }
 
-        //Check if this is an error response
-        if let error = try? ParseCoding.jsonDecoder().decode(ErrorResponse.self, from: data) {
-            if !error.reconnect {
-                //Treat this as a user disconnect because the server doesn't want to hear from us anymore
-                self.close()
-            }
-            guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
-                //Turn LiveQuery error into ParseError
-                let parseError = ParseError(code: .unknownError,
-                                            // swiftlint:disable:next line_length
-                                            message: "ParseLiveQuery Error: code: \(error.code), message: \(error.message)")
+            //Check if this is an error response
+            if let error = try? ParseCoding.jsonDecoder().decode(ErrorResponse.self, from: data) {
+                if !error.reconnect {
+                    //Treat this as a user disconnect because the server doesn't want to hear from us anymore
+                    self.close()
+                }
+                guard let parseError = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data) else {
+                    //Turn LiveQuery error into ParseError
+                    let parseError = ParseError(code: .unknownError,
+                                                // swiftlint:disable:next line_length
+                                                message: "ParseLiveQuery Error: code: \(error.code), message: \(error.message)")
+                    self.notificationQueue.async {
+                        self.receiveDelegate?.received(parseError)
+                    }
+                    return
+                }
                 self.notificationQueue.async {
                     self.receiveDelegate?.received(parseError)
                 }
                 return
-            }
-            self.notificationQueue.async {
-                self.receiveDelegate?.received(parseError)
-            }
-            return
-        } else if !self.isConnected {
-            //Check if this is a connected response
-            guard let response = try? ParseCoding.jsonDecoder().decode(ConnectionResponse.self, from: data),
-                  response.op == .connected else {
-                //If not connected, shouldn't receive anything other than a connection response
-                guard let outOfOrderMessage = try? ParseCoding
-                        .jsonDecoder()
-                        .decode(AnyCodable.self, from: data) else {
+            } else if !self.isConnected {
+                //Check if this is a connected response
+                guard let response = try? ParseCoding.jsonDecoder().decode(ConnectionResponse.self, from: data),
+                      response.op == .connected else {
+                    //If not connected, shouldn't receive anything other than a connection response
+                    guard let outOfOrderMessage = try? ParseCoding
+                            .jsonDecoder()
+                            .decode(AnyCodable.self, from: data) else {
+                        let error = ParseError(code: .unknownError,
+                                               // swiftlint:disable:next line_length
+                                               message: "ParseLiveQuery Error: Received message out of order, but couldn't decode it")
+                        self.notificationQueue.async {
+                            self.receiveDelegate?.received(error)
+                        }
+                        return
+                    }
                     let error = ParseError(code: .unknownError,
                                            // swiftlint:disable:next line_length
-                                           message: "ParseLiveQuery Error: Received message out of order, but couldn't decode it")
+                                           message: "ParseLiveQuery Error: Received message out of order: \(outOfOrderMessage)")
                     self.notificationQueue.async {
                         self.receiveDelegate?.received(error)
                     }
                     return
                 }
-                let error = ParseError(code: .unknownError,
-                                       // swiftlint:disable:next line_length
-                                       message: "ParseLiveQuery Error: Received message out of order: \(outOfOrderMessage)")
-                self.notificationQueue.async {
-                    self.receiveDelegate?.received(error)
-                }
-                return
-            }
-            self.clientId = response.clientId
-            self.isConnected = true
-        } else {
+                self.clientId = response.clientId
+                self.isConnected = true
+            } else {
 
-            if let preliminaryMessage = try? ParseCoding.jsonDecoder()
-                        .decode(PreliminaryMessageResponse.self,
-                                from: data) {
+                if let preliminaryMessage = try? ParseCoding.jsonDecoder()
+                            .decode(PreliminaryMessageResponse.self,
+                                    from: data) {
 
-                if preliminaryMessage.clientId != self.clientId {
-                    let error = ParseError(code: .unknownError,
-                                           // swiftlint:disable:next line_length
-                                           message: "ParseLiveQuery Error: Received a message from a server who sent clientId \(preliminaryMessage.clientId) while it should be \(String(describing: self.clientId)). Not accepting message...")
-                    self.notificationQueue.async {
-                        self.receiveDelegate?.received(error)
-                    }
-                }
-
-                if let installationId = BaseParseInstallation.currentInstallationContainer.installationId {
-                    if installationId != preliminaryMessage.installationId {
+                    if preliminaryMessage.clientId != self.clientId {
                         let error = ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "ParseLiveQuery Error: Received a message from a server who sent an installationId of \(String(describing: preliminaryMessage.installationId)) while it should be \(installationId). Not accepting message...")
+                                               message: "ParseLiveQuery Error: Received a message from a server who sent clientId \(preliminaryMessage.clientId) while it should be \(String(describing: self.clientId)). Not accepting message...")
                         self.notificationQueue.async {
                             self.receiveDelegate?.received(error)
                         }
                     }
-                }
 
-                switch preliminaryMessage.op {
-                case .subscribed:
+                    if let installationId = BaseParseInstallation.currentInstallationContainer.installationId {
+                        if installationId != preliminaryMessage.installationId {
+                            let error = ParseError(code: .unknownError,
+                                                   // swiftlint:disable:next line_length
+                                                   message: "ParseLiveQuery Error: Received a message from a server who sent an installationId of \(String(describing: preliminaryMessage.installationId)) while it should be \(installationId). Not accepting message...")
+                            self.notificationQueue.async {
+                                self.receiveDelegate?.received(error)
+                            }
+                        }
+                    }
 
-                    if let subscribed = self.pendingSubscriptions
-                        .first(where: { $0.0.value == preliminaryMessage.requestId }) {
+                    switch preliminaryMessage.op {
+                    case .subscribed:
+
+                        if let subscribed = self.pendingSubscriptions
+                            .first(where: { $0.0.value == preliminaryMessage.requestId }) {
+                            let requestId = RequestId(value: preliminaryMessage.requestId)
+                            let isNew: Bool!
+                            if self.subscriptions[requestId] != nil {
+                                isNew = false
+                            } else {
+                                isNew = true
+                            }
+                            self.subscriptions[subscribed.0] = subscribed.1
+                            self.removePendingSubscription(subscribed.0.value)
+                            self.notificationQueue.async {
+                                subscribed.1.subscribeHandlerClosure?(isNew)
+                            }
+                        }
+                    case .unsubscribed:
                         let requestId = RequestId(value: preliminaryMessage.requestId)
-                        let isNew: Bool!
-                        if self.subscriptions[requestId] != nil {
-                            isNew = false
-                        } else {
-                            isNew = true
+                        guard let subscription = self.subscriptions[requestId] else {
+                            return
                         }
-                        self.subscriptions[subscribed.0] = subscribed.1
-                        self.removePendingSubscription(subscribed.0.value)
+                        self.subscriptions.removeValue(forKey: requestId)
+                        self.removePendingSubscription(preliminaryMessage.requestId)
                         self.notificationQueue.async {
-                            subscribed.1.subscribeHandlerClosure?(isNew)
+                            subscription.unsubscribeHandlerClosure?()
+                        }
+                    case .create, .update, .delete, .enter, .leave:
+                        let requestId = RequestId(value: preliminaryMessage.requestId)
+                        guard let subscription = self.subscriptions[requestId] else {
+                            return
+                        }
+                        self.notificationQueue.async {
+                            subscription.eventHandlerClosure?(data)
+                        }
+                    default:
+                        let error = ParseError(code: .unknownError,
+                                               message: "ParseLiveQuery Error: Hit an undefined state.")
+                        self.notificationQueue.async {
+                            self.receiveDelegate?.received(error)
                         }
                     }
-                case .unsubscribed:
-                    let requestId = RequestId(value: preliminaryMessage.requestId)
-                    guard let subscription = self.subscriptions[requestId] else {
-                        return
-                    }
-                    self.subscriptions.removeValue(forKey: requestId)
-                    self.removePendingSubscription(preliminaryMessage.requestId)
-                    self.notificationQueue.async {
-                        subscription.unsubscribeHandlerClosure?()
-                    }
-                case .create, .update, .delete, .enter, .leave:
-                    let requestId = RequestId(value: preliminaryMessage.requestId)
-                    guard let subscription = self.subscriptions[requestId] else {
-                        return
-                    }
-                    self.notificationQueue.async {
-                        subscription.eventHandlerClosure?(data)
-                    }
-                default:
+
+                } else {
                     let error = ParseError(code: .unknownError,
                                            message: "ParseLiveQuery Error: Hit an undefined state.")
                     self.notificationQueue.async {
                         self.receiveDelegate?.received(error)
                     }
-                }
-
-            } else {
-                let error = ParseError(code: .unknownError, message: "ParseLiveQuery Error: Hit an undefined state.")
-                self.notificationQueue.async {
-                    self.receiveDelegate?.received(error)
                 }
             }
         }
