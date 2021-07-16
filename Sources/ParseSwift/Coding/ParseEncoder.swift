@@ -96,7 +96,8 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
-        return try encoder.encodeObject(value, collectChildren: false,
+        return try encoder.encodeObject(value,
+                                        collectChildren: false,
                                         uniquePointer: nil,
                                         objectsSavedBeforeThisOne: nil,
                                         filesSavedBeforeThisOne: nil).encoded
@@ -107,7 +108,8 @@ public struct ParseEncoder {
      - parameter value: The `ParseType` instance to encode.
      - parameter skipKeys: The set of keys to skip during encoding.
      */
-    public func encode<T: ParseType>(_ value: T, skipKeys: SkipKeys) throws -> Data {
+    public func encode<T: ParseType>(_ value: T,
+                                     skipKeys: SkipKeys) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: skipKeys.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
@@ -141,7 +143,8 @@ public struct ParseEncoder {
     }
 
     // swiftlint:disable large_tuple
-    internal func encode(_ value: ParseType, collectChildren: Bool,
+    internal func encode(_ value: ParseType,
+                         collectChildren: Bool,
                          objectsSavedBeforeThisOne: [String: PointerType]?,
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
         let keysToSkip: Set<String>!
@@ -221,7 +224,9 @@ private class _ParseEncoder: JSONEncoder, Encoder {
         throw ParseError(code: .unknownError, message: "This method shouldn't be used. Either use the JSONEncoder or if you are encoding a ParseObject use \"encodeObject\"")
     }
 
-    func encodeObject(_ value: Encodable, collectChildren: Bool, uniquePointer: PointerType?,
+    func encodeObject(_ value: Encodable,
+                      collectChildren: Bool,
+                      uniquePointer: PointerType?,
                       objectsSavedBeforeThisOne: [String: PointerType]?,
                       filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
 
