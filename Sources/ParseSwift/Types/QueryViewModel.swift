@@ -31,7 +31,9 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
     open var count = 0 {
         willSet {
             error = nil
-            objectWillChange.send()
+            if newValue != results.count {
+                objectWillChange.send()
+            }
         }
     }
 

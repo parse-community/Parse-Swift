@@ -21,8 +21,10 @@ open class CloudViewModel<T: ParseCloud>: CloudObservable {
     /// Updates and notifies when the new results have been retrieved.
     open var results: T.ReturnType? {
         willSet {
-            self.error = nil
-            objectWillChange.send()
+            if newValue != nil {
+                self.error = nil
+                objectWillChange.send()
+            }
         }
     }
 

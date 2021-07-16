@@ -71,6 +71,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
+        viewModel.error = ParseError(code: .unknownError, message: "error")
         viewModel.find()
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -133,6 +134,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let query = GameScore.query()
         let viewModel = Query.viewModel(query)
+        viewModel.error = ParseError(code: .unknownError, message: "error")
         viewModel.find()
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -168,6 +170,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
+        viewModel.error = ParseError(code: .unknownError, message: "error")
         viewModel.findAll()
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -230,6 +233,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
+        viewModel.error = ParseError(code: .unknownError, message: "error")
         viewModel.first()
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -292,11 +296,12 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
+        viewModel.results = [GameScore(score: 10), GameScore(score: 12)]
         viewModel.count()
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
 
-            XCTAssertTrue(viewModel.results.isEmpty)
+            XCTAssertEqual(viewModel.results.count, 2)
             XCTAssertEqual(viewModel.count, 1)
             XCTAssertNil(viewModel.error)
             expectation.fulfill()
@@ -349,6 +354,7 @@ class ParseQueryViewModelTests: XCTestCase {
         }
         let viewModel = GameScore.query()
             .viewModel
+        viewModel.error = ParseError(code: .unknownError, message: "error")
         viewModel.aggregate([["hello": "world"]])
         let expectation = XCTestExpectation(description: "Find objects")
         DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
