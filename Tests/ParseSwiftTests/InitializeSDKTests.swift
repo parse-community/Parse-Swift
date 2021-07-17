@@ -339,4 +339,23 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertNotEqual(Installation.currentInstallationContainer.installationId, objcInstallationId)
     }
     #endif
+
+    func testSetCacheSize() throws {
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        let cache = URLCache.shared
+        let memory = 1_000_000
+        let disk = 500_000_000
+        cache.memoryCapacity = memory
+        cache.diskCapacity = disk
+
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url)
+        XCTAssertEqual(URLCache.shared.memoryCapacity, memory)
+        XCTAssertEqual(URLCache.shared.diskCapacity, disk)
+    }
 }

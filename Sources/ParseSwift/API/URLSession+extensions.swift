@@ -15,7 +15,11 @@ import FoundationNetworking
 extension URLSession {
     static let parse: URLSession = {
         if !ParseSwift.configuration.isTestingSDK {
-            return URLSession(configuration: .default,
+            let configuration = URLSessionConfiguration()
+            configuration.urlCache = URLCache.shared
+            configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
+            configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            return URLSession(configuration: configuration,
                    delegate: ParseSwift.sessionDelegate,
                    delegateQueue: nil)
         } else {
@@ -63,10 +67,18 @@ extension URLSession {
                                    message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
     }
 
-    internal func makeResult<U>(location: URL?,
+    internal func makeResult<U>(request: URLRequest,
+                                location: URL?,
                                 urlResponse: URLResponse?,
                                 responseError: Error?,
                                 mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
+        guard let response = urlResponse else {
+            guard let parseError = responseError as? ParseError else {
+                return .failure(ParseError(code: .unknownError,
+                                           message: "No response from server"))
+            }
+            return .failure(parseError)
+        }
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
@@ -78,19 +90,24 @@ extension URLSession {
         if let location = location {
             do {
                 let data = try ParseCoding.jsonEncoder().encode(location)
+                if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
+                    URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
+                                                                                       data: data),
+                                                                                 for: request)
+                }
                 return try .success(mapper(data))
             } catch {
                 guard let parseError = error as? ParseError else {
                     return .failure(ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription)"))
+                                               message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription)"))
                 }
                 return .failure(parseError)
             }
         }
 
         return .failure(ParseError(code: .unknownError,
-                                   message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
+                                   message: "Unable to sync with parse-server: \(response)."))
     }
 
     internal func dataTask<U>(
@@ -148,9 +165,10 @@ extension URLSession {
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
         let task = downloadTask(with: request) { (location, urlResponse, responseError) in
-            completion(self.makeResult(location: location,
-                                  urlResponse: urlResponse,
-                                  responseError: responseError, mapper: mapper))
+            completion(self.makeResult(request: request,
+                                       location: location,
+                                       urlResponse: urlResponse,
+                                       responseError: responseError, mapper: mapper))
         }
         ParseSwift.sessionDelegate.downloadDelegates[task] = progress
         ParseSwift.sessionDelegate.taskCallbackQueues[task] = callbackQueue
@@ -162,9 +180,9 @@ extension URLSession {
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-
-        downloadTask(with: url) { (location, urlResponse, responseError) in
-            completion(self.makeResult(location: location,
+        let request = URLRequest(url: url)
+        downloadTask(with: request) { (location, urlResponse, responseError) in
+            completion(self.makeResult(request: request, location: location,
                                        urlResponse: urlResponse,
                                        responseError: responseError,
                                        mapper: mapper))

@@ -262,7 +262,18 @@ internal extension API {
                 }
             }
             urlRequest.httpMethod = method.rawValue
+            urlRequest.cachePolicy = requestCachePolicy(options: options)
             return .success(urlRequest)
+        }
+
+        func requestCachePolicy(options: API.Options) -> URLRequest.CachePolicy {
+            var policy: URLRequest.CachePolicy = ParseSwift.configuration.requestCachePolicy
+            options.forEach { option in
+                if case .cachePolicy(let updatedPolicy) = option {
+                    policy = updatedPolicy
+                }
+            }
+            return policy
         }
 
         enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
