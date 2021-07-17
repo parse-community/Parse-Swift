@@ -958,7 +958,6 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         // Remove URL so we can check cache
         MockURLProtocol.removeAll()
-        URLSession.parse.configuration.urlCache?.removeAllCachedResponses()
 
         let fetchedFile2 = try parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])
         XCTAssertEqual(fetchedFile2.name, fetchedFile.name)

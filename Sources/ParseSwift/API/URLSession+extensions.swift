@@ -176,11 +176,10 @@ extension URLSession {
     }
 
     internal func downloadTask<U>(
-        with url: URL,
+        with request: URLRequest,
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-        let request = URLRequest(url: url)
         downloadTask(with: request) { (location, urlResponse, responseError) in
             completion(self.makeResult(request: request, location: location,
                                        urlResponse: urlResponse,
