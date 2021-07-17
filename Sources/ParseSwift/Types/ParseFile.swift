@@ -165,6 +165,7 @@ extension ParseFile {
     public func delete(options: API.Options) throws {
         var options = options
         options.insert(.useMasterKey)
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
 
         _ = try deleteFileCommand().execute(options: options, callbackQueue: .main)
@@ -183,6 +184,7 @@ extension ParseFile {
                        completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
         options.insert(.useMasterKey)
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
 
         deleteFileCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
@@ -250,6 +252,7 @@ extension ParseFile {
                      stream: InputStream,
                      progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil) throws {
         var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
         } else {
@@ -277,6 +280,7 @@ extension ParseFile {
      */
     public func save(options: API.Options = []) throws -> ParseFile {
         var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
         } else {
@@ -338,6 +342,7 @@ extension ParseFile {
     public func save(options: API.Options = [],
                      progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)?) throws -> ParseFile {
         var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
         } else {
@@ -410,6 +415,7 @@ extension ParseFile {
                      progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                      completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
         } else {

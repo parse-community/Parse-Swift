@@ -217,6 +217,8 @@ public extension ParseUser {
     static func login(_ type: String,
                       authData: [String: String],
                       options: API.Options) throws -> Self {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if Self.current != nil {
             return try Self.link(type, authData: authData, options: options)
         } else {
@@ -306,7 +308,6 @@ public extension ParseUser {
                 options: API.Options = [],
                 callbackQueue: DispatchQueue = .main,
                 completion: @escaping (Result<Self, ParseError>) -> Void) {
-
         guard let current = Self.current,
               current.authData != nil else {
             let error = ParseError(code: .unknownError, message: "Must be logged in to unlink user")
@@ -315,7 +316,8 @@ public extension ParseUser {
             }
             return
         }
-
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if current.isLinked(with: type) {
             guard let authData = current.strip(type).authData else {
                 let error = ParseError(code: .unknownError, message: "Missing authData.")
@@ -357,6 +359,8 @@ public extension ParseUser {
         guard let current = Self.current else {
             throw ParseError(code: .unknownError, message: "Must be logged in to link user")
         }
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let body = SignupLoginBody(authData: [type: authData])
         return try current.linkCommand(body: body).execute(options: options)
     }
@@ -385,6 +389,8 @@ public extension ParseUser {
             }
             return
         }
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let body = SignupLoginBody(authData: [type: authData])
         current.linkCommand(body: body)
             .executeAsync(options: options) { result in

@@ -426,6 +426,8 @@ extension ParseInstallation {
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     public func save(options: API.Options = []) throws -> Self {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         var childObjects: [String: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
@@ -466,6 +468,8 @@ extension ParseInstallation {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
             guard let parseError = error else {
                 do {
@@ -554,6 +558,8 @@ extension ParseInstallation {
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(options: API.Options = []) throws {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         _ = try deleteCommand().execute(options: options)
         try Self.updateKeychainIfNeeded([self], deleting: true)
     }
@@ -573,6 +579,8 @@ extension ParseInstallation {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Void, ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
             try deleteCommand()
                 .executeAsync(options: options) { result in
@@ -649,6 +657,8 @@ public extension Sequence where Element: ParseInstallation {
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
                  transaction: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
@@ -737,6 +747,8 @@ public extension Sequence where Element: ParseInstallation {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let uuid = UUID()
         let queue = DispatchQueue(label: "com.parse.saveAll.\(uuid)",
                                   qos: .default,
@@ -970,6 +982,8 @@ public extension Sequence where Element: ParseInstallation {
     func deleteAll(batchLimit limit: Int? = nil,
                    transaction: Bool = false,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
         let batchLimit: Int!
@@ -1022,6 +1036,8 @@ public extension Sequence where Element: ParseInstallation {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })

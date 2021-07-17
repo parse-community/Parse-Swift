@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import XCTest
 @testable import ParseSwift
 
@@ -40,6 +43,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
+        URLSession.parse.configuration.urlCache?.removeAllCachedResponses()
         #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
@@ -954,6 +958,16 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(fetchedFile.name, response.name)
         XCTAssertEqual(fetchedFile.url, response.url)
         XCTAssertNotNil(fetchedFile.localURL)
+
+        #if !os(tvOS)
+        // Remove URL so we can check cache
+        MockURLProtocol.removeAll()
+
+        let fetchedFile2 = try parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(fetchedFile2.name, fetchedFile.name)
+        XCTAssertEqual(fetchedFile2.url, fetchedFile.url)
+        XCTAssertNotNil(fetchedFile2.localURL)
+        #endif
     }
 
     func testFetchFileProgress() throws {

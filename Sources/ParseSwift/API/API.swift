@@ -7,6 +7,11 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
+
+// swiftlint:disable line_length
 
 /// The REST API for communicating with a Parse Server.
 public struct API {
@@ -127,6 +132,11 @@ public struct API {
         /// Add context.
         /// - warning: Requires Parse Server > 4.5.0.
         case context(Encodable)
+        /// The caching policy to use for a specific http request. Determines when to
+        /// return a response from the cache. See Apple's
+        /// [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
+        /// for more info.
+        case cachePolicy(URLRequest.CachePolicy)
 
         public func hash(into hasher: inout Hasher) {
             switch self {
@@ -148,6 +158,8 @@ public struct API {
                 hasher.combine(8)
             case .context:
                 hasher.combine(9)
+            case .cachePolicy:
+                hasher.combine(10)
             }
         }
 
@@ -203,6 +215,8 @@ public struct API {
                    let encodedString = String(data: encoded, encoding: .utf8) {
                     headers["X-Parse-Cloud-Context"] = encodedString
                 }
+            default:
+                break
             }
         }
 
