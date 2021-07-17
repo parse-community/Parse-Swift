@@ -339,33 +339,4 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertNotEqual(Installation.currentInstallationContainer.installationId, objcInstallationId)
     }
     #endif
-
-    func testSetCacheAndHeaders() throws {
-        guard let url = URL(string: "http://localhost:1337/1") else {
-            XCTFail("Should create valid URL")
-            return
-        }
-        let memory = 1_000_000
-        let disk = 500_000_000
-        let headers = ["hello": "world"]
-        let policy = URLRequest.CachePolicy.returnCacheDataElseLoad
-        ParseSwift.initialize(applicationId: "applicationId",
-                              clientKey: "clientKey",
-                              masterKey: "masterKey",
-                              serverURL: url,
-                              requestCachePolicy: policy,
-                              cacheMemoryCapacity: memory,
-                              cacheDiskCapacity: disk,
-                              httpAdditionalHeaders: headers)
-        XCTAssertEqual(URLSession.parse.configuration.requestCachePolicy, policy)
-        XCTAssertEqual(URLCache.parse.memoryCapacity, memory)
-        XCTAssertEqual(URLCache.parse.diskCapacity, disk)
-        XCTAssertEqual(URLSession.parse.configuration.urlCache?.memoryCapacity, memory)
-        XCTAssertEqual(URLSession.parse.configuration.urlCache?.diskCapacity, disk)
-        guard let currentHeaders = URLSession.parse.configuration.httpAdditionalHeaders as? [String: String] else {
-            XCTFail("Should have casted")
-            return
-        }
-        XCTAssertEqual(currentHeaders, headers)
-    }
 }
