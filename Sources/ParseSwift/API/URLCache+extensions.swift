@@ -14,7 +14,9 @@ import FoundationNetworking
 extension URLCache {
     static let parse: URLCache = {
         guard let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
-            return URLCache()
+            return URLCache(memoryCapacity: ParseSwift.configuration.cacheMemoryCapacity,
+                            diskCapacity: ParseSwift.configuration.cacheDiskCapacity,
+                            diskPath: "/")
         }
         let diskURL = cacheURL.appendingPathComponent("ParseCache/")
         return .init(memoryCapacity: ParseSwift.configuration.cacheMemoryCapacity,
