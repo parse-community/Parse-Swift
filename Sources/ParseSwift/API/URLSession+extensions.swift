@@ -27,10 +27,18 @@ extension URLSession {
         }
     }()
 
-    internal func makeResult<U>(responseData: Data?,
+    internal func makeResult<U>(request: URLRequest,
+                                responseData: Data?,
                                 urlResponse: URLResponse?,
                                 responseError: Error?,
                                 mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
+        guard let response = urlResponse else {
+            guard let parseError = responseError as? ParseError else {
+                return .failure(ParseError(code: .unknownError,
+                                           message: "No response from server"))
+            }
+            return .failure(parseError)
+        }
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
@@ -41,6 +49,11 @@ extension URLSession {
 
         if let responseData = responseData {
             do {
+                if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
+                    URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
+                                                                                       data: responseData),
+                                                                                 for: request)
+                }
                 return try .success(mapper(responseData))
             } catch {
                 if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
@@ -53,11 +66,11 @@ extension URLSession {
                               options: .prettyPrinted) else {
                         return .failure(ParseError(code: .unknownError,
                                                    // swiftlint:disable:next line_length
-                                                   message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription) Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
+                                                   message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription) Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
                     }
                     return .failure(ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
+                                               message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
                 }
                 return .failure(parseError)
             }
@@ -117,9 +130,10 @@ extension URLSession {
     ) {
 
         dataTask(with: request) { (responseData, urlResponse, responseError) in
-            completion(self.makeResult(responseData: responseData,
-                                  urlResponse: urlResponse,
-                                  responseError: responseError, mapper: mapper))
+            completion(self.makeResult(request: request,
+                                       responseData: responseData,
+                                       urlResponse: urlResponse,
+                                       responseError: responseError, mapper: mapper))
         }.resume()
     }
 }
@@ -137,15 +151,17 @@ extension URLSession {
         var task: URLSessionTask?
         if let data = data {
             task = uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
-                completion(self.makeResult(responseData: responseData,
-                                      urlResponse: urlResponse,
-                                      responseError: responseError, mapper: mapper))
+                completion(self.makeResult(request: request,
+                                           responseData: responseData,
+                                           urlResponse: urlResponse,
+                                           responseError: responseError, mapper: mapper))
             }
         } else if let file = file {
             task = uploadTask(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
-                completion(self.makeResult(responseData: responseData,
-                                      urlResponse: urlResponse,
-                                      responseError: responseError, mapper: mapper))
+                completion(self.makeResult(request: request,
+                                           responseData: responseData,
+                                           urlResponse: urlResponse,
+                                           responseError: responseError, mapper: mapper))
             }
         } else {
             completion(.failure(ParseError(code: .unknownError, message: "data and file both can't be nil")))

@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import XCTest
 @testable import ParseSwift
 
@@ -956,6 +959,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(fetchedFile.url, response.url)
         XCTAssertNotNil(fetchedFile.localURL)
 
+        #if !os(tvOS)
         // Remove URL so we can check cache
         MockURLProtocol.removeAll()
 
@@ -963,6 +967,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(fetchedFile2.name, fetchedFile.name)
         XCTAssertEqual(fetchedFile2.url, fetchedFile.url)
         XCTAssertNotNil(fetchedFile2.localURL)
+        #endif
     }
 
     func testFetchFileProgress() throws {

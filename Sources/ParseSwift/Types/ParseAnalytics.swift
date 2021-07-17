@@ -75,6 +75,8 @@ public struct ParseAnalytics: ParseType, Hashable {
                                       options: API.Options = [],
                                       callbackQueue: DispatchQueue = .main,
                                       completion: @escaping (Result<Void, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         #if canImport(AppTrackingTransparency)
         if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
             if !ParseSwift.configuration.isTestingSDK {
@@ -128,6 +130,8 @@ public struct ParseAnalytics: ParseType, Hashable {
                                       options: API.Options = [],
                                       callbackQueue: DispatchQueue = .main,
                                       completion: @escaping (Result<Void, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         #if canImport(AppTrackingTransparency)
         if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
             if !ParseSwift.configuration.isTestingSDK {
@@ -170,6 +174,8 @@ public struct ParseAnalytics: ParseType, Hashable {
     public func track(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Void, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         #if canImport(AppTrackingTransparency)
         if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
             if !ParseSwift.configuration.isTestingSDK {
@@ -215,6 +221,8 @@ public struct ParseAnalytics: ParseType, Hashable {
                                options: API.Options = [],
                                callbackQueue: DispatchQueue = .main,
                                completion: @escaping (Result<Void, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         #if canImport(AppTrackingTransparency)
         if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
             if !ParseSwift.configuration.isTestingSDK {

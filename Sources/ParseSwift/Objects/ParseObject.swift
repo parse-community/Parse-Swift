@@ -78,6 +78,8 @@ public extension Sequence where Element: ParseObject {
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
                  transaction: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
@@ -164,6 +166,8 @@ public extension Sequence where Element: ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let uuid = UUID()
         let queue = DispatchQueue(label: "com.parse.saveAll.\(uuid)",
                                   qos: .default,
@@ -389,6 +393,8 @@ public extension Sequence where Element: ParseObject {
     func deleteAll(batchLimit limit: Int? = nil,
                    transaction: Bool = false,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
         let batchLimit: Int!
@@ -438,6 +444,8 @@ public extension Sequence where Element: ParseObject {
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
     ) {
         do {
+            var options = options
+            options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
             var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })
             let batchLimit: Int!
@@ -575,6 +583,8 @@ extension ParseObject {
         var childObjects: [String: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let group = DispatchGroup()
         group.enter()
         self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) in
@@ -651,6 +661,8 @@ extension ParseObject {
                                   attributes: .concurrent,
                                   autoreleaseFrequency: .inherit,
                                   target: nil)
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
 
         queue.sync {
             var objectsFinishedSaving = [String: PointerType]()

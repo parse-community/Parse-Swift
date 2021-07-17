@@ -20,7 +20,9 @@ public struct ParseHealth: ParseType, Decodable {
         - throws: An error of type `ParseError`.
     */
     static public func check(options: API.Options = []) throws -> String {
-        try healthCommand().execute(options: options)
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        return try healthCommand().execute(options: options)
     }
 
     /**
@@ -33,6 +35,8 @@ public struct ParseHealth: ParseType, Decodable {
     static public func check(options: API.Options = [],
                              callbackQueue: DispatchQueue = .main,
                              completion: @escaping (Result<String, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         healthCommand()
             .executeAsync(options: options) { result in
                 callbackQueue.async {
