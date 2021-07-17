@@ -345,17 +345,52 @@ class InitializeSDKTests: XCTestCase {
             XCTFail("Should create valid URL")
             return
         }
-        let cache = URLCache.shared
         let memory = 1_000_000
         let disk = 500_000_000
-        cache.memoryCapacity = memory
-        cache.diskCapacity = disk
 
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url)
-        XCTAssertEqual(URLCache.shared.memoryCapacity, memory)
-        XCTAssertEqual(URLCache.shared.diskCapacity, disk)
+                              serverURL: url,
+                              cacheMemoryCapacity: memory,
+                              cacheDiskCapacity: disk)
+        XCTAssertEqual(URLCache.parse.memoryCapacity, memory)
+        XCTAssertEqual(URLCache.parse.diskCapacity, disk)
+        XCTAssertEqual(URLSession.parse.configuration.urlCache?.memoryCapacity, memory)
+        XCTAssertEqual(URLSession.parse.configuration.urlCache?.diskCapacity, disk)
+    }
+
+    func testSetDefaultCachePolicy() throws {
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              requestCachePolicy: .returnCacheDataElseLoad)
+        XCTAssertEqual(URLSession.parse.configuration.requestCachePolicy, .returnCacheDataElseLoad)
+        XCTAssertNil(URLSession.parse.configuration.httpAdditionalHeaders)
+    }
+
+    func testSetAdditionalHeaders() throws {
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        let headers = ["hello": "world"]
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url,
+                              httpAdditionalHeaders: headers)
+        XCTAssertEqual(URLSession.parse.configuration.requestCachePolicy, .useProtocolCachePolicy)
+        guard let currentHeaders = URLSession.parse.configuration.httpAdditionalHeaders as? [String: String] else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(currentHeaders, headers)
     }
 }

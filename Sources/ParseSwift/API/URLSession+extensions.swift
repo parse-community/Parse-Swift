@@ -15,14 +15,16 @@ import FoundationNetworking
 extension URLSession {
     static let parse: URLSession = {
         if !ParseSwift.configuration.isTestingSDK {
-            let configuration = URLSessionConfiguration()
-            configuration.urlCache = URLCache.shared
+            let configuration = URLSessionConfiguration.default
+            configuration.urlCache = URLCache.parse
             configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
             configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
             return URLSession(configuration: configuration,
                    delegate: ParseSwift.sessionDelegate,
                    delegateQueue: nil)
         } else {
+            let session = URLSession.shared
+            session.configuration.urlCache = URLCache.parse
             return URLSession.shared
         }
     }()
@@ -51,8 +53,8 @@ extension URLSession {
             do {
                 if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
                     URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
-                                                                                       data: responseData),
-                                                                                 for: request)
+                                                              data: responseData),
+                                                        for: request)
                 }
                 return try .success(mapper(responseData))
             } catch {
@@ -105,8 +107,8 @@ extension URLSession {
                 let data = try ParseCoding.jsonEncoder().encode(location)
                 if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
                     URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
-                                                                                       data: data),
-                                                                                 for: request)
+                                                              data: data),
+                                                        for: request)
                 }
                 return try .success(mapper(data))
             } catch {

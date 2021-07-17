@@ -41,6 +41,12 @@ public struct ParseConfiguration {
     /// for more info.
     var httpAdditionalHeaders: [String: String]?
 
+    /// The memory capacity of the cache, in bytes. Defaults to 512KB.
+    var cacheMemoryCapacity = 512_000
+
+    /// The disk capacity of the cache, in bytes. Defaults to 10MB.
+    var cacheDiskCapacity = 10_000_000
+
     internal var authentication: ((URLAuthenticationChallenge,
                                    (URLSession.AuthChallengeDisposition,
                                     URLCredential?) -> Void) -> Void)?
@@ -64,6 +70,8 @@ public struct ParseConfiguration {
      - parameter requestCachePolicy: The default caching policy for all http requests that determines
      when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
      for more info.
+     - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
+     - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
      - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
      [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
      for more info.
@@ -73,8 +81,6 @@ public struct ParseConfiguration {
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
      - warning: `useTransactionsInternally` is experimental and known not to work with mongoDB.
-     - note: To change the default caching memory usage and disk capacity, you need to set `URLCache.shared.memoryCapacity` and
-     `URLCache.shared.diskCapacity` before the first network call. To add custom 
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
@@ -85,6 +91,8 @@ public struct ParseConfiguration {
                 useTransactionsInternally: Bool = false,
                 keyValueStore: ParseKeyValueStore? = nil,
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
+                cacheMemoryCapacity: Int = 512_000,
+                cacheDiskCapacity: Int = 10_000_000,
                 httpAdditionalHeaders: [String: String]? = nil,
                 authentication: ((URLAuthenticationChallenge,
                                   (URLSession.AuthChallengeDisposition,
@@ -101,6 +109,8 @@ public struct ParseConfiguration {
             .joined(separator: "/")
         self.authentication = authentication
         self.requestCachePolicy = requestCachePolicy
+        self.cacheMemoryCapacity = cacheMemoryCapacity
+        self.cacheDiskCapacity = cacheDiskCapacity
         self.httpAdditionalHeaders = httpAdditionalHeaders
         ParseStorage.shared.use(keyValueStore ?? InMemoryKeyValueStore())
     }
@@ -185,6 +195,8 @@ public struct ParseSwift {
      - parameter requestCachePolicy: The default caching policy for all http requests that determines
      when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
      for more info.
+     - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
+     - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
      - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
      [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
      for more info.
@@ -207,6 +219,8 @@ public struct ParseSwift {
         useTransactionsInternally: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
         requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
+        cacheMemoryCapacity: Int = 512_000,
+        cacheDiskCapacity: Int = 10_000_000,
         httpAdditionalHeaders: [String: String]? = nil,
         migrateFromObjcSDK: Bool = false,
         authentication: ((URLAuthenticationChallenge,
@@ -222,6 +236,8 @@ public struct ParseSwift {
                                         useTransactionsInternally: useTransactionsInternally,
                                         keyValueStore: keyValueStore,
                                         requestCachePolicy: requestCachePolicy,
+                                        cacheMemoryCapacity: cacheMemoryCapacity,
+                                        cacheDiskCapacity: cacheDiskCapacity,
                                         httpAdditionalHeaders: httpAdditionalHeaders,
                                         authentication: authentication),
                    migrateFromObjcSDK: migrateFromObjcSDK)
@@ -236,6 +252,8 @@ public struct ParseSwift {
                                     useTransactionsInternally: Bool = false,
                                     keyValueStore: ParseKeyValueStore? = nil,
                                     requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
+                                    cacheMemoryCapacity: Int = 512_000,
+                                    cacheDiskCapacity: Int = 10_000_000,
                                     httpAdditionalHeaders: [String: String]? = nil,
                                     migrateFromObjcSDK: Bool = false,
                                     testing: Bool = false,
@@ -251,6 +269,8 @@ public struct ParseSwift {
                                         useTransactionsInternally: useTransactionsInternally,
                                         keyValueStore: keyValueStore,
                                         requestCachePolicy: requestCachePolicy,
+                                        cacheMemoryCapacity: cacheMemoryCapacity,
+                                        cacheDiskCapacity: cacheDiskCapacity,
                                         httpAdditionalHeaders: httpAdditionalHeaders,
                                         authentication: authentication),
                    migrateFromObjcSDK: migrateFromObjcSDK)
