@@ -168,7 +168,9 @@ extension ParseUser {
     */
     public static func login(username: String,
                              password: String, options: API.Options = []) throws -> Self {
-        try loginCommand(username: username, password: password).execute(options: options)
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        return try loginCommand(username: username, password: password).execute(options: options)
     }
 
     /**
@@ -190,6 +192,8 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         loginCommand(username: username, password: password)
             .executeAsync(options: options) { result in
                 callbackQueue.async {
@@ -231,6 +235,7 @@ extension ParseUser {
         newUser.objectId = "me"
         var options = options
         options.insert(.sessionToken(sessionToken))
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         return try newUser.meCommand(sessionToken: sessionToken)
             .execute(options: options,
                      callbackQueue: .main)
@@ -255,6 +260,7 @@ extension ParseUser {
         newUser.objectId = "me"
         var options = options
         options.insert(.sessionToken(sessionToken))
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
             try newUser.meCommand(sessionToken: sessionToken)
                 .executeAsync(options: options,
@@ -309,6 +315,8 @@ extension ParseUser {
     Logs out the currently logged in user in Keychain *synchronously*.
     */
     public static func logout(options: API.Options = []) throws {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let error = try? logoutCommand().execute(options: options)
         //Always let user logout locally, no matter the error.
         deleteCurrentKeychain()
@@ -330,6 +338,8 @@ extension ParseUser {
     */
     public static func logout(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                               completion: @escaping (Result<Void, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         logoutCommand().executeAsync(options: options) { result in
             callbackQueue.async {
 
@@ -373,6 +383,8 @@ extension ParseUser {
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
     */
     public static func passwordReset(email: String, options: API.Options = []) throws {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let error = try passwordResetCommand(email: email).execute(options: options) {
             throw error
         }
@@ -389,6 +401,8 @@ extension ParseUser {
     public static func passwordReset(email: String, options: API.Options = [],
                                      callbackQueue: DispatchQueue = .main,
                                      completion: @escaping (Result<Void, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         passwordResetCommand(email: email).executeAsync(options: options) { result in
             callbackQueue.async {
                 switch result {
@@ -425,6 +439,8 @@ extension ParseUser {
     */
     public static func verificationEmail(email: String,
                                          options: API.Options = []) throws {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let error = try verificationEmailCommand(email: email).execute(options: options) {
             throw error
         }
@@ -442,6 +458,8 @@ extension ParseUser {
                                          options: API.Options = [],
                                          callbackQueue: DispatchQueue = .main,
                                          completion: @escaping (Result<Void, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         verificationEmailCommand(email: email)
             .executeAsync(options: options) { result in
                 callbackQueue.async {
@@ -487,6 +505,8 @@ extension ParseUser {
     public static func signup(username: String,
                               password: String,
                               options: API.Options = []) throws -> Self {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let body = SignupLoginBody(username: username,
                                    password: password)
         if let current = Self.current {
@@ -508,6 +528,8 @@ extension ParseUser {
      - returns: Returns whether the sign up was successful.
     */
     public func signup(options: API.Options = []) throws -> Self {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let current = Self.current {
             return try current.linkCommand()
                 .execute(options: options)
@@ -530,6 +552,8 @@ extension ParseUser {
     */
     public func signup(options: API.Options = [], callbackQueue: DispatchQueue = .main,
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let current = Self.current {
             current.linkCommand()
                 .executeAsync(options: options) { result in
@@ -579,6 +603,8 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void) {
 
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let body = SignupLoginBody(username: username, password: password)
         if let current = Self.current {
             current.linkCommand(body: body)
@@ -781,6 +807,8 @@ extension ParseUser {
         var childObjects: [String: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let group = DispatchGroup()
         group.enter()
         self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) in
@@ -818,6 +846,8 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
             guard let parseError = error else {
                 do {
@@ -892,6 +922,8 @@ extension ParseUser {
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     public func delete(options: API.Options = []) throws {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         _ = try deleteCommand().execute(options: options)
         try Self.updateKeychainIfNeeded([self], deleting: true)
     }
@@ -911,6 +943,8 @@ extension ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Void, ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
             try deleteCommand().executeAsync(options: options) { result in
                 switch result {
@@ -981,6 +1015,8 @@ public extension Sequence where Element: ParseUser {
         var childObjects = [String: PointerType]()
         var childFiles = [UUID: ParseFile]()
         var error: ParseError?
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let users = map { $0 }
         for user in users {
             let group = DispatchGroup()
@@ -1065,6 +1101,8 @@ public extension Sequence where Element: ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let uuid = UUID()
         let queue = DispatchQueue(label: "com.parse.saveAll.\(uuid)",
                                   qos: .default,
@@ -1295,6 +1333,8 @@ public extension Sequence where Element: ParseUser {
     func deleteAll(batchLimit limit: Int? = nil,
                    transaction: Bool = false,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
         let batchLimit: Int!
@@ -1346,6 +1386,8 @@ public extension Sequence where Element: ParseUser {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         do {
             var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })

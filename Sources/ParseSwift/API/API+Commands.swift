@@ -200,7 +200,9 @@ internal extension API {
                         }
                     } else if let otherURL = self.otherURL {
                         //Non-parse servers don't receive any parse dedicated request info
-                        URLSession.parse.downloadTask(with: otherURL, mapper: mapper) { result in
+                        var request = URLRequest(url: otherURL)
+                        request.cachePolicy = requestCachePolicy(options: options)
+                        URLSession.parse.downloadTask(with: request, mapper: mapper) { result in
                             switch result {
 
                             case .success(let decoded):
@@ -262,12 +264,23 @@ internal extension API {
                 }
             }
             urlRequest.httpMethod = method.rawValue
+            urlRequest.cachePolicy = requestCachePolicy(options: options)
             return .success(urlRequest)
         }
 
         enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
             case method, body, path
         }
+    }
+
+    static func requestCachePolicy(options: API.Options) -> URLRequest.CachePolicy {
+        var policy: URLRequest.CachePolicy = ParseSwift.configuration.requestCachePolicy
+        options.forEach { option in
+            if case .cachePolicy(let updatedPolicy) = option {
+                policy = updatedPolicy
+            }
+        }
+        return policy
     }
 }
 
@@ -668,7 +681,7 @@ internal extension API {
                 urlRequest.httpBody = bodyData
             }
             urlRequest.httpMethod = method.rawValue
-
+            urlRequest.cachePolicy = requestCachePolicy(options: options)
             return .success(urlRequest)
         }
 

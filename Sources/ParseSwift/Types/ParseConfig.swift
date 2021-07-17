@@ -69,7 +69,9 @@ extension ParseConfig {
           - returns: Returns `true` if updated, `false` otherwise.
     */
     public func save(options: API.Options = []) throws -> Bool {
-        try updateCommand().execute(options: options, callbackQueue: .main)
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        return try updateCommand().execute(options: options, callbackQueue: .main)
     }
 
     /**
@@ -84,6 +86,7 @@ extension ParseConfig {
                      completion: @escaping (Result<Bool, ParseError>) -> Void) {
         var options = options
         options.insert(.useMasterKey)
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         updateCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
                 callbackQueue.async {

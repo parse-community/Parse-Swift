@@ -15,18 +15,32 @@ import FoundationNetworking
 extension URLSession {
     static let parse: URLSession = {
         if !ParseSwift.configuration.isTestingSDK {
-            return URLSession(configuration: .default,
+            let configuration = URLSessionConfiguration.default
+            configuration.urlCache = URLCache.parse
+            configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
+            configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
+            return URLSession(configuration: configuration,
                    delegate: ParseSwift.sessionDelegate,
                    delegateQueue: nil)
         } else {
+            let session = URLSession.shared
+            session.configuration.urlCache = URLCache.parse
             return URLSession.shared
         }
     }()
 
-    internal func makeResult<U>(responseData: Data?,
+    internal func makeResult<U>(request: URLRequest,
+                                responseData: Data?,
                                 urlResponse: URLResponse?,
                                 responseError: Error?,
                                 mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
+        guard let response = urlResponse else {
+            guard let parseError = responseError as? ParseError else {
+                return .failure(ParseError(code: .unknownError,
+                                           message: "No response from server"))
+            }
+            return .failure(parseError)
+        }
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
@@ -37,6 +51,11 @@ extension URLSession {
 
         if let responseData = responseData {
             do {
+                if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
+                    URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
+                                                              data: responseData),
+                                                        for: request)
+                }
                 return try .success(mapper(responseData))
             } catch {
                 if let error = try? ParseCoding.jsonDecoder().decode(ParseError.self, from: responseData) {
@@ -49,11 +68,11 @@ extension URLSession {
                               options: .prettyPrinted) else {
                         return .failure(ParseError(code: .unknownError,
                                                    // swiftlint:disable:next line_length
-                                                   message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription) Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
+                                                   message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription) Format: \(String(describing: String(data: responseData, encoding: .utf8)))"))
                     }
                     return .failure(ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
+                                               message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription) Format: \(String(describing: String(data: json, encoding: .utf8)))"))
                 }
                 return .failure(parseError)
             }
@@ -63,10 +82,18 @@ extension URLSession {
                                    message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
     }
 
-    internal func makeResult<U>(location: URL?,
+    internal func makeResult<U>(request: URLRequest,
+                                location: URL?,
                                 urlResponse: URLResponse?,
                                 responseError: Error?,
                                 mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
+        guard let response = urlResponse else {
+            guard let parseError = responseError as? ParseError else {
+                return .failure(ParseError(code: .unknownError,
+                                           message: "No response from server"))
+            }
+            return .failure(parseError)
+        }
         if let responseError = responseError {
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
@@ -78,19 +105,24 @@ extension URLSession {
         if let location = location {
             do {
                 let data = try ParseCoding.jsonEncoder().encode(location)
+                if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
+                    URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
+                                                              data: data),
+                                                        for: request)
+                }
                 return try .success(mapper(data))
             } catch {
                 guard let parseError = error as? ParseError else {
                     return .failure(ParseError(code: .unknownError,
                                                // swiftlint:disable:next line_length
-                                               message: "Error decoding parse-server response: \(String(describing: urlResponse)) with error: \(error.localizedDescription)"))
+                                               message: "Error decoding parse-server response: \(response) with error: \(error.localizedDescription)"))
                 }
                 return .failure(parseError)
             }
         }
 
         return .failure(ParseError(code: .unknownError,
-                                   message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
+                                   message: "Unable to sync with parse-server: \(response)."))
     }
 
     internal func dataTask<U>(
@@ -100,9 +132,10 @@ extension URLSession {
     ) {
 
         dataTask(with: request) { (responseData, urlResponse, responseError) in
-            completion(self.makeResult(responseData: responseData,
-                                  urlResponse: urlResponse,
-                                  responseError: responseError, mapper: mapper))
+            completion(self.makeResult(request: request,
+                                       responseData: responseData,
+                                       urlResponse: urlResponse,
+                                       responseError: responseError, mapper: mapper))
         }.resume()
     }
 }
@@ -120,15 +153,17 @@ extension URLSession {
         var task: URLSessionTask?
         if let data = data {
             task = uploadTask(with: request, from: data) { (responseData, urlResponse, responseError) in
-                completion(self.makeResult(responseData: responseData,
-                                      urlResponse: urlResponse,
-                                      responseError: responseError, mapper: mapper))
+                completion(self.makeResult(request: request,
+                                           responseData: responseData,
+                                           urlResponse: urlResponse,
+                                           responseError: responseError, mapper: mapper))
             }
         } else if let file = file {
             task = uploadTask(with: request, fromFile: file) { (responseData, urlResponse, responseError) in
-                completion(self.makeResult(responseData: responseData,
-                                      urlResponse: urlResponse,
-                                      responseError: responseError, mapper: mapper))
+                completion(self.makeResult(request: request,
+                                           responseData: responseData,
+                                           urlResponse: urlResponse,
+                                           responseError: responseError, mapper: mapper))
             }
         } else {
             completion(.failure(ParseError(code: .unknownError, message: "data and file both can't be nil")))
@@ -148,9 +183,10 @@ extension URLSession {
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
         let task = downloadTask(with: request) { (location, urlResponse, responseError) in
-            completion(self.makeResult(location: location,
-                                  urlResponse: urlResponse,
-                                  responseError: responseError, mapper: mapper))
+            completion(self.makeResult(request: request,
+                                       location: location,
+                                       urlResponse: urlResponse,
+                                       responseError: responseError, mapper: mapper))
         }
         ParseSwift.sessionDelegate.downloadDelegates[task] = progress
         ParseSwift.sessionDelegate.taskCallbackQueues[task] = callbackQueue
@@ -158,13 +194,12 @@ extension URLSession {
     }
 
     internal func downloadTask<U>(
-        with url: URL,
+        with request: URLRequest,
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
     ) {
-
-        downloadTask(with: url) { (location, urlResponse, responseError) in
-            completion(self.makeResult(location: location,
+        downloadTask(with: request) { (location, urlResponse, responseError) in
+            completion(self.makeResult(request: request, location: location,
                                        urlResponse: urlResponse,
                                        responseError: responseError,
                                        mapper: mapper))

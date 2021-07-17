@@ -30,6 +30,23 @@ public struct ParseConfiguration {
     /// - warning: This is experimental and known not to work with mongoDB.
     var useTransactionsInternally = false
 
+    /// The default caching policy for all http requests that determines when to
+    /// return a response from the cache. Defaults to `useProtocolCachePolicy`.
+    /// See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
+    /// for more info.
+    var requestCachePolicy = URLRequest.CachePolicy.useProtocolCachePolicy
+
+    /// A dictionary of additional headers to send with requests. See Apple's
+    /// [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
+    /// for more info.
+    var httpAdditionalHeaders: [String: String]?
+
+    /// The memory capacity of the cache, in bytes. Defaults to 512KB.
+    var cacheMemoryCapacity = 512_000
+
+    /// The disk capacity of the cache, in bytes. Defaults to 10MB.
+    var cacheDiskCapacity = 10_000_000
+
     internal var authentication: ((URLAuthenticationChallenge,
                                    (URLSession.AuthChallengeDisposition,
                                     URLCredential?) -> Void) -> Void)?
@@ -50,6 +67,14 @@ public struct ParseConfiguration {
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
      encrypted one.
+     - parameter requestCachePolicy: The default caching policy for all http requests that determines
+     when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
+     for more info.
+     - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
+     - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
+     - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
+     [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
+     for more info.
      - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
      Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
@@ -65,6 +90,10 @@ public struct ParseConfiguration {
                 allowCustomObjectId: Bool = false,
                 useTransactionsInternally: Bool = false,
                 keyValueStore: ParseKeyValueStore? = nil,
+                requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
+                cacheMemoryCapacity: Int = 512_000,
+                cacheDiskCapacity: Int = 10_000_000,
+                httpAdditionalHeaders: [String: String]? = nil,
                 authentication: ((URLAuthenticationChallenge,
                                   (URLSession.AuthChallengeDisposition,
                                    URLCredential?) -> Void) -> Void)? = nil) {
@@ -79,6 +108,10 @@ public struct ParseConfiguration {
             .filter { $0 != "/" }
             .joined(separator: "/")
         self.authentication = authentication
+        self.requestCachePolicy = requestCachePolicy
+        self.cacheMemoryCapacity = cacheMemoryCapacity
+        self.cacheDiskCapacity = cacheDiskCapacity
+        self.httpAdditionalHeaders = httpAdditionalHeaders
         ParseStorage.shared.use(keyValueStore ?? InMemoryKeyValueStore())
     }
 }
@@ -159,6 +192,14 @@ public struct ParseSwift {
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
      encrypted one.
+     - parameter requestCachePolicy: The default caching policy for all http requests that determines
+     when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
+     for more info.
+     - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
+     - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
+     - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
+     [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
+     for more info.
      - parameter migrateFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
      to `true` will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to `false`.
      - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
@@ -177,6 +218,10 @@ public struct ParseSwift {
         allowCustomObjectId: Bool = false,
         useTransactionsInternally: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
+        requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
+        cacheMemoryCapacity: Int = 512_000,
+        cacheDiskCapacity: Int = 10_000_000,
+        httpAdditionalHeaders: [String: String]? = nil,
         migrateFromObjcSDK: Bool = false,
         authentication: ((URLAuthenticationChallenge,
                           (URLSession.AuthChallengeDisposition,
@@ -190,6 +235,10 @@ public struct ParseSwift {
                                         allowCustomObjectId: allowCustomObjectId,
                                         useTransactionsInternally: useTransactionsInternally,
                                         keyValueStore: keyValueStore,
+                                        requestCachePolicy: requestCachePolicy,
+                                        cacheMemoryCapacity: cacheMemoryCapacity,
+                                        cacheDiskCapacity: cacheDiskCapacity,
+                                        httpAdditionalHeaders: httpAdditionalHeaders,
                                         authentication: authentication),
                    migrateFromObjcSDK: migrateFromObjcSDK)
     }
@@ -202,6 +251,10 @@ public struct ParseSwift {
                                     allowCustomObjectId: Bool = false,
                                     useTransactionsInternally: Bool = false,
                                     keyValueStore: ParseKeyValueStore? = nil,
+                                    requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
+                                    cacheMemoryCapacity: Int = 512_000,
+                                    cacheDiskCapacity: Int = 10_000_000,
+                                    httpAdditionalHeaders: [String: String]? = nil,
                                     migrateFromObjcSDK: Bool = false,
                                     testing: Bool = false,
                                     authentication: ((URLAuthenticationChallenge,
@@ -215,6 +268,10 @@ public struct ParseSwift {
                                         allowCustomObjectId: allowCustomObjectId,
                                         useTransactionsInternally: useTransactionsInternally,
                                         keyValueStore: keyValueStore,
+                                        requestCachePolicy: requestCachePolicy,
+                                        cacheMemoryCapacity: cacheMemoryCapacity,
+                                        cacheDiskCapacity: cacheDiskCapacity,
+                                        httpAdditionalHeaders: httpAdditionalHeaders,
                                         authentication: authentication),
                    migrateFromObjcSDK: migrateFromObjcSDK)
         Self.configuration.isTestingSDK = testing
