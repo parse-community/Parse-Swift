@@ -58,7 +58,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/ParseEncoder.swift",
-      "line": 600,
+      "line": 637,
       "symbol": "_ParseEncoder",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
@@ -71,24 +71,10 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/Protocols/ParseSubscription.swift",
-      "line": 19,
-      "symbol": "ParseSubscription.query",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/Subscription.swift",
-      "line": 68,
-      "symbol": "Subscription.query",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/SubscriptionCallback.swift",
-      "line": 16,
-      "symbol": "SubscriptionCallback.query",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/ParseLiveQuery.swift",
+      "line": 691,
+      "symbol": "ParseLiveQuery.subscribe(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
@@ -218,16 +204,23 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/CloudViewModel.swift",
+      "line": 19,
+      "symbol": "CloudViewModel.cloudCode",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/ParseACL.swift",
-      "line": 41,
+      "line": 44,
       "symbol": "ParseACL.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/ParseAnalytics.swift",
-      "line": 265,
-      "symbol": "ParseAnalytics.debugDescription",
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/ParseBytes.swift",
+      "line": 16,
+      "symbol": "ParseBytes.base64",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
@@ -240,7 +233,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/ParseCloud.swift",
-      "line": 20,
+      "line": 22,
       "symbol": "ParseCloud.ReturnType",
       "symbol_kind": "source.lang.swift.decl.associatedtype",
       "warning": "undocumented"
@@ -253,17 +246,24 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 970,
-      "symbol": "Query.ResultType",
-      "symbol_kind": "source.lang.swift.decl.typealias",
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/ParsePolygon.swift",
+      "line": 16,
+      "symbol": "ParsePolygon.coordinates",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Pointer.swift",
+      "line": 15,
+      "symbol": "ParsePointer",
+      "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 1698,
-      "symbol": "Query.debugDescription",
-      "symbol_kind": "source.lang.swift.decl.var.instance",
+      "line": 987,
+      "symbol": "Query.ResultType",
+      "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
     }
   ],
