@@ -43,7 +43,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        URLSession.parse.configuration.urlCache?.removeAllCachedResponses()
+        URLCache.parse.removeAllCachedResponses()
         #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
@@ -967,6 +967,14 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(fetchedFile2.name, fetchedFile.name)
         XCTAssertEqual(fetchedFile2.url, fetchedFile.url)
         XCTAssertNotNil(fetchedFile2.localURL)
+
+        // More cache tests
+        let currentMemoryUsage = URLCache.parse.currentMemoryUsage
+        let currentDiskUsage = URLCache.parse.currentDiskUsage
+        XCTAssertGreaterThan(currentMemoryUsage, 0)
+        XCTAssertGreaterThan(currentDiskUsage, 0)
+        ParseSwift.clearCache()
+        XCTAssertLessThan(URLCache.parse.currentMemoryUsage, currentMemoryUsage)
         #endif
     }
 
