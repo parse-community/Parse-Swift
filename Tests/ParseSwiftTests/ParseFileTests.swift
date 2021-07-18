@@ -963,29 +963,18 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         // Remove URL so we can check cache
         MockURLProtocol.removeAll()
 
-        let expectation1 = XCTestExpectation(description: "ParseFile cache")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-            do {
-                let fetchedFile2 = try parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])
-                XCTAssertEqual(fetchedFile2.name, fetchedFile.name)
-                XCTAssertEqual(fetchedFile2.url, fetchedFile.url)
-                XCTAssertNotNil(fetchedFile2.localURL)
-            } catch {
-                XCTFail(error.localizedDescription)
-                expectation1.fulfill()
-                return
-            }
+        let fetchedFile2 = try parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(fetchedFile2.name, fetchedFile.name)
+        XCTAssertEqual(fetchedFile2.url, fetchedFile.url)
+        XCTAssertNotNil(fetchedFile2.localURL)
 
-            // More cache tests
-            let currentMemoryUsage = URLCache.parse.currentMemoryUsage
-            let currentDiskUsage = URLCache.parse.currentDiskUsage
-            XCTAssertGreaterThan(currentMemoryUsage, 0)
-            XCTAssertGreaterThan(currentDiskUsage, 0)
-            ParseSwift.clearCache()
-            XCTAssertLessThan(URLCache.parse.currentMemoryUsage, currentMemoryUsage)
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
+        // More cache tests
+        let currentMemoryUsage = URLCache.parse.currentMemoryUsage
+        let currentDiskUsage = URLCache.parse.currentDiskUsage
+        XCTAssertGreaterThan(currentMemoryUsage, 0)
+        XCTAssertGreaterThan(currentDiskUsage, 0)
+        ParseSwift.clearCache()
+        XCTAssertLessThan(URLCache.parse.currentMemoryUsage, currentMemoryUsage)
         #endif
     }
 
