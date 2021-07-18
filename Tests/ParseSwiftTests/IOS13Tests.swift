@@ -28,11 +28,10 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
 
         // Comform to Identifiable
         var id: String { // swiftlint:disable:this identifier_name
-            if let objectId = self.objectId {
-                return objectId
-            } else {
+            guard let objectId = self.objectId else {
                 return UUID().uuidString
             }
+            return objectId
         }
 
         //: Those are required for Object

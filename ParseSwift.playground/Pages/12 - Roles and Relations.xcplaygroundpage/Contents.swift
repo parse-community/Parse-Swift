@@ -229,5 +229,4 @@ let relation = User.current!.relation
 //: similar to `users` and `roles`.
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)

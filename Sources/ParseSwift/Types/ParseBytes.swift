@@ -9,8 +9,7 @@
 import Foundation
 
 /**
-  `ParseBytes` is used to stote bytes.
-   It could be used to perform queries.
+  `ParseBytes` is used to store base 64 data.
 */
 public struct ParseBytes: Codable, Hashable {
     private let __type: String = "Bytes" // swiftlint:disable:this identifier_name

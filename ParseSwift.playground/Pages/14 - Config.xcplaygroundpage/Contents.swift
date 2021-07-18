@@ -69,5 +69,4 @@ config.fetch { result in
 print(Config.current ?? "No config")
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)

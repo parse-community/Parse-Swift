@@ -18,9 +18,28 @@ extension URLCache {
                             diskCapacity: ParseSwift.configuration.cacheDiskCapacity,
                             diskPath: "/")
         }
-        let diskURL = cacheURL.appendingPathComponent("ParseCache/")
-        return .init(memoryCapacity: ParseSwift.configuration.cacheMemoryCapacity,
-                     diskCapacity: ParseSwift.configuration.cacheDiskCapacity,
-                     diskPath: diskURL.absoluteString)
+        let parseCacheDirectory = "ParseCache"
+        let diskURL = cacheURL.appendingPathComponent(parseCacheDirectory, isDirectory: true)
+        if #available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *) {
+            #if !os(Linux) && !os(Android)
+            return URLCache(memoryCapacity: ParseSwift.configuration.cacheMemoryCapacity,
+                         diskCapacity: ParseSwift.configuration.cacheDiskCapacity,
+                         directory: diskURL)
+            #else
+            return URLCache(memoryCapacity: ParseSwift.configuration.cacheMemoryCapacity,
+                         diskCapacity: ParseSwift.configuration.cacheDiskCapacity,
+                         diskPath: diskURL.absoluteString)
+            #endif
+        } else {
+            #if os(macOS)
+            return URLCache(memoryCapacity: ParseSwift.configuration.cacheMemoryCapacity,
+                         diskCapacity: ParseSwift.configuration.cacheDiskCapacity,
+                         diskPath: diskURL.absoluteString)
+            #else
+            return URLCache(memoryCapacity: ParseSwift.configuration.cacheMemoryCapacity,
+                         diskCapacity: ParseSwift.configuration.cacheDiskCapacity,
+                         diskPath: parseCacheDirectory)
+            #endif
+        }
     }()
 }

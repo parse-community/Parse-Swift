@@ -55,7 +55,7 @@ score.save { result in
             return
         }
 
-        print(location.debugDescription)
+        print(location)
 
     case .failure(let error):
         assertionFailure("Error saving: \(error)")

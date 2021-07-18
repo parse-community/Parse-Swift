@@ -129,5 +129,4 @@ queryExclude.first { results in
 }
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)

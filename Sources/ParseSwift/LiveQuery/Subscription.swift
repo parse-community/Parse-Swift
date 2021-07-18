@@ -63,14 +63,10 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
  indepedently as a ViewModel in MVVM.
  */
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
-    //The query subscribed to.
-    public var query: Query<T>
-    //The ParseObject
-    public typealias Object = T
+open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
 
     /// Updates and notifies when there's a new event related to a specific query.
-    public internal(set) var event: (query: Query<T>, event: Event<T>)? {
+    open var event: (query: Query<T>, event: Event<T>)? {
         willSet {
             if newValue != nil {
                 subscribed = nil
@@ -81,7 +77,7 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
     }
 
     /// Updates and notifies when a subscription request has been fulfilled and if it is new.
-    public internal(set) var subscribed: (query: Query<T>, isNew: Bool)? {
+    open var subscribed: (query: Query<T>, isNew: Bool)? {
         willSet {
             if newValue != nil {
                 unsubscribed = nil
@@ -92,7 +88,7 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
     }
 
     /// Updates and notifies when an unsubscribe request has been fulfilled.
-    public internal(set) var unsubscribed: Query<T>? {
+    open var unsubscribed: Query<T>? {
         willSet {
             if newValue != nil {
                 subscribed = nil
@@ -105,8 +101,8 @@ open class Subscription<T: ParseObject>: ParseSubscription, ObservableObject {
     /**
      Creates a new subscription that can be used to handle updates.
      */
-    public init(query: Query<T>) {
-        self.query = query
+    public required init(query: Query<T>) {
+        super.init(query: query)
         self.subscribed = nil
         self.event = nil
         self.unsubscribed = nil

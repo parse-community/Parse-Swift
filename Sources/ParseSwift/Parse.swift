@@ -305,4 +305,12 @@ public struct ParseSwift {
         }
     }
     #endif
+
+    /**
+     Manually remove all stored cache.
+     - note: The OS typically handles this automatically.
+     */
+    static public func clearCache() {
+        URLSession.parse.configuration.urlCache?.removeAllCachedResponses()
+    }
 }

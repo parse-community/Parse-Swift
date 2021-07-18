@@ -1,5 +1,5 @@
 //
-//  ParseSubscription.swift
+//  QuerySubscribable.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 1/2/21.
@@ -10,13 +10,21 @@ import Foundation
 
 /**
  This protocol describes the interface for handling events from a `ParseLiveQuery` client.
- You can use this protocol on any custom class of yours, instead of Subscription, if it fits your use case better.
+ You can use this protocol on any custom class of yours, instead of `Subscription` or
+ `SubscriptionCallback`, if it fits your use case better.
  */
-public protocol  ParseSubscription: AnyObject {
-    /// The type of the `ParseObject` that this handler uses.
+public protocol  QuerySubscribable: AnyObject {
+
+    /// The `ParseObject` associated with this subscription.
     associatedtype Object: ParseObject
 
-    var query: Query<Object> {get set}
+    /// The query associated with this subscription.
+    var query: Query<Object> { get set }
+
+    /**
+     Creates a new subscription that can be used to handle updates.
+     */
+    init(query: Query<Object>)
 
     /**
      Tells the handler that an event has been received from the `ParseLiveQuery` Server.

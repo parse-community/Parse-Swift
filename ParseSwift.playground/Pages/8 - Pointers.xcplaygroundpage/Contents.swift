@@ -165,7 +165,7 @@ do {
 
 //: Here's an example of saving Pointers as properties
 do {
-    // First we query
+    //: First we query
     let query5 = try Author.query("book" == newBook)
         .include("book")
 

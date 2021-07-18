@@ -346,5 +346,4 @@ do {
 }
 
 PlaygroundPage.current.finishExecution()
-
 //: [Next](@next)

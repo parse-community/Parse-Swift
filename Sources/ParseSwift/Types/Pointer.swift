@@ -12,6 +12,19 @@ protocol ParsePointer: Encodable {
     var objectId: String { get set }
 }
 
+extension ParsePointer {
+    /**
+     Determines if two objects have the same objectId.
+
+     - parameter as: Object to compare.
+
+     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+    */
+    public func hasSameObjectId(as other: ParsePointer) -> Bool {
+        return other.className == className && other.objectId == objectId
+    }
+}
+
 private func getObjectId<T: ParseObject>(target: T) throws -> String {
     guard let objectId = target.objectId else {
         throw ParseError(code: .missingObjectId, message: "Cannot set a pointer to an unsaved object")
@@ -163,19 +176,5 @@ internal struct PointerType: ParsePointer, Encodable {
     init(_ target: Objectable) throws {
         self.objectId = try getObjectId(target: target)
         self.className = target.className
-    }
-
-    init(_ target: Encodable) throws {
-        guard let objectable = target as? Objectable,
-              let objectId = objectable.objectId else {
-            throw ParseError(code: .unknownError,
-                             message: "Not able to convert to a pointer")
-        }
-        self.objectId = objectId
-        self.className = objectable.className
-    }
-
-    private enum CodingKeys: String, CodingKey {
-        case __type, objectId, className // swiftlint:disable:this identifier_name
     }
 }
