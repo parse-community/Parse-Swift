@@ -311,6 +311,6 @@ public struct ParseSwift {
      - note: The OS typically handles this automatically.
      */
     static public func clearCache() {
-        URLCache.parse.removeAllCachedResponses()
+        URLSession.parse.configuration.urlCache?.removeAllCachedResponses()
     }
 }

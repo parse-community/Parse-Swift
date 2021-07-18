@@ -18,9 +18,9 @@ extension URLCache {
                             diskCapacity: ParseSwift.configuration.cacheDiskCapacity,
                             diskPath: "/")
         }
-        let parseCacheDirectory = "ParseCache/"
-        let diskURL = cacheURL.appendingPathComponent(parseCacheDirectory)
+        let parseCacheDirectory = "ParseCache"
         #if os(macOS) || os(Linux) || os(Android)
+        let diskURL = cacheURL.appendingPathComponent(parseCacheDirectory, isDirectory: true)
         return URLCache(memoryCapacity: ParseSwift.configuration.cacheMemoryCapacity,
                      diskCapacity: ParseSwift.configuration.cacheDiskCapacity,
                      diskPath: diskURL.absoluteString)
