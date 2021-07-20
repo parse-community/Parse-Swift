@@ -109,6 +109,25 @@ jobs:
       - name: Send codecov
         run: bash <(curl https://codecov.io/bash)
 
+  android:
+    runs-on: ubuntu-18.04
+    container:
+      image: flowkey/androidswift5:latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Cache Gradle
+        id: cache-gradle
+        uses: actions/cache@v2
+        with:
+          path: .
+          key: ${{ runner.os }}-gradle-v1-${{ hashFiles('**/build.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-v1
+      - name: Build
+        run: |
+          cd android
+          ./gradlew assembleDebug
+
   docs:
     needs: xcode-build-watchos
     runs-on: macos-latest
