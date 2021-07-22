@@ -87,6 +87,7 @@ extension ParseUser {
         deleteCurrentContainerFromKeychain()
         BaseParseInstallation.deleteCurrentContainerFromKeychain()
         BaseConfig.deleteCurrentContainerFromKeychain()
+        ParseSwift.clearCache()
     }
 }
 
