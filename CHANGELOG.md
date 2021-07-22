@@ -6,6 +6,7 @@
 
 __Improvements__
 - Clear caching when a user logs out ([#198](https://github.com/parse-community/Parse-Swift/pull/198)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Close all LiveQuery connections when a user logs out ([#199](https://github.com/parse-community/Parse-Swift/pull/199)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.6...1.9.0)
