@@ -44,19 +44,19 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
                             authenticationToken: String?,
                             expiresIn: Int? = nil) -> [String: String] {
 
-            var returnDictionary = [AuthenticationKeys.id.rawValue: userId]
+            var returnDictionary = [CodingKeys.id.rawValue: userId]
             if let expiresIn = expiresIn,
                 let expirationDate = Calendar.current.date(byAdding: .second,
                                                              value: expiresIn,
                                                              to: Date()) {
                 let dateString = ParseCoding.dateFormatter.string(from: expirationDate)
-                returnDictionary[AuthenticationKeys.expirationDate.rawValue] = dateString
+                returnDictionary[CodingKeys.expirationDate.rawValue] = dateString
             }
 
             if let accessToken = accessToken {
-              returnDictionary[AuthenticationKeys.accessToken.rawValue] = accessToken
+              returnDictionary[CodingKeys.accessToken.rawValue] = accessToken
             } else if let authenticationToken = authenticationToken {
-              returnDictionary[AuthenticationKeys.authenticationToken.rawValue] = authenticationToken
+              returnDictionary[CodingKeys.authenticationToken.rawValue] = authenticationToken
             }
             return returnDictionary
         }
@@ -65,12 +65,12 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// - parameter authData: Dictionary containing key/values.
         /// - returns: `true` if all the mandatory keys are present, `false` otherwise.
         func verifyMandatoryKeys(authData: [String: String]) -> Bool {
-            guard authData[AuthenticationKeys.id.rawValue] != nil else {
+            guard authData[CodingKeys.id.rawValue] != nil else {
                 return false
             }
 
-            if authData[AuthenticationKeys.accessToken.rawValue] != nil ||
-                authData[AuthenticationKeys.authenticationToken.rawValue] != nil {
+            if authData[CodingKeys.accessToken.rawValue] != nil ||
+                authData[CodingKeys.authenticationToken.rawValue] != nil {
                 return true
             }
             return false
