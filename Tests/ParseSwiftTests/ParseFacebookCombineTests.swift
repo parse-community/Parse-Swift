@@ -61,6 +61,22 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             self.username = "hello10"
             self.email = "hello@parse.com"
         }
+
+        func testMakeDictionary() {
+            let authData = ParseFacebook<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  accessToken: "testAccessToken",
+                                                  authenticationToken: "testAuthToken")
+            XCTAssertEqual(authData["id"],"testing")
+            XCTAssertEqual(authData["access_token"],"testAccessToken")
+
+            let secondAuthData = ParseFacebook<User>
+            .AuthenticationKeys.id.makeDictionary(userId: "testing",
+                                                  accessToken: nil,
+                                                  authenticationToken: "testAuthToken")
+            XCTAssertEqual(secondAuthData["id"],"testing")
+            XCTAssertEqual(secondAuthData["token"],"testAuthToken")
+        }
     }
 
     override func setUpWithError() throws {
@@ -83,22 +99,6 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
-    }
-    func testMakeDictionary() {
-        let authData = ParseFacebook<User>
-            .AuthenticationKeys.id.makeDictionary(userId: "testing",
-                                                  accessToken: "testAccessToken",
-                                                  authenticationToken: "testAuthToken")
-        XCTAssertEqual(authData["id"],"testing")
-        XCTAssertEqual(authData["access_token"],"testAccessToken")
-        
-        let secondAuthData = ParseFacebook<User>
-            .AuthenticationKeys.id.makeDictionary(userId: "testing",
-                                                  accessToken: nil,
-                                                  authenticationToken: "testAuthToken")
-
-        XCTAssertEqual(secondAuthData["id"],"testing")
-        XCTAssertEqual(secondAuthData["token"],"testAuthToken")
     }
     func testLimitedLogin() {
         var subscriptions = Set<AnyCancellable>()

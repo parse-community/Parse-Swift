@@ -22,16 +22,9 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
     /// Authentication keys required for Facebook authentication.
     enum AuthenticationKeys: String, Codable {
         case id // swiftlint:disable:this identifier_name
-        case authenticationToken
-        case accessToken
-        case expirationDate
-
-        enum CodingKeys: String, CodingKey { // swiftlint:disable:this nesting
-          case id // swiftlint:disable:this identifier_name
-          case authenticationToken = "token"
-          case accessToken = "access_token"
-          case expirationDate = "expiration_date"
-        }
+        case authenticationToken = "token"
+        case accessToken = "access_token"
+        case expirationDate = "expiration_date"
 
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter userId: Required id for the user.
@@ -44,19 +37,19 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
                             authenticationToken: String?,
                             expiresIn: Int? = nil) -> [String: String] {
 
-            var returnDictionary = [CodingKeys.id.rawValue: userId]
+            var returnDictionary = [AuthenticationKeys.id.rawValue: userId]
             if let expiresIn = expiresIn,
                 let expirationDate = Calendar.current.date(byAdding: .second,
                                                              value: expiresIn,
                                                              to: Date()) {
                 let dateString = ParseCoding.dateFormatter.string(from: expirationDate)
-                returnDictionary[CodingKeys.expirationDate.rawValue] = dateString
+                returnDictionary[AuthenticationKeys.expirationDate.rawValue] = dateString
             }
 
             if let accessToken = accessToken {
-              returnDictionary[CodingKeys.accessToken.rawValue] = accessToken
+              returnDictionary[AuthenticationKeys.accessToken.rawValue] = accessToken
             } else if let authenticationToken = authenticationToken {
-              returnDictionary[CodingKeys.authenticationToken.rawValue] = authenticationToken
+              returnDictionary[AuthenticationKeys.authenticationToken.rawValue] = authenticationToken
             }
             return returnDictionary
         }
@@ -65,12 +58,12 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// - parameter authData: Dictionary containing key/values.
         /// - returns: `true` if all the mandatory keys are present, `false` otherwise.
         func verifyMandatoryKeys(authData: [String: String]) -> Bool {
-            guard authData[CodingKeys.id.rawValue] != nil else {
+            guard authData[AuthenticationKeys.id.rawValue] != nil else {
                 return false
             }
 
-            if authData[CodingKeys.accessToken.rawValue] != nil ||
-                authData[CodingKeys.authenticationToken.rawValue] != nil {
+            if authData[AuthenticationKeys.accessToken.rawValue] != nil ||
+                authData[AuthenticationKeys.authenticationToken.rawValue] != nil {
                 return true
             }
             return false
