@@ -147,7 +147,7 @@ class ParseFacebookTests: XCTestCase {
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: "accessToken",
                                                   authenticationToken: nil)
-        XCTAssertEqual(authData, ["id": "testing", "token": "accessToken"])
+        XCTAssertEqual(authData, ["id": "testing", "access_token": "accessToken"])
     }
 
     func testAuthenticationKeysGraphAPILoginExpires() throws {
@@ -161,7 +161,7 @@ class ParseFacebookTests: XCTestCase {
             XCTFail("Should have found date")
             return
         }
-        XCTAssertEqual(authData, ["id": "testing", "token": "accessToken", "expiration_date": dateString])
+        XCTAssertEqual(authData, ["id": "testing", "access_token": "accessToken", "expiration_date": dateString])
     }
 
     func testLimitedLogin() throws {
