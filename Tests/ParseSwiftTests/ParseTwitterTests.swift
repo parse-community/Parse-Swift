@@ -105,20 +105,20 @@ class ParseTwitterTests: XCTestCase {
                                                   authToken: "authToken",
                                                   authTokenSecret: "authTokenSecret")
         XCTAssertEqual(authData, ["id": "testing",
-                                  "screenName": "screenName",
-                                  "consumerKey": "consumerKey",
-                                  "consumerSecret": "consumerSecret",
-                                  "authToken": "authToken",
-                                  "authTokenSecret": "authTokenSecret"])
+                                  "screen_name": "screenName",
+                                  "consumer_key": "consumerKey",
+                                  "consumer_secret": "consumerSecret",
+                                  "auth_token": "authToken",
+                                  "auth_token_secret": "authTokenSecret"])
     }
 
     func testVerifyMandatoryKeys() throws {
         let authData = ["id": "testing",
-                        "screenName": "screenName",
-                        "consumerKey": "consumerKey",
-                        "consumerSecret": "consumerSecret",
-                        "authToken": "authToken",
-                        "authTokenSecret": "authTokenSecret"]
+                        "screen_name": "screenName",
+                        "consumer_key": "consumerKey",
+                        "consumer_secret": "consumerSecret",
+                        "auth_token": "authToken",
+                        "auth_token_secret": "authTokenSecret"]
         let authDataWrong = ["id": "testing",
                              "screenName": "screenName",
                              "consumerKey": "consumerKey",

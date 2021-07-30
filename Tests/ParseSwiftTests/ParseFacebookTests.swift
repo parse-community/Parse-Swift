@@ -101,7 +101,7 @@ class ParseFacebookTests: XCTestCase {
                                                   accessToken: nil,
                                                   authenticationToken: "authenticationToken")
         XCTAssertEqual(authData, ["id": "testing",
-                                  "authenticationToken": "authenticationToken"])
+                                  "token": "authenticationToken"])
     }
 
     func testAuthenticationKeysLimitedLoginExpires() throws {
@@ -111,22 +111,22 @@ class ParseFacebookTests: XCTestCase {
                                                   accessToken: nil,
                                                   authenticationToken: "authenticationToken",
                                                   expiresIn: expiresIn)
-        guard let dateString = authData["expirationDate"] else {
+        guard let dateString = authData["expiration_date"] else {
             XCTFail("Should have found date")
             return
         }
         XCTAssertEqual(authData, ["id": "testing",
-                                  "authenticationToken": "authenticationToken",
-                                  "expirationDate": dateString])
+                                  "token": "authenticationToken",
+                                  "expiration_date": dateString])
     }
 
     func testVerifyMandatoryKeys() throws {
         let authData = ["id": "testing",
-                        "authenticationToken": "authenticationToken"]
+                        "token": "authenticationToken"]
         XCTAssertTrue(ParseFacebook<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData))
         let authData2 = ["id": "testing",
-                        "accessToken": "accessToken"]
+                        "access_token": "accessToken"]
         XCTAssertTrue(ParseFacebook<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData2))
         XCTAssertTrue(ParseFacebook<User>
@@ -134,10 +134,10 @@ class ParseFacebookTests: XCTestCase {
         let authDataWrong = ["id": "testing", "hello": "test"]
         XCTAssertFalse(ParseFacebook<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong))
-        let authDataWrong2 = ["world": "testing", "authenticationToken": "test"]
+        let authDataWrong2 = ["world": "testing", "token": "test"]
         XCTAssertFalse(ParseFacebook<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong2))
-        let authDataWrong3 = ["world": "testing", "accessToken": "test"]
+        let authDataWrong3 = ["world": "testing", "access_token": "test"]
         XCTAssertFalse(ParseFacebook<User>
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong3))
     }
@@ -147,7 +147,7 @@ class ParseFacebookTests: XCTestCase {
             .AuthenticationKeys.id.makeDictionary(userId: "testing",
                                                   accessToken: "accessToken",
                                                   authenticationToken: nil)
-        XCTAssertEqual(authData, ["id": "testing", "accessToken": "accessToken"])
+        XCTAssertEqual(authData, ["id": "testing", "access_token": "accessToken"])
     }
 
     func testAuthenticationKeysGraphAPILoginExpires() throws {
@@ -157,11 +157,11 @@ class ParseFacebookTests: XCTestCase {
                                                   accessToken: "accessToken",
                                                   authenticationToken: nil,
                                                   expiresIn: expiresIn)
-        guard let dateString = authData["expirationDate"] else {
+        guard let dateString = authData["expiration_date"] else {
             XCTFail("Should have found date")
             return
         }
-        XCTAssertEqual(authData, ["id": "testing", "accessToken": "accessToken", "expirationDate": dateString])
+        XCTAssertEqual(authData, ["id": "testing", "access_token": "accessToken", "expiration_date": dateString])
     }
 
     func testLimitedLogin() throws {

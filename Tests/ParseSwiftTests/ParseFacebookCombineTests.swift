@@ -84,7 +84,6 @@ class ParseFacebookCombineTests: XCTestCase { // swiftlint:disable:this type_bod
         #endif
         try ParseStorage.shared.deleteAll()
     }
-
     func testLimitedLogin() {
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
