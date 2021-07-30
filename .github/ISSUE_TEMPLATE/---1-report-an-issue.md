@@ -14,9 +14,9 @@ assignees: ''
     Thanks for contributing to Parse Swift!
 -->
 
-- [ ] I am not disclosing a [vulnerability](https://github.com/parse-community/parse-server/blob/master/SECURITY.md).
-- [ ] I am not just asking a [question](https://github.com/parse-community/.github/blob/master/SUPPORT.md).
-- [ ] I have searched through [existing issues](https://github.com/parse-community/parse-server/issues?q=is%3Aissue).
+- [ ] I am not disclosing a [vulnerability](https://github.com/parse-community/Parse-Swift/security/policy).
+- [ ] I am not just asking a [question](https://github.com/parse-community/.github/blob/main/SUPPORT.md).
+- [ ] I have searched through [existing issues](https://github.com/parse-community/Parse-Swift/issues?q=is%3Aissue).
 - [ ] I can reproduce the issue with the [latest version of Parse Swift](https://github.com/parse-community/Parse-Swift/releases). <!-- We don't investigate issues for outdated releases. -->
 - [ ] I can reproduce the issue with the [latest version of Parse Server](https://github.com/parse-community/parse-server/releases).
 
