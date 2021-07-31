@@ -36,8 +36,10 @@ class ParseLiveQueryTests: XCTestCase {
         var error: ParseError?
         var code: URLSessionWebSocketTask.CloseCode?
         var reason: Data?
-        func received(_ error: ParseError) {
-            self.error = error
+        func received(_ error: Error) {
+            if let error = error as? ParseError {
+                self.error = error
+            }
         }
         func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?) {
             self.code = code

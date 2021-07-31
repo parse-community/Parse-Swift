@@ -40,7 +40,7 @@ public protocol ParseLiveQueryDelegate: AnyObject {
     Receive errors from the ParseLiveQuery task/connection.
      - parameter error: An error from the session task.
      */
-    func received(_ error: ParseError)
+    func received(_ error: Error)
 
     /**
     Receive unsupported data from the ParseLiveQuery task/connection.
@@ -68,13 +68,13 @@ public protocol ParseLiveQueryDelegate: AnyObject {
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-extension ParseLiveQueryDelegate {
+public extension ParseLiveQueryDelegate {
     func received(_ challenge: URLAuthenticationChallenge,
                   completionHandler: @escaping (URLSession.AuthChallengeDisposition,
                                                 URLCredential?) -> Void) {
         completionHandler(.performDefaultHandling, nil)
     }
-    func received(_ error: ParseError) { }
+    func received(_ error: Error) { }
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?) { }
     func received(_ metrics: URLSessionTaskTransactionMetrics) { }
     func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?) { }

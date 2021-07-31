@@ -17,7 +17,7 @@ protocol LiveQuerySocketDelegate: AnyObject {
                 closeCode: URLSessionWebSocketTask.CloseCode?,
                 reason: Data?)
     func close(useDedicatedQueue: Bool)
-    func receivedError(_ error: ParseError)
+    func receivedError(_ error: Error)
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?)
     func received(challenge: URLAuthenticationChallenge,
                   completionHandler: @escaping (URLSession.AuthChallengeDisposition, URLCredential?) -> Void)
