@@ -49,6 +49,7 @@ public struct ParseFileManager {
     private let applicationIdentifier: String
     private let applicationGroupIdentifer: String?
 
+    /// The default directory for storing Parse files.
     public var defaultDataDirectoryPath: URL? {
         #if os(macOS) || os(Linux) || os(Android)
         var directoryPath: String!
