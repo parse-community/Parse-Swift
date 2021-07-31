@@ -8,7 +8,8 @@
 
 import Foundation
 
-internal struct ParseFileManager {
+/// Manages Parse files and directories.
+public struct ParseFileManager {
 
     private var defaultDirectoryAttributes: [FileAttributeKey: Any]? {
         #if os(macOS) || os(Linux) || os(Android)
@@ -74,7 +75,7 @@ internal struct ParseFileManager {
         #endif
     }
 
-    public func dataItemPathForPathComponent(_ component: String) -> URL? {
+    func dataItemPathForPathComponent(_ component: String) -> URL? {
         guard var path = self.defaultDataDirectoryPath else {
             return nil
         }
@@ -82,7 +83,9 @@ internal struct ParseFileManager {
         return path
     }
 
-    init?() {
+    /// Creates an instance of `ParseFileManager`.
+    /// - returns: If an instance can't be created, nil is returned.
+    public init?() {
         #if os(Linux) || os(Android)
         let applicationId = ParseSwift.configuration.applicationId
         applicationIdentifier = "com.parse.ParseSwift.\(applicationId)"

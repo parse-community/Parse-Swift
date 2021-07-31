@@ -7,6 +7,7 @@
 __Improvements__
 - Clear caching when a user logs out ([#198](https://github.com/parse-community/Parse-Swift/pull/198)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Close all LiveQuery connections when a user logs out ([#199](https://github.com/parse-community/Parse-Swift/pull/199)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Make ParseFileManager public so developers can easily find the location of ParseFiles ([#205](https://github.com/parse-community/Parse-Swift/pull/205)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
 - Fix Facebook and Twitter login setting incorrect keys ([#202](https://github.com/parse-community/Parse-Swift/pull/202)), thanks to [Daniel Blyth](https://github.com/dblythy).
