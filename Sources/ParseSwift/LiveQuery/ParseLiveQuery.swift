@@ -471,13 +471,13 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
     }
 
     func receivedError(_ error: Error) {
-        guard let error = error as? POSIXError else {
+        guard let posixError = error as? POSIXError else {
             notificationQueue.async {
                 self.receiveDelegate?.received(error)
             }
             return
         }
-        if error.code == .ENOTCONN {
+        if posixError.code == .ENOTCONN {
             if attempts + 1 >= ParseLiveQueryConstants.maxConnectionAttempts + 1 {
                 let parseError = ParseError(code: .unknownError,
                                             message: """
