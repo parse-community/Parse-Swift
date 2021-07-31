@@ -68,7 +68,7 @@ public protocol ParseLiveQueryDelegate: AnyObject {
 }
 
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-extension ParseLiveQueryDelegate {
+public extension ParseLiveQueryDelegate {
     func received(_ challenge: URLAuthenticationChallenge,
                   completionHandler: @escaping (URLSession.AuthChallengeDisposition,
                                                 URLCredential?) -> Void) {
