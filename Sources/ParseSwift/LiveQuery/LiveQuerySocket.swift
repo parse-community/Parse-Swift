@@ -97,15 +97,17 @@ extension LiveQuerySocket {
                                                 message: "Couldn't encode LiveQuery string as data")
                     self.delegates[task]?.receivedError(parseError)
                 }
+                self.receive(task)
             case .success(.data(let data)):
                 self.delegates[task]?.receivedUnsupported(data, socketMessage: nil)
+                self.receive(task)
             case .success(let message):
                 self.delegates[task]?.receivedUnsupported(nil, socketMessage: message)
+                self.receive(task)
             case .failure(let error):
                 let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
                 self.delegates[task]?.receivedError(parseError)
             }
-            self.receive(task)
         }
     }
 }
