@@ -90,11 +90,9 @@ extension LiveQuerySocket {
         task.receive { result in
             switch result {
             case .success(.string(let message)):
-                guard let data = message.data(using: .utf8) else {
-                    return
+                if let data = message.data(using: .utf8) {
+                    self.delegates[task]?.received(data)
                 }
-                self.delegates[task]?.received(data)
-                self.receive(task)
             case .success(.data(let data)):
                 self.delegates[task]?.receivedUnsupported(data, socketMessage: nil)
             case .success(let message):
@@ -103,6 +101,7 @@ extension LiveQuerySocket {
                 let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
                 self.delegates[task]?.receivedError(parseError)
             }
+            self.receive(task)
         }
     }
 }

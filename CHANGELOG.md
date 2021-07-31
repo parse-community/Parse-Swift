@@ -10,6 +10,7 @@ __Improvements__
 
 __Fixes__
 - Fix Facebook and Twitter login setting incorrect keys ([#202](https://github.com/parse-community/Parse-Swift/pull/202)), thanks to [Daniel Blyth](https://github.com/dblythy).
+- LiveQuery socket should always continue receiving ([#204](https://github.com/parse-community/Parse-Swift/pull/204)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.8.6...1.9.0)
