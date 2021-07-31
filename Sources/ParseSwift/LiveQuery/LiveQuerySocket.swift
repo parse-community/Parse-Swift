@@ -92,6 +92,10 @@ extension LiveQuerySocket {
             case .success(.string(let message)):
                 if let data = message.data(using: .utf8) {
                     self.delegates[task]?.received(data)
+                } else {
+                    let parseError = ParseError(code: .unknownError,
+                                                message: "Couldn't encode LiveQuery string as data")
+                    self.delegates[task]?.receivedError(parseError)
                 }
             case .success(.data(let data)):
                 self.delegates[task]?.receivedUnsupported(data, socketMessage: nil)
