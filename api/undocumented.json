@@ -9,7 +9,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseFacebook.swift",
-      "line": 84,
+      "line": 77,
       "symbol": "ParseFacebook.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -23,7 +23,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseTwitter.swift",
-      "line": 84,
+      "line": 75,
       "symbol": "ParseTwitter.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -65,15 +65,29 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/LiveQuerySocket.swift",
-      "line": 127,
+      "line": 131,
       "symbol": "LiveQuerySocket",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/ParseLiveQuery.swift",
-      "line": 691,
+      "line": 709,
       "symbol": "ParseLiveQuery.subscribe(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/Protocols/ParseLiveQueryDelegate.swift",
+      "line": 77,
+      "symbol": "ParseLiveQueryDelegate.received(_:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/Protocols/ParseLiveQueryDelegate.swift",
+      "line": 79,
+      "symbol": "ParseLiveQueryDelegate.received(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
@@ -194,6 +208,13 @@
       "line": 16,
       "symbol": "Savable",
       "symbol_kind": "source.lang.swift.decl.extension",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Storage/ParseFileManager.swift",
+      "line": 52,
+      "symbol": "ParseFileManager.defaultDataDirectoryPath",
+      "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {

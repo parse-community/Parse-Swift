@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.9.0 Docs
+          ParseSwift 1.9.1 Docs
         </a>
          (95% documented)
       </p>
@@ -298,6 +298,9 @@
                 <a class="nav-group-task-link" href="../Structs/ParseFile.html">ParseFile</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseFileManager.html">ParseFileManager</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseGeoPoint.html">ParseGeoPoint</a>
               </li>
               <li class="nav-group-task">
@@ -369,6 +372,9 @@
                     <a name="//apple_ref/swift/Method/received(_:completionHandler:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift0A17LiveQueryDelegateP8received_17completionHandlerySo28NSURLAuthenticationChallengeC_ySo016NSURLSessionAuthJ11DispositionV_So15NSURLCredentialCSgtctF">received(_:<wbr>completionHandler:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -384,6 +390,10 @@ instance to become the delegate will be the only one to receive authentication c
 
 <p>See Apple&rsquo;s <a href="https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession">documentation</a> for more for details.</p>
 
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -438,9 +448,9 @@ URLSessionAuthChallengeUseCredential; otherwise, <code>nil</code>.</li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A17LiveQueryDelegateP8receivedyyAA0A5ErrorVF"></a>
+                    <a name="/s:10ParseSwift0A17LiveQueryDelegateP8receivedyys5Error_pF"></a>
                     <a name="//apple_ref/swift/Method/received(_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A17LiveQueryDelegateP8receivedyyAA0A5ErrorVF">received(_:<wbr>)</a>
+                    <a class="token" href="#/s:10ParseSwift0A17LiveQueryDelegateP8receivedyys5Error_pF">received(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -455,7 +465,7 @@ URLSessionAuthChallengeUseCredential; otherwise, <code>nil</code>.</li>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">received</span><span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">received</span><span class="p">(</span><span class="n">_</span> <span class="nv">error</span><span class="p">:</span> <span class="kt">Error</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -488,6 +498,9 @@ URLSessionAuthChallengeUseCredential; otherwise, <code>nil</code>.</li>
                     <a name="//apple_ref/swift/Method/receivedUnsupported(_:socketMessage:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift0A17LiveQueryDelegateP19receivedUnsupported_13socketMessagey10Foundation4DataVSg_So25NSURLSessionWebSocketTaskCAFE0I0OSgtF">receivedUnsupported(_:<wbr>socketMessage:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -496,6 +509,10 @@ URLSessionAuthChallengeUseCredential; otherwise, <code>nil</code>.</li>
                       <div class="abstract">
                         <p>Receive unsupported data from the ParseLiveQuery task/connection.</p>
 
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -582,6 +599,9 @@ See Apple&rsquo;s <a href="https://developer.apple.com/documentation/foundation/
                     <a name="//apple_ref/swift/Method/closedSocket(_:reason:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift0A17LiveQueryDelegateP12closedSocket_6reasonySo015NSURLSessionWebG9CloseCodeVSg_10Foundation4DataVSgtF">closedSocket(_:<wbr>reason:<wbr>)</a>
                     </code>
+                      <span class="declaration-note">
+                        Default implementation
+                      </span>
                   </div>
                   <div class="height-container">
                     <div class="pointer-container"></div>
@@ -590,6 +610,10 @@ See Apple&rsquo;s <a href="https://developer.apple.com/documentation/foundation/
                       <div class="abstract">
                         <p>Receive notifications when the ParseLiveQuery closes a task/connection.</p>
 
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
@@ -642,7 +666,7 @@ If the close frame didn’t include a reason, this value is nil.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-07-18)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-07-31)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.7</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
