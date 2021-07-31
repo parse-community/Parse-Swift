@@ -105,8 +105,7 @@ extension LiveQuerySocket {
                 self.delegates[task]?.receivedUnsupported(nil, socketMessage: message)
                 self.receive(task)
             case .failure(let error):
-                let parseError = ParseError(code: .unknownError, message: error.localizedDescription)
-                self.delegates[task]?.receivedError(parseError)
+                self.delegates[task]?.receivedError(error)
             }
         }
     }

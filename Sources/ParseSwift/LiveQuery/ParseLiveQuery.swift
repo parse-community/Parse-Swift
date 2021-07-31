@@ -470,9 +470,27 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
         }
     }
 
-    func receivedError(_ error: ParseError) {
-        notificationQueue.async {
-            self.receiveDelegate?.received(error)
+    func receivedError(_ error: Error) {
+        guard let error = error as? POSIXError else {
+            notificationQueue.async {
+                self.receiveDelegate?.received(error)
+            }
+            return
+        }
+        if error.code == .ENOTCONN {
+            if attempts + 1 >= ParseLiveQueryConstants.maxConnectionAttempts + 1 {
+                let parseError = ParseError(code: .unknownError,
+                                            message: """
+Max attempts (\(ParseLiveQueryConstants.maxConnectionAttempts) reached.
+Not attempting to connect to LiveQuery server anymore.
+""")
+                self.receiveDelegate?.received(parseError)
+            }
+            self.open(isUserWantsToConnect: false) { _ in }
+        } else {
+            notificationQueue.async {
+                self.receiveDelegate?.received(error)
+            }
         }
     }
 
