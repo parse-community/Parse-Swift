@@ -231,6 +231,7 @@ extension ParseLiveQuery {
             switch self.task.state {
             case .suspended:
                 task.resume()
+                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
                 URLSession.liveQuery.delegates[self.task] = self
                 completion(nil)
             case .completed, .canceling:
