@@ -236,7 +236,6 @@ extension ParseLiveQuery {
                 completion(nil)
             case .completed, .canceling:
                 URLSession.liveQuery.delegates.removeValue(forKey: self.task)
-                isSocketEstablished = false
                 task = URLSession.liveQuery.createTask(self.url)
                 task.resume()
                 URLSession.liveQuery.delegates[self.task] = self
@@ -500,8 +499,8 @@ Not attempting to connect to LiveQuery server anymore.
                     self.receiveDelegate?.received(parseError)
                 }
             }
-            isConnected = false
-            resumeTask { error in
+            isSocketEstablished = false
+            open(isUserWantsToConnect: false) { error in
                 guard let error = error else {
                     // Resumed task successfully
                     return
@@ -584,7 +583,7 @@ extension ParseLiveQuery {
                         self.attempts += 1
                         self.resumeTask { _ in }
                         let error = ParseError(code: .unknownError,
-                                                // swiftlint:disable:next line_length
+                                               // swiftlint:disable:next line_length
                                                message: "ParseLiveQuery Error: attempted to open socket \(self.attempts) time(s)")
                         completion(error)
                 }
