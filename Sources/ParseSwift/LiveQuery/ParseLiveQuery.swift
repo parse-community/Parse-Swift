@@ -200,8 +200,7 @@ public final class ParseLiveQuery: NSObject {
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
         url = components.url
         self.task = URLSession.liveQuery.createTask(self.url)
-        self.resumeTask()
-
+        self.resumeTask { _ in }
         if isDefault {
             Self.setDefault(self)
         }
@@ -227,13 +226,25 @@ extension ParseLiveQuery {
         return Int.random(in: 0 ..< Int(truncating: min))
     }
 
-    func resumeTask() {
+    func resumeTask(completion: @escaping (Error?) -> Void) {
         synchronizationQueue.sync {
-            if self.task.state == .suspended {
-                self.task.resume()
+            switch self.task.state {
+            case .suspended:
+                task.resume()
+                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+                URLSession.liveQuery.delegates[self.task] = self
+                completion(nil)
+            case .completed, .canceling:
+                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+                task = URLSession.liveQuery.createTask(self.url)
+                task.resume()
+                URLSession.liveQuery.delegates[self.task] = self
+                completion(nil)
+            case .running:
+                open(isUserWantsToConnect: false, completion: completion)
+            @unknown default:
+                break
             }
-            URLSession.liveQuery.receive(self.task)
-            URLSession.liveQuery.delegates[self.task] = self
         }
     }
 
@@ -322,8 +333,8 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                 }
                 self.isSocketEstablished = false
                 if !self.isDisconnectedByUser {
-                    //Try to reconnect
-                    self.resumeTask()
+                    // Try to reconnect
+                    self.open(isUserWantsToConnect: false) { _ in }
                 }
             }
         }
@@ -337,7 +348,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                     if self.isConnected {
                         self.close(useDedicatedQueue: true)
                         //Try to reconnect
-                        self.resumeTask()
+                        self.resumeTask { _ in }
                     }
                 }
                 return
@@ -484,9 +495,20 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 Max attempts (\(ParseLiveQueryConstants.maxConnectionAttempts) reached.
 Not attempting to connect to LiveQuery server anymore.
 """)
-                self.receiveDelegate?.received(parseError)
+                notificationQueue.async {
+                    self.receiveDelegate?.received(parseError)
+                }
             }
-            self.open(isUserWantsToConnect: false) { _ in }
+            isSocketEstablished = false
+            open(isUserWantsToConnect: false) { error in
+                guard let error = error else {
+                    // Resumed task successfully
+                    return
+                }
+                self.notificationQueue.async {
+                    self.receiveDelegate?.received(error)
+                }
+            }
         } else {
             notificationQueue.async {
                 self.receiveDelegate?.received(error)
@@ -558,12 +580,12 @@ extension ParseLiveQuery {
                 self.synchronizationQueue
                     .asyncAfter(deadline: .now() + DispatchTimeInterval
                                     .seconds(reconnectInterval)) {
-                    self.resumeTask()
-                    self.attempts += 1
-                    let error = ParseError(code: .unknownError,
-                                           // swiftlint:disable:next line_length
-                                           message: "ParseLiveQuery Error: attempted to open socket \(self.attempts) time(s)")
-                    completion(error)
+                        self.attempts += 1
+                        self.resumeTask { _ in }
+                        let error = ParseError(code: .unknownError,
+                                               // swiftlint:disable:next line_length
+                                               message: "ParseLiveQuery Error: attempted to open socket \(self.attempts) time(s)")
+                        completion(error)
                 }
             }
         }
