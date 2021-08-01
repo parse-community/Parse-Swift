@@ -230,7 +230,6 @@ extension ParseLiveQuery {
         synchronizationQueue.sync {
             switch self.task.state {
             case .suspended:
-                isSocketEstablished = false
                 task.resume()
                 URLSession.liveQuery.receive(self.task)
                 URLSession.liveQuery.delegates[self.task] = self
@@ -244,8 +243,6 @@ extension ParseLiveQuery {
                 URLSession.liveQuery.delegates[self.task] = self
                 completion(nil)
             case .running:
-                isConnected = false
-                isSocketEstablished = true
                 open(isUserWantsToConnect: false, completion: completion)
             @unknown default:
                 break
@@ -504,6 +501,7 @@ Not attempting to connect to LiveQuery server anymore.
                     self.receiveDelegate?.received(parseError)
                 }
             }
+            isConnected = false
             resumeTask { error in
                 guard let error = error else {
                     // Resumed task successfully
