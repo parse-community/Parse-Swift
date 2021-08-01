@@ -333,8 +333,8 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                 }
                 self.isSocketEstablished = false
                 if !self.isDisconnectedByUser {
-                    //Try to reconnect
-                    self.resumeTask { _ in }
+                    // Try to reconnect
+                    self.open(isUserWantsToConnect: false) { _ in }
                 }
             }
         }
