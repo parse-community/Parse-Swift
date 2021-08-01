@@ -64,6 +64,7 @@ class ParseLiveQueryTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
+        URLSession.liveQuery.closeAll()
         #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         #endif
