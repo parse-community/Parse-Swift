@@ -201,7 +201,6 @@ public final class ParseLiveQuery: NSObject {
         url = components.url
         self.task = URLSession.liveQuery.createTask(self.url)
         self.resumeTask()
-
         if isDefault {
             Self.setDefault(self)
         }
@@ -229,11 +228,26 @@ extension ParseLiveQuery {
 
     func resumeTask() {
         synchronizationQueue.sync {
-            if self.task.state == .suspended {
-                self.task.resume()
+            switch self.task.state {
+            case .suspended:
+                isSocketEstablished = false
+                task.resume()
+                URLSession.liveQuery.receive(self.task)
+                URLSession.liveQuery.delegates[self.task] = self
+            case .completed, .canceling:
+                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+                isSocketEstablished = false
+                task = URLSession.liveQuery.createTask(self.url)
+                task.resume()
+                URLSession.liveQuery.receive(self.task)
+                URLSession.liveQuery.delegates[self.task] = self
+            case .running:
+                isConnected = false
+                isSocketEstablished = true
+                open(isUserWantsToConnect: false) { _ in }
+            @unknown default:
+                break
             }
-            URLSession.liveQuery.receive(self.task)
-            URLSession.liveQuery.delegates[self.task] = self
         }
     }
 
@@ -484,9 +498,11 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 Max attempts (\(ParseLiveQueryConstants.maxConnectionAttempts) reached.
 Not attempting to connect to LiveQuery server anymore.
 """)
-                self.receiveDelegate?.received(parseError)
+                notificationQueue.async {
+                    self.receiveDelegate?.received(parseError)
+                }
             }
-            self.open(isUserWantsToConnect: false) { _ in }
+            resumeTask()
         } else {
             notificationQueue.async {
                 self.receiveDelegate?.received(error)
@@ -558,12 +574,12 @@ extension ParseLiveQuery {
                 self.synchronizationQueue
                     .asyncAfter(deadline: .now() + DispatchTimeInterval
                                     .seconds(reconnectInterval)) {
-                    self.resumeTask()
-                    self.attempts += 1
-                    let error = ParseError(code: .unknownError,
-                                           // swiftlint:disable:next line_length
-                                           message: "ParseLiveQuery Error: attempted to open socket \(self.attempts) time(s)")
-                    completion(error)
+                        self.attempts += 1
+                        self.resumeTask()
+                        let error = ParseError(code: .unknownError,
+                                                // swiftlint:disable:next line_length
+                                               message: "ParseLiveQuery Error: attempted to open socket \(self.attempts) time(s)")
+                        completion(error)
                 }
             }
         }
