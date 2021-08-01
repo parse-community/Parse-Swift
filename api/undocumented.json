@@ -65,14 +65,14 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/LiveQuerySocket.swift",
-      "line": 131,
+      "line": 130,
       "symbol": "LiveQuerySocket",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/ParseLiveQuery.swift",
-      "line": 709,
+      "line": 731,
       "symbol": "ParseLiveQuery.subscribe(_:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
