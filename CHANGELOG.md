@@ -7,7 +7,7 @@
 ### 1.9.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.1...1.9.2)
 __Improvements__
-- ParseLiveQuery checks all states of a websocket and reacts as needed after an error ([#206](https://github.com/parse-community/Parse-Swift/pull/206)), thanks to [Corey Baker](https://github.com/cbaker6).
+- ParseLiveQuery checks all states of a websocket and reacts as needed after an error ([#207](https://github.com/parse-community/Parse-Swift/pull/207)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.0...1.9.1)
