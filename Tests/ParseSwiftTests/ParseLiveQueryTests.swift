@@ -68,7 +68,6 @@ class ParseLiveQueryTests: XCTestCase {
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
-        URLSession.liveQuery.closeAll()
     }
 
     func testWebsocketURL() throws {

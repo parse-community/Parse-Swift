@@ -231,7 +231,6 @@ extension ParseLiveQuery {
             switch self.task.state {
             case .suspended:
                 task.resume()
-                URLSession.liveQuery.receive(self.task)
                 URLSession.liveQuery.delegates[self.task] = self
                 completion(nil)
             case .completed, .canceling:
@@ -239,7 +238,6 @@ extension ParseLiveQuery {
                 isSocketEstablished = false
                 task = URLSession.liveQuery.createTask(self.url)
                 task.resume()
-                URLSession.liveQuery.receive(self.task)
                 URLSession.liveQuery.delegates[self.task] = self
                 completion(nil)
             case .running:

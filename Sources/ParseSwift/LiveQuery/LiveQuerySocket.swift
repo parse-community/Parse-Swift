@@ -59,9 +59,11 @@ extension LiveQuerySocket {
             return
         }
         task.send(.string(encodedAsString)) { error in
+            if error == nil {
+                self.receive(task)
+            }
             completion(error)
         }
-        self.receive(task)
     }
 }
 
@@ -74,9 +76,6 @@ extension LiveQuerySocket {
             return
         }
         task.send(.string(encodedAsString)) { error in
-            if error == nil {
-                self.receive(task)
-            }
             completion(error)
         }
     }
