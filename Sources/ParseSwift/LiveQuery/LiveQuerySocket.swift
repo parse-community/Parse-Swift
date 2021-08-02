@@ -22,16 +22,20 @@ final class LiveQuerySocket: NSObject {
         session = URLSession(configuration: .default, delegate: self, delegateQueue: nil)
     }
 
-    func createTask(_ url: URL) -> URLSessionWebSocketTask {
+    func createTask(_ url: URL, taskDelegate: LiveQuerySocketDelegate) -> URLSessionWebSocketTask {
         let task = session.webSocketTask(with: url)
+        delegates[task] = taskDelegate
         return task
+    }
+
+    func removeTaskFromDelegates(_ task: URLSessionWebSocketTask) {
+        delegates.removeValue(forKey: task)
     }
 
     func closeAll() {
         delegates.forEach { (_, client) -> Void in
             client.close(useDedicatedQueue: false)
         }
-        authenticationDelegate = nil
     }
 }
 

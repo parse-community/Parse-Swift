@@ -449,13 +449,88 @@ class ParseLiveQueryTests: XCTestCase {
         }
         let delegate = TestDelegate()
         client.receiveDelegate = delegate
-        client.task = URLSession.liveQuery.createTask(client.url)
+        client.task = URLSession.liveQuery.createTask(client.url,
+                                                      taskDelegate: client)
         client.status(.closed, closeCode: .goingAway, reason: nil)
         let expectation1 = XCTestExpectation(description: "Response delegate")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             XCTAssertEqual(delegate.code, .goingAway)
             XCTAssertNil(delegate.reason)
+            XCTAssertTrue(client.task.state == .completed)
             client.close()
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testCloseExternal() throws {
+        let client = try ParseLiveQuery()
+        guard let originalTask = client.task else {
+            XCTFail("Should not be nil")
+            return
+        }
+        XCTAssertTrue(client.task.state == .running)
+        client.isSocketEstablished = true
+        client.isConnected = true
+        client.close()
+        let expectation1 = XCTestExpectation(description: "Close external")
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
+            XCTAssertTrue(client.task.state == .suspended)
+            XCTAssertFalse(client.isSocketEstablished)
+            XCTAssertFalse(client.isConnected)
+            XCTAssertNil(URLSession.liveQuery.delegates[originalTask])
+            XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testCloseInternalUseQueue() throws {
+        let client = try ParseLiveQuery()
+        guard let originalTask = client.task else {
+            XCTFail("Should not be nil")
+            return
+        }
+        XCTAssertTrue(client.task.state == .running)
+        client.isSocketEstablished = true
+        client.isConnected = true
+        client.close(useDedicatedQueue: true)
+        let expectation1 = XCTestExpectation(description: "Close internal")
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
+            XCTAssertTrue(client.task.state == .suspended)
+            XCTAssertFalse(client.isSocketEstablished)
+            XCTAssertFalse(client.isConnected)
+            XCTAssertNil(URLSession.liveQuery.delegates[originalTask])
+            XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testCloseInternalDoNotUseQueue() throws {
+        let client = try ParseLiveQuery()
+        guard let originalTask = client.task else {
+            XCTFail("Should not be nil")
+            return
+        }
+        XCTAssertTrue(client.task.state == .running)
+        client.isSocketEstablished = true
+        client.isConnected = true
+        client.close(useDedicatedQueue: false)
+        XCTAssertTrue(client.task.state == .suspended)
+        XCTAssertFalse(client.isSocketEstablished)
+        XCTAssertFalse(client.isConnected)
+        XCTAssertNil(URLSession.liveQuery.delegates[originalTask])
+        XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
+    }
+
+    func testCloseAll() throws {
+        let client = try ParseLiveQuery()
+        XCTAssertTrue(client.task.state == .running)
+        client.closeAll()
+        let expectation1 = XCTestExpectation(description: "Close all")
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
+            XCTAssertTrue(client.task.state == .suspended)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -554,7 +629,8 @@ class ParseLiveQueryTests: XCTestCase {
             throw ParseError(code: .unknownError,
                              message: "Should be able to get client")
         }
-        client.task = URLSession.liveQuery.createTask(client.url)
+        client.task = URLSession.liveQuery.createTask(client.url,
+                                                      taskDelegate: client)
         client.status(.open)
         let response = ConnectionResponse(op: .connected, clientId: "yolo", installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder().encode(response)

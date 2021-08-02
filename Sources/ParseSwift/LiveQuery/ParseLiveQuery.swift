@@ -199,7 +199,8 @@ public final class ParseLiveQuery: NSObject {
         }
         components.scheme = (components.scheme == "https" || components.scheme == "wss") ? "wss" : "ws"
         url = components.url
-        self.task = URLSession.liveQuery.createTask(self.url)
+        self.task = URLSession.liveQuery.createTask(self.url,
+                                                    taskDelegate: self)
         self.resumeTask { _ in }
         if isDefault {
             Self.setDefault(self)
@@ -230,18 +231,16 @@ extension ParseLiveQuery {
         synchronizationQueue.sync {
             switch self.task.state {
             case .suspended:
-                task.resume()
-                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
-                URLSession.liveQuery.delegates[self.task] = self
+                self.task.resume()
                 completion(nil)
             case .completed, .canceling:
-                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
-                task = URLSession.liveQuery.createTask(self.url)
-                task.resume()
-                URLSession.liveQuery.delegates[self.task] = self
+                URLSession.liveQuery.removeTaskFromDelegates(self.task)
+                self.task = URLSession.liveQuery.createTask(self.url,
+                                                            taskDelegate: self)
+                self.task.resume()
                 completion(nil)
             case .running:
-                open(isUserWantsToConnect: false, completion: completion)
+                self.open(isUserWantsToConnect: false, completion: completion)
             @unknown default:
                 break
             }
@@ -598,9 +597,11 @@ extension ParseLiveQuery {
                 self.task.cancel(with: .goingAway, reason: nil)
                 self.isDisconnectedByUser = true
             }
-            URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            URLSession.liveQuery.removeTaskFromDelegates(self.task)
             isSocketEstablished = false
-            self.task = URLSession.liveQuery.createTask(self.url) // Prepare new task for future use.
+            // Prepare new task for future use.
+            self.task = URLSession.liveQuery.createTask(self.url,
+                                                        taskDelegate: self)
         }
     }
 
@@ -636,16 +637,21 @@ extension ParseLiveQuery {
                 if self.isConnected {
                     self.task.cancel(with: .goingAway, reason: nil)
                 }
-                URLSession.liveQuery.delegates.removeValue(forKey: self.task)
-                self.task = URLSession.liveQuery.createTask(self.url) // Prepare new task for future use.
+                URLSession.liveQuery.removeTaskFromDelegates(self.task)
+                self.isSocketEstablished = false
+                // Prepare new task for future use.
+                self.task = URLSession.liveQuery.createTask(self.url,
+                                                            taskDelegate: self)
             }
         } else {
             if self.isConnected {
                 self.task.cancel(with: .goingAway, reason: nil)
             }
-            URLSession.liveQuery.delegates.removeValue(forKey: self.task)
+            URLSession.liveQuery.removeTaskFromDelegates(self.task)
             isSocketEstablished = false
-            self.task = URLSession.liveQuery.createTask(self.url) // Prepare new task for future use.
+            // Prepare new task for future use.
+            self.task = URLSession.liveQuery.createTask(self.url,
+                                                        taskDelegate: self)
         }
     }
 
