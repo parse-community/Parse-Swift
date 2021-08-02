@@ -524,18 +524,6 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
     }
 
-    func testCloseAll() throws {
-        let client = try ParseLiveQuery()
-        XCTAssertTrue(client.task.state == .running)
-        client.closeAll()
-        let expectation1 = XCTestExpectation(description: "Close all")
-        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
-            XCTAssertTrue(client.task.state == .suspended)
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
-    }
-
     func testPingSocketNotEstablished() throws {
         guard let client = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to get client")
