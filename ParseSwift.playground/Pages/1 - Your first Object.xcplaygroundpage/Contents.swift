@@ -239,6 +239,11 @@ let scoreToFetch = GameScore(objectId: savedScore?.objectId)
 
 //: Asynchronously (preferred way) fetch this GameScore based on it's objectId alone.
 scoreToFetch.fetch { result in
+    /*: Warning: server does return empty object {} instead of a ParseServer error `.objectNotFount`
+        if the object does not exist yet. This might result in decoding the result into a empty
+        struct. User `query.first()` of `query.find()` instead if your would like to recieve
+        and handle an `.objectNotFount` error
+    */
     switch result {
     case .success(let fetchedScore):
         print("Successfully fetched: \(fetchedScore)")

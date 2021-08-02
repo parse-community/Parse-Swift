@@ -18,6 +18,11 @@ npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey -
 /*: In Xcode, make sure you are building the "ParseSwift (macOS)" framework.
  */
 
+/*: Warning: A mixed environment with both custom and server generated ObjectId
+    is not supported. SDK throws error if set to use custom objectId
+    but any object without defined objectId should be saved
+*/
+
 initializeParseCustomObjectId()
 
 //: Create your own value typed `ParseObject`.
@@ -89,6 +94,11 @@ score.fetch { result in
     switch result {
     case .success(let fetchedScore):
         print("Successfully fetched: \(fetchedScore)")
+    /*: Warning: server does return empty object {} instead of a ParseServer error `.objectNotFount`
+        if the object does not exist yet. This might result in decoding the result into a empty
+        struct. User `query.first()` of `query.find()` instead if your would like to recieve
+        and handle an `.objectNotFount` error
+    */
     case .failure(let error):
         assertionFailure("Error fetching: \(error)")
     }

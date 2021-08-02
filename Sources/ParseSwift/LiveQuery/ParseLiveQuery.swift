@@ -223,7 +223,7 @@ extension ParseLiveQuery {
 
     var reconnectInterval: Int {
         let min = NSDecimalNumber(decimal: Swift.min(30, pow(2, attempts) - 1))
-        return Int.random(in: 0 ..< Int(truncating: min))
+        return Int(truncating: min)
     }
 
     func resumeTask(completion: @escaping (Error?) -> Void) {
@@ -577,9 +577,10 @@ extension ParseLiveQuery {
                     completion(error)
                 }
             } else {
+                let delay = isUserWantsToConnect ? 0 : reconnectInterval
                 self.synchronizationQueue
                     .asyncAfter(deadline: .now() + DispatchTimeInterval
-                                    .seconds(reconnectInterval)) {
+                                    .seconds(delay)) {
                         self.attempts += 1
                         self.resumeTask { _ in }
                         let error = ParseError(code: .unknownError,
