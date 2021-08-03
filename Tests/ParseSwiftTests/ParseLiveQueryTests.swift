@@ -68,6 +68,7 @@ class ParseLiveQueryTests: XCTestCase {
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
+        URLSession.liveQuery.closeAll()
     }
 
     func testWebsocketURL() throws {
@@ -522,6 +523,28 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertFalse(client.isConnected)
         XCTAssertNil(URLSession.liveQuery.delegates[originalTask])
         XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
+    }
+
+    func testCloseAll() throws {
+        let client = try ParseLiveQuery()
+        guard let originalTask = client.task else {
+            XCTFail("Should not be nil")
+            return
+        }
+        XCTAssertTrue(client.task.state == .running)
+        client.isSocketEstablished = true
+        client.isConnected = true
+        client.closeAll()
+        let expectation1 = XCTestExpectation(description: "Close all")
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
+            XCTAssertTrue(client.task.state == .suspended)
+            XCTAssertFalse(client.isSocketEstablished)
+            XCTAssertFalse(client.isConnected)
+            XCTAssertNil(URLSession.liveQuery.delegates[originalTask])
+            XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testPingSocketNotEstablished() throws {
