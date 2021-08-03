@@ -68,6 +68,7 @@ class ParseLiveQueryTests: XCTestCase {
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
+        URLSession.liveQuery.closeAll()
     }
 
     func testWebsocketURL() throws {
@@ -89,10 +90,9 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertTrue(client.url.absoluteString.contains("ws"))
 
         let expectation1 = XCTestExpectation(description: "Socket delegate")
-        client.synchronizationQueue.async {
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
             let socketDelegates = URLSession.liveQuery.delegates
             XCTAssertNotNil(socketDelegates[client.task])
-            client.close()
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -118,10 +118,9 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertTrue(client.url.absoluteString.contains("ws"))
         XCTAssertNotEqual(client, defaultClient)
         let expectation1 = XCTestExpectation(description: "Socket delegate")
-        client.synchronizationQueue.async {
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
             let socketDelegates = URLSession.liveQuery.delegates
             XCTAssertNotNil(socketDelegates[client.task])
-            client.close()
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -138,10 +137,9 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertTrue(client.url.absoluteString.contains("ws"))
         XCTAssertEqual(client, defaultClient)
         let expectation1 = XCTestExpectation(description: "Socket delegate")
-        client.synchronizationQueue.async {
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
             let socketDelegates = URLSession.liveQuery.delegates
             XCTAssertNotNil(socketDelegates[client.task])
-            client.close()
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -162,10 +160,9 @@ class ParseLiveQueryTests: XCTestCase {
         client = nil
         XCTAssertNotNil(ParseLiveQuery.getDefault())
         let expectation1 = XCTestExpectation(description: "Socket delegate")
-        defaultClient.synchronizationQueue.async {
+        defaultClient.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
             let socketDelegates = URLSession.liveQuery.delegates
             XCTAssertNotNil(socketDelegates[defaultClient.task])
-            defaultClient.close()
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -189,7 +186,6 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertNotNil(URLSession.liveQuery.authenticationDelegate)
         client.authenticationDelegate = nil
         XCTAssertNil(URLSession.liveQuery.authenticationDelegate)
-        client.close()
     }
 
     func testStandardMessageEncoding() throws {
@@ -324,7 +320,6 @@ class ParseLiveQueryTests: XCTestCase {
         client.isConnected = true
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertEqual(client.isConnected, false)
-        client.close()
     }
 
     func testConnectedState() throws {
@@ -356,7 +351,6 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertEqual(client.clientId, "yolo")
         XCTAssertEqual(client.attempts, ParseLiveQueryConstants.maxConnectionAttempts + 1)
-        client.close()
     }
 
     func testDisconnectedState() throws {
@@ -378,7 +372,6 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.isConnected, false)
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertNil(client.clientId)
-        client.close()
     }
 
     func testSocketDisconnectedState() throws {
@@ -399,7 +392,6 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.isConnected, false)
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertNil(client.clientId)
-        client.close()
     }
 
     func testUserClosedConnectionState() throws {
@@ -424,7 +416,6 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertNil(client.clientId)
         XCTAssertEqual(client.isDisconnectedByUser, true)
-        client.close()
     }
 
     func testOpenSocket() throws {
@@ -437,7 +428,6 @@ class ParseLiveQueryTests: XCTestCase {
         client.open(isUserWantsToConnect: true) { error in
             XCTAssertNotNil(error) //Should always fail since WS isn't intercepted.
             expectation1.fulfill()
-            client.close()
         }
         wait(for: [expectation1], timeout: 20.0)
     }
@@ -457,7 +447,6 @@ class ParseLiveQueryTests: XCTestCase {
             XCTAssertEqual(delegate.code, .goingAway)
             XCTAssertNil(delegate.reason)
             XCTAssertTrue(client.task.state == .completed)
-            client.close()
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -526,11 +515,21 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testCloseAll() throws {
         let client = try ParseLiveQuery()
+        guard let originalTask = client.task else {
+            XCTFail("Should not be nil")
+            return
+        }
         XCTAssertTrue(client.task.state == .running)
+        client.isSocketEstablished = true
+        client.isConnected = true
         client.closeAll()
         let expectation1 = XCTestExpectation(description: "Close all")
         client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
             XCTAssertTrue(client.task.state == .suspended)
+            XCTAssertFalse(client.isSocketEstablished)
+            XCTAssertFalse(client.isConnected)
+            XCTAssertNil(URLSession.liveQuery.delegates[originalTask])
+            XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -552,7 +551,6 @@ class ParseLiveQueryTests: XCTestCase {
             }
             XCTAssertEqual(parseError.code, ParseError.Code.unknownError)
             XCTAssertTrue(parseError.message.contains("socket status"))
-            client.close()
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -572,7 +570,6 @@ class ParseLiveQueryTests: XCTestCase {
         client.sendPing { error in
             XCTAssertEqual(client.isSocketEstablished, true)
             XCTAssertNotNil(error) // Should have error because testcases don't intercept websocket
-            client.close()
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -589,7 +586,6 @@ class ParseLiveQueryTests: XCTestCase {
             XCTAssertGreaterThan(time, -1)
             client.attempts += index
         }
-        client.close()
     }
 
     func testRandomIdGenerator() throws {
@@ -601,7 +597,6 @@ class ParseLiveQueryTests: XCTestCase {
             let idGenerated = client.requestIdGenerator()
             XCTAssertEqual(idGenerated.value, index)
         }
-        client.close()
     }
 
     func testSubscribeNotConnected() throws {
@@ -621,7 +616,6 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertEqual(client.pendingSubscriptions.count, 1)
         XCTAssertNoThrow(try client.removePendingSubscription(query))
         XCTAssertEqual(client.pendingSubscriptions.count, 0)
-        client.close()
     }
 
     func pretendToBeConnected() throws {
@@ -675,7 +669,6 @@ class ParseLiveQueryTests: XCTestCase {
                 XCTAssertEqual(query, unsubscribed)
                 XCTAssertNil(subscription.subscribed)
                 XCTAssertNil(subscription.event)
-                client.close()
                 expectation2.fulfill()
             }
 
@@ -742,7 +735,6 @@ class ParseLiveQueryTests: XCTestCase {
                 XCTAssertTrue(client.pendingSubscriptions.isEmpty)
                 XCTAssertTrue(client.subscriptions.isEmpty)
                 XCTAssertFalse(client.isSocketEstablished)
-                client.close()
                 expectation2.fulfill()
             }
             XCTAssertNotNil(try? query.unsubscribe())
@@ -810,7 +802,6 @@ class ParseLiveQueryTests: XCTestCase {
             } else {
                 XCTAssertNotNil(ParseLiveQuery.client?.task)
                 XCTAssertFalse(originalTask == ParseLiveQuery.client?.task)
-                client.close()
                 expectation2.fulfill()
                 return
             }
@@ -883,7 +874,6 @@ class ParseLiveQueryTests: XCTestCase {
         let encoded = try ParseCoding.jsonEncoder().encode(response)
         client.received(encoded)
         XCTAssertEqual(client.url, url)
-        client.close()
     }
 
     func testServerErrorResponse() throws {
@@ -908,7 +898,6 @@ class ParseLiveQueryTests: XCTestCase {
             XCTAssertNotNil(delegate.error)
             XCTAssertEqual(delegate.error?.code, ParseError.Code.internalServer)
             XCTAssertTrue(delegate.error?.message.contains("message") != nil)
-            client.close()
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -939,11 +928,10 @@ class ParseLiveQueryTests: XCTestCase {
             expectation1.fulfill()
         }
         let expectation2 = XCTestExpectation(description: "Client closed")
-        client.synchronizationQueue.async {
+        client.synchronizationQueue.asyncAfter(deadline: .now() + 2) {
             XCTAssertTrue(client.isDisconnectedByUser)
             XCTAssertFalse(client.isConnected)
             XCTAssertFalse(client.isConnecting)
-            client.close()
             expectation2.fulfill()
         }
         wait(for: [expectation1, expectation2], timeout: 20.0)
@@ -980,7 +968,6 @@ class ParseLiveQueryTests: XCTestCase {
             default:
                 XCTFail("Should have receeived event")
             }
-            client.close()
             expectation1.fulfill()
         }
 
@@ -1033,7 +1020,6 @@ class ParseLiveQueryTests: XCTestCase {
             default:
                 XCTFail("Should have receeived event")
             }
-            client.close()
             expectation1.fulfill()
         }
 
@@ -1086,7 +1072,6 @@ class ParseLiveQueryTests: XCTestCase {
             default:
                 XCTFail("Should have receeived event")
             }
-            client.close()
             expectation1.fulfill()
         }
 
@@ -1139,7 +1124,6 @@ class ParseLiveQueryTests: XCTestCase {
             default:
                 XCTFail("Should have receeived event")
             }
-            client.close()
             expectation1.fulfill()
         }
 
@@ -1192,7 +1176,6 @@ class ParseLiveQueryTests: XCTestCase {
             default:
                 XCTFail("Should have receeived event")
             }
-            client.close()
             expectation1.fulfill()
         }
 
@@ -1257,7 +1240,6 @@ class ParseLiveQueryTests: XCTestCase {
                 XCTAssertFalse(subscribed.isNew)
                 XCTAssertEqual(client.subscriptions.count, 1)
                 XCTAssertEqual(client.pendingSubscriptions.count, 0)
-                client.close()
                 expectation2.fulfill()
                 return
             }
@@ -1356,7 +1338,6 @@ class ParseLiveQueryTests: XCTestCase {
                 XCTAssertNil(subscription.unsubscribed)
                 XCTAssertEqual(client.subscriptions.count, 1)
                 XCTAssertEqual(client.pendingSubscriptions.count, 0)
-                client.close()
                 expectation2.fulfill()
                 return
             }
@@ -1414,7 +1395,6 @@ class ParseLiveQueryTests: XCTestCase {
             default:
                 XCTFail("Should have receeived event")
             }
-            client.close()
             expectation1.fulfill()
         }
 
@@ -1458,7 +1438,6 @@ class ParseLiveQueryTests: XCTestCase {
             default:
                 XCTFail("Should have receeived event")
             }
-            client.close()
             expectation1.fulfill()
         }
 
@@ -1502,7 +1481,6 @@ class ParseLiveQueryTests: XCTestCase {
             default:
                 XCTFail("Should have receeived event")
             }
-            client.close()
             expectation1.fulfill()
         }
 
@@ -1546,7 +1524,6 @@ class ParseLiveQueryTests: XCTestCase {
             default:
                 XCTFail("Should have receeived event")
             }
-            client.close()
             expectation1.fulfill()
         }
 
@@ -1590,7 +1567,6 @@ class ParseLiveQueryTests: XCTestCase {
             default:
                 XCTFail("Should have receeived event")
             }
-            client.close()
             expectation1.fulfill()
         }
 
@@ -1635,7 +1611,6 @@ class ParseLiveQueryTests: XCTestCase {
                 XCTAssertFalse(isNew)
                 XCTAssertEqual(client.subscriptions.count, 1)
                 XCTAssertEqual(client.pendingSubscriptions.count, 0)
-                client.close()
                 expectation2.fulfill()
                 return
             }
@@ -1706,7 +1681,6 @@ class ParseLiveQueryTests: XCTestCase {
                 XCTAssertTrue(isNew)
                 XCTAssertEqual(client.subscriptions.count, 1)
                 XCTAssertEqual(client.pendingSubscriptions.count, 0)
-                client.close()
                 expectation2.fulfill()
                 return
             }
