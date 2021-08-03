@@ -1,9 +1,11 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.2...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.3...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+### 1.9.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.2...1.9.3)
 __Improvements__
 - Ensure delegate set before resuming a ParseLiveQuery task ([#209](https://github.com/parse-community/Parse-Swift/pull/209)), thanks to [Corey Baker](https://github.com/cbaker6).
 
