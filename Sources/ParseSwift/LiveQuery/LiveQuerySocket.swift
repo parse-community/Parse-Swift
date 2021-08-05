@@ -97,6 +97,7 @@ extension LiveQuerySocket {
             // Receive has already been called for this task
             return
         }
+        receivingTasks[task] = true
         task.receive { result in
             self.receivingTasks.removeValue(forKey: task)
             switch result {
