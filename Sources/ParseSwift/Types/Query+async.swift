@@ -19,7 +19,7 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func find(options: API.Options = []) async throws -> Result<[ResultType], ParseError> {
+    func find(options: API.Options = []) async throws -> [ResultType] {
         try await withCheckedThrowingContinuation { continuation in
             self.find(options: options,
                       completion: continuation.resume)
@@ -35,7 +35,7 @@ public extension Query {
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func findExplain<U: Decodable>(options: API.Options = []) async throws -> Result<[U], ParseError> {
+    func findExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
         try await withCheckedThrowingContinuation { continuation in
             self.findExplain(options: options,
                              completion: continuation.resume)
@@ -52,7 +52,7 @@ public extension Query {
      order, and may not use limit or skip.
     */
     func findAll(batchLimit: Int? = nil,
-                 options: API.Options = []) async throws -> Result<[ResultType], ParseError> {
+                 options: API.Options = []) async throws -> [ResultType] {
         try await withCheckedThrowingContinuation { continuation in
             self.findAll(batchLimit: batchLimit,
                          options: options,
@@ -65,7 +65,7 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func first(options: API.Options = []) async throws -> Result<ResultType, ParseError> {
+    func first(options: API.Options = []) async throws -> ResultType {
         try await withCheckedThrowingContinuation { continuation in
             self.first(options: options,
                        completion: continuation.resume)
@@ -81,7 +81,7 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func firstExplain<U: Decodable>(options: API.Options = []) async throws -> Result<U, ParseError> {
+    func firstExplain<U: Decodable>(options: API.Options = []) async throws -> U {
         try await withCheckedThrowingContinuation { continuation in
             self.firstExplain(options: options,
                               completion: continuation.resume)
@@ -93,7 +93,7 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func count(options: API.Options = []) async throws -> Result<Int, ParseError> {
+    func count(options: API.Options = []) async throws -> Int {
         try await withCheckedThrowingContinuation { continuation in
             self.count(options: options,
                        completion: continuation.resume)
@@ -110,7 +110,7 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func countExplain<U: Decodable>(options: API.Options = []) async throws -> Result<[U], ParseError> {
+    func countExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
         try await withCheckedThrowingContinuation { continuation in
             self.countExplain(options: options,
                               completion: continuation.resume)
@@ -125,7 +125,7 @@ public extension Query {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     func aggregate(_ pipeline: [[String: Encodable]],
-                   options: API.Options = []) async throws -> Result<[ResultType], ParseError> {
+                   options: API.Options = []) async throws -> [ResultType] {
         try await withCheckedThrowingContinuation { continuation in
             self.aggregate(pipeline,
                            options: options,
@@ -145,7 +145,7 @@ public extension Query {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     func aggregateExplain<U: Decodable>(_ pipeline: [[String: Encodable]],
-                                        options: API.Options = []) async throws -> Result<[U], ParseError> {
+                                        options: API.Options = []) async throws -> [U] {
         try await withCheckedThrowingContinuation { continuation in
             self.aggregateExplain(pipeline,
                            options: options,
@@ -161,7 +161,7 @@ public extension Query {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     func distinct(_ key: String,
-                  options: API.Options = []) async throws -> Result<[ResultType], ParseError> {
+                  options: API.Options = []) async throws -> [ResultType] {
         try await withCheckedThrowingContinuation { continuation in
             self.distinct(key,
                           options: options,
@@ -181,7 +181,7 @@ public extension Query {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     func distinctExplain<U: Decodable>(_ key: String,
-                                       options: API.Options = []) async throws -> Result<[U], ParseError> {
+                                       options: API.Options = []) async throws -> [U] {
         try await withCheckedThrowingContinuation { continuation in
             self.distinctExplain(key,
                                  options: options,

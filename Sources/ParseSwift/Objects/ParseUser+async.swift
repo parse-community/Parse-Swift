@@ -26,7 +26,7 @@ public extension ParseUser {
     */
     static func signup(username: String,
                        password: String,
-                       options: API.Options = []) async throws -> Result<Self, ParseError> {
+                       options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             Self.signup(username: username,
                         password: password,
@@ -44,7 +44,7 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func signup(options: API.Options = []) async throws -> Result<Self, ParseError> {
+    func signup(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.signup(options: options,
                         completion: continuation.resume)
@@ -64,7 +64,7 @@ public extension ParseUser {
     */
     static func login(username: String,
                       password: String,
-                      options: API.Options = []) async throws -> Result<Self, ParseError> {
+                      options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             Self.login(username: username,
                        password: password,
@@ -84,7 +84,7 @@ public extension ParseUser {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     func become(sessionToken: String,
-                options: API.Options = []) async throws -> Result<Self, ParseError> {
+                options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.become(sessionToken: sessionToken, options: options, completion: continuation.resume)
         }
@@ -99,8 +99,8 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    static func logout(options: API.Options = []) async throws -> Result<Void, ParseError> {
-        try await withCheckedThrowingContinuation { continuation in
+    static func logout(options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             Self.logout(options: options, completion: continuation.resume)
         }
     }
@@ -115,8 +115,8 @@ public extension ParseUser {
         - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     static func passwordReset(email: String,
-                              options: API.Options = []) async throws -> Result<Void, ParseError> {
-        try await withCheckedThrowingContinuation { continuation in
+                              options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             Self.passwordReset(email: email, options: options, completion: continuation.resume)
         }
     }
@@ -130,8 +130,8 @@ public extension ParseUser {
         - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     static func verificationEmail(email: String,
-                                  options: API.Options = []) async throws -> Result<Void, ParseError> {
-        try await withCheckedThrowingContinuation { continuation in
+                                  options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             Self.verificationEmail(email: email, options: options, completion: continuation.resume)
         }
     }
@@ -148,7 +148,7 @@ public extension ParseUser {
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     func fetch(includeKeys: [String]? = nil,
-               options: API.Options = []) async throws -> Result<Self, ParseError> {
+               options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.fetch(includeKeys: includeKeys,
                        options: options,
@@ -164,7 +164,7 @@ public extension ParseUser {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
-    func save(options: API.Options = []) async throws -> Result<Self, ParseError> {
+    func save(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.save(options: options,
                       completion: continuation.resume)
@@ -179,8 +179,8 @@ public extension ParseUser {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
-    func delete(options: API.Options = []) async throws -> Result<Void, ParseError> {
-        try await withCheckedThrowingContinuation { continuation in
+    func delete(options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             self.delete(options: options, completion: continuation.resume)
         }
     }
@@ -200,7 +200,7 @@ public extension Sequence where Element: ParseUser {
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     func fetchAll(includeKeys: [String]? = nil,
-                  options: API.Options = []) async throws -> Result<[(Result<Self.Element, ParseError>)], ParseError> {
+                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.fetchAll(includeKeys: includeKeys,
                           options: options,
@@ -224,7 +224,7 @@ public extension Sequence where Element: ParseUser {
     */
     func saveAll(batchLimit limit: Int? = nil,
                  transaction: Bool = false,
-                 options: API.Options = []) async throws -> Result<[(Result<Self.Element, ParseError>)], ParseError> {
+                 options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
@@ -249,7 +249,7 @@ public extension Sequence where Element: ParseUser {
     */
     func deleteAll(batchLimit limit: Int? = nil,
                    transaction: Bool = false,
-                   options: API.Options = []) async throws -> Result<[(Result<Void, ParseError>)], ParseError> {
+                   options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,
                            transaction: transaction,

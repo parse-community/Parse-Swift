@@ -18,14 +18,14 @@ extension ParseLiveQuery {
       - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to `true`.
       - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    public func open(isUserWantsToConnect: Bool = true) async throws -> Result<Void, Error> {
-        try await withCheckedThrowingContinuation { continuation in
+    public func open(isUserWantsToConnect: Bool = true) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             self.open(isUserWantsToConnect: isUserWantsToConnect) { error in
                 guard let error = error else {
-                    continuation.resume(returning: .success(()))
+                    continuation.resume
                     return
                 }
-                continuation.resume(returning: .failure(error))
+                continuation.resume
             }
         }
     }

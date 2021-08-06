@@ -18,7 +18,7 @@ public extension ParseFile {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func fetch(options: API.Options = []) async throws -> Result<Self, ParseError> {
+    func fetch(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.fetch(options: options,
                        completion: continuation.resume)
@@ -35,7 +35,7 @@ public extension ParseFile {
     */
     func fetch(options: API.Options = [],
                progress: @escaping ((URLSessionDownloadTask,
-                                     Int64, Int64, Int64) -> Void)) async throws -> Result<Self, ParseError> {
+                                     Int64, Int64, Int64) -> Void)) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.fetch(options: options,
                        progress: progress,
@@ -51,7 +51,7 @@ public extension ParseFile {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func save(options: API.Options = []) async throws -> Result<Self, ParseError> {
+    func save(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.save(options: options,
                       completion: continuation.resume)
@@ -72,7 +72,7 @@ public extension ParseFile {
               progress: ((URLSessionTask,
                           Int64,
                           Int64,
-                          Int64) -> Void)? = nil) async throws -> Result<Self, ParseError> {
+                          Int64) -> Void)? = nil) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.save(options: options,
                       progress: progress,
@@ -86,8 +86,8 @@ public extension ParseFile {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
-    func delete(options: API.Options = []) async throws -> Result<Void, ParseError> {
-        try await withCheckedThrowingContinuation { continuation in
+    func delete(options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             self.delete(options: options, completion: continuation.resume)
         }
     }

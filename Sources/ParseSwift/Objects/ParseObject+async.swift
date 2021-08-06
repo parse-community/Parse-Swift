@@ -23,7 +23,7 @@ public extension ParseObject {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     func fetch(includeKeys: [String]? = nil,
-               options: API.Options = []) async throws -> Result<Self, ParseError> {
+               options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.fetch(includeKeys: includeKeys,
                        options: options,
@@ -38,7 +38,7 @@ public extension ParseObject {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
-    func save(options: API.Options = []) async throws -> Result<Self, ParseError> {
+    func save(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.save(options: options,
                       completion: continuation.resume)
@@ -52,8 +52,8 @@ public extension ParseObject {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
-    func delete(options: API.Options = []) async throws -> Result<Void, ParseError> {
-        try await withCheckedThrowingContinuation { continuation in
+    func delete(options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             self.delete(options: options,
                         completion: continuation.resume)
         }
@@ -74,7 +74,7 @@ public extension Sequence where Element: ParseObject {
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     func fetchAll(includeKeys: [String]? = nil,
-                  options: API.Options = []) async throws -> Result<[(Result<Self.Element, ParseError>)], ParseError> {
+                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.fetchAll(includeKeys: includeKeys,
                           options: options,
@@ -98,7 +98,7 @@ public extension Sequence where Element: ParseObject {
     */
     func saveAll(batchLimit limit: Int? = nil,
                  transaction: Bool = false,
-                 options: API.Options = []) async throws -> Result<[(Result<Self.Element, ParseError>)], ParseError> {
+                 options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
@@ -123,7 +123,7 @@ public extension Sequence where Element: ParseObject {
     */
     func deleteAll(batchLimit limit: Int? = nil,
                    transaction: Bool = false,
-                   options: API.Options = []) async throws -> Result<[(Result<Void, ParseError>)], ParseError> {
+                   options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,
                            transaction: transaction,

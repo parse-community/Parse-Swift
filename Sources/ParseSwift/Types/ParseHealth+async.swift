@@ -19,7 +19,7 @@ public extension ParseHealth {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    static func check(options: API.Options = []) async throws -> Result<String, ParseError> {
+    static func check(options: API.Options = []) async throws -> String {
         try await withCheckedThrowingContinuation { continuation in
             Self.check(options: options,
                        completion: continuation.resume)

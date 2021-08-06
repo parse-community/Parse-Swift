@@ -20,7 +20,7 @@ public extension ParseCloud {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func runFunction(options: API.Options = []) async throws -> Result<ReturnType, ParseError> {
+    func runFunction(options: API.Options = []) async throws -> ReturnType {
         try await withCheckedThrowingContinuation { continuation in
             self.runFunction(options: options,
                              completion: continuation.resume)
@@ -35,7 +35,7 @@ public extension ParseCloud {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func startJob(options: API.Options = []) async throws -> Result<ReturnType, ParseError> {
+    func startJob(options: API.Options = []) async throws -> ReturnType {
         try await withCheckedThrowingContinuation { continuation in
             self.startJob(options: options,
                           completion: continuation.resume)

@@ -34,8 +34,8 @@ public extension ParseAnalytics {
     */
     static func trackAppOpened(launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil,
                                at date: Date? = nil,
-                               options: API.Options = []) async throws -> Result<Void, ParseError> {
-        try await withCheckedThrowingContinuation { continuation in
+                               options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             Self.trackAppOpened(launchOptions: launchOptions,
                                 at: date,
                                 options: options,
@@ -58,8 +58,8 @@ public extension ParseAnalytics {
     */
     static func trackAppOpened(dimensions: [String: String]? = nil,
                                at date: Date? = nil,
-                               options: API.Options = []) async throws -> Result<Void, ParseError> {
-        try await withCheckedThrowingContinuation { continuation in
+                               options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             Self.trackAppOpened(dimensions: dimensions,
                                 at: date,
                                 options: options,
@@ -73,8 +73,8 @@ public extension ParseAnalytics {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func track(options: API.Options = []) async throws -> Result<Void, ParseError> {
-        try await withCheckedThrowingContinuation { continuation in
+    func track(options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             self.track(options: options,
                        completion: continuation.resume)
         }
@@ -95,8 +95,8 @@ public extension ParseAnalytics {
     */
     func track(dimensions: [String: String]?,
                at date: Date? = nil,
-               options: API.Options = []) async throws -> Result<Void, ParseError> {
-        try await withCheckedThrowingContinuation { continuation in
+               options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
             var analytic = self
             analytic.track(dimensions: dimensions,
                            at: date,
