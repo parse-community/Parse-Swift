@@ -511,16 +511,6 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             return false
         }
         if posixError.code == .ENOTCONN {
-            if attempts + 1 >= ParseLiveQueryConstants.maxConnectionAttempts + 1 {
-                let parseError = ParseError(code: .unknownError,
-                                            message: """
-Max attempts (\(ParseLiveQueryConstants.maxConnectionAttempts) reached.
-Not attempting to connect to LiveQuery server anymore.
-""")
-                notificationQueue.async {
-                    self.receiveDelegate?.received(parseError)
-                }
-            }
             isSocketEstablished = false
             open(isUserWantsToConnect: false) { error in
                 guard let error = error else {
@@ -547,16 +537,6 @@ Not attempting to connect to LiveQuery server anymore.
             return false
         }
         if urlError.errorCode == -1005 {
-            if attempts + 1 >= ParseLiveQueryConstants.maxConnectionAttempts + 1 {
-                let parseError = ParseError(code: .unknownError,
-                                            message: """
-Max attempts (\(ParseLiveQueryConstants.maxConnectionAttempts) reached.
-Not attempting to connect to LiveQuery server anymore.
-""")
-                notificationQueue.async {
-                    self.receiveDelegate?.received(parseError)
-                }
-            }
             isSocketEstablished = false
             open(isUserWantsToConnect: false) { error in
                 guard let error = error else {
