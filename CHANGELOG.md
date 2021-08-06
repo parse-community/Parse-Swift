@@ -1,8 +1,13 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.3...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.9.4
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.3...1.9.4)
+__Fixes__
+- Fix LiveQuery reconnections when server disconnects. Always receive and pass connection errors to ParseLiveQuery delegate ([#211](https://github.com/parse-community/Parse-Swift/pull/211)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.2...1.9.3)

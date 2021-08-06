@@ -323,8 +323,9 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testConnectedState() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
-            XCTFail("Should be able to get client")
+        guard let client = ParseLiveQuery.getDefault(),
+              let task = client.task else {
+            XCTFail("Should be able to get client and task")
             return
         }
         client.isSocketEstablished = true // Socket needs to be true
@@ -333,7 +334,7 @@ class ParseLiveQueryTests: XCTestCase {
         client.attempts = 5
         client.clientId = "yolo"
         client.isDisconnectedByUser = false
-
+        XCTAssertEqual(URLSession.liveQuery.receivingTasks[task], true)
         XCTAssertEqual(client.isSocketEstablished, true)
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertEqual(client.clientId, "yolo")
@@ -354,15 +355,16 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testDisconnectedState() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
-            XCTFail("Should be able to get client")
+        guard let client = ParseLiveQuery.getDefault(),
+              let task = client.task else {
+            XCTFail("Should be able to get client and task")
             return
         }
         client.isSocketEstablished = true // Socket needs to be true
         client.isConnecting = true
         client.isConnected = true
         client.clientId = "yolo"
-
+        XCTAssertEqual(URLSession.liveQuery.receivingTasks[task], true)
         XCTAssertEqual(client.isConnected, true)
         XCTAssertEqual(client.isConnecting, false)
         XCTAssertEqual(client.clientId, "yolo")
@@ -441,12 +443,14 @@ class ParseLiveQueryTests: XCTestCase {
         client.receiveDelegate = delegate
         client.task = URLSession.liveQuery.createTask(client.url,
                                                       taskDelegate: client)
+        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
         client.status(.closed, closeCode: .goingAway, reason: nil)
         let expectation1 = XCTestExpectation(description: "Response delegate")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             XCTAssertEqual(delegate.code, .goingAway)
             XCTAssertNil(delegate.reason)
             XCTAssertTrue(client.task.state == .completed)
+            XCTAssertNil(URLSession.liveQuery.receivingTasks[client.task])
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -459,6 +463,7 @@ class ParseLiveQueryTests: XCTestCase {
             return
         }
         XCTAssertTrue(client.task.state == .running)
+        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
         client.isSocketEstablished = true
         client.isConnected = true
         client.close()
@@ -468,7 +473,9 @@ class ParseLiveQueryTests: XCTestCase {
             XCTAssertFalse(client.isSocketEstablished)
             XCTAssertFalse(client.isConnected)
             XCTAssertNil(URLSession.liveQuery.delegates[originalTask])
+            XCTAssertNil(URLSession.liveQuery.receivingTasks[originalTask])
             XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
+            XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -481,6 +488,7 @@ class ParseLiveQueryTests: XCTestCase {
             return
         }
         XCTAssertTrue(client.task.state == .running)
+        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
         client.isSocketEstablished = true
         client.isConnected = true
         client.close(useDedicatedQueue: true)
@@ -490,7 +498,9 @@ class ParseLiveQueryTests: XCTestCase {
             XCTAssertFalse(client.isSocketEstablished)
             XCTAssertFalse(client.isConnected)
             XCTAssertNil(URLSession.liveQuery.delegates[originalTask])
+            XCTAssertNil(URLSession.liveQuery.receivingTasks[originalTask])
             XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
+            XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -503,6 +513,7 @@ class ParseLiveQueryTests: XCTestCase {
             return
         }
         XCTAssertTrue(client.task.state == .running)
+        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
         client.isSocketEstablished = true
         client.isConnected = true
         client.close(useDedicatedQueue: false)
@@ -510,7 +521,9 @@ class ParseLiveQueryTests: XCTestCase {
         XCTAssertFalse(client.isSocketEstablished)
         XCTAssertFalse(client.isConnected)
         XCTAssertNil(URLSession.liveQuery.delegates[originalTask])
+        XCTAssertNil(URLSession.liveQuery.receivingTasks[originalTask])
         XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
+        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
     }
 
     func testCloseAll() throws {
@@ -520,6 +533,7 @@ class ParseLiveQueryTests: XCTestCase {
             return
         }
         XCTAssertTrue(client.task.state == .running)
+        XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
         client.isSocketEstablished = true
         client.isConnected = true
         client.closeAll()
@@ -529,7 +543,9 @@ class ParseLiveQueryTests: XCTestCase {
             XCTAssertFalse(client.isSocketEstablished)
             XCTAssertFalse(client.isConnected)
             XCTAssertNil(URLSession.liveQuery.delegates[originalTask])
+            XCTAssertNil(URLSession.liveQuery.receivingTasks[originalTask])
             XCTAssertNotNil(URLSession.liveQuery.delegates[client.task])
+            XCTAssertEqual(URLSession.liveQuery.receivingTasks[client.task], true)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -544,13 +560,14 @@ class ParseLiveQueryTests: XCTestCase {
         let expectation1 = XCTestExpectation(description: "Send Ping")
         client.sendPing { error in
             XCTAssertEqual(client.isSocketEstablished, false)
-            guard let parseError = error as? ParseError else {
+            guard let urlError = error as? URLError else {
                 XCTFail("Should have casted to ParseError.")
                 expectation1.fulfill()
                 return
             }
-            XCTAssertEqual(parseError.code, ParseError.Code.unknownError)
-            XCTAssertTrue(parseError.message.contains("socket status"))
+            // "Could not connect to the server"
+            // because webSocket connections are not intercepted.
+            XCTAssertEqual(urlError.errorCode, -1004)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)

@@ -39,6 +39,7 @@ public protocol ParseLiveQueryDelegate: AnyObject {
     /**
     Receive errors from the ParseLiveQuery task/connection.
      - parameter error: An error from the session task.
+     - note: The type of error received can vary from `ParseError`, `URLError`, `POSIXError`, etc.
      */
     func received(_ error: Error)
 

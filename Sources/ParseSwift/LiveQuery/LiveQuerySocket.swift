@@ -15,6 +15,7 @@ import FoundationNetworking
 final class LiveQuerySocket: NSObject {
     private var session: URLSession!
     var delegates = [URLSessionWebSocketTask: LiveQuerySocketDelegate]()
+    var receivingTasks = [URLSessionWebSocketTask: Bool]()
     weak var authenticationDelegate: LiveQuerySocketDelegate?
 
     override init() {
@@ -25,10 +26,12 @@ final class LiveQuerySocket: NSObject {
     func createTask(_ url: URL, taskDelegate: LiveQuerySocketDelegate) -> URLSessionWebSocketTask {
         let task = session.webSocketTask(with: url)
         delegates[task] = taskDelegate
+        receive(task)
         return task
     }
 
     func removeTaskFromDelegates(_ task: URLSessionWebSocketTask) {
+        receivingTasks.removeValue(forKey: task)
         delegates.removeValue(forKey: task)
     }
 
@@ -90,7 +93,13 @@ extension LiveQuerySocket {
 extension LiveQuerySocket {
 
     func receive(_ task: URLSessionWebSocketTask) {
+        if receivingTasks[task] != nil {
+            // Receive has already been called for this task
+            return
+        }
+        receivingTasks[task] = true
         task.receive { result in
+            self.receivingTasks.removeValue(forKey: task)
             switch result {
             case .success(.string(let message)):
                 if let data = message.data(using: .utf8) {

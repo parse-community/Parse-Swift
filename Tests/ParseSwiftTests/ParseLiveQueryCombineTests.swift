@@ -86,13 +86,14 @@ class ParseLiveQueryCombineTests: XCTestCase {
                     XCTFail("Should have produced failure")
                 case .failure(let error):
                     XCTAssertEqual(client.isSocketEstablished, false)
-                    guard let parseError = error as? ParseError else {
+                    guard let urlError = error as? URLError else {
                         XCTFail("Should have casted to ParseError.")
                         expectation1.fulfill()
                         return
                     }
-                    XCTAssertEqual(parseError.code, ParseError.Code.unknownError)
-                    XCTAssertTrue(parseError.message.contains("socket status"))
+                    // "Could not connect to the server"
+                    // because webSocket connections are not intercepted.
+                    XCTAssertEqual(urlError.errorCode, -1004)
                 }
                 expectation1.fulfill()
 

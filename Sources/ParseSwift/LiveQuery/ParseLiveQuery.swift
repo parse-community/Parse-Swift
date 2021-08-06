@@ -65,6 +65,15 @@ public final class ParseLiveQuery: NSObject {
     var attempts: Int = 1 {
         willSet {
             if newValue >= ParseLiveQueryConstants.maxConnectionAttempts + 1 {
+                let error = ParseError(code: .unknownError,
+                                       message: """
+ParseLiveQuery Error: Reached max attempts of
+\(ParseLiveQueryConstants.maxConnectionAttempts).
+Not attempting to open ParseLiveQuery socket anymore
+""")
+                notificationQueue.async {
+                    self.receiveDelegate?.received(error)
+                }
                 close() // Quit trying to reconnect
             }
         }
@@ -231,13 +240,17 @@ extension ParseLiveQuery {
         synchronizationQueue.sync {
             switch self.task.state {
             case .suspended:
+                URLSession.liveQuery.receive(task)
                 self.task.resume()
                 completion(nil)
             case .completed, .canceling:
-                URLSession.liveQuery.removeTaskFromDelegates(self.task)
+                let oldTask = self.task
                 self.task = URLSession.liveQuery.createTask(self.url,
                                                             taskDelegate: self)
                 self.task.resume()
+                if let oldTask = oldTask {
+                    URLSession.liveQuery.removeTaskFromDelegates(oldTask)
+                }
                 completion(nil)
             case .running:
                 self.open(isUserWantsToConnect: false, completion: completion)
@@ -481,23 +494,23 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
     }
 
     func receivedError(_ error: Error) {
+        if !isPosixError(error) {
+            if !isURLError(error) {
+                notificationQueue.async {
+                    self.receiveDelegate?.received(error)
+                }
+            }
+        }
+    }
+
+    func isPosixError(_ error: Error) -> Bool {
         guard let posixError = error as? POSIXError else {
             notificationQueue.async {
                 self.receiveDelegate?.received(error)
             }
-            return
+            return false
         }
         if posixError.code == .ENOTCONN {
-            if attempts + 1 >= ParseLiveQueryConstants.maxConnectionAttempts + 1 {
-                let parseError = ParseError(code: .unknownError,
-                                            message: """
-Max attempts (\(ParseLiveQueryConstants.maxConnectionAttempts) reached.
-Not attempting to connect to LiveQuery server anymore.
-""")
-                notificationQueue.async {
-                    self.receiveDelegate?.received(parseError)
-                }
-            }
             isSocketEstablished = false
             open(isUserWantsToConnect: false) { error in
                 guard let error = error else {
@@ -513,6 +526,33 @@ Not attempting to connect to LiveQuery server anymore.
                 self.receiveDelegate?.received(error)
             }
         }
+        return true
+    }
+
+    func isURLError(_ error: Error) -> Bool {
+        guard let urlError = error as? URLError else {
+            notificationQueue.async {
+                self.receiveDelegate?.received(error)
+            }
+            return false
+        }
+        if urlError.errorCode == -1005 {
+            isSocketEstablished = false
+            open(isUserWantsToConnect: false) { error in
+                guard let error = error else {
+                    // Resumed task successfully
+                    return
+                }
+                self.notificationQueue.async {
+                    self.receiveDelegate?.received(error)
+                }
+            }
+        } else {
+            notificationQueue.async {
+                self.receiveDelegate?.received(error)
+            }
+        }
+        return true
     }
 
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?) {
@@ -596,12 +636,15 @@ extension ParseLiveQuery {
             if self.isConnected {
                 self.task.cancel(with: .goingAway, reason: nil)
                 self.isDisconnectedByUser = true
+                let oldTask = self.task
+                isSocketEstablished = false
+                // Prepare new task for future use.
+                self.task = URLSession.liveQuery.createTask(self.url,
+                                                            taskDelegate: self)
+                if let oldTask = oldTask {
+                    URLSession.liveQuery.removeTaskFromDelegates(oldTask)
+                }
             }
-            URLSession.liveQuery.removeTaskFromDelegates(self.task)
-            isSocketEstablished = false
-            // Prepare new task for future use.
-            self.task = URLSession.liveQuery.createTask(self.url,
-                                                        taskDelegate: self)
         }
     }
 
@@ -636,22 +679,28 @@ extension ParseLiveQuery {
             synchronizationQueue.async {
                 if self.isConnected {
                     self.task.cancel(with: .goingAway, reason: nil)
+                    let oldTask = self.task
+                    self.isSocketEstablished = false
+                    // Prepare new task for future use.
+                    self.task = URLSession.liveQuery.createTask(self.url,
+                                                                taskDelegate: self)
+                    if let oldTask = oldTask {
+                        URLSession.liveQuery.removeTaskFromDelegates(oldTask)
+                    }
                 }
-                URLSession.liveQuery.removeTaskFromDelegates(self.task)
-                self.isSocketEstablished = false
-                // Prepare new task for future use.
-                self.task = URLSession.liveQuery.createTask(self.url,
-                                                            taskDelegate: self)
             }
         } else {
             if self.isConnected {
                 self.task.cancel(with: .goingAway, reason: nil)
+                let oldTask = task
+                isSocketEstablished = false
+                // Prepare new task for future use.
+                self.task = URLSession.liveQuery.createTask(self.url,
+                                                            taskDelegate: self)
+                if let oldTask = oldTask {
+                    URLSession.liveQuery.removeTaskFromDelegates(oldTask)
+                }
             }
-            URLSession.liveQuery.removeTaskFromDelegates(self.task)
-            isSocketEstablished = false
-            // Prepare new task for future use.
-            self.task = URLSession.liveQuery.createTask(self.url,
-                                                        taskDelegate: self)
         }
     }
 
