@@ -29,7 +29,25 @@ struct GameScore: ParseObject {
     }
 }
 
+//: Create a delegate for LiveQuery errors
+class LiveQueryDelegate: ParseLiveQueryDelegate {
+
+    func received(_ error: Error) {
+        print(error)
+    }
+
+    func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?) {
+        print("Socket closed with \(String(describing: code)) and \(String(describing: reason))")
+    }
+}
+
 //: Be sure you have LiveQuery enabled on your server.
+
+//: Set the delegate.
+let delegate = LiveQueryDelegate()
+if let socket = ParseLiveQuery.getDefault() {
+    socket.receiveDelegate = delegate
+}
 
 //: Create a query just as you normally would.
 var query = GameScore.query("score" < 11)

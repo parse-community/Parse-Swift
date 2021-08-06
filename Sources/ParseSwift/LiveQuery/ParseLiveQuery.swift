@@ -494,11 +494,21 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
     }
 
     func receivedError(_ error: Error) {
+        if !isPosixError(error) {
+            if !isURLError(error) {
+                notificationQueue.async {
+                    self.receiveDelegate?.received(error)
+                }
+            }
+        }
+    }
+
+    func isPosixError(_ error: Error) -> Bool {
         guard let posixError = error as? POSIXError else {
             notificationQueue.async {
                 self.receiveDelegate?.received(error)
             }
-            return
+            return false
         }
         if posixError.code == .ENOTCONN {
             if attempts + 1 >= ParseLiveQueryConstants.maxConnectionAttempts + 1 {
@@ -526,6 +536,43 @@ Not attempting to connect to LiveQuery server anymore.
                 self.receiveDelegate?.received(error)
             }
         }
+        return true
+    }
+
+    func isURLError(_ error: Error) -> Bool {
+        guard let urlError = error as? URLError else {
+            notificationQueue.async {
+                self.receiveDelegate?.received(error)
+            }
+            return false
+        }
+        if urlError.errorCode == -1005 {
+            if attempts + 1 >= ParseLiveQueryConstants.maxConnectionAttempts + 1 {
+                let parseError = ParseError(code: .unknownError,
+                                            message: """
+Max attempts (\(ParseLiveQueryConstants.maxConnectionAttempts) reached.
+Not attempting to connect to LiveQuery server anymore.
+""")
+                notificationQueue.async {
+                    self.receiveDelegate?.received(parseError)
+                }
+            }
+            isSocketEstablished = false
+            open(isUserWantsToConnect: false) { error in
+                guard let error = error else {
+                    // Resumed task successfully
+                    return
+                }
+                self.notificationQueue.async {
+                    self.receiveDelegate?.received(error)
+                }
+            }
+        } else {
+            notificationQueue.async {
+                self.receiveDelegate?.received(error)
+            }
+        }
+        return true
     }
 
     func receivedUnsupported(_ data: Data?, socketMessage: URLSessionWebSocketTask.Message?) {
