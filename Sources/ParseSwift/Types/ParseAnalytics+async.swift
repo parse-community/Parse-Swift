@@ -96,7 +96,7 @@ public extension ParseAnalytics {
     func track(dimensions: [String: String]?,
                at date: Date? = nil,
                options: API.Options = []) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let _: Void = try await withCheckedThrowingContinuation { continuation in
             var analytic = self
             analytic.track(dimensions: dimensions,
                            at: date,

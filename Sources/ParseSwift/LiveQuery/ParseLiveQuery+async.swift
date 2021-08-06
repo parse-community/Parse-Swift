@@ -19,13 +19,13 @@ extension ParseLiveQuery {
       - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     public func open(isUserWantsToConnect: Bool = true) async throws {
-        _ = try await withCheckedThrowingContinuation { continuation in
+        let _: Void = try await withCheckedThrowingContinuation { continuation in
             self.open(isUserWantsToConnect: isUserWantsToConnect) { error in
                 guard let error = error else {
-                    continuation.resume
+                    continuation.resume(with: .success(()))
                     return
                 }
-                continuation.resume
+                continuation.resume(with: .failure(error))
             }
         }
     }
@@ -35,14 +35,14 @@ extension ParseLiveQuery {
      server endpoint.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    public func sendPing() async throws -> Result<Void, Error> {
-        try await withCheckedThrowingContinuation { continuation in
+    public func sendPing() async throws {
+        let _: Void = try await withCheckedThrowingContinuation { continuation in
             self.sendPing { error in
                 guard let error = error else {
-                    continuation.resume(returning: .success(()))
+                    continuation.resume(with: .success(()))
                     return
                 }
-                continuation.resume(returning: .failure(error))
+                continuation.resume(with: .failure(error))
             }
         }
     }
