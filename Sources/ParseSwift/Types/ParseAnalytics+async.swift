@@ -1,23 +1,22 @@
 //
-//  ParseAnalytics+combine.swift
-//  ParseSwift
+//  ParseAnalytics+async.swift
+//  ParseAnalytics+async
 //
-//  Created by Corey Baker on 5/20/21.
+//  Created by Corey Baker on 8/6/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if canImport(Combine)
+#if swift(>=5.5)
 import Foundation
-import Combine
 
 #if os(iOS)
 import UIKit
 #endif
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
 public extension ParseAnalytics {
 
-    // MARK: Combine
+    // MARK: Aysnc/Await
 
     #if os(iOS)
     /**
@@ -33,14 +32,14 @@ public extension ParseAnalytics {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    static func trackAppOpenedPublisher(launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil,
-                                        at date: Date? = nil,
-                                        options: API.Options = []) -> Future<Void, ParseError> {
-        Future { promise in
+    static func trackAppOpened(launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil,
+                               at date: Date? = nil,
+                               options: API.Options = []) async throws -> Result<Void, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             Self.trackAppOpened(launchOptions: launchOptions,
                                 at: date,
                                 options: options,
-                                completion: promise)
+                                completion: continuation.resume)
         }
     }
     #endif
@@ -57,14 +56,14 @@ public extension ParseAnalytics {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    static func trackAppOpenedPublisher(dimensions: [String: String]? = nil,
-                                        at date: Date? = nil,
-                                        options: API.Options = []) -> Future<Void, ParseError> {
-        Future { promise in
+    static func trackAppOpened(dimensions: [String: String]? = nil,
+                               at date: Date? = nil,
+                               options: API.Options = []) async throws -> Result<Void, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             Self.trackAppOpened(dimensions: dimensions,
                                 at: date,
                                 options: options,
-                                completion: promise)
+                                completion: continuation.resume)
         }
     }
 
@@ -74,10 +73,10 @@ public extension ParseAnalytics {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func trackPublisher(options: API.Options = []) -> Future<Void, ParseError> {
-        Future { promise in
+    func track(options: API.Options = []) async throws -> Result<Void, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             self.track(options: options,
-                       completion: promise)
+                       completion: continuation.resume)
         }
     }
 
@@ -94,15 +93,15 @@ public extension ParseAnalytics {
      - warning: This method makes a copy of the current `ParseAnalytics` and then mutates
      it. You will not have access to the mutated analytic after calling this method.
     */
-    func trackPublisher(dimensions: [String: String]?,
-                        at date: Date? = nil,
-                        options: API.Options = []) -> Future<Void, ParseError> {
-        Future { promise in
+    func track(dimensions: [String: String]?,
+               at date: Date? = nil,
+               options: API.Options = []) async throws -> Result<Void, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             var analytic = self
             analytic.track(dimensions: dimensions,
                            at: date,
                            options: options,
-                           completion: promise)
+                           completion: continuation.resume)
         }
     }
 }

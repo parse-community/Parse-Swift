@@ -1,19 +1,18 @@
 //
-//  ParseCloud+combine.swift
-//  ParseSwift
+//  ParseCloud+async.swift
+//  ParseCloud+async
 //
-//  Created by Corey Baker on 1/29/21.
+//  Created by Corey Baker on 8/6/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if canImport(Combine)
+#if swift(>=5.5)
 import Foundation
-import Combine
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
 public extension ParseCloud {
 
-    // MARK: Functions - Combine
+    // MARK: Functions - Aysnc/Await
 
     /**
      Calls a Cloud Code function *asynchronously* and returns a result of it's execution.
@@ -21,14 +20,14 @@ public extension ParseCloud {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func runFunctionPublisher(options: API.Options = []) -> Future<ReturnType, ParseError> {
-        Future { promise in
+    func runFunction(options: API.Options = []) async throws -> Result<ReturnType, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             self.runFunction(options: options,
-                             completion: promise)
+                             completion: continuation.resume)
         }
     }
 
-    // MARK: Jobs - Combine
+    // MARK: Jobs - Aysnc/Await
 
     /**
      Starts a Cloud Code Job *asynchronously* and returns a result with the jobStatusId of the job.
@@ -36,12 +35,11 @@ public extension ParseCloud {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func startJobPublisher(options: API.Options = []) -> Future<ReturnType, ParseError> {
-        Future { promise in
+    func startJob(options: API.Options = []) async throws -> Result<ReturnType, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             self.startJob(options: options,
-                          completion: promise)
+                          completion: continuation.resume)
         }
     }
 }
-
 #endif

@@ -1,43 +1,42 @@
 //
-//  ParseConfig+combine.swift
-//  ParseSwift
+//  ParseConfig+async.swift
+//  ParseConfig+async
 //
-//  Created by Corey Baker on 1/29/21.
+//  Created by Corey Baker on 8/6/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if canImport(Combine)
+#if swift(>=5.5)
 import Foundation
-import Combine
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
 public extension ParseConfig {
 
-    // MARK: Fetchable - Combine
+    // MARK: Fetchable - Async/Await
 
     /**
      Fetch the Config *asynchronously*. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func fetchPublisher(options: API.Options = []) -> Future<Self, ParseError> {
-        Future { promise in
+    func fetch(options: API.Options = []) async throws -> Result<Self, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             self.fetch(options: options,
-                       completion: promise)
+                       completion: continuation.resume)
         }
     }
 
-    // MARK: Savable - Combine
+    // MARK: Savable - Async/Await
 
     /**
      Update the Config *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func savePublisher(options: API.Options = []) -> Future<Bool, ParseError> {
-        Future { promise in
+    func save(options: API.Options = []) async throws -> Result<Bool, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             self.save(options: options,
-                      completion: promise)
+                      completion: continuation.resume)
         }
     }
 }

@@ -1,19 +1,18 @@
 //
-//  ParseObject+combine.swift
-//  ParseSwift
+//  ParseObject+async.swift
+//  ParseObject+async
 //
-//  Created by Corey Baker on 1/29/21.
+//  Created by Corey Baker on 8/6/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if canImport(Combine)
+#if swift(>=5.5)
 import Foundation
-import Combine
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
 public extension ParseObject {
 
-    // MARK: Combine
+    // MARK: Async/Await
     /**
      Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
      Publishes when complete.
@@ -23,12 +22,12 @@ public extension ParseObject {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func fetchPublisher(includeKeys: [String]? = nil,
-                        options: API.Options = []) -> Future<Self, ParseError> {
-        Future { promise in
+    func fetch(includeKeys: [String]? = nil,
+               options: API.Options = []) async throws -> Result<Self, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             self.fetch(includeKeys: includeKeys,
                        options: options,
-                       completion: promise)
+                       completion: continuation.resume)
         }
     }
 
@@ -39,10 +38,10 @@ public extension ParseObject {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
-    func savePublisher(options: API.Options = []) -> Future<Self, ParseError> {
-        Future { promise in
+    func save(options: API.Options = []) async throws -> Result<Self, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             self.save(options: options,
-                      completion: promise)
+                      completion: continuation.resume)
         }
     }
 
@@ -53,16 +52,17 @@ public extension ParseObject {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
-    func deletePublisher(options: API.Options = []) -> Future<Void, ParseError> {
-        Future { promise in
-            self.delete(options: options, completion: promise)
+    func delete(options: API.Options = []) async throws -> Result<Void, ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
+            self.delete(options: options,
+                        completion: continuation.resume)
         }
     }
 }
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
 public extension Sequence where Element: ParseObject {
-    // MARK: Batch Support - Combine
+    // MARK: Batch Support - Async/Await
     /**
      Fetches a collection of objects *aynchronously* with the current data from the server and sets
      an error if one occurs. Publishes when complete.
@@ -73,12 +73,12 @@ public extension Sequence where Element: ParseObject {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
-    func fetchAllPublisher(includeKeys: [String]? = nil,
-                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
-        Future { promise in
+    func fetchAll(includeKeys: [String]? = nil,
+                  options: API.Options = []) async throws -> Result<[(Result<Self.Element, ParseError>)], ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             self.fetchAll(includeKeys: includeKeys,
                           options: options,
-                          completion: promise)
+                          completion: continuation.resume)
         }
     }
 
@@ -96,14 +96,14 @@ public extension Sequence where Element: ParseObject {
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
     */
-    func saveAllPublisher(batchLimit limit: Int? = nil,
-                          transaction: Bool = false,
-                          options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
-        Future { promise in
+    func saveAll(batchLimit limit: Int? = nil,
+                 transaction: Bool = false,
+                 options: API.Options = []) async throws -> Result<[(Result<Self.Element, ParseError>)], ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
                          options: options,
-                         completion: promise)
+                         completion: continuation.resume)
         }
     }
 
@@ -121,16 +121,15 @@ public extension Sequence where Element: ParseObject {
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
     */
-    func deleteAllPublisher(batchLimit limit: Int? = nil,
-                            transaction: Bool = false,
-                            options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
-        Future { promise in
+    func deleteAll(batchLimit limit: Int? = nil,
+                   transaction: Bool = false,
+                   options: API.Options = []) async throws -> Result<[(Result<Void, ParseError>)], ParseError> {
+        try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,
                            transaction: transaction,
                            options: options,
-                           completion: promise)
+                           completion: continuation.resume)
         }
     }
 }
-
 #endif
