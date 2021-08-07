@@ -1,40 +1,39 @@
 //
-//  ParseAuthentication+combine.swift
-//  ParseSwift
+//  ParseAuthentication+async.swift
+//  ParseAuthentication+async
 //
-//  Created by Corey Baker on 1/30/21.
+//  Created by Corey Baker on 8/7/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if canImport(Combine)
+#if swift(>=5.5)
 import Foundation
-import Combine
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
 public extension ParseAuthentication {
 
-    // MARK: Convenience Implementations - Combine
+    // MARK: Convenience Implementations - Async/Await
 
-    func unlinkPublisher(_ user: AuthenticatedUser,
-                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        user.unlinkPublisher(__type, options: options)
+    func unlink(_ user: AuthenticatedUser,
+                options: API.Options = []) async throws -> AuthenticatedUser {
+        try await user.unlink(__type, options: options)
     }
 
-    func unlinkPublisher(options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
+    func unlink(options: API.Options = []) async throws -> AuthenticatedUser {
         guard let current = AuthenticatedUser.current else {
             let error = ParseError(code: .invalidLinkedSession, message: "No current ParseUser.")
-            return Future { promise in
-                promise(.failure(error))
+            return try await withCheckedThrowingContinuation { continuation in
+                continuation.resume(with: .failure(error))
             }
         }
-        return unlinkPublisher(current, options: options)
+        return try await unlink(current, options: options)
     }
 }
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
 public extension ParseUser {
 
-    // MARK: 3rd Party Authentication - Login Combine
+    // MARK: 3rd Party Authentication - Login Async/Await
 
     /**
      Makes an *asynchronous* request to log in a user with specified credentials.
@@ -46,14 +45,14 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
-    static func loginPublisher(_ type: String,
-                               authData: [String: String],
-                               options: API.Options = []) -> Future<Self, ParseError> {
-        Future { promise in
+    static func login(_ type: String,
+                      authData: [String: String],
+                      options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
             Self.login(type,
                        authData: authData,
                        options: options,
-                       completion: promise)
+                       completion: continuation.resume)
         }
     }
 
@@ -63,12 +62,12 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
-    func unlinkPublisher(_ type: String,
-                         options: API.Options = []) -> Future<Self, ParseError> {
-        Future { promise in
+    func unlink(_ type: String,
+                options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
             self.unlink(type,
                         options: options,
-                        completion: promise)
+                        completion: continuation.resume)
         }
     }
 
@@ -82,17 +81,16 @@ public extension ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    static func linkPublisher(_ type: String,
-                              authData: [String: String],
-                              options: API.Options = []) -> Future<Self, ParseError> {
-        Future { promise in
+    static func link(_ type: String,
+                     authData: [String: String],
+                     options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
             Self.link(type,
                       authData: authData,
                       options: options,
-                      completion: promise)
+                      completion: continuation.resume)
         }
     }
 
 }
-
 #endif

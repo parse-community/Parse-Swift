@@ -164,6 +164,50 @@
 		703B092726BE0719005A112F /* ParseInstallationAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092626BE0719005A112F /* ParseInstallationAsyncTests.swift */; };
 		703B092826BE0719005A112F /* ParseInstallationAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092626BE0719005A112F /* ParseInstallationAsyncTests.swift */; };
 		703B092926BE0719005A112F /* ParseInstallationAsyncTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092626BE0719005A112F /* ParseInstallationAsyncTests.swift */; };
+		703B092B26BF290B005A112F /* ParseAuthentication+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092A26BF290B005A112F /* ParseAuthentication+async.swift */; };
+		703B092C26BF290B005A112F /* ParseAuthentication+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092A26BF290B005A112F /* ParseAuthentication+async.swift */; };
+		703B092D26BF290B005A112F /* ParseAuthentication+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092A26BF290B005A112F /* ParseAuthentication+async.swift */; };
+		703B092E26BF290B005A112F /* ParseAuthentication+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092A26BF290B005A112F /* ParseAuthentication+async.swift */; };
+		703B093026BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092F26BF42C2005A112F /* ParseAnonymous+combine.swift */; };
+		703B093126BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092F26BF42C2005A112F /* ParseAnonymous+combine.swift */; };
+		703B093226BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092F26BF42C2005A112F /* ParseAnonymous+combine.swift */; };
+		703B093326BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B092F26BF42C2005A112F /* ParseAnonymous+combine.swift */; };
+		703B093526BF43D9005A112F /* ParseAnonymous+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093426BF43D9005A112F /* ParseAnonymous+async.swift */; };
+		703B093626BF43D9005A112F /* ParseAnonymous+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093426BF43D9005A112F /* ParseAnonymous+async.swift */; };
+		703B093726BF43D9005A112F /* ParseAnonymous+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093426BF43D9005A112F /* ParseAnonymous+async.swift */; };
+		703B093826BF43D9005A112F /* ParseAnonymous+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093426BF43D9005A112F /* ParseAnonymous+async.swift */; };
+		703B093A26BF4799005A112F /* ParseApple+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093926BF4799005A112F /* ParseApple+combine.swift */; };
+		703B093B26BF4799005A112F /* ParseApple+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093926BF4799005A112F /* ParseApple+combine.swift */; };
+		703B093C26BF4799005A112F /* ParseApple+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093926BF4799005A112F /* ParseApple+combine.swift */; };
+		703B093D26BF4799005A112F /* ParseApple+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093926BF4799005A112F /* ParseApple+combine.swift */; };
+		703B093F26BF47AC005A112F /* ParseApple+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093E26BF47AC005A112F /* ParseApple+async.swift */; };
+		703B094026BF47AC005A112F /* ParseApple+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093E26BF47AC005A112F /* ParseApple+async.swift */; };
+		703B094126BF47AC005A112F /* ParseApple+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093E26BF47AC005A112F /* ParseApple+async.swift */; };
+		703B094226BF47AC005A112F /* ParseApple+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B093E26BF47AC005A112F /* ParseApple+async.swift */; };
+		703B094426BF47C0005A112F /* ParseLDAP+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094326BF47C0005A112F /* ParseLDAP+combine.swift */; };
+		703B094526BF47C0005A112F /* ParseLDAP+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094326BF47C0005A112F /* ParseLDAP+combine.swift */; };
+		703B094626BF47C0005A112F /* ParseLDAP+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094326BF47C0005A112F /* ParseLDAP+combine.swift */; };
+		703B094726BF47C0005A112F /* ParseLDAP+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094326BF47C0005A112F /* ParseLDAP+combine.swift */; };
+		703B094926BF47D0005A112F /* ParseLDAP+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094826BF47D0005A112F /* ParseLDAP+async.swift */; };
+		703B094A26BF47D0005A112F /* ParseLDAP+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094826BF47D0005A112F /* ParseLDAP+async.swift */; };
+		703B094B26BF47D0005A112F /* ParseLDAP+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094826BF47D0005A112F /* ParseLDAP+async.swift */; };
+		703B094C26BF47D0005A112F /* ParseLDAP+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094826BF47D0005A112F /* ParseLDAP+async.swift */; };
+		703B094E26BF47E3005A112F /* ParseTwitter+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094D26BF47E3005A112F /* ParseTwitter+combine.swift */; };
+		703B094F26BF47E3005A112F /* ParseTwitter+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094D26BF47E3005A112F /* ParseTwitter+combine.swift */; };
+		703B095026BF47E3005A112F /* ParseTwitter+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094D26BF47E3005A112F /* ParseTwitter+combine.swift */; };
+		703B095126BF47E3005A112F /* ParseTwitter+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B094D26BF47E3005A112F /* ParseTwitter+combine.swift */; };
+		703B095326BF47FD005A112F /* ParseTwitter+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095226BF47FD005A112F /* ParseTwitter+async.swift */; };
+		703B095426BF47FD005A112F /* ParseTwitter+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095226BF47FD005A112F /* ParseTwitter+async.swift */; };
+		703B095526BF47FD005A112F /* ParseTwitter+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095226BF47FD005A112F /* ParseTwitter+async.swift */; };
+		703B095626BF47FD005A112F /* ParseTwitter+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095226BF47FD005A112F /* ParseTwitter+async.swift */; };
+		703B095826BF480D005A112F /* ParseFacebook+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095726BF480D005A112F /* ParseFacebook+combine.swift */; };
+		703B095926BF480D005A112F /* ParseFacebook+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095726BF480D005A112F /* ParseFacebook+combine.swift */; };
+		703B095A26BF480D005A112F /* ParseFacebook+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095726BF480D005A112F /* ParseFacebook+combine.swift */; };
+		703B095B26BF480D005A112F /* ParseFacebook+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095726BF480D005A112F /* ParseFacebook+combine.swift */; };
+		703B095D26BF481F005A112F /* ParseFacebook+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095C26BF481F005A112F /* ParseFacebook+async.swift */; };
+		703B095E26BF481F005A112F /* ParseFacebook+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095C26BF481F005A112F /* ParseFacebook+async.swift */; };
+		703B095F26BF481F005A112F /* ParseFacebook+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095C26BF481F005A112F /* ParseFacebook+async.swift */; };
+		703B096026BF481F005A112F /* ParseFacebook+async.swift in Sources */ = {isa = PBXBuildFile; fileRef = 703B095C26BF481F005A112F /* ParseFacebook+async.swift */; };
 		7044C17525C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */; };
 		7044C17625C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */; };
 		7044C17725C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */; };
@@ -735,6 +779,17 @@
 		703B091A26BDE774005A112F /* ParseObjectAsync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObjectAsync.swift; sourceTree = "<group>"; };
 		703B092226BDFAB2005A112F /* ParseUserAsyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseUserAsyncTests.swift; sourceTree = "<group>"; };
 		703B092626BE0719005A112F /* ParseInstallationAsyncTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseInstallationAsyncTests.swift; sourceTree = "<group>"; };
+		703B092A26BF290B005A112F /* ParseAuthentication+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseAuthentication+async.swift"; sourceTree = "<group>"; };
+		703B092F26BF42C2005A112F /* ParseAnonymous+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseAnonymous+combine.swift"; sourceTree = "<group>"; };
+		703B093426BF43D9005A112F /* ParseAnonymous+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseAnonymous+async.swift"; sourceTree = "<group>"; };
+		703B093926BF4799005A112F /* ParseApple+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseApple+combine.swift"; sourceTree = "<group>"; };
+		703B093E26BF47AC005A112F /* ParseApple+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseApple+async.swift"; sourceTree = "<group>"; };
+		703B094326BF47C0005A112F /* ParseLDAP+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseLDAP+combine.swift"; sourceTree = "<group>"; };
+		703B094826BF47D0005A112F /* ParseLDAP+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseLDAP+async.swift"; sourceTree = "<group>"; };
+		703B094D26BF47E3005A112F /* ParseTwitter+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseTwitter+combine.swift"; sourceTree = "<group>"; };
+		703B095226BF47FD005A112F /* ParseTwitter+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseTwitter+async.swift"; sourceTree = "<group>"; };
+		703B095726BF480D005A112F /* ParseFacebook+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseFacebook+combine.swift"; sourceTree = "<group>"; };
+		703B095C26BF481F005A112F /* ParseFacebook+async.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseFacebook+async.swift"; sourceTree = "<group>"; };
 		7044C17425C4ECFF0011F6E7 /* ParseCloud+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseCloud+combine.swift"; sourceTree = "<group>"; };
 		7044C18225C4EFC10011F6E7 /* ParseConfig+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseConfig+combine.swift"; sourceTree = "<group>"; };
 		7044C19025C4F5B60011F6E7 /* ParseFile+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseFile+combine.swift"; sourceTree = "<group>"; };
@@ -1181,6 +1236,46 @@
 			path = ParseEncoderTests;
 			sourceTree = "<group>";
 		};
+		703B096126BF484E005A112F /* ParseApple */ = {
+			isa = PBXGroup;
+			children = (
+				707A3C1F25B14BCF000D215C /* ParseApple.swift */,
+				703B093E26BF47AC005A112F /* ParseApple+async.swift */,
+				703B093926BF4799005A112F /* ParseApple+combine.swift */,
+			);
+			path = ParseApple;
+			sourceTree = "<group>";
+		};
+		703B096226BF486C005A112F /* ParseLDAP */ = {
+			isa = PBXGroup;
+			children = (
+				70386A3725D998D90048EC1B /* ParseLDAP.swift */,
+				703B094826BF47D0005A112F /* ParseLDAP+async.swift */,
+				703B094326BF47C0005A112F /* ParseLDAP+combine.swift */,
+			);
+			path = ParseLDAP;
+			sourceTree = "<group>";
+		};
+		703B096326BF487E005A112F /* ParseTwitter */ = {
+			isa = PBXGroup;
+			children = (
+				89899CC02603CE2A002E2043 /* ParseTwitter.swift */,
+				703B095226BF47FD005A112F /* ParseTwitter+async.swift */,
+				703B094D26BF47E3005A112F /* ParseTwitter+combine.swift */,
+			);
+			path = ParseTwitter;
+			sourceTree = "<group>";
+		};
+		703B096426BF4896005A112F /* ParseFacebook */ = {
+			isa = PBXGroup;
+			children = (
+				89899CCE2603CE3A002E2043 /* ParseFacebook.swift */,
+				703B095C26BF481F005A112F /* ParseFacebook+async.swift */,
+				703B095726BF480D005A112F /* ParseFacebook+combine.swift */,
+			);
+			path = ParseFacebook;
+			sourceTree = "<group>";
+		};
 		70510AAA259EE23700FEA700 /* LiveQuery */ = {
 			isa = PBXGroup;
 			children = (
@@ -1213,6 +1308,7 @@
 			children = (
 				707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */,
 				7044C1C725C5B2B10011F6E7 /* ParseAuthentication+combine.swift */,
+				703B092A26BF290B005A112F /* ParseAuthentication+async.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1228,10 +1324,10 @@
 		70A2D81325B358FA001BEB7D /* 3rd Party */ = {
 			isa = PBXGroup;
 			children = (
-				707A3C1F25B14BCF000D215C /* ParseApple.swift */,
-				70386A3725D998D90048EC1B /* ParseLDAP.swift */,
-				89899CC02603CE2A002E2043 /* ParseTwitter.swift */,
-				89899CCE2603CE3A002E2043 /* ParseFacebook.swift */,
+				703B096126BF484E005A112F /* ParseApple */,
+				703B096426BF4896005A112F /* ParseFacebook */,
+				703B096226BF486C005A112F /* ParseLDAP */,
+				703B096326BF487E005A112F /* ParseTwitter */,
 			);
 			path = "3rd Party";
 			sourceTree = "<group>";
@@ -1240,6 +1336,8 @@
 			isa = PBXGroup;
 			children = (
 				707A3C1025B0A8E8000D215C /* ParseAnonymous.swift */,
+				703B092F26BF42C2005A112F /* ParseAnonymous+combine.swift */,
+				703B093426BF43D9005A112F /* ParseAnonymous+async.swift */,
 			);
 			path = Internal;
 			sourceTree = "<group>";
@@ -1867,9 +1965,11 @@
 				700395A325A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FCF2690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				7045769826BD917500F86F71 /* Query+async.swift in Sources */,
+				703B094E26BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3825D998D90048EC1B /* ParseLDAP.swift in Sources */,
 				700395F225A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45F224D9C6F200F4A88B /* Pointer.swift in Sources */,
+				703B095826BF480D005A112F /* ParseFacebook+combine.swift in Sources */,
 				70510AAC259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				7044C19125C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
 				70F79A192639CE6F00731C46 /* ParseHealth.swift in Sources */,
@@ -1897,9 +1997,12 @@
 				9116F66F26A35D610082F6D6 /* URLCache+extensions.swift in Sources */,
 				70572671259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				707A3C2025B14BD0000D215C /* ParseApple.swift in Sources */,
+				703B095D26BF481F005A112F /* ParseFacebook+async.swift in Sources */,
 				F97B462224D9C6F200F4A88B /* ParseKeyValueStore.swift in Sources */,
 				703B090226BD9652005A112F /* ParseAnalytics+async.swift in Sources */,
+				703B093F26BF47AC005A112F /* ParseApple+async.swift in Sources */,
 				F97B45E624D9C6F200F4A88B /* Query.swift in Sources */,
+				703B093526BF43D9005A112F /* ParseAnonymous+async.swift in Sources */,
 				705D950825BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */,
 				70C5509225B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035225215F9B00646C70 /* Deletable.swift in Sources */,
@@ -1913,16 +2016,20 @@
 				4A82B7F61F254CCE0063D731 /* Parse.swift in Sources */,
 				F97B45EA24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B460224D9C6F200F4A88B /* NoBody.swift in Sources */,
+				703B093026BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,
 				700395BA25A1470F0052CB31 /* Subscription.swift in Sources */,
 				91285B132698DBF20051B544 /* ParseBytes.swift in Sources */,
 				7016ED5625C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
 				7003972A25A3B0140052CB31 /* ParseURLSessionDelegate.swift in Sources */,
+				703B094426BF47C0005A112F /* ParseLDAP+combine.swift in Sources */,
 				700395D125A147BE0052CB31 /* QuerySubscribable.swift in Sources */,
 				70170A492656E2FE0070C905 /* ParseAnalytics+combine.swift in Sources */,
+				703B092B26BF290B005A112F /* ParseAuthentication+async.swift in Sources */,
 				F97B45F624D9C6F200F4A88B /* ParseError.swift in Sources */,
 				7045769D26BD934000F86F71 /* ParseFile+async.swift in Sources */,
 				F97B463324D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
 				F97B464E24D9C78B00F4A88B /* Add.swift in Sources */,
+				703B095326BF47FD005A112F /* ParseTwitter+async.swift in Sources */,
 				70BC9890252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B45FE24D9C6F200F4A88B /* ParseFile.swift in Sources */,
 				F97B45EE24D9C6F200F4A88B /* BaseParseUser.swift in Sources */,
@@ -1930,6 +2037,7 @@
 				703B090C26BD984D005A112F /* ParseConfig+async.swift in Sources */,
 				F97B460E24D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				F97B461224D9C6F200F4A88B /* Savable.swift in Sources */,
+				703B094926BF47D0005A112F /* ParseLDAP+async.swift in Sources */,
 				F97B45CE24D9C6F200F4A88B /* ParseCoding.swift in Sources */,
 				F97B465624D9C78C00F4A88B /* Remove.swift in Sources */,
 				F97B45FA24D9C6F200F4A88B /* ParseACL.swift in Sources */,
@@ -1941,6 +2049,7 @@
 				70110D572506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45DE24D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				70C5507725B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				703B093A26BF4799005A112F /* ParseApple+combine.swift in Sources */,
 				7044C18325C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
 				7016ED3225C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 				703B091626BD99BC005A112F /* ParseLiveQuery+async.swift in Sources */,
@@ -2049,9 +2158,11 @@
 				700395A425A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FD02690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				7045769926BD917500F86F71 /* Query+async.swift in Sources */,
+				703B094F26BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3925D998D90048EC1B /* ParseLDAP.swift in Sources */,
 				700395F325A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45F324D9C6F200F4A88B /* Pointer.swift in Sources */,
+				703B095926BF480D005A112F /* ParseFacebook+combine.swift in Sources */,
 				70510AAD259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				7044C19225C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
 				70F79A1A2639CE6F00731C46 /* ParseHealth.swift in Sources */,
@@ -2079,9 +2190,12 @@
 				9116F67026A35D610082F6D6 /* URLCache+extensions.swift in Sources */,
 				70572672259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				707A3C2125B14BD0000D215C /* ParseApple.swift in Sources */,
+				703B095E26BF481F005A112F /* ParseFacebook+async.swift in Sources */,
 				F97B462324D9C6F200F4A88B /* ParseKeyValueStore.swift in Sources */,
 				703B090326BD9652005A112F /* ParseAnalytics+async.swift in Sources */,
+				703B094026BF47AC005A112F /* ParseApple+async.swift in Sources */,
 				F97B45E724D9C6F200F4A88B /* Query.swift in Sources */,
+				703B093626BF43D9005A112F /* ParseAnonymous+async.swift in Sources */,
 				705D950925BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */,
 				70C5509325B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035325215F9B00646C70 /* Deletable.swift in Sources */,
@@ -2095,16 +2209,20 @@
 				4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */,
 				F97B45EB24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B460324D9C6F200F4A88B /* NoBody.swift in Sources */,
+				703B093126BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,
 				700395BB25A1470F0052CB31 /* Subscription.swift in Sources */,
 				91285B142698DBF20051B544 /* ParseBytes.swift in Sources */,
 				7016ED5725C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
 				7003972B25A3B0140052CB31 /* ParseURLSessionDelegate.swift in Sources */,
+				703B094526BF47C0005A112F /* ParseLDAP+combine.swift in Sources */,
 				700395D225A147BE0052CB31 /* QuerySubscribable.swift in Sources */,
 				70170A4A2656E2FE0070C905 /* ParseAnalytics+combine.swift in Sources */,
+				703B092C26BF290B005A112F /* ParseAuthentication+async.swift in Sources */,
 				F97B45F724D9C6F200F4A88B /* ParseError.swift in Sources */,
 				7045769E26BD934000F86F71 /* ParseFile+async.swift in Sources */,
 				F97B463424D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
 				F97B464F24D9C78B00F4A88B /* Add.swift in Sources */,
+				703B095426BF47FD005A112F /* ParseTwitter+async.swift in Sources */,
 				70BC9891252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B45FF24D9C6F200F4A88B /* ParseFile.swift in Sources */,
 				F97B45EF24D9C6F200F4A88B /* BaseParseUser.swift in Sources */,
@@ -2112,6 +2230,7 @@
 				703B090D26BD984D005A112F /* ParseConfig+async.swift in Sources */,
 				F97B460F24D9C6F200F4A88B /* ParseObject.swift in Sources */,
 				F97B461324D9C6F200F4A88B /* Savable.swift in Sources */,
+				703B094A26BF47D0005A112F /* ParseLDAP+async.swift in Sources */,
 				F97B45CF24D9C6F200F4A88B /* ParseCoding.swift in Sources */,
 				F97B465724D9C78C00F4A88B /* Remove.swift in Sources */,
 				F97B45FB24D9C6F200F4A88B /* ParseACL.swift in Sources */,
@@ -2123,6 +2242,7 @@
 				70110D582506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45DF24D9C6F200F4A88B /* AnyCodable.swift in Sources */,
 				70C5507825B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				703B093B26BF4799005A112F /* ParseApple+combine.swift in Sources */,
 				7044C18425C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
 				7016ED3325C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 				703B091726BD99BC005A112F /* ParseLiveQuery+async.swift in Sources */,
@@ -2311,9 +2431,11 @@
 				700395A625A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FD22690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				7045769B26BD917500F86F71 /* Query+async.swift in Sources */,
+				703B095126BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3B25D998D90048EC1B /* ParseLDAP.swift in Sources */,
 				700395F525A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FD24D9C6F200F4A88B /* ParseACL.swift in Sources */,
+				703B095B26BF480D005A112F /* ParseFacebook+combine.swift in Sources */,
 				70510AAF259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				7044C19425C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
 				70F79A1C2639CE6F00731C46 /* ParseHealth.swift in Sources */,
@@ -2341,9 +2463,12 @@
 				9116F67226A35D620082F6D6 /* URLCache+extensions.swift in Sources */,
 				70572674259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				707A3C2325B14BD0000D215C /* ParseApple.swift in Sources */,
+				703B096026BF481F005A112F /* ParseFacebook+async.swift in Sources */,
 				F97B462124D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				703B090526BD9652005A112F /* ParseAnalytics+async.swift in Sources */,
+				703B094226BF47AC005A112F /* ParseApple+async.swift in Sources */,
 				F97B466724D9C88600F4A88B /* SecureStorage.swift in Sources */,
+				703B093826BF43D9005A112F /* ParseAnonymous+async.swift in Sources */,
 				705D950B25BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */,
 				70C5509525B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035525215F9B00646C70 /* Deletable.swift in Sources */,
@@ -2357,16 +2482,20 @@
 				F97B465924D9C78C00F4A88B /* Remove.swift in Sources */,
 				70110D5A2506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45F924D9C6F200F4A88B /* ParseError.swift in Sources */,
+				703B093326BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,
 				700395BD25A1470F0052CB31 /* Subscription.swift in Sources */,
 				91285B162698DBF20051B544 /* ParseBytes.swift in Sources */,
 				7016ED5925C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
 				7003972D25A3B0140052CB31 /* ParseURLSessionDelegate.swift in Sources */,
+				703B094726BF47C0005A112F /* ParseLDAP+combine.swift in Sources */,
 				700395D425A147BE0052CB31 /* QuerySubscribable.swift in Sources */,
 				70170A4C2656E2FE0070C905 /* ParseAnalytics+combine.swift in Sources */,
+				703B092E26BF290B005A112F /* ParseAuthentication+async.swift in Sources */,
 				F97B460124D9C6F200F4A88B /* ParseFile.swift in Sources */,
 				704576A026BD934000F86F71 /* ParseFile+async.swift in Sources */,
 				F97B464924D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				F97B45D124D9C6F200F4A88B /* ParseCoding.swift in Sources */,
+				703B095626BF47FD005A112F /* ParseTwitter+async.swift in Sources */,
 				70BC9893252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B465524D9C78C00F4A88B /* AddUnique.swift in Sources */,
 				F97B464D24D9C78B00F4A88B /* Delete.swift in Sources */,
@@ -2374,6 +2503,7 @@
 				703B090F26BD984D005A112F /* ParseConfig+async.swift in Sources */,
 				F97B462524D9C6F200F4A88B /* ParseKeyValueStore.swift in Sources */,
 				F97B466224D9C7B500F4A88B /* KeychainStore.swift in Sources */,
+				703B094C26BF47D0005A112F /* ParseLDAP+async.swift in Sources */,
 				F97B463E24D9C74400F4A88B /* API+Commands.swift in Sources */,
 				F97B462A24D9C72700F4A88B /* API.swift in Sources */,
 				F97B463224D9C74400F4A88B /* BatchUtils.swift in Sources */,
@@ -2385,6 +2515,7 @@
 				912C9BFD24D302B2009947C3 /* Parse.swift in Sources */,
 				F97B461924D9C6F200F4A88B /* Queryable.swift in Sources */,
 				70C5507A25B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				703B093D26BF4799005A112F /* ParseApple+combine.swift in Sources */,
 				7044C18625C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
 				7016ED3525C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 				703B091926BD99BC005A112F /* ParseLiveQuery+async.swift in Sources */,
@@ -2422,9 +2553,11 @@
 				700395A525A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FD12690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				7045769A26BD917500F86F71 /* Query+async.swift in Sources */,
+				703B095026BF47E3005A112F /* ParseTwitter+combine.swift in Sources */,
 				70386A3A25D998D90048EC1B /* ParseLDAP.swift in Sources */,
 				700395F425A171320052CB31 /* LiveQueryable.swift in Sources */,
 				F97B45FC24D9C6F200F4A88B /* ParseACL.swift in Sources */,
+				703B095A26BF480D005A112F /* ParseFacebook+combine.swift in Sources */,
 				70510AAE259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				7044C19325C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
 				70F79A1B2639CE6F00731C46 /* ParseHealth.swift in Sources */,
@@ -2452,9 +2585,12 @@
 				9116F67126A35D620082F6D6 /* URLCache+extensions.swift in Sources */,
 				70572673259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				707A3C2225B14BD0000D215C /* ParseApple.swift in Sources */,
+				703B095F26BF481F005A112F /* ParseFacebook+async.swift in Sources */,
 				F97B462024D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				703B090426BD9652005A112F /* ParseAnalytics+async.swift in Sources */,
+				703B094126BF47AC005A112F /* ParseApple+async.swift in Sources */,
 				F97B466624D9C88600F4A88B /* SecureStorage.swift in Sources */,
+				703B093726BF43D9005A112F /* ParseAnonymous+async.swift in Sources */,
 				705D950A25BE4C08003EF6F8 /* SubscriptionCallback.swift in Sources */,
 				70C5509425B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035425215F9B00646C70 /* Deletable.swift in Sources */,
@@ -2468,16 +2604,20 @@
 				F97B465824D9C78C00F4A88B /* Remove.swift in Sources */,
 				70110D592506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45F824D9C6F200F4A88B /* ParseError.swift in Sources */,
+				703B093226BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,
 				700395BC25A1470F0052CB31 /* Subscription.swift in Sources */,
 				91285B152698DBF20051B544 /* ParseBytes.swift in Sources */,
 				7016ED5825C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
 				7003972C25A3B0140052CB31 /* ParseURLSessionDelegate.swift in Sources */,
+				703B094626BF47C0005A112F /* ParseLDAP+combine.swift in Sources */,
 				700395D325A147BE0052CB31 /* QuerySubscribable.swift in Sources */,
 				70170A4B2656E2FE0070C905 /* ParseAnalytics+combine.swift in Sources */,
+				703B092D26BF290B005A112F /* ParseAuthentication+async.swift in Sources */,
 				F97B460024D9C6F200F4A88B /* ParseFile.swift in Sources */,
 				7045769F26BD934000F86F71 /* ParseFile+async.swift in Sources */,
 				F97B464824D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				F97B45D024D9C6F200F4A88B /* ParseCoding.swift in Sources */,
+				703B095526BF47FD005A112F /* ParseTwitter+async.swift in Sources */,
 				70BC9892252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B465424D9C78C00F4A88B /* AddUnique.swift in Sources */,
 				F97B464C24D9C78B00F4A88B /* Delete.swift in Sources */,
@@ -2485,6 +2625,7 @@
 				703B090E26BD984D005A112F /* ParseConfig+async.swift in Sources */,
 				F97B462424D9C6F200F4A88B /* ParseKeyValueStore.swift in Sources */,
 				F97B466124D9C7B500F4A88B /* KeychainStore.swift in Sources */,
+				703B094B26BF47D0005A112F /* ParseLDAP+async.swift in Sources */,
 				F97B463D24D9C74400F4A88B /* API+Commands.swift in Sources */,
 				F97B462924D9C72700F4A88B /* API.swift in Sources */,
 				F97B463124D9C74400F4A88B /* BatchUtils.swift in Sources */,
@@ -2496,6 +2637,7 @@
 				912C9BE024D302B0009947C3 /* Parse.swift in Sources */,
 				F97B461824D9C6F200F4A88B /* Queryable.swift in Sources */,
 				70C5507925B49D3A00B5DBC2 /* ParseRole.swift in Sources */,
+				703B093C26BF4799005A112F /* ParseApple+combine.swift in Sources */,
 				7044C18525C4EFC10011F6E7 /* ParseConfig+combine.swift in Sources */,
 				7016ED3425C3BA2000038648 /* ParseUser+combine.swift in Sources */,
 				703B091826BD99BC005A112F /* ParseLiveQuery+async.swift in Sources */,
