@@ -87,7 +87,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         let expectation1 = XCTestExpectation(description: "Fetch")
-        Task {
+        async {
             let fetched = try await score2.fetch()
             XCTAssert(fetched.hasSameObjectId(as: scoreOnServer2))
             guard let fetchedCreatedAt = fetched.createdAt,
@@ -134,7 +134,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         let expectation1 = XCTestExpectation(description: "Save")
-        Task {
+        async {
             let saved = try await score.save()
             XCTAssert(saved.hasSameObjectId(as: scoreOnServer2))
             guard let savedCreatedAt = saved.createdAt,
