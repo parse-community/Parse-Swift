@@ -85,7 +85,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let fetched = try await score.fetch(options: [])
+        let fetched = try await score.fetch()
         XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
         guard let fetchedCreatedAt = fetched.createdAt,
             let fetchedUpdatedAt = fetched.updatedAt else {
