@@ -4,6 +4,7 @@ on:
     types: [published]
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
+  CI_XCODE_BETA_VER: '/Applications/Xcode_13.app/Contents/Developer'
 
 jobs:
   cocoapods:
@@ -18,10 +19,13 @@ jobs:
           BUILD_VERSION: ${{ env.TAG }}
       - name: CocoaPods
         run: set -o pipefail && env NSUnbufferedIO=YES pod lib lint --allow-warnings --verbose
+        env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
       - name: Deploy CocoaPods
         run: set -o pipefail && env NSUnbufferedIO=YES pod trunk push ParseSwift.podspec --allow-warnings --verbose
         env:
           COCOAPODS_TRUNK_TOKEN: ${{ secrets.COCOAPODS_TRUNK_TOKEN }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
 
   docs:
     runs-on: macos-latest
@@ -45,6 +49,7 @@ jobs:
         run: ./Scripts/jazzy.sh
         env:
           BUILD_VERSION: ${{ env.TAG }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
       - name: Deploy Jazzy Docs
         uses: peaceiris/actions-gh-pages@v3
         with:

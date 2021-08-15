@@ -6,19 +6,22 @@ on:
     branches: '*'
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
+  CI_XCODE_BETA_VER: '/Applications/Xcode_13.app/Contents/Developer'
 
 jobs:
   xcode-test-ios:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v2
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 11\ Pro\ Max test | xcpretty
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
   xcode-test-macos:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v2
     - name: Create and set the default keychain
@@ -29,27 +32,33 @@ jobs:
         security set-keychain-settings -lut 7200 temporary
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS test | xcpretty
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
 
   xcode-test-tvos:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v2
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV test | xcpretty
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
   xcode-build-watchos:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v2
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
   spm-test:
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
     - uses: actions/checkout@v2
     - name: Create and set the default keychain
@@ -60,10 +69,16 @@ jobs:
         security set-keychain-settings -lut 7200 temporary
     - name: Build
       run: swift build -v
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
     - name: Test
       run: swift test --enable-code-coverage -v
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
     - name: Prepare codecov
       run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
@@ -111,7 +126,7 @@ jobs:
 
   docs:
     needs: xcode-build-watchos
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
       - name: Cache Gems
@@ -129,11 +144,13 @@ jobs:
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
         env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+        env:
           BUILD_VERSION: '1.8.3'
 
   cocoapods:
     needs: xcode-build-watchos
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
       - name: Update Framework Version
@@ -142,11 +159,15 @@ jobs:
           BUILD_VERSION: '1.8.3'
       - name: CocoaPods
         run: pod lib lint --allow-warnings
+        env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
 
   carthage:
    needs: xcode-build-watchos
-   runs-on: macos-latest
+   runs-on: macos-11
    steps:
      - uses: actions/checkout@v2
      - name: Carthage 
        run: ./carthage.sh build --no-skip-current
+       env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
