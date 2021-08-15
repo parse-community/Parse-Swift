@@ -65,17 +65,19 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         var score = GameScore(score: 10)
         let objectId = "yarr"
         score.objectId = objectId
+        let score2 = score
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
+        let scoreOnServer2: GameScore!
 
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -84,22 +86,28 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-
-        let fetched = try await score.fetch()
-        XCTAssert(fetched.hasSameObjectId(as: scoreOnServer))
-        guard let fetchedCreatedAt = fetched.createdAt,
-            let fetchedUpdatedAt = fetched.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
+        let expectation1 = XCTestExpectation(description: "Fetch")
+        Task {
+            let fetched = try await score2.fetch()
+            XCTAssert(fetched.hasSameObjectId(as: scoreOnServer2))
+            guard let fetchedCreatedAt = fetched.createdAt,
+                let fetchedUpdatedAt = fetched.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+            }
+            guard let originalCreatedAt = scoreOnServer2.createdAt,
+                let originalUpdatedAt = scoreOnServer2.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+            }
+            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+            XCTAssertNil(fetched.ACL)
+            expectation1.fulfill()
         }
-        guard let originalCreatedAt = scoreOnServer.createdAt,
-            let originalUpdatedAt = scoreOnServer.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
-        }
-        XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
-        XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
-        XCTAssertNil(fetched.ACL)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testSave() async throws {
@@ -110,12 +118,12 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
-
+        let scoreOnServer2: GameScore!
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -125,26 +133,34 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let saved = try await score.save()
-        XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
-        guard let savedCreatedAt = saved.createdAt,
-            let savedUpdatedAt = saved.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
+        let expectation1 = XCTestExpectation(description: "Save")
+        Task {
+            let saved = try await score.save()
+            XCTAssert(saved.hasSameObjectId(as: scoreOnServer2))
+            guard let savedCreatedAt = saved.createdAt,
+                let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+            }
+            guard let originalCreatedAt = scoreOnServer2.createdAt,
+                let originalUpdatedAt = scoreOnServer2.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                    return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertEqual(saved.ACL, scoreOnServer2.ACL)
+            expectation1.fulfill()
         }
-        guard let originalCreatedAt = scoreOnServer.createdAt,
-            let originalUpdatedAt = scoreOnServer.updatedAt else {
-                XCTFail("Should unwrap dates")
-                return
-        }
-        XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-        XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-        XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDelete() async throws {
         var score = GameScore(score: 10)
         score.objectId = "yarr"
+        let score2 = score
 
         let scoreOnServer = NoBody()
 
@@ -159,8 +175,12 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-
-        try await score.delete()
+        let expectation1 = XCTestExpectation(description: "Delete")
+        Task {
+            try await score2.delete()
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testFetchAll() async throws {
@@ -172,7 +192,8 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
-
+        let scoreOnServerImmutable: GameScore!
+        let scoreOnServer2Immutable: GameScore!
         var scoreOnServer2 = score2
         scoreOnServer2.objectId = "yolo"
         scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -2), to: Date())
@@ -185,9 +206,9 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
            encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
            let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
-           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
+           scoreOnServerImmutable = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
            let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
-           scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
+           scoreOnServer2Immutable = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
@@ -197,58 +218,68 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let fetched = try await [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].fetchAll()
+        let expectation1 = XCTestExpectation(description: "Fetch All")
+        Task {
+            let fetched = try await [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].fetchAll()
 
-        XCTAssertEqual(fetched.count, 2)
-        guard let firstObject = try? fetched.first(where: {try $0.get().objectId == "yarr"}),
-            let secondObject = try? fetched.first(where: {try $0.get().objectId == "yolo"}) else {
-                XCTFail("Should unwrap")
-                return
+            XCTAssertEqual(fetched.count, 2)
+            guard let firstObject = try? fetched.first(where: {try $0.get().objectId == "yarr"}),
+                let secondObject = try? fetched.first(where: {try $0.get().objectId == "yolo"}) else {
+                    XCTFail("Should unwrap")
+                    expectation1.fulfill()
+                    return
+            }
+
+            switch firstObject {
+
+            case .success(let first):
+                XCTAssert(first.hasSameObjectId(as: scoreOnServerImmutable))
+                guard let fetchedCreatedAt = first.createdAt,
+                    let fetchedUpdatedAt = first.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
+                }
+                guard let originalCreatedAt = scoreOnServerImmutable.createdAt,
+                    let originalUpdatedAt = scoreOnServerImmutable.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
+                }
+                XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(first.ACL)
+                XCTAssertEqual(first.score, scoreOnServerImmutable.score)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+
+            switch secondObject {
+
+            case .success(let second):
+                XCTAssert(second.hasSameObjectId(as: scoreOnServer2Immutable))
+                guard let savedCreatedAt = second.createdAt,
+                    let savedUpdatedAt = second.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
+                }
+                guard let originalCreatedAt = scoreOnServer2Immutable.createdAt,
+                    let originalUpdatedAt = scoreOnServer2Immutable.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
+                }
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(second.ACL)
+                XCTAssertEqual(second.score, scoreOnServer2Immutable.score)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
         }
-
-        switch firstObject {
-
-        case .success(let first):
-            XCTAssert(first.hasSameObjectId(as: scoreOnServer))
-            guard let fetchedCreatedAt = first.createdAt,
-                let fetchedUpdatedAt = first.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = scoreOnServer.createdAt,
-                let originalUpdatedAt = scoreOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(first.ACL)
-            XCTAssertEqual(first.score, scoreOnServer.score)
-        case .failure(let error):
-            XCTFail(error.localizedDescription)
-        }
-
-        switch secondObject {
-
-        case .success(let second):
-            XCTAssert(second.hasSameObjectId(as: scoreOnServer2))
-            guard let savedCreatedAt = second.createdAt,
-                let savedUpdatedAt = second.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = scoreOnServer2.createdAt,
-                let originalUpdatedAt = scoreOnServer2.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(second.ACL)
-            XCTAssertEqual(second.score, scoreOnServer2.score)
-        case .failure(let error):
-            XCTFail(error.localizedDescription)
-        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testSaveAll() async throws {
@@ -266,6 +297,8 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
+        let scoreOnServerImmutable: GameScore!
+        let scoreOnServer2Immutable: GameScore!
 
         let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil),
         BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
@@ -274,9 +307,9 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
            encoded = try ParseCoding.jsonEncoder().encode(response)
            //Get dates in correct format from ParseDecoding strategy
            let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
-           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
+            scoreOnServerImmutable = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
            let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
-           scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
+            scoreOnServer2Immutable = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
 
         } catch {
             XCTFail("Should have encoded/decoded. Error \(error)")
@@ -286,49 +319,58 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let saved = try await [score, score2].saveAll()
-        XCTAssertEqual(saved.count, 2)
-        switch saved[0] {
+        let expectation1 = XCTestExpectation(description: "Save All")
+        Task {
+            let saved = try await [score, score2].saveAll()
+            XCTAssertEqual(saved.count, 2)
+            switch saved[0] {
 
-        case .success(let first):
-            XCTAssert(first.hasSameObjectId(as: scoreOnServer))
-            guard let savedCreatedAt = first.createdAt,
-                let savedUpdatedAt = first.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+            case .success(let first):
+                XCTAssert(first.hasSameObjectId(as: scoreOnServerImmutable))
+                guard let savedCreatedAt = first.createdAt,
+                    let savedUpdatedAt = first.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
+                }
+                guard let originalCreatedAt = scoreOnServerImmutable.createdAt,
+                    let originalUpdatedAt = scoreOnServerImmutable.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
+                }
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(first.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
             }
-            guard let originalCreatedAt = scoreOnServer.createdAt,
-                let originalUpdatedAt = scoreOnServer.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
+
+            switch saved[1] {
+
+            case .success(let second):
+                XCTAssert(second.hasSameObjectId(as: scoreOnServer2Immutable))
+                guard let savedCreatedAt = second.createdAt,
+                    let savedUpdatedAt = second.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
+                }
+                guard let originalCreatedAt = scoreOnServer2Immutable.createdAt,
+                    let originalUpdatedAt = scoreOnServer2Immutable.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        expectation1.fulfill()
+                        return
+                }
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(second.ACL)
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
             }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(first.ACL)
-        case .failure(let error):
-            XCTFail(error.localizedDescription)
+            expectation1.fulfill()
         }
-
-        switch saved[1] {
-
-        case .success(let second):
-            XCTAssert(second.hasSameObjectId(as: scoreOnServer2))
-            guard let savedCreatedAt = second.createdAt,
-                let savedUpdatedAt = second.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            guard let originalCreatedAt = scoreOnServer2.createdAt,
-                let originalUpdatedAt = scoreOnServer2.updatedAt else {
-                    XCTFail("Should unwrap dates")
-                    return
-            }
-            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-            XCTAssertNil(second.ACL)
-        case .failure(let error):
-            XCTFail(error.localizedDescription)
-        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeleteAll() async throws {
@@ -345,26 +387,32 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         MockURLProtocol.mockRequests { _ in
            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-
-        let deleted = try await [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
-        XCTAssertEqual(deleted.count, 2)
-        guard let firstObject = deleted.first else {
+        let expectation1 = XCTestExpectation(description: "Delete All")
+        Task {
+            let deleted = try await [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll()
+            XCTAssertEqual(deleted.count, 2)
+            guard let firstObject = deleted.first else {
                 XCTFail("Should unwrap")
+                expectation1.fulfill()
                 return
-        }
+            }
 
-        if case let .failure(error) = firstObject {
-            XCTFail(error.localizedDescription)
-        }
+            if case let .failure(error) = firstObject {
+                XCTFail(error.localizedDescription)
+            }
 
-        guard let lastObject = deleted.last else {
+            guard let lastObject = deleted.last else {
                 XCTFail("Should unwrap")
+                expectation1.fulfill()
                 return
-        }
+            }
 
-        if case let .failure(error) = lastObject {
-            XCTFail(error.localizedDescription)
+            if case let .failure(error) = lastObject {
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
         }
+        wait(for: [expectation1], timeout: 20.0)
     }
 }
 
