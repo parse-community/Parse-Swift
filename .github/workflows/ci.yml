@@ -144,9 +144,8 @@ jobs:
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
         env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
-        env:
           BUILD_VERSION: '1.8.3'
+          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
 
   cocoapods:
     needs: xcode-build-watchos
