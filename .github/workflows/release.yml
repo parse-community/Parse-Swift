@@ -4,7 +4,7 @@ on:
     types: [published]
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
-  CI_XCODE_BETA_VER: '/Applications/Xcode_13.app/Contents/Developer'
+  CI_XCODE_BETA_VER: '/Applications/Xcode_13-beta.app/Contents/Developer'
 
 jobs:
   cocoapods:
