@@ -316,6 +316,10 @@
 		707A3C2125B14BD0000D215C /* ParseApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3C1F25B14BCF000D215C /* ParseApple.swift */; };
 		707A3C2225B14BD0000D215C /* ParseApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3C1F25B14BCF000D215C /* ParseApple.swift */; };
 		707A3C2325B14BD0000D215C /* ParseApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3C1F25B14BCF000D215C /* ParseApple.swift */; };
+		7085DD8A26CAB4340033B977 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7085DD8926CAB4340033B977 /* Documentation.docc */; };
+		7085DD8B26CAB4340033B977 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7085DD8926CAB4340033B977 /* Documentation.docc */; };
+		7085DD8C26CAB4340033B977 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7085DD8926CAB4340033B977 /* Documentation.docc */; };
+		7085DD8D26CAB4340033B977 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7085DD8926CAB4340033B977 /* Documentation.docc */; };
 		708D035225215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035325215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
 		708D035425215F9B00646C70 /* Deletable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 708D035125215F9B00646C70 /* Deletable.swift */; };
@@ -820,6 +824,7 @@
 		707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthentication.swift; sourceTree = "<group>"; };
 		707A3C1025B0A8E8000D215C /* ParseAnonymous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAnonymous.swift; sourceTree = "<group>"; };
 		707A3C1F25B14BCF000D215C /* ParseApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseApple.swift; sourceTree = "<group>"; };
+		7085DD8926CAB4340033B977 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		708D035125215F9B00646C70 /* Deletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deletable.swift; sourceTree = "<group>"; };
 		709B40C0268F999000ED2EAC /* IOS13Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOS13Tests.swift; sourceTree = "<group>"; };
 		709B98302556EC7400507778 /* ParseSwiftTeststvOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParseSwiftTeststvOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1149,6 +1154,7 @@
 		4AB8B4F61F254AE10070F682 /* ParseSwift */ = {
 			isa = PBXGroup;
 			children = (
+				7085DD8926CAB4340033B977 /* Documentation.docc */,
 				4AB8B4F71F254AE10070F682 /* Parse.h */,
 				4A82B7EE1F254B820063D731 /* Parse.swift */,
 				70110D51250680140091CC1D /* ParseConstants.swift */,
@@ -1981,6 +1987,7 @@
 				F97B463B24D9C74400F4A88B /* API+Commands.swift in Sources */,
 				F97B464624D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				89899CCF2603CE3A002E2043 /* ParseFacebook.swift in Sources */,
+				7085DD8A26CAB4340033B977 /* Documentation.docc in Sources */,
 				7028373926BD8C89007688C9 /* ParseUser+async.swift in Sources */,
 				705A9A2F25991C1400B3547F /* Fileable.swift in Sources */,
 				89899D342603CF36002E2043 /* ParseTwitter.swift in Sources */,
@@ -2174,6 +2181,7 @@
 				F97B463C24D9C74400F4A88B /* API+Commands.swift in Sources */,
 				F97B464724D9C78B00F4A88B /* ParseOperation.swift in Sources */,
 				89899CD02603CE3A002E2043 /* ParseFacebook.swift in Sources */,
+				7085DD8B26CAB4340033B977 /* Documentation.docc in Sources */,
 				7028373A26BD8C89007688C9 /* ParseUser+async.swift in Sources */,
 				705A9A3025991C1400B3547F /* Fileable.swift in Sources */,
 				89899D332603CF36002E2043 /* ParseTwitter.swift in Sources */,
@@ -2447,6 +2455,7 @@
 				F97B460D24D9C6F200F4A88B /* Fetchable.swift in Sources */,
 				F97B45ED24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				89899CD22603CE3A002E2043 /* ParseFacebook.swift in Sources */,
+				7085DD8D26CAB4340033B977 /* Documentation.docc in Sources */,
 				7028373C26BD8C89007688C9 /* ParseUser+async.swift in Sources */,
 				705A9A3225991C1400B3547F /* Fileable.swift in Sources */,
 				89899D282603CF35002E2043 /* ParseTwitter.swift in Sources */,
@@ -2569,6 +2578,7 @@
 				F97B460C24D9C6F200F4A88B /* Fetchable.swift in Sources */,
 				F97B45EC24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				89899CD12603CE3A002E2043 /* ParseFacebook.swift in Sources */,
+				7085DD8C26CAB4340033B977 /* Documentation.docc in Sources */,
 				7028373B26BD8C89007688C9 /* ParseUser+async.swift in Sources */,
 				705A9A3125991C1400B3547F /* Fileable.swift in Sources */,
 				89899D322603CF35002E2043 /* ParseTwitter.swift in Sources */,
