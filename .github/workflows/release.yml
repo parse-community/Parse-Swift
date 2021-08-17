@@ -49,19 +49,8 @@ jobs:
         run: ./Scripts/jazzy.sh
         env:
           BUILD_VERSION: ${{ env.TAG }}
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
       - name: Deploy Jazzy Docs
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./docs
-
-  docc:
-    needs: xcode-build-watchos
-    runs-on: macos-11
-    steps:
-      - uses: actions/checkout@v2
-      - name: Build
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild docbuild | xcpretty
-        env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
