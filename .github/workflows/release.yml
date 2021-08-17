@@ -31,7 +31,7 @@ jobs:
       - name: Get release version
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
       - name: Build
-        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild docbuild | xcpretty
+        run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild docbuild -scheme ParseSwift\ \(macOS\) -derivedDataPath DerivedData | xcpretty
         env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
           BUILD_VERSION: ${{ env.TAG }}
