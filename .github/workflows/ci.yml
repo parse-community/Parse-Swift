@@ -123,6 +123,7 @@ jobs:
       - name: Copy files
         run: |
           DOCDIR=$(find build -type d -name '*.doccarchive')
+          mkdir -p docs/api
           cp -rf "${DOCDIR}/" docs/api
 
   cocoapods:
