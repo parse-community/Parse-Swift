@@ -1,8 +1,13 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.5...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.9.5
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...1.9.5)
+__Improvements__
+- Use DocC for SDK documentation instead of Jazzy ([#209](https://github.com/parse-community/Parse-Swift/pull/214)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.3...1.9.4)
