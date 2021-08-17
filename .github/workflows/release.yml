@@ -37,7 +37,7 @@ jobs:
           BUILD_VERSION: ${{ env.TAG }}
       - name: Copy files
         run: |
-          DOCDIR=$(find build -type d -name '*.doccarchive')
+          DOCDIR=$(find DerivedData -type d -name '*.doccarchive')
           mkdir documentation
           cp -rf "${DOCDIR}/" documentation
       - name: Deploy Docs
