@@ -123,8 +123,8 @@ jobs:
       - name: Copy files
         run: |
           DOCDIR=$(find build -type d -name '*.doccarchive')
-          mkdir -p docs/api
-          cp -rf "${DOCDIR}/" docs/api
+          mkdir documentation
+          cp -rf "${DOCDIR}/" documentation
 
   cocoapods:
     needs: xcode-build-watchos
