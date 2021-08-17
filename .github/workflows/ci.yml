@@ -123,8 +123,8 @@ jobs:
       - name: Copy files
         run: |
           DOCDIR=$(find DerivedData -type d -name '*.doccarchive')
-          mkdir documentation
-          cp -rf "${DOCDIR}/" documentation
+          mkdir -p docs/api
+          cp -rf "${DOCDIR}/" docs/api
 
   cocoapods:
     needs: xcode-build-watchos
