@@ -1,0 +1,14 @@
+@Tutorial(time: 15) {
+    @Intro(title: "Your First Object") {
+        
+    }
+    
+    @Section(title: "Check server health") {
+        @Steps {
+            
+            @Step {
+                Check your server health.
+            }
+        }
+    }
+}

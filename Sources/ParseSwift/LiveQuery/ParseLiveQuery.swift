@@ -17,23 +17,23 @@ import FoundationNetworking
  
  In most cases, you should not call this class directly as a LiveQuery can be indirectly
  created from `Query` using:
-    
-     // If "Message" is a "ParseObject"
-     let myQuery = Message.query("from" == "parse")
-     guard let subscription = myQuery.subscribe else {
-         "Error subscribing..."
-         return
-     }
-     subscription.handleSubscribe { subscribedQuery, isNew in
+ ```swift
+ // If "Message" is a "ParseObject"
+ let myQuery = Message.query("from" == "parse")
+ guard let subscription = myQuery.subscribe else {
+     "Error subscribing..."
+     return
+ }
+ subscription.handleSubscribe { subscribedQuery, isNew in
 
-         //Handle the subscription however you like.
-         if isNew {
-             print("Successfully subscribed to new query \(subscribedQuery)")
-         } else {
-             print("Successfully updated subscription to new query \(subscribedQuery)")
-         }
+     //Handle the subscription however you like.
+     if isNew {
+         print("Successfully subscribed to new query \(subscribedQuery)")
+     } else {
+         print("Successfully updated subscription to new query \(subscribedQuery)")
      }
- 
+ }
+ ```
  The above creates a `ParseLiveQuery` using either the `liveQueryServerURL` (if it has been set)
  or `serverURL` when using `ParseSwift.initialize`. All additional queries will be
  created in the same way. The times you will want to initialize a new `ParseLiveQuery` instance

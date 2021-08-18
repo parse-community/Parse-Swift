@@ -336,10 +336,10 @@
 		70F79A1A2639CE6F00731C46 /* ParseHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A182639CE6F00731C46 /* ParseHealth.swift */; };
 		70F79A1B2639CE6F00731C46 /* ParseHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A182639CE6F00731C46 /* ParseHealth.swift */; };
 		70F79A1C2639CE6F00731C46 /* ParseHealth.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A182639CE6F00731C46 /* ParseHealth.swift */; };
-		70F79A272639D84600731C46 /* ParseHealth+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A262639D84600731C46 /* ParseHealth+combine.swift */; };
-		70F79A282639D84600731C46 /* ParseHealth+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A262639D84600731C46 /* ParseHealth+combine.swift */; };
-		70F79A292639D84600731C46 /* ParseHealth+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A262639D84600731C46 /* ParseHealth+combine.swift */; };
-		70F79A2A2639D84600731C46 /* ParseHealth+combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A262639D84600731C46 /* ParseHealth+combine.swift */; };
+		70F79A272639D84600731C46 /* ParseHealth+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A262639D84600731C46 /* ParseHealth+Combine.swift */; };
+		70F79A282639D84600731C46 /* ParseHealth+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A262639D84600731C46 /* ParseHealth+Combine.swift */; };
+		70F79A292639D84600731C46 /* ParseHealth+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A262639D84600731C46 /* ParseHealth+Combine.swift */; };
+		70F79A2A2639D84600731C46 /* ParseHealth+Combine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A262639D84600731C46 /* ParseHealth+Combine.swift */; };
 		70F79A672639DE9700731C46 /* ParseHealthCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A662639DE9700731C46 /* ParseHealthCombineTests.swift */; };
 		70F79A682639DE9700731C46 /* ParseHealthCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A662639DE9700731C46 /* ParseHealthCombineTests.swift */; };
 		70F79A692639DE9700731C46 /* ParseHealthCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F79A662639DE9700731C46 /* ParseHealthCombineTests.swift */; };
@@ -736,7 +736,7 @@
 		70F2E250254F247000B2EA5C /* ParseSwiftTestsmacOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ParseSwiftTestsmacOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70F2E254254F247000B2EA5C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70F79A182639CE6F00731C46 /* ParseHealth.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHealth.swift; sourceTree = "<group>"; };
-		70F79A262639D84600731C46 /* ParseHealth+combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseHealth+combine.swift"; sourceTree = "<group>"; };
+		70F79A262639D84600731C46 /* ParseHealth+Combine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ParseHealth+Combine.swift"; sourceTree = "<group>"; };
 		70F79A4F2639DE6900731C46 /* ParseHealthTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHealthTests.swift; sourceTree = "<group>"; };
 		70F79A662639DE9700731C46 /* ParseHealthCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseHealthCombineTests.swift; sourceTree = "<group>"; };
 		7FFF552B2217E729007C3B4E /* AnyEncodableTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodableTests.swift; sourceTree = "<group>"; };
@@ -1262,7 +1262,7 @@
 				7044C19025C4F5B60011F6E7 /* ParseFile+combine.swift */,
 				F97B45BC24D9C6F200F4A88B /* ParseGeoPoint.swift */,
 				70F79A182639CE6F00731C46 /* ParseHealth.swift */,
-				70F79A262639D84600731C46 /* ParseHealth+combine.swift */,
+				70F79A262639D84600731C46 /* ParseHealth+Combine.swift */,
 				91285B1B26990D7F0051B544 /* ParsePolygon.swift */,
 				7004C21F25B63C7A005E0AD9 /* ParseRelation.swift */,
 				91679D63268E596300F71809 /* ParseVersion.swift */,
@@ -1786,7 +1786,7 @@
 				91BB8FCA2690AC99005A6BA5 /* QueryViewModel.swift in Sources */,
 				7085DD9426CBF3A70033B977 /* Documentation.docc in Sources */,
 				F97B45D624D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
-				70F79A272639D84600731C46 /* ParseHealth+combine.swift in Sources */,
+				70F79A272639D84600731C46 /* ParseHealth+Combine.swift in Sources */,
 				700395A325A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FCF2690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				70386A3825D998D90048EC1B /* ParseLDAP.swift in Sources */,
@@ -1955,7 +1955,7 @@
 				91BB8FCB2690AC99005A6BA5 /* QueryViewModel.swift in Sources */,
 				7085DD9526CBF3A70033B977 /* Documentation.docc in Sources */,
 				F97B45D724D9C6F200F4A88B /* ParseEncoder.swift in Sources */,
-				70F79A282639D84600731C46 /* ParseHealth+combine.swift in Sources */,
+				70F79A282639D84600731C46 /* ParseHealth+Combine.swift in Sources */,
 				700395A425A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FD02690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				70386A3925D998D90048EC1B /* ParseLDAP.swift in Sources */,
@@ -2201,7 +2201,7 @@
 				91BB8FCD2690AC99005A6BA5 /* QueryViewModel.swift in Sources */,
 				7085DD9726CBF3A70033B977 /* Documentation.docc in Sources */,
 				F97B465D24D9C78C00F4A88B /* Increment.swift in Sources */,
-				70F79A2A2639D84600731C46 /* ParseHealth+combine.swift in Sources */,
+				70F79A2A2639D84600731C46 /* ParseHealth+Combine.swift in Sources */,
 				700395A625A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FD22690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				70386A3B25D998D90048EC1B /* ParseLDAP.swift in Sources */,
@@ -2302,7 +2302,7 @@
 				91BB8FCC2690AC99005A6BA5 /* QueryViewModel.swift in Sources */,
 				7085DD9626CBF3A70033B977 /* Documentation.docc in Sources */,
 				F97B465C24D9C78C00F4A88B /* Increment.swift in Sources */,
-				70F79A292639D84600731C46 /* ParseHealth+combine.swift in Sources */,
+				70F79A292639D84600731C46 /* ParseHealth+Combine.swift in Sources */,
 				700395A525A119430052CB31 /* Operations.swift in Sources */,
 				91BB8FD12690BA70005A6BA5 /* QueryObservable.swift in Sources */,
 				70386A3A25D998D90048EC1B /* ParseLDAP.swift in Sources */,
