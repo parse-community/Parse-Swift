@@ -107,7 +107,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertThrowsError(try file.uploadFile())
     }
 
-    func testdelete() {
+    func testDelete() {
         guard let url = URL(string: "http://localhost/") else {
             XCTFail("Should have created url")
             return
