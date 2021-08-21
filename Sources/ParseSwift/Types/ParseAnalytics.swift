@@ -100,7 +100,7 @@ public struct ParseAnalytics: ParseType, Hashable {
         let appOppened = ParseAnalytics(name: "AppOpened",
                                         dimensions: userInfo,
                                         at: date)
-        appOppened.saveCommand().executeAsync(options: options) { result in
+        appOppened.save().executeAsync(options: options) { result in
             callbackQueue.async {
                 switch result {
                 case .success:
@@ -151,7 +151,7 @@ public struct ParseAnalytics: ParseType, Hashable {
         let appOppened = ParseAnalytics(name: "AppOpened",
                                         dimensions: dimensions,
                                         at: date)
-        appOppened.saveCommand().executeAsync(options: options) { result in
+        appOppened.save().executeAsync(options: options) { result in
             callbackQueue.async {
                 switch result {
                 case .success:
@@ -192,7 +192,7 @@ public struct ParseAnalytics: ParseType, Hashable {
             }
         }
         #endif
-        self.saveCommand().executeAsync(options: options) { result in
+        self.save().executeAsync(options: options) { result in
             callbackQueue.async {
                 switch result {
                 case .success:
@@ -241,7 +241,7 @@ public struct ParseAnalytics: ParseType, Hashable {
         #endif
         self.dimensions = dimensions
         self.at = date
-        self.saveCommand().executeAsync(options: options) { result in
+        self.save().executeAsync(options: options) { result in
             callbackQueue.async {
                 switch result {
                 case .success:
@@ -253,7 +253,7 @@ public struct ParseAnalytics: ParseType, Hashable {
         }
     }
 
-    internal func saveCommand() -> API.NonParseBodyCommand<Self, NoBody> {
+    internal func save() -> API.NonParseBodyCommand<Self, NoBody> {
         return API.NonParseBodyCommand(method: .POST,
                                        path: .event(event: name),
                                        body: self) { (data) -> NoBody in

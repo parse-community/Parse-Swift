@@ -34,10 +34,10 @@ class ParseAnalyticsTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
-    func testSaveCommand() throws {
+    func testsave() throws {
         let name = "hello"
         let event = ParseAnalytics(name: name)
-        let command = event.saveCommand()
+        let command = event.save()
         XCTAssertEqual(command.path.urlComponent, "/events/\(name)")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNotNil(command.body)
@@ -47,7 +47,7 @@ class ParseAnalyticsTests: XCTestCase {
         let date = Date()
         let dimensions = ["stop": "drop"]
         var event2 = ParseAnalytics(name: name, dimensions: dimensions, at: date)
-        let command2 = event2.saveCommand()
+        let command2 = event2.save()
         XCTAssertEqual(command2.path.urlComponent, "/events/\(name)")
         XCTAssertEqual(command2.method, API.Method.POST)
         XCTAssertNotNil(command2.body)

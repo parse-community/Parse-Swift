@@ -79,7 +79,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         let file = ParseFile(name: "a", cloudURL: url)
 
-        let command = try file.uploadFileCommand()
+        let command = try file.uploadFile()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/files/a")
         XCTAssertEqual(command.method, API.Method.POST)
@@ -88,7 +88,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let file2 = ParseFile(cloudURL: url)
 
-        let command2 = try file2.uploadFileCommand()
+        let command2 = try file2.uploadFile()
         XCTAssertNotNil(command2)
         XCTAssertEqual(command2.path.urlComponent, "/files/file")
         XCTAssertEqual(command2.method, API.Method.POST)
@@ -104,17 +104,17 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var file = ParseFile(cloudURL: url)
         file.url = url
-        XCTAssertThrowsError(try file.uploadFileCommand())
+        XCTAssertThrowsError(try file.uploadFile())
     }
 
-    func testDeleteCommand() {
+    func testdelete() {
         guard let url = URL(string: "http://localhost/") else {
             XCTFail("Should have created url")
             return
         }
         var file = ParseFile(name: "a", cloudURL: url)
         file.url = url
-        let command = file.deleteFileCommand()
+        let command = file.deleteFile()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/files/a")
         XCTAssertEqual(command.method, API.Method.DELETE)
@@ -123,7 +123,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var file2 = ParseFile(cloudURL: url)
         file2.url = url
-        let command2 = file2.deleteFileCommand()
+        let command2 = file2.deleteFile()
         XCTAssertNotNil(command2)
         XCTAssertEqual(command2.path.urlComponent, "/files/file")
         XCTAssertEqual(command2.method, API.Method.DELETE)
@@ -138,7 +138,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         var file = ParseFile(name: "a", cloudURL: url)
         file.url = url
-        let command = file.downloadFileCommand()
+        let command = file.downloadFile()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/files/a")
         XCTAssertEqual(command.method, API.Method.GET)
@@ -146,7 +146,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(command.body)
 
         let file2 = ParseFile(cloudURL: url)
-        let command2 = file2.downloadFileCommand()
+        let command2 = file2.downloadFile()
         XCTAssertNotNil(command2)
         XCTAssertEqual(command2.path.urlComponent, "/files/file")
         XCTAssertEqual(command2.method, API.Method.GET)
