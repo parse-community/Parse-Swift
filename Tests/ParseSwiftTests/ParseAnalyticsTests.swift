@@ -34,7 +34,7 @@ class ParseAnalyticsTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
-    func testsave() throws {
+    func testSave() throws {
         let name = "hello"
         let event = ParseAnalytics(name: name)
         let command = event.save()
