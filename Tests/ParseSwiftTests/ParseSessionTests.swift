@@ -100,6 +100,7 @@ class ParseSessionTests: XCTestCase {
         XCTAssertEqual(session.endpoint.urlComponent, "/sessions/me")
     }
 
+#if !os(Linux) && !os(Android)
     func testURLSession() throws {
         let session = URLSession.parse
         XCTAssertNotNil(session.configuration.urlCache)
@@ -110,4 +111,5 @@ class ParseSessionTests: XCTestCase {
         }
         XCTAssertEqual(headers, ParseSwift.configuration.httpAdditionalHeaders)
     }
+#endif
 }
