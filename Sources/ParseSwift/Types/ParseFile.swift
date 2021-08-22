@@ -168,7 +168,7 @@ extension ParseFile {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
 
-        _ = try deleteFile().execute(options: options, callbackQueue: .main)
+        _ = try deleteFileCommand().execute(options: options, callbackQueue: .main)
     }
 
     /**
@@ -187,7 +187,7 @@ extension ParseFile {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
 
-        deleteFile().executeAsync(options: options, callbackQueue: callbackQueue) { result in
+        deleteFileCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
             callbackQueue.async {
                 switch result {
 
@@ -200,7 +200,7 @@ extension ParseFile {
         }
     }
 
-    internal func deleteFile() -> API.Command<Self, NoBody> {
+    internal func deleteFileCommand() -> API.Command<Self, NoBody> {
         return API.Command<Self, NoBody>.deleteFile(self)
     }
 }
@@ -265,7 +265,7 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
         options = options.union(self.options)
-        return try uploadFile()
+        return try uploadFileCommand()
             .executeStream(options: options,
                            callbackQueue: .main,
                            uploadProgress: progress,
@@ -295,9 +295,9 @@ extension ParseFile {
         options = options.union(self.options)
         if isDownloadNeeded {
             let fetched = try fetch(options: options)
-            return try fetched.uploadFile().execute(options: options, callbackQueue: .main)
+            return try fetched.uploadFileCommand().execute(options: options, callbackQueue: .main)
         }
-        return try uploadFile().execute(options: options, callbackQueue: .main)
+        return try uploadFileCommand().execute(options: options, callbackQueue: .main)
     }
 
     /**
@@ -358,12 +358,12 @@ extension ParseFile {
         if isDownloadNeeded {
             let fetched = try fetch(options: options)
             return try fetched
-                .uploadFile()
+                .uploadFileCommand()
                 .execute(options: options,
                          callbackQueue: .main,
                          uploadProgress: progress)
         }
-        return try uploadFile().execute(options: options, callbackQueue: .main, uploadProgress: progress)
+        return try uploadFileCommand().execute(options: options, callbackQueue: .main, uploadProgress: progress)
     }
 
     /**
@@ -434,7 +434,7 @@ extension ParseFile {
 
                 case .success(let fetched):
                     do {
-                        try fetched.uploadFile()
+                        try fetched.uploadFileCommand()
                             .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
                                       uploadProgress: progress) { result in
@@ -460,7 +460,7 @@ extension ParseFile {
             }
         } else {
             do {
-                try uploadFile()
+                try uploadFileCommand()
                     .executeAsync(options: options,
                                   callbackQueue: callbackQueue,
                                   uploadProgress: progress) { result in
@@ -482,7 +482,7 @@ extension ParseFile {
 
     }
 
-    internal func uploadFile() throws -> API.Command<Self, Self> {
+    internal func uploadFileCommand() throws -> API.Command<Self, Self> {
         try API.Command<Self, Self>.uploadFile(self)
     }
 }
@@ -510,7 +510,7 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
         options = options.union(self.options)
-        return try downloadFile()
+        return try downloadFileCommand()
             .executeStream(options: options,
                            callbackQueue: .main,
                            stream: stream)
@@ -536,7 +536,7 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
         options = options.union(self.options)
-        return try downloadFile()
+        return try downloadFileCommand()
             .execute(options: options,
                      callbackQueue: .main)
     }
@@ -594,7 +594,7 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
         options = options.union(self.options)
-        return try downloadFile()
+        return try downloadFileCommand()
             .execute(options: options,
                      callbackQueue: .main,
                      downloadProgress: progress)
@@ -659,7 +659,7 @@ extension ParseFile {
             options.insert(.tags(tags))
         }
         options = options.union(self.options)
-        downloadFile()
+        downloadFileCommand()
             .executeAsync(options: options,
                           callbackQueue: callbackQueue,
                           downloadProgress: progress) { result in
@@ -669,7 +669,7 @@ extension ParseFile {
         }
     }
 
-    internal func downloadFile() -> API.Command<Self, Self> {
+    internal func downloadFileCommand() -> API.Command<Self, Self> {
         return API.Command<Self, Self>.downloadFile(self)
     }
 }

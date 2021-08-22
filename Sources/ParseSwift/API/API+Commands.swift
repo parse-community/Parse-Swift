@@ -375,52 +375,6 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    // MARK: Saving ParseObjects - Encodable
-    static func save<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
-        guard let objectable = object as? Objectable else {
-            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
-        }
-        if ParseSwift.configuration.allowCustomObjectId && objectable.objectId == nil {
-            throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
-        }
-        if objectable.isSaved {
-            return try update(object)
-        } else {
-            return try create(object)
-        }
-    }
-
-    // MARK: Saving ParseObjects - Encodable - private
-    private static func create<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
-        guard var objectable = object as? Objectable else {
-            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
-        }
-        let mapper = { (data: Data) -> PointerType in
-            let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
-            objectable.objectId = baseObjectable.objectId
-            return try objectable.toPointer()
-        }
-        return API.Command<T, PointerType>(method: .POST,
-                                           path: objectable.endpoint(.POST),
-                                           body: object,
-                                           mapper: mapper)
-    }
-
-    private static func update<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
-        guard var objectable = object as? Objectable else {
-            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
-        }
-        let mapper = { (data: Data) -> PointerType in
-            let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
-            objectable.objectId = baseObjectable.objectId
-            return try objectable.toPointer()
-        }
-        return API.Command<T, PointerType>(method: .PUT,
-                                 path: objectable.endpoint,
-                                 body: object,
-                                 mapper: mapper)
-    }
-
     // MARK: Fetching
     static func fetch<T>(_ object: T, include: [String]?) throws -> API.Command<T, T> where T: ParseObject {
         guard object.objectId != nil else {
