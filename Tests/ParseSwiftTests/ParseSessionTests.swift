@@ -102,7 +102,7 @@ class ParseSessionTests: XCTestCase {
 
     func testURLSession() throws {
         let session = URLSession.parse
-        XCTAssertEqual(session.configuration.urlCache, URLCache.parse)
+        XCTAssertNotNil(session.configuration.urlCache)
         XCTAssertEqual(session.configuration.requestCachePolicy, ParseSwift.configuration.requestCachePolicy)
         guard let headers = session.configuration.httpAdditionalHeaders as? [String: String]? else {
             XCTFail("Should have casted")
