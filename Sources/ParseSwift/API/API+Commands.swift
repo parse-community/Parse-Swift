@@ -286,9 +286,9 @@ internal extension API {
 
 internal extension API.Command {
     // MARK: Uploading File
-    static func uploadFileCommand(_ object: ParseFile) throws -> API.Command<ParseFile, ParseFile> {
+    static func uploadFile(_ object: ParseFile) throws -> API.Command<ParseFile, ParseFile> {
         if !object.isSaved {
-            return createFileCommand(object)
+            return createFile(object)
         } else {
             throw ParseError(code: .unknownError,
                              message: "File is already saved and cannot be updated.")
@@ -296,7 +296,7 @@ internal extension API.Command {
     }
 
     // MARK: Uploading File - private
-    private static func createFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
+    private static func createFile(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
         API.Command(method: .POST,
                     path: .file(fileName: object.name),
                     uploadData: object.data,
@@ -306,7 +306,7 @@ internal extension API.Command {
     }
 
     // MARK: Downloading File
-    static func downloadFileCommand(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
+    static func downloadFile(_ object: ParseFile) -> API.Command<ParseFile, ParseFile> {
         API.Command(method: .GET,
                     path: .file(fileName: object.name),
                     parseURL: object.url,
@@ -329,7 +329,7 @@ internal extension API.Command {
     }
 
     // MARK: Deleting File
-    static func deleteFileCommand(_ object: ParseFile) -> API.Command<ParseFile, NoBody> {
+    static func deleteFile(_ object: ParseFile) -> API.Command<ParseFile, NoBody> {
         API.Command(method: .DELETE,
                     path: .file(fileName: object.name),
                     parseURL: object.url) { (data) -> NoBody in
@@ -344,18 +344,18 @@ internal extension API.Command {
     }
 
     // MARK: Saving ParseObjects
-    static func saveCommand<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
+    static func save<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
         if ParseSwift.configuration.allowCustomObjectId && object.objectId == nil {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if object.isSaved {
-            return updateCommand(object)
+            return update(object)
         }
-        return createCommand(object)
+        return create(object)
     }
 
     // MARK: Saving ParseObjects - private
-    private static func createCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+    private static func create<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         let mapper = { (data) -> T in
             try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
         }
@@ -365,7 +365,7 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    private static func updateCommand<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+    private static func update<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         let mapper = { (data) -> T in
             try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
         }
@@ -375,54 +375,8 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    // MARK: Saving ParseObjects - Encodable
-    static func saveCommand<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
-        guard let objectable = object as? Objectable else {
-            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
-        }
-        if ParseSwift.configuration.allowCustomObjectId && objectable.objectId == nil {
-            throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
-        }
-        if objectable.isSaved {
-            return try updateCommand(object)
-        } else {
-            return try createCommand(object)
-        }
-    }
-
-    // MARK: Saving ParseObjects - Encodable - private
-    private static func createCommand<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
-        guard var objectable = object as? Objectable else {
-            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
-        }
-        let mapper = { (data: Data) -> PointerType in
-            let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
-            objectable.objectId = baseObjectable.objectId
-            return try objectable.toPointer()
-        }
-        return API.Command<T, PointerType>(method: .POST,
-                                           path: objectable.endpoint(.POST),
-                                           body: object,
-                                           mapper: mapper)
-    }
-
-    private static func updateCommand<T>(_ object: T) throws -> API.Command<T, PointerType> where T: Encodable {
-        guard var objectable = object as? Objectable else {
-            throw ParseError(code: .unknownError, message: "Not able to cast to objectable. Not saving")
-        }
-        let mapper = { (data: Data) -> PointerType in
-            let baseObjectable = try ParseCoding.jsonDecoder().decode(BaseObjectable.self, from: data)
-            objectable.objectId = baseObjectable.objectId
-            return try objectable.toPointer()
-        }
-        return API.Command<T, PointerType>(method: .PUT,
-                                 path: objectable.endpoint,
-                                 body: object,
-                                 mapper: mapper)
-    }
-
     // MARK: Fetching
-    static func fetchCommand<T>(_ object: T, include: [String]?) throws -> API.Command<T, T> where T: ParseObject {
+    static func fetch<T>(_ object: T, include: [String]?) throws -> API.Command<T, T> where T: ParseObject {
         guard object.objectId != nil else {
             throw ParseError(code: .unknownError, message: "Cannot Fetch an object without id")
         }
@@ -694,7 +648,7 @@ internal extension API {
 internal extension API.NonParseBodyCommand {
 
     // MARK: Deleting
-    static func deleteCommand<T>(_ object: T) throws -> API.NonParseBodyCommand<NoBody, NoBody> where T: ParseObject {
+    static func delete<T>(_ object: T) throws -> API.NonParseBodyCommand<NoBody, NoBody> where T: ParseObject {
         guard object.isSaved else {
             throw ParseError(code: .unknownError,
                              message: "Cannot delete an object without an objectId")

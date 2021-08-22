@@ -201,7 +201,7 @@ extension ParseFile {
     }
 
     internal func deleteFileCommand() -> API.Command<Self, NoBody> {
-        return API.Command<Self, NoBody>.deleteFileCommand(self)
+        return API.Command<Self, NoBody>.deleteFile(self)
     }
 }
 
@@ -483,7 +483,7 @@ extension ParseFile {
     }
 
     internal func uploadFileCommand() throws -> API.Command<Self, Self> {
-        try API.Command<Self, Self>.uploadFileCommand(self)
+        try API.Command<Self, Self>.uploadFile(self)
     }
 }
 
@@ -670,7 +670,7 @@ extension ParseFile {
     }
 
     internal func downloadFileCommand() -> API.Command<Self, Self> {
-        return API.Command<Self, Self>.downloadFileCommand(self)
+        return API.Command<Self, Self>.downloadFile(self)
     }
 }
 
