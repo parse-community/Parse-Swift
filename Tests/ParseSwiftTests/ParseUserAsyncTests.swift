@@ -89,6 +89,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         try ParseStorage.shared.deleteAll()
     }
 
+    @MainActor
     func testSignup() async throws {
         let loginResponse = LoginSignupResponse()
         MockURLProtocol.mockRequests { _ in
@@ -127,6 +128,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNil(userFromKeychain.ACL)
     }
 
+    @MainActor
     func testLogin() async throws {
         let loginResponse = LoginSignupResponse()
         MockURLProtocol.mockRequests { _ in
@@ -184,6 +186,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
     }
 
+    @MainActor
     func testBecome() async throws {
         login()
         MockURLProtocol.removeAll()
@@ -236,6 +239,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNil(userFromKeychain.ACL)
     }
 
+    @MainActor
     func testLogout() async throws {
         login()
         MockURLProtocol.removeAll()
@@ -289,6 +293,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    @MainActor
     func testLogoutError() async throws {
         login()
         MockURLProtocol.removeAll()
@@ -341,6 +346,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    @MainActor
     func testPasswordReset() async throws {
         let serverResponse = NoBody()
 
@@ -356,6 +362,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         _ = try await User.passwordReset(email: "hello@parse.org")
     }
 
+    @MainActor
     func testPasswordResetError() async throws {
         let parseError = ParseError(code: .internalServer, message: "Object not found")
 
@@ -378,6 +385,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
     }
 
+    @MainActor
     func testVerificationEmail() async throws {
         let serverResponse = NoBody()
 
@@ -393,6 +401,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         _ = try await User.verificationEmail(email: "hello@parse.org")
     }
 
+    @MainActor
     func testVerificationEmailError() async throws {
         let parseError = ParseError(code: .internalServer, message: "Object not found")
 
@@ -415,6 +424,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
     }
 
+    @MainActor
     func testFetch() async throws {
         login()
         MockURLProtocol.removeAll()
@@ -451,6 +461,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertEqual(userFromKeychain.objectId, serverResponse.objectId)
     }
 
+    @MainActor
     func testSave() async throws {
         login()
         MockURLProtocol.removeAll()
@@ -487,6 +498,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertEqual(userFromKeychain.objectId, serverResponse.objectId)
     }
 
+    @MainActor
     func testDelete() async throws {
         login()
         MockURLProtocol.removeAll()
@@ -514,6 +526,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
     }
 
+    @MainActor
     func testFetchAll() async throws {
         login()
         MockURLProtocol.removeAll()
@@ -592,6 +605,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
     }
 
+    @MainActor
     func testSaveAll() async throws {
         login()
         MockURLProtocol.removeAll()
@@ -663,6 +677,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
     }
 
+    @MainActor
     func testDeleteAll() async throws {
         login()
         MockURLProtocol.removeAll()

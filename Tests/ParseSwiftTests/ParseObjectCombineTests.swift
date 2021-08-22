@@ -1,5 +1,5 @@
 //
-//  ParseObjectCombine.swift
+//  ParseObjectCombineTests.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 1/30/21.
