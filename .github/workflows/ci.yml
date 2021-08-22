@@ -14,7 +14,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Version
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -version | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -version
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
     - name: Build-Test
