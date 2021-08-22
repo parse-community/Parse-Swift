@@ -564,7 +564,7 @@ extension ParseObject {
     }
 
     internal func fetchCommand(include: [String]?) throws -> API.Command<Self, Self> {
-        try API.Command<Self, Self>.fetchCommand(self, include: include)
+        try API.Command<Self, Self>.fetch(self, include: include)
     }
 }
 
@@ -648,7 +648,7 @@ extension ParseObject {
     }
 
     internal func saveCommand() throws -> API.Command<Self, Self> {
-        try API.Command<Self, Self>.saveCommand(self)
+        try API.Command<Self, Self>.save(self)
     }
 
     // swiftlint:disable:next function_body_length
@@ -803,6 +803,6 @@ extension ParseObject {
     }
 
     internal func deleteCommand() throws -> API.NonParseBodyCommand<NoBody, NoBody> {
-        try API.NonParseBodyCommand<NoBody, NoBody>.deleteCommand(self)
+        try API.NonParseBodyCommand<NoBody, NoBody>.delete(self)
     }
 } // swiftlint:disable:this file_length

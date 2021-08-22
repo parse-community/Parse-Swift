@@ -219,6 +219,9 @@
 		707A3C2125B14BD0000D215C /* ParseApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3C1F25B14BCF000D215C /* ParseApple.swift */; };
 		707A3C2225B14BD0000D215C /* ParseApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3C1F25B14BCF000D215C /* ParseApple.swift */; };
 		707A3C2325B14BD0000D215C /* ParseApple.swift in Sources */ = {isa = PBXBuildFile; fileRef = 707A3C1F25B14BCF000D215C /* ParseApple.swift */; };
+		7085DDB326D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */; };
+		7085DDB426D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */; };
+		7085DDB526D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */; };
 		7085DD9426CBF3A70033B977 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7085DD9326CBF3A70033B977 /* Documentation.docc */; };
 		7085DD9526CBF3A70033B977 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7085DD9326CBF3A70033B977 /* Documentation.docc */; };
 		7085DD9626CBF3A70033B977 /* Documentation.docc in Sources */ = {isa = PBXBuildFile; fileRef = 7085DD9326CBF3A70033B977 /* Documentation.docc */; };
@@ -702,6 +705,7 @@
 		707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthentication.swift; sourceTree = "<group>"; };
 		707A3C1025B0A8E8000D215C /* ParseAnonymous.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAnonymous.swift; sourceTree = "<group>"; };
 		707A3C1F25B14BCF000D215C /* ParseApple.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseApple.swift; sourceTree = "<group>"; };
+		7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthenticationCombineTests.swift; sourceTree = "<group>"; };
 		7085DD9326CBF3A70033B977 /* Documentation.docc */ = {isa = PBXFileReference; lastKnownFileType = folder.documentationcatalog; path = Documentation.docc; sourceTree = "<group>"; };
 		708D035125215F9B00646C70 /* Deletable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Deletable.swift; sourceTree = "<group>"; };
 		709B40C0268F999000ED2EAC /* IOS13Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOS13Tests.swift; sourceTree = "<group>"; };
@@ -940,6 +944,7 @@
 				7044C24225C5EA360011F6E7 /* ParseAppleCombineTests.swift */,
 				70C5502125B3D8F700B5DBC2 /* ParseAppleTests.swift */,
 				70A2D81E25B36A7D001BEB7D /* ParseAuthenticationTests.swift */,
+				7085DDB226D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift */,
 				91285B172698E66D0051B544 /* ParseBytesTests.swift */,
 				7044C21225C5DE490011F6E7 /* ParseCloudCombineTests.swift */,
 				916786EF259BC59600BB5B4E /* ParseCloudTests.swift */,
@@ -1911,6 +1916,7 @@
 				7044C1BB25C52E410011F6E7 /* ParseInstallationCombineTests.swift in Sources */,
 				7FFF552F2217E72A007C3B4E /* AnyCodableTests.swift in Sources */,
 				4AA807701F794C31008CD551 /* KeychainStoreTests.swift in Sources */,
+				7085DDB326D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */,
 				7044C1F925C5CFAB0011F6E7 /* ParseFileCombineTests.swift in Sources */,
 				70C5502225B3D8F700B5DBC2 /* ParseAppleTests.swift in Sources */,
 				89899DB526045DC4002E2043 /* ParseFacebookCombineTests.swift in Sources */,
@@ -2089,6 +2095,7 @@
 				7044C1BD25C52E410011F6E7 /* ParseInstallationCombineTests.swift in Sources */,
 				709B984B2556ECAA00507778 /* MockURLProtocol.swift in Sources */,
 				709B98552556ECAA00507778 /* ParseQueryTests.swift in Sources */,
+				7085DDB526D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */,
 				7044C1FB25C5CFAB0011F6E7 /* ParseFileCombineTests.swift in Sources */,
 				70C5502425B3D8F700B5DBC2 /* ParseAppleTests.swift in Sources */,
 				89899DB726045DC4002E2043 /* ParseFacebookCombineTests.swift in Sources */,
@@ -2157,6 +2164,7 @@
 				7044C1BC25C52E410011F6E7 /* ParseInstallationCombineTests.swift in Sources */,
 				70F2E2BE254F283000B2EA5C /* ParseObjectBatchTests.swift in Sources */,
 				70F2E2BF254F283000B2EA5C /* MockURLProtocol.swift in Sources */,
+				7085DDB426D1EC7F0033B977 /* ParseAuthenticationCombineTests.swift in Sources */,
 				7044C1FA25C5CFAB0011F6E7 /* ParseFileCombineTests.swift in Sources */,
 				70C5502325B3D8F700B5DBC2 /* ParseAppleTests.swift in Sources */,
 				89899DB626045DC4002E2043 /* ParseFacebookCombineTests.swift in Sources */,
