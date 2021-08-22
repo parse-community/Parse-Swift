@@ -63,7 +63,7 @@ class ParseSessionTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              testing: false) // Set to false for codecov
 
     }
 
@@ -98,5 +98,16 @@ class ParseSessionTests: XCTestCase {
         session.objectId = "me"
         //This endpoint is at the ParseSession level
         XCTAssertEqual(session.endpoint.urlComponent, "/sessions/me")
+    }
+
+    func testURLSession() throws {
+        let session = URLSession.parse
+        XCTAssertEqual(session.configuration.urlCache, URLCache.parse)
+        XCTAssertEqual(session.configuration.requestCachePolicy, ParseSwift.configuration.requestCachePolicy)
+        guard let headers = session.configuration.httpAdditionalHeaders as? [String: String]? else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(headers, ParseSwift.configuration.httpAdditionalHeaders)
     }
 }

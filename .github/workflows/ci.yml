@@ -69,7 +69,7 @@ jobs:
 
   spm-test-5_2:
     needs: xcode-build-watchos
-    runs-on: macos-10.14
+    runs-on: macos-latest
     steps:
     - uses: actions/checkout@v2
     - name: Create and set the default keychain
@@ -80,10 +80,16 @@ jobs:
         security set-keychain-settings -lut 7200 temporary
     - name: Build
       run: swift build -v
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Test
       run: swift test --enable-code-coverage -v
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Prepare codecov
       run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
  
