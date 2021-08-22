@@ -239,7 +239,6 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertNil(userFromKeychain.ACL)
     }
 
-    @MainActor
     func testLogout() async throws {
         login()
         MockURLProtocol.removeAll()
@@ -293,7 +292,6 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    @MainActor
     func testLogoutError() async throws {
         login()
         MockURLProtocol.removeAll()
