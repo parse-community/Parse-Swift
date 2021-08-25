@@ -536,7 +536,10 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             }
             return false
         }
-        if urlError.errorCode == -1005 {
+        //-1001 "The request timed out."
+        //-1011 "There was a bad response from the server."
+        let code = urlError.errorCode
+        if [-1001, -1005, -1011].contains(code) {
             isSocketEstablished = false
             open(isUserWantsToConnect: false) { error in
                 guard let error = error else {
