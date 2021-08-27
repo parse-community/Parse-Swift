@@ -3,7 +3,7 @@
 ### main
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
-- Adding URL error codes 1001 "The request timed out" and 1011 "There was a bad response from the server." for being checked during LiveQuery reconnection ([#217](https://github.com/parse-community/Parse-Swift/pull/217)), thank to [Lukas Smilek](https://github.com/lsmilek1).
+- LiveQuery web socket connections handle URL error codes -1001 "The request timed out" and -1011 "There was a bad response from the server." ([#217](https://github.com/parse-community/Parse-Swift/pull/217)), thanks to [Lukas Smilek](https://github.com/lsmilek1).
 
 ### 1.9.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.3...1.9.4)
