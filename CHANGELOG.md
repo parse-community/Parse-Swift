@@ -1,25 +1,38 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.5...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+### 1.9.6
+
+__New features__
+- Supports Swift 5.5 async/await ([#212](https://github.com/parse-community/Parse-Swift/pull/212)), thanks to [Corey Baker](https://github.com/cbaker6).
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...1.9.5)
+
 ### 1.9.5
+
+__Improvements__
+- LiveQuery web socket connections handle URL error codes -1001 "The request timed out" and -1011 "There was a bad response from the server." ([#217](https://github.com/parse-community/Parse-Swift/pull/217)), thanks to [Lukas Smilek](https://github.com/lsmilek1).
+
 __New features__
 - Supports Swift 5.5 async/await ([#212](https://github.com/parse-community/Parse-Swift/pull/212)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.3...1.9.4)
+
 __Fixes__
 - Fix LiveQuery reconnections when server disconnects. Always receive and pass connection errors to ParseLiveQuery delegate ([#211](https://github.com/parse-community/Parse-Swift/pull/211)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.2...1.9.3)
+
 __Improvements__
 - Ensure delegate set before resuming a ParseLiveQuery task ([#209](https://github.com/parse-community/Parse-Swift/pull/209)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.1...1.9.2)
+
 __Improvements__
 - ParseLiveQuery checks all states of a websocket and reacts as needed after an error ([#207](https://github.com/parse-community/Parse-Swift/pull/207)), thanks to [Corey Baker](https://github.com/cbaker6).
 

@@ -536,7 +536,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
             }
             return false
         }
-        if urlError.errorCode == -1005 {
+        if [-1001, -1005, -1011].contains(urlError.errorCode) {
             isSocketEstablished = false
             open(isUserWantsToConnect: false) { error in
                 guard let error = error else {
