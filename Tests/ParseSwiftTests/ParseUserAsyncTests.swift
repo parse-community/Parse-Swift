@@ -259,13 +259,15 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTFail("Should have unwrapped")
             return
         }
-        _ = try await User.logout()
 
-        if let userFromKeychain = BaseParseUser.current {
-            XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
-        }
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        Task {
+            _ = try await User.logout()
+
+            if let userFromKeychain = BaseParseUser.current {
+                XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+            }
+
             if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
                 = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
                 if installationFromMemory.installationId == oldInstallationId
@@ -312,12 +314,13 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTFail("Should have unwrapped")
             return
         }
-        _ = try await User.logout()
-        if let userFromKeychain = BaseParseUser.current {
-            XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
-        }
         let expectation1 = XCTestExpectation(description: "Logout user1")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+        Task {
+            _ = try await User.logout()
+            if let userFromKeychain = BaseParseUser.current {
+                XCTFail("\(userFromKeychain) wasn't deleted from Keychain during logout")
+            }
+
             if let installationFromMemory: CurrentInstallationContainer<BaseParseInstallation>
                 = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
                     if installationFromMemory.installationId == oldInstallationId
