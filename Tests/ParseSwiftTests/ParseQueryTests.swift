@@ -2013,9 +2013,56 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
     }
-    #endif
 
-    #if !os(Linux) && !os(Android)
+    func testWhereKeyNearGeoPointWithinMilesNotSorted() throws {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$centerSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
+                     "$geoWithin": 1
+            ]
+        ]
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let constraint = withinMiles(key: "yolo",
+                                     geoPoint: geoPoint,
+                                     distance: 3958.8,
+                                     sorted: false)
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: Any],
+                  let expectedNear = expectedValues["$centerSphere"] as? [String: Any],
+                  let expectedLongitude = expectedNear["longitude"] as? Int,
+                  let expectedLatitude = expectedNear["latitude"] as? Int,
+                  let expectedType = expectedNear["__type"] as? String,
+                  let expectedDistance = expectedValues["$geoWithin"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: Any],
+                  let decodedNear = decodedValues["$centerSphere"] as? [String: Any],
+                  let decodedLongitude = decodedNear["longitude"] as? Int,
+                  let decodedLatitude = decodedNear["latitude"] as? Int,
+                  let decodedType = decodedNear["__type"] as? String,
+                  let decodedDistance = decodedValues["$geoWithin"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedLongitude, decodedLongitude)
+            XCTAssertEqual(expectedLatitude, decodedLatitude)
+            XCTAssertEqual(expectedType, decodedType)
+            XCTAssertEqual(expectedDistance, decodedDistance)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
     func testWhereKeyNearGeoPointWithinKilometers() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
@@ -2048,6 +2095,55 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                   let decodedLatitude = decodedNear["latitude"] as? Int,
                   let decodedType = decodedNear["__type"] as? String,
                   let decodedDistance = decodedValues["$maxDistance"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedLongitude, decodedLongitude)
+            XCTAssertEqual(expectedLatitude, decodedLatitude)
+            XCTAssertEqual(expectedType, decodedType)
+            XCTAssertEqual(expectedDistance, decodedDistance)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereKeyNearGeoPointWithinKilometersNotSorted() throws {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$centerSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
+                     "$geoWithin": 1
+            ]
+        ]
+        let geoPoint = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let constraint = withinKilometers(key: "yolo",
+                                          geoPoint: geoPoint,
+                                          distance: 6371.0,
+                                          sorted: false)
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: Any],
+                  let expectedNear = expectedValues["$centerSphere"] as? [String: Any],
+                  let expectedLongitude = expectedNear["longitude"] as? Int,
+                  let expectedLatitude = expectedNear["latitude"] as? Int,
+                  let expectedType = expectedNear["__type"] as? String,
+                  let expectedDistance = expectedValues["$geoWithin"] as? Int else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: Any],
+                  let decodedNear = decodedValues["$centerSphere"] as? [String: Any],
+                  let decodedLongitude = decodedNear["longitude"] as? Int,
+                  let decodedLatitude = decodedNear["latitude"] as? Int,
+                  let decodedType = decodedNear["__type"] as? String,
+                  let decodedDistance = decodedValues["$geoWithin"] as? Int else {
                 XCTFail("Should have casted")
                 return
             }
