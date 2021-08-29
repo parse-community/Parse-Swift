@@ -68,10 +68,10 @@ internal struct WriteResponse: Codable {
         switch method {
         case .POST:
             return asSaveResponse().apply(to: object)
-        case .PUT:
+        case .PUT, .PATCH:
             return asUpdateResponse().apply(to: object)
         case .GET:
-            fatalError("Parse-server doesn't support batch fetching like this. Look at \"fetchAll\".")
+            fatalError("Parse-server doesn't support batch fetching like this. Try \"fetchAll\".")
         default:
             fatalError("There is no configured way to apply for method: \(method)")
         }
