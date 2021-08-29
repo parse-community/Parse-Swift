@@ -385,7 +385,10 @@ public func withinMiles(key: String,
                         geoPoint: ParseGeoPoint,
                         distance: Double,
                         sorted: Bool = true) -> [QueryConstraint] {
-    return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / ParseGeoPoint.earthRadiusMiles))
+    withinRadians(key: key,
+                  geoPoint: geoPoint,
+                  distance: (distance / ParseGeoPoint.earthRadiusMiles),
+                  sorted: sorted)
 }
 
 /**
@@ -403,7 +406,10 @@ public func withinKilometers(key: String,
                              geoPoint: ParseGeoPoint,
                              distance: Double,
                              sorted: Bool = true) -> [QueryConstraint] {
-    return withinRadians(key: key, geoPoint: geoPoint, distance: (distance / ParseGeoPoint.earthRadiusKilometers))
+    withinRadians(key: key,
+                  geoPoint: geoPoint,
+                  distance: (distance / ParseGeoPoint.earthRadiusKilometers),
+                  sorted: sorted)
 }
 
 /**
@@ -560,7 +566,7 @@ public func hasSuffix(key: String, suffix: String, modifiers: String? = nil) -> 
   - returns: The same instance of `Query` as the receiver.
  */
 public func exists(key: String) -> QueryConstraint {
-    return .init(key: key, value: true, comparator: .exists)
+    .init(key: key, value: true, comparator: .exists)
 }
 
 /**
@@ -569,7 +575,7 @@ public func exists(key: String) -> QueryConstraint {
   - returns: The same instance of `Query` as the receiver.
  */
 public func doesNotExist(key: String) -> QueryConstraint {
-    return .init(key: key, value: false, comparator: .exists)
+    .init(key: key, value: false, comparator: .exists)
 }
 
 internal struct RelatedCondition <T>: Encodable where T: ParseObject {

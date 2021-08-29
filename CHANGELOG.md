@@ -1,15 +1,20 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.6...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.7...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
-### 1.9.6
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.5...1.9.6)
+### 1.9.7
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.6...1.9.7)
 
 __New features__
 - Supports Swift 5.5 async/await ([#212](https://github.com/parse-community/Parse-Swift/pull/212)), thanks to [Corey Baker](https://github.com/cbaker6).
 
+### 1.9.6
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.5...1.9.6)
+
+__Fixes__
+- Query withinMiles and withinKilometers was not returning unsorted results when sort=false ([#219](https://github.com/parse-community/Parse-Swift/pull/219)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...1.9.5)
