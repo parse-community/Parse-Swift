@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.6...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.7...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.9.7
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.6...1.9.7)
+
+__Improvements__
+- Properly allow a mixed custom objectId environment without compromising safety checks using .save(). If a developer wants to ignore the objectId checks, they need to specify isIgnoreCustomObjectIdConfig = true each time ([#222](https://github.com/parse-community/Parse-Swift/pull/222)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.5...1.9.6)
