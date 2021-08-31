@@ -42,9 +42,11 @@ public extension ParseInstallation {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
-    func savePublisher(options: API.Options = []) -> Future<Self, ParseError> {
+    func savePublisher(isIgnoreCustomObjectIdConfig: Bool = false,
+                       options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            self.save(options: options,
+            self.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                      options: options,
                       completion: promise)
         }
     }
@@ -102,10 +104,12 @@ public extension Sequence where Element: ParseInstallation {
     */
     func saveAllPublisher(batchLimit limit: Int? = nil,
                           transaction: Bool = false,
+                          isIgnoreCustomObjectIdConfig: Bool = false,
                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
+                         isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
                          options: options,
                          completion: promise)
         }
