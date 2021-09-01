@@ -171,8 +171,8 @@ public extension ParseUser {
      `isIgnoreCustomObjectIdConfig = false`. Setting
      `ParseConfiguration.allowCustomObjectId = true` and
      `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
-     and the server will generate an `objectId` only when the client does not provide one. This can lead
-     to collisions of `objectId`'s as the client and server `objectId`'s may be generated using
+     and the server will generate an `objectId` only when the client does not provide one. This can
+     increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
      client-side checks are disabled. Developers are responsible for handling such cases.
     */
@@ -243,8 +243,8 @@ public extension Sequence where Element: ParseUser {
      `isIgnoreCustomObjectIdConfig = false`. Setting
      `ParseConfiguration.allowCustomObjectId = true` and
      `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
-     and the server will generate an `objectId` only when the client does not provide one. This can lead
-     to collisions of `objectId`'s as the client and server `objectId`'s may be generated using
+     and the server will generate an `objectId` only when the client does not provide one. This can
+     increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
      client-side checks are disabled. Developers are responsible for handling such cases.
     */
