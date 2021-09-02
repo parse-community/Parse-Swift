@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 1.9.6 Docs
+          ParseSwift 1.9.7 Docs
         </a>
          (95% documented)
       </p>
@@ -655,9 +655,9 @@ and sets an error if one occurs. Publishes when complete.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A12InstallationPAAE13savePublisher7options7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_tF"></a>
-                    <a name="//apple_ref/swift/Method/savePublisher(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE13savePublisher7options7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_tF">savePublisher(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A12InstallationPAAE13savePublisher28isIgnoreCustomObjectIdConfig7options7Combine6FutureCyxAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/savePublisher(isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE13savePublisher28isIgnoreCustomObjectIdConfig7options7Combine6FutureCyxAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtF">savePublisher(isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -680,7 +680,8 @@ and sets an error if one occurs. Publishes when complete.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">savePublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">savePublisher</span><span class="p">(</span><span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                   <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1196,9 +1197,98 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A12InstallationPAAE4save7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/save(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE4save7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">save(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A12InstallationPAAE4save28isIgnoreCustomObjectIdConfig7optionsxSb_ShyAA3APIV6OptionOGtKF"></a>
+                    <a name="//apple_ref/swift/Method/save(isIgnoreCustomObjectIdConfig:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE4save28isIgnoreCustomObjectIdConfig7optionsxSb_ShyAA3APIV6OptionOGtKF">save(isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Saves the <code>ParseInstallation</code> <em>synchronously</em> and throws an error if there&rsquo;s an issue.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object saved has the same objectId as current, it will automatically update the current.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If you are using <code>ParseConfiguration.allowCustomObjectId = true</code>
+and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
+<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ParseConfiguration.allowCustomObjectId = true</code> and
+<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+and the server will generate an <code>objectId</code> only when the client does not provide one. This can
+increase the probability of colliding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
+different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
+client-side checks are disabled. Developers are responsible for handling such cases.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">,</span>
+                 <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isIgnoreCustomObjectIdConfig</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Ignore checking for <code>objectId</code>
+when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
+<code>objectId</code> environments. Defaults to false.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns saved <code>ParseInstallation</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A12InstallationPAAE4save28isIgnoreCustomObjectIdConfig7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/save(isIgnoreCustomObjectIdConfig:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A12InstallationPAAE4save28isIgnoreCustomObjectIdConfig7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">save(isIgnoreCustomObjectIdConfig:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Extension method
@@ -1214,6 +1304,18 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
     <p class="aside-title">Important</p>
     If an object saved has the same objectId as current, it will automatically update the current.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If you are using <code>ParseConfiguration.allowCustomObjectId = true</code>
+and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
+<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ParseConfiguration.allowCustomObjectId = true</code> and
+<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+and the server will generate an <code>objectId</code> only when the client does not provide one. This can
+increase the probability of colliding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
+different algorithms. This can also lead to overwriting of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&rsquo;s by accident as the
+client-side checks are disabled. Developers are responsible for handling such cases.
+
 </div>
 
                       </div>
@@ -1222,6 +1324,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span>
+    <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
     <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
     <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
@@ -1233,6 +1336,20 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isIgnoreCustomObjectIdConfig</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Ignore checking for <code>objectId</code>
+when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
+<code>objectId</code> environments. Defaults to false.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -1440,7 +1557,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-08-29)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external">Parse Community</a>. All rights reserved. (Last updated: 2021-09-02)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external">jazzy ♪♫ v0.13.7</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external">Realm</a> project.</p>
     </section>
   </body>
