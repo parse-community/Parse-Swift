@@ -19,7 +19,7 @@ func getKeychainQueryTemplate(forService service: String) -> [String: String] {
         query[kSecAttrService as String] = service
     }
     query[kSecClass as String] = kSecClassGenericPassword as String
-    query[kSecAttrAccessible as String] =  kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
+    query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
     return query
 }
 
