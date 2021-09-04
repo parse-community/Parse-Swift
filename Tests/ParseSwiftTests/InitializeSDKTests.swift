@@ -293,21 +293,12 @@ class InitializeSDKTests: XCTestCase {
                                   masterKey: "masterKey",
                                   serverURL: url)
             XCTAssertEqual(ParseVersion.current, ParseConstants.version)
-            #if !os(macOS)
             XCTAssertEqual(BaseParseUser.current, user)
             XCTAssertEqual(Installation.current, installation)
             XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
             XCTAssertEqual(Config.current?.winningNumber, config.winningNumber)
             let defaultACL = try? ParseACL.defaultACL()
             XCTAssertEqual(defaultACL, acl)
-            #else
-            XCTAssertNil(BaseParseUser.current)
-            XCTAssertNil(Installation.current)
-            XCTAssertNil(Config.current?.welcomeMessage)
-            XCTAssertNil(Config.current?.winningNumber)
-            let defaultACL = try? ParseACL.defaultACL()
-            XCTAssertNil(defaultACL)
-            #endif
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 10.0)
