@@ -147,8 +147,10 @@ public struct ParseSwift {
                 _ = KeychainStore.old
                 KeychainStore.shared.copy(keychain: KeychainStore.old)
                 #endif
+                #if !os(Linux) && !os(Android)
                 // Need to delete the old Keychain because a new one is created with bundleId.
                 try? KeychainStore.old.deleteAll()
+                #endif
             }
             if currentSDKVersion > previousSDKVersion {
                 ParseVersion.current = currentSDKVersion.string
