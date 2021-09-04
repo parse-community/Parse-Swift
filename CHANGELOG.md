@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.7...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.8...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.9.8
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.7...1.9.8)
+
+__Fixes__
+- Use a seperate Keychain for each app bundleId. This only effects macOS apps as their Keychain is handled by the OS differently. macOS app users will need to sign-in again after upgrading to this version. ([#224](https://github.com/parse-community/Parse-Swift/pull/224)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.7
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.6...1.9.7)

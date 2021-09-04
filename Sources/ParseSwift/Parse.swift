@@ -138,9 +138,18 @@ public struct ParseSwift {
         do {
             let previousSDKVersion = try ParseVersion(ParseVersion.current)
             let currentSDKVersion = try ParseVersion(ParseConstants.version)
+            let oneNineEightSDKVersion = try ParseVersion("1.9.8")
 
             // All migrations from previous versions to current should occur here:
-
+            if previousSDKVersion < oneNineEightSDKVersion {
+                // Old macOS Keychain can't be used because it's global to all apps.
+                #if !os(macOS) && !os(Linux) && !os(Android)
+                _ = KeychainStore.old
+                KeychainStore.shared.copy(keychain: KeychainStore.old)
+                #endif
+                // Need to delete the old Keychain because a new one is created with bundleId.
+                try? KeychainStore.old.deleteAll()
+            }
             if currentSDKVersion > previousSDKVersion {
                 ParseVersion.current = currentSDKVersion.string
             }
