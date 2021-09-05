@@ -22,7 +22,13 @@ public struct ParseVersion: Encodable {
                     guard let versionFromKeyChain: String =
                         try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentVersion)
                          else {
-                        return nil
+                        guard let versionFromKeyChain: String =
+                            try? KeychainStore.old.get(valueFor: ParseStorage.Keys.currentVersion)
+                             else {
+                            return nil
+                        }
+                        try? KeychainStore.shared.set(versionFromKeyChain, for: ParseStorage.Keys.currentVersion)
+                        return versionFromKeyChain
                     }
                     return versionFromKeyChain
                 #else
