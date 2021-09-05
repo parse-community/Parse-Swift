@@ -30,6 +30,11 @@ class InitializeSDKTests: XCTestCase {
         var customKey: String?
     }
 
+    struct Config: ParseConfig {
+        var welcomeMessage: String?
+        var winningNumber: Int?
+    }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
     }
@@ -250,6 +255,55 @@ class InitializeSDKTests: XCTestCase {
     }
 
     #if !os(Linux) && !os(Android)
+    func testMigrateOldKeychainToNew() throws {
+        var user = BaseParseUser()
+        user.objectId = "wow"
+        var userContainer = CurrentUserContainer<BaseParseUser>()
+        userContainer.currentUser = user
+        userContainer.sessionToken = "session"
+        var installation = Installation()
+        installation.objectId = "now"
+        var installationContainer = CurrentInstallationContainer<Installation>()
+        installationContainer.currentInstallation = installation
+        installationContainer.installationId = "id"
+        let config = Config(welcomeMessage: "hello", winningNumber: 5)
+        var configContainer = CurrentConfigContainer<Config>()
+        configContainer.currentConfig = config
+        var acl = ParseACL()
+        acl.setReadAccess(objectId: "hello", value: true)
+        acl.setReadAccess(objectId: "wow", value: true)
+        acl.setWriteAccess(objectId: "wow", value: true)
+        let aclContainer = DefaultACL(defaultACL: acl,
+                                      lastCurrentUserObjectId: user.objectId,
+                                      useCurrentUser: true)
+        let version = "1.9.7"
+        try? KeychainStore.old.set(version, for: ParseStorage.Keys.currentVersion)
+        try? KeychainStore.old.set(userContainer, for: ParseStorage.Keys.currentUser)
+        try? KeychainStore.old.set(installationContainer, for: ParseStorage.Keys.currentInstallation)
+        try? KeychainStore.old.set(configContainer, for: ParseStorage.Keys.currentConfig)
+        try? KeychainStore.old.set(aclContainer, for: ParseStorage.Keys.defaultACL)
+        let expectation1 = XCTestExpectation(description: "Wait")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let url = URL(string: "http://localhost:1337/1") else {
+                XCTFail("Should create valid URL")
+                return
+            }
+            ParseSwift.initialize(applicationId: "applicationId",
+                                  clientKey: "clientKey",
+                                  masterKey: "masterKey",
+                                  serverURL: url)
+            XCTAssertEqual(ParseVersion.current, ParseConstants.version)
+            XCTAssertEqual(BaseParseUser.current, user)
+            XCTAssertEqual(Installation.current, installation)
+            XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
+            XCTAssertEqual(Config.current?.winningNumber, config.winningNumber)
+            let defaultACL = try? ParseACL.defaultACL()
+            XCTAssertEqual(defaultACL, acl)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
     func testMigrateObjcSDK() {
 
         //Set keychain the way objc sets keychain
