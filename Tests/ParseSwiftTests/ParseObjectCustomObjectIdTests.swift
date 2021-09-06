@@ -866,7 +866,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
     func saveAsync(score: GameScore,
                    scoreOnServer: GameScore,
                    callbackQueue: DispatchQueue,
-                   isIgnoreCustomObjectIdConfig: Bool = false
+                   isIgnoreCustomObjectIdConfig: Bool = false,
                    createWithCustomObjectId: Bool = false) {
 
         let expectation1 = XCTestExpectation(description: "Save object1")
