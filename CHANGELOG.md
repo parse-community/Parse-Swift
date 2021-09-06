@@ -1,15 +1,23 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.7...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.8...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.9.8
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.7...1.9.8)
+
+__Fixes__
+- Use a seperate Keychain for each app bundleId. This only effects macOS apps as their Keychain is handled by the OS differently. For macOS app developers only, the user who logged in last to your app will have their Keychain upgraded to the patched version. Other users/apps will either need to login again or logout then login again ([#224](https://github.com/parse-community/Parse-Swift/pull/224)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- Added createWithCustomObjectId parameter in .save() functions to remove the need of setting isIgnoreCustomObjectIdConfig = true and allowCustomObjectId = true for a mixed custom objectId environment. ([#225](https://github.com/parse-community/Parse-Swift/pull/225)), thanks to [Lukas Smilek](https://github.com/lsmilek1)
 
 ### 1.9.7
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.6...1.9.7)
 
 __Improvements__
 - Properly allow a mixed custom objectId environment without compromising safety checks using .save(). If a developer wants to ignore the objectId checks, they need to specify isIgnoreCustomObjectIdConfig = true each time ([#222](https://github.com/parse-community/Parse-Swift/pull/222)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Added createWithCustomObjectId parameter in .save() functions to remove the need of setting isIgnoreCustomObjectIdConfig = true and allowCustomObjectId = true for a mixed custom objectId environment
 
 ### 1.9.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.5...1.9.6)
