@@ -47,6 +47,7 @@ assignees: ''
 
 Parse Swift
 - SDK version: `FILL_THIS_OUT`
+- Xcode version: `FILL_THIS_OUT`
 - Operating system (iOS, macOS, watchOS, etc.): `FILL_THIS_OUT`
 - Operating system version: `FILL_THIS_OUT`
 
