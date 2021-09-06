@@ -1290,7 +1290,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let first):
                 XCTFail("Duplicate error should be thrown")
             case .failure(let error):
-                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
+                XCTAssert(error.localizedDescription.contains("objectId must not be nil"))
             }
 
             switch saved[1] {
@@ -1298,7 +1298,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let second):
                 XCTFail("Duplicate error should be thrown")
             case .failure(let error):
-                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
+                XCTAssert(error.localizedDescription.contains("objectId must not be nil"))
             }
 
         } catch {
@@ -1387,7 +1387,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let first):
                 XCTFail("ObjectId should not be nil before save")
             case .failure(let error):
-                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
+                XCTAssert(error.localizedDescription.contains("objectId must not be nil"))
             }
 
             switch saved[1] {
@@ -1395,7 +1395,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let second):
                 XCTFail("ObjectId should not be nil before save")
             case .failure(let error):
-                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
+                XCTAssert(error.localizedDescription.contains("objectId must not be nil"))
             }
 
         } catch {
@@ -2052,7 +2052,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let first):
                 XCTFail("ObjectId should not be nil before save")
             case .failure(let error):
-                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
+                XCTAssert(error.localizedDescription.contains("objectId must not be nil"))
             }
 
             switch saved[1] {
@@ -2060,7 +2060,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let second):
                 XCTFail("ObjectId should not be nil before save")
             case .failure(let error):
-                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
+                XCTAssert(error.localizedDescription.contains("objectId must not be nil"))
             }
 
         } catch {
@@ -2748,7 +2748,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let first):
                 XCTFail("Duplicate error should be thrown")
             case .failure(let error):
-                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
+                XCTAssert(error.localizedDescription.contains("objectId must not be nil"))
             }
 
             switch saved[1] {
@@ -2756,7 +2756,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let second):
                 XCTFail("Duplicate error should be thrown")
             case .failure(let error):
-                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
+                XCTAssert(error.localizedDescription.contains("objectId must not be nil"))
             }
 
         } catch {
