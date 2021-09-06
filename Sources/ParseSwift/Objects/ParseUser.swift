@@ -929,7 +929,7 @@ extension ParseUser {
     }
 
     func saveCommand(isIgnoreCustomObjectIdConfig: Bool = false, createWithCustomObjectId: Bool = false) throws -> API.Command<Self, Self> {
-        if (ParseSwift.configuration.allowCustomObjectId && objectId == nil && !isIgnoreCustomObjectIdConfig) || (object.objectId == nil && createWithCustomObjectId) {
+        if (ParseSwift.configuration.allowCustomObjectId && objectId == nil && !isIgnoreCustomObjectIdConfig) || (objectId == nil && createWithCustomObjectId) {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved && !createWithCustomObjectId {
