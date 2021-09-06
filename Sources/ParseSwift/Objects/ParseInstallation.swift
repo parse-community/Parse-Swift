@@ -427,6 +427,7 @@ extension ParseInstallation {
     */
     public func save(options: API.Options = []) throws -> Self {
         try save(isIgnoreCustomObjectIdConfig: false,
+                 createWithCustomObjectId: false,
                  options: options)
     }
 
@@ -436,6 +437,8 @@ extension ParseInstallation {
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
+     - parameter createWithCustomObjectId: Ignore checking `ParseConfiguration.allowCustomObjectId = true`
+     and try to create object with given custom `objectId` to allow for mixed `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      - returns: Returns saved `ParseInstallation`.
@@ -450,7 +453,8 @@ extension ParseInstallation {
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
      client-side checks are disabled. Developers are responsible for handling such cases.
     */
-    public func save(isIgnoreCustomObjectIdConfig: Bool,
+    public func save(isIgnoreCustomObjectIdConfig: Bool = false,
+                     createWithCustomObjectId: Bool = false,
                      options: API.Options = []) throws -> Self {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -471,7 +475,7 @@ extension ParseInstallation {
             throw error
         }
 
-        let result: Self = try saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+        let result: Self = try saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig, createWithCustomObjectId: createWithCustomObjectId)
             .execute(options: options,
                      callbackQueue: .main,
                      childObjects: childObjects,
@@ -486,6 +490,8 @@ extension ParseInstallation {
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
+     - parameter createWithCustomObjectId: Ignore checking `ParseConfiguration.allowCustomObjectId = true`
+     and try to create object with given custom `objectId` to allow for mixed `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -503,6 +509,7 @@ extension ParseInstallation {
     */
     public func save(
         isIgnoreCustomObjectIdConfig: Bool = false,
+        createWithCustomObjectId: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
@@ -512,7 +519,7 @@ extension ParseInstallation {
         self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
             guard let parseError = error else {
                 do {
-                    try self.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+                    try self.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig, createWithCustomObjectId: createWithCustomObjectId)
                         .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
                                       childObjects: savedChildObjects,
@@ -554,11 +561,11 @@ extension ParseInstallation {
         }
     }
 
-    func saveCommand(isIgnoreCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
-        if ParseSwift.configuration.allowCustomObjectId && objectId == nil && !isIgnoreCustomObjectIdConfig {
+    func saveCommand(isIgnoreCustomObjectIdConfig: Bool = false, createWithCustomObjectId: Bool = false) throws -> API.Command<Self, Self> {
+        if (ParseSwift.configuration.allowCustomObjectId && objectId == nil && !isIgnoreCustomObjectIdConfig) || (object.objectId == nil && createWithCustomObjectId) {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
-        if isSaved {
+        if isSaved && !createWithCustomObjectId{
             return updateCommand()
         }
         return createCommand()
@@ -685,6 +692,8 @@ public extension Sequence where Element: ParseInstallation {
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
+     - parameter createWithCustomObjectId: Ignore checking `ParseConfiguration.allowCustomObjectId = true`
+     and try to create object with given custom `objectId` to allow for mixed `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
@@ -708,6 +717,7 @@ public extension Sequence where Element: ParseInstallation {
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
                  transaction: Bool = false,
                  isIgnoreCustomObjectIdConfig: Bool = false,
+                 createWithCustomObjectId: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -756,7 +766,7 @@ public extension Sequence where Element: ParseInstallation {
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = try map {
-            try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+            try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig, createWithCustomObjectId: createWithCustomObjectId)
         }
         let batchLimit: Int!
         if transaction {
@@ -788,6 +798,8 @@ public extension Sequence where Element: ParseInstallation {
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
+     - parameter createWithCustomObjectId: Ignore checking `ParseConfiguration.allowCustomObjectId = true`
+     and try to create object with given custom `objectId` to allow for mixed `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -810,6 +822,7 @@ public extension Sequence where Element: ParseInstallation {
         batchLimit limit: Int? = nil,
         transaction: Bool = false,
         isIgnoreCustomObjectIdConfig: Bool = false,
+        createWithCustomObjectId: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -873,7 +886,7 @@ public extension Sequence where Element: ParseInstallation {
             do {
                 var returnBatch = [(Result<Self.Element, ParseError>)]()
                 let commands = try map {
-                    try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+                    try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig, createWithCustomObjectId: createWithCustomObjectId)
                 }
                 let batchLimit: Int!
                 if transaction {

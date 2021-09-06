@@ -163,6 +163,8 @@ public extension ParseUser {
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
+     - parameter createWithCustomObjectId: Ignore checking `ParseConfiguration.allowCustomObjectId = true`
+     and try to create object with given custom `objectId` to allow for mixed `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
@@ -177,9 +179,10 @@ public extension ParseUser {
      client-side checks are disabled. Developers are responsible for handling such cases.
     */
     func savePublisher(options: API.Options = [],
-                       isIgnoreCustomObjectIdConfig: Bool = false) -> Future<Self, ParseError> {
+                       isIgnoreCustomObjectIdConfig: Bool = false, createWithCustomObjectId: Bool = false) -> Future<Self, ParseError> {
         Future { promise in
             self.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                      createWithCustomObjectId: createWithCustomObjectId,
                       options: options,
                       completion: promise)
         }
@@ -232,6 +235,8 @@ public extension Sequence where Element: ParseUser {
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
+     - parameter createWithCustomObjectId: Ignore checking `ParseConfiguration.allowCustomObjectId = true`
+     and try to create object with given custom `objectId` to allow for mixed `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
@@ -251,11 +256,13 @@ public extension Sequence where Element: ParseUser {
     func saveAllPublisher(batchLimit limit: Int? = nil,
                           transaction: Bool = false,
                           isIgnoreCustomObjectIdConfig: Bool = false,
+                          createWithCustomObjectId: Bool = false,
                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
                          isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                         createWithCustomObjectId: createWithCustomObjectId,
                          options: options,
                          completion: promise)
         }

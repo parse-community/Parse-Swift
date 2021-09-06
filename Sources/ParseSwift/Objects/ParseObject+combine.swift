@@ -35,14 +35,21 @@ public extension ParseObject {
     /**
      Saves the `ParseObject` *asynchronously* and publishes when complete.
 
+     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     `objectId` environments. Defaults to false.
+     - parameter createWithCustomObjectId: Ignore checking `ParseConfiguration.allowCustomObjectId = true`
+     and try to create object with given custom `objectId` to allow for mixed `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     func savePublisher(isIgnoreCustomObjectIdConfig: Bool = false,
+                       createWithCustomObjectId: Bool = false,
                        options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
             self.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                      createWithCustomObjectId: createWithCustomObjectId,
                       options: options,
                       completion: promise)
         }
@@ -94,6 +101,8 @@ public extension Sequence where Element: ParseObject {
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
+     - parameter createWithCustomObjectId: Ignore checking `ParseConfiguration.allowCustomObjectId = true`
+     and try to create object with given custom `objectId` to allow for mixed `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
@@ -113,11 +122,13 @@ public extension Sequence where Element: ParseObject {
     func saveAllPublisher(batchLimit limit: Int? = nil,
                           transaction: Bool = false,
                           isIgnoreCustomObjectIdConfig: Bool = false,
+                          createWithCustomObjectId: Bool = false,
                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
                          isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                         createWithCustomObjectId: createWithCustomObjectId,
                          options: options,
                          completion: promise)
         }

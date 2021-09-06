@@ -345,11 +345,11 @@ internal extension API.Command {
 
     // MARK: Saving ParseObjects
     static func save<T>(_ object: T,
-                        isIgnoreCustomObjectIdConfig: Bool) throws -> API.Command<T, T> where T: ParseObject {
-        if ParseSwift.configuration.allowCustomObjectId && object.objectId == nil && !isIgnoreCustomObjectIdConfig {
+                        isIgnoreCustomObjectIdConfig: Bool, createWithCustomObjectId: Bool) throws -> API.Command<T, T> where T: ParseObject {
+        if (ParseSwift.configuration.allowCustomObjectId && object.objectId == nil && !isIgnoreCustomObjectIdConfig) || (object.objectId == nil && createWithCustomObjectId) {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
-        if object.isSaved {
+        if object.isSaved && !createWithCustomObjectId {
             return update(object)
         }
         return create(object)
