@@ -471,12 +471,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         _ = try score.saveCommand(isIgnoreCustomObjectIdConfig: true)
     }
 
-    func testUpdateCommandNoObjectIdIgnoreConfig() throws {
-        var score = GameScore(score: 10)
-        score.createdAt = Date()
-        _ = try score.saveCommand(isIgnoreCustomObjectIdConfig: true)
-    }
-
     func testSaveAllNoObjectIdCommand() throws {
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
@@ -1296,7 +1290,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let first):
                 XCTFail("Duplicate error should be thrown")
             case .failure(let error):
-                XCTAssert(error.localizedDescription)
+                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
             }
 
             switch saved[1] {
@@ -1304,7 +1298,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let second):
                 XCTFail("Duplicate error should be thrown")
             case .failure(let error):
-                XCTAssert(error.localizedDescription)
+                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
             }
 
         } catch {
@@ -1393,7 +1387,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let first):
                 XCTFail("ObjectId should not be nil before save")
             case .failure(let error):
-                XCTAssert(error.localizedDescription)
+                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
             }
 
             switch saved[1] {
@@ -1401,74 +1395,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let second):
                 XCTFail("ObjectId should not be nil before save")
             case .failure(let error):
-                XCTAssert(error.localizedDescription)
-            }
-
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-    }
-
-    func testSaveAllNoObjectId() throws {
-        let score = GameScore(score: 10)
-        let score2 = GameScore(score: 20)
-        XCTAssertThrowsError(try [score, score2].saveAll())
-    }
-
-    func testSaveAllNoObjectIdIgnoreConfig() { // swiftlint:disable:this function_body_length cyclomatic_complexity
-        let score = GameScore(score: 10)
-        let score2 = GameScore(score: 20)
-
-        var scoreOnServer = score
-        scoreOnServer.objectId = "yarr"
-        scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = scoreOnServer.createdAt
-        scoreOnServer.ACL = nil
-
-        var scoreOnServer2 = score2
-        scoreOnServer2.objectId = "yolo"
-        scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        scoreOnServer2.updatedAt = scoreOnServer2.createdAt
-        scoreOnServer2.ACL = nil
-
-        let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil),
-        BatchResponseItem<GameScore>(success: scoreOnServer2, error: nil)]
-        let encoded: Data!
-        do {
-           encoded = try scoreOnServer.getJSONEncoder().encode(response)
-           //Get dates in correct format from ParseDecoding strategy
-           let encoded1 = try ParseCoding.jsonEncoder().encode(scoreOnServer)
-           scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded1)
-           let encoded2 = try ParseCoding.jsonEncoder().encode(scoreOnServer2)
-           scoreOnServer2 = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded2)
-
-        } catch {
-            XCTFail("Should have encoded/decoded. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-           return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        do {
-
-            let saved = try [score, score2].saveAll(isIgnoreCustomObjectIdConfig: true)
-
-            XCTAssertEqual(saved.count, 2)
-            switch saved[0] {
-
-            case .success(let first):
-                XCTAssert(first.hasSameObjectId(as: scoreOnServer))
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
-            }
-
-            switch saved[1] {
-
-            case .success(let second):
-                XCTAssert(second.hasSameObjectId(as: scoreOnServer2))
-            case .failure(let error):
-                XCTFail(error.localizedDescription)
+                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
             }
 
         } catch {
@@ -1685,37 +1612,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var user = User()
         user.createdAt = Date()
         XCTAssertThrowsError(try user.save(createWithCustomObjectId: true))
-    }
-
-    func testUserUpdateNoObjectIdIgnoreConfig() {
-        var user = User()
-        user.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        user.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        user.ACL = nil
-
-        var userOnServer = user
-        userOnServer.objectId = "yarr"
-        userOnServer.updatedAt = Date()
-
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
-            //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-        do {
-            let saved = try user.save(isIgnoreCustomObjectIdConfig: true)
-            XCTAssertTrue(saved.hasSameObjectId(as: userOnServer))
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
     }
 
     func testUserUpdateNoObjectIdIgnoreConfig() {
@@ -2156,7 +2052,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let first):
                 XCTFail("ObjectId should not be nil before save")
             case .failure(let error):
-                XCTAssert(error.localizedDescription)
+                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
             }
 
             switch saved[1] {
@@ -2164,7 +2060,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let second):
                 XCTFail("ObjectId should not be nil before save")
             case .failure(let error):
-                XCTAssert(error.localizedDescription)
+                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
             }
 
         } catch {
@@ -2229,37 +2125,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         let score = GameScore(score: 10)
         XCTAssertThrowsError(try score.save(createWithCustomObjectId: true))
     }
-
-    func testInstallationSaveNoObjectIdIgnoreConfig() { // swiftlint:disable:this function_body_length
-        var installation = Installation()
-        installation.ACL = nil
-
-        var installationOnServer = installation
-        installationOnServer.objectId = "yarr"
-        installationOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installationOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-
-        let encoded: Data!
-        do {
-            encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
-            //Get dates in correct format from ParseDecoding strategy
-            installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-        do {
-            let saved = try installation.save(isIgnoreCustomObjectIdConfig: true)
-            XCTAssert(saved.hasSameObjectId(as: installationOnServer))
-        } catch {
-            XCTFail(error.localizedDescription)
-        }
-    }
-
+    
     func testInstallationSaveNoObjectIdIgnoreConfig() { // swiftlint:disable:this function_body_length
         var installation = Installation()
         installation.ACL = nil
@@ -2882,7 +2748,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let first):
                 XCTFail("Duplicate error should be thrown")
             case .failure(let error):
-                XCTAssert(error.localizedDescription)
+                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
             }
 
             switch saved[1] {
@@ -2890,7 +2756,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             case .success(let second):
                 XCTFail("Duplicate error should be thrown")
             case .failure(let error):
-                XCTAssert(error.localizedDescription)
+                XCTAssert(error == ParseError(code: .missingObjectId, message: "objectId must not be nil"))
             }
 
         } catch {
