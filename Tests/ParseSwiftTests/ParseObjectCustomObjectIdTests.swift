@@ -866,11 +866,13 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
     func saveAsync(score: GameScore,
                    scoreOnServer: GameScore,
                    callbackQueue: DispatchQueue,
-                   isIgnoreCustomObjectIdConfig: Bool = false) {
+                   isIgnoreCustomObjectIdConfig: Bool = false
+                   createWithCustomObjectId: Bool = false) {
 
         let expectation1 = XCTestExpectation(description: "Save object1")
 
         score.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                   createWithCustomObjectId: createWithCustomObjectId,
                    options: [],
                    callbackQueue: callbackQueue) { result in
 
@@ -1026,11 +1028,13 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
     func updateAsync(score: GameScore,
                      scoreOnServer: GameScore,
                      isIgnoreCustomObjectIdConfig: Bool = false,
+                     createWithCustomObjectId: Bool = false,
                      callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update object1")
 
         score.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                   createWithCustomObjectId: createWithCustomObjectId,
                    options: [],
                    callbackQueue: callbackQueue) { result in
 
@@ -1648,11 +1652,13 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
     // swiftlint:disable:next function_body_length
     func saveUserAsync(user: User, userOnServer: User,
                        isIgnoreCustomObjectIdConfig: Bool = false,
+                       createWithCustomObjectId: Bool = false,
                        callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update object1")
 
         user.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                  createWithCustomObjectId: createWithCustomObjectId,
                   options: [],
                   callbackQueue: callbackQueue) { result in
 
