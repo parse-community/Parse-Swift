@@ -788,9 +788,15 @@ extension ParseObject {
                         }
                     }
 
-                    try savableFiles.forEach {
+                    savableFiles.forEach {
                         let file = $0
-                        filesFinishedSaving[file.localId] = try $0.save(options: options)
+                        let group = DispatchGroup()
+                        group.enter()
+                        file.save(options: options, callbackQueue: queue) { result in
+                            filesFinishedSaving[file.localId] = try? result.get()
+                            group.leave()
+                        }
+                        group.wait()
                     }
                 }
                 completion(objectsFinishedSaving, filesFinishedSaving, nil)
