@@ -70,7 +70,7 @@ score.save { result in
         changedScore.score = 200
         changedScore.save { result in
             switch result {
-            case .success(var savedChangedScore):
+            case .success(let savedChangedScore):
                 assert(savedChangedScore.score == 200)
                 assert(savedScore.objectId == savedChangedScore.objectId)
                 print("Updated score: \(savedChangedScore)")

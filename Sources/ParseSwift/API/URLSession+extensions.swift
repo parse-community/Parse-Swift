@@ -135,7 +135,8 @@ extension URLSession {
             completion(self.makeResult(request: request,
                                        responseData: responseData,
                                        urlResponse: urlResponse,
-                                       responseError: responseError, mapper: mapper))
+                                       responseError: responseError,
+                                       mapper: mapper))
         }.resume()
     }
 }
