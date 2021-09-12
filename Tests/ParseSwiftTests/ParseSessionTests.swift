@@ -87,7 +87,6 @@ class ParseSessionTests: XCTestCase {
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
         } catch {
             XCTFail(error.localizedDescription)
         }

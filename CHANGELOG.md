@@ -1,11 +1,17 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.8...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.9...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __New features__
 - Supports Swift 5.5 async/await ([#212](https://github.com/parse-community/Parse-Swift/pull/212)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.9
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.8...1.9.9)
+
+__Fixes__
+- Saving ParseObjects with ParseFile properties now saves files on background queue ([#230](https://github.com/parse-community/Parse-Swift/pull/230)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.8
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.7...1.9.8)

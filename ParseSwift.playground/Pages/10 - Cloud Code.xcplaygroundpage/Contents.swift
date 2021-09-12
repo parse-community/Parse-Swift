@@ -67,10 +67,16 @@ cloudError.runFunction { result in
             case 3000:
                 print("Received Cloud Code error: \(error)")
             default:
-                assertionFailure("Should have received code \"3000\"")
+                assertionFailure("""
+                    Should have received code \"3000\"
+                    Instead received \(error)
+                """)
             }
         default:
-            assertionFailure("Should have been case \"other\"")
+            assertionFailure("""
+                Should have received code \"other\"
+                Instead received \(error)
+            """)
         }
     }
 }
