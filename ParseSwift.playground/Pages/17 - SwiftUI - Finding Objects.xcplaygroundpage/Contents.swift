@@ -38,6 +38,7 @@ struct GameScore: ParseObject, Identifiable {
     var score: Int = 0
     var location: ParseGeoPoint?
     var name: String?
+    var myFiles: [ParseFile]?
 
     //: Custom initializer.
     init(name: String, score: Int) {
@@ -55,6 +56,8 @@ struct ContentView: View {
     @ObservedObject var viewModel = GameScore.query("score" > 2)
         .order([.descending("score")])
         .viewModel
+    @State var name = ""
+    @State var score = ""
 
     var body: some View {
         NavigationView {
@@ -73,9 +76,24 @@ struct ContentView: View {
                 }
             }
             Spacer()
-        }.onAppear(perform: {
+            TextField("Name", text: $name)
+            TextField("Score", text: $score)
+            Button(action: {
+                guard let scoreValue = Int(score),
+                      let linkToFile = URL(string: "https://parseplatform.org/img/logo.svg") else {
+                    return
+                }
+                var score = GameScore(name: name, score: scoreValue)
+                //: Create new `ParseFile` for saving.
+                let file1 = ParseFile(name: "file1.svg", cloudURL: linkToFile)
+                let file2 = ParseFile(name: "file2.svg", cloudURL: linkToFile)
+                score.myFiles = [file1, file2]
+            }, label: {
+                Text("Save score")
+            })
+        }/*.onAppear(perform: {
             viewModel.find()
-        })
+        })*/
     }
 }
 
