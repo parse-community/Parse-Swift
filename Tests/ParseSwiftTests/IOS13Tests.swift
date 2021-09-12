@@ -105,7 +105,6 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         let expected = "GameScore ({\"score\":10,\"player\":\"Jen\"})"
         let decoded = score.debugDescription
@@ -125,7 +124,6 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         guard let body = command.body else {
             XCTFail("Should be able to unwrap")

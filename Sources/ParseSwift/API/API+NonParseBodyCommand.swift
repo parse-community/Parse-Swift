@@ -130,11 +130,6 @@ internal extension API.NonParseBodyCommand {
 
 internal extension API.NonParseBodyCommand {
     // MARK: Batch - Child Objects
-    var data: Data? {
-        guard let body = body else { return nil }
-        return try? ParseCoding.jsonEncoder().encode(body)
-    }
-
     static func batch(objects: [ParseType],
                       transaction: Bool) throws -> RESTBatchCommandTypeEncodable<AnyCodable> {
         let batchCommands = try objects.compactMap { (object) -> API.BatchCommand<AnyCodable, PointerType>? in

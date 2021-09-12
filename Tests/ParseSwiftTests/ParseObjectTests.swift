@@ -238,7 +238,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -257,7 +256,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertEqual(command.params, includeExpected)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
 
             // swiftlint:disable:next line_length
             guard let urlExpected = URL(string: "http://localhost:1337/1/classes/GameScore/yarr?include=%5B%22yolo%22,%20%22test%22%5D") else {
@@ -512,7 +510,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         let expected = "GameScore ({\"score\":10,\"player\":\"Jen\"})"
         let decoded = score.debugDescription
@@ -535,7 +532,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         guard let body = command.body else {
             XCTFail("Should be able to unwrap")

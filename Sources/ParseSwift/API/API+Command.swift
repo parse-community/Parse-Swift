@@ -401,11 +401,6 @@ internal extension API.Command {
 internal extension API.Command where T: ParseObject {
 
     // MARK: Batch - Saving, Fetching
-    var data: Data? {
-        guard let body = body else { return nil }
-        return try? body.getEncoder().encode(body, skipKeys: .object)
-    }
-
     static func batch(commands: [API.Command<T, T>],
                       transaction: Bool) -> RESTBatchCommandType<T> {
         let batchCommands = commands.compactMap { (command) -> API.Command<T, T>? in

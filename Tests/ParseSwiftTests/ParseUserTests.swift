@@ -99,7 +99,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -120,7 +119,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertEqual(command.params, includeExpected)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
 
             // swiftlint:disable:next line_length
             guard let urlExpected = URL(string: "http://localhost:1337/1/users/yarr?include=%5B%22yolo%22,%20%22test%22%5D") else {
@@ -441,7 +439,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
-        XCTAssertNotNil(command.data)
     }
 
     func testUpdateCommand() throws {
@@ -455,7 +452,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
-        XCTAssertNotNil(command.data)
     }
 
     func testSaveAndUpdateCurrentUser() { // swiftlint:disable:this function_body_length
@@ -2094,7 +2090,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
         } catch {
             XCTFail(error.localizedDescription)
         }
