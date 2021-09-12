@@ -4,7 +4,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.9...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
-### 1.9.8
+### 1.9.9
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.8...1.9.9)
 
 __Fixes__
