@@ -155,7 +155,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         guard let body = command.body else {
             XCTFail("Should be able to unwrap")
@@ -184,7 +183,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         guard let body = command.body else {
             XCTFail("Should be able to unwrap")
@@ -250,7 +248,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         XCTAssertEqual(command.path.urlComponent, "/users")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         guard let body = command.body else {
             XCTFail("Should be able to unwrap")
@@ -277,7 +274,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         guard let body = command.body else {
             XCTFail("Should be able to unwrap")
@@ -343,7 +339,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         XCTAssertEqual(command.path.urlComponent, "/installations")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         guard let body = command.body else {
             XCTFail("Should be able to unwrap")
@@ -370,7 +365,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         guard let body = command.body else {
             XCTFail("Should be able to unwrap")
