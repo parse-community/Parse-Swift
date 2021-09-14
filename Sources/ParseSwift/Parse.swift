@@ -153,17 +153,18 @@ public struct ParseSwift {
             if currentSDKVersion > previousSDKVersion {
                 ParseVersion.current = currentSDKVersion.string
             }
+            BaseParseInstallation.createNewInstallationIfNeeded()
         } catch {
             // Migrate old installations made with ParseSwift < 1.3.0
             if let currentInstallation = BaseParseInstallation.current {
                 if currentInstallation.objectId == nil {
                     BaseParseInstallation.deleteCurrentContainerFromKeychain()
                     // Prepare installation
-                    _ = BaseParseInstallation()
+                    BaseParseInstallation.createNewInstallationIfNeeded()
                 }
             } else {
                 // Prepare installation
-                _ = BaseParseInstallation()
+                BaseParseInstallation.createNewInstallationIfNeeded()
             }
             ParseVersion.current = ParseConstants.version
         }

@@ -51,6 +51,43 @@ class InitializeSDKTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
+    func testCreateParseInstallationOnInit() {
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+
+        ParseSwift.initialize(applicationId: "applicationId",
+                              clientKey: "clientKey",
+                              masterKey: "masterKey",
+                              serverURL: url) { (_, credential) in
+            credential(.performDefaultHandling, nil)
+        }
+
+        guard let currentInstallation = Installation.current else {
+            XCTFail("Should unwrap current Installation")
+            return
+        }
+
+        // Should be in Keychain
+        guard let memoryInstallation: CurrentInstallationContainer<Installation>
+            = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                XCTFail("Should get object from Keychain")
+            return
+        }
+        XCTAssertEqual(memoryInstallation.currentInstallation, currentInstallation)
+
+        #if !os(Linux) && !os(Android)
+        // Should be in Keychain
+        guard let keychainInstallation: CurrentInstallationContainer<Installation>
+            = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                XCTFail("Should get object from Keychain")
+            return
+        }
+        XCTAssertEqual(keychainInstallation.currentInstallation, currentInstallation)
+        #endif
+    }
+
     func testUpdateAuthChallenge() {
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
@@ -261,11 +298,14 @@ class InitializeSDKTests: XCTestCase {
         var userContainer = CurrentUserContainer<BaseParseUser>()
         userContainer.currentUser = user
         userContainer.sessionToken = "session"
+        let installationId = "id"
         var installation = Installation()
+        installation.installationId = installationId
         installation.objectId = "now"
+        installation.updateAutomaticInfo()
         var installationContainer = CurrentInstallationContainer<Installation>()
         installationContainer.currentInstallation = installation
-        installationContainer.installationId = "id"
+        installationContainer.installationId = installationId
         let config = Config(welcomeMessage: "hello", winningNumber: 5)
         var configContainer = CurrentConfigContainer<Config>()
         configContainer.currentConfig = config

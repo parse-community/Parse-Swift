@@ -127,29 +127,43 @@ extension ParseInstallation {
     static var currentInstallationContainer: CurrentInstallationContainer<Self> {
         get {
             guard let installationInMemory: CurrentInstallationContainer<Self> =
-                try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                    try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
                 #if !os(Linux) && !os(Android)
-                    guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
+                guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
                         try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
-                         else {
-                            var newInstallation = CurrentInstallationContainer<Self>()
-                            let newInstallationId = UUID().uuidString.lowercased()
-                            newInstallation.installationId = newInstallationId
-                            newInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
-                            newInstallation.currentInstallation?.updateAutomaticInfo()
-                            try? KeychainStore.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
-                            try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
-                        return newInstallation
-                    }
-                    return installationFromKeyChain
-                #else
-                    var newInstallation = CurrentInstallationContainer<Self>()
+                else {
+                    var newBaseInstallation = CurrentInstallationContainer<BaseParseInstallation>()
                     let newInstallationId = UUID().uuidString.lowercased()
-                    newInstallation.installationId = newInstallationId
-                    newInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
-                    newInstallation.currentInstallation?.updateAutomaticInfo()
-                    try? ParseStorage.shared.set(newInstallation, for: ParseStorage.Keys.currentInstallation)
-                    return newInstallation
+                    newBaseInstallation.installationId = newInstallationId
+                    newBaseInstallation.currentInstallation = BaseParseInstallation()
+                    newBaseInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
+                    newBaseInstallation.currentInstallation?.updateAutomaticInfo()
+                    try? KeychainStore.shared.set(newBaseInstallation, for: ParseStorage.Keys.currentInstallation)
+                    guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
+                            try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
+                    else {
+                        // Couldn't create container correctly, return empty one.
+                        return CurrentInstallationContainer<Self>()
+                    }
+                    try? ParseStorage.shared.set(installationFromKeyChain, for: ParseStorage.Keys.currentInstallation)
+                    return installationFromKeyChain
+                }
+                return installationFromKeyChain
+                #else
+                var newBaseInstallation = CurrentInstallationContainer<BaseParseInstallation>()
+                let newInstallationId = UUID().uuidString.lowercased()
+                newBaseInstallation.installationId = newInstallationId
+                newBaseInstallation.currentInstallation = BaseParseInstallation()
+                newBaseInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
+                newBaseInstallation.currentInstallation?.updateAutomaticInfo()
+                try? ParseStorage.shared.set(newBaseInstallation, for: ParseStorage.Keys.currentInstallation)
+                guard let installationFromMemory: CurrentInstallationContainer<Self> =
+                        try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
+                else {
+                    // Couldn't create container correctly, return empty one.
+                    return CurrentInstallationContainer<Self>()
+                }
+                return installationFromMemory
                 #endif
             }
             return installationInMemory
@@ -182,7 +196,7 @@ extension ParseInstallation {
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
         #endif
         //Prepare new installation
-        _ = BaseParseInstallation()
+        BaseParseInstallation.createNewInstallationIfNeeded()
     }
 
     /**
