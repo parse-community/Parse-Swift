@@ -153,7 +153,6 @@ public struct ParseSwift {
             if currentSDKVersion > previousSDKVersion {
                 ParseVersion.current = currentSDKVersion.string
             }
-            BaseParseInstallation.createNewInstallationIfNeeded()
         } catch {
             // Migrate old installations made with ParseSwift < 1.3.0
             if let currentInstallation = BaseParseInstallation.current {
@@ -168,6 +167,19 @@ public struct ParseSwift {
             }
             ParseVersion.current = ParseConstants.version
         }
+
+        // Migrate installations with installationId, but missing
+        // currentInstallation, ParseSwift < 1.9.10
+        if let installationId = BaseParseInstallation.currentContainer.installationId,
+           BaseParseInstallation.currentContainer.currentInstallation == nil {
+            if let foundInstallation = try? BaseParseInstallation
+                .query("installationId" == installationId)
+                .first() {
+                BaseParseInstallation.currentContainer.currentInstallation = foundInstallation
+                BaseParseInstallation.saveCurrentContainerToKeychain()
+            }
+        }
+        BaseParseInstallation.createNewInstallationIfNeeded()
 
         #if !os(Linux) && !os(Android)
         if migrateFromObjcSDK {
@@ -270,21 +282,22 @@ public struct ParseSwift {
                                     authentication: ((URLAuthenticationChallenge,
                                                       (URLSession.AuthChallengeDisposition,
                                                        URLCredential?) -> Void) -> Void)? = nil) {
-        initialize(configuration: .init(applicationId: applicationId,
-                                        clientKey: clientKey,
-                                        masterKey: masterKey,
-                                        serverURL: serverURL,
-                                        liveQueryServerURL: liveQueryServerURL,
-                                        allowCustomObjectId: allowCustomObjectId,
-                                        useTransactionsInternally: useTransactionsInternally,
-                                        keyValueStore: keyValueStore,
-                                        requestCachePolicy: requestCachePolicy,
-                                        cacheMemoryCapacity: cacheMemoryCapacity,
-                                        cacheDiskCapacity: cacheDiskCapacity,
-                                        httpAdditionalHeaders: httpAdditionalHeaders,
-                                        authentication: authentication),
+        var configuration = ParseConfiguration(applicationId: applicationId,
+                                               clientKey: clientKey,
+                                               masterKey: masterKey,
+                                               serverURL: serverURL,
+                                               liveQueryServerURL: liveQueryServerURL,
+                                               allowCustomObjectId: allowCustomObjectId,
+                                               useTransactionsInternally: useTransactionsInternally,
+                                               keyValueStore: keyValueStore,
+                                               requestCachePolicy: requestCachePolicy,
+                                               cacheMemoryCapacity: cacheMemoryCapacity,
+                                               cacheDiskCapacity: cacheDiskCapacity,
+                                               httpAdditionalHeaders: httpAdditionalHeaders,
+                                               authentication: authentication)
+        configuration.isTestingSDK = testing
+        initialize(configuration: configuration,
                    migrateFromObjcSDK: migrateFromObjcSDK)
-        Self.configuration.isTestingSDK = testing
     }
 
     /**

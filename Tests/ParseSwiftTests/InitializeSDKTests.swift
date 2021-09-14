@@ -88,6 +88,74 @@ class InitializeSDKTests: XCTestCase {
         #endif
     }
 
+    func testFetchMissingCurrentInstallation() {
+        let memory = InMemoryKeyValueStore()
+        ParseStorage.shared.use(memory)
+
+        let installationId = UUID().uuidString.lowercased()
+        Installation.currentContainer.installationId = installationId
+        Installation.currentContainer.currentInstallation = nil
+        Installation.saveCurrentContainerToKeychain()
+
+        var foundInstallation = Installation()
+        foundInstallation.updateAutomaticInfo()
+        foundInstallation.objectId = "yarr"
+        foundInstallation.installationId = installationId
+
+        let results = QueryResponse<Installation>(results: [foundInstallation], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        guard let url = URL(string: "http://localhost:1337/1") else {
+            XCTFail("Should create valid URL")
+            return
+        }
+        let expectation1 = XCTestExpectation(description: "Wait")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            ParseSwift.initialize(applicationId: "applicationId",
+                                  clientKey: "clientKey",
+                                  masterKey: "masterKey",
+                                  serverURL: url,
+                                  keyValueStore: memory,
+                                  testing: true)
+
+            guard let currentInstallation = Installation.current else {
+                XCTFail("Should unwrap current Installation")
+                expectation1.fulfill()
+                return
+            }
+
+            XCTAssertEqual(currentInstallation, foundInstallation)
+
+            // Should be in Keychain
+            guard let memoryInstallation: CurrentInstallationContainer<Installation>
+                = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                    XCTFail("Should get object from Keychain")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(memoryInstallation.currentInstallation, currentInstallation)
+
+            #if !os(Linux) && !os(Android)
+            // Should be in Keychain
+            guard let keychainInstallation: CurrentInstallationContainer<Installation>
+                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
+                    XCTFail("Should get object from Keychain")
+                return
+            }
+            XCTAssertEqual(keychainInstallation.currentInstallation, currentInstallation)
+            #endif
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 10.0)
+    }
+
     func testUpdateAuthChallenge() {
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
@@ -326,6 +394,7 @@ class InitializeSDKTests: XCTestCase {
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
             guard let url = URL(string: "http://localhost:1337/1") else {
                 XCTFail("Should create valid URL")
+                expectation1.fulfill()
                 return
             }
             ParseSwift.initialize(applicationId: "applicationId",
