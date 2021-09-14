@@ -179,8 +179,8 @@ public struct ParseSwift {
                 }
                 var updatedInstallation = BaseParseInstallation.current
                 updatedInstallation?.installationId = installationId
-                BaseParseInstallation.currentInstallationContainer.installationId = installationId
-                BaseParseInstallation.currentInstallationContainer.currentInstallation = updatedInstallation
+                BaseParseInstallation.currentContainer.installationId = installationId
+                BaseParseInstallation.currentContainer.currentInstallation = updatedInstallation
                 BaseParseInstallation.saveCurrentContainerToKeychain()
             }
         }

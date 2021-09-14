@@ -117,8 +117,8 @@ class InitializeSDKTests: XCTestCase {
         newInstallation.updateAutomaticInfo()
         newInstallation.objectId = "yarr"
         newInstallation.installationId = UUID().uuidString.lowercased()
-        Installation.currentInstallationContainer.installationId = newInstallation.installationId
-        Installation.currentInstallationContainer.currentInstallation = newInstallation
+        Installation.currentContainer.installationId = newInstallation.installationId
+        Installation.currentContainer.currentInstallation = newInstallation
         Installation.saveCurrentContainerToKeychain()
 
         ParseSwift.initialize(applicationId: "applicationId",
@@ -145,8 +145,8 @@ class InitializeSDKTests: XCTestCase {
         var newInstallation = Installation()
         newInstallation.updateAutomaticInfo()
         newInstallation.installationId = UUID().uuidString.lowercased()
-        Installation.currentInstallationContainer.installationId = newInstallation.installationId
-        Installation.currentInstallationContainer.currentInstallation = newInstallation
+        Installation.currentContainer.installationId = newInstallation.installationId
+        Installation.currentContainer.currentInstallation = newInstallation
         Installation.saveCurrentContainerToKeychain()
 
         XCTAssertNil(newInstallation.objectId)
@@ -180,8 +180,8 @@ class InitializeSDKTests: XCTestCase {
         var newInstallation = Installation()
         newInstallation.updateAutomaticInfo()
         newInstallation.installationId = UUID().uuidString.lowercased()
-        Installation.currentInstallationContainer.installationId = newInstallation.installationId
-        Installation.currentInstallationContainer.currentInstallation = newInstallation
+        Installation.currentContainer.installationId = newInstallation.installationId
+        Installation.currentContainer.currentInstallation = newInstallation
         Installation.saveCurrentContainerToKeychain()
 
         XCTAssertNil(newInstallation.objectId)
@@ -216,8 +216,8 @@ class InitializeSDKTests: XCTestCase {
         var newInstallation = Installation()
         newInstallation.updateAutomaticInfo()
         newInstallation.installationId = UUID().uuidString.lowercased()
-        Installation.currentInstallationContainer.installationId = newInstallation.installationId
-        Installation.currentInstallationContainer.currentInstallation = newInstallation
+        Installation.currentContainer.installationId = newInstallation.installationId
+        Installation.currentContainer.currentInstallation = newInstallation
         Installation.saveCurrentContainerToKeychain()
 
         XCTAssertNil(newInstallation.objectId)
@@ -251,8 +251,8 @@ class InitializeSDKTests: XCTestCase {
         var newInstallation = Installation()
         newInstallation.updateAutomaticInfo()
         newInstallation.installationId = UUID().uuidString.lowercased()
-        Installation.currentInstallationContainer.installationId = newInstallation.installationId
-        Installation.currentInstallationContainer.currentInstallation = newInstallation
+        Installation.currentContainer.installationId = newInstallation.installationId
+        Installation.currentContainer.currentInstallation = newInstallation
         Installation.saveCurrentContainerToKeychain()
 
         XCTAssertNil(newInstallation.objectId)
@@ -369,7 +369,7 @@ class InitializeSDKTests: XCTestCase {
             return
         }
         XCTAssertEqual(installation.installationId, objcInstallationId)
-        XCTAssertEqual(Installation.currentInstallationContainer.installationId, objcInstallationId)
+        XCTAssertEqual(Installation.currentContainer.installationId, objcInstallationId)
     }
 
     func testDeleteObjcSDKKeychain() throws {
@@ -428,9 +428,9 @@ class InitializeSDKTests: XCTestCase {
             return
         }
         XCTAssertNotNil(installation.installationId)
-        XCTAssertNotNil(Installation.currentInstallationContainer.installationId)
+        XCTAssertNotNil(Installation.currentContainer.installationId)
         XCTAssertNotEqual(installation.installationId, objcInstallationId)
-        XCTAssertNotEqual(Installation.currentInstallationContainer.installationId, objcInstallationId)
+        XCTAssertNotEqual(Installation.currentContainer.installationId, objcInstallationId)
     }
     #endif
 }

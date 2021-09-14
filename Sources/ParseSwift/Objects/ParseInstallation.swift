@@ -124,7 +124,7 @@ struct CurrentInstallationContainer<T: ParseInstallation>: Codable {
 
 // MARK: Current Installation Support
 extension ParseInstallation {
-    static var currentInstallationContainer: CurrentInstallationContainer<Self> {
+    static var currentContainer: CurrentInstallationContainer<Self> {
         get {
             guard let installationInMemory: CurrentInstallationContainer<Self> =
                     try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
@@ -174,19 +174,19 @@ extension ParseInstallation {
     }
 
     internal static func updateInternalFieldsCorrectly() {
-        if Self.currentInstallationContainer.currentInstallation?.installationId !=
-            Self.currentInstallationContainer.installationId! {
+        if Self.currentContainer.currentInstallation?.installationId !=
+            Self.currentContainer.installationId! {
             //If the user made changes, set back to the original
-            Self.currentInstallationContainer.currentInstallation?.installationId =
-                Self.currentInstallationContainer.installationId!
+            Self.currentContainer.currentInstallation?.installationId =
+                Self.currentContainer.installationId!
         }
         //Always pull automatic info to ensure user made no changes to immutable values
-        Self.currentInstallationContainer.currentInstallation?.updateAutomaticInfo()
+        Self.currentContainer.currentInstallation?.updateAutomaticInfo()
     }
 
     internal static func saveCurrentContainerToKeychain() {
         #if !os(Linux) && !os(Android)
-        try? KeychainStore.shared.set(Self.currentInstallationContainer, for: ParseStorage.Keys.currentInstallation)
+        try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentInstallation)
         #endif
     }
 
@@ -206,10 +206,10 @@ extension ParseInstallation {
     */
     public static var current: Self? {
         get {
-            return Self.currentInstallationContainer.currentInstallation
+            return Self.currentContainer.currentInstallation
         }
         set {
-            Self.currentInstallationContainer.currentInstallation = newValue
+            Self.currentContainer.currentInstallation = newValue
             Self.updateInternalFieldsCorrectly()
         }
     }

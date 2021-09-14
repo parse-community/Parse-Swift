@@ -26,13 +26,13 @@ internal struct BaseParseInstallation: ParseInstallation {
     var ACL: ParseACL?
 
     static func createNewInstallationIfNeeded() {
-        guard let installationId = Self.currentInstallationContainer.installationId,
-              Self.currentInstallationContainer.currentInstallation?.installationId == installationId else {
+        guard let installationId = Self.currentContainer.installationId,
+              Self.currentContainer.currentInstallation?.installationId == installationId else {
             try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
             #if !os(Linux) && !os(Android)
             try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
             #endif
-            _ = Self.currentInstallationContainer
+            _ = Self.currentContainer
             return
         }
     }
