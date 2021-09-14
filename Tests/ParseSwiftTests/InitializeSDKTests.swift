@@ -91,33 +91,35 @@ class InitializeSDKTests: XCTestCase {
     func testFetchMissingCurrentInstallation() {
         let memory = InMemoryKeyValueStore()
         ParseStorage.shared.use(memory)
-
-        let installationId = UUID().uuidString.lowercased()
-        Installation.currentContainer.installationId = installationId
-        Installation.currentContainer.currentInstallation = nil
+        let installationId = "testMe"
+        let badContainer = CurrentInstallationContainer<Installation>(currentInstallation: nil,
+                                                                      installationId: installationId)
+        Installation.currentContainer = badContainer
         Installation.saveCurrentContainerToKeychain()
+        ParseVersion.current = ParseConstants.version
 
-        var foundInstallation = Installation()
-        foundInstallation.updateAutomaticInfo()
-        foundInstallation.objectId = "yarr"
-        foundInstallation.installationId = installationId
-
-        let results = QueryResponse<Installation>(results: [foundInstallation], count: 1)
-        MockURLProtocol.mockRequests { _ in
-            do {
-                let encoded = try ParseCoding.jsonEncoder().encode(results)
-                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-            } catch {
-                return nil
-            }
-        }
-
-        guard let url = URL(string: "http://localhost:1337/1") else {
-            XCTFail("Should create valid URL")
-            return
-        }
         let expectation1 = XCTestExpectation(description: "Wait")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            var foundInstallation = Installation()
+            foundInstallation.updateAutomaticInfo()
+            foundInstallation.objectId = "yarr"
+            foundInstallation.installationId = installationId
+
+            let results = QueryResponse<Installation>(results: [foundInstallation], count: 1)
+            MockURLProtocol.mockRequests { _ in
+                do {
+                    let encoded = try ParseCoding.jsonEncoder().encode(results)
+                    return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+                } catch {
+                    return nil
+                }
+            }
+
+            guard let url = URL(string: "http://localhost:1337/1") else {
+                XCTFail("Should create valid URL")
+                return
+            }
+
             ParseSwift.initialize(applicationId: "applicationId",
                                   clientKey: "clientKey",
                                   masterKey: "masterKey",
@@ -153,7 +155,7 @@ class InitializeSDKTests: XCTestCase {
             #endif
             expectation1.fulfill()
         }
-        wait(for: [expectation1], timeout: 10.0)
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testUpdateAuthChallenge() {
