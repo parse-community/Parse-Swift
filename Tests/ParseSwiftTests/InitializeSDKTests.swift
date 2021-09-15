@@ -88,6 +88,7 @@ class InitializeSDKTests: XCTestCase {
         #endif
     }
 
+    #if !os(Linux) && !os(Android)
     func testFetchMissingCurrentInstallation() {
         let memory = InMemoryKeyValueStore()
         ParseStorage.shared.use(memory)
@@ -157,6 +158,7 @@ class InitializeSDKTests: XCTestCase {
         }
         wait(for: [expectation1], timeout: 20.0)
     }
+    #endif
 
     func testUpdateAuthChallenge() {
         guard let url = URL(string: "http://localhost:1337/1") else {
