@@ -132,13 +132,16 @@ extension ParseInstallation {
                 guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
                         try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
                 else {
-                    var newBaseInstallation = CurrentInstallationContainer<BaseParseInstallation>()
                     let newInstallationId = UUID().uuidString.lowercased()
-                    newBaseInstallation.installationId = newInstallationId
-                    newBaseInstallation.currentInstallation = BaseParseInstallation()
-                    newBaseInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
-                    newBaseInstallation.currentInstallation?.updateAutomaticInfo()
-                    try? KeychainStore.shared.set(newBaseInstallation, for: ParseStorage.Keys.currentInstallation)
+                    var newInstallation = BaseParseInstallation()
+                    newInstallation.installationId = newInstallationId
+                    newInstallation.createInstallationId(newId: newInstallationId)
+                    newInstallation.updateAutomaticInfo()
+                    let newBaseInstallationContainer =
+                        CurrentInstallationContainer<BaseParseInstallation>(currentInstallation: newInstallation,
+                                                                            installationId: newInstallationId)
+                    try? KeychainStore.shared.set(newBaseInstallationContainer,
+                                                  for: ParseStorage.Keys.currentInstallation)
                     guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
                             try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
                     else {
@@ -150,13 +153,16 @@ extension ParseInstallation {
                 }
                 return installationFromKeyChain
                 #else
-                var newBaseInstallation = CurrentInstallationContainer<BaseParseInstallation>()
                 let newInstallationId = UUID().uuidString.lowercased()
-                newBaseInstallation.installationId = newInstallationId
-                newBaseInstallation.currentInstallation = BaseParseInstallation()
-                newBaseInstallation.currentInstallation?.createInstallationId(newId: newInstallationId)
-                newBaseInstallation.currentInstallation?.updateAutomaticInfo()
-                try? ParseStorage.shared.set(newBaseInstallation, for: ParseStorage.Keys.currentInstallation)
+                var newInstallation = BaseParseInstallation()
+                newInstallation.installationId = newInstallationId
+                newInstallation.createInstallationId(newId: newInstallationId)
+                newInstallation.updateAutomaticInfo()
+                let newBaseInstallationContainer =
+                    CurrentInstallationContainer<BaseParseInstallation>(currentInstallation: newInstallation,
+                                                                        installationId: newInstallationId)
+                try? ParseStorage.shared.set(newBaseInstallationContainer,
+                                              for: ParseStorage.Keys.currentInstallation)
                 guard let installationFromMemory: CurrentInstallationContainer<Self> =
                         try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
                 else {
