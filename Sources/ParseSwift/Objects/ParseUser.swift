@@ -99,7 +99,7 @@ struct CurrentUserContainer<T: ParseUser>: Codable {
 
 // MARK: Current User Support
 extension ParseUser {
-    static var currentUserContainer: CurrentUserContainer<Self>? {
+    static var currentContainer: CurrentUserContainer<Self>? {
         get {
             guard let currentUserInMemory: CurrentUserContainer<Self>
                 = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
@@ -116,7 +116,7 @@ extension ParseUser {
 
     internal static func saveCurrentContainerToKeychain() {
         #if !os(Linux) && !os(Android)
-        try? KeychainStore.shared.set(Self.currentUserContainer, for: ParseStorage.Keys.currentUser)
+        try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentUser)
         #endif
     }
 
@@ -128,7 +128,7 @@ extension ParseUser {
         }
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
         #endif
-        BaseParseUser.currentUserContainer = nil
+        BaseParseUser.currentContainer = nil
     }
 
     /**
@@ -138,9 +138,9 @@ extension ParseUser {
      - warning: Only use `current` users on the main thread as as modifications to `current` have to be unique.
     */
     public static var current: Self? {
-        get { Self.currentUserContainer?.currentUser }
+        get { Self.currentContainer?.currentUser }
         set {
-            Self.currentUserContainer?.currentUser = newValue
+            Self.currentContainer?.currentUser = newValue
         }
     }
 
@@ -150,7 +150,7 @@ extension ParseUser {
      This is set by the server upon successful authentication.
     */
     public var sessionToken: String? {
-        Self.currentUserContainer?.sessionToken
+        Self.currentContainer?.sessionToken
     }
 }
 
@@ -217,7 +217,7 @@ extension ParseUser {
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             user.username = username
 
-            Self.currentUserContainer = .init(
+            Self.currentContainer = .init(
                 currentUser: user,
                 sessionToken: sessionToken
             )
@@ -302,7 +302,7 @@ extension ParseUser {
                 }
             }
 
-            Self.currentUserContainer = .init(
+            Self.currentContainer = .init(
                 currentUser: user,
                 sessionToken: sessionToken
             )
@@ -656,7 +656,7 @@ extension ParseUser {
                     user.authData = authData
                 }
             }
-            Self.currentUserContainer = .init(currentUser: user,
+            Self.currentContainer = .init(currentUser: user,
                                               sessionToken: sessionToken)
             Self.saveCurrentContainerToKeychain()
             return user
@@ -672,7 +672,7 @@ extension ParseUser {
             let response = try ParseCoding.jsonDecoder()
                 .decode(LoginSignupResponse.self, from: data)
             let user = response.applySignup(to: self)
-            Self.currentUserContainer = .init(
+            Self.currentContainer = .init(
                 currentUser: user,
                 sessionToken: response.sessionToken
             )

@@ -410,7 +410,7 @@ public extension ParseUser {
                 throw ParseError(code: .unknownError, message: "Should have a current user.")
             }
             if let sessionToken = user.sessionToken {
-                Self.currentUserContainer = .init(currentUser: current,
+                Self.currentContainer = .init(currentUser: current,
                                                   sessionToken: sessionToken)
             }
             Self.saveCurrentContainerToKeychain()
@@ -440,7 +440,7 @@ public extension ParseUser {
                 throw ParseError(code: .unknownError, message: "Should have a current user.")
             }
             if let sessionToken = user.sessionToken {
-                Self.currentUserContainer = .init(currentUser: current,
+                Self.currentContainer = .init(currentUser: current,
                                                   sessionToken: sessionToken)
             }
             Self.saveCurrentContainerToKeychain()

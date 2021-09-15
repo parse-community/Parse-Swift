@@ -298,7 +298,7 @@ class APICommandTests: XCTestCase {
 
     func testSessionTokenHeader() throws {
         userLogin()
-        guard let sessionToken = BaseParseUser.currentUserContainer?.sessionToken else {
+        guard let sessionToken = BaseParseUser.currentContainer?.sessionToken else {
             throw ParseError(code: .unknownError, message: "Parse current user should have session token")
         }
 
@@ -336,7 +336,7 @@ class APICommandTests: XCTestCase {
     }
 
     func testInstallationIdHeader() throws {
-        guard let installationId = BaseParseInstallation.currentInstallationContainer.installationId else {
+        guard let installationId = BaseParseInstallation.currentContainer.installationId else {
             throw ParseError(code: .unknownError, message: "Parse current user should have session token")
         }
 
