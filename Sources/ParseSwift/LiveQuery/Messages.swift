@@ -24,8 +24,8 @@ struct StandardMessage: LiveQueryable, Codable {
             self.applicationId = ParseSwift.configuration.applicationId
             self.masterKey = ParseSwift.configuration.masterKey
             self.clientKey = ParseSwift.configuration.clientKey
-            self.sessionToken = BaseParseUser.currentUserContainer?.sessionToken
-            self.installationId = BaseParseInstallation.currentInstallationContainer.installationId
+            self.sessionToken = BaseParseUser.currentContainer?.sessionToken
+            self.installationId = BaseParseInstallation.currentContainer.installationId
         }
     }
 
@@ -59,7 +59,7 @@ struct SubscribeMessage<T: ParseObject>: LiveQueryable, Encodable {
         if let query = query {
             self.query = SubscribeQuery(className: query.className, where: query.where, fields: query.fields)
         }
-        self.sessionToken = BaseParseUser.currentUserContainer?.sessionToken
+        self.sessionToken = BaseParseUser.currentContainer?.sessionToken
     }
 }
 

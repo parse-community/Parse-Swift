@@ -25,8 +25,15 @@ internal struct BaseParseInstallation: ParseInstallation {
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    init() {
-        //Force installation in keychain to be created if it hasn't already
-        Self.current = self
+    static func createNewInstallationIfNeeded() {
+        guard let installationId = Self.currentContainer.installationId,
+              Self.currentContainer.currentInstallation?.installationId == installationId else {
+            try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+            #if !os(Linux) && !os(Android)
+            try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
+            #endif
+            _ = Self.currentContainer
+            return
+        }
     }
 }

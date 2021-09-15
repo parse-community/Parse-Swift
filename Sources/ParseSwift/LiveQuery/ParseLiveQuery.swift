@@ -427,7 +427,7 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
                         }
                     }
 
-                    if let installationId = BaseParseInstallation.currentInstallationContainer.installationId {
+                    if let installationId = BaseParseInstallation.currentContainer.installationId {
                         if installationId != preliminaryMessage.installationId {
                             let error = ParseError(code: .unknownError,
                                                    // swiftlint:disable:next line_length
