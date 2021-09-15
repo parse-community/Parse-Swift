@@ -175,7 +175,9 @@ public struct ParseSwift {
             if let foundInstallation = try? BaseParseInstallation
                 .query("installationId" == installationId)
                 .first() {
-                BaseParseInstallation.currentContainer.currentInstallation = foundInstallation
+                let newContainer = CurrentInstallationContainer<BaseParseInstallation>(currentInstallation: foundInstallation,
+                                                                                       installationId: installationId)
+                BaseParseInstallation.currentContainer = newContainer
                 BaseParseInstallation.saveCurrentContainerToKeychain()
             }
         }
