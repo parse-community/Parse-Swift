@@ -38,6 +38,7 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
     }
 
     /// Updates and notifies when there is an error retrieving the results.
+    // swiftlint:disable:next redundant_optional_initialization
     open var error: ParseError? = nil {
         willSet {
             if newValue != nil {
