@@ -733,7 +733,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             // swiftlint:disable:next line_length
             XCTAssertEqual(error.message, "Invalid struct: No value associated with key CodingKeys(stringValue: \"score\", intValue: nil) (\"score\").")
-            XCTAssertEqual(error.code, .invalidStruct)
+            XCTAssertEqual(error.code, .unknownError)
         }
         XCTAssertThrowsError(try query.first(options: []))
     }
