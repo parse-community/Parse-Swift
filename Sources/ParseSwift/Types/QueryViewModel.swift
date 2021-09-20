@@ -38,7 +38,7 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
     }
 
     /// Updates and notifies when there is an error retrieving the results.
-    open var error: ParseError = nil {
+    open var error: ParseError? = nil {
         willSet {
             if newValue != nil {
                 results.removeAll()
