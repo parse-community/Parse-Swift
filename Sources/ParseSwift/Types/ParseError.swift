@@ -351,6 +351,11 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
          a non-2XX status code.
          */
         case xDomainRequest = 602
+        
+        /**
+         Error code indicating the Parse Swift struct is invalid..
+         */
+        case invalidStruct = 603
 
         /**
          Error code indicating any other custom error sent from the Parse Server.
