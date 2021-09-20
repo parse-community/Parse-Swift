@@ -69,7 +69,7 @@ extension URLSession {
                         let nsError = error as NSError
                         if nsError.code == 4865,
                           let description = nsError.userInfo["NSDebugDescription"] {
-                            return .failure(ParseError(code: .invalidStruct, message: "Invalid struct: \(description)"))
+                            return .failure(ParseError(code: .unknownError, message: "Invalid struct: \(description)"))
                         }
                         return .failure(ParseError(code: .unknownError,
                                                    // swiftlint:disable:next line_length
