@@ -68,7 +68,8 @@ extension URLSession {
                               options: .prettyPrinted) else {
                         let err = (error as NSError)
                         if err.code == 4865, let description = err.userInfo["NSDebugDescription"] {
-                            return .failure(ParseError(code: .invalidStruct, message: "Invalid struct: \(description)"))
+                            return .failure(ParseError(code: .invalidStruct,
+                                                    message: "Invalid struct: \(description)"))
                         }
                         return .failure(ParseError(code: .unknownError,
                                                    // swiftlint:disable:next line_length

@@ -3,6 +3,7 @@
 ### main
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+-  Add more detail to invalid struct errors ([#238](https://github.com/parse-community/Parse-Swift/pull/211)), thanks to [Daniel Blyth](https://github.com/dblythy).
 
 ### 1.9.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.3...1.9.4)
