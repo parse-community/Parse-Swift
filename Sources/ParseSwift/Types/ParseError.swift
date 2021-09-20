@@ -355,7 +355,7 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
         /**
          Error code indicating the Parse Swift struct is invalid.
          */
-        case invalidStruct = 603
+        case invalidStruct
 
         /**
          Error code indicating any other custom error sent from the Parse Server.

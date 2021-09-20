@@ -29,8 +29,7 @@ open class CloudViewModel<T: ParseCloud>: CloudObservable {
     }
 
     /// Updates and notifies when there is an error retrieving the results.
-    // swiftlint:disable:next redundant_optional_initialization
-    open var error: ParseError? = nil {
+    open var error: ParseError? {
         willSet {
             if newValue != nil {
                 self.results = nil

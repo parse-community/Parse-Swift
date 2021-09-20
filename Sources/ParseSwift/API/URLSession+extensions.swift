@@ -66,8 +66,9 @@ extension URLSession {
                           let json = try? JSONSerialization
                             .data(withJSONObject: responseData,
                               options: .prettyPrinted) else {
-                        let err = (error as NSError)
-                        if err.code == 4865, let description = err.userInfo["NSDebugDescription"] {
+                        let nsError = error as NSError
+                        if nsError.code == 4865,
+                          let description = nsError.userInfo["NSDebugDescription"] {
                             return .failure(ParseError(code: .invalidStruct, message: "Invalid struct: \(description)"))
                         }
                         return .failure(ParseError(code: .unknownError,
