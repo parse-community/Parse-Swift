@@ -29,7 +29,7 @@ open class CloudViewModel<T: ParseCloud>: CloudObservable {
     }
 
     /// Updates and notifies when there is an error retrieving the results.
-    open var error: ParseError? = nil {
+    open var error: ParseError = nil {
         willSet {
             if newValue != nil {
                 self.results = nil
