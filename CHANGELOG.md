@@ -4,6 +4,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.10...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__Fixes__
+- ParseUser shouldn't send email if it hasn't been modified or else email verification is resent ([#241](https://github.com/parse-community/Parse-Swift/pull/241)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 1.9.10
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.9...1.9.10)
 __Fixes__
