@@ -634,6 +634,13 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         do {
+            score.score = 12
+            let command = try score.saveCommand()
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command.path.urlComponent, "/classes/GameScore/yarr")
+            XCTAssertEqual(command.method, API.Method.PUT)
+            XCTAssertNil(command.body?.player)
+            XCTAssertEqual(command.body?.score, 12)
             let saved = try score.save()
             guard let savedUpdatedAt = saved.updatedAt else {
                 XCTFail("Should unwrap dates")

@@ -777,6 +777,52 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.body?.customKey, "hello")
     }
 
+    func testSignupCommandAndFutureSave() throws {
+        var loginResponse = LoginSignupResponse()
+        loginResponse.email = nil
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        do {
+            var user = User()
+            user.username = loginUserName
+            user.password = loginPassword
+            user.email = "test@example.com"
+            user.customKey = "blah"
+            let signedUp = try user.signup()
+            XCTAssertNotNil(signedUp)
+            XCTAssertNotNil(signedUp.createdAt)
+            XCTAssertNotNil(signedUp.updatedAt)
+            XCTAssertEqual(signedUp.email, "test@example.com")
+            XCTAssertNotNil(signedUp.username)
+            XCTAssertNil(signedUp.password)
+            XCTAssertNotNil(signedUp.objectId)
+            XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNotNil(signedUp.customKey)
+            XCTAssertNil(signedUp.ACL)
+
+            var current = User.current
+            current?.customKey = "blah2"
+            let command = try current?.saveCommand()
+            XCTAssertNotNil(command)
+            XCTAssertEqual(command?.path.urlComponent, "/users/yarr")
+            XCTAssertEqual(command?.method, API.Method.PUT)
+            XCTAssertNil(command?.body?.email)
+            XCTAssertNil(command?.body?.username)
+            XCTAssertNil(command?.body?.password)
+            XCTAssertEqual(command?.body?.customKey, "blah2")
+
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func testUserSignUp() {
         let loginResponse = LoginSignupResponse()
 
