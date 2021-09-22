@@ -20,7 +20,7 @@ public protocol ParseUser: ParseObject {
     Determines if the email is verified for the `ParseUser`.
      - note: This value can only be changed on the Parse Server.
     */
-    var emailVerified: Bool? { get }
+    var emailVerified: Bool? { get set }
 
     /**
      The password for the `ParseUser`.
@@ -944,12 +944,14 @@ extension ParseUser {
     }
 
     private func updateCommand() -> API.Command<Self, Self> {
+        var mutableSelf = self
+        mutableSelf.emailVerified = nil
         let mapper = { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
-                                 body: self,
+                                 body: mutableSelf,
                                  mapper: mapper)
     }
 }
