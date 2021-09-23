@@ -944,12 +944,18 @@ extension ParseUser {
     }
 
     private func updateCommand() -> API.Command<Self, Self> {
+        var mutableSelf = self
+        if let currentUser = Self.current,
+           currentUser.hasSameObjectId(as: mutableSelf) == true,
+           currentUser.email == mutableSelf.email {
+            mutableSelf.email = nil
+        }
         let mapper = { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
-                                 body: self,
+                                 body: mutableSelf,
                                  mapper: mapper)
     }
 }
