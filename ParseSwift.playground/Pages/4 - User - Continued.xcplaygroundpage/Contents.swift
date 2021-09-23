@@ -156,7 +156,7 @@ do {
 //: you should create an instance of your user first.
 var newUser = User(username: "parse", password: "aPassword*", email: "parse@parse.com")
 //: Add any other additional information.
-newUser.targetScore = .init(score: 40)
+newUser.customKey = "mind"
 newUser.signup { result in
 
     switch result {
