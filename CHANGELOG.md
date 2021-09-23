@@ -12,6 +12,7 @@ __Fixes__
 
 ### 1.9.10
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.9...1.9.10)
+
 __Fixes__
 - ParseInstallation can't be retreived from Keychain after the first fun ([#236](https://github.com/parse-community/Parse-Swift/pull/236)), thanks to [Corey Baker](https://github.com/cbaker6).
 
