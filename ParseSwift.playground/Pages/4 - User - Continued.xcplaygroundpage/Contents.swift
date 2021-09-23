@@ -106,7 +106,7 @@ User.login(username: "hello", password: "world") { result in
     Using `emptyObject` allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
-var currentUser = User.current?.emptyObject()
+var currentUser = User.current?.emptyObject
 currentUser?.customKey = "myCustom"
 currentUser?.score = GameScore(score: 12)
 currentUser?.targetScore = GameScore(score: 100)
@@ -210,7 +210,7 @@ User.anonymous.login { result in
 }
 
 //: Convert the anonymous user to a real new user.
-var currentUser2 = User.current?.emptyObject()
+var currentUser2 = User.current?.emptyObject
 currentUser2?.username = "bye"
 currentUser2?.password = "world"
 currentUser2?.signup { result in

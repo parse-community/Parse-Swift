@@ -100,7 +100,7 @@ score.save { result in
             allows you to only send the updated keys to the
             parse server as opposed to the whole object.
         */
-        var changedScore = savedScore.emptyObject()
+        var changedScore = savedScore.emptyObject
         changedScore.score = 200
         changedScore.save { result in
             switch result {
@@ -192,7 +192,7 @@ assert(savedScore?.score == 10)
     allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
-guard var changedScore = savedScore?.emptyObject() else {
+guard var changedScore = savedScore?.emptyObject else {
     fatalError()
 }
 changedScore.score = 200

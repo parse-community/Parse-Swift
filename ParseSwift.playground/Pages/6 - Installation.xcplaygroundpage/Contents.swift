@@ -61,7 +61,7 @@ currentInstallation?.save { results in
     send the updated keys to the parse server as opposed to the
     whole object.
  */
-currentInstallation = currentInstallation?.emptyObject()
+currentInstallation = currentInstallation?.emptyObject
 currentInstallation?.customKey = "updatedValue"
 currentInstallation?.save { results in
 
