@@ -160,15 +160,28 @@ extension ParseFile {
      Deletes the file from the Parse cloud.
      - requires: `.useMasterKey` has to be available.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after synchronous completion.
      - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
      */
-    public func delete(options: API.Options) throws {
+    public func delete(options: API.Options,
+                       callbackQueue: DispatchQueue) throws {
         var options = options
         options.insert(.useMasterKey)
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
 
-        _ = try deleteFileCommand().execute(options: options, callbackQueue: .main)
+        _ = try deleteFileCommand().execute(options: options,
+                                            callbackQueue: callbackQueue)
+    }
+
+    /**
+     Deletes the file from the Parse cloud.
+     - requires: `.useMasterKey` has to be available.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
+     */
+    public func delete(options: API.Options) throws {
+        try delete(options: options, callbackQueue: .main)
     }
 
     /**
@@ -246,10 +259,13 @@ extension ParseFile {
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - parameter stream: An input file stream.
+     - parameter callbackQueue: The queue to return to after synchronous completion.
+     Default value of .main.
      - returns: A saved `ParseFile`.
      */
     public func save(options: API.Options = [],
                      stream: InputStream,
+                     callbackQueue: DispatchQueue = .main,
                      progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil) throws {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -267,7 +283,7 @@ extension ParseFile {
         options = options.union(self.options)
         return try uploadFileCommand()
             .executeStream(options: options,
-                           callbackQueue: .main,
+                           callbackQueue: callbackQueue,
                            uploadProgress: progress,
                            stream: stream)
     }
@@ -276,9 +292,11 @@ extension ParseFile {
      Creates a file with given data *synchronously*. A name will be assigned to it by the server.
      If the file hasn't been downloaded, it will automatically be downloaded before saved.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after synchronous completion.
      - returns: A saved `ParseFile`.
      */
-    public func save(options: API.Options = []) throws -> ParseFile {
+    public func save(options: API.Options = [],
+                     callbackQueue: DispatchQueue) throws -> ParseFile {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let mimeType = mimeType {
@@ -295,9 +313,19 @@ extension ParseFile {
         options = options.union(self.options)
         if isDownloadNeeded {
             let fetched = try fetch(options: options)
-            return try fetched.uploadFileCommand().execute(options: options, callbackQueue: .main)
+            return try fetched.uploadFileCommand().execute(options: options, callbackQueue: callbackQueue)
         }
-        return try uploadFileCommand().execute(options: options, callbackQueue: .main)
+        return try uploadFileCommand().execute(options: options, callbackQueue: callbackQueue)
+    }
+
+    /**
+     Creates a file with given data *synchronously*. A name will be assigned to it by the server.
+     If the file hasn't been downloaded, it will automatically be downloaded before saved.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A saved `ParseFile`.
+     */
+    public func save(options: API.Options = []) throws -> ParseFile {
+        try save(options: options, callbackQueue: .main)
     }
 
     /**
@@ -334,12 +362,15 @@ extension ParseFile {
            }
       
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after synchronous completion.
+     Defailts to .main.
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A saved `ParseFile`.
      */
     public func save(options: API.Options = [],
+                     callbackQueue: DispatchQueue = .main,
                      progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)?) throws -> ParseFile {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -360,10 +391,12 @@ extension ParseFile {
             return try fetched
                 .uploadFileCommand()
                 .execute(options: options,
-                         callbackQueue: .main,
+                         callbackQueue: callbackQueue,
                          uploadProgress: progress)
         }
-        return try uploadFileCommand().execute(options: options, callbackQueue: .main, uploadProgress: progress)
+        return try uploadFileCommand().execute(options: options,
+                                               callbackQueue: callbackQueue,
+                                               uploadProgress: progress)
     }
 
     /**
@@ -493,10 +526,13 @@ extension ParseFile {
      Fetches a file with given url *synchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter stream: An input file stream.
+     - parameter callbackQueue: The queue to return to after synchronous completion.
+     Default value of .main.
      - returns: A saved `ParseFile`.
      */
     public func fetch(options: API.Options = [],
-                      stream: InputStream) throws {
+                      stream: InputStream,
+                      callbackQueue: DispatchQueue = .main) throws {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -512,7 +548,7 @@ extension ParseFile {
         options = options.union(self.options)
         return try downloadFileCommand()
             .executeStream(options: options,
-                           callbackQueue: .main,
+                           callbackQueue: callbackQueue,
                            stream: stream)
     }
 
@@ -520,9 +556,12 @@ extension ParseFile {
      Fetches a file with given url *synchronously*.
      - parameter includeKeys: Currently not used for `ParseFile`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after synchronous completion.
      - returns: A saved `ParseFile`.
      */
-    public func fetch(includeKeys: [String]? = nil, options: API.Options = []) throws -> ParseFile {
+    public func fetch(includeKeys: [String]? = nil,
+                      options: API.Options = [],
+                      callbackQueue: DispatchQueue) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -538,7 +577,20 @@ extension ParseFile {
         options = options.union(self.options)
         return try downloadFileCommand()
             .execute(options: options,
-                     callbackQueue: .main)
+                     callbackQueue: callbackQueue)
+    }
+
+    /**
+     Fetches a file with given url *synchronously*.
+     - parameter includeKeys: Currently not used for `ParseFile`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A saved `ParseFile`.
+     */
+    public func fetch(includeKeys: [String]? = nil,
+                      options: API.Options = []) throws -> ParseFile {
+        try fetch(includeKeys: includeKeys,
+                  options: options,
+                  callbackQueue: .main)
     }
 
     /**
@@ -574,12 +626,15 @@ extension ParseFile {
           }
      
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after synchronous completion.
+     Defaults to .main.
      - parameter progress: A block that will be called when file updates it's progress.
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A saved `ParseFile`.
      */
     public func fetch(options: API.Options = [],
+                      callbackQueue: DispatchQueue = .main,
                       progress: @escaping ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
@@ -596,7 +651,7 @@ extension ParseFile {
         options = options.union(self.options)
         return try downloadFileCommand()
             .execute(options: options,
-                     callbackQueue: .main,
+                     callbackQueue: callbackQueue,
                      downloadProgress: progress)
     }
 

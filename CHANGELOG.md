@@ -1,26 +1,65 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.5...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.10...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
-### 1.9.5
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...1.9.5)
 __Improvements__
 - Use DocC for SDK documentation instead of Jazzy ([#209](https://github.com/parse-community/Parse-Swift/pull/214)), thanks to [Corey Baker](https://github.com/cbaker6).
 
+__Fixes__
+- ParseUser shouldn't send email if it hasn't been modified or else email verification is resent ([#241](https://github.com/parse-community/Parse-Swift/pull/241)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.10
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.9...1.9.10)
+__Fixes__
+- ParseInstallation can't be retreived from Keychain after the first fun ([#236](https://github.com/parse-community/Parse-Swift/pull/236)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.9
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.8...1.9.9)
+
+__Fixes__
+- Saving ParseObjects with ParseFile properties now saves files on background queue ([#230](https://github.com/parse-community/Parse-Swift/pull/230)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.8
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.7...1.9.8)
+
+__Fixes__
+- Use a seperate Keychain for each app bundleId. This only effects macOS apps as their Keychain is handled by the OS differently. For macOS app developers only, the user who logged in last to your app will have their Keychain upgraded to the patched version. Other users/apps will either need to login again or logout then login again ([#224](https://github.com/parse-community/Parse-Swift/pull/224)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.7
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.6...1.9.7)
+
+__Improvements__
+- Properly allow a mixed custom objectId environment without compromising safety checks using .save(). If a developer wants to ignore the objectId checks, they need to specify isIgnoreCustomObjectIdConfig = true each time ([#222](https://github.com/parse-community/Parse-Swift/pull/222)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.6
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.5...1.9.6)
+
+__Fixes__
+- Query withinMiles and withinKilometers was not returning unsorted results when sort=false ([#219](https://github.com/parse-community/Parse-Swift/pull/219)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.9.5
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.4...1.9.5)
+
+__Improvements__
+- LiveQuery web socket connections handle URL error codes -1001 "The request timed out" and -1011 "There was a bad response from the server." ([#217](https://github.com/parse-community/Parse-Swift/pull/217)), thanks to [Lukas Smilek](https://github.com/lsmilek1).
+
 ### 1.9.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.3...1.9.4)
+
 __Fixes__
 - Fix LiveQuery reconnections when server disconnects. Always receive and pass connection errors to ParseLiveQuery delegate ([#211](https://github.com/parse-community/Parse-Swift/pull/211)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.2...1.9.3)
+
 __Improvements__
 - Ensure delegate set before resuming a ParseLiveQuery task ([#209](https://github.com/parse-community/Parse-Swift/pull/209)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.1...1.9.2)
+
 __Improvements__
 - ParseLiveQuery checks all states of a websocket and reacts as needed after an error ([#207](https://github.com/parse-community/Parse-Swift/pull/207)), thanks to [Corey Baker](https://github.com/cbaker6).
 

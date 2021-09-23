@@ -18,11 +18,6 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
     public let message: String
     /// An error value representing a custom error from the Parse Server.
     public let otherCode: Int?
-    init(code: Code, message: String) {
-        self.code = code
-        self.message = message
-        self.otherCode = nil
-    }
 
     enum CodingKeys: String, CodingKey {
         case code
@@ -366,6 +361,16 @@ extension ParseError {
         var container = encoder.container(keyedBy: CodingKeys.self)
         try container.encode(code, forKey: .code)
         try container.encode(message, forKey: .message)
+    }
+}
+
+// MARK: Convenience Implementations
+extension ParseError {
+
+    init(code: Code, message: String) {
+        self.code = code
+        self.message = message
+        self.otherCode = nil
     }
 }
 

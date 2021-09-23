@@ -189,7 +189,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testStandardMessageEncoding() throws {
-        guard let installationId = BaseParseInstallation.currentInstallationContainer.installationId else {
+        guard let installationId = BaseParseInstallation.currentContainer.installationId else {
             XCTFail("Should have installationId")
             return
         }

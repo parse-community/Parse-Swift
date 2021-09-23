@@ -351,7 +351,7 @@ extension ParseOperation {
     */
     public func save(options: API.Options = []) throws -> T {
         guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
+            throw ParseError(code: .unknownError, message: "Target shouldn't be nil.")
         }
         if !target.isSaved {
             throw ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
@@ -375,7 +375,7 @@ extension ParseOperation {
     ) {
         guard let target = self.target else {
             callbackQueue.async {
-                let error = ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
+                let error = ParseError(code: .unknownError, message: "Target shouldn't be nil.")
                 completion(.failure(error))
             }
             return

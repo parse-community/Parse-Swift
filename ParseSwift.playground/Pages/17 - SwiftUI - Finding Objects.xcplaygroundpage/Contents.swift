@@ -38,6 +38,7 @@ struct GameScore: ParseObject, Identifiable {
     var score: Int = 0
     var location: ParseGeoPoint?
     var name: String?
+    var myFiles: [ParseFile]?
 
     //: Custom initializer.
     init(name: String, score: Int) {
@@ -55,9 +56,43 @@ struct ContentView: View {
     @ObservedObject var viewModel = GameScore.query("score" > 2)
         .order([.descending("score")])
         .viewModel
+    @State var name = ""
+    @State var score = ""
+    @State var isShowingAction = false
+    @State var savedLabel = ""
 
     var body: some View {
         NavigationView {
+            VStack {
+                TextField("Name", text: $name)
+                TextField("Score", text: $score)
+                Button(action: {
+                    guard let scoreValue = Int(score),
+                          let linkToFile = URL(string: "https://parseplatform.org/img/logo.svg") else {
+                        return
+                    }
+                    var score = GameScore(name: name,
+                                          score: scoreValue)
+                    //: Create new `ParseFile` for saving.
+                    let file1 = ParseFile(name: "file1.svg",
+                                          cloudURL: linkToFile)
+                    let file2 = ParseFile(name: "file2.svg",
+                                          cloudURL: linkToFile)
+                    score.myFiles = [file1, file2]
+                    score.save { result in
+                        switch result {
+                        case .success:
+                            savedLabel = "Saved score"
+                            self.viewModel.find()
+                        case .failure(let error):
+                            savedLabel = "Error: \(error.message)"
+                        }
+                        isShowingAction = true
+                    }
+                }, label: {
+                    Text("Save score")
+                })
+            }
             if let error = viewModel.error {
                 Text(error.description)
             } else {
@@ -75,6 +110,11 @@ struct ContentView: View {
             Spacer()
         }.onAppear(perform: {
             viewModel.find()
+        }).alert(isPresented: $isShowingAction, content: {
+            Alert(title: Text("GameScore"),
+                  message: Text(savedLabel),
+                  dismissButton: .default(Text("Ok"), action: {
+            }))
         })
     }
 }

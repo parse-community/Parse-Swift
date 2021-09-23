@@ -238,7 +238,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -257,7 +256,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertEqual(command.params, includeExpected)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
 
             // swiftlint:disable:next line_length
             guard let urlExpected = URL(string: "http://localhost:1337/1/classes/GameScore/yarr?include=%5B%22yolo%22,%20%22test%22%5D") else {
@@ -512,7 +510,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)")
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         let expected = "GameScore ({\"score\":10,\"player\":\"Jen\"})"
         let decoded = score.debugDescription
@@ -535,7 +532,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
-        XCTAssertNotNil(command.data)
 
         guard let body = command.body else {
             XCTFail("Should be able to unwrap")
@@ -1134,6 +1130,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
+        let expectation1 = XCTestExpectation(description: "Deep save")
         game.ensureDeepSave { (savedChildren, savedChildFiles, parseError) in
 
             XCTAssertEqual(savedChildren.count, 1)
@@ -1152,6 +1149,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             guard let savedChild = savedChildObject else {
                 XCTFail("Should have unwrapped child object")
+                expectation1.fulfill()
                 return
             }
 
@@ -1163,6 +1161,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 game.score = try game.getDecoder().decode(GameScore.self, from: encodedScore)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
                 return
             }
 
@@ -1181,6 +1180,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 gameOnServer = try game.getDecoder().decode(Game.self, from: encodedGamed)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
                 return
             }
 
@@ -1195,14 +1195,16 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                              childObjects: savedChildren,
                              childFiles: savedChildFiles) else {
                 XCTFail("Should have saved game")
+                expectation1.fulfill()
                 return
             }
             XCTAssertEqual(savedGame.objectId, gameOnServer.objectId)
             XCTAssertEqual(savedGame.createdAt, gameOnServer.createdAt)
             XCTAssertEqual(savedGame.updatedAt, gameOnServer.updatedAt)
             XCTAssertEqual(savedGame.score, gameOnServer.score)
-
+            expectation1.fulfill()
         }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeepSaveDetectCircular() throws {
@@ -1210,15 +1212,18 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let game = GameClass(score: score)
         game.objectId = "nice"
         score.game = game
-
+        let expectation1 = XCTestExpectation(description: "Deep save")
         game.ensureDeepSave { (_, _, parseError) in
 
             guard let error = parseError else {
                 XCTFail("Should have failed with an error of detecting a circular dependency")
+                expectation1.fulfill()
                 return
             }
             XCTAssertTrue(error.message.contains("circular"))
+            expectation1.fulfill()
         }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testAllowFieldsWithSameObject() throws {
@@ -1227,10 +1232,12 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         level.objectId = "nice"
         score.level = level
         score.nextLevel = level
-
+        let expectation1 = XCTestExpectation(description: "Deep save")
         score.ensureDeepSave { (_, _, parseError) in
             XCTAssertNil(parseError)
+            expectation1.fulfill()
         }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeepSaveTwoDeep() throws {
@@ -1258,7 +1265,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-
+        let expectation1 = XCTestExpectation(description: "Deep save")
         game.ensureDeepSave { (savedChildren, savedChildFiles, parseError) in
 
             XCTAssertEqual(savedChildFiles.count, 0)
@@ -1285,7 +1292,9 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(level.first?.className, "Level")
             XCTAssertEqual(level.first?.objectId, "yarr") //This is because mocker is only returning 1 response
             XCTAssertNil(parseError)
+            expectation1.fulfill()
         }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func testDeepSaveOfUnsavedPointerArray() throws {
@@ -1359,7 +1368,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let parseFile = ParseFile(name: "profile.svg", cloudURL: cloudPath)
         game.profilePicture = parseFile
 
-        let fileResponse = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)", url: parseURL)
+        let fileResponse = FileUploadResponse(name: "89d74fcfa4faa5561799e5076593f67c_\(parseFile.name)",
+                                              url: parseURL)
 
         let encoded: Data!
         do {
@@ -1373,6 +1383,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
+        let expectation1 = XCTestExpectation(description: "Deep save")
         game.ensureDeepSave { (savedChildren, savedChildFiles, parseError) in
 
             XCTAssertEqual(savedChildren.count, 0)
@@ -1408,6 +1419,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 gameOnServer = try game.getDecoder().decode(Game2.self, from: encodedGamed)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
                 return
             }
 
@@ -1422,13 +1434,16 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                              childObjects: savedChildren,
                              childFiles: savedChildFiles) else {
                 XCTFail("Should have saved game")
+                expectation1.fulfill()
                 return
             }
             XCTAssertEqual(savedGame.objectId, gameOnServer.objectId)
             XCTAssertEqual(savedGame.createdAt, gameOnServer.createdAt)
             XCTAssertEqual(savedGame.updatedAt, gameOnServer.updatedAt)
             XCTAssertEqual(savedGame.profilePicture, gameOnServer.profilePicture)
+            expectation1.fulfill()
         }
+        wait(for: [expectation1], timeout: 20.0)
     }
     #endif
 }
