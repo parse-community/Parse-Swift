@@ -6,7 +6,7 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if swift(>=5.5)
+#if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 import XCTest
 @testable import ParseSwift
