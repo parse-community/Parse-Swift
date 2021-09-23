@@ -32,7 +32,12 @@ public protocol ParseObject: Objectable,
                              Deletable,
                              Hashable,
                              CustomDebugStringConvertible,
-                             CustomStringConvertible {}
+                             CustomStringConvertible {
+    /**
+    Default initializer of this `ParseObject`.
+    */
+    init()
+}
 
 // MARK: Default Implementations
 extension ParseObject {

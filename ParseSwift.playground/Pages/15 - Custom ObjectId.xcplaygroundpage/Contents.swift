@@ -30,7 +30,11 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int = 0
+}
 
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
     init(objectId: String, score: Int) {
         self.objectId = objectId
@@ -64,9 +68,11 @@ score.save { result in
         print("Saved score: \(savedScore)")
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable.
+            was initialized as immutable. Using `emptyObject`
+            allows you to only send the updated keys to the
+            parse server as opposed to the whole object.
         */
-        var changedScore = savedScore
+        var changedScore = savedScore.emptyObject()
         changedScore.score = 200
         changedScore.save { result in
             switch result {

@@ -39,8 +39,12 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int = 0
+}
 
-    //: Custom initializer.
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
+
     init(score: Int) {
         self.score = score
     }
@@ -62,6 +66,11 @@ struct GameData: ParseObject {
     //: `ParseBytes` needs to be a part of the original schema
     //: or else you will need your masterKey to force an upgrade.
     var bytes: ParseBytes?
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameData {
 
     init (bytes: ParseBytes?, polygon: ParsePolygon) {
         self.bytes = bytes
@@ -87,9 +96,11 @@ score.save { result in
         assert(savedScore.score == 10)
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable.
+            was initialized as immutable. Using `emptyObject`
+            allows you to only send the updated keys to the
+            parse server as opposed to the whole object.
         */
-        var changedScore = savedScore
+        var changedScore = savedScore.emptyObject()
         changedScore.score = 200
         changedScore.save { result in
             switch result {
@@ -177,9 +188,11 @@ assert(savedScore?.updatedAt != nil)
 assert(savedScore?.score == 10)
 
 /*:  To modify, need to make it a var as the value type
-    was initialized as immutable.
+    was initialized as immutable. Using `emptyObject`
+    allows you to only send the updated keys to the
+    parse server as opposed to the whole object.
 */
-guard var changedScore = savedScore else {
+guard var changedScore = savedScore?.emptyObject() else {
     fatalError()
 }
 changedScore.score = 200

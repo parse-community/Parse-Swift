@@ -29,7 +29,11 @@ struct GameScore: ParseObject {
     var score: Int = 0
     var location: ParseGeoPoint?
     var name: String?
+}
 
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
     init(name: String, score: Int) {
         self.name = name
@@ -75,9 +79,7 @@ struct ContentView: View {
                 Text("Not subscribed to a query")
             }
 
-            Spacer()
-
-            Text("Update GameScore in Parse Dashboard to see changes here")
+            Text("Update GameScore in Parse Dashboard to see changes here:")
 
             Button(action: {
                 try? query.unsubscribe()
@@ -88,8 +90,8 @@ struct ContentView: View {
                     .foregroundColor(.white)
                     .padding()
                     .cornerRadius(20.0)
-                    .frame(width: 300, height: 50)
             })
+            Spacer()
         }
     }
 }

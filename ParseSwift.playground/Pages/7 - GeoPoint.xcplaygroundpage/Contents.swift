@@ -21,10 +21,15 @@ struct GameScore: ParseObject {
     var updatedAt: Date?
     var ACL: ParseACL?
     var location: ParseGeoPoint?
+
     //: Your own properties
     var score: Int?
+}
 
-    //: A custom initializer.
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
+    //: Custom initializer.
     init(score: Int) {
         self.score = score
     }

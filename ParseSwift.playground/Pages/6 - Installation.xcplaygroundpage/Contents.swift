@@ -42,8 +42,9 @@ struct Installation: ParseInstallation {
     designated callbackQueue. If no callbackQueue is specified it
     returns to main queue.
  */
-Installation.current?.customKey = "myCustomInstallationKey2"
-Installation.current?.save { results in
+var currentInstallation = Installation.current
+currentInstallation?.customKey = "myCustomInstallationKey2"
+currentInstallation?.save { results in
 
     switch results {
     case .success(let updatedInstallation):
@@ -56,10 +57,13 @@ Installation.current?.save { results in
 /*: Update your `ParseInstallation` `customKey` value.
     Performs work on background queue and returns to designated on
     designated callbackQueue. If no callbackQueue is specified it
-    returns to main queue.
+    returns to main queue. Using `emptyObject` allows you to only
+    send the updated keys to the parse server as opposed to the
+    whole object.
  */
-Installation.current?.customKey = "updatedValue"
-Installation.current?.save { results in
+currentInstallation = currentInstallation?.emptyObject()
+currentInstallation?.customKey = "updatedValue"
+currentInstallation?.save { results in
 
     switch results {
     case .success(let updatedInstallation):

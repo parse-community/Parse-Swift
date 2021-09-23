@@ -35,11 +35,6 @@ public protocol Objectable: ParseType, Decodable {
     The ACL for this object.
     */
     var ACL: ParseACL? { get set }
-
-    /**
-    Default initializer of this `ParseObject`.
-    */
-    init()
 }
 
 extension Objectable {

@@ -25,8 +25,12 @@ struct GameScore: ParseObject {
     var score: Int = 0
     var profilePicture: ParseFile?
     var myData: ParseFile?
+}
 
-    //custom initializer
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
+    //: Custom initializer.
     init(score: Int) {
         self.score = score
     }
