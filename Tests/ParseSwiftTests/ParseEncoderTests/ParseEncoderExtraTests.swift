@@ -21,6 +21,9 @@ class ParseEncoderTests: XCTestCase {
         var score: Int
 
         //: a custom initializer
+        init() {
+            self.score = 5
+        }
         init(score: Int) {
             self.score = score
         }

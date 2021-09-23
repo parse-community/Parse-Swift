@@ -42,7 +42,9 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var nextLevel: Level?
 
         //custom initializers
-        init (objectId: String?) {
+        init() {}
+
+        init(objectId: String?) {
             self.objectId = objectId
         }
         init(score: Int) {
@@ -69,6 +71,10 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var profilePicture: ParseFile?
 
         //: a custom initializer
+        init() {
+            self.score = GameScore()
+        }
+
         init(score: GameScore) {
             self.score = score
         }
@@ -102,6 +108,10 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var game: GameClass?
 
         //: a custom initializer
+        required init() {
+            self.score = 5
+        }
+
         init(score: Int) {
             self.score = score
         }
@@ -154,6 +164,10 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var name = "Hello"
 
         //: a custom initializer
+        required init() {
+            self.score = GameScoreClass()
+        }
+
         init(score: GameScoreClass) {
             self.score = score
         }
@@ -224,6 +238,15 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             expectation2.fulfill()
         }
         wait(for: [expectation2], timeout: 20.0)
+    }
+
+    func testEmptyObject() throws {
+        var score = GameScore(score: 19, name: "fire")
+        score.objectId = "yolo"
+        score.createdAt = Date()
+        let empty = score.emptyObject()
+        XCTAssertTrue(score.hasSameObjectId(as: empty))
+        XCTAssertEqual(score.createdAt, empty.createdAt)
     }
 
     func testFetchCommand() {
@@ -545,6 +568,49 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                     filesSavedBeforeThisOne: nil).encoded
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
+    }
+
+    func testUpdateCommandEmptyObject() throws {
+        var score = GameScore(score: 10)
+        let className = score.className
+        let objectId = "yarr"
+        score.objectId = objectId
+        score.createdAt = Date()
+        score.updatedAt = score.createdAt
+
+        let command = try score.emptyObject().saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+
+        guard let body = command.body else {
+            XCTFail("Should be able to unwrap")
+            return
+        }
+
+        let expected = "{}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(body, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+
+        var empty = score.emptyObject()
+        empty.player = "Jennifer"
+        let command2 = try empty.saveCommand()
+        guard let body2 = command2.body else {
+            XCTFail("Should be able to unwrap")
+            return
+        }
+        let expected2 = "{\"player\":\"Jennifer\"}"
+        let encoded2 = try ParseCoding.parseEncoder()
+            .encode(body2, collectChildren: false,
+                    objectsSavedBeforeThisOne: nil,
+                    filesSavedBeforeThisOne: nil).encoded
+        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
+        XCTAssertEqual(decoded2, expected2)
     }
     #endif
 

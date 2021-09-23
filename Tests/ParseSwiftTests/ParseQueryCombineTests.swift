@@ -28,6 +28,8 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         var player: String?
 
         //custom initializers
+        init() {}
+
         init (objectId: String?) {
             self.objectId = objectId
         }

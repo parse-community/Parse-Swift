@@ -47,6 +47,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         var levels: [Level]?
 
         //custom initializers
+        init() {}
         init (objectId: String?) {
             self.objectId = objectId
         }

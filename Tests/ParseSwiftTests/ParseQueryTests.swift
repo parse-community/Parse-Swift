@@ -23,6 +23,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var score: Int
 
         //: a custom initializer
+        init() {
+            self.score = 5
+        }
         init(score: Int) {
             self.score = score
         }
