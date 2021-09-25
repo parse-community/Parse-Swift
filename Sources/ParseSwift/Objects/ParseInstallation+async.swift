@@ -35,14 +35,18 @@ public extension ParseInstallation {
     // MARK: Savable - Async/Await
     /**
      Saves the `ParseInstallation` *asynchronously* and publishes when complete.
-
+     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
-    func save(options: API.Options = []) async throws -> Self {
+    func save(isIgnoreCustomObjectIdConfig: Bool = false,
+              options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            self.save(options: options,
+            self.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                      options: options,
                       completion: continuation.resume)
         }
     }
@@ -91,6 +95,9 @@ public extension Sequence where Element: ParseInstallation {
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
@@ -100,10 +107,12 @@ public extension Sequence where Element: ParseInstallation {
     */
     func saveAll(batchLimit limit: Int? = nil,
                  transaction: Bool = false,
+                 isIgnoreCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
+                         isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
                          options: options,
                          completion: continuation.resume)
         }
