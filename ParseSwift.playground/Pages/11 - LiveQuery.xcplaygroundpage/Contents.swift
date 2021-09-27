@@ -21,7 +21,11 @@ struct GameScore: ParseObject {
     var score: Int = 0
     var location: ParseGeoPoint?
     var name: String?
+}
 
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
     init(name: String, score: Int) {
         self.name = name

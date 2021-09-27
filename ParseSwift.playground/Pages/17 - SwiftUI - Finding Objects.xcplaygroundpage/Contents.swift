@@ -39,7 +39,11 @@ struct GameScore: ParseObject, Identifiable {
     var location: ParseGeoPoint?
     var name: String?
     var myFiles: [ParseFile]?
+}
 
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
     init(name: String, score: Int) {
         self.name = name

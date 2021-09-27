@@ -32,7 +32,11 @@ struct User: ParseUser {
     var score: GameScore?
     var targetScore: GameScore?
     var allScores: [GameScore]?
+}
 
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension User {
     //: Custom init for signup.
     init(username: String, password: String, email: String) {
         self.username = username
@@ -51,7 +55,11 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int? = 0
+}
 
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
     init(score: Int) {
         self.score = score
@@ -95,12 +103,15 @@ User.login(username: "hello", password: "world") { result in
     Asynchrounously - Performs work on background
     queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
+    Using `emptyObject` allows you to only send the updated keys to the
+    parse server as opposed to the whole object.
 */
-User.current?.customKey = "myCustom"
-User.current?.score = GameScore(score: 12)
-User.current?.targetScore = GameScore(score: 100)
-User.current?.allScores = [GameScore(score: 5), GameScore(score: 8)]
-User.current?.save { result in
+var currentUser = User.current?.emptyObject
+currentUser?.customKey = "myCustom"
+currentUser?.score = GameScore(score: 12)
+currentUser?.targetScore = GameScore(score: 100)
+currentUser?.allScores = [GameScore(score: 5), GameScore(score: 8)]
+currentUser?.save { result in
 
     switch result {
     case .success(let updatedUser):
@@ -145,7 +156,7 @@ do {
 //: you should create an instance of your user first.
 var newUser = User(username: "parse", password: "aPassword*", email: "parse@parse.com")
 //: Add any other additional information.
-newUser.targetScore = .init(score: 40)
+newUser.customKey = "mind"
 newUser.signup { result in
 
     switch result {
@@ -199,9 +210,10 @@ User.anonymous.login { result in
 }
 
 //: Convert the anonymous user to a real new user.
-User.current?.username = "bye"
-User.current?.password = "world"
-User.current?.signup { result in
+var currentUser2 = User.current?.emptyObject
+currentUser2?.username = "bye"
+currentUser2?.password = "world"
+currentUser2?.signup { result in
     switch result {
 
     case .success(let user):
