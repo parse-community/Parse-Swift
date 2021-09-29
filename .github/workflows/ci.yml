@@ -117,9 +117,9 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Prepare codecov
       run: |
-        XCTEST=$(find . -type d -name '*.xctest')
+        XCTEST=$(find . -type f -name 'ParseSwiftPackageTests')
         PROFDATA=$(find . -type f -name '*.profdata')
-        xcrun llvm-cov export "${XCTEST}/Contents/MacOS/ParseSwiftPackageTests" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
+        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
@@ -148,9 +148,9 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Prepare codecov
       run: |
-        XCTEST=$(find . -type d -name '*.xctest')
+        XCTEST=$(find . -type f -name 'ParseSwiftPackageTests')
         PROFDATA=$(find . -type f -name '*.profdata')
-        xcrun llvm-cov export "${XCTEST}/Contents/MacOS/ParseSwiftPackageTests" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
+        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
@@ -173,7 +173,7 @@ jobs:
         run: |
           XCTEST=$(find . -type d -name '*.xctest')
           PROFDATA=$(find . -type f -name '*.profdata')
-          llvm-cov export -format="lcov" "${XCTEST}" -instr-profile "${PROFDATA} > info.lcov
+          llvm-cov export -format="lcov" "${XCTEST}" -instr-profile "${PROFDATA}" > info.lcov
       - name: Send codecov
         run: bash <(curl https://codecov.io/bash)
 
