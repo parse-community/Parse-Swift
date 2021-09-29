@@ -21,6 +21,13 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+    - name: Prepare codecov
+      run: |
+        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
+        PROFDATA=$(find DerivedData -type f -name '*.profdata')
+        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       env:
