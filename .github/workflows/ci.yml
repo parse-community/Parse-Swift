@@ -18,7 +18,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Prepare codecov
@@ -42,13 +42,13 @@ jobs:
         security unlock-keychain -p "" temporary
         security set-keychain-settings -lut 7200 temporary
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Prepare codecov
       run: |
-        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
-        PROFDATA=$(find DerivedData -type f -name '*.profdata')
+        XCTEST=$(find . -type f -name 'ParseSwiftTests')
+        PROFDATA=$(find . -type f -name '*.profdata')
         xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
@@ -62,13 +62,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV -derivedDataPath DerivedData test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Prepare codecov
       run: |
-        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
-        PROFDATA=$(find DerivedData -type f -name '*.profdata')
+        XCTEST=$(find . -type f -name 'ParseSwiftTests')
+        PROFDATA=$(find . -type f -name '*.profdata')
         xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
@@ -82,13 +82,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) -derivedDataPath DerivedData | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Prepare codecov
       run: |
-        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
-        PROFDATA=$(find DerivedData -type f -name '*.profdata')
+        XCTEST=$(find . -type f -name 'ParseSwiftTests')
+        PROFDATA=$(find . -type f -name '*.profdata')
         xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
@@ -171,9 +171,7 @@ jobs:
         run: swift test --enable-test-discovery --enable-code-coverage
       - name: Prepare codecov
         run: |
-          XCTEST=$(find .build -type d -name '*.xctest')
-          PROFDATA=$(find .build -type f -name '*.profdata')
-          llvm-cov export -format="lcov" "${XCTEST}" -instr-profile "${PROFDATA}" > info.lcov
+          llvm-cov export -format="lcov" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info.lcov
       - name: Send codecov
         run: bash <(curl https://codecov.io/bash)
 
