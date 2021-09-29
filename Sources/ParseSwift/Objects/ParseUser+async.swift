@@ -96,7 +96,7 @@ public extension ParseUser {
 
     // MARK: Logging Out - Async/Await
     /**
-     Logs out the currently logged in user *asynchronously*. Publishes when complete.
+     Logs out the currently logged in user *asynchronously*.
 
      This will also remove the session from the Keychain, log out of linked services
      and all future calls to `current` will return `nil`.
@@ -114,7 +114,6 @@ public extension ParseUser {
     /**
      Requests *asynchronously* a password reset email to be sent to the specified email address
      associated with the user account. This email allows the user to securely reset their password on the web.
-     Publishes when complete.
         - parameter email: The email address associated with the user that forgot their password.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -130,7 +129,7 @@ public extension ParseUser {
     // MARK: Verification Email Request - Async/Await
     /**
      Requests *asynchronously* a verification email be sent to the specified email address
-     associated with the user account. Publishes when complete.
+     associated with the user account.
         - parameter email: The email address associated with the user.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -146,7 +145,6 @@ public extension ParseUser {
     // MARK: Fetchable - Async/Await
     /**
      Fetches the `ParseUser` *aynchronously* with the current data from the server and sets an error if one occurs.
-     Publishes when complete.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
@@ -166,7 +164,7 @@ public extension ParseUser {
 
     // MARK: Savable - Async/Await
     /**
-     Saves the `ParseUser` *asynchronously* and publishes when complete.
+     Saves the `ParseUser` *asynchronously*.
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
@@ -186,7 +184,7 @@ public extension ParseUser {
 
     // MARK: Deletable - Async/Await
     /**
-     Deletes the `ParseUser` *asynchronously* and publishes when complete.
+     Deletes the `ParseUser` *asynchronously*.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -205,7 +203,7 @@ public extension ParseUser {
 public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *aynchronously* with the current data from the server and sets
-     an error if one occurs. Publishes when complete.
+     an error if one occurs.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
@@ -224,7 +222,7 @@ public extension Sequence where Element: ParseUser {
     }
 
     /**
-     Saves a collection of users *asynchronously* and publishes when complete.
+     Saves a collection of users *asynchronously*.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.

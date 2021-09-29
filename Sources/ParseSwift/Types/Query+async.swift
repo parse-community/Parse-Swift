@@ -17,7 +17,7 @@ public extension Query {
     /**
      Finds objects *asynchronously* and publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
     func find(options: API.Options = []) async throws -> [ResultType] {
         try await withCheckedThrowingContinuation { continuation in
@@ -33,7 +33,7 @@ public extension Query {
      typed language, a developer should specify the type expected to be decoded which will be
      different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
     func findExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
         try await withCheckedThrowingContinuation { continuation in
@@ -47,7 +47,7 @@ public extension Query {
      and publishes when complete.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
      - warning: The items are processed in an unspecified order. The query may not have any sort
      order, and may not use limit or skip.
     */
@@ -79,7 +79,7 @@ public extension Query {
      different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
     func firstExplain<U: Decodable>(options: API.Options = []) async throws -> U {
         try await withCheckedThrowingContinuation { continuation in
@@ -108,7 +108,7 @@ public extension Query {
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter explain: Used to toggle the information on the query plan.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
     func countExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
         try await withCheckedThrowingContinuation { continuation in
@@ -122,7 +122,7 @@ public extension Query {
      - requires: `.useMasterKey` has to be available.
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
     func aggregate(_ pipeline: [[String: Encodable]],
                    options: API.Options = []) async throws -> [ResultType] {
@@ -142,7 +142,7 @@ public extension Query {
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
     func aggregateExplain<U: Decodable>(_ pipeline: [[String: Encodable]],
                                         options: API.Options = []) async throws -> [U] {
@@ -158,7 +158,7 @@ public extension Query {
      - requires: `.useMasterKey` has to be available.
      - parameter key: A field to find distinct values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
     func distinct(_ key: String,
                   options: API.Options = []) async throws -> [ResultType] {
@@ -178,7 +178,7 @@ public extension Query {
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter key: A field to find distinct values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
     func distinctExplain<U: Decodable>(_ key: String,
                                        options: API.Options = []) async throws -> [U] {

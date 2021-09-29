@@ -15,9 +15,9 @@ public extension ParseHealth {
     // MARK: Async/Await
 
     /**
-     Calls the health check function *asynchronously*. Publishes when complete.
+     Calls the health check function *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Status of ParseServer.
     */
     static func check(options: API.Options = []) async throws -> String {
         try await withCheckedThrowingContinuation { continuation in

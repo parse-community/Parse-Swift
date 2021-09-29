@@ -15,9 +15,9 @@ public extension ParseConfig {
     // MARK: Fetchable - Async/Await
 
     /**
-     Fetch the Config *asynchronously*. Publishes when complete.
+     Fetch the Config *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: The return type of self..
     */
     func fetch(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in

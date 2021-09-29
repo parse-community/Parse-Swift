@@ -15,7 +15,6 @@ public extension ParseObject {
     // MARK: Async/Await
     /**
      Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
-     Publishes when complete.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
@@ -32,7 +31,7 @@ public extension ParseObject {
     }
 
     /**
-     Saves the `ParseObject` *asynchronously* and publishes when complete.
+     Saves the `ParseObject` *asynchronously*.
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
@@ -50,7 +49,7 @@ public extension ParseObject {
     }
 
     /**
-     Deletes the `ParseObject` *asynchronously* and publishes when complete.
+     Deletes the `ParseObject` *asynchronously*.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -69,7 +68,7 @@ public extension Sequence where Element: ParseObject {
     // MARK: Batch Support - Async/Await
     /**
      Fetches a collection of objects *aynchronously* with the current data from the server and sets
-     an error if one occurs. Publishes when complete.
+     an error if one occurs.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
@@ -87,7 +86,7 @@ public extension Sequence where Element: ParseObject {
     }
 
     /**
-     Saves a collection of objects *asynchronously* and publishes when complete.
+     Saves a collection of objects *asynchronously*.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
@@ -97,7 +96,7 @@ public extension Sequence where Element: ParseObject {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns saved `ParseInstallation`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
@@ -117,14 +116,14 @@ public extension Sequence where Element: ParseObject {
     }
 
     /**
-     Deletes a collection of objects *asynchronously* and publishes when complete.
+     Deletes a collection of objects *asynchronously*.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: - returns: Returns saved `ParseInstallation`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else

@@ -16,7 +16,7 @@ extension ParseLiveQuery {
     /**
      Manually establish a connection to the `ParseLiveQuery` Server. Publishes when established.
       - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to `true`.
-      - returns: A publisher that eventually produces a single value and then finishes or fails.
+      - returns: An instance of the logged in `ParseUser`.
     */
     public func open(isUserWantsToConnect: Bool = true) async throws {
         let _: Void = try await withCheckedThrowingContinuation { continuation in
@@ -33,7 +33,6 @@ extension ParseLiveQuery {
     /**
      Sends a ping frame from the client side. Publishes when a pong is received from the
      server endpoint.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
     public func sendPing() async throws {
         let _: Void = try await withCheckedThrowingContinuation { continuation in
