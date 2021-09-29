@@ -37,6 +37,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var levels: [Level]?
 
         //custom initializers
+        init() {}
         init (objectId: String?) {
             self.objectId = objectId
         }
@@ -64,6 +65,9 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var profilePicture: ParseFile?
 
         //: a custom initializer
+        init() {
+            self.score = GameScore()
+        }
         init(score: GameScore) {
             self.score = score
         }

@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.10...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.10.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.10...1.10.0)
+
+__Improvements__
+- (Breaking Change) Provide ParseObject property, emptyObject, that makes it easy to send only modified keys to the server. This change "might" be breaking depending on your implementation as it requires ParseObjects to now have an empty initializer, init() ([#243](https://github.com/parse-community/Parse-Swift/pull/243)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __New features__
 - Supports Swift 5.5 async/await ([#212](https://github.com/parse-community/Parse-Swift/pull/212)), thanks to [Corey Baker](https://github.com/cbaker6).
