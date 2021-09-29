@@ -6,7 +6,7 @@ on:
     branches: '*'
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
-  CI_XCODE_BETA_VER: '/Applications/Xcode_13.0.app/Contents/Developer'
+  CI_XCODE_13_VER: '/Applications/Xcode_13.0.app/Contents/Developer'
 
 jobs:
   xcode-test-ios:
@@ -16,11 +16,11 @@ jobs:
     - name: Version
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -version
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max test | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
@@ -37,7 +37,7 @@ jobs:
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS test | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
   xcode-test-tvos:
     runs-on: macos-11
@@ -46,7 +46,7 @@ jobs:
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV test | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
@@ -57,7 +57,7 @@ jobs:
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
@@ -74,15 +74,15 @@ jobs:
     - name: Build
       run: swift build -v
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Test
       run: swift test --enable-code-coverage -v
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Prepare codecov
       run: xcrun llvm-cov export -format="lcov" .build/debug/ParseSwiftPackageTests.xctest/Contents/MacOS/ParseSwiftPackageTests -instr-profile .build/debug/codecov/default.profdata > info.lcov
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
 
@@ -130,7 +130,7 @@ jobs:
 
   docs:
     needs: xcode-build-watchos
-    runs-on: macos-latest
+    runs-on: macos-11
     steps:
       - uses: actions/checkout@v2
       - name: Cache Gems
@@ -162,7 +162,7 @@ jobs:
       - name: CocoaPods
         run: pod lib lint --allow-warnings
         env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
   carthage:
    needs: xcode-build-watchos
@@ -172,4 +172,4 @@ jobs:
      - name: Carthage 
        run: ./carthage.sh build --no-skip-current --use-xcframeworks
        env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_BETA_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
