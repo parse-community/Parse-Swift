@@ -47,8 +47,8 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Prepare codecov
       run: |
-        XCTEST=$(find . -type f -name 'ParseSwiftTests')
-        PROFDATA=$(find . -type f -name '*.profdata')
+        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
+        PROFDATA=$(find DerivedData -type f -name '*.profdata')
         xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
@@ -65,10 +65,8 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV -derivedDataPath DerivedData test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+    - name: Send codecov
+      run: bash <(curl https://codecov.io/bash)
 
   xcode-build-watchos:
     runs-on: macos-11
