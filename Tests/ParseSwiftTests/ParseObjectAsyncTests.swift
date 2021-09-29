@@ -15,6 +15,7 @@ import XCTest
 class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct GameScore: ParseObject {
+
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -24,6 +25,8 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         //: Your own properties
         var score: Int?
         var player: String?
+
+        init() { }
 
         //custom initializers
         init (objectId: String?) {

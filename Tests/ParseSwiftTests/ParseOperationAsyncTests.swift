@@ -24,6 +24,7 @@ class ParseOperationAsyncTests: XCTestCase { // swiftlint:disable:this type_body
         var score: Int?
         var player: String?
 
+        init() { }
         //custom initializers
         init (objectId: String?) {
             self.objectId = objectId
