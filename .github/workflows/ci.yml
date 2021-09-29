@@ -21,8 +21,10 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
-    - name: Send codecov
-      run: bash <(curl https://codecov.io/bash)
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
   xcode-test-macos:
     runs-on: macos-11
@@ -38,8 +40,10 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
-    - name: Send codecov
-      run: bash <(curl https://codecov.io/bash)
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
   xcode-test-tvos:
     runs-on: macos-11
@@ -49,8 +53,10 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
-    - name: Send codecov
-      run: bash <(curl https://codecov.io/bash)
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
   xcode-build-watchos:
     runs-on: macos-11
@@ -60,8 +66,10 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
-    - name: Send codecov
-      run: bash <(curl https://codecov.io/bash)
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v2
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
   spm-test:
     runs-on: macos-11
