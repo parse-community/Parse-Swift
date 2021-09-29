@@ -14,11 +14,11 @@ public extension ParseApple {
     // MARK: Login - Async/Await
 
     /**
-     Login a `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
+     Login a `ParseUser` *asynchronously* using Apple authentication.
      - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
      - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func login(user: String,
                identityToken: Data,
@@ -46,11 +46,11 @@ public extension ParseApple {
     // MARK: Link - Async/Await
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
+     Link the *current* `ParseUser` *asynchronously* using Apple authentication.
      - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
      - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func link(user: String,
               identityToken: Data,

@@ -14,12 +14,12 @@ public extension ParseFacebook {
     // MARK: Login - Async/Await
 
     /**
-     Login a `ParseUser` *asynchronously* using Facebook authentication for limited login. Publishes when complete.
+     Login a `ParseUser` *asynchronously* using Facebook authentication for limited login.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func login(userId: String,
                authenticationToken: String,
@@ -35,12 +35,12 @@ public extension ParseFacebook {
     }
 
     /**
-     Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login. Publishes when complete.
+     Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter accessToken: The `accessToken` from `FacebookSDK`.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func login(userId: String,
                accessToken: String,
@@ -70,12 +70,11 @@ public extension ParseFacebook {
     // MARK: Link - Async/Await
     /**
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login.
-     Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func link(userId: String,
               authenticationToken: String,
@@ -92,12 +91,11 @@ public extension ParseFacebook {
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for graph API login.
-     Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
      - parameter accessToken: The `accessToken` from `FacebookSDK`.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func link(userId: String,
               accessToken: String,

@@ -14,7 +14,7 @@ public extension ParseTwitter {
     // MARK: Login - Async/Await
 
     /**
-     Login a `ParseUser` *asynchronously* using Twitter authentication. Publishes when complete.
+     Login a `ParseUser` *asynchronously* using Twitter authentication.
      - parameter user: The `userId` from `Twitter`.
      - parameter screenName: The `user screenName` from `Twitter`.
      - parameter consumerKey: The `consumerKey` from `Twitter`.
@@ -22,7 +22,7 @@ public extension ParseTwitter {
      - parameter authToken: The Twitter `authToken` obtained from Twitter.
      - parameter authTokenSecret: The Twitter `authSecretToken` obtained from Twitter.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func login(userId: String,
                screenName: String? = nil,
@@ -58,7 +58,7 @@ public extension ParseTwitter {
     // MARK: Link - Async/Await
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using Twitter authentication. Publishes when complete.
+     Link the *current* `ParseUser` *asynchronously* using Twitter authentication.
      - parameter user: The `user` from `Twitter`.
      - parameter screenName: The `user screenName` from `Twitter`.
      - parameter consumerKey: The `consumerKey` from `Twitter`.
@@ -66,7 +66,7 @@ public extension ParseTwitter {
      - parameter authToken: The Twitter `authToken` obtained from Twitter.
      - parameter authTokenSecret: The Twitter `authSecretToken` obtained from Twitter.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func link(userId: String,
               screenName: String? = nil,

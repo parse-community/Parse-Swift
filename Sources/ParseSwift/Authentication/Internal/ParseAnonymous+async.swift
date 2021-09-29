@@ -17,7 +17,7 @@ public extension ParseAnonymous {
      Login a `ParseUser` *asynchronously* using the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter completion: The block to execute.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func login(options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
@@ -31,7 +31,7 @@ public extension ParseAnonymous {
      - parameter authData: The authData for the respective authentication type. This will be ignored.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter completion: The block to execute.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func login(authData: [String: String],
                options: API.Options = []) async throws -> AuthenticatedUser {

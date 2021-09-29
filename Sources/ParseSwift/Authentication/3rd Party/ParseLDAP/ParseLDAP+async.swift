@@ -13,11 +13,11 @@ import Foundation
 public extension ParseLDAP {
     // MARK: Login - Async/Await
     /**
-     Login a `ParseUser` *asynchronously* using LDAP authentication. Publishes when complete.
+     Login a `ParseUser` *asynchronously* using LDAP authentication.
      - parameter id: The id of the `user`.
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func login(id: String, // swiftlint:disable:this identifier_name
                password: String,
@@ -44,11 +44,11 @@ public extension ParseLDAP {
 public extension ParseLDAP {
     // MARK: Link - Async/Await
     /**
-     Link the *current* `ParseUser` *asynchronously* using LDAP authentication. Publishes when complete.
+     Link the *current* `ParseUser` *asynchronously* using LDAP authentication.
      - parameter id: The id of the `user`.
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func link(id: String, // swiftlint:disable:this identifier_name
               password: String,

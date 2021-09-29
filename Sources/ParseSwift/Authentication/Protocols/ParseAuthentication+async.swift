@@ -43,7 +43,7 @@ public extension ParseUser {
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     static func login(_ type: String,
                       authData: [String: String],
@@ -57,10 +57,10 @@ public extension ParseUser {
     }
 
     /**
-     Unlink the authentication type *asynchronously*. Publishes when complete.
+     Unlink the authentication type *asynchronously*.
      - parameter type: The type to unlink. The user must be logged in on this device.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
      */
     func unlink(_ type: String,
                 options: API.Options = []) async throws -> Self {
@@ -79,7 +79,7 @@ public extension ParseUser {
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An instance of the logged in `ParseUser`.
     */
     static func link(_ type: String,
                      authData: [String: String],
