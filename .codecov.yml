@@ -4,10 +4,10 @@ coverage:
   status:
     patch:
       default:
-        target: auto
+        target: 24
     changes: false
     project:
       default:
-        target: 81
+        target: 79
 comment:
   require_changes: true

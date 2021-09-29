@@ -129,6 +129,50 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
     }
 
     @MainActor
+    func testSignupInstance() async throws {
+        let loginResponse = LoginSignupResponse()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        var user = User()
+        user.username = loginUserName
+        user.password = loginPassword
+        user.email = "parse@parse.com"
+        user.customKey = "blah"
+        let signedUp = try await user.signup()
+        XCTAssertNotNil(signedUp)
+        XCTAssertNotNil(signedUp.createdAt)
+        XCTAssertNotNil(signedUp.updatedAt)
+        XCTAssertNotNil(signedUp.email)
+        XCTAssertNotNil(signedUp.username)
+        XCTAssertNil(signedUp.password)
+        XCTAssertNotNil(signedUp.objectId)
+        XCTAssertNotNil(signedUp.sessionToken)
+        XCTAssertNotNil(signedUp.customKey)
+        XCTAssertNil(signedUp.ACL)
+
+        guard let userFromKeychain = BaseParseUser.current else {
+            XCTFail("Couldn't get CurrentUser from Keychain")
+            return
+        }
+
+        XCTAssertNotNil(userFromKeychain.createdAt)
+        XCTAssertNotNil(userFromKeychain.updatedAt)
+        XCTAssertNotNil(userFromKeychain.email)
+        XCTAssertNotNil(userFromKeychain.username)
+        XCTAssertNil(userFromKeychain.password)
+        XCTAssertNotNil(userFromKeychain.objectId)
+        XCTAssertNotNil(userFromKeychain.sessionToken)
+        XCTAssertNil(userFromKeychain.ACL)
+    }
+
+    @MainActor
     func testLogin() async throws {
         let loginResponse = LoginSignupResponse()
         MockURLProtocol.mockRequests { _ in
