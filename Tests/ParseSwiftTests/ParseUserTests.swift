@@ -338,6 +338,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 guard let keychainUser: CurrentUserContainer<BaseParseUser>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
                         XCTFail("Should get object from Keychain")
+                        expectation1.fulfill()
                     return
                 }
                 XCTAssertEqual(keychainUser.currentUser?.updatedAt, fetchedUpdatedAt)
