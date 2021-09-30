@@ -30,6 +30,9 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
+      with:
+        env_vars: IOS
+        fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
@@ -49,6 +52,8 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
+      with:
+        env_vars: MACOS
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
@@ -62,6 +67,8 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
+      with:
+        env_vars: TVOS
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
@@ -75,6 +82,8 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
+      with:
+        env_vars: WATCHOS
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
@@ -105,6 +114,8 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
+        env_vars: SPM
+        fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
@@ -136,6 +147,9 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
+      with:
+        env_vars: SPM5_2
+        fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
  
@@ -152,9 +166,12 @@ jobs:
         run: swift test --enable-test-discovery --enable-code-coverage
       - name: Prepare codecov
         run: |
-          llvm-cov export -format="lcov" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info.lcov
-      - name: Send codecov
-        run: bash <(curl https://codecov.io/bash)
+          llvm-cov export -format="lcov" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info_linux.lcov
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          env_vars: LINUX
+          fail_ci_if_error: true
 
   docs:
     needs: xcode-build-watchos
