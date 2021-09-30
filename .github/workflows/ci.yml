@@ -22,17 +22,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Prepare codecov
-      run: |
-        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
-        PROFDATA=$(find DerivedData -type f -name '*.profdata')
-        xcrun llvm-cov show "${XCTEST}" -instr-profile "${PROFDATA}" > info_ios.lcov
-      env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        env_vars: IOS
-        fail_ci_if_error: true
+      run: bash <(curl https://codecov.io/bash)
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
