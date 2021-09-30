@@ -22,6 +22,13 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Prepare codecov
+      run: |
+        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
+        PROFDATA=$(find DerivedData -type f -name '*.profdata')
+        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info_ios.lcov
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+    - name: Send codecov
       run: bash <(curl https://codecov.io/bash)
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
