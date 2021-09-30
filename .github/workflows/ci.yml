@@ -114,6 +114,7 @@ jobs:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
+      with:
         env_vars: SPM
         fail_ci_if_error: true
       env:
