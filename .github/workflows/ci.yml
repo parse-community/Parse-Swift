@@ -29,6 +29,8 @@ jobs:
         security set-keychain-settings -lut 7200 temporary
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS test | xcpretty
+    - name: Send codecov
+      run: bash <(curl https://codecov.io/bash)
 
   xcode-test-tvos:
     runs-on: macos-latest
