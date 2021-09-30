@@ -18,7 +18,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData -enableCodeCoverage YES test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Prepare codecov
