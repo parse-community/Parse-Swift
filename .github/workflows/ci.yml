@@ -25,7 +25,7 @@ jobs:
       run: |
         XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
         PROFDATA=$(find DerivedData -type f -name '*.profdata')
-        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info_ios.lcov
+        xcrun llvm-cov export "${XCTEST}" -format="text" -instr-profile "${PROFDATA}" > info_ios.txt
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
     - name: Upload coverage to Codecov
