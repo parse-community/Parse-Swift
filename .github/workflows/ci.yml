@@ -21,11 +21,8 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData -enableCodeCoverage YES test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        env_vars: IOS
-        fail_ci_if_error: true
+    - name: Send codecov
+      run: bash <(curl https://codecov.io/bash)
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
 
