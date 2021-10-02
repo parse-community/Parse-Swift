@@ -26,6 +26,18 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     }
 
     /**
+     An operation that sets a field's value.
+     - Parameters:
+        - key: The key of the object.
+        - value: The value to set it to
+     */
+    public func set<W>(_ key: String, value: W) -> Self where W: Encodable {
+        var mutableOperation = self
+        mutableOperation.operations[key] = value
+        return mutableOperation
+    }
+
+    /**
      An operation that increases a numeric field's value by a given amount.
      - Parameters:
         - key: The key of the object.

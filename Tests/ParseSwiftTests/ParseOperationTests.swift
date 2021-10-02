@@ -394,6 +394,16 @@ class ParseOperationTests: XCTestCase {
     }
     #endif
 
+    func testSet() throws {
+        let score = GameScore(score: 10)
+        let operations = score.operation.set("score", value: 15)
+        let expected = "{\"score\":15}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(operations)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
     func testUnset() throws {
         let score = GameScore(score: 10)
         let operations = score.operation
