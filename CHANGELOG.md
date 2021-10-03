@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.10.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.0...1.10.1)
+
+__Improvements__
+- Removes emptyObject requirement that was added in #243. Instead, has a recommendation in playgrounds on how to use emptyObject to only send select modified keys to the server ([#249](https://github.com/parse-community/Parse-Swift/pull/249)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.10.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.10...1.10.0)
