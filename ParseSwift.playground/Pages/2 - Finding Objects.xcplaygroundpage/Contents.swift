@@ -54,7 +54,12 @@ query.limit(2).find(callbackQueue: .main) { results in
         }
 
     case .failure(let error):
-        assertionFailure("Error querying: \(error)")
+        if error.equalsToParseError(.objectNotFound) {
+            assertionFailure("Object not found for this query")
+        }
+        else {
+            assertionFailure("Error querying: \(error)")
+        }
     }
 }
 
@@ -80,7 +85,12 @@ query.first { results in
         print("Found score: \(score)")
 
     case .failure(let error):
-        assertionFailure("Error querying: \(error)")
+        if error.containedInParseError([.objectNotFound, .invalidQuery]) {
+            assertionFailure("The query is invalid or the object is not found.")
+        }
+        else {
+            assertionFailure("Error querying: \(error)")
+        }
     }
 }
 
@@ -109,7 +119,12 @@ querySelect.first { results in
         print("Found score using select: \(score)")
 
     case .failure(let error):
-        assertionFailure("Error querying: \(error)")
+        if let parseError = error.equalsToParseError(.objectNotFound) {
+            assertionFailure("Object not found: \(parseError)")
+        }
+        else {
+            assertionFailure("Error querying: \(error)")
+        }
     }
 }
 
@@ -124,7 +139,12 @@ queryExclude.first { results in
         print("Found score using exclude: \(score)")
 
     case .failure(let error):
-        assertionFailure("Error querying: \(error)")
+        if let parseError = error.containedInParseError([.objectNotFound, .invalidQuery]) {
+            assertionFailure("Matching error found: \(parseError)")
+        }
+        else {
+            assertionFailure("Error querying: \(error)")
+        }
     }
 }
 
