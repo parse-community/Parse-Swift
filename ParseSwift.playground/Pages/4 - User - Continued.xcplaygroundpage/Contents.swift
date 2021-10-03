@@ -32,6 +32,20 @@ struct User: ParseUser {
     var score: GameScore?
     var targetScore: GameScore?
     var allScores: [GameScore]?
+
+    /*:
+     It's recommended the developer adds the emptyObject computed property or similar.
+     Gets an empty version of the respective object. This can be used when you only need to update a
+     a subset of the fields of an object as oppose to updating every field of an object.
+     - note: Using an empty object and updating a subset of the fields reduces the amount of data sent between
+     client and server when using `save` and `saveAll` to update objects.
+    */
+    var emptyObject: Self {
+        var object = Self()
+        object.objectId = objectId
+        object.createdAt = createdAt
+        return object
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
