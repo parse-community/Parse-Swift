@@ -426,7 +426,7 @@ extension Error {
         }
         return parseError.code == errorCode
     }
-    
+
     /**
      Returns an optional ParseError if the given ParseError Code is equal to the error.
      
@@ -450,7 +450,7 @@ extension Error {
             return nil
         }
     }
-    
+
     /**
      Validates if the given ParseError Codes contains the error.
      
@@ -468,7 +468,7 @@ extension Error {
         }
         return errorCode.contains(parseError.code)
     }
-    
+
     /**
      Returns an optional ParseError if the given ParseError Codes contains the error.
      

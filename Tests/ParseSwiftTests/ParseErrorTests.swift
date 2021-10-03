@@ -62,7 +62,7 @@ class ParseErrorTests: XCTestCase {
                        "ParseError code=\(ParseError.Code.other.rawValue) error=\(message) otherCode=\(code)")
         XCTAssertEqual(decoded.otherCode, code)
     }
-    
+
     func testCompare() throws {
         let code = ParseError.Code.objectNotFound.rawValue
         let message = "testing ParseError"
@@ -71,18 +71,18 @@ class ParseErrorTests: XCTestCase {
             return
         }
         let decoded = try ParseCoding.jsonDecoder().decode(ParseError.self, from: encoded)
-        
+
         let error: Error = decoded
-        
+
         XCTAssertTrue(error.equalsToParseError(.objectNotFound))
         XCTAssertFalse(error.equalsToParseError(.invalidQuery))
-        
+
         XCTAssertTrue(error.containedInParseError([.objectNotFound, .invalidQuery]))
         XCTAssertFalse(error.containedInParseError([.operationForbidden, .invalidQuery]))
-        
+
         XCTAssertNotNil(error.equalsToParseError(.objectNotFound))
         XCTAssertNil(error.equalsToParseError(.invalidQuery))
-        
+
         XCTAssertNotNil(error.containedInParseError([.objectNotFound, .invalidQuery]))
         XCTAssertNil(error.containedInParseError([.operationForbidden, .invalidQuery]))
     }
