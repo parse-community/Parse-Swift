@@ -419,6 +419,8 @@ extension Error {
     }
     ~~~
      - parameter errorCode: A `ParseError` code to compare to.
+     
+     - returns: A boolean indicating wheter or not the `Error` is the `errorCode`
      */
     public func equalsTo(_ errorCode: ParseError.Code) -> Bool {
         guard let error = self as? ParseError else {
@@ -441,7 +443,8 @@ extension Error {
      - returns: An optional `ParseError`
      */
     public func equalsTo(_ errorCode: ParseError.Code) -> ParseError? {
-        guard let error = self as? ParseError, error.code == errorCode else {
+        guard let error = self as? ParseError,
+                error.code == errorCode else {
             return nil
         }
         return error
@@ -457,6 +460,8 @@ extension Error {
     }
     ~~~
      - parameter errorCodes: A variadic amount of zero or more of `ParseError` codes to compare to.
+     
+     - returns: A boolean indicating wheter or not the `Error` is contained in the `errorCodes`
      */
     public func containedIn(_ errorCodes: ParseError.Code...) -> Bool {
         guard let error = self as? ParseError else {
@@ -479,7 +484,8 @@ extension Error {
      - returns: An optional `ParseError`
      */
     public func containedIn(_ errorCodes: ParseError.Code...) -> ParseError? {
-        guard let error = self as? ParseError, errorCodes.contains(error.code) == true else {
+        guard let error = self as? ParseError,
+                errorCodes.contains(error.code) == true else {
             return nil
         }
         return error
@@ -494,7 +500,9 @@ extension Error {
         //Do stuff
     }
     ~~~
-     - parameter errorCodes: A variadic amount of zero or more of `ParseError` codes to compare to.
+     - parameter errorCodes: An array of zero or more of `ParseError` codes to compare to.
+     
+     - returns: A boolean indicating wheter or not the `Error` is contained in the `errorCodes`
      */
     public func containedIn(_ errorCodes: [ParseError.Code]) -> Bool {
         guard let error = self as? ParseError else {
@@ -512,12 +520,13 @@ extension Error {
         print(parseError.description)
     }
     ~~~
-     - parameter errorCodes: A variadic amount of zero or more of `ParseError` codes to compare to.
+     - parameter errorCodes: An array of zero or more of `ParseError` codes to compare to.
      
      - returns: An optional `ParseError`
      */
     public func containedIn(_ errorCodes: [ParseError.Code]) -> ParseError? {
-        guard let error = self as? ParseError, errorCodes.contains(error.code) == true else {
+        guard let error = self as? ParseError,
+                errorCodes.contains(error.code) == true else {
             return nil
         }
         return error
