@@ -76,7 +76,7 @@ class ParseErrorTests: XCTestCase {
 
         XCTAssertTrue(error.equalsTo(.objectNotFound))
         XCTAssertFalse(error.equalsTo(.invalidQuery))
-        
+
         XCTAssertTrue(error.containedIn(.objectNotFound, .invalidQuery))
         XCTAssertFalse(error.containedIn(.operationForbidden, .invalidQuery))
 
@@ -85,7 +85,7 @@ class ParseErrorTests: XCTestCase {
 
         XCTAssertNotNil(error.equalsTo(.objectNotFound))
         XCTAssertNil(error.equalsTo(.invalidQuery))
-        
+
         XCTAssertNotNil(error.containedIn(.objectNotFound, .invalidQuery))
         XCTAssertNil(error.containedIn(.operationForbidden, .invalidQuery))
 

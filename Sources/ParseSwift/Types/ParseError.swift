@@ -492,7 +492,7 @@ extension Error {
             return nil
         }
     }
-    
+
     /**
      Validates if the given ParseError Codes contains the error.
      
