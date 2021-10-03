@@ -4,6 +4,9 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
+__New features__
+- Supports Swift 5.5 async/await ([#212](https://github.com/parse-community/Parse-Swift/pull/212)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 __Improvements__
 - Added an extension to compare a Swift Error with a single ParseError or multiple ParseErrors ([#250](https://github.com/parse-community/Parse-Swift/pull/250)), thanks to [Damian Van de Kauter](https://github.com/novemTeam).
 
@@ -18,9 +21,6 @@ __Improvements__
 
 __Improvements__
 - (Breaking Change) Provide ParseObject property, emptyObject, that makes it easy to send only modified keys to the server. This change "might" be breaking depending on your implementation as it requires ParseObjects to now have an empty initializer, init() ([#243](https://github.com/parse-community/Parse-Swift/pull/243)), thanks to [Corey Baker](https://github.com/cbaker6).
-
-__New features__
-- Supports Swift 5.5 async/await ([#212](https://github.com/parse-community/Parse-Swift/pull/212)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
 - ParseUser shouldn't send email if it hasn't been modified or else email verification is resent ([#241](https://github.com/parse-community/Parse-Swift/pull/241)), thanks to [Corey Baker](https://github.com/cbaker6).
