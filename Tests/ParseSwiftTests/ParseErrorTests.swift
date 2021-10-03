@@ -74,16 +74,16 @@ class ParseErrorTests: XCTestCase {
 
         let error: Error = decoded
 
-        XCTAssertTrue(error.equalsToParseError(.objectNotFound))
-        XCTAssertFalse(error.equalsToParseError(.invalidQuery))
+        XCTAssertTrue(error.equalsTo(.objectNotFound))
+        XCTAssertFalse(error.equalsTo(.invalidQuery))
 
-        XCTAssertTrue(error.containedInParseError([.objectNotFound, .invalidQuery]))
-        XCTAssertFalse(error.containedInParseError([.operationForbidden, .invalidQuery]))
+        XCTAssertTrue(error.contains([.objectNotFound, .invalidQuery]))
+        XCTAssertFalse(error.contains([.operationForbidden, .invalidQuery]))
 
-        XCTAssertNotNil(error.equalsToParseError(.objectNotFound))
-        XCTAssertNil(error.equalsToParseError(.invalidQuery))
+        XCTAssertNotNil(error.equalsTo(.objectNotFound))
+        XCTAssertNil(error.equalsTo(.invalidQuery))
 
-        XCTAssertNotNil(error.containedInParseError([.objectNotFound, .invalidQuery]))
-        XCTAssertNil(error.containedInParseError([.operationForbidden, .invalidQuery]))
+        XCTAssertNotNil(error.contains([.objectNotFound, .invalidQuery]))
+        XCTAssertNil(error.contains([.operationForbidden, .invalidQuery]))
     }
 }
