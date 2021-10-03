@@ -502,7 +502,7 @@ extension Error {
         //Do stuff
     }
     ~~~
-     - parameter errorCodes: The ParseError codes as **Array** you want to compare to
+     - parameter errorCodes: The `ParseError` codes as **Array** you want to compare to
      */
     public func containedIn(_ errorCodes: [ParseError.Code]) -> Bool {
         guard let error = self as? ParseError else {
@@ -520,7 +520,7 @@ extension Error {
         print(parseError.description)
     }
     ~~~
-     - parameter errorCodes: The ParseError codes as **Array** you want to compare to
+     - parameter errorCodes: The `ParseError` codes as **Array** you want to compare to
      
      - returns: An optional `ParseError`
      */
