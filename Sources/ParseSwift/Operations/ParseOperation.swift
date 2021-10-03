@@ -31,7 +31,29 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - key: The key of the object.
         - value: The value to set it to
      */
-    public func set<W>(_ key: String, value: W) -> Self where W: Encodable {
+    public func set<W>(_ key: String, value: W) throws -> Self where W: Encodable {
+        var mutableOperation = self
+        guard let target = self.target else {
+            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
+        }
+        let encoded = try target.getEncoder().encode(target, skipKeys: .none)
+        let jsonObject = try target.getDecoder().decode([String: AnyCodable].self, from: encoded)
+        let currentValue = jsonObject["score"]
+        if let currentValue = currentValue?.value as? NSObject,
+           let updatedValue = value as? NSObject,
+           currentValue != updatedValue {
+            mutableOperation.operations[key] = value
+        }
+        return mutableOperation
+    }
+
+    /**
+     An operation that force sets a field's value.
+     - Parameters:
+        - key: The key of the object.
+        - value: The value to set it to
+     */
+    public func forceSet<W>(_ key: String, value: W) throws -> Self where W: Encodable {
         var mutableOperation = self
         mutableOperation.operations[key] = value
         return mutableOperation
