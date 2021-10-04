@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>ParseLDAP Structure Reference</title>
+    <title>Error Extension Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Struct/ParseLDAP" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Extension/Error" class="dashAnchor"></a>
 
-    <a title="ParseLDAP Structure Reference"></a>
+    <a title="Error Extension Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" />
-      ParseLDAP Structure Reference
+      Error Extension Reference
     </p>
 
     <div class="content-wrapper">
@@ -350,17 +350,15 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>ParseLDAP</h1>
+            <h1>Error</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseLDAP</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseAuthentication.html">ParseAuthentication</a></span> <span class="k">where</span> <span class="kt">AuthenticatedUser</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseUser.html">ParseUser</a></span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">extension</span> <span class="kt">Error</span></code></pre>
 
                 </div>
               </div>
-            <p>Provides utility functions for working with LDAP User Authentication and <code><a href="../Protocols/ParseUser.html">ParseUser</a></code>&lsquo;s.
-Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-ldap">sign in with LDAP</a>.</p>
-
+            
           </div>
         </section>
 
@@ -371,9 +369,9 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A14AuthenticationP6__typeSSvpZ"></a>
-                    <a name="//apple_ref/swift/Variable/__type" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A14AuthenticationP6__typeSSvpZ">__type</a>
+                    <a name="/s:s5ErrorP10ParseSwiftE8equalsToyAC0bA0VSgAF4CodeOF"></a>
+                    <a name="//apple_ref/swift/Method/equalsTo(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s5ErrorP10ParseSwiftE8equalsToyAC0bA0VSgAF4CodeOF">equalsTo(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -381,55 +379,20 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">static</span> <span class="k">var</span> <span class="nv">__type</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                        <p>Returns the respective <code><a href="../Structs/ParseError.html">ParseError</a></code> if the given <code><a href="../Structs/ParseError.html">ParseError</a></code> code is equal to the error.</p>
 
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Login%20-%20Combine"></a>
-                <a name="//apple_ref/swift/Section/Login - Combine" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Login%20-%20Combine"></a>
-                  <h3 class="section-name"><p>Login - Combine</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A4LDAPV14loginPublisher2id8password7options7Combine6FutureCyxAA0A5ErrorVGSS_SSShyAA3APIV6OptionOGtF"></a>
-                    <a name="//apple_ref/swift/Method/loginPublisher(id:password:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4LDAPV14loginPublisher2id8password7options7Combine6FutureCyxAA0A5ErrorVGSS_SSShyAA3APIV6OptionOGtF">loginPublisher(id:<wbr>password:<wbr>options:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using LDAP authentication. Publishes when complete.</p>
+<p><strong>Example use case:</strong></p>
+<pre class="highlight swift"><code><span class="k">if</span> <span class="k">let</span> <span class="nv">parseError</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="nf">equalsTo</span><span class="p">(</span><span class="o">.</span><span class="n">objectNotFound</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">parseError</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">loginPublisher</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this identifier_name</span>
-                    <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">equalsTo</span><span class="p">(</span><span class="n">_</span> <span class="nv">errorCode</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">.</span><span class="kt">Code</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -440,36 +403,12 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                             <tr>
                               <td>
                                 <code>
-                                <em>id</em>
+                                <em>errorCode</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The id of the <code>user</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>password</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The password of the user.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                  <p>A <code><a href="../Structs/ParseError.html">ParseError</a></code> code to compare to.</p>
                                 </div>
                               </td>
                             </tr>
@@ -478,30 +417,17 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                        <p>Returns the <code><a href="../Structs/ParseError.html">ParseError</a></code> with respect to the <code>Error</code>. If the error is not a <code><a href="../Structs/ParseError.html">ParseError</a></code>, returns nil.</p>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Link%20-%20Combine"></a>
-                <a name="//apple_ref/swift/Section/Link - Combine" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Link%20-%20Combine"></a>
-                  <h3 class="section-name"><p>Link - Combine</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4LDAPV13linkPublisher2id8password7options7Combine6FutureCyxAA0A5ErrorVGSS_SSShyAA3APIV6OptionOGtF"></a>
-                    <a name="//apple_ref/swift/Method/linkPublisher(id:password:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4LDAPV13linkPublisher2id8password7options7Combine6FutureCyxAA0A5ErrorVGSS_SSShyAA3APIV6OptionOGtF">linkPublisher(id:<wbr>password:<wbr>options:<wbr>)</a>
+                    <a name="/s:s5ErrorP10ParseSwiftE8equalsToySbAC0bA0V4CodeOF"></a>
+                    <a name="//apple_ref/swift/Method/equalsTo(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s5ErrorP10ParseSwiftE8equalsToySbAC0bA0V4CodeOF">equalsTo(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -509,16 +435,20 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using LDAP authentication. Publishes when complete.</p>
+                        <p>Validates if the given <code><a href="../Structs/ParseError.html">ParseError</a></code> code is equal to the error.</p>
+
+<p><strong>Example use case:</strong></p>
+<pre class="highlight swift"><code><span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="nf">equalsTo</span><span class="p">(</span><span class="o">.</span><span class="n">objectNotFound</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="c1">//Do stuff</span>
+<span class="p">}</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">linkPublisher</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this identifier_name</span>
-                   <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-                   <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">equalsTo</span><span class="p">(</span><span class="n">_</span> <span class="nv">errorCode</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">.</span><span class="kt">Code</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
                       </div>
@@ -529,36 +459,12 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                             <tr>
                               <td>
                                 <code>
-                                <em>id</em>
+                                <em>errorCode</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The id of the <code>user</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>password</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The password of the user.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                  <p>A <code><a href="../Structs/ParseError.html">ParseError</a></code> code to compare to.</p>
                                 </div>
                               </td>
                             </tr>
@@ -567,30 +473,17 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                       </div>
                       <div>
                         <h4>Return Value</h4>
-                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                        <p>A boolean indicating whether or not the <code>Error</code> is the <code>errorCode</code>.</p>
                       </div>
                     </section>
                   </div>
                 </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Login"></a>
-                <a name="//apple_ref/swift/Section/Login" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Login"></a>
-                  <h3 class="section-name"><p>Login</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A4LDAPV5login2id8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/login(id:password:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4LDAPV5login2id8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">login(id:<wbr>password:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:s5ErrorP10ParseSwiftE11containedInyAC0bA0VSgSayAF4CodeOGF"></a>
+                    <a name="//apple_ref/swift/Method/containedIn(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s5ErrorP10ParseSwiftE11containedInyAC0bA0VSgSayAF4CodeOGF">containedIn(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -598,18 +491,20 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using LDAP authentication.</p>
+                        <p>Returns the respective <code><a href="../Structs/ParseError.html">ParseError</a></code> if the <code>Error</code> is contained in the array of <code><a href="../Structs/ParseError.html">ParseError</a></code> codes.</p>
+
+<p><strong>Example use case:</strong></p>
+<pre class="highlight swift"><code><span class="k">if</span> <span class="k">let</span> <span class="nv">parseError</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="nf">containedIn</span><span class="p">([</span><span class="o">.</span><span class="n">objectNotFound</span><span class="p">,</span> <span class="o">.</span><span class="n">invalidQuery</span><span class="p">])</span>  <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">parseError</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this identifier_name</span>
-           <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
-           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">containedIn</span><span class="p">(</span><span class="n">_</span> <span class="nv">errorCodes</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">.</span><span class="kt">Code</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -620,75 +515,31 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                             <tr>
                               <td>
                                 <code>
-                                <em>id</em>
+                                <em>errorCodes</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The id of the <code>user</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>password</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The password of the user.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>callbackQueue</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The queue to return to after completion. Default value of .main.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The block to execute.</p>
+                                  <p>An array of zero or more of <code><a href="../Structs/ParseError.html">ParseError</a></code> codes to compare to.</p>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
                         </table>
                       </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns the <code><a href="../Structs/ParseError.html">ParseError</a></code> with respect to the <code>Error</code>. If the error is not a <code><a href="../Structs/ParseError.html">ParseError</a></code>, returns nil.</p>
+                      </div>
                     </section>
                   </div>
                 </li>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A14AuthenticationP5login8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/login(authData:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A14AuthenticationP5login8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF">login(authData:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:s5ErrorP10ParseSwiftE11containedInyAC0bA0VSgAF4CodeOd_tF"></a>
+                    <a name="//apple_ref/swift/Method/containedIn(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s5ErrorP10ParseSwiftE11containedInyAC0bA0VSgAF4CodeOd_tF">containedIn(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -696,60 +547,20 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">login</span><span class="p">(</span><span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
-           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
-           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                        <p>Returns the respective <code><a href="../Structs/ParseError.html">ParseError</a></code> if the <code>Error</code> is contained in the list of <code><a href="../Structs/ParseError.html">ParseError</a></code> codes.</p>
 
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Link"></a>
-                <a name="//apple_ref/swift/Section/Link" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Link"></a>
-                  <h3 class="section-name"><p>Link</p>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift0A4LDAPV4link2id8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/link(id:password:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A4LDAPV4link2id8password7options13callbackQueue10completionySS_SSShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">link(id:<wbr>password:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using LDAP authentication.</p>
+<p><strong>Example use case:</strong></p>
+<pre class="highlight swift"><code><span class="k">if</span> <span class="k">let</span> <span class="nv">parseError</span> <span class="o">=</span> <span class="n">error</span><span class="o">.</span><span class="nf">containedIn</span><span class="p">(</span><span class="o">.</span><span class="n">objectNotFound</span><span class="p">,</span> <span class="o">.</span><span class="n">invalidQuery</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="nf">print</span><span class="p">(</span><span class="n">parseError</span><span class="o">.</span><span class="n">description</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="nv">id</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="c1">// swiftlint:disable:this identifier_name</span>
-          <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
-          <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
-          <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-          <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">containedIn</span><span class="p">(</span><span class="n">_</span> <span class="nv">errorCodes</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">.</span><span class="kt">Code</span><span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="p">?</span></code></pre>
 
                         </div>
                       </div>
@@ -760,65 +571,21 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                             <tr>
                               <td>
                                 <code>
-                                <em>id</em>
+                                <em>errorCodes</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The id of the <code>user</code>.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>password</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The password of the user.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>options</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>callbackQueue</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The queue to return to after completion. Default value of .main.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>completion</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The block to execute.</p>
+                                  <p>A variadic amount of zero or more of <code><a href="../Structs/ParseError.html">ParseError</a></code> codes to compare to.</p>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
                         </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns the <code><a href="../Structs/ParseError.html">ParseError</a></code> with respect to the <code>Error</code>. If the error is not a <code><a href="../Structs/ParseError.html">ParseError</a></code>, returns nil.</p>
                       </div>
                     </section>
                   </div>
@@ -826,9 +593,9 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A14AuthenticationP4link8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF"></a>
-                    <a name="//apple_ref/swift/Method/link(authData:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A14AuthenticationP4link8authData7options13callbackQueue10completionySDyS2SG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOy17AuthenticatedUserQzAA0A5ErrorVGctF">link(authData:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:s5ErrorP10ParseSwiftE11containedInySbSayAC0bA0V4CodeOGF"></a>
+                    <a name="//apple_ref/swift/Method/containedIn(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s5ErrorP10ParseSwiftE11containedInySbSayAC0bA0V4CodeOGF">containedIn(_:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -836,18 +603,101 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        
+                        <p>Validates if the given <code><a href="../Structs/ParseError.html">ParseError</a></code> codes contains the error.</p>
+
+<p><strong>Example use case:</strong></p>
+<pre class="highlight swift"><code><span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="nf">containedIn</span><span class="p">([</span><span class="o">.</span><span class="n">objectNotFound</span><span class="p">,</span> <span class="o">.</span><span class="n">invalidQuery</span><span class="p">])</span>  <span class="p">{</span>
+    <span class="c1">//Do stuff</span>
+<span class="p">}</span>
+</code></pre>
+
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
-          <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
-          <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-          <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">containedIn</span><span class="p">(</span><span class="n">_</span> <span class="nv">errorCodes</span><span class="p">:</span> <span class="p">[</span><span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">.</span><span class="kt">Code</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>errorCodes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An array of zero or more of <code><a href="../Structs/ParseError.html">ParseError</a></code> codes to compare to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A boolean indicating whether or not the <code>Error</code> is contained in the <code>errorCodes</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:s5ErrorP10ParseSwiftE11containedInySbAC0bA0V4CodeOd_tF"></a>
+                    <a name="//apple_ref/swift/Method/containedIn(_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:s5ErrorP10ParseSwiftE11containedInySbAC0bA0V4CodeOd_tF">containedIn(_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Validates if the given <code><a href="../Structs/ParseError.html">ParseError</a></code> codes contains the error.</p>
+
+<p><strong>Example use case:</strong></p>
+<pre class="highlight swift"><code><span class="k">if</span> <span class="n">error</span><span class="o">.</span><span class="nf">containedIn</span><span class="p">(</span><span class="o">.</span><span class="n">objectNotFound</span><span class="p">,</span> <span class="o">.</span><span class="n">invalidQuery</span><span class="p">)</span>  <span class="p">{</span>
+    <span class="c1">//Do stuff</span>
+<span class="p">}</span>
+</code></pre>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">containedIn</span><span class="p">(</span><span class="n">_</span> <span class="nv">errorCodes</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">.</span><span class="kt">Code</span><span class="o">...</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>errorCodes</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A variadic amount of zero or more of <code><a href="../Structs/ParseError.html">ParseError</a></code> codes to compare to.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A boolean indicating whether or not the <code>Error</code> is contained in the <code>errorCodes</code>.</p>
                       </div>
                     </section>
                   </div>

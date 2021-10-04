@@ -1,36 +1,99 @@
 {
   "warnings": [
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseApple.swift",
-      "line": 57,
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseApple/ParseApple+combine.swift",
+      "line": 35,
+      "symbol": "ParseApple.loginPublisher(authData:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseApple/ParseApple+combine.swift",
+      "line": 67,
+      "symbol": "ParseApple.linkPublisher(authData:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseApple/ParseApple.swift",
+      "line": 54,
       "symbol": "ParseApple.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseFacebook.swift",
-      "line": 77,
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseFacebook/ParseFacebook+combine.swift",
+      "line": 58,
+      "symbol": "ParseFacebook.loginPublisher(authData:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseFacebook/ParseFacebook+combine.swift",
+      "line": 115,
+      "symbol": "ParseFacebook.linkPublisher(authData:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseFacebook/ParseFacebook.swift",
+      "line": 74,
       "symbol": "ParseFacebook.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseLDAP.swift",
-      "line": 51,
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseLDAP/ParseLDAP+combine.swift",
+      "line": 34,
+      "symbol": "ParseLDAP.loginPublisher(authData:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseLDAP/ParseLDAP+combine.swift",
+      "line": 65,
+      "symbol": "ParseLDAP.linkPublisher(authData:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseLDAP/ParseLDAP.swift",
+      "line": 48,
       "symbol": "ParseLDAP.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseTwitter.swift",
-      "line": 75,
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseTwitter/ParseTwitter+combine.swift",
+      "line": 47,
+      "symbol": "ParseTwitter.loginPublisher(authData:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseTwitter/ParseTwitter+combine.swift",
+      "line": 91,
+      "symbol": "ParseTwitter.linkPublisher(authData:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/3rd Party/ParseTwitter/ParseTwitter.swift",
+      "line": 72,
       "symbol": "ParseTwitter.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
     {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Internal/ParseAnonymous+combine.swift",
+      "line": 51,
+      "symbol": "ParseAnonymous.linkPublisher(authData:options:)",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Internal/ParseAnonymous.swift",
-      "line": 44,
+      "line": 41,
       "symbol": "ParseAnonymous.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -51,21 +114,21 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
-      "line": 153,
+      "line": 152,
       "symbol": "ParseAuthentication.isLinked",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Coding/ParseEncoder.swift",
-      "line": 637,
+      "line": 169,
       "symbol": "_ParseEncoder",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/LiveQuery/LiveQuerySocket.swift",
-      "line": 143,
+      "line": 15,
       "symbol": "LiveQuerySocket",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
@@ -144,13 +207,20 @@
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Deletable.swift",
       "line": 9,
       "symbol": "Deletable",
-      "symbol_kind": "source.lang.swift.decl.protocol",
+      "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Deletable.swift",
-      "line": 16,
+      "line": 9,
       "symbol": "Deletable",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Fetchable.swift",
+      "line": 14,
+      "symbol": "Fetchable",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
@@ -162,15 +232,8 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Fetchable.swift",
-      "line": 21,
-      "symbol": "Fetchable",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Fileable.swift",
-      "line": 17,
+      "line": 11,
       "symbol": "Fileable",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
@@ -200,19 +263,19 @@
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Savable.swift",
       "line": 9,
       "symbol": "Savable",
-      "symbol_kind": "source.lang.swift.decl.protocol",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Savable.swift",
-      "line": 16,
-      "symbol": "Savable",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
     },
     {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Savable.swift",
+      "line": 9,
+      "symbol": "Savable",
+      "symbol_kind": "source.lang.swift.decl.protocol",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Storage/ParseStorage.swift",
-      "line": 35,
+      "line": 9,
       "symbol": "ParseStorage",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
@@ -268,7 +331,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Pointer.swift",
-      "line": 15,
+      "line": 6,
       "symbol": "ParsePointer",
       "symbol_kind": "source.lang.swift.decl.extension",
       "warning": "undocumented"
