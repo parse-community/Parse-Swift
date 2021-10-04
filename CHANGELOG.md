@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.2...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.10.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.1...1.10.2)
+
+__New features__
+- Supports Swift 5.5 async/await ([#212](https://github.com/parse-community/Parse-Swift/pull/212)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
 - Added an extension to compare a Swift Error with a single ParseError or multiple ParseErrors ([#250](https://github.com/parse-community/Parse-Swift/pull/250)), thanks to [Damian Van de Kauter](https://github.com/novemTeam).

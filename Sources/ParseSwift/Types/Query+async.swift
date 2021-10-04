@@ -1,29 +1,28 @@
 //
-//  Query+combine.swift
-//  ParseSwift
+//  Query+async.swift
+//  Query+async
 //
-//  Created by Corey Baker on 1/29/21.
+//  Created by Corey Baker on 8/6/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if canImport(Combine)
+#if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
-import Combine
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
 public extension Query {
 
-    // MARK: Queryable - Combine
+    // MARK: Queryable - Async/Await
 
     /**
      Finds objects *asynchronously* and publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
-    func findPublisher(options: API.Options = []) -> Future<[ResultType], ParseError> {
-        Future { promise in
+    func find(options: API.Options = []) async throws -> [ResultType] {
+        try await withCheckedThrowingContinuation { continuation in
             self.find(options: options,
-                      completion: promise)
+                      completion: continuation.resume)
         }
     }
 
@@ -34,12 +33,12 @@ public extension Query {
      typed language, a developer should specify the type expected to be decoded which will be
      different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
-    func findExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<[U], ParseError> {
-        Future { promise in
+    func findExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
+        try await withCheckedThrowingContinuation { continuation in
             self.findExplain(options: options,
-                             completion: promise)
+                             completion: continuation.resume)
         }
     }
 
@@ -48,16 +47,16 @@ public extension Query {
      and publishes when complete.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
      - warning: The items are processed in an unspecified order. The query may not have any sort
      order, and may not use limit or skip.
     */
-    func findAllPublisher(batchLimit: Int? = nil,
-                          options: API.Options = []) -> Future<[ResultType], ParseError> {
-        Future { promise in
+    func findAll(batchLimit: Int? = nil,
+                 options: API.Options = []) async throws -> [ResultType] {
+        try await withCheckedThrowingContinuation { continuation in
             self.findAll(batchLimit: batchLimit,
                          options: options,
-                         completion: promise)
+                         completion: continuation.resume)
         }
     }
 
@@ -66,10 +65,10 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func firstPublisher(options: API.Options = []) -> Future<ResultType, ParseError> {
-        Future { promise in
+    func first(options: API.Options = []) async throws -> ResultType {
+        try await withCheckedThrowingContinuation { continuation in
             self.first(options: options,
-                       completion: promise)
+                       completion: continuation.resume)
         }
     }
 
@@ -80,12 +79,12 @@ public extension Query {
      different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
-    func firstExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<U, ParseError> {
-        Future { promise in
+    func firstExplain<U: Decodable>(options: API.Options = []) async throws -> U {
+        try await withCheckedThrowingContinuation { continuation in
             self.firstExplain(options: options,
-                              completion: promise)
+                              completion: continuation.resume)
         }
     }
 
@@ -94,10 +93,10 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func countPublisher(options: API.Options = []) -> Future<Int, ParseError> {
-        Future { promise in
+    func count(options: API.Options = []) async throws -> Int {
+        try await withCheckedThrowingContinuation { continuation in
             self.count(options: options,
-                       completion: promise)
+                       completion: continuation.resume)
         }
     }
 
@@ -109,12 +108,12 @@ public extension Query {
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter explain: Used to toggle the information on the query plan.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
-    func countExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<[U], ParseError> {
-        Future { promise in
+    func countExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
+        try await withCheckedThrowingContinuation { continuation in
             self.countExplain(options: options,
-                              completion: promise)
+                              completion: continuation.resume)
         }
     }
 
@@ -123,14 +122,14 @@ public extension Query {
      - requires: `.useMasterKey` has to be available.
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
-    func aggregatePublisher(_ pipeline: [[String: Encodable]],
-                            options: API.Options = []) -> Future<[ResultType], ParseError> {
-        Future { promise in
+    func aggregate(_ pipeline: [[String: Encodable]],
+                   options: API.Options = []) async throws -> [ResultType] {
+        try await withCheckedThrowingContinuation { continuation in
             self.aggregate(pipeline,
                            options: options,
-                           completion: promise)
+                           completion: continuation.resume)
         }
     }
 
@@ -143,14 +142,14 @@ public extension Query {
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
-    func aggregateExplainPublisher<U: Decodable>(_ pipeline: [[String: Encodable]],
-                                                 options: API.Options = []) -> Future<[U], ParseError> {
-        Future { promise in
+    func aggregateExplain<U: Decodable>(_ pipeline: [[String: Encodable]],
+                                        options: API.Options = []) async throws -> [U] {
+        try await withCheckedThrowingContinuation { continuation in
             self.aggregateExplain(pipeline,
                            options: options,
-                           completion: promise)
+                           completion: continuation.resume)
         }
     }
 
@@ -159,14 +158,14 @@ public extension Query {
      - requires: `.useMasterKey` has to be available.
      - parameter key: A field to find distinct values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
-    func distinctPublisher(_ key: String,
-                           options: API.Options = []) -> Future<[ResultType], ParseError> {
-        Future { promise in
+    func distinct(_ key: String,
+                  options: API.Options = []) async throws -> [ResultType] {
+        try await withCheckedThrowingContinuation { continuation in
             self.distinct(key,
                           options: options,
-                          completion: promise)
+                          completion: continuation.resume)
         }
     }
 
@@ -179,14 +178,14 @@ public extension Query {
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter key: A field to find distinct values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: An array of ParseObjects.
     */
-    func distinctExplainPublisher<U: Decodable>(_ key: String,
-                                                options: API.Options = []) -> Future<[U], ParseError> {
-        Future { promise in
+    func distinctExplain<U: Decodable>(_ key: String,
+                                       options: API.Options = []) async throws -> [U] {
+        try await withCheckedThrowingContinuation { continuation in
             self.distinctExplain(key,
                                  options: options,
-                                 completion: promise)
+                                 completion: continuation.resume)
         }
     }
 }

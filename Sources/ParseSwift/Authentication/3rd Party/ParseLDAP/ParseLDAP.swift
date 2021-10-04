@@ -7,9 +7,6 @@
 //
 
 import Foundation
-#if canImport(Combine)
-import Combine
-#endif
 
 // swiftlint:disable line_length
 
@@ -90,39 +87,6 @@ public extension ParseLDAP {
                                 callbackQueue: callbackQueue,
                                 completion: completion)
     }
-
-    #if canImport(Combine)
-
-    /**
-     Login a `ParseUser` *asynchronously* using LDAP authentication. Publishes when complete.
-     - parameter id: The id of the `user`.
-     - parameter password: The password of the user.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     */
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(id: String, // swiftlint:disable:this identifier_name
-                        password: String,
-                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        Future { promise in
-            self.login(id: id,
-                       password: password,
-                       options: options,
-                       completion: promise)
-        }
-    }
-
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(authData: [String: String],
-                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        Future { promise in
-            self.login(authData: authData,
-                       options: options,
-                       completion: promise)
-        }
-    }
-
-    #endif
 }
 
 // MARK: Link
@@ -165,39 +129,6 @@ public extension ParseLDAP {
                                callbackQueue: callbackQueue,
                                completion: completion)
     }
-
-    #if canImport(Combine)
-
-    /**
-     Link the *current* `ParseUser` *asynchronously* using LDAP authentication. Publishes when complete.
-     - parameter id: The id of the `user`.
-     - parameter password: The password of the user.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     */
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(id: String, // swiftlint:disable:this identifier_name
-                       password: String,
-                       options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        Future { promise in
-            self.link(id: id,
-                      password: password,
-                      options: options,
-                      completion: promise)
-        }
-    }
-
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(authData: [String: String],
-                       options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        Future { promise in
-            self.link(authData: authData,
-                      options: options,
-                      completion: promise)
-        }
-    }
-
-    #endif
 }
 
 // MARK: 3rd Party Authentication - ParseLDAP

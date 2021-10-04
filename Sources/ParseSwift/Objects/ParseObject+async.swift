@@ -1,73 +1,74 @@
 //
-//  ParseObject+combine.swift
-//  ParseSwift
+//  ParseObject+async.swift
+//  ParseObject+async
 //
-//  Created by Corey Baker on 1/29/21.
+//  Created by Corey Baker on 8/6/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if canImport(Combine)
+#if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
-import Combine
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
 public extension ParseObject {
 
-    // MARK: Combine
+    // MARK: Async/Await
     /**
      Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
-     Publishes when complete.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func fetchPublisher(includeKeys: [String]? = nil,
-                        options: API.Options = []) -> Future<Self, ParseError> {
-        Future { promise in
+    func fetch(includeKeys: [String]? = nil,
+               options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
             self.fetch(includeKeys: includeKeys,
                        options: options,
-                       completion: promise)
+                       completion: continuation.resume)
         }
     }
 
     /**
-     Saves the `ParseObject` *asynchronously* and publishes when complete.
-
+     Saves the `ParseObject` *asynchronously*.
+     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
-    func savePublisher(isIgnoreCustomObjectIdConfig: Bool = false,
-                       options: API.Options = []) -> Future<Self, ParseError> {
-        Future { promise in
+    func save(isIgnoreCustomObjectIdConfig: Bool = false,
+              options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
             self.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
                       options: options,
-                      completion: promise)
+                      completion: continuation.resume)
         }
     }
 
     /**
-     Deletes the `ParseObject` *asynchronously* and publishes when complete.
+     Deletes the `ParseObject` *asynchronously*.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
-    func deletePublisher(options: API.Options = []) -> Future<Void, ParseError> {
-        Future { promise in
-            self.delete(options: options, completion: promise)
+    func delete(options: API.Options = []) async throws {
+        _ = try await withCheckedThrowingContinuation { continuation in
+            self.delete(options: options,
+                        completion: continuation.resume)
         }
     }
 }
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
+@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
 public extension Sequence where Element: ParseObject {
-    // MARK: Batch Support - Combine
+    // MARK: Batch Support - Async/Await
     /**
      Fetches a collection of objects *aynchronously* with the current data from the server and sets
-     an error if one occurs. Publishes when complete.
+     an error if one occurs.
      - parameter includeKeys: The name(s) of the key(s) to include that are
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
@@ -75,17 +76,17 @@ public extension Sequence where Element: ParseObject {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
-    func fetchAllPublisher(includeKeys: [String]? = nil,
-                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
-        Future { promise in
+    func fetchAll(includeKeys: [String]? = nil,
+                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+        try await withCheckedThrowingContinuation { continuation in
             self.fetchAll(includeKeys: includeKeys,
                           options: options,
-                          completion: promise)
+                          completion: continuation.resume)
         }
     }
 
     /**
-     Saves a collection of objects *asynchronously* and publishes when complete.
+     Saves a collection of objects *asynchronously*.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
@@ -95,58 +96,48 @@ public extension Sequence where Element: ParseObject {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns saved `ParseInstallation`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
-     and plan to generate all of your `objectId`'s on the client-side then you should leave
-     `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
-     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
-     and the server will generate an `objectId` only when the client does not provide one. This can
-     increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
-     different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
-     client-side checks are disabled. Developers are responsible for handling such cases.
     */
-    func saveAllPublisher(batchLimit limit: Int? = nil,
-                          transaction: Bool = false,
-                          isIgnoreCustomObjectIdConfig: Bool = false,
-                          options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
-        Future { promise in
+    func saveAll(batchLimit limit: Int? = nil,
+                 transaction: Bool = false,
+                 isIgnoreCustomObjectIdConfig: Bool = false,
+                 options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+        try await withCheckedThrowingContinuation { continuation in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
                          isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
                          options: options,
-                         completion: promise)
+                         completion: continuation.resume)
         }
     }
 
     /**
-     Deletes a collection of objects *asynchronously* and publishes when complete.
+     Deletes a collection of objects *asynchronously*.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: - returns: Returns saved `ParseInstallation`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
     */
-    func deleteAllPublisher(batchLimit limit: Int? = nil,
-                            transaction: Bool = false,
-                            options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
-        Future { promise in
+    func deleteAll(batchLimit limit: Int? = nil,
+                   transaction: Bool = false,
+                   options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
+        try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,
                            transaction: transaction,
                            options: options,
-                           completion: promise)
+                           completion: continuation.resume)
         }
     }
 }
-
 #endif

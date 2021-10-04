@@ -897,6 +897,7 @@ class TestParseEncoder: XCTestCase {
     _testRoundTripTypeCoercionFailure(of: [0.0, 1.0] as [Double], as: [Bool].self)
   }
 
+    #if !os(Linux) && !os(Android)
   func testDecodingConcreteTypeParameter() {
       let encoder = ParseEncoder()
       guard let json = try? encoder.encode(Employee.testValue) else {
@@ -911,6 +912,7 @@ class TestParseEncoder: XCTestCase {
       }
     XCTAssertTrue(type(of: decoded) == Employee.self, "Expected decoded value to be of type Employee; got \(type(of: decoded)) instead.")
   }
+    #endif
 
   // MARK: - Encoder State
   // SR-6078

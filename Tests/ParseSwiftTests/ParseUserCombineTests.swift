@@ -142,6 +142,62 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    func testSignupInstance() {
+        let loginResponse = LoginSignupResponse()
+        var subscriptions = Set<AnyCancellable>()
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let expectation1 = XCTestExpectation(description: "Signup user1")
+        var user = User()
+        user.username = loginUserName
+        user.password = loginPassword
+        user.email = "parse@parse.com"
+        user.customKey = "blah"
+        let publisher = user.signupPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { signedUp in
+            XCTAssertNotNil(signedUp)
+            XCTAssertNotNil(signedUp.createdAt)
+            XCTAssertNotNil(signedUp.updatedAt)
+            XCTAssertNotNil(signedUp.email)
+            XCTAssertNotNil(signedUp.username)
+            XCTAssertNil(signedUp.password)
+            XCTAssertNotNil(signedUp.objectId)
+            XCTAssertNotNil(signedUp.sessionToken)
+            XCTAssertNotNil(signedUp.customKey)
+            XCTAssertNil(signedUp.ACL)
+
+            guard let userFromKeychain = BaseParseUser.current else {
+                XCTFail("Couldn't get CurrentUser from Keychain")
+                return
+            }
+
+            XCTAssertNotNil(userFromKeychain.createdAt)
+            XCTAssertNotNil(userFromKeychain.updatedAt)
+            XCTAssertNotNil(userFromKeychain.email)
+            XCTAssertNotNil(userFromKeychain.username)
+            XCTAssertNil(userFromKeychain.password)
+            XCTAssertNotNil(userFromKeychain.objectId)
+            XCTAssertNotNil(userFromKeychain.sessionToken)
+            XCTAssertNil(userFromKeychain.ACL)
+        })
+        publisher.store(in: &subscriptions)
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func testLogin() {
         let loginResponse = LoginSignupResponse()
         var subscriptions = Set<AnyCancellable>()

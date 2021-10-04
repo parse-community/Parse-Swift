@@ -7,9 +7,6 @@
 //
 
 import Foundation
-#if canImport(Combine)
-import Combine
-#endif
 
 /**
  Provides utility functions for working with Anonymously logged-in users.
@@ -104,41 +101,6 @@ public extension ParseAnonymous {
                                 callbackQueue: callbackQueue,
                                 completion: completion)
     }
-
-    #if canImport(Combine)
-
-    /**
-     Login a `ParseUser` *asynchronously* using the respective authentication type.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter completion: The block to execute.
-     */
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        Future { promise in
-            self.login(options: options,
-                       completion: promise)
-        }
-    }
-
-    /**
-     Login a `ParseUser` *asynchronously* using the respective authentication type.
-     - parameter authData: The authData for the respective authentication type. This will be ignored.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter completion: The block to execute.
-     */
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func loginPublisher(authData: [String: String],
-                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        Future { promise in
-            self.login(authData: authData,
-                       options: options,
-                       completion: promise)
-        }
-    }
-
-    #endif
 }
 
 // MARK: Link
@@ -152,20 +114,6 @@ public extension ParseAnonymous {
             completion(.failure(ParseError(code: .unknownError, message: "Not supported")))
         }
     }
-
-    #if canImport(Combine)
-
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
-    func linkPublisher(authData: [String: String],
-                       options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
-        Future { promise in
-            self.link(authData: authData,
-                      options: options,
-                      completion: promise)
-        }
-    }
-
-    #endif
 }
 
 // MARK: ParseAnonymous
