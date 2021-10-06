@@ -6,7 +6,7 @@ on:
     branches: '*'
 env:
   CI_XCODE_VER: '/Applications/Xcode_11.7.app/Contents/Developer'
-  CI_XCODE_13_VER: '/Applications/Xcode_13.0.app/Contents/Developer'
+  CI_XCODE_13: '/Applications/Xcode_13.0.app/Contents/Developer'
 
 jobs:
   xcode-test-ios:
@@ -16,18 +16,18 @@ jobs:
     - name: Version
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -version
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData test | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         env_vars: IOS
         fail_ci_if_error: false
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   xcode-test-macos:
     runs-on: macos-11
@@ -42,13 +42,13 @@ jobs:
     - name: Build-Test
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData test | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         env_vars: MACOS
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   xcode-test-tvos:
     runs-on: macos-11
@@ -57,13 +57,13 @@ jobs:
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV -derivedDataPath DerivedData test | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         env_vars: TVOS
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   xcode-build-watchos:
     runs-on: macos-11
@@ -72,13 +72,13 @@ jobs:
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -target ParseSwift\ \(watchOS\) | xcpretty
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         env_vars: WATCHOS
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   spm-test:
     runs-on: macos-11
@@ -93,25 +93,25 @@ jobs:
     - name: Build
       run: swift build -v
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Test
       run: swift test --enable-code-coverage -v
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
       run: |
         XCTEST=$(find .build -type f -name 'ParseSwiftPackageTests')
         PROFDATA=$(find .build -type f -name '*.profdata')
         xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info_spm.lcov
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         env_vars: SPM
         fail_ci_if_error: true
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   spm-test-5_2:
     needs: xcode-build-watchos
@@ -138,14 +138,14 @@ jobs:
         PROFDATA=$(find .build -type f -name '*.profdata')
         xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info_spm_5_2.lcov
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
         env_vars: SPM5_2
         fail_ci_if_error: true
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
  
   linux:
     runs-on: ubuntu-18.04
@@ -188,6 +188,7 @@ jobs:
         run: ./Scripts/jazzy.sh
         env:
           BUILD_VERSION: '1.8.3'
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     
   cocoapods:
     needs: xcode-build-watchos
@@ -201,7 +202,7 @@ jobs:
       - name: CocoaPods
         run: pod lib lint --allow-warnings
         env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   carthage:
    needs: xcode-build-watchos
@@ -211,4 +212,4 @@ jobs:
      - name: Carthage 
        run: ./carthage.sh build --no-skip-current --use-xcframeworks
        env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
