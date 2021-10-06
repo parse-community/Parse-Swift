@@ -5,7 +5,7 @@ bundle exec jazzy \
   --github_url https://github.com/parse-community/Parse-Swift \
   --root-url http://parseplatform.org/Parse-Swift/api/ \
   --module-version ${BUILD_VERSION} \
-  --theme fullwidth \
+  --theme apple \
   --skip-undocumented \
   --output ./docs/api \
   --module ParseSwift \

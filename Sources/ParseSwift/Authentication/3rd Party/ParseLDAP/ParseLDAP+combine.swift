@@ -31,6 +31,12 @@ public extension ParseLDAP {
         }
     }
 
+    /**
+     Login a `ParseUser` *asynchronously* using LDAP authentication. Publishes when complete.
+     - parameter authData: Dictionary containing key/values.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     */
     func loginPublisher(authData: [String: String],
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
@@ -62,6 +68,12 @@ public extension ParseLDAP {
         }
     }
 
+    /**
+     Link the *current* `ParseUser` *asynchronously* using LDAP authentication. Publishes when complete.
+     - parameter authData: Dictionary containing key/values.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     */
     func linkPublisher(authData: [String: String],
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in

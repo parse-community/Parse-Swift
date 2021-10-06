@@ -23,6 +23,7 @@ public extension ParseUser {
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     @MainActor
     static func signup(username: String,
@@ -44,6 +45,7 @@ public extension ParseUser {
      - warning: Make sure that password and username are set before calling this method.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     @MainActor
     func signup(options: API.Options = []) async throws -> Self {
@@ -63,6 +65,7 @@ public extension ParseUser {
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     @MainActor
     static func login(username: String,
@@ -85,6 +88,7 @@ public extension ParseUser {
      - parameter sessionToken: The sessionToken of the user to login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     @MainActor
     func become(sessionToken: String,
@@ -102,6 +106,7 @@ public extension ParseUser {
      and all future calls to `current` will return `nil`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     @MainActor
     static func logout(options: API.Options = []) async throws {
@@ -117,6 +122,7 @@ public extension ParseUser {
         - parameter email: The email address associated with the user that forgot their password.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - returns: A publisher that eventually produces a single value and then finishes or fails.
+        - throws: `ParseError`.
     */
     @MainActor
     static func passwordReset(email: String,
@@ -133,6 +139,7 @@ public extension ParseUser {
         - parameter email: The email address associated with the user.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - returns: A publisher that eventually produces a single value and then finishes or fails.
+        - throws: `ParseError`.
     */
     @MainActor
     static func verificationEmail(email: String,
@@ -150,6 +157,7 @@ public extension ParseUser {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     @MainActor
@@ -170,6 +178,7 @@ public extension ParseUser {
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     @MainActor
@@ -188,6 +197,7 @@ public extension ParseUser {
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     @MainActor
@@ -209,6 +219,7 @@ public extension Sequence where Element: ParseUser {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     @MainActor
@@ -233,6 +244,7 @@ public extension Sequence where Element: ParseUser {
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
@@ -261,6 +273,7 @@ public extension Sequence where Element: ParseUser {
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else

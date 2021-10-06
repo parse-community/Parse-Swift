@@ -20,6 +20,7 @@ public extension ParseFile {
      Fetches a file with given url *synchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     func fetch(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -35,6 +36,7 @@ public extension ParseFile {
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     func fetch(options: API.Options = [],
                progress: @escaping ((URLSessionDownloadTask,
@@ -52,6 +54,7 @@ public extension ParseFile {
      be downloaded before saved.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     func save(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -69,6 +72,7 @@ public extension ParseFile {
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A ParsFile.
+     - throws: `ParseError`.
      */
     func save(options: API.Options = [],
               progress: ((URLSessionTask,
@@ -86,6 +90,7 @@ public extension ParseFile {
      Deletes the file from the Parse Server. Publishes when complete.
      - requires: `.useMasterKey` has to be available.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: `ParseError`.
      */
     func delete(options: API.Options = []) async throws {
         _ = try await withCheckedThrowingContinuation { continuation in

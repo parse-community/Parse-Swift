@@ -55,6 +55,11 @@ public extension ParseFacebook {
         }
     }
 
+    /**
+     Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login. Publishes when complete.
+     - parameter authData: Dictionary containing key/values.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     */
     func loginPublisher(authData: [String: String],
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
@@ -112,6 +117,12 @@ public extension ParseFacebook {
         }
     }
 
+    /**
+     Link the *current* `ParseUser` *asynchronously* using Facebook authentication for graph API login.
+     Publishes when complete.
+     - parameter authData: Dictionary containing key/values.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     */
     func linkPublisher(authData: [String: String],
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in

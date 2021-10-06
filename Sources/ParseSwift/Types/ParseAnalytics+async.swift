@@ -31,6 +31,7 @@ public extension ParseAnalytics {
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     static func trackAppOpened(launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil,
                                at date: Date? = nil,
@@ -55,6 +56,7 @@ public extension ParseAnalytics {
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     static func trackAppOpened(dimensions: [String: String]? = nil,
                                at date: Date? = nil,
@@ -72,6 +74,7 @@ public extension ParseAnalytics {
   
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     func track(options: API.Options = []) async throws {
         _ = try await withCheckedThrowingContinuation { continuation in
@@ -92,6 +95,7 @@ public extension ParseAnalytics {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - warning: This method makes a copy of the current `ParseAnalytics` and then mutates
      it. You will not have access to the mutated analytic after calling this method.
+     - throws: `ParseError`.
     */
     func track(dimensions: [String: String]?,
                at date: Date? = nil,

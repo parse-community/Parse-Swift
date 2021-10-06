@@ -19,6 +19,7 @@ public extension ParseApple {
      - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
+     - throws: `ParseError`.
      */
     func login(user: String,
                identityToken: Data,
@@ -31,6 +32,13 @@ public extension ParseApple {
         }
     }
 
+    /**
+     Login a `ParseUser` *asynchronously* using Apple authentication.
+     - parameter authData: Dictionary containing key/values.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: An instance of the logged in `ParseUser`.
+     - throws: `ParseError`.
+     */
     func login(authData: [String: String],
                options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
@@ -51,6 +59,7 @@ public extension ParseApple {
      - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
+     - throws: `ParseError`.
      */
     func link(user: String,
               identityToken: Data,
@@ -63,6 +72,13 @@ public extension ParseApple {
         }
     }
 
+    /**
+     Link the *current* `ParseUser` *asynchronously* using Apple authentication.
+     - parameter authData: Dictionary containing key/values.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: An instance of the logged in `ParseUser`.
+     - throws: `ParseError`.
+     */
     func link(authData: [String: String],
               options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in

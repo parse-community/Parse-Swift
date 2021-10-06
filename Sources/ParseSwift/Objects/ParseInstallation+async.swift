@@ -21,6 +21,7 @@ public extension ParseInstallation {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns saved `ParseInstallation`.
+     - throws: `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     func fetch(includeKeys: [String]? = nil,
@@ -40,6 +41,7 @@ public extension ParseInstallation {
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns saved `ParseInstallation`.
+     - throws: `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     func save(isIgnoreCustomObjectIdConfig: Bool = false,
@@ -57,6 +59,7 @@ public extension ParseInstallation {
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns saved `ParseInstallation`.
+     - throws: `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func delete(options: API.Options = []) async throws {
@@ -77,6 +80,7 @@ public extension Sequence where Element: ParseInstallation {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns saved `ParseInstallation`.
+     - throws: `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     func fetchAll(includeKeys: [String]? = nil,
@@ -100,6 +104,7 @@ public extension Sequence where Element: ParseInstallation {
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: - returns: Returns saved `ParseInstallation`.
+     - throws: `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
@@ -127,6 +132,7 @@ public extension Sequence where Element: ParseInstallation {
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns saved `ParseInstallation`.
+     - throws: `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else

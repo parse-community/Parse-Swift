@@ -17,7 +17,8 @@ public extension ParseConfig {
     /**
      Fetch the Config *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: The return type of self..
+     - returns: The return type of self.
+     - throws: `ParseError`.
     */
     func fetch(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -32,6 +33,7 @@ public extension ParseConfig {
      Update the Config *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     func save(options: API.Options = []) async throws -> Bool {
         try await withCheckedThrowingContinuation { continuation in

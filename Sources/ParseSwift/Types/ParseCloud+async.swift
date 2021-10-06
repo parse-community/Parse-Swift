@@ -18,6 +18,7 @@ public extension ParseCloud {
      Calls a Cloud Code function *asynchronously* and returns a result of it's execution.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: The return type.
+     - throws: `ParseError`.
     */
     func runFunction(options: API.Options = []) async throws -> ReturnType {
         try await withCheckedThrowingContinuation { continuation in
@@ -32,6 +33,7 @@ public extension ParseCloud {
      Starts a Cloud Code Job *asynchronously* and returns a result with the jobStatusId of the job.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     func startJob(options: API.Options = []) async throws -> ReturnType {
         try await withCheckedThrowingContinuation { continuation in
