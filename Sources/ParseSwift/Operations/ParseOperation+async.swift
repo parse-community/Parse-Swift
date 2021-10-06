@@ -19,6 +19,7 @@ public extension ParseOperation {
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     func save(options: API.Options = []) async throws -> T {
         try await withCheckedThrowingContinuation { continuation in

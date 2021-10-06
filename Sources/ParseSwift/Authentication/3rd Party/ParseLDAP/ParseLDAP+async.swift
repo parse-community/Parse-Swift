@@ -18,6 +18,7 @@ public extension ParseLDAP {
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
+     - throws: `ParseError`.
      */
     func login(id: String, // swiftlint:disable:this identifier_name
                password: String,
@@ -30,6 +31,13 @@ public extension ParseLDAP {
         }
     }
 
+    /**
+     Login a `ParseUser` *asynchronously* using LDAP authentication.
+     - parameter authData: Dictionary containing key/values.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: An instance of the logged in `ParseUser`.
+     - throws: `ParseError`.
+     */
     func login(authData: [String: String],
                options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
@@ -49,6 +57,7 @@ public extension ParseLDAP {
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
+     - throws: `ParseError`.
      */
     func link(id: String, // swiftlint:disable:this identifier_name
               password: String,
@@ -61,6 +70,13 @@ public extension ParseLDAP {
         }
     }
 
+    /**
+     Link the *current* `ParseUser` *asynchronously* using LDAP authentication.
+     - parameter authData: Dictionary containing key/values.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: An instance of the logged in `ParseUser`.
+     - throws: `ParseError`.
+     */
     func link(authData: [String: String],
               options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in

@@ -18,6 +18,7 @@ public extension Query {
      Finds objects *asynchronously* and publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
+     - throws: `ParseError`.
     */
     func find(options: API.Options = []) async throws -> [ResultType] {
         try await withCheckedThrowingContinuation { continuation in
@@ -34,6 +35,7 @@ public extension Query {
      different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - returns: An array of ParseObjects.
+     - throws: `ParseError`.
     */
     func findExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
         try await withCheckedThrowingContinuation { continuation in
@@ -48,6 +50,7 @@ public extension Query {
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
+     - throws: `ParseError`.
      - warning: The items are processed in an unspecified order. The query may not have any sort
      order, and may not use limit or skip.
     */
@@ -64,6 +67,7 @@ public extension Query {
      Gets an object *asynchronously* and publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     func first(options: API.Options = []) async throws -> ResultType {
         try await withCheckedThrowingContinuation { continuation in
@@ -80,6 +84,7 @@ public extension Query {
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
+     - throws: `ParseError`.
     */
     func firstExplain<U: Decodable>(options: API.Options = []) async throws -> U {
         try await withCheckedThrowingContinuation { continuation in
@@ -92,6 +97,7 @@ public extension Query {
      Count objects *asynchronously* and publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - throws: `ParseError`.
     */
     func count(options: API.Options = []) async throws -> Int {
         try await withCheckedThrowingContinuation { continuation in
@@ -109,6 +115,7 @@ public extension Query {
      - parameter explain: Used to toggle the information on the query plan.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
+     - throws: `ParseError`.
     */
     func countExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
         try await withCheckedThrowingContinuation { continuation in
@@ -123,6 +130,7 @@ public extension Query {
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
+     - throws: `ParseError`.
     */
     func aggregate(_ pipeline: [[String: Encodable]],
                    options: API.Options = []) async throws -> [ResultType] {
@@ -143,6 +151,7 @@ public extension Query {
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
+     - throws: `ParseError`.
     */
     func aggregateExplain<U: Decodable>(_ pipeline: [[String: Encodable]],
                                         options: API.Options = []) async throws -> [U] {
@@ -159,6 +168,7 @@ public extension Query {
      - parameter key: A field to find distinct values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
+     - throws: `ParseError`.
     */
     func distinct(_ key: String,
                   options: API.Options = []) async throws -> [ResultType] {
@@ -179,6 +189,7 @@ public extension Query {
      - parameter key: A field to find distinct values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
+     - throws: `ParseError`.
     */
     func distinctExplain<U: Decodable>(_ key: String,
                                        options: API.Options = []) async throws -> [U] {

@@ -18,6 +18,7 @@ public extension ParseAnonymous {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - returns: An instance of the logged in `ParseUser`.
+     - throws: `ParseError`.
      */
     func login(options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
@@ -32,6 +33,7 @@ public extension ParseAnonymous {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - returns: An instance of the logged in `ParseUser`.
+     - throws: `ParseError`.
      */
     func login(authData: [String: String],
                options: API.Options = []) async throws -> AuthenticatedUser {
