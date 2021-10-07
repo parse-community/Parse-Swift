@@ -12,12 +12,28 @@ import Foundation
  Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse cloud.
  This is the main protocol that is used to interact with objects in your app.
 
- If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
- `ACL` to your `ParseObject` `CodingKeys`.
+ The Swift SDK is designed for your `ParseObject`s to be "value types" (structs).
+ If you are using value types the the compiler will assist you with conforming to `ParseObject` protocol. If you
+ are thinking of using reference types, see the warning.
+
+ It's recommended the developer adds the emptyObject computed property or similar.
+ Gets an empty version of the respective object. This can be used when you only need to update a
+ a subset of the fields of an object as oppose to updating every field of an object. Using an empty object and updating
+ a subset of the fields reduces the amount of data sent between client and server when using `save` and `saveAll`
+ to update objects. You should add the following properties in your `ParseObject`'s:
+
+     var emptyObject: Self {
+         var object = Self()
+         object.objectId = objectId
+         object.createdAt = createdAt
+         return object
+     }
  
- - note: It is recommended to make your`ParseObject`s "value types" (structs).
- If you are using value types there isn't much else you need to do but to conform to ParseObject. If you are thinking of
- using reference types, see the warning.
+ - important: It is recommended that all added properties be optional properties so they can eventually be used as
+ Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
+ create methods to check the respective properties on the client-side before saving objects. See
+ [here](https://github.com/parse-community/Parse-Swift/issues/157#issuecomment-858671025)
+ for more information.
  - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
  for reference types and may have unexpected behavior when it comes to threading. You will also need to implement
  your own `==` method to conform to `Equatable` along with with the `hash` method to conform to `Hashable`.
@@ -25,6 +41,8 @@ import Foundation
  `Equatable` and `Hashable` as your unsaved objects won't have this value yet and is nil. A possible way to
  address this is by creating a `UUID` for your objects locally and relying on that for `Equatable` and `Hashable`,
  otherwise it's possible you will get "circular dependency errors" depending on your implementation.
+ - note: If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
+ `ACL` to your `ParseObject` `CodingKeys`.
 */
 public protocol ParseObject: Objectable,
                              Fetchable,

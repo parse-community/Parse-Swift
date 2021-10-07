@@ -1,14 +1,20 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.3...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.4...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.10.4
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.3...1.10.4)
+
+__Improvements__
+- Improve documentation for ParseObject ([#253](https://github.com/parse-community/Parse-Swift/pull/253)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.10.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.2...1.10.3)
 
 __Improvements__
-- Update documents to show new Swift 5.5 async/await methods ([#251](https://github.com/parse-community/Parse-Swift/pull/251)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Update documents to show new Swift 5.5 async/await methods ([#252](https://github.com/parse-community/Parse-Swift/pull/252)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.10.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.1...1.10.2)
