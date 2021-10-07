@@ -29,6 +29,32 @@ import Foundation
          return object
      }
  
+ When designing applications for SwiftUI, it is recommended to make all `ParseObject`'s conform to
+ `Identifiable`. This can be accomplised by doing the following:
+ 
+     struct GameScore: ParseObject, Identifiable {
+
+        // Add this computed property to conform to `Identifiable` for iOS13+
+        var id: String {
+            guard let objectId = self.objectId else {
+                return UUID().uuidString
+            }
+            return objectId
+        }
+
+        // These are required for any Object.
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        // Your own properties.
+        var score: Int = 0
+        var location: ParseGeoPoint?
+        var name: String?
+        var myFiles: [ParseFile]?
+     }
+
  - important: It is recommended that all added properties be optional properties so they can eventually be used as
  Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
  create methods to check the respective properties on the client-side before saving objects. See
