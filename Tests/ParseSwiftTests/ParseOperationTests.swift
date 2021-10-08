@@ -396,8 +396,9 @@ class ParseOperationTests: XCTestCase {
 
     func testSet() throws {
         let score = GameScore(score: 10)
-        let operations = try score.operation.set("score", value: 15)
-        let expected = "{\"score\":15}"
+        let operations = try score.operation.set(("score", \.score), value: 15)
+            .set(("levels", \.levels), value: ["hello"])
+        let expected = "{\"score\":15,\"levels\":[\"hello\"]}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
@@ -406,7 +407,7 @@ class ParseOperationTests: XCTestCase {
 
     func testUnchangedSet() throws {
         let score = GameScore(score: 10)
-        let operations = try score.operation.set("score", value: 10)
+        let operations = try score.operation.set(("score", \.score), value: 10)
         let expected = "{}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
@@ -416,7 +417,7 @@ class ParseOperationTests: XCTestCase {
 
     func testForceSet() throws {
         let score = GameScore(score: 10)
-        let operations = try score.operation.forceSet("score", value: 10)
+        let operations = try score.operation.forceSet(("score", \.score), value: 10)
         let expected = "{\"score\":10}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
