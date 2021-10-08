@@ -1,11 +1,11 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.11.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
-### 1.11.0
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.4...1.11.0)
+### 2.0.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.4...2.0.0)
 
 __Improvements__
 - (Breaking Change) ParseObject's now conform to Identifiable and can be used directly with SwiftUI without additonal properties needed. Drops support for iOS 12, tvOS 12, watchOS 5, and macOS 10.13/14 ([#254](https://github.com/parse-community/Parse-Swift/pull/254)), thanks to [Corey Baker](https://github.com/cbaker6).
