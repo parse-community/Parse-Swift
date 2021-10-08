@@ -10,10 +10,10 @@
 import Foundation
 import Combine
 
-// MARK: Combine
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseObject {
 
+    // MARK: Combine
     /**
      Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
      Publishes when complete.
@@ -62,9 +62,9 @@ public extension ParseObject {
     }
 }
 
-// MARK: Batch Support - Combine
 @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Sequence where Element: ParseObject {
+    // MARK: Batch Support - Combine
     /**
      Fetches a collection of objects *aynchronously* with the current data from the server and sets
      an error if one occurs. Publishes when complete.

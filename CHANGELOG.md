@@ -1,8 +1,35 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.4...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.10.4
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.3...1.10.4)
+
+__Improvements__
+- Improve documentation for ParseObject ([#253](https://github.com/parse-community/Parse-Swift/pull/253)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.10.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.2...1.10.3)
+
+__Improvements__
+- Update documents to show new Swift 5.5 async/await methods ([#252](https://github.com/parse-community/Parse-Swift/pull/252)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 1.10.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.1...1.10.2)
+
+__New features__
+- Supports Swift 5.5 async/await ([#212](https://github.com/parse-community/Parse-Swift/pull/212)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- Added an extension to compare a Swift Error with a single ParseError or multiple ParseErrors ([#250](https://github.com/parse-community/Parse-Swift/pull/250)), thanks to [Damian Van de Kauter](https://github.com/novemTeam).
+
+### 1.10.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.0...1.10.1)
+
+__Improvements__
+- Removes emptyObject requirement that was added in #243. Instead, has a recommendation in playgrounds on how to use emptyObject to only send select modified keys to the server ([#249](https://github.com/parse-community/Parse-Swift/pull/249)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.10.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.10...1.10.0)
