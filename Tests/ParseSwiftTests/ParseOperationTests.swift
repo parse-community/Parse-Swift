@@ -139,6 +139,7 @@ class ParseOperationTests: XCTestCase {
             }
             XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
             XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
+            XCTAssertEqual(score.score, scoreOnServer.score)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -399,6 +400,30 @@ class ParseOperationTests: XCTestCase {
         let operations = try score.operation.set(("score", \.score), value: 15)
             .set(("levels", \.levels), value: ["hello"])
         let expected = "{\"score\":15,\"levels\":[\"hello\"]}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(operations)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+        XCTAssertEqual(score.score, 15)
+    }
+
+    func testNilSet() throws {
+        var score = GameScore()
+        score.levels = nil
+        let operations = try score.operation.set(("levels", \.levels), value: ["hello"])
+        let expected = "{\"levels\":[\"hello\"]}"
+        let encoded = try ParseCoding.parseEncoder()
+            .encode(operations)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testObjectIdSet() throws {
+        var score = GameScore()
+        score.objectId = "test"
+        score.levels = nil
+        let operations = try score.operation.set(("levels", \.levels), value: ["hello"])
+        let expected = "{\"levels\":[\"hello\"]}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
