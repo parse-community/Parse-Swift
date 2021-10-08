@@ -19,15 +19,7 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 //: Create your own value typed ParseObject.
-struct GameScore: ParseObject, Identifiable {
-
-    //: Conform to Identifiable for iOS13+
-    var id: String { // swiftlint:disable:this identifier_name
-        guard let objectId = self.objectId else {
-            return UUID().uuidString
-        }
-        return objectId
-    }
+struct GameScore: ParseObject {
 
     //: These are required for any Object.
     var objectId: String?

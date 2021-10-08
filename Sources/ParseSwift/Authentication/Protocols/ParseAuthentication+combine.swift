@@ -10,7 +10,6 @@
 import Foundation
 import Combine
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseAuthentication {
 
     // MARK: Convenience Implementations - Combine
@@ -31,7 +30,6 @@ public extension ParseAuthentication {
     }
 }
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseUser {
 
     // MARK: 3rd Party Authentication - Login Combine

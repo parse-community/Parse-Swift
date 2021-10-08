@@ -10,7 +10,6 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseLiveQueryTests: XCTestCase {
     struct GameScore: ParseObject {
         //: Those are required for Object

@@ -46,7 +46,6 @@ import FoundationNetworking
  running. Initializing new instances will create a new task/connection to the `ParseLiveQuery` server.
  When an instance is deinitialized it will automatically close it's connection gracefully.
  */
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public final class ParseLiveQuery: NSObject {
     // Queues
     let synchronizationQueue: DispatchQueue
@@ -225,7 +224,6 @@ Not attempting to open ParseLiveQuery socket anymore
 }
 
 // MARK: Helpers
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
     /// Current LiveQuery client.
@@ -327,7 +325,6 @@ extension ParseLiveQuery {
 }
 
 // MARK: Delegate
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery: LiveQuerySocketDelegate {
 
     func status(_ status: LiveQuerySocket.Status,
@@ -585,7 +582,6 @@ extension ParseLiveQuery: LiveQuerySocketDelegate {
 }
 
 // MARK: Connection
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
     /// Manually establish a connection to the `ParseLiveQuery` Server.
@@ -717,7 +713,6 @@ extension ParseLiveQuery {
 }
 
 // MARK: SubscriptionRecord
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
     class SubscriptionRecord {
 
@@ -772,7 +767,6 @@ extension ParseLiveQuery {
 }
 
 // MARK: Subscribing
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
     func subscribe<T>(_ query: Query<T>) throws -> Subscription<T> {
@@ -801,7 +795,6 @@ extension ParseLiveQuery {
 }
 
 // MARK: Unsubscribing
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
     func unsubscribe<T>(_ query: Query<T>) throws where T: ParseObject {
@@ -830,7 +823,6 @@ extension ParseLiveQuery {
 }
 
 // MARK: Updating
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension ParseLiveQuery {
 
     func update<T>(_ handler: T) throws where T: QuerySubscribable {
@@ -847,7 +839,6 @@ extension ParseLiveQuery {
 }
 
 // MARK: ParseLiveQuery - Subscribe
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
     #if canImport(Combine)
     /**
@@ -916,7 +907,6 @@ public extension Query {
 }
 
 // MARK: ParseLiveQuery - Unsubscribe
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
     /**
      Unsubscribes all current subscriptions for a given query on the default
@@ -956,7 +946,6 @@ public extension Query {
 }
 
 // MARK: ParseLiveQuery - Update
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
     /**
      Updates an existing subscription with a new query on the default `ParseLiveQuery` client.
