@@ -139,7 +139,7 @@ class ParseOperationTests: XCTestCase {
             }
             XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
             XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
-            XCTAssertEqual(score.score, scoreOnServer.score)
+            XCTAssertEqual(score.score+1, scoreOnServer.score)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -404,7 +404,7 @@ class ParseOperationTests: XCTestCase {
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
-        XCTAssertEqual(score.score, 15)
+        XCTAssertEqual(operations.target?.score, 15)
     }
 
     func testObjectIdSet() throws {
