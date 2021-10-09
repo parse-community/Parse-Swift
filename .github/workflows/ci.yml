@@ -22,10 +22,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        env_vars: IOS
-        fail_ci_if_error: false
+      run: bash <(curl https://codecov.io/bash)
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
@@ -44,9 +41,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        env_vars: MACOS
+      run: bash <(curl https://codecov.io/bash)
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
@@ -59,9 +54,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        env_vars: TVOS
+      run: bash <(curl https://codecov.io/bash)
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
@@ -74,9 +67,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        env_vars: WATCHOS
+      run: bash <(curl https://codecov.io/bash)
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
