@@ -47,6 +47,15 @@ public struct ParseConfiguration {
     /// The disk capacity of the cache, in bytes. Defaults to 10MB.
     var cacheDiskCapacity = 10_000_000
 
+    /// If your app previously used the iOS Objective-C SDK, setting this value
+    /// to `true` will attempt to migrate relevant data stored in the Keychain to
+    /// ParseSwift. Defaults to `false`.
+    var migrateFromObjcSDK: Bool = false
+
+    /// Deletes the Parse Keychain when the app is running for the first time.
+    /// Defaults to `false`.
+    var deleteKeychainIfNeeded: Bool = false
+
     internal var authentication: ((URLAuthenticationChallenge,
                                    (URLSession.AuthChallengeDisposition,
                                     URLCredential?) -> Void) -> Void)?
@@ -93,6 +102,8 @@ public struct ParseConfiguration {
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 cacheMemoryCapacity: Int = 512_000,
                 cacheDiskCapacity: Int = 10_000_000,
+                migrateFromObjcSDK: Bool = false,
+                deleteKeychainIfNeeded: Bool = false,
                 httpAdditionalHeaders: [String: String]? = nil,
                 authentication: ((URLAuthenticationChallenge,
                                   (URLSession.AuthChallengeDisposition,
@@ -111,6 +122,8 @@ public struct ParseConfiguration {
         self.requestCachePolicy = requestCachePolicy
         self.cacheMemoryCapacity = cacheMemoryCapacity
         self.cacheDiskCapacity = cacheDiskCapacity
+        self.migrateFromObjcSDK = migrateFromObjcSDK
+        self.deleteKeychainIfNeeded = deleteKeychainIfNeeded
         self.httpAdditionalHeaders = httpAdditionalHeaders
         ParseStorage.shared.use(keyValueStore ?? InMemoryKeyValueStore())
     }
@@ -129,11 +142,11 @@ public struct ParseSwift {
      `application(... didFinishLaunchingWithOptions launchOptions...)`.
      - parameter configuration: The Parse configuration.
      */
-    static public func initialize(configuration: ParseConfiguration,
-                                  migrateFromObjcSDK: Bool = false) {
+    static public func initialize(configuration: ParseConfiguration) {
         Self.configuration = configuration
         Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
                                                        authentication: configuration.authentication)
+        deleteKeychainIfNeeded()
 
         do {
             let previousSDKVersion = try ParseVersion(ParseVersion.current)
@@ -184,7 +197,7 @@ public struct ParseSwift {
         BaseParseInstallation.createNewInstallationIfNeeded()
 
         #if !os(Linux) && !os(Android)
-        if migrateFromObjcSDK {
+        if configuration.migrateFromObjcSDK {
             if let identifier = Bundle.main.bundleIdentifier {
                 let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
                 guard let installationId: String = objcParseKeychain.object(forKey: "installationId"),
@@ -226,6 +239,8 @@ public struct ParseSwift {
      for more info.
      - parameter migrateFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
      to `true` will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to `false`.
+     - parameter deleteKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
+     Defaults to `false`.
      - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
      Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
@@ -247,6 +262,7 @@ public struct ParseSwift {
         cacheDiskCapacity: Int = 10_000_000,
         httpAdditionalHeaders: [String: String]? = nil,
         migrateFromObjcSDK: Bool = false,
+        deleteKeychainIfNeeded: Bool = false,
         authentication: ((URLAuthenticationChallenge,
                           (URLSession.AuthChallengeDisposition,
                            URLCredential?) -> Void) -> Void)? = nil
@@ -262,9 +278,10 @@ public struct ParseSwift {
                                         requestCachePolicy: requestCachePolicy,
                                         cacheMemoryCapacity: cacheMemoryCapacity,
                                         cacheDiskCapacity: cacheDiskCapacity,
+                                        migrateFromObjcSDK: migrateFromObjcSDK,
+                                        deleteKeychainIfNeeded: deleteKeychainIfNeeded,
                                         httpAdditionalHeaders: httpAdditionalHeaders,
-                                        authentication: authentication),
-                   migrateFromObjcSDK: migrateFromObjcSDK)
+                                        authentication: authentication))
     }
 
     internal static func initialize(applicationId: String,
@@ -280,6 +297,7 @@ public struct ParseSwift {
                                     cacheDiskCapacity: Int = 10_000_000,
                                     httpAdditionalHeaders: [String: String]? = nil,
                                     migrateFromObjcSDK: Bool = false,
+                                    deleteKeychainIfNeeded: Bool = false,
                                     testing: Bool = false,
                                     authentication: ((URLAuthenticationChallenge,
                                                       (URLSession.AuthChallengeDisposition,
@@ -295,11 +313,29 @@ public struct ParseSwift {
                                                requestCachePolicy: requestCachePolicy,
                                                cacheMemoryCapacity: cacheMemoryCapacity,
                                                cacheDiskCapacity: cacheDiskCapacity,
+                                               migrateFromObjcSDK: migrateFromObjcSDK,
+                                               deleteKeychainIfNeeded: deleteKeychainIfNeeded,
                                                httpAdditionalHeaders: httpAdditionalHeaders,
                                                authentication: authentication)
         configuration.isTestingSDK = testing
-        initialize(configuration: configuration,
-                   migrateFromObjcSDK: migrateFromObjcSDK)
+        initialize(configuration: configuration)
+    }
+
+    static internal func deleteKeychainIfNeeded() {
+        #if !os(Linux) && !os(Android)
+        // Clear items out of the Keychain on app first run.
+        if UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) == nil {
+            if Self.configuration.deleteKeychainIfNeeded == true {
+                try? KeychainStore.old.deleteAll()
+                try? KeychainStore.shared.deleteAll()
+            }
+
+            // This is no longer the first run
+            UserDefaults.standard.setValue(String(ParseConstants.bundlePrefix),
+                                           forKey: ParseConstants.bundlePrefix)
+            UserDefaults.standard.synchronize()
+        }
+        #endif
     }
 
     /**

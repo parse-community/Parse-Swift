@@ -11,7 +11,6 @@ import Foundation
 import FoundationNetworking
 #endif
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 final class LiveQuerySocket: NSObject {
     private var session: URLSession!
     var delegates = [URLSessionWebSocketTask: LiveQuerySocketDelegate]()
@@ -43,7 +42,6 @@ final class LiveQuerySocket: NSObject {
 }
 
 // MARK: Status
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
     enum Status: String {
         case open
@@ -52,7 +50,6 @@ extension LiveQuerySocket {
 }
 
 // MARK: Connect
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
     func connect(task: URLSessionWebSocketTask,
                  completion: @escaping (Error?) -> Void) throws {
@@ -75,7 +72,6 @@ extension LiveQuerySocket {
 }
 
 // MARK: Send
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
     func send(_ data: Data, task: URLSessionWebSocketTask, completion: @escaping (Error?) -> Void) {
         guard let encodedAsString = String(data: data, encoding: .utf8) else {
@@ -89,7 +85,6 @@ extension LiveQuerySocket {
 }
 
 // MARK: Receive
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
 
     func receive(_ task: URLSessionWebSocketTask) {
@@ -124,7 +119,6 @@ extension LiveQuerySocket {
 }
 
 // MARK: Ping
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket {
 
     func sendPing(_ task: URLSessionWebSocketTask, pongReceiveHandler: @escaping (Error?) -> Void) {
@@ -133,13 +127,11 @@ extension LiveQuerySocket {
 }
 
 // MARK: URLSession
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension URLSession {
     static let liveQuery = LiveQuerySocket()
 }
 
 // MARK: URLSessionWebSocketDelegate
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 extension LiveQuerySocket: URLSessionWebSocketDelegate {
     func urlSession(_ session: URLSession,
                     webSocketTask: URLSessionWebSocketTask,

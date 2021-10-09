@@ -10,7 +10,6 @@
 import Foundation
 import Combine
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseObject {
 
     // MARK: Combine
@@ -62,7 +61,6 @@ public extension ParseObject {
     }
 }
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Sequence where Element: ParseObject {
     // MARK: Batch Support - Combine
     /**

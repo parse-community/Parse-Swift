@@ -14,7 +14,6 @@ import XCTest
 import Combine
 #endif
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseLiveQueryCombineTests: XCTestCase {
 
     override func setUpWithError() throws {

@@ -137,7 +137,6 @@ public extension Pointer {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func fetchPublisher(includeKeys: [String]? = nil,
                         options: API.Options = []) -> Future<T, ParseError> {
         Future { promise in

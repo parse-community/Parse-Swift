@@ -83,8 +83,6 @@ Please checkout the [Swift Playground](https://github.com/parse-community/Parse-
 
 ## LiveQuery
 
-**Requires: iOS 13.0+, macOS 10.15+, macCatalyst 13.0+, tvOS 13.0+, watchOS 6.0+**
-
 `Query` is one of the key concepts on the Parse Platform. It allows you to retrieve `ParseObject`s by specifying some conditions, making it easy to build apps such as a dashboard, a todo list or even some strategy games. However, `Query` is based on a pull model, which is not suitable for apps that need real-time support.
 
 Suppose you are building an app that allows multiple users to edit the same file at the same time. `Query` would not be an ideal tool since you can not know when to query from the server to get the updates.

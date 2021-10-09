@@ -13,7 +13,6 @@ import Foundation
  A default implementation of the `QueryObservable` protocol. Suitable for `ObjectObserved`
  and can be used as a SwiftUI view model.
  */
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 open class QueryViewModel<T: ParseObject>: QueryObservable {
 
     public var query: Query<T>
@@ -113,7 +112,6 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
 }
 
 // MARK: QueryViewModel
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension Query {
 
     /**

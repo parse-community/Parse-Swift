@@ -13,7 +13,6 @@ import Foundation
  This protocol describes the interface for creating a view model for a `Query`.
  You can use this protocol on any custom class of yours, instead of `QueryViewModel`, if it fits your use case better.
  */
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol QueryObservable: ObservableObject {
 
     /// The `ParseObject` associated with this view model.

@@ -159,10 +159,10 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
             throw ParseError(code: .unknownError, message: "Should have converted to data")
         }
         let parseFile = ParseFile(name: "sampleData.txt", data: sampleData)
-        let localId = parseFile.localId
+        let localId = parseFile.id
         XCTAssertNotNil(localId)
         XCTAssertEqual(localId,
-                       parseFile.localId,
+                       parseFile.id,
                        "localId should remain the same no matter how many times the getter is called")
     }
 
@@ -188,8 +188,8 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         parseFile2.url = nil
         XCTAssertNotEqual(parseFile1, parseFile2, "no urls, but localIds shoud be different")
         let uuid = UUID()
-        parseFile1.localId = uuid
-        parseFile2.localId = uuid
+        parseFile1.id = uuid
+        parseFile2.id = uuid
         XCTAssertEqual(parseFile1, parseFile2, "no urls, but localIds shoud be the same")
     }
 

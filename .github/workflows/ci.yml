@@ -21,6 +21,13 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+    - name: Prepare codecov
+      run: |
+        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
+        PROFDATA=$(find DerivedData -type f -name '*.profdata')
+        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
@@ -43,6 +50,13 @@ jobs:
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+    - name: Prepare codecov
+      run: |
+        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTestsmacOS')
+        PROFDATA=$(find DerivedData -type f -name '*.profdata')
+        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
@@ -56,6 +70,13 @@ jobs:
     - uses: actions/checkout@v2
     - name: Build
       run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV -derivedDataPath DerivedData test | xcpretty
+      env:
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+    - name: Prepare codecov
+      run: |
+        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTeststvOS')
+        PROFDATA=$(find DerivedData -type f -name '*.profdata')
+        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov

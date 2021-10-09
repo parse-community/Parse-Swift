@@ -10,11 +10,12 @@ import Foundation
 
 enum ParseConstants {
     static let sdk = "swift"
-    static let version = "1.11.0"
+    static let version = "2.0.0"
     static let fileManagementDirectory = "parse/"
     static let fileManagementPrivateDocumentsDirectory = "Private Documents/"
     static let fileManagementLibraryDirectory = "Library/"
     static let fileDownloadsDirectory = "Downloads"
+    static let bundlePrefix = "com.parse.ParseSwift"
     static let batchLimit = 50
     #if os(iOS)
     static let deviceType = "ios"

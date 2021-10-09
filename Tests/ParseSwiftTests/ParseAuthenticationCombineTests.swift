@@ -13,7 +13,6 @@ import XCTest
 import Combine
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class ParseAuthenticationCombineTests: XCTestCase {
 
     struct User: ParseUser {
@@ -84,7 +83,6 @@ class ParseAuthenticationCombineTests: XCTestCase {
         }
 
         #if canImport(Combine)
-        @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
         func loginPublisher(authData: [String: String],
                             options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")
@@ -93,7 +91,6 @@ class ParseAuthenticationCombineTests: XCTestCase {
             }
         }
 
-        @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
         func linkPublisher(authData: [String: String],
                            options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")

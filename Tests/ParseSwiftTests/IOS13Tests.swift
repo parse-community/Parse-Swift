@@ -10,7 +10,6 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
     struct Level: ParseObject {
         var objectId: String?
@@ -24,15 +23,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         var name = "First"
     }
 
-    struct GameScore: ParseObject, Identifiable {
-
-        // Comform to Identifiable
-        var id: String { // swiftlint:disable:this identifier_name
-            guard let objectId = self.objectId else {
-                return UUID().uuidString
-            }
-            return objectId
-        }
+    struct GameScore: ParseObject {
 
         //: Those are required for Object
         var objectId: String?

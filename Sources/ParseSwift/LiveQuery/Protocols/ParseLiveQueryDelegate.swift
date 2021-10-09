@@ -14,7 +14,6 @@ import FoundationNetworking
 // swiftlint:disable line_length
 
 /// Receive/respond to notifications from the ParseLiveQuery Server.
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public protocol ParseLiveQueryDelegate: AnyObject {
 
     /**
@@ -68,7 +67,6 @@ public protocol ParseLiveQueryDelegate: AnyObject {
     func closedSocket(_ code: URLSessionWebSocketTask.CloseCode?, reason: Data?)
 }
 
-@available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
 public extension ParseLiveQueryDelegate {
     func received(_ challenge: URLAuthenticationChallenge,
                   completionHandler: @escaping (URLSession.AuthChallengeDisposition,

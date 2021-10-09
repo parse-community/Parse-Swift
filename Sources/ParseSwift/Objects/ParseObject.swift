@@ -28,32 +28,6 @@ import Foundation
          object.createdAt = createdAt
          return object
      }
- 
- When designing applications for SwiftUI, it is recommended to make all `ParseObject`'s conform to
- `Identifiable`. This can be accomplised by doing the following:
- 
-     struct GameScore: ParseObject, Identifiable {
-
-        // Add this computed property to conform to `Identifiable` for iOS13+
-        var id: String {
-            guard let objectId = self.objectId else {
-                return UUID().uuidString
-            }
-            return objectId
-        }
-
-        // These are required for any Object.
-        var objectId: String?
-        var createdAt: Date?
-        var updatedAt: Date?
-        var ACL: ParseACL?
-
-        // Your own properties.
-        var score: Int = 0
-        var location: ParseGeoPoint?
-        var name: String?
-        var myFiles: [ParseFile]?
-     }
 
  - important: It is recommended that all added properties be optional properties so they can eventually be used as
  Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
@@ -74,6 +48,7 @@ public protocol ParseObject: Objectable,
                              Fetchable,
                              Savable,
                              Deletable,
+                             Identifiable,
                              Hashable,
                              CustomDebugStringConvertible,
                              CustomStringConvertible {
@@ -81,6 +56,18 @@ public protocol ParseObject: Objectable,
 
 // MARK: Default Implementations
 public extension ParseObject {
+
+    /**
+    A computed property that is the same value as `objectId` and makes it easy to use `ParseObject`'s
+     as models in MVVM and SwiftUI.
+     - note: `id` allows `ParseObjects`'s to be used even if they are unsaved and do not have an `objectId`.
+    */
+    var id: String { // swiftlint:disable:this identifier_name
+        guard let objectId = self.objectId else {
+            return UUID().uuidString
+        }
+        return objectId
+    }
 
     /**
      Determines if two objects have the same objectId.
@@ -832,7 +819,7 @@ extension ParseObject {
                     }
 
                     try savableFiles.forEach {
-                        filesFinishedSaving[$0.localId] = try $0.save(options: options, callbackQueue: queue)
+                        filesFinishedSaving[$0.id] = try $0.save(options: options, callbackQueue: queue)
                     }
                 }
                 completion(objectsFinishedSaving, filesFinishedSaving, nil)
