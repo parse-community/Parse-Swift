@@ -44,7 +44,8 @@ class ParseErrorTests: XCTestCase {
         let decoded = try ParseCoding.jsonDecoder().decode(ParseError.self, from: encoded)
         XCTAssertEqual(decoded.code.rawValue, code)
         XCTAssertEqual(decoded.message, message)
-        XCTAssertEqual(decoded.localizedDescription, "ParseError code=\(code) error=\(message)")
+        XCTAssertEqual(decoded.debugDescription, "ParseError code=\(code) error=\(message)")
+        XCTAssertEqual(decoded.description, "ParseError code=\(code) error=\(message)")
     }
 
     func testEncodeOther() throws {
@@ -57,7 +58,7 @@ class ParseErrorTests: XCTestCase {
         let decoded = try ParseCoding.jsonDecoder().decode(ParseError.self, from: encoded)
         XCTAssertEqual(decoded.code, .other)
         XCTAssertEqual(decoded.message, message)
-        XCTAssertEqual(decoded.localizedDescription,
+        XCTAssertEqual(decoded.debugDescription,
                        "ParseError code=\(ParseError.Code.other.rawValue) error=\(message) otherCode=\(code)")
         XCTAssertEqual(decoded.otherCode, code)
     }
