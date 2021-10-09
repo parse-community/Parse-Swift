@@ -819,7 +819,7 @@ extension ParseObject {
                     }
 
                     try savableFiles.forEach {
-                        filesFinishedSaving[$0.localId] = try $0.save(options: options, callbackQueue: queue)
+                        filesFinishedSaving[$0.id] = try $0.save(options: options, callbackQueue: queue)
                     }
                 }
                 completion(objectsFinishedSaving, filesFinishedSaving, nil)

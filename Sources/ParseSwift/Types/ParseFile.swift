@@ -18,7 +18,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
             && data == nil
     }
 
-    public var localId: UUID
+    public var id: UUID // swiftlint:disable:this identifier_name
 
     /**
       The name of the file.
@@ -83,7 +83,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        self.localId = UUID()
+        self.id = UUID()
     }
 
     /**
@@ -109,7 +109,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        self.localId = UUID()
+        self.id = UUID()
     }
 
     /**
@@ -135,7 +135,7 @@ public struct ParseFile: Fileable, Savable, Fetchable, Deletable, Hashable {
         self.metadata = metadata
         self.tags = tags
         self.options = options
-        self.localId = UUID()
+        self.id = UUID()
     }
 
     enum CodingKeys: String, CodingKey {
@@ -150,7 +150,7 @@ extension ParseFile {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         url = try values.decode(URL.self, forKey: .url)
         name = try values.decode(String.self, forKey: .name)
-        localId = UUID()
+        id = UUID()
     }
 }
 

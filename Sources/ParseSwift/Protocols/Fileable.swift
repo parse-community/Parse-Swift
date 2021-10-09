@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol Fileable: ParseType, Decodable, LocallyIdentifiable {
+protocol Fileable: ParseType, Decodable, Identifiable {
     var __type: String { get } // swiftlint:disable:this identifier_name
     var name: String { get set }
     var url: URL? { get set }
@@ -23,14 +23,14 @@ extension Fileable {
         if let url = url {
             hasher.combine(url)
         } else {
-            hasher.combine(self.localId)
+            hasher.combine(self.id)
         }
     }
 
     public static func == (lhs: Self, rhs: Self) -> Bool {
         guard let lURL = lhs.url,
               let rURL = rhs.url else {
-            return lhs.localId == rhs.localId
+            return lhs.id == rhs.id
         }
         return lURL == rURL
     }
