@@ -24,6 +24,15 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
         self.otherCode = nil
     }
 
+    /// A textual representation of this error.
+    public var localizedDescription: String {
+        if let otherCode = otherCode {
+            return "ParseError code=\(code.rawValue) error=\(message) otherCode=\(otherCode)"
+        } else {
+            return "ParseError code=\(code.rawValue) error=\(message)"
+        }
+    }
+
     enum CodingKeys: String, CodingKey {
         case code
         case message = "error"
