@@ -56,7 +56,7 @@ jobs:
         PROFDATA=$(find DerivedData -type f -name '*.profdata')
         xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
@@ -78,7 +78,7 @@ jobs:
         PROFDATA=$(find DerivedData -type f -name '*.profdata')
         xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13_VER }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
