@@ -705,6 +705,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    #if !os(Linux) && !os(Android)
     func testFirstThrowDecodingError() {
         var scoreOnServer = GameScoreBroken()
         scoreOnServer.objectId = "yarr"
@@ -731,7 +732,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail("Should have casted as ParseError")
                 return
             }
-            #if !os(Linux) && !os(Android)
             // swiftlint:disable:next line_length
             XCTAssertEqual(error.message, "Invalid struct: No value associated with key CodingKeys(stringValue: \"score\", intValue: nil) (\"score\").")
             XCTAssertEqual(error.code, .unknownError)
