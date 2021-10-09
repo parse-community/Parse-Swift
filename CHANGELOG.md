@@ -1,8 +1,14 @@
 # Parse-Swift Changelog
 
 ### main
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.4...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.11.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 1.11.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.4...1.11.0)
+
+__Improvements__
+- Added `operation` for `set` and `forceSet`, used for single key updates ([#248](https://github.com/parse-community/Parse-Swift/pull/248)), thanks to [Daniel Blyth](https://github.com/dblythy) and [Corey Baker](https://github.com/cbaker6).
 
 ### 1.10.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.3...1.10.4)
