@@ -146,7 +146,9 @@ public struct ParseSwift {
         Self.configuration = configuration
         Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
                                                        authentication: configuration.authentication)
+        #if !os(Linux) && !os(Android)
         deleteKeychainIfNeeded()
+        #endif
 
         do {
             let previousSDKVersion = try ParseVersion(ParseVersion.current)
