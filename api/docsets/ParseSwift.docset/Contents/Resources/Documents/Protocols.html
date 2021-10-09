@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ParseSwift 1.11.0 Docs
+          ParseSwift 2.0.0 Docs
         </a>
-         (95% documented)
+         (96% documented)
       </p>
     
       <div class="header-col--secondary">
@@ -453,32 +453,6 @@ to update objects. You should add the following properties in your <code>ParseOb
     <span class="k">return</span> <span class="n">object</span>
 <span class="p">}</span>
 </code></pre>
-
-<p>When designing applications for SwiftUI, it is recommended to make all <code>ParseObject</code>&rsquo;s conform to
-<code>Identifiable</code>. This can be accomplised by doing the following:</p>
-<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">GameScore</span><span class="p">:</span> <span class="kt">ParseObject</span><span class="p">,</span> <span class="kt">Identifiable</span> <span class="p">{</span>
-
-   <span class="c1">// Add this computed property to conform to `Identifiable` for iOS13+</span>
-   <span class="k">var</span> <span class="nv">id</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
-       <span class="k">guard</span> <span class="k">let</span> <span class="nv">objectId</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">objectId</span> <span class="k">else</span> <span class="p">{</span>
-           <span class="k">return</span> <span class="kt">UUID</span><span class="p">()</span><span class="o">.</span><span class="n">uuidString</span>
-       <span class="p">}</span>
-       <span class="k">return</span> <span class="n">objectId</span>
-   <span class="p">}</span>
-
-   <span class="c1">// These are required for any Object.</span>
-   <span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
-   <span class="k">var</span> <span class="nv">createdAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
-   <span class="k">var</span> <span class="nv">updatedAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
-   <span class="k">var</span> <span class="nv">ACL</span><span class="p">:</span> <span class="kt">ParseACL</span><span class="p">?</span>
-
-   <span class="c1">// Your own properties.</span>
-   <span class="k">var</span> <span class="nv">score</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
-   <span class="k">var</span> <span class="nv">location</span><span class="p">:</span> <span class="kt">ParseGeoPoint</span><span class="p">?</span>
-   <span class="k">var</span> <span class="nv">name</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
-   <span class="k">var</span> <span class="nv">myFiles</span><span class="p">:</span> <span class="p">[</span><span class="kt">ParseFile</span><span class="p">]?</span>
-<span class="p">}</span>
-</code></pre>
 <div class="aside aside-important">
     <p class="aside-title">Important</p>
     It is recommended that all added properties be optional properties so they can eventually be used as
@@ -514,6 +488,7 @@ otherwise it&rsquo;s possible you will get &ldquo;circular dependency errors&rdq
                              <span class="kt">Fetchable</span><span class="p">,</span>
                              <span class="kt">Savable</span><span class="p">,</span>
                              <span class="kt">Deletable</span><span class="p">,</span>
+                             <span class="kt">Identifiable</span><span class="p">,</span>
                              <span class="kt">Hashable</span><span class="p">,</span>
                              <span class="kt">CustomDebugStringConvertible</span><span class="p">,</span>
                              <span class="kt">CustomStringConvertible</span></code></pre>
@@ -544,8 +519,7 @@ otherwise it&rsquo;s possible you will get &ldquo;circular dependency errors&rdq
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseLiveQueryDelegate</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseLiveQueryDelegate</span> <span class="p">:</span> <span class="kt">AnyObject</span></code></pre>
 
                         </div>
                       </div>
@@ -722,8 +696,7 @@ You can use this protocol on any custom class of yours, instead of <code><a href
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">CloudObservable</span> <span class="p">:</span> <span class="kt">ObservableObject</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">CloudObservable</span> <span class="p">:</span> <span class="kt">ObservableObject</span></code></pre>
 
                         </div>
                       </div>
@@ -785,8 +758,7 @@ You can use this protocol on any custom class of yours, instead of <code><a href
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">10.15</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">6.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">13.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
-<span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">QueryObservable</span> <span class="p">:</span> <span class="kt">ObservableObject</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">QueryObservable</span> <span class="p">:</span> <span class="kt">ObservableObject</span></code></pre>
 
                         </div>
                       </div>
