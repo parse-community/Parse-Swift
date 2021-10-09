@@ -146,9 +146,7 @@ public struct ParseSwift {
         Self.configuration = configuration
         Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
                                                        authentication: configuration.authentication)
-        #if !os(Linux) && !os(Android)
         deleteKeychainIfNeeded()
-        #endif
 
         do {
             let previousSDKVersion = try ParseVersion(ParseVersion.current)
@@ -324,6 +322,7 @@ public struct ParseSwift {
     }
 
     static internal func deleteKeychainIfNeeded() {
+        #if !os(Linux) && !os(Android)
         // Clear items out of the Keychain on app first run.
         if UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) == nil {
             if Self.configuration.deleteKeychainIfNeeded == true {
@@ -336,6 +335,7 @@ public struct ParseSwift {
                                            forKey: ParseConstants.bundlePrefix)
             UserDefaults.standard.synchronize()
         }
+        #endif
     }
 
     /**
