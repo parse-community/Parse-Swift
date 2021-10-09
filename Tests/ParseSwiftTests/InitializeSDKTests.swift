@@ -51,6 +51,7 @@ class InitializeSDKTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
+    #if !os(Linux) && !os(Android)
     func testDeleteKeychainOnFirstRun() throws {
         let memory = InMemoryKeyValueStore()
         ParseStorage.shared.use(memory)
@@ -100,6 +101,7 @@ class InitializeSDKTests: XCTestCase {
         }
         XCTAssertEqual(firstRun4, ParseConstants.bundlePrefix)
     }
+    #endif
 
     func testCreateParseInstallationOnInit() {
         guard let url = URL(string: "http://localhost:1337/1") else {

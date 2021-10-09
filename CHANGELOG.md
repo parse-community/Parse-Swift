@@ -8,6 +8,9 @@
 ### 2.0.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.11.0...2.0.0)
 
+__New features__
+- Added option to delete Parse items from Keychain when the app is running for the first time  ([#254](https://github.com/parse-community/Parse-Swift/pull/254)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 __Improvements__
 - (Breaking Change) ParseObject's now conform to Identifiable and can be used directly with SwiftUI without additonal properties needed. Drops support for iOS 12, tvOS 12, watchOS 5, and macOS 10.13/14 ([#254](https://github.com/parse-community/Parse-Swift/pull/254)), thanks to [Corey Baker](https://github.com/cbaker6).
 
