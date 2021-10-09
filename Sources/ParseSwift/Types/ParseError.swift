@@ -19,15 +19,6 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
     /// An error value representing a custom error from the Parse Server.
     public let otherCode: Int?
 
-    /// A textual representation of this error.
-    public var localizedDescription: String {
-        if let otherCode = otherCode {
-            return "ParseError code=\(code.rawValue) error=\(message) otherCode=\(otherCode)"
-        } else {
-            return "ParseError code=\(code.rawValue) error=\(message)"
-        }
-    }
-
     enum CodingKeys: String, CodingKey {
         case code
         case message = "error"
@@ -412,6 +403,13 @@ extension ParseError: CustomDebugStringConvertible {
 // MARK: CustomStringConvertible
 extension ParseError: CustomStringConvertible {
     public var description: String {
+        debugDescription
+    }
+}
+
+// MARK: LocalizedError
+extension ParseError: LocalizedError {
+    public var errorDescription: String? {
         debugDescription
     }
 }
