@@ -726,6 +726,20 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         let query = GameScore.query()
+        do {
+            _ = try query.first(options: [])
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("Should have casted as ParseError")
+                return
+            }
+            #if !os(Linux) && !os(Android)
+            // swiftlint:disable:next line_length
+            XCTAssertEqual(error.message, "Invalid struct: No value associated with key CodingKeys(stringValue: \"score\", intValue: nil) (\"score\").")
+            XCTAssertEqual(error.code, .unknownError)
+            #endif
+        }
         XCTAssertThrowsError(try query.first(options: []))
     }
 
