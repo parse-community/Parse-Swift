@@ -31,6 +31,24 @@ struct GameScore: ParseObject {
     //: Your own properties.
     var score: Int = 0
 
+    /*:
+     It's recommended the developer adds the emptyObject computed property or similar.
+     Gets an empty version of the respective object. This can be used when you only need to update a
+     a subset of the fields of an object as oppose to updating every field of an object. Using an
+     empty object and updating a subset of the fields reduces the amount of data sent between
+     client and server when using `save` and `saveAll` to update objects.
+    */
+    var emptyObject: Self {
+        var object = Self()
+        object.objectId = objectId
+        object.createdAt = createdAt
+        return object
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
     init(objectId: String, score: Int) {
         self.objectId = objectId
@@ -64,13 +82,15 @@ score.save { result in
         print("Saved score: \(savedScore)")
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable.
+            was initialized as immutable. Using `emptyObject`
+            allows you to only send the updated keys to the
+            parse server as opposed to the whole object.
         */
-        var changedScore = savedScore
+        var changedScore = savedScore.emptyObject
         changedScore.score = 200
         changedScore.save { result in
             switch result {
-            case .success(var savedChangedScore):
+            case .success(let savedChangedScore):
                 assert(savedChangedScore.score == 200)
                 assert(savedScore.objectId == savedChangedScore.objectId)
                 print("Updated score: \(savedChangedScore)")

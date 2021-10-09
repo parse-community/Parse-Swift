@@ -24,6 +24,11 @@ struct Book: ParseObject {
 
     //: Your own properties.
     var title: String?
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension Book {
 
     init(title: String) {
         self.title = title
@@ -42,6 +47,15 @@ struct Author: ParseObject {
     var book: Book
     var otherBooks: [Book]?
 
+    init() {
+        self.name = "hello"
+        self.book = Book()
+    }
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension Author {
     init(name: String, book: Book) {
         self.name = name
         self.book = book

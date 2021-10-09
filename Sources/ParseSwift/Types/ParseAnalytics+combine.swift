@@ -106,4 +106,5 @@ public extension ParseAnalytics {
         }
     }
 }
+
 #endif

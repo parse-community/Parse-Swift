@@ -139,7 +139,6 @@ public protocol ParseAuthentication: Codable {
      */
     @available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *)
     func unlinkPublisher(options: API.Options) -> Future<AuthenticatedUser, ParseError>
-
     #endif
 }
 
@@ -411,7 +410,7 @@ public extension ParseUser {
                 throw ParseError(code: .unknownError, message: "Should have a current user.")
             }
             if let sessionToken = user.sessionToken {
-                Self.currentUserContainer = .init(currentUser: current,
+                Self.currentContainer = .init(currentUser: current,
                                                   sessionToken: sessionToken)
             }
             Self.saveCurrentContainerToKeychain()
@@ -441,7 +440,7 @@ public extension ParseUser {
                 throw ParseError(code: .unknownError, message: "Should have a current user.")
             }
             if let sessionToken = user.sessionToken {
-                Self.currentUserContainer = .init(currentUser: current,
+                Self.currentContainer = .init(currentUser: current,
                                                   sessionToken: sessionToken)
             }
             Self.saveCurrentContainerToKeychain()

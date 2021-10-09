@@ -24,6 +24,7 @@ class ParseQueryViewModelTests: XCTestCase {
         var score: Int = 0
 
         //custom initializer
+        init() {}
         init(score: Int) {
             self.score = score
         }

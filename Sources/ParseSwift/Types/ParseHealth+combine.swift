@@ -1,6 +1,6 @@
 //
-//  ParseHealth+Combine.swift
-//  ParseSwift
+//  ParseHealth+combine.swift
+//  ParseHealth+combine
 //
 //  Created by Corey Baker on 4/28/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
@@ -27,4 +27,5 @@ public extension ParseHealth {
         }
     }
 }
+
 #endif

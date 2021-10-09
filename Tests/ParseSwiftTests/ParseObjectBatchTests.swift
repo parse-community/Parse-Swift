@@ -23,6 +23,9 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         var score: Int = 0
 
         //custom initializers
+        init() {
+            self.score = 5
+        }
         init(score: Int) {
             self.score = score
         }

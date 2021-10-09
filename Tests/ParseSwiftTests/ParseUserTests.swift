@@ -61,6 +61,16 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             self.email = "hello@parse.com"
             self.emailVerified = false
         }
+
+        func createUser() -> User {
+            var user = User()
+            user.objectId = objectId
+            user.ACL = ACL
+            user.customKey = customKey
+            user.username = username
+            user.email = email
+            return user
+        }
     }
 
     let loginUserName = "hello10"
@@ -99,7 +109,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -120,7 +129,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertEqual(command.params, includeExpected)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
 
             // swiftlint:disable:next line_length
             guard let urlExpected = URL(string: "http://localhost:1337/1/users/yarr?include=%5B%22yolo%22,%20%22test%22%5D") else {
@@ -330,6 +338,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 guard let keychainUser: CurrentUserContainer<BaseParseUser>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
                         XCTFail("Should get object from Keychain")
+                        expectation1.fulfill()
                     return
                 }
                 XCTAssertEqual(keychainUser.currentUser?.updatedAt, fetchedUpdatedAt)
@@ -441,7 +450,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
-        XCTAssertNotNil(command.data)
     }
 
     func testUpdateCommand() throws {
@@ -455,20 +463,95 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.PUT)
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
-        XCTAssertNotNil(command.data)
     }
 
-    func testSaveAndUpdateCurrentUser() { // swiftlint:disable:this function_body_length
-        XCTAssertNil(User.current?.objectId)
-        testLogin()
+    func userSignUp() throws {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        _ = try loginResponse.createUser().signup()
         MockURLProtocol.removeAll()
+        guard let currentUser = User.current else {
+            XCTFail("Should have a current user after signup")
+            return
+        }
+        XCTAssertEqual(currentUser.objectId, loginResponse.objectId)
+        XCTAssertEqual(currentUser.username, loginResponse.username)
+        XCTAssertEqual(currentUser.email, loginResponse.email)
+        XCTAssertEqual(currentUser.ACL, loginResponse.ACL)
+        XCTAssertEqual(currentUser.customKey, loginResponse.customKey)
+    }
+
+    func testUpdateCommandUnmodifiedEmail() throws {
+        try userSignUp()
+        guard let user = User.current,
+              let objectId = user.objectId else {
+            XCTFail("Should have current user.")
+            return
+        }
+        XCTAssertNotNil(user.email)
+        let command = try user.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+        XCTAssertNil(command.body?.email)
+    }
+
+    func testUpdateCommandModifiedEmail() throws {
+        try userSignUp()
+        guard var user = User.current,
+              let objectId = user.objectId else {
+            XCTFail("Should have current user.")
+            return
+        }
+        let email = "peace@parse.com"
+        user.email = email
+        XCTAssertNotNil(user.email)
+        let command = try user.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+        XCTAssertEqual(command.body?.email, email)
+    }
+
+    func testUpdateCommandNotCurrentModifiedEmail() throws {
+        try userSignUp()
+        var user = User()
+        let objectId = "yarr"
+        user.objectId = objectId
+        let email = "peace@parse.com"
+        user.email = email
+        XCTAssertNotNil(user.email)
+        let command = try user.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/users/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+        XCTAssertEqual(command.body?.email, email)
+    }
+
+    func testSaveAndUpdateCurrentUser() throws { // swiftlint:disable:this function_body_length
+        XCTAssertNil(User.current?.objectId)
+        try userSignUp()
         XCTAssertNotNil(User.current?.objectId)
 
         guard let user = User.current else {
             XCTFail("Should unwrap")
             return
         }
-
+        XCTAssertNotNil(user.email)
         var userOnServer = user
         userOnServer.createdAt = User.current?.createdAt
         userOnServer.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
@@ -489,6 +572,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         do {
             let saved = try user.save(options: [.useMasterKey])
             XCTAssert(saved.hasSameObjectId(as: userOnServer))
+            XCTAssertEqual(saved.email, user.email)
             guard let savedCreatedAt = saved.createdAt,
                 let savedUpdatedAt = saved.updatedAt else {
                     XCTFail("Should unwrap dates")
@@ -505,6 +589,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
             //Should be updated in memory
             XCTAssertEqual(User.current?.updatedAt, savedUpdatedAt)
+            XCTAssertEqual(User.current?.email, user.email)
 
             #if !os(Linux) && !os(Android)
             //Should be updated in Keychain
@@ -514,6 +599,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return
             }
             XCTAssertEqual(keychainUser.currentUser?.updatedAt, savedUpdatedAt)
+            XCTAssertEqual(keychainUser.currentUser?.email, user.email)
             #endif
 
         } catch {
@@ -521,17 +607,82 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    func testSaveAsyncAndUpdateCurrentUser() { // swiftlint:disable:this function_body_length
+    func testSaveAndUpdateCurrentUserModifiedEmail() throws { // swiftlint:disable:this function_body_length
         XCTAssertNil(User.current?.objectId)
-        testLogin()
-        MockURLProtocol.removeAll()
+        try userSignUp()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard var user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+        user.email = "pease@parse.com"
+        XCTAssertNotEqual(User.current?.email, user.email)
+        var userOnServer = user
+        userOnServer.createdAt = User.current?.createdAt
+        userOnServer.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let saved = try user.save(options: [.useMasterKey])
+            XCTAssert(saved.hasSameObjectId(as: userOnServer))
+            XCTAssertEqual(saved.email, user.email)
+            guard let savedCreatedAt = saved.createdAt,
+                let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = user.createdAt,
+                let originalUpdatedAt = user.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertNil(saved.ACL)
+
+            //Should be updated in memory
+            XCTAssertEqual(User.current?.updatedAt, savedUpdatedAt)
+            XCTAssertEqual(User.current?.email, user.email)
+
+            #if !os(Linux) && !os(Android)
+            //Should be updated in Keychain
+            guard let keychainUser: CurrentUserContainer<BaseParseUser>
+                = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+                    XCTFail("Should get object from Keychain")
+                return
+            }
+            XCTAssertEqual(keychainUser.currentUser?.updatedAt, savedUpdatedAt)
+            XCTAssertEqual(keychainUser.currentUser?.email, user.email)
+            #endif
+
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testSaveAsyncAndUpdateCurrentUser() throws { // swiftlint:disable:this function_body_length
+        XCTAssertNil(User.current?.objectId)
+        try userSignUp()
         XCTAssertNotNil(User.current?.objectId)
 
         guard let user = User.current else {
             XCTFail("Should unwrap")
             return
         }
-
+        XCTAssertNotNil(user.email)
         var userOnServer = user
         userOnServer.createdAt = User.current?.createdAt
         userOnServer.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
@@ -553,10 +704,11 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         user.save(options: [], callbackQueue: .global(qos: .background)) { result in
 
             switch result {
-            case .success(let fetched):
-                XCTAssert(fetched.hasSameObjectId(as: userOnServer))
-                guard let fetchedCreatedAt = fetched.createdAt,
-                    let fetchedUpdatedAt = fetched.updatedAt else {
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: userOnServer))
+                XCTAssertEqual(saved.email, user.email)
+                guard let savedCreatedAt = saved.createdAt,
+                    let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
                     expectation1.fulfill()
                         return
@@ -567,12 +719,13 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     expectation1.fulfill()
                         return
                 }
-                XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
-                XCTAssertGreaterThan(fetchedUpdatedAt, originalUpdatedAt)
-                XCTAssertNil(fetched.ACL)
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(saved.ACL)
 
                 //Should be updated in memory
-                XCTAssertEqual(User.current?.updatedAt, fetchedUpdatedAt)
+                XCTAssertEqual(User.current?.updatedAt, savedUpdatedAt)
+                XCTAssertEqual(User.current?.email, user.email)
 
                 #if !os(Linux) && !os(Android)
                 //Should be updated in Keychain
@@ -581,7 +734,82 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                         XCTFail("Should get object from Keychain")
                     return
                 }
-                XCTAssertEqual(keychainUser.currentUser?.updatedAt, fetchedUpdatedAt)
+                XCTAssertEqual(keychainUser.currentUser?.updatedAt, savedUpdatedAt)
+                XCTAssertEqual(keychainUser.currentUser?.email, user.email)
+                #endif
+
+            case .failure(let error):
+                XCTFail(error.localizedDescription)
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testSaveAsyncAndUpdateCurrentUserModifiedEmail() throws { // swiftlint:disable:this function_body_length
+        XCTAssertNil(User.current?.objectId)
+        try userSignUp()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard var user = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+        user.email = "pease@parse.com"
+        XCTAssertNotEqual(User.current?.email, user.email)
+        var userOnServer = user
+        userOnServer.createdAt = User.current?.createdAt
+        userOnServer.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
+
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Fetch user1")
+        user.save(options: [], callbackQueue: .global(qos: .background)) { result in
+
+            switch result {
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: userOnServer))
+                XCTAssertEqual(saved.email, user.email)
+                guard let savedCreatedAt = saved.createdAt,
+                    let savedUpdatedAt = saved.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                        return
+                }
+                guard let originalCreatedAt = user.createdAt,
+                    let originalUpdatedAt = user.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                    expectation1.fulfill()
+                        return
+                }
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertNil(saved.ACL)
+
+                //Should be updated in memory
+                XCTAssertEqual(User.current?.updatedAt, savedUpdatedAt)
+                XCTAssertEqual(User.current?.email, user.email)
+
+                #if !os(Linux) && !os(Android)
+                //Should be updated in Keychain
+                guard let keychainUser: CurrentUserContainer<BaseParseUser>
+                    = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
+                        XCTFail("Should get object from Keychain")
+                    return
+                }
+                XCTAssertEqual(keychainUser.currentUser?.updatedAt, savedUpdatedAt)
+                XCTAssertEqual(keychainUser.currentUser?.email, user.email)
                 #endif
 
             case .failure(let error):
@@ -2094,7 +2322,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(command.method, API.Method.GET)
             XCTAssertNil(command.params)
             XCTAssertNil(command.body)
-            XCTAssertNil(command.data)
         } catch {
             XCTFail(error.localizedDescription)
         }

@@ -121,7 +121,7 @@ struct CurrentConfigContainer<T: ParseConfig>: Codable {
 
 extension ParseConfig {
 
-    static var currentConfigContainer: CurrentConfigContainer<Self>? {
+    static var currentContainer: CurrentConfigContainer<Self>? {
         get {
             guard let configInMemory: CurrentConfigContainer<Self> =
                 try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
@@ -149,7 +149,7 @@ extension ParseConfig {
 
     internal static func saveCurrentContainerToKeychain() {
         #if !os(Linux) && !os(Android)
-        try? KeychainStore.shared.set(Self.currentConfigContainer, for: ParseStorage.Keys.currentConfig)
+        try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentConfig)
         #endif
     }
 
@@ -167,13 +167,13 @@ extension ParseConfig {
     */
     public static var current: Self? {
         get {
-            return Self.currentConfigContainer?.currentConfig
+            return Self.currentContainer?.currentConfig
         }
         set {
-            if Self.currentConfigContainer == nil {
-                Self.currentConfigContainer = CurrentConfigContainer<Self>()
+            if Self.currentContainer == nil {
+                Self.currentContainer = CurrentConfigContainer<Self>()
             }
-            Self.currentConfigContainer?.currentConfig = newValue
+            Self.currentContainer?.currentConfig = newValue
         }
     }
 }

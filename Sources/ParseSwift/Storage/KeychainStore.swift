@@ -19,7 +19,7 @@ func getKeychainQueryTemplate(forService service: String) -> [String: String] {
         query[kSecAttrService as String] = service
     }
     query[kSecClass as String] = kSecClassGenericPassword as String
-    query[kSecAttrAccessible as String] =  kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
+    query[kSecAttrAccessible as String] = kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly as String
     return query
 }
 
@@ -31,16 +31,43 @@ func getKeychainQueryTemplate(forService service: String) -> [String: String] {
 struct KeychainStore: SecureStorage {
     let synchronizationQueue: DispatchQueue
     private let keychainQueryTemplate: [String: String]
+    static var shared = KeychainStore()
+    // This Keychain was used by SDK <= 1.9.7
+    static var old = KeychainStore(service: "shared")
 
-    public static var shared = KeychainStore(service: "shared")
-
-    init(service: String) {
-        synchronizationQueue = DispatchQueue(label: "com.parse.keychain.\(service)",
+    init(service: String? = nil) {
+        var keychainService = ".parseSwift.sdk"
+        if let service = service {
+            keychainService = service
+        } else if let identifier = Bundle.main.bundleIdentifier {
+            keychainService = "\(identifier)\(keychainService)"
+        } else {
+            keychainService = "com\(keychainService)"
+        }
+        synchronizationQueue = DispatchQueue(label: "\(keychainService).keychain",
                                              qos: .default,
                                              attributes: .concurrent,
                                              autoreleaseFrequency: .inherit,
                                              target: nil)
-        keychainQueryTemplate = getKeychainQueryTemplate(forService: service)
+        keychainQueryTemplate = getKeychainQueryTemplate(forService: keychainService)
+    }
+
+    func copy(keychain: KeychainStore) {
+        if let user = keychain.data(forKey: ParseStorage.Keys.currentUser) {
+            _ = try? set(user, forKey: ParseStorage.Keys.currentUser)
+        }
+        if let installation = keychain.data(forKey: ParseStorage.Keys.currentInstallation) {
+            _ = try? set(installation, forKey: ParseStorage.Keys.currentInstallation)
+        }
+        if let version = keychain.data(forKey: ParseStorage.Keys.currentVersion) {
+            _ = try? set(version, forKey: ParseStorage.Keys.currentVersion)
+        }
+        if let config = keychain.data(forKey: ParseStorage.Keys.currentConfig) {
+            _ = try? set(config, forKey: ParseStorage.Keys.currentConfig)
+        }
+        if let acl = keychain.data(forKey: ParseStorage.Keys.defaultACL) {
+            _ = try? set(acl, forKey: ParseStorage.Keys.defaultACL)
+        }
     }
 
     private func keychainQuery(forKey key: String) -> [String: Any] {
@@ -69,20 +96,7 @@ struct KeychainStore: SecureStorage {
         }
         do {
             let data = try ParseCoding.jsonEncoder().encode(object)
-            let query = keychainQuery(forKey: key)
-            let update = [
-                kSecValueData as String: data
-            ]
-
-            let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
-                if self.data(forKey: key) != nil {
-                    return SecItemUpdate(query as CFDictionary, update as CFDictionary)
-                }
-                let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
-                return SecItemAdd(mergedQuery as CFDictionary, nil)
-            }
-
-            return status == errSecSuccess
+            return try set(data, forKey: key)
         } catch {
             return false
         }
@@ -145,13 +159,31 @@ struct KeychainStore: SecureStorage {
         return data
     }
 
+    private func set(_ data: Data, forKey key: String) throws -> Bool {
+        let query = keychainQuery(forKey: key)
+        let update = [
+            kSecValueData as String: data
+        ]
+
+        let status = synchronizationQueue.sync(flags: .barrier) { () -> OSStatus in
+            if self.data(forKey: key) != nil {
+                return SecItemUpdate(query as CFDictionary, update as CFDictionary)
+            }
+            let mergedQuery = query.merging(update) { (_, otherValue) -> Any in otherValue }
+            return SecItemAdd(mergedQuery as CFDictionary, nil)
+        }
+
+        return status == errSecSuccess
+    }
+
     private func removeObject(forKeyUnsafe key: String) -> Bool {
         dispatchPrecondition(condition: .onQueue(synchronizationQueue))
         return SecItemDelete(keychainQuery(forKey: key) as CFDictionary) == errSecSuccess
     }
 }
 
-extension KeychainStore /* TypedSubscript */ {
+// MARK: TypedSubscript
+extension KeychainStore {
     subscript(string key: String) -> String? {
         get {
             return object(forKey: key)

@@ -28,6 +28,7 @@ class ParseOperationCombineTests: XCTestCase { // swiftlint:disable:this type_bo
         var player: String?
 
         //custom initializers
+        init() {}
         init (objectId: String?) {
             self.objectId = objectId
         }

@@ -67,10 +67,16 @@ cloudError.runFunction { result in
             case 3000:
                 print("Received Cloud Code error: \(error)")
             default:
-                assertionFailure("Should have received code \"3000\"")
+                assertionFailure("""
+                    Should have received code \"3000\"
+                    Instead received \(error)
+                """)
             }
         default:
-            assertionFailure("Should have been case \"other\"")
+            assertionFailure("""
+                Should have received code \"other\"
+                Instead received \(error)
+            """)
         }
     }
 }
@@ -88,7 +94,11 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int = 0
+}
 
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
     //: Custom initializer.
     init(score: Int) {
         self.score = score

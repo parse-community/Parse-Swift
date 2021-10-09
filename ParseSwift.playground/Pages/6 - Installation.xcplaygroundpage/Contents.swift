@@ -35,6 +35,20 @@ struct Installation: ParseInstallation {
 
     //: Your custom keys
     var customKey: String?
+
+    /*:
+     It's recommended the developer adds the emptyObject computed property or similar.
+     Gets an empty version of the respective object. This can be used when you only need to update a
+     a subset of the fields of an object as oppose to updating every field of an object. Using an
+     empty object and updating a subset of the fields reduces the amount of data sent between
+     client and server when using `save` and `saveAll` to update objects.
+    */
+    var emptyObject: Self {
+        var object = Self()
+        object.objectId = objectId
+        object.createdAt = createdAt
+        return object
+    }
 }
 
 /*: Save your first `customKey` value to your `ParseInstallation`.
@@ -42,8 +56,9 @@ struct Installation: ParseInstallation {
     designated callbackQueue. If no callbackQueue is specified it
     returns to main queue.
  */
-Installation.current?.customKey = "myCustomInstallationKey2"
-Installation.current?.save { results in
+var currentInstallation = Installation.current
+currentInstallation?.customKey = "myCustomInstallationKey2"
+currentInstallation?.save { results in
 
     switch results {
     case .success(let updatedInstallation):
@@ -56,10 +71,13 @@ Installation.current?.save { results in
 /*: Update your `ParseInstallation` `customKey` value.
     Performs work on background queue and returns to designated on
     designated callbackQueue. If no callbackQueue is specified it
-    returns to main queue.
+    returns to main queue. Using `emptyObject` allows you to only
+    send the updated keys to the parse server as opposed to the
+    whole object.
  */
-Installation.current?.customKey = "updatedValue"
-Installation.current?.save { results in
+currentInstallation = currentInstallation?.emptyObject
+currentInstallation?.customKey = "updatedValue"
+currentInstallation?.save { results in
 
     switch results {
     case .success(let updatedInstallation):

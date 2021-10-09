@@ -21,10 +21,15 @@ struct GameScore: ParseObject {
     var updatedAt: Date?
     var ACL: ParseACL?
     var location: ParseGeoPoint?
+
     //: Your own properties
     var score: Int?
+}
 
-    //: A custom initializer.
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
+    //: Custom initializer.
     init(score: Int) {
         self.score = score
     }
@@ -77,7 +82,10 @@ do {
 
             assert(scores.count >= 1)
             scores.forEach { (score) in
-                print("Someone with objectId \"\(score.objectId!)\" has a score of \"\(score.score)\" near me")
+                print("""
+                    Someone with objectId \"\(score.objectId!)\"
+                    has a score of \"\(String(describing: score.score))\" near me
+                """)
             }
 
         case .failure(let error):
@@ -97,7 +105,10 @@ querySorted.find { results in
 
         assert(scores.count >= 1)
         scores.forEach { (score) in
-            print("Someone with objectId \"\(score.objectId!)\" has a score of \"\(score.score)\" near me")
+            print("""
+                Someone with objectId \"\(score.objectId!)\"
+                has a score of \"\(String(describing: score.score))\" near me
+            """)
         }
 
     case .failure(let error):
@@ -116,7 +127,7 @@ query2.find { results in
         scores.forEach { (score) in
             print("""
                 Someone with objectId \"\(score.objectId!)\" has a
-                score of \"\(score.score)\" near me which is greater than 9
+                score of \"\(String(describing: score.score))\" near me which is greater than 9
             """)
         }
 
@@ -133,7 +144,8 @@ query3.find { results in
 
         scores.forEach { (score) in
             print("""
-                Someone has a score of \"\(score.score)\" with no geopoint \(String(describing: score.location))
+                Someone has a score of \"\(String(describing: score.score))\"
+                with no geopoint \(String(describing: score.location))
             """)
         }
 
@@ -151,7 +163,8 @@ query4.find { results in
         assert(scores.count >= 1)
         scores.forEach { (score) in
             print("""
-                Someone has a score of \"\(score.score)\" with geopoint \(String(describing: score.location))
+                Someone has a score of \"\(String(describing: score.score))\"
+                with geopoint \(String(describing: score.location))
             """)
         }
 
@@ -170,7 +183,8 @@ query7.find { results in
 
         scores.forEach { (score) in
             print("""
-                Someone has a score of \"\(score.score)\" with geopoint using OR \(String(describing: score.location))
+                Someone has a score of \"\(String(describing: score.score))\"
+                with geopoint using OR \(String(describing: score.location))
             """)
         }
 

@@ -23,6 +23,8 @@ class ParseLiveQueryTests: XCTestCase {
         var score: Int = 0
 
         //custom initializer
+        init() {}
+
         init(score: Int) {
             self.score = score
         }
@@ -189,7 +191,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testStandardMessageEncoding() throws {
-        guard let installationId = BaseParseInstallation.currentInstallationContainer.installationId else {
+        guard let installationId = BaseParseInstallation.currentContainer.installationId else {
             XCTFail("Should have installationId")
             return
         }
@@ -1460,9 +1462,9 @@ class ParseLiveQueryTests: XCTestCase {
 
         try pretendToBeConnected()
         let response = PreliminaryMessageResponse(op: .subscribed,
-                                                           requestId: 1,
-                                                           clientId: "yolo",
-                                                           installationId: "naw")
+                                                  requestId: 1,
+                                                  clientId: "yolo",
+                                                  installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder().encode(response)
         client.received(encoded)
 

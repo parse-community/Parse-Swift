@@ -18,11 +18,6 @@ public struct ParseError: ParseType, Decodable, Swift.Error {
     public let message: String
     /// An error value representing a custom error from the Parse Server.
     public let otherCode: Int?
-    init(code: Code, message: String) {
-        self.code = code
-        self.message = message
-        self.otherCode = nil
-    }
 
     /// A textual representation of this error.
     public var localizedDescription: String {
@@ -378,6 +373,16 @@ extension ParseError {
     }
 }
 
+// MARK: Convenience Implementations
+extension ParseError {
+
+    init(code: Code, message: String) {
+        self.code = code
+        self.message = message
+        self.otherCode = nil
+    }
+}
+
 // MARK: Decodable
 extension ParseError {
 
@@ -408,5 +413,125 @@ extension ParseError: CustomDebugStringConvertible {
 extension ParseError: CustomStringConvertible {
     public var description: String {
         debugDescription
+    }
+}
+
+// MARK: Compare Errors
+public extension Error {
+
+    /**
+     Returns the respective `ParseError` if the given `ParseError` code is equal to the error.
+     
+    **Example use case:**
+    ~~~
+    if let parseError = error.equalsTo(.objectNotFound)  {
+        print(parseError.description)
+    }
+    ~~~
+     - parameter errorCode: A `ParseError` code to compare to.
+     
+     - returns: Returns the `ParseError` with respect to the `Error`. If the error is not a `ParseError`, returns nil.
+     */
+    func equalsTo(_ errorCode: ParseError.Code) -> ParseError? {
+        guard let error = self as? ParseError,
+                error.code == errorCode else {
+            return nil
+        }
+        return error
+    }
+
+    /**
+     Validates if the given `ParseError` code is equal to the error.
+     
+    **Example use case:**
+    ~~~
+    if error.equalsTo(.objectNotFound)  {
+        //Do stuff
+    }
+    ~~~
+     - parameter errorCode: A `ParseError` code to compare to.
+     
+     - returns: A boolean indicating whether or not the `Error` is the `errorCode`.
+     */
+    func equalsTo(_ errorCode: ParseError.Code) -> Bool {
+        guard equalsTo(errorCode) != nil else {
+            return false
+        }
+        return true
+    }
+
+    /**
+     Returns the respective `ParseError` if the `Error` is contained in the array of `ParseError` codes.
+     
+    **Example use case:**
+    ~~~
+    if let parseError = error.containedIn([.objectNotFound, .invalidQuery])  {
+        print(parseError.description)
+    }
+    ~~~
+     - parameter errorCodes: An array of zero or more of `ParseError` codes to compare to.
+     
+     - returns: Returns the `ParseError` with respect to the `Error`. If the error is not a `ParseError`, returns nil.
+     */
+    func containedIn(_ errorCodes: [ParseError.Code]) -> ParseError? {
+        guard let error = self as? ParseError,
+              errorCodes.contains(error.code) == true else {
+            return nil
+        }
+        return error
+    }
+
+    /**
+     Returns the respective `ParseError` if the `Error` is contained in the list of `ParseError` codes.
+     
+    **Example use case:**
+    ~~~
+    if let parseError = error.containedIn(.objectNotFound, .invalidQuery)  {
+        print(parseError.description)
+    }
+    ~~~
+     - parameter errorCodes: A variadic amount of zero or more of `ParseError` codes to compare to.
+     
+     - returns: Returns the `ParseError` with respect to the `Error`. If the error is not a `ParseError`, returns nil.
+     */
+    func containedIn(_ errorCodes: ParseError.Code...) -> ParseError? {
+        containedIn(errorCodes)
+    }
+
+    /**
+     Validates if the given `ParseError` codes contains the error.
+     
+    **Example use case:**
+    ~~~
+    if error.containedIn([.objectNotFound, .invalidQuery])  {
+        //Do stuff
+    }
+    ~~~
+     - parameter errorCodes: An array of zero or more of `ParseError` codes to compare to.
+     
+     - returns: A boolean indicating whether or not the `Error` is contained in the `errorCodes`.
+     */
+    func containedIn(_ errorCodes: [ParseError.Code]) -> Bool {
+        guard containedIn(errorCodes) != nil else {
+            return false
+        }
+        return true
+    }
+
+    /**
+     Validates if the given `ParseError` codes contains the error.
+     
+    **Example use case:**
+    ~~~
+    if error.containedIn(.objectNotFound, .invalidQuery)  {
+        //Do stuff
+    }
+    ~~~
+     - parameter errorCodes: A variadic amount of zero or more of `ParseError` codes to compare to.
+     
+     - returns: A boolean indicating whether or not the `Error` is contained in the `errorCodes`.
+     */
+    func containedIn(_ errorCodes: ParseError.Code...) -> Bool {
+        containedIn(errorCodes)
     }
 }

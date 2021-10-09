@@ -12,12 +12,54 @@ import Foundation
  Objects that conform to the `ParseObject` protocol have a local representation of data persisted to the Parse cloud.
  This is the main protocol that is used to interact with objects in your app.
 
- If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
- `ACL` to your `ParseObject` `CodingKeys`.
+ The Swift SDK is designed for your `ParseObject`s to be "value types" (structs).
+ If you are using value types the the compiler will assist you with conforming to `ParseObject` protocol. If you
+ are thinking of using reference types, see the warning.
+
+ It's recommended the developer adds the emptyObject computed property or similar.
+ Gets an empty version of the respective object. This can be used when you only need to update a
+ a subset of the fields of an object as oppose to updating every field of an object. Using an empty object and updating
+ a subset of the fields reduces the amount of data sent between client and server when using `save` and `saveAll`
+ to update objects. You should add the following properties in your `ParseObject`'s:
+
+     var emptyObject: Self {
+         var object = Self()
+         object.objectId = objectId
+         object.createdAt = createdAt
+         return object
+     }
  
- - note: It is recommended to make your`ParseObject`s "value types" (structs).
- If you are using value types there isn't much else you need to do but to conform to ParseObject. If you are thinking of
- using reference types, see the warning.
+ When designing applications for SwiftUI, it is recommended to make all `ParseObject`'s conform to
+ `Identifiable`. This can be accomplised by doing the following:
+ 
+     struct GameScore: ParseObject, Identifiable {
+
+        // Add this computed property to conform to `Identifiable` for iOS13+
+        var id: String {
+            guard let objectId = self.objectId else {
+                return UUID().uuidString
+            }
+            return objectId
+        }
+
+        // These are required for any Object.
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        // Your own properties.
+        var score: Int = 0
+        var location: ParseGeoPoint?
+        var name: String?
+        var myFiles: [ParseFile]?
+     }
+
+ - important: It is recommended that all added properties be optional properties so they can eventually be used as
+ Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
+ create methods to check the respective properties on the client-side before saving objects. See
+ [here](https://github.com/parse-community/Parse-Swift/issues/157#issuecomment-858671025)
+ for more information.
  - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
  for reference types and may have unexpected behavior when it comes to threading. You will also need to implement
  your own `==` method to conform to `Equatable` along with with the `hash` method to conform to `Hashable`.
@@ -25,6 +67,8 @@ import Foundation
  `Equatable` and `Hashable` as your unsaved objects won't have this value yet and is nil. A possible way to
  address this is by creating a `UUID` for your objects locally and relying on that for `Equatable` and `Hashable`,
  otherwise it's possible you will get "circular dependency errors" depending on your implementation.
+ - note: If you plan to use custom encoding/decoding, be sure to add `objectId`, `createdAt`, `updatedAt`, and
+ `ACL` to your `ParseObject` `CodingKeys`.
 */
 public protocol ParseObject: Objectable,
                              Fetchable,
@@ -32,27 +76,26 @@ public protocol ParseObject: Objectable,
                              Deletable,
                              Hashable,
                              CustomDebugStringConvertible,
-                             CustomStringConvertible {}
+                             CustomStringConvertible {
+}
 
 // MARK: Default Implementations
-extension ParseObject {
+public extension ParseObject {
 
     /**
      Determines if two objects have the same objectId.
-
      - parameter as: Object to compare.
-
      - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
     */
-    public func hasSameObjectId<T: ParseObject>(as other: T) -> Bool {
+    func hasSameObjectId<T: ParseObject>(as other: T) -> Bool {
         return other.className == className && other.objectId == objectId && objectId != nil
     }
 
     /**
-       Gets a Pointer referencing this Object.
-       - returns: Pointer<Self>
+     Gets a Pointer referencing this object.
+     - returns: Pointer<Self>
     */
-    public func toPointer() throws -> Pointer<Self> {
+    func toPointer() throws -> Pointer<Self> {
         return try Pointer(self)
     }
 }
@@ -67,6 +110,9 @@ public extension Sequence where Element: ParseObject {
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
@@ -74,9 +120,19 @@ public extension Sequence where Element: ParseObject {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     and plan to generate all of your `objectId`'s on the client-side then you should leave
+     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ParseConfiguration.allowCustomObjectId = true` and
+     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     and the server will generate an `objectId` only when the client does not provide one. This can
+     increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
+     different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
+     client-side checks are disabled. Developers are responsible for handling such cases.
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
                  transaction: Bool = false,
+                 isIgnoreCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -124,7 +180,7 @@ public extension Sequence where Element: ParseObject {
         }
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
-        let commands = try map { try $0.saveCommand() }
+        let commands = try map { try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig) }
         let batchLimit: Int!
         if transaction {
             batchLimit = commands.count
@@ -151,6 +207,9 @@ public extension Sequence where Element: ParseObject {
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -158,10 +217,20 @@ public extension Sequence where Element: ParseObject {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     and plan to generate all of your `objectId`'s on the client-side then you should leave
+     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ParseConfiguration.allowCustomObjectId = true` and
+     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     and the server will generate an `objectId` only when the client does not provide one. This can
+     increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
+     different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
+     client-side checks are disabled. Developers are responsible for handling such cases.
     */
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
         transaction: Bool = false,
+        isIgnoreCustomObjectIdConfig: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -224,7 +293,9 @@ public extension Sequence where Element: ParseObject {
 
             do {
                 var returnBatch = [(Result<Self.Element, ParseError>)]()
-                let commands = try map { try $0.saveCommand() }
+                let commands = try map {
+                    try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+                }
                 let batchLimit: Int!
                 if transaction {
                     batchLimit = commands.count
@@ -580,6 +651,30 @@ extension ParseObject {
      - returns: Returns saved `ParseObject`.
     */
     public func save(options: API.Options = []) throws -> Self {
+        try save(isIgnoreCustomObjectIdConfig: false, options: options)
+    }
+
+    /**
+     Saves the `ParseObject` *synchronously* and throws an error if there's an issue.
+     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     `objectId` environments. Defaults to false.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - throws: An error of type `ParseError`.
+
+     - returns: Returns saved `ParseObject`.
+     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     and plan to generate all of your `objectId`'s on the client-side then you should leave
+     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ParseConfiguration.allowCustomObjectId = true` and
+     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     and the server will generate an `objectId` only when the client does not provide one. This can
+     increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
+     different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
+     client-side checks are disabled. Developers are responsible for handling such cases.
+    */
+    public func save(isIgnoreCustomObjectIdConfig: Bool = false,
+                     options: API.Options = []) throws -> Self {
         var childObjects: [String: PointerType]?
         var childFiles: [UUID: ParseFile]?
         var error: ParseError?
@@ -599,7 +694,7 @@ extension ParseObject {
             throw error
         }
 
-        return try saveCommand()
+        return try saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
             .execute(options: options,
                      callbackQueue: .main,
                      childObjects: childObjects,
@@ -609,12 +704,25 @@ extension ParseObject {
     /**
      Saves the `ParseObject` *asynchronously* and executes the given callback block.
 
+     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     and plan to generate all of your `objectId`'s on the client-side then you should leave
+     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ParseConfiguration.allowCustomObjectId = true` and
+     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     and the server will generate an `objectId` only when the client does not provide one. This can
+     increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
+     different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
+     client-side checks are disabled. Developers are responsible for handling such cases.
     */
     public func save(
+        isIgnoreCustomObjectIdConfig: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
@@ -622,10 +730,11 @@ extension ParseObject {
         self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
             guard let parseError = error else {
                 do {
-                    try self.saveCommand().executeAsync(options: options,
-                                                    callbackQueue: callbackQueue,
-                                                    childObjects: savedChildObjects,
-                                                    childFiles: savedChildFiles) { result in
+                    try self.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue,
+                                      childObjects: savedChildObjects,
+                                      childFiles: savedChildFiles) { result in
                         callbackQueue.async {
                             completion(result)
                         }
@@ -647,8 +756,8 @@ extension ParseObject {
         }
     }
 
-    internal func saveCommand() throws -> API.Command<Self, Self> {
-        try API.Command<Self, Self>.save(self)
+    internal func saveCommand(isIgnoreCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
+        try API.Command<Self, Self>.save(self, isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
     }
 
     // swiftlint:disable:next function_body_length
@@ -723,8 +832,7 @@ extension ParseObject {
                     }
 
                     try savableFiles.forEach {
-                        let file = $0
-                        filesFinishedSaving[file.localId] = try $0.save(options: options)
+                        filesFinishedSaving[$0.localId] = try $0.save(options: options, callbackQueue: queue)
                     }
                 }
                 completion(objectsFinishedSaving, filesFinishedSaving, nil)

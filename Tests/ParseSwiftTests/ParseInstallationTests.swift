@@ -129,7 +129,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
     func testNewInstallationIdentifierIsLowercase() {
         guard let installationIdFromContainer
-            = Installation.currentInstallationContainer.installationId else {
+            = Installation.currentContainer.installationId else {
             XCTFail("Should have retreived installationId from container")
             return
         }
