@@ -5,7 +5,7 @@
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __Improvements__
-- Added `operation` for `set` and `forceSet`, used for single key updates ([#258](https://github.com/parse-community/Parse-Swift/pull/253)), thanks to [Corey Baker](https://github.com/cbaker6) and [Daniel Blyth](https://github.com/dblythy).
+- Added `operation` for `set` and `forceSet`, used for single key updates ([#258](https://github.com/parse-community/Parse-Swift/pull/253)), thanks to [Daniel Blyth](https://github.com/dblythy) and [Corey Baker](https://github.com/cbaker6).
 
 ### 1.10.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.3...1.10.4)
