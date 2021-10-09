@@ -407,6 +407,13 @@ extension ParseError: CustomStringConvertible {
     }
 }
 
+// MARK: LocalizedError
+extension ParseError: LocalizedError {
+    public var errorDescription: String? {
+        debugDescription
+    }
+}
+
 // MARK: Compare Errors
 public extension Error {
 

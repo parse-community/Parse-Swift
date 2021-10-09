@@ -9,6 +9,7 @@
 
 __Improvements__
 - Added `operation` for `set` and `forceSet`, used for single key updates ([#248](https://github.com/parse-community/Parse-Swift/pull/248)), thanks to [Daniel Blyth](https://github.com/dblythy) and [Corey Baker](https://github.com/cbaker6).
+- Add more detail to invalid struct errors ([#238](https://github.com/parse-community/Parse-Swift/pull/238)), thanks to [Daniel Blyth](https://github.com/dblythy).
 
 ### 1.10.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.10.3...1.10.4)
