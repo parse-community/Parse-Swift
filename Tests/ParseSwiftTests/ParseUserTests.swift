@@ -542,6 +542,46 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.body?.email, email)
     }
 
+    #if !os(Linux) && !os(Android)
+    func testUpdateCommandCurrentUserModifiedEmail() throws {
+        try userSignUp()
+        guard let user = User.current,
+              let objectId = user.objectId else {
+            XCTFail("Should have current user.")
+            return
+        }
+        let email = "peace@parse.com"
+        User.current?.email = email
+        XCTAssertNotNil(User.current?.email)
+        let command = try User.current?.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command?.path.urlComponent, "/users/\(objectId)")
+        XCTAssertEqual(command?.method, API.Method.PUT)
+        XCTAssertNil(command?.params)
+        XCTAssertNotNil(command?.body)
+        XCTAssertEqual(command?.body?.email, email)
+    }
+
+    func testUpdateCommandCurrentUserNotCurrentModifiedEmail() throws {
+        try userSignUp()
+        guard let user = User.current,
+              let objectId = user.objectId else {
+            XCTFail("Should have current user.")
+            return
+        }
+        let email = "peace@parse.com"
+        User.current?.email = email
+        XCTAssertNotNil(User.current?.email)
+        let command = try User.current?.saveCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command?.path.urlComponent, "/users/\(objectId)")
+        XCTAssertEqual(command?.method, API.Method.PUT)
+        XCTAssertNil(command?.params)
+        XCTAssertNotNil(command?.body)
+        XCTAssertEqual(command?.body?.email, email)
+    }
+    #endif
+
     func testSaveAndUpdateCurrentUser() throws { // swiftlint:disable:this function_body_length
         XCTAssertNil(User.current?.objectId)
         try userSignUp()

@@ -323,7 +323,7 @@ extension ParseInstallation {
 // MARK: Fetchable
 extension ParseInstallation {
     internal static func updateKeychainIfNeeded(_ results: [Self], deleting: Bool = false) throws {
-        guard let currentInstallation = BaseParseInstallation.current else {
+        guard let currentInstallation = Self.current else {
             return
         }
 

@@ -128,7 +128,7 @@ extension ParseUser {
         }
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
         #endif
-        BaseParseUser.currentContainer = nil
+        Self.currentContainer = nil
     }
 
     /**
@@ -685,7 +685,7 @@ extension ParseUser {
 // MARK: Fetchable
 extension ParseUser {
     internal static func updateKeychainIfNeeded(_ results: [Self], deleting: Bool = false) throws {
-        guard let currentUser = BaseParseUser.current else {
+        guard let currentUser = Self.current else {
             return
         }
 
