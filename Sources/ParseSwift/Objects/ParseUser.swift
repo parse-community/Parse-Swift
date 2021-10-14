@@ -128,7 +128,7 @@ extension ParseUser {
         }
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
         #endif
-        BaseParseUser.currentContainer = nil
+        Self.currentContainer = nil
     }
 
     /**
@@ -685,7 +685,7 @@ extension ParseUser {
 // MARK: Fetchable
 extension ParseUser {
     internal static func updateKeychainIfNeeded(_ results: [Self], deleting: Bool = false) throws {
-        guard let currentUser = BaseParseUser.current else {
+        guard let currentUser = Self.current else {
             return
         }
 
@@ -946,9 +946,18 @@ extension ParseUser {
     private func updateCommand() -> API.Command<Self, Self> {
         var mutableSelf = self
         if let currentUser = Self.current,
-           currentUser.hasSameObjectId(as: mutableSelf) == true,
-           currentUser.email == mutableSelf.email {
-            mutableSelf.email = nil
+           currentUser.hasSameObjectId(as: mutableSelf) == true {
+            #if !os(Linux) && !os(Android)
+            // swiftlint:disable:next line_length
+            if let currentUserContainerInKeychain: CurrentUserContainer<BaseParseUser> = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
+               currentUserContainerInKeychain.currentUser?.email == mutableSelf.email {
+                mutableSelf.email = nil
+            }
+            #else
+            if currentUser.email == mutableSelf.email {
+                mutableSelf.email = nil
+            }
+            #endif
         }
         let mapper = { (data) -> Self in
             try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)

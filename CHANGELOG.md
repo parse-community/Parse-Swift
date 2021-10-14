@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.0.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.0...2.0.1)
+
+__Fixes__
+- ParseUser should only encode email when User.current?.email is different from current user email ([#256](https://github.com/parse-community/Parse-Swift/pull/256)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.0.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.11.0...2.0.0)
