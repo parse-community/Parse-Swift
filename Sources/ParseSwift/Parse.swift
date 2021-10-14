@@ -84,6 +84,10 @@ public struct ParseConfiguration {
      - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
      [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
      for more info.
+     - parameter migrateFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
+     to `true` will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to `false`.
+     - parameter deleteKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
+     Defaults to `false`.
      - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
      Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
