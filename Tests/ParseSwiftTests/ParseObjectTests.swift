@@ -324,7 +324,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         do {
             encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
             //Get dates in correct format from ParseDecoding strategy
-            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+            scoreOnServer = try GameScore.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -992,7 +992,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         scoreOnServer.ACL = nil
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getEncoder().encode(scoreOnServer, skipKeys: .none)
+            encoded = try GameScore.getEncoder().encode(scoreOnServer, skipKeys: .none)
             //Get dates in correct format from ParseDecoding strategy
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
         } catch {
@@ -1196,7 +1196,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let encoded: Data!
         do {
-            encoded = try scoreOnServer.getJSONEncoder().encode(response)
+            encoded = try GameScore.getJSONEncoder().encode(response)
             //Get dates in correct format from ParseDecoding strategy
             let encodedScoreOnServer = try scoreOnServer.getEncoder().encode(scoreOnServer)
             scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encodedScoreOnServer)
