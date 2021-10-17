@@ -6,7 +6,7 @@
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __Improvements__
-- Add static methods for accessing encoders/decoder so developers do not have to create instances to access ([#258](https://github.com/parse-community/Parse-Swift/pull/258)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add static methods for accessing encoders/decoder so developers do not have to create instances to access ([#259](https://github.com/parse-community/Parse-Swift/pull/259)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.0.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.0...2.0.1)
