@@ -22,7 +22,9 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
     open var results = [Object]() {
         willSet {
             count = newValue.count
-            objectWillChange.send()
+            DispatchQueue.main.async {
+                self.objectWillChange.send()
+            }
         }
     }
 
@@ -31,7 +33,9 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
         willSet {
             error = nil
             if newValue != results.count {
-                objectWillChange.send()
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
             }
         }
     }
@@ -42,7 +46,9 @@ open class QueryViewModel<T: ParseObject>: QueryObservable {
             if newValue != nil {
                 results.removeAll()
                 count = results.count
-                objectWillChange.send()
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
             }
         }
     }

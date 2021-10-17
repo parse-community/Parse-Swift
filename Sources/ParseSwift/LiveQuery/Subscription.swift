@@ -70,7 +70,9 @@ open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
             if newValue != nil {
                 subscribed = nil
                 unsubscribed = nil
-                objectWillChange.send()
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
             }
         }
     }
@@ -81,7 +83,9 @@ open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
             if newValue != nil {
                 unsubscribed = nil
                 event = nil
-                objectWillChange.send()
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
             }
         }
     }
@@ -92,7 +96,9 @@ open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
             if newValue != nil {
                 subscribed = nil
                 event = nil
-                objectWillChange.send()
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
             }
         }
     }
