@@ -22,7 +22,9 @@ open class CloudViewModel<T: ParseCloud>: CloudObservable {
         willSet {
             if newValue != nil {
                 self.error = nil
-                objectWillChange.send()
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
             }
         }
     }
@@ -32,7 +34,9 @@ open class CloudViewModel<T: ParseCloud>: CloudObservable {
         willSet {
             if newValue != nil {
                 self.results = nil
-                objectWillChange.send()
+                DispatchQueue.main.async {
+                    self.objectWillChange.send()
+                }
             }
         }
     }

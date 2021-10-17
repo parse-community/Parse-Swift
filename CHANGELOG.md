@@ -2,11 +2,17 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.2...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.0.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.1...2.0.2)
 
 __Improvements__
 - Add static methods for accessing encoders/decoder so developers do not have to create instances to access ([#259](https://github.com/parse-community/Parse-Swift/pull/259)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- Parse ViewModels always dispatch to the main queue when updating published properties. This prevents possible issues when background async calls update properties used for views ([#260](https://github.com/parse-community/Parse-Swift/pull/260)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.0.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.0...2.0.1)
