@@ -22,15 +22,16 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-      run: |
-        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
-        PROFDATA=$(find DerivedData -type f -name '*.profdata')
-        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
+    - uses: sersoft-gmbh/swift-coverage-action@v2
+      id: coverage-files
+      with:
+        search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
+        files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: IOS
         fail_ci_if_error: false
       env:
@@ -51,15 +52,16 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-      run: |
-        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTestsmacOS')
-        PROFDATA=$(find DerivedData -type f -name '*.profdata')
-        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
+    - uses: sersoft-gmbh/swift-coverage-action@v2
+      id: coverage-files
+      with:
+        search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
+        files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: MACOS
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -73,15 +75,16 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-      run: |
-        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTeststvOS')
-        PROFDATA=$(find DerivedData -type f -name '*.profdata')
-        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
+    - uses: sersoft-gmbh/swift-coverage-action@v2
+      id: coverage-files
+      with:
+        search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
+        files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: TVOS
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -97,6 +100,7 @@ jobs:
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
+        files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: WATCHOS
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -120,15 +124,16 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-      run: |
-        XCTEST=$(find .build -type f -name 'ParseSwiftPackageTests')
-        PROFDATA=$(find .build -type f -name '*.profdata')
-        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info_spm.lcov
+    - uses: sersoft-gmbh/swift-coverage-action@v2
+      id: coverage-files
+      with:
+        search-paths: ./.build
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
+        files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: SPM
         fail_ci_if_error: true
       env:
@@ -154,19 +159,18 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Prepare codecov
-      run: |
-        XCTEST=$(find .build -type f -name 'ParseSwiftPackageTests')
-        PROFDATA=$(find .build -type f -name '*.profdata')
-        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info_spm_5_2.lcov
-      env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+    - uses: sersoft-gmbh/swift-coverage-action@v2
+      id: coverage-files
+      with:
+        search-paths: ./.build
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
+        files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: SPM5_2
         fail_ci_if_error: true
       env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
  
   linux:
     runs-on: ubuntu-18.04
