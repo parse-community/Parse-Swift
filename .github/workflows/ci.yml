@@ -22,7 +22,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-    - uses: sersoft-gmbh/swift-coverage-action@v2
+      uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
         search-paths: ./DerivedData
@@ -52,7 +52,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-    - uses: sersoft-gmbh/swift-coverage-action@v2
+      uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
         search-paths: ./DerivedData
@@ -75,7 +75,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-    - uses: sersoft-gmbh/swift-coverage-action@v2
+      uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
         search-paths: ./DerivedData
@@ -124,7 +124,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-    - uses: sersoft-gmbh/swift-coverage-action@v2
+      uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
         search-paths: ./.build
@@ -159,7 +159,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Prepare codecov
-    - uses: sersoft-gmbh/swift-coverage-action@v2
+      uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
         search-paths: ./.build
