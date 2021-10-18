@@ -25,6 +25,7 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
+        format: lcov
         search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -33,7 +34,7 @@ jobs:
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: IOS
-        fail_ci_if_error: false
+        fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
@@ -55,6 +56,7 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
+        format: lcov
         search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -78,6 +80,7 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
+        format: lcov
         search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -126,6 +129,7 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
+        format: lcov
         search-paths: ./.build
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -161,6 +165,7 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
+        format: lcov
         search-paths: ./.build
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
