@@ -30,14 +30,14 @@ jobs:
         search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
-    - name: Upload coverage to Codecov
-      uses: codecov/codecov-action@v2
-      with:
-        files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
-        env_vars: IOS
-        fail_ci_if_error: true
-      env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
+    #- name: Upload coverage to Codecov
+    #  uses: codecov/codecov-action@v2
+    #  with:
+    #    files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
+    #    env_vars: IOS
+    #    fail_ci_if_error: true
+    #  env:
+    #      DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
   xcode-test-macos:
     runs-on: macos-11
