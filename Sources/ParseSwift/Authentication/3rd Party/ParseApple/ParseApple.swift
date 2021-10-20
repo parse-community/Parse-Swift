@@ -19,7 +19,7 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
     /// Authentication keys required for Apple authentication.
     enum AuthenticationKeys: String, Codable {
-        case id // swiftlint:disable:this identifier_name
+        case id
         case token
 
         /// Properly makes an authData dictionary with the required keys.

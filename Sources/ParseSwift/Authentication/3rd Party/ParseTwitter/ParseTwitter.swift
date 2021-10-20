@@ -20,7 +20,7 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
     /// Authentication keys required for Twitter authentication.
     enum AuthenticationKeys: String, Codable {
-        case id // swiftlint:disable:this identifier_name
+        case id
         case consumerKey = "consumer_key"
         case consumerSecret = "consumer_secret"
         case authToken = "auth_token"

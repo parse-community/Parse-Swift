@@ -18,7 +18,7 @@ public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
     /// Authentication keys required for Facebook authentication.
     enum AuthenticationKeys: String, Codable {
-        case id // swiftlint:disable:this identifier_name
+        case id
         case authenticationToken = "token"
         case accessToken = "access_token"
         case expirationDate = "expiration_date"

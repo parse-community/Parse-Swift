@@ -62,7 +62,7 @@ public extension ParseObject {
      as models in MVVM and SwiftUI.
      - note: `id` allows `ParseObjects`'s to be used even if they are unsaved and do not have an `objectId`.
     */
-    var id: String { // swiftlint:disable:this identifier_name
+    var id: String {
         guard let objectId = self.objectId else {
             return UUID().uuidString
         }
