@@ -1,6 +1,8 @@
 coverage:
   ignore:
     - Tests/ParseSwiftTests/.*
+    - TestHost/*
+    - TestHostTV/*
   status:
     patch:
       default:
