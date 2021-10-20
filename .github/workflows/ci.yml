@@ -18,16 +18,13 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Build-Test
-      run: |
-          set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData test | xcpretty
-          echo "RUNNER_DEBUG=1" >> $GITHUB_ENV
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
-        target-name-filter: '^ParseSwift$'
         format: lcov
         search-paths: ./DerivedData
       env:
@@ -37,6 +34,7 @@ jobs:
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: IOS
+        fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
@@ -67,6 +65,7 @@ jobs:
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: MACOS
+        fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
@@ -91,6 +90,7 @@ jobs:
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: TVOS
+        fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
