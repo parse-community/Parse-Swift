@@ -18,11 +18,11 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData test | xcpretty
+      run: |
+          set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData test | xcpretty
+          echo "RUNNER_DEBUG=1" >> $GITHUB_ENV
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
-    - name: Set env
-    - run: echo "RUNNER_DEBUG=1" >> $GITHUB_ENV
     - name: Prepare codecov
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
