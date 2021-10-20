@@ -29,7 +29,7 @@ import Foundation
 public struct ParseAnonymous<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
     enum AuthenticationKeys: String, Codable {
-        case id // swiftlint:disable:this identifier_name
+        case id
 
         func makeDictionary() -> [String: String] {
             [AuthenticationKeys.id.rawValue: UUID().uuidString.lowercased()]

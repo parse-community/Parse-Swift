@@ -22,17 +22,20 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
-      run: |
-        XCTEST=$(find DerivedData -type f -name 'ParseSwiftTests')
-        PROFDATA=$(find DerivedData -type f -name '*.profdata')
-        xcrun llvm-cov export "${XCTEST}" -format="lcov" -instr-profile "${PROFDATA}" > info.lcov
+      uses: sersoft-gmbh/swift-coverage-action@v2
+      id: coverage-files
+      with:
+        target-name-filter: '^ParseSwift$'
+        format: lcov
+        search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
       with:
+        files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: IOS
-        fail_ci_if_error: false
+        fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
@@ -63,6 +66,7 @@ jobs:
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: MACOS
+        fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 
@@ -87,6 +91,7 @@ jobs:
       with:
         files: ${{join(fromJSON(steps.coverage-files.outputs.files), ',')}}
         env_vars: TVOS
+        fail_ci_if_error: true
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
 

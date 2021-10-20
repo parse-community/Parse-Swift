@@ -18,14 +18,14 @@ public struct ParseLDAP<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
     /// Authentication keys required for LDAP authentication.
     enum AuthenticationKeys: String, Codable {
-        case id // swiftlint:disable:this identifier_name
+        case id
         case password
 
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter id: Required id.
         /// - parameter password: Required password.
         /// - returns: authData dictionary.
-        func makeDictionary(id: String, // swiftlint:disable:this identifier_name
+        func makeDictionary(id: String,
                             password: String) -> [String: String] {
             [AuthenticationKeys.id.rawValue: id,
              AuthenticationKeys.password.rawValue: password]
@@ -58,7 +58,7 @@ public extension ParseLDAP {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func login(id: String, // swiftlint:disable:this identifier_name
+    func login(id: String,
                password: String,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
@@ -100,7 +100,7 @@ public extension ParseLDAP {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func link(id: String, // swiftlint:disable:this identifier_name
+    func link(id: String,
               password: String,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,

@@ -23,14 +23,17 @@ class ParseOperationTests: XCTestCase {
         var members = [String]()
         var levels: [String]?
         var previous: [Level]?
+        var next: [Level]
 
         //custom initializers
         init() {
             self.score = 5
+            self.next = [Level()]
         }
 
         init(score: Int) {
             self.score = score
+            self.next = [Level()]
         }
     }
 
@@ -392,9 +395,9 @@ class ParseOperationTests: XCTestCase {
         var level = Level(level: 2)
         level.objectId = "yolo"
         let operations = try score.operation
-            .addRelation(("previous", \.previous), objects: [level])
+            .addRelation(("next", \.next), objects: [level])
         // swiftlint:disable:next line_length
-        let expected = "{\"previous\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"yolo\"}],\"__op\":\"AddRelation\"}}"
+        let expected = "{\"next\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"yolo\"}],\"__op\":\"AddRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
@@ -403,12 +406,12 @@ class ParseOperationTests: XCTestCase {
 
     func testAddRelationOptionalKeypath() throws {
         let score = GameScore(score: 10)
-        var score2 = GameScore(score: 20)
-        score2.objectId = "yolo"
+        var level = Level(level: 2)
+        level.objectId = "yolo"
         let operations = try score.operation
-            .addRelation("test", objects: [score2])
+            .addRelation(("previous", \.previous), objects: [level])
         // swiftlint:disable:next line_length
-        let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"AddRelation\"}}"
+        let expected = "{\"previous\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"yolo\"}],\"__op\":\"AddRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
@@ -467,9 +470,9 @@ class ParseOperationTests: XCTestCase {
         var level = Level(level: 2)
         level.objectId = "yolo"
         let operations = try score.operation
-            .removeRelation(("previous", \.previous), objects: [level])
+            .removeRelation(("next", \.next), objects: [level])
         // swiftlint:disable:next line_length
-        let expected = "{\"previous\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"yolo\"}],\"__op\":\"RemoveRelation\"}}"
+        let expected = "{\"next\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"yolo\"}],\"__op\":\"RemoveRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
@@ -478,12 +481,12 @@ class ParseOperationTests: XCTestCase {
 
     func testRemoveRelationOptionalKeypath() throws {
         let score = GameScore(score: 10)
-        var score2 = GameScore(score: 20)
-        score2.objectId = "yolo"
+        var level = Level(level: 2)
+        level.objectId = "yolo"
         let operations = try score.operation
-            .removeRelation("test", objects: [score2])
+            .removeRelation(("previous", \.previous), objects: [level])
         // swiftlint:disable:next line_length
-        let expected = "{\"test\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yolo\"}],\"__op\":\"RemoveRelation\"}}"
+        let expected = "{\"previous\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"yolo\"}],\"__op\":\"RemoveRelation\"}}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))

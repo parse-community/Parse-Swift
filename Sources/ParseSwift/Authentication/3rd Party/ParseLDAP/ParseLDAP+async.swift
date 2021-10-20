@@ -20,7 +20,7 @@ public extension ParseLDAP {
      - returns: An instance of the logged in `ParseUser`.
      - throws: `ParseError`.
      */
-    func login(id: String, // swiftlint:disable:this identifier_name
+    func login(id: String,
                password: String,
                options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
@@ -59,7 +59,7 @@ public extension ParseLDAP {
      - returns: An instance of the logged in `ParseUser`.
      - throws: `ParseError`.
      */
-    func link(id: String, // swiftlint:disable:this identifier_name
+    func link(id: String,
               password: String,
               options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in

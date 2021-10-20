@@ -1,13 +1,15 @@
 coverage:
   ignore:
     - Tests/ParseSwiftTests/.*
+    - TestHost/*
+    - TestHostTV/*
   status:
     patch:
       default:
-        target: auto
+        target: 0
     changes: false
     project:
       default:
-        target: 76
+        target: 81
 comment:
   require_changes: true
