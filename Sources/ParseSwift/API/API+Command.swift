@@ -358,8 +358,10 @@ internal extension API.Command {
 
     // MARK: Saving ParseObjects - private
     private static func create<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
-        let mapper = { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
+        let mapper = { (data: Data) -> T in
+            let createResult = try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
+            JSONStorage.put(object: createResult)
+            return createResult
         }
         return API.Command<T, T>(method: .POST,
                                  path: object.endpoint(.POST),
@@ -368,8 +370,10 @@ internal extension API.Command {
     }
 
     private static func update<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
-        let mapper = { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
+        let mapper = { (data: Data) -> T in
+            let updateResult = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
+            JSONStorage.put(object: updateResult)
+            return updateResult
         }
         return API.Command<T, T>(method: .PUT,
                                  path: object.endpoint,
@@ -392,8 +396,10 @@ internal extension API.Command {
             method: .GET,
             path: object.endpoint,
             params: params
-        ) { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(T.self, from: data)
+        ) { (data: Data) -> T in
+            let fetchResult = try ParseCoding.jsonDecoder().decode(T.self, from: data)
+            JSONStorage.put(object: fetchResult)
+            return fetchResult
         }
     }
 }

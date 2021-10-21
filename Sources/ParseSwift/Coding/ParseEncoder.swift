@@ -125,12 +125,7 @@ public struct ParseEncoder {
     internal func encode<T: ParseObject>(_ value: T,
                                          objectsSavedBeforeThisOne: [String: PointerType]?,
                                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
-        let keysToSkip: Set<String>!
-        if !ParseSwift.configuration.allowCustomObjectId {
-            keysToSkip = SkipKeys.object.keys()
-        } else {
-            keysToSkip = SkipKeys.customObjectId.keys()
-        }
+        let keysToSkip: Set<String> = JSONStorage.getEncodedKeys(object: value)
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: keysToSkip)
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
@@ -147,12 +142,7 @@ public struct ParseEncoder {
                          collectChildren: Bool,
                          objectsSavedBeforeThisOne: [String: PointerType]?,
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
-        let keysToSkip: Set<String>!
-        if !ParseSwift.configuration.allowCustomObjectId {
-            keysToSkip = SkipKeys.object.keys()
-        } else {
-            keysToSkip = SkipKeys.customObjectId.keys()
-        }
+        let keysToSkip: Set<String> = JSONStorage.getEncodedKeys(object: value)
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: keysToSkip)
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy

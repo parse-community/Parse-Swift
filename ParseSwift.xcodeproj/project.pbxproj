@@ -17,6 +17,10 @@
 		4AB8B5051F254AE10070F682 /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		4AFDA72A1F26DAE1002AE4FC /* Parse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A82B7EE1F254B820063D731 /* Parse.swift */; };
 		4AFDA7391F26DAF8002AE4FC /* Parse.h in Headers */ = {isa = PBXBuildFile; fileRef = 4AB8B4F71F254AE10070F682 /* Parse.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		65E99B4127219B6900DBBF23 /* JSONStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E99B4027219B6900DBBF23 /* JSONStorage.swift */; };
+		65E99B4227219B6900DBBF23 /* JSONStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E99B4027219B6900DBBF23 /* JSONStorage.swift */; };
+		65E99B4327219B6900DBBF23 /* JSONStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E99B4027219B6900DBBF23 /* JSONStorage.swift */; };
+		65E99B4427219B6900DBBF23 /* JSONStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65E99B4027219B6900DBBF23 /* JSONStorage.swift */; };
 		7003957625A0EE770052CB31 /* BatchUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003957525A0EE770052CB31 /* BatchUtilsTests.swift */; };
 		7003957725A0EE770052CB31 /* BatchUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003957525A0EE770052CB31 /* BatchUtilsTests.swift */; };
 		7003957825A0EE770052CB31 /* BatchUtilsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7003957525A0EE770052CB31 /* BatchUtilsTests.swift */; };
@@ -782,6 +786,7 @@
 		4ACFC2E21F3CA21F0046F3A3 /* ParseSwift.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = ParseSwift.playground; sourceTree = "<group>"; };
 		4AFDA7121F26D9A5002AE4FC /* ParseSwift.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = ParseSwift.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4AFDA7151F26D9A5002AE4FC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		65E99B4027219B6900DBBF23 /* JSONStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONStorage.swift; sourceTree = "<group>"; };
 		7003957525A0EE770052CB31 /* BatchUtilsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatchUtilsTests.swift; sourceTree = "<group>"; };
 		7003959425A10DFC0052CB31 /* Messages.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Messages.swift; sourceTree = "<group>"; };
 		700395A225A119430052CB31 /* Operations.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Operations.swift; sourceTree = "<group>"; };
@@ -1562,6 +1567,7 @@
 				F97B465E24D9C7B500F4A88B /* KeychainStore.swift */,
 				70572670259033A700F0ADD5 /* ParseFileManager.swift */,
 				F97B45CC24D9C6F200F4A88B /* ParseStorage.swift */,
+				65E99B4027219B6900DBBF23 /* JSONStorage.swift */,
 				F97B45CD24D9C6F200F4A88B /* ParseKeyValueStore.swift */,
 				F97B466324D9C88600F4A88B /* SecureStorage.swift */,
 			);
@@ -2040,6 +2046,7 @@
 				703B08FD26BD953B005A112F /* ParseHealth+async.swift in Sources */,
 				7085DDA326CC8A470033B977 /* ParseHealth+combine.swift in Sources */,
 				F97B465224D9C78C00F4A88B /* AddUnique.swift in Sources */,
+				65E99B4127219B6900DBBF23 /* JSONStorage.swift in Sources */,
 				91B79AC826EE3C5D00073F2C /* API+BatchCommand.swift in Sources */,
 				91679D64268E596300F71809 /* ParseVersion.swift in Sources */,
 				91285B1C26990D7F0051B544 /* ParsePolygon.swift in Sources */,
@@ -2249,6 +2256,7 @@
 				703B08FE26BD953B005A112F /* ParseHealth+async.swift in Sources */,
 				7085DDA426CC8A470033B977 /* ParseHealth+combine.swift in Sources */,
 				F97B465324D9C78C00F4A88B /* AddUnique.swift in Sources */,
+				65E99B4227219B6900DBBF23 /* JSONStorage.swift in Sources */,
 				91B79AC926EE3C5D00073F2C /* API+BatchCommand.swift in Sources */,
 				91679D65268E596300F71809 /* ParseVersion.swift in Sources */,
 				91285B1D26990D7F0051B544 /* ParsePolygon.swift in Sources */,
@@ -2553,6 +2561,7 @@
 				703B090026BD953B005A112F /* ParseHealth+async.swift in Sources */,
 				7085DDA626CC8A470033B977 /* ParseHealth+combine.swift in Sources */,
 				F97B45E524D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
+				65E99B4427219B6900DBBF23 /* JSONStorage.swift in Sources */,
 				91B79ACB26EE3C5D00073F2C /* API+BatchCommand.swift in Sources */,
 				91679D67268E596300F71809 /* ParseVersion.swift in Sources */,
 				91285B1F26990D7F0051B544 /* ParsePolygon.swift in Sources */,
@@ -2676,6 +2685,7 @@
 				703B08FF26BD953B005A112F /* ParseHealth+async.swift in Sources */,
 				7085DDA526CC8A470033B977 /* ParseHealth+combine.swift in Sources */,
 				F97B45E424D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
+				65E99B4327219B6900DBBF23 /* JSONStorage.swift in Sources */,
 				91B79ACA26EE3C5D00073F2C /* API+BatchCommand.swift in Sources */,
 				91679D66268E596300F71809 /* ParseVersion.swift in Sources */,
 				91285B1E26990D7F0051B544 /* ParsePolygon.swift in Sources */,

@@ -1641,7 +1641,9 @@ extension Query {
     func findCommand() -> API.NonParseBodyCommand<Query<ResultType>, [ResultType]> {
         let query = self
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
-            try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+            let results = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results
+            JSONStorage.put(objects: results)
+            return results
         }
     }
 
@@ -1650,6 +1652,7 @@ extension Query {
         query.limit = 1
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
             if let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0).results.first {
+                JSONStorage.put(object: decoded)
                 return decoded
             }
             throw ParseError(code: .objectNotFound,
