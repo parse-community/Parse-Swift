@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 class ParseAnonymousAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct User: ParseUser {
 

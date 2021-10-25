@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.2...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.3...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.0.3
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.2...2.0.3)
+
+__Fixes__
+- Async/await methods should be available for watchOS 8+ ([#265](https://github.com/parse-community/Parse-Swift/pull/265)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.0.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.1...2.0.2)
