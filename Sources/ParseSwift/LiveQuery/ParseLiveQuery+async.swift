@@ -9,7 +9,7 @@
 #if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android)
 import Foundation
 
-@available(macOS 12.0, iOS 15.0, macCatalyst 15.0, watchOS 9.0, tvOS 15.0, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension ParseLiveQuery {
     // MARK: Async/Await
 
