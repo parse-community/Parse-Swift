@@ -28,10 +28,10 @@ struct User: ParseUser {
     var authData: [String: [String: String]?]?
 
     //: Your custom keys.
-    var customKey: String?
-    var score: GameScore?
-    var targetScore: GameScore?
-    var allScores: [GameScore]?
+	@NullableProperty var customKey: String?
+	@NullableProperty var score: GameScore?
+	@NullableProperty var targetScore: GameScore?
+	@NullableProperty var allScores: [GameScore]?
 
     /*:
      It's recommended the developer adds the emptyObject computed property or similar.
@@ -68,7 +68,7 @@ struct GameScore: ParseObject {
     var ACL: ParseACL?
 
     //: Your own properties.
-    var score: Int? = 0
+	@NullableProperty var score: Int? = 0
 }
 
 //: It's recommended to place custom initializers in an extension

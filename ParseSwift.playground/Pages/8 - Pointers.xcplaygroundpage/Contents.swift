@@ -23,7 +23,7 @@ struct Book: ParseObject {
     var relatedBook: Pointer<Book>?
 
     //: Your own properties.
-    var title: String?
+	@NullableProperty var title: String?
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -45,7 +45,7 @@ struct Author: ParseObject {
     //: Your own properties.
     var name: String
     var book: Book
-    var otherBooks: [Book]?
+	@NullableProperty var otherBooks: [Book]?
 
     init() {
         self.name = "hello"

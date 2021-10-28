@@ -23,7 +23,7 @@ struct GameScore: ParseObject {
     var location: ParseGeoPoint?
 
     //: Your own properties
-    var score: Int?
+	@NullableProperty var score: Int?
 }
 
 //: It's recommended to place custom initializers in an extension

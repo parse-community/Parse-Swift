@@ -34,7 +34,7 @@ struct Installation: ParseInstallation {
     var localeIdentifier: String?
 
     //: Your custom keys
-    var customKey: String?
+	@NullableProperty var customKey: String?
 
     /*:
      It's recommended the developer adds the emptyObject computed property or similar.

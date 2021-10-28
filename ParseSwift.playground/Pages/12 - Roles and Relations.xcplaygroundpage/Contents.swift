@@ -28,7 +28,7 @@ struct User: ParseUser {
     var authData: [String: [String: String]?]?
 
     //: Your custom keys.
-    var customKey: String?
+	@NullableProperty var customKey: String?
 }
 
 struct Role<RoleUser: ParseUser>: ParseRole {

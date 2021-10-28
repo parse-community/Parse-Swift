@@ -39,6 +39,9 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int = 0
+	
+	//: Optional custom properties need to be marked with @NullableProperty or setting properties to `nil` won't propagate to server
+	@NullableProperty var gameEndDate: Date?
 
     /*:
      It's recommended the developer adds the emptyObject computed property or similar.
@@ -76,10 +79,10 @@ struct GameData: ParseObject {
     var ACL: ParseACL?
 
     //: Your own properties.
-    var polygon: ParsePolygon?
+	@NullableProperty var polygon: ParsePolygon?
     //: `ParseBytes` needs to be a part of the original schema
     //: or else you will need your masterKey to force an upgrade.
-    var bytes: ParseBytes?
+	@NullableProperty var bytes: ParseBytes?
 }
 
 //: It's recommended to place custom initializers in an extension

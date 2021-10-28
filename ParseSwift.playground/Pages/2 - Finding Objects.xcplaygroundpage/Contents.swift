@@ -20,9 +20,9 @@ struct GameScore: ParseObject {
     var ACL: ParseACL?
 
     //: Your own properties.
-    var score: Int?
-    var timeStamp: Date? = Date()
-    var oldScore: Int?
+	@NullableProperty var score: Int?
+	@NullableProperty var timeStamp: Date? = Date()
+	@NullableProperty var oldScore: Int?
 }
 
 var score = GameScore()

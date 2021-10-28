@@ -18,8 +18,8 @@ struct Config: ParseConfig {
 
     //: If your server Config has any parameters their names and types should
     //: match your ParseCondig properties:
-    var welcomeMessage: String?
-    var winningNumber: Int?
+	@NullableProperty var welcomeMessage: String?
+	@NullableProperty var winningNumber: Int?
 }
 
 /*: Go to your Parse Dashboard and click `Config->Create a parameter`:

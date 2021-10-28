@@ -23,8 +23,8 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int = 0
-    var profilePicture: ParseFile?
-    var myData: ParseFile?
+	@NullableProperty var profilePicture: ParseFile?
+	@NullableProperty var myData: ParseFile?
 }
 
 //: It's recommended to place custom initializers in an extension

@@ -587,6 +587,10 @@
 		91F346C3269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */; };
 		91F346C4269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */; };
 		91F346C5269B88F7005727B6 /* ParseCloudViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */; };
+		98A7D7BC272AF07300F5F190 /* NullableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7D7BB272AF07300F5F190 /* NullableProperty.swift */; };
+		98A7D7BD272AF07300F5F190 /* NullableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7D7BB272AF07300F5F190 /* NullableProperty.swift */; };
+		98A7D7BE272AF07300F5F190 /* NullableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7D7BB272AF07300F5F190 /* NullableProperty.swift */; };
+		98A7D7BF272AF07300F5F190 /* NullableProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 98A7D7BB272AF07300F5F190 /* NullableProperty.swift */; };
 		F971F4F624DE381A006CB79B /* ParseEncoderExtraTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F971F4F524DE381A006CB79B /* ParseEncoderExtraTests.swift */; };
 		F97B45CE24D9C6F200F4A88B /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B424D9C6F200F4A88B /* ParseCoding.swift */; };
 		F97B45CF24D9C6F200F4A88B /* ParseCoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B424D9C6F200F4A88B /* ParseCoding.swift */; };
@@ -961,6 +965,7 @@
 		91F346B8269B766C005727B6 /* CloudViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudViewModel.swift; sourceTree = "<group>"; };
 		91F346BD269B77B5005727B6 /* CloudObservable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudObservable.swift; sourceTree = "<group>"; };
 		91F346C2269B88F7005727B6 /* ParseCloudViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseCloudViewModelTests.swift; sourceTree = "<group>"; };
+		98A7D7BB272AF07300F5F190 /* NullableProperty.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NullableProperty.swift; sourceTree = "<group>"; };
 		F971F4F524DE381A006CB79B /* ParseEncoderExtraTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseEncoderExtraTests.swift; sourceTree = "<group>"; };
 		F97B45B424D9C6F200F4A88B /* ParseCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCoding.swift; sourceTree = "<group>"; };
 		F97B45B524D9C6F200F4A88B /* AnyDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
@@ -1480,6 +1485,7 @@
 				F97B45B824D9C6F200F4A88B /* AnyCodable.swift */,
 				F97B45B524D9C6F200F4A88B /* AnyDecodable.swift */,
 				F97B45B924D9C6F200F4A88B /* AnyEncodable.swift */,
+				98A7D7BB272AF07300F5F190 /* NullableProperty.swift */,
 				F97B45B724D9C6F200F4A88B /* Extensions.swift */,
 				F97B45B424D9C6F200F4A88B /* ParseCoding.swift */,
 				F97B45B624D9C6F200F4A88B /* ParseEncoder.swift */,
@@ -2089,6 +2095,7 @@
 				70C5509225B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035225215F9B00646C70 /* Deletable.swift in Sources */,
 				F97B466424D9C88600F4A88B /* SecureStorage.swift in Sources */,
+				98A7D7BC272AF07300F5F190 /* NullableProperty.swift in Sources */,
 				7004C22025B63C7A005E0AD9 /* ParseRelation.swift in Sources */,
 				7003959525A10DFC0052CB31 /* Messages.swift in Sources */,
 				703B091126BD992E005A112F /* ParseOperation+async.swift in Sources */,
@@ -2298,6 +2305,7 @@
 				70C5509325B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035325215F9B00646C70 /* Deletable.swift in Sources */,
 				F97B466524D9C88600F4A88B /* SecureStorage.swift in Sources */,
+				98A7D7BD272AF07300F5F190 /* NullableProperty.swift in Sources */,
 				7004C22125B63C7A005E0AD9 /* ParseRelation.swift in Sources */,
 				7003959625A10DFC0052CB31 /* Messages.swift in Sources */,
 				703B091226BD992E005A112F /* ParseOperation+async.swift in Sources */,
@@ -2602,6 +2610,7 @@
 				70C5509525B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035525215F9B00646C70 /* Deletable.swift in Sources */,
 				70110D55250680140091CC1D /* ParseConstants.swift in Sources */,
+				98A7D7BF272AF07300F5F190 /* NullableProperty.swift in Sources */,
 				7004C22325B63C7A005E0AD9 /* ParseRelation.swift in Sources */,
 				7003959825A10DFC0052CB31 /* Messages.swift in Sources */,
 				703B091426BD992E005A112F /* ParseOperation+async.swift in Sources */,
@@ -2725,6 +2734,7 @@
 				70C5509425B4A99100B5DBC2 /* AddRelation.swift in Sources */,
 				708D035425215F9B00646C70 /* Deletable.swift in Sources */,
 				70110D54250680140091CC1D /* ParseConstants.swift in Sources */,
+				98A7D7BE272AF07300F5F190 /* NullableProperty.swift in Sources */,
 				7004C22225B63C7A005E0AD9 /* ParseRelation.swift in Sources */,
 				7003959725A10DFC0052CB31 /* Messages.swift in Sources */,
 				703B091326BD992E005A112F /* ParseOperation+async.swift in Sources */,
