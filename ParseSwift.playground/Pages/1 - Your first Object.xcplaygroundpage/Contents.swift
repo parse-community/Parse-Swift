@@ -39,8 +39,9 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int = 0
-	
-	//: Optional custom properties need to be marked with @NullableProperty or setting properties to `nil` won't propagate to server
+
+	//: Optional custom properties need to be marked with @NullableProperty or
+	// setting properties to `nil` won't propagate to server
 	@NullableProperty var gameEndDate: Date?
 
     /*:
