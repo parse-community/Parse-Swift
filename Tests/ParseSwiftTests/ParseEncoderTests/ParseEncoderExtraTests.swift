@@ -11,7 +11,7 @@ import XCTest
 
 class ParseEncoderTests: XCTestCase {
     struct GameScore: ParseObject {
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?

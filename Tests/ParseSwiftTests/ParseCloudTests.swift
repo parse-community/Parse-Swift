@@ -15,14 +15,14 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct Cloud: ParseCloud {
         typealias ReturnType = String? // swiftlint:disable:this nesting
 
-        // Those are required for Object
+        // These are required by ParseObject
         var functionJobName: String
     }
 
     struct Cloud2: ParseCloud {
         typealias ReturnType = String? // swiftlint:disable:this nesting
 
-        // Those are required for Object
+        // These are required by ParseObject
         var functionJobName: String
 
         // Your custom keys
@@ -32,7 +32,7 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct Cloud3: ParseCloud {
         typealias ReturnType = [String: String] // swiftlint:disable:this nesting
 
-        // Those are required for Object
+        // These are required by ParseObject
         var functionJobName: String
     }
 

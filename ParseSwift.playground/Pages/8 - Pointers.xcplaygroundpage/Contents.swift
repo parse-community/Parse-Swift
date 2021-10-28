@@ -15,7 +15,7 @@ initializeParse()
 
 //: Create your own value typed `ParseObject`.
 struct Book: ParseObject {
-    //: Those are required for Object
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
@@ -36,7 +36,7 @@ extension Book {
 }
 
 struct Author: ParseObject {
-    //: Those are required for Object.
+    //: These are required by ParseObject.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?

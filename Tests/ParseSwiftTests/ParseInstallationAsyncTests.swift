@@ -16,13 +16,13 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
 
     struct User: ParseUser {
 
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -41,7 +41,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         var updatedAt: Date?
         var ACL: ParseACL?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?

@@ -14,13 +14,13 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 struct User: ParseUser {
-    //: These are required for `ParseObject`.
+    //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    //: These are required for `ParseUser`.
+    //: These are required by `ParseUser`.
     var username: String?
     var email: String?
     var emailVerified: Bool?
@@ -61,7 +61,7 @@ extension User {
 
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
