@@ -311,20 +311,20 @@ extension ParseACL {
         aclController = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.defaultACL)
         #endif
 
-        if aclController != nil {
-            if !aclController!.useCurrentUser {
-                return aclController!.defaultACL
+        if let acl = aclController {
+            if !acl.useCurrentUser {
+                return acl.defaultACL
             } else {
                 guard let userObjectId = BaseParseUser.current?.objectId else {
-                    return aclController!.defaultACL
+                    return acl.defaultACL
                 }
 
-                guard let lastCurrentUserObjectId = aclController!.lastCurrentUserObjectId,
+                guard let lastCurrentUserObjectId = acl.lastCurrentUserObjectId,
                     userObjectId == lastCurrentUserObjectId else {
                     return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
                 }
 
-                return aclController!.defaultACL
+                return acl.defaultACL
             }
         }
 
@@ -374,8 +374,8 @@ extension ParseACL {
         }
 
         let aclController: DefaultACL!
-        if modifiedACL != nil {
-            aclController = DefaultACL(defaultACL: modifiedACL!,
+        if let modified = modifiedACL {
+            aclController = DefaultACL(defaultACL: modified,
                                        lastCurrentUserObjectId: currentUserObjectId,
                                        useCurrentUser: withAccessForCurrentUser)
         } else {

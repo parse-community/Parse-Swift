@@ -98,8 +98,8 @@ struct CurrentUserContainer<T: ParseUser>: Codable {
 }
 
 // MARK: Current User Support
-extension ParseUser {
-    static var currentContainer: CurrentUserContainer<Self>? {
+public extension ParseUser {
+    internal static var currentContainer: CurrentUserContainer<Self>? {
         get {
             guard let currentUserInMemory: CurrentUserContainer<Self>
                 = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
@@ -137,7 +137,7 @@ extension ParseUser {
      - returns: Returns a `ParseUser` that is the currently logged in user. If there is none, returns `nil`.
      - warning: Only use `current` users on the main thread as as modifications to `current` have to be unique.
     */
-    public static var current: Self? {
+    internal(set) static var current: Self? {
         get { Self.currentContainer?.currentUser }
         set {
             Self.currentContainer?.currentUser = newValue
@@ -149,7 +149,7 @@ extension ParseUser {
 
      This is set by the server upon successful authentication.
     */
-    public var sessionToken: String? {
+    var sessionToken: String? {
         Self.currentContainer?.sessionToken
     }
 }

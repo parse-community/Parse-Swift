@@ -119,9 +119,9 @@ struct CurrentConfigContainer<T: ParseConfig>: Codable {
     var currentConfig: T?
 }
 
-extension ParseConfig {
+public extension ParseConfig {
 
-    static var currentContainer: CurrentConfigContainer<Self>? {
+    internal static var currentContainer: CurrentConfigContainer<Self>? {
         get {
             guard let configInMemory: CurrentConfigContainer<Self> =
                 try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
@@ -165,7 +165,7 @@ extension ParseConfig {
 
      - returns: Returns the latest `ParseConfig` on this device. If there is none, returns `nil`.
     */
-    public static var current: Self? {
+    internal(set) static var current: Self? {
         get {
             return Self.currentContainer?.currentConfig
         }
