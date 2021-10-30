@@ -14,13 +14,13 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 struct Installation: ParseInstallation {
-    //: These are required for `ParseObject`.
+    //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
 
-    //: These are required for `ParseInstallation`.
+    //: These are required by `ParseInstallation`.
     var installationId: String?
     var deviceType: String?
     var deviceToken: String?

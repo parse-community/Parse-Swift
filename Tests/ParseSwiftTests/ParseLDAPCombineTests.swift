@@ -17,13 +17,13 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     struct User: ParseUser {
 
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
@@ -39,7 +39,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         var updatedAt: Date?
         var ACL: ParseACL?
 
-        // provided by User
+        // These are required by ParseUser
         var username: String?
         var email: String?
         var emailVerified: Bool?
