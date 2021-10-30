@@ -13,7 +13,7 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-struct User: ParseUser {
+struct User: ParseUser, Updatable {
     //: These are required for `ParseObject`.
     var objectId: String?
     var createdAt: Date?
@@ -32,20 +32,6 @@ struct User: ParseUser {
     var score: GameScore?
     var targetScore: GameScore?
     var allScores: [GameScore]?
-
-    /*:
-     It's recommended the developer adds the emptyObject computed property or similar.
-     Gets an empty version of the respective object. This can be used when you only need to update a
-     a subset of the fields of an object as oppose to updating every field of an object. Using an
-     empty object and updating a subset of the fields reduces the amount of data sent between
-     client and server when using `save` and `saveAll` to update objects.
-    */
-    var emptyObject: Self {
-        var object = Self()
-        object.objectId = objectId
-        object.createdAt = createdAt
-        return object
-    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -117,10 +103,10 @@ User.login(username: "hello", password: "world") { result in
     Asynchrounously - Performs work on background
     queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
-    Using `emptyObject` allows you to only send the updated keys to the
+    Using `updatable` allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
-var currentUser = User.current?.emptyObject
+var currentUser = User.current?.updatable
 currentUser?.customKey = "myCustom"
 currentUser?.score = GameScore(score: 12)
 currentUser?.targetScore = GameScore(score: 100)
@@ -224,7 +210,7 @@ User.anonymous.login { result in
 }
 
 //: Convert the anonymous user to a real new user.
-var currentUser2 = User.current?.emptyObject
+var currentUser2 = User.current?.updatable
 currentUser2?.username = "bye"
 currentUser2?.password = "world"
 currentUser2?.signup { result in

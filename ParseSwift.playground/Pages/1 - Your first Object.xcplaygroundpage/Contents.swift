@@ -30,7 +30,7 @@ do {
 }
 
 //: Create your own value typed `ParseObject`.
-struct GameScore: ParseObject {
+struct GameScore: ParseObject, Updatable {
     //: Those are required for Object
     var objectId: String?
     var createdAt: Date?
@@ -39,20 +39,6 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var score: Int = 0
-
-    /*:
-     It's recommended the developer adds the emptyObject computed property or similar.
-     Gets an empty version of the respective object. This can be used when you only need to update a
-     a subset of the fields of an object as oppose to updating every field of an object. Using an
-     empty object and updating a subset of the fields reduces the amount of data sent between
-     client and server when using `save` and `saveAll` to update objects.
-    */
-    var emptyObject: Self {
-        var object = Self()
-        object.objectId = objectId
-        object.createdAt = createdAt
-        return object
-    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -110,11 +96,11 @@ score.save { result in
         assert(savedScore.score == 10)
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable. Using `emptyObject`
+            was initialized as immutable. Using `updatable`
             allows you to only send the updated keys to the
             parse server as opposed to the whole object.
         */
-        var changedScore = savedScore.emptyObject
+        var changedScore = savedScore.updatable
         changedScore.score = 200
         changedScore.save { result in
             switch result {
@@ -202,11 +188,11 @@ assert(savedScore?.updatedAt != nil)
 assert(savedScore?.score == 10)
 
 /*:  To modify, need to make it a var as the value type
-    was initialized as immutable. Using `emptyObject`
+    was initialized as immutable. Using `updatable`
     allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
-guard var changedScore = savedScore?.emptyObject else {
+guard var changedScore = savedScore?.updatable else {
     fatalError()
 }
 changedScore.score = 200

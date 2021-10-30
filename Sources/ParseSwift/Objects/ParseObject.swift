@@ -16,19 +16,6 @@ import Foundation
  If you are using value types the the compiler will assist you with conforming to `ParseObject` protocol. If you
  are thinking of using reference types, see the warning.
 
- It's recommended the developer adds the emptyObject computed property or similar.
- Gets an empty version of the respective object. This can be used when you only need to update a
- a subset of the fields of an object as oppose to updating every field of an object. Using an empty object and updating
- a subset of the fields reduces the amount of data sent between client and server when using `save` and `saveAll`
- to update objects. You should add the following properties in your `ParseObject`'s:
-
-     var emptyObject: Self {
-         var object = Self()
-         object.objectId = objectId
-         object.createdAt = createdAt
-         return object
-     }
-
  - important: It is recommended that all added properties be optional properties so they can eventually be used as
  Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
  create methods to check the respective properties on the client-side before saving objects. See
