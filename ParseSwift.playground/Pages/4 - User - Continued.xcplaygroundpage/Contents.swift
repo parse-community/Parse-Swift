@@ -13,7 +13,7 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-struct User: ParseUser, Updatable {
+struct User: ParseUserMutable {
     //: These are required for `ParseObject`.
     var objectId: String?
     var createdAt: Date?
@@ -103,10 +103,10 @@ User.login(username: "hello", password: "world") { result in
     Asynchrounously - Performs work on background
     queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
-    Using `updatable` allows you to only send the updated keys to the
+    Using `mutable` allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
-var currentUser = User.current?.updatable
+var currentUser = User.current?.mutable
 currentUser?.customKey = "myCustom"
 currentUser?.score = GameScore(score: 12)
 currentUser?.targetScore = GameScore(score: 100)
@@ -210,7 +210,7 @@ User.anonymous.login { result in
 }
 
 //: Convert the anonymous user to a real new user.
-var currentUser2 = User.current?.updatable
+var currentUser2 = User.current?.mutable
 currentUser2?.username = "bye"
 currentUser2?.password = "world"
 currentUser2?.signup { result in

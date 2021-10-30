@@ -2,6 +2,10 @@
 
 ### main
 
+__Improvements__
+ - Added the ParseObjectMutable protocol to make emptyObject more developer friendly ([#270](https://github.com/parse-community/Parse-Swift/pull/270)), thanks to [Damian Van de Kauter](https://github.com/novemTeam).
+
+
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.3...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 

@@ -21,7 +21,7 @@ npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey -
 initializeParseCustomObjectId()
 
 //: Create your own value typed `ParseObject`.
-struct GameScore: ParseObject, Updatable {
+struct GameScore: ParseObjectMutable {
     //: Those are required for Object
     var objectId: String?
     var createdAt: Date?
@@ -68,11 +68,11 @@ score.save { result in
         print("Saved score: \(savedScore)")
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable. Using `updatable`
+            was initialized as immutable. Using `mutable`
             allows you to only send the updated keys to the
             parse server as opposed to the whole object.
         */
-        var changedScore = savedScore.updatable
+        var changedScore = savedScore.mutable
         changedScore.score = 200
         changedScore.save { result in
             switch result {

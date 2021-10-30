@@ -30,7 +30,7 @@ do {
 }
 
 //: Create your own value typed `ParseObject`.
-struct GameScore: ParseObject, Updatable {
+struct GameScore: ParseObjectMutable {
     //: Those are required for Object
     var objectId: String?
     var createdAt: Date?
@@ -96,11 +96,11 @@ score.save { result in
         assert(savedScore.score == 10)
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable. Using `updatable`
+            was initialized as immutable. Using `mutable`
             allows you to only send the updated keys to the
             parse server as opposed to the whole object.
         */
-        var changedScore = savedScore.updatable
+        var changedScore = savedScore.mutable
         changedScore.score = 200
         changedScore.save { result in
             switch result {
@@ -188,11 +188,11 @@ assert(savedScore?.updatedAt != nil)
 assert(savedScore?.score == 10)
 
 /*:  To modify, need to make it a var as the value type
-    was initialized as immutable. Using `updatable`
+    was initialized as immutable. Using `mutable`
     allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
-guard var changedScore = savedScore?.updatable else {
+guard var changedScore = savedScore?.mutable else {
     fatalError()
 }
 changedScore.score = 200

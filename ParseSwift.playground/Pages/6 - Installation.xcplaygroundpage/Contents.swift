@@ -13,7 +13,7 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-struct Installation: ParseInstallation, Updatable {
+struct Installation: ParseInstallationMutable {
     //: These are required for `ParseObject`.
     var objectId: String?
     var createdAt: Date?
@@ -57,11 +57,11 @@ currentInstallation?.save { results in
 /*: Update your `ParseInstallation` `customKey` value.
     Performs work on background queue and returns to designated on
     designated callbackQueue. If no callbackQueue is specified it
-    returns to main queue. Using `updatable` allows you to only
+    returns to main queue. Using `mutable` allows you to only
     send the updated keys to the parse server as opposed to the
     whole object.
  */
-currentInstallation = currentInstallation?.updatable
+currentInstallation = currentInstallation?.mutable
 currentInstallation?.customKey = "updatedValue"
 currentInstallation?.save { results in
 

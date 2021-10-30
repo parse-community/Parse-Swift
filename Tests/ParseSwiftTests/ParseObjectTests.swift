@@ -27,7 +27,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    struct GameScore: ParseObject {
+    struct GameScore: ParseObjectMutable {
         //: Those are required for Object
         var objectId: String?
         var createdAt: Date?
@@ -54,19 +54,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         init(score: Int, name: String) {
             self.score = score
             self.player = name
-        }
-
-        /**
-         Gets an empty version of the respective object. This can be used when you only need to update a
-         a subset of the fields of an object as oppose to updating every field of an object.
-         - note: Using an empty object and updating a subset of the fields reduces the amount of data sent between
-         client and server when using `save` and `saveAll` to update objects.
-        */
-        var emptyObject: Self {
-            var object = Self()
-            object.objectId = objectId
-            object.createdAt = createdAt
-            return object
         }
     }
 
@@ -253,11 +240,11 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation2], timeout: 20.0)
     }
 
-    func testEmptyObject() throws {
+    func testParseObjectMutable() throws {
         var score = GameScore(score: 19, name: "fire")
         score.objectId = "yolo"
         score.createdAt = Date()
-        let empty = score.emptyObject
+        let empty = score.mutable
         XCTAssertTrue(score.hasSameObjectId(as: empty))
         XCTAssertEqual(score.createdAt, empty.createdAt)
     }
@@ -583,7 +570,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(decoded, expected)
     }
 
-    func testUpdateCommandEmptyObject() throws {
+    func testUpdateCommandParseObjectMutable() throws {
         var score = GameScore(score: 10)
         let className = score.className
         let objectId = "yarr"
@@ -591,7 +578,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         score.createdAt = Date()
         score.updatedAt = score.createdAt
 
-        let command = try score.emptyObject.saveCommand()
+        let command = try score.mutable.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
@@ -610,7 +597,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
 
-        var empty = score.emptyObject
+        var empty = score.mutable
         empty.player = "Jennifer"
         let command2 = try empty.saveCommand()
         guard let body2 = command2.body else {
