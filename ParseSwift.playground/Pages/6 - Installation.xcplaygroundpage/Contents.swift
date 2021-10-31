@@ -13,7 +13,7 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-struct Installation: ParseInstallation {
+struct Installation: ParseInstallation, ParseObjectMutable {
     //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
@@ -35,20 +35,6 @@ struct Installation: ParseInstallation {
 
     //: Your custom keys
     var customKey: String?
-
-    /*:
-     It's recommended the developer adds the emptyObject computed property or similar.
-     Gets an empty version of the respective object. This can be used when you only need to update a
-     a subset of the fields of an object as oppose to updating every field of an object. Using an
-     empty object and updating a subset of the fields reduces the amount of data sent between
-     client and server when using `save` and `saveAll` to update objects.
-    */
-    var emptyObject: Self {
-        var object = Self()
-        object.objectId = objectId
-        object.createdAt = createdAt
-        return object
-    }
 }
 
 /*: Save your first `customKey` value to your `ParseInstallation`.
@@ -71,11 +57,11 @@ currentInstallation?.save { results in
 /*: Update your `ParseInstallation` `customKey` value.
     Performs work on background queue and returns to designated on
     designated callbackQueue. If no callbackQueue is specified it
-    returns to main queue. Using `emptyObject` allows you to only
+    returns to main queue. Using `mutable` allows you to only
     send the updated keys to the parse server as opposed to the
     whole object.
  */
-currentInstallation = currentInstallation?.emptyObject
+currentInstallation = currentInstallation?.mutable
 currentInstallation?.customKey = "updatedValue"
 currentInstallation?.save { results in
 
