@@ -16,7 +16,7 @@ import Foundation
  If you are using value types the the compiler will assist you with conforming to `ParseObject` protocol. If you
  are thinking of using reference types, see the warning.
 
- It's recommended the developer uses the ParseObjectMutable protocol.
+ It's recommended the developer conforms to the `ParseObjectMutable` protocol.
  Gets an empty version of the respective object. This can be used when you only need to update a
  a subset of the fields of an object as oppose to updating every field of an object. Using an empty object and updating
  a subset of the fields reduces the amount of data sent between client and server when using `save` and `saveAll`

@@ -421,11 +421,11 @@ public extension Error {
      Returns the respective `ParseError` if the given `ParseError` code is equal to the error.
      
     **Example use case:**
-    ~~~
+    ````
     if let parseError = error.equalsTo(.objectNotFound)  {
         print(parseError.description)
     }
-    ~~~
+    ````
      - parameter errorCode: A `ParseError` code to compare to.
      
      - returns: Returns the `ParseError` with respect to the `Error`. If the error is not a `ParseError`, returns nil.
@@ -442,11 +442,11 @@ public extension Error {
      Validates if the given `ParseError` code is equal to the error.
      
     **Example use case:**
-    ~~~
+    ````
     if error.equalsTo(.objectNotFound)  {
         //Do stuff
     }
-    ~~~
+    ````
      - parameter errorCode: A `ParseError` code to compare to.
      
      - returns: A boolean indicating whether or not the `Error` is the `errorCode`.
@@ -462,11 +462,11 @@ public extension Error {
      Returns the respective `ParseError` if the `Error` is contained in the array of `ParseError` codes.
      
     **Example use case:**
-    ~~~
+    ````
     if let parseError = error.containedIn([.objectNotFound, .invalidQuery])  {
         print(parseError.description)
     }
-    ~~~
+    ````
      - parameter errorCodes: An array of zero or more of `ParseError` codes to compare to.
      
      - returns: Returns the `ParseError` with respect to the `Error`. If the error is not a `ParseError`, returns nil.
@@ -483,11 +483,11 @@ public extension Error {
      Returns the respective `ParseError` if the `Error` is contained in the list of `ParseError` codes.
      
     **Example use case:**
-    ~~~
+    ````
     if let parseError = error.containedIn(.objectNotFound, .invalidQuery)  {
         print(parseError.description)
     }
-    ~~~
+    ````
      - parameter errorCodes: A variadic amount of zero or more of `ParseError` codes to compare to.
      
      - returns: Returns the `ParseError` with respect to the `Error`. If the error is not a `ParseError`, returns nil.
@@ -500,11 +500,11 @@ public extension Error {
      Validates if the given `ParseError` codes contains the error.
      
     **Example use case:**
-    ~~~
+    ````
     if error.containedIn([.objectNotFound, .invalidQuery])  {
         //Do stuff
     }
-    ~~~
+    ````
      - parameter errorCodes: An array of zero or more of `ParseError` codes to compare to.
      
      - returns: A boolean indicating whether or not the `Error` is contained in the `errorCodes`.
@@ -520,11 +520,11 @@ public extension Error {
      Validates if the given `ParseError` codes contains the error.
      
     **Example use case:**
-    ~~~
+    ````
     if error.containedIn(.objectNotFound, .invalidQuery)  {
         //Do stuff
     }
-    ~~~
+    ````
      - parameter errorCodes: A variadic amount of zero or more of `ParseError` codes to compare to.
      
      - returns: A boolean indicating whether or not the `Error` is contained in the `errorCodes`.
