@@ -2,12 +2,16 @@
 
 ### main
 
-__Improvements__
- - Added the ParseObjectMutable protocol to make emptyObject more developer friendly ([#270](https://github.com/parse-community/Parse-Swift/pull/270)), thanks to [Damian Van de Kauter](https://github.com/novemTeam).
-
-
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.3...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.1.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.1.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.3...2.1.0)
+
+__Improvements__
+- Make ParseUser.current, ParseInstallation.current, ParseConfig.current immutable. This prevents accidently setting to nil. When developers want to make changes, they should make mutable copies, mutate, then save ([#266](https://github.com/parse-community/Parse-Swift/pull/266)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added the ParseObjectMutable protocol to make emptyObject more developer friendly ([#270](https://github.com/parse-community/Parse-Swift/pull/270)), thanks to [Damian Van de Kauter](https://github.com/novemTeam).
+
 
 ### 2.0.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.2...2.0.3)

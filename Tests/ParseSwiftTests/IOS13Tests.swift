@@ -25,7 +25,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct GameScore: ParseObject {
 
-        //: Those are required for Object
+        //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?

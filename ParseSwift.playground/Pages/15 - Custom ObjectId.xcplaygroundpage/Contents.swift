@@ -21,8 +21,8 @@ npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey -
 initializeParseCustomObjectId()
 
 //: Create your own value typed `ParseObject`.
-struct GameScore: ParseObjectMutable {
-    //: Those are required for Object
+struct GameScore: ParseObject, ParseObjectMutable {
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?

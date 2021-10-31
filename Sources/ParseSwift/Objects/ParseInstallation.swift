@@ -123,8 +123,8 @@ struct CurrentInstallationContainer<T: ParseInstallation>: Codable {
 }
 
 // MARK: Current Installation Support
-extension ParseInstallation {
-    static var currentContainer: CurrentInstallationContainer<Self> {
+public extension ParseInstallation {
+    internal static var currentContainer: CurrentInstallationContainer<Self> {
         get {
             guard let installationInMemory: CurrentInstallationContainer<Self> =
                     try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
@@ -210,7 +210,7 @@ extension ParseInstallation {
 
      - returns: Returns a `ParseInstallation` that is the current device. If there is none, returns `nil`.
     */
-    public static var current: Self? {
+    internal(set) static var current: Self? {
         get {
             return Self.currentContainer.currentInstallation
         }

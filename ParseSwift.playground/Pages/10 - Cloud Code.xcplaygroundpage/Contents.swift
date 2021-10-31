@@ -19,7 +19,7 @@ struct Cloud: ParseCloud {
     //: Return type of your Cloud Function
     typealias ReturnType = String
 
-    //: These are required for Object
+    //: These are required by `ParseCloud`
     var functionJobName: String
 
     //: If your cloud function takes arguments, they can be passed by creating properties:
@@ -86,7 +86,7 @@ cloudError.runFunction { result in
 //: Saving objects with context for beforeSave, afterSave, etc.
 //: Create your own value typed `ParseObject`.
 struct GameScore: ParseObject {
-    //: Those are required for Object
+    //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?

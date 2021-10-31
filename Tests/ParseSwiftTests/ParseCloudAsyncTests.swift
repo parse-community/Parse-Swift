@@ -16,7 +16,7 @@ class ParseCloudAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     struct Cloud: ParseCloud {
         typealias ReturnType = String? // swiftlint:disable:this nesting
 
-        // Those are required for Object
+        // These are required by ParseObject
         var functionJobName: String
     }
 
