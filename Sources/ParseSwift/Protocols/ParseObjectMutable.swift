@@ -9,15 +9,36 @@
 import Foundation
 
 /**
- The `ParseObjectMutable` protocol adds an empty version of the respective object.
+ The `ParseObjectMutable` protocol creates an empty copy of the respective object.
  This can be used when you only need to update a subset of the fields of an object
  as oppose to updating every field of an object.
- Using an empty object and updating a subset of the fields reduces the amount of data
+ Using the mutable copy and updating a subset of the fields reduces the amount of data
  sent between client and server when using `save` and `saveAll`
  to update objects.
  
- **Example use case:**
+ **Example use case for User:**
  ````
+ struct User: ParseUser, ParseObjectMutable {
+     //: These are required by `ParseObject`.
+     var objectId: String?
+     var createdAt: Date?
+     var updatedAt: Date?
+     var ACL: ParseACL?
+
+     //: These are required by `ParseUser`.
+     var username: String?
+     var email: String?
+     var emailVerified: Bool?
+     var password: String?
+     var authData: [String: [String: String]?]?
+
+     //: Your custom keys.
+     var customKey: String?
+     var score: GameScore?
+     var targetScore: GameScore?
+     var allScores: [GameScore]?
+ }
+ 
  var user = User.current?.mutable
  user?.customKey = "newValue"
 
@@ -27,19 +48,56 @@ import Foundation
      // Handle error
  }
  ````
+ 
+ **Example use case for GameScore:**
+ ````
+ struct GameScore: ParseObject, ParseObjectMutable {
+     //: These are required by ParseObject
+     var objectId: String?
+     var createdAt: Date?
+     var updatedAt: Date?
+     var ACL: ParseACL?
+
+     //: Your own properties.
+     var score: Int = 0
+ }
+ 
+ let score = GameScore(score: 10)
+ 
+ score.save { result in
+     switch result {
+     case .success(let savedScore): 
+         var changedScore = savedScore.mutable
+         changedScore.score = 200
+         changedScore.save { result in
+             switch result {
+             case .success(let savedChangedScore):
+                 print("Successfully saved: \(savedChangedScore)")
+
+             case .failure(let error):
+                 assertionFailure("Error saving: \(error)")
+             }
+         }
+     case .failure(let error):
+         assertionFailure("Error saving: \(error)")
+     }
+ }
+ ````
 
  - warning: Using the `ParseObjectMutable` protocol requires the developer to
- use an **init()** without declaring custom properties.
- You can still use non-optional properties if you add them to your **init()** method and give them a default value.
- If you need a custom **init()**, you can't use the `ParseObjectMutable` protocol.
+ initialize all of the `ParseObject` properties. This can be accomplished by making all properties
+ optional or setting default values for non-optional properties.
+ This also allows your objects to be used as Parse `Pointer`‘s.
+ It's recommended to place custom initializers in an extension
+ to preserve the convenience initializer.
 */
 public protocol ParseObjectMutable: ParseObject {
     init()
 
     /**
-     An empty version of the respective object that allows you to update a
+     An empty copy of the respective object that allows you to update a
      a subset of the fields of an object as oppose to updating every field of an object.
-     - note: You need to use this to create a mutable copy of your `ParseObject`.
+     - note: It is recommended to use this to create a mutable copy of your `ParseObject`.
     */
     var mutable: Self { get }
 }
