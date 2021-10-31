@@ -16,7 +16,7 @@ import Foundation
  sent between client and server when using `save` and `saveAll`
  to update objects.
  
- **Example use case for User:**
+ **Example use case for `ParseUser`:**
  ````
  struct User: ParseUser, ParseObjectMutable {
      //: These are required by `ParseObject`.
@@ -49,7 +49,7 @@ import Foundation
  }
  ````
  
- **Example use case for GameScore:**
+ **Example use case for a general `ParseObject`:**
  ````
  struct GameScore: ParseObject, ParseObjectMutable {
      //: These are required by ParseObject
@@ -61,26 +61,26 @@ import Foundation
      //: Your own properties.
      var score: Int = 0
  }
- 
- let score = GameScore(score: 10)
- 
- score.save { result in
-     switch result {
-     case .success(let savedScore): 
-         var changedScore = savedScore.mutable
-         changedScore.score = 200
-         changedScore.save { result in
-             switch result {
-             case .success(let savedChangedScore):
-                 print("Successfully saved: \(savedChangedScore)")
-
-             case .failure(let error):
-                 assertionFailure("Error saving: \(error)")
-             }
-         }
-     case .failure(let error):
-         assertionFailure("Error saving: \(error)")
+ //: It's recommended to place custom initializers in an extension
+ //: to preserve the convenience initializer.
+ extension GameScore {
+   
+     init(score: Int) {
+         self.score = score
      }
+   
+     init(objectId: String?) {
+         self.objectId = objectId
+     }
+ }
+ 
+ var newScore = GameScore(score: 10).mutable
+ newScore.score = 200
+ 
+ do {
+     try await newScore.save()
+ } catch {
+     // Handle error
  }
  ````
 
