@@ -21,9 +21,9 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ParseSwift 2.0.3 Docs
+          ParseSwift 2.1.0 Docs
         </a>
-         (96% documented)
+         (95% documented)
       </p>
     
       <div class="header-col--secondary">
@@ -236,6 +236,9 @@
                 <a class="nav-group-task-link" href="Protocols/ParseObject.html">ParseObject</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Protocols/ParseObjectMutable.html">ParseObjectMutable</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Protocols/ParseRole.html">ParseRole</a>
               </li>
               <li class="nav-group-task">
@@ -441,22 +444,15 @@ This is the main protocol that is used to interact with objects in your app.</p>
 If you are using value types the the compiler will assist you with conforming to <code>ParseObject</code> protocol. If you
 are thinking of using reference types, see the warning.</p>
 
-<p>It&rsquo;s recommended the developer adds the emptyObject computed property or similar.
+<p>It&rsquo;s recommended the developer conforms to the <code><a href="Protocols/ParseObjectMutable.html">ParseObjectMutable</a></code> protocol.
 Gets an empty version of the respective object. This can be used when you only need to update a
 a subset of the fields of an object as oppose to updating every field of an object. Using an empty object and updating
 a subset of the fields reduces the amount of data sent between client and server when using <code>save</code> and <code>saveAll</code>
-to update objects. You should add the following properties in your <code>ParseObject</code>&lsquo;s:</p>
-<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">emptyObject</span><span class="p">:</span> <span class="k">Self</span> <span class="p">{</span>
-    <span class="k">var</span> <span class="nv">object</span> <span class="o">=</span> <span class="kt">Self</span><span class="p">()</span>
-    <span class="n">object</span><span class="o">.</span><span class="n">objectId</span> <span class="o">=</span> <span class="n">objectId</span>
-    <span class="n">object</span><span class="o">.</span><span class="n">createdAt</span> <span class="o">=</span> <span class="n">createdAt</span>
-    <span class="k">return</span> <span class="n">object</span>
-<span class="p">}</span>
-</code></pre>
+to update objects.</p>
 <div class="aside aside-important">
     <p class="aside-title">Important</p>
     It is recommended that all added properties be optional properties so they can eventually be used as
-Parse <code><a href="Structs/Pointer.html">Pointer</a></code>&rsquo;s. If a developer really wants to have a required key, they should require it on the server-side or
+Parse <code><a href="Structs/Pointer.html">Pointer</a></code>&lsquo;s. If a developer really wants to have a required key, they should require it on the server-side or
 create methods to check the respective properties on the client-side before saving objects. See
 <a href="https://github.com/parse-community/Parse-Swift/issues/157#issuecomment-858671025">here</a>
 for more information.
@@ -739,6 +735,115 @@ You can use this protocol on any custom class of yours, instead of <code><a href
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift0A13ObjectMutableP"></a>
+                    <a name="//apple_ref/swift/Protocol/ParseObjectMutable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A13ObjectMutableP">ParseObjectMutable</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>The <code>ParseObjectMutable</code> protocol creates an empty copy of the respective object.
+This can be used when you only need to update a subset of the fields of an object
+as oppose to updating every field of an object.
+Using the mutable copy and updating a subset of the fields reduces the amount of data
+sent between client and server when using <code>save</code> and <code>saveAll</code>
+to update objects.</p>
+
+<p><strong>Example use case for <code><a href="Protocols/ParseUser.html">ParseUser</a></code>:</strong></p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">User</span><span class="p">:</span> <span class="kt">ParseUser</span><span class="p">,</span> <span class="kt">ParseObjectMutable</span> <span class="p">{</span>
+    <span class="c1">//: These are required by `ParseObject`.</span>
+    <span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">createdAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">updatedAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">ACL</span><span class="p">:</span> <span class="kt">ParseACL</span><span class="p">?</span>
+
+    <span class="c1">//: These are required by `ParseUser`.</span>
+    <span class="k">var</span> <span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">emailVerified</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]?]?</span>
+
+    <span class="c1">//: Your custom keys.</span>
+    <span class="k">var</span> <span class="nv">customKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">score</span><span class="p">:</span> <span class="kt">GameScore</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">targetScore</span><span class="p">:</span> <span class="kt">GameScore</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">allScores</span><span class="p">:</span> <span class="p">[</span><span class="kt">GameScore</span><span class="p">]?</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="nv">user</span> <span class="o">=</span> <span class="kt">User</span><span class="o">.</span><span class="n">current</span><span class="p">?</span><span class="o">.</span><span class="n">mutable</span>
+<span class="n">user</span><span class="p">?</span><span class="o">.</span><span class="n">customKey</span> <span class="o">=</span> <span class="s">"newValue"</span>
+
+<span class="k">do</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="k">await</span> <span class="n">user</span><span class="p">?</span><span class="o">.</span><span class="nf">save</span><span class="p">()</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c1">// Handle error</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><strong>Example use case for a general <code><a href="Protocols/ParseObject.html">ParseObject</a></code>:</strong></p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">GameScore</span><span class="p">:</span> <span class="kt">ParseObject</span><span class="p">,</span> <span class="kt">ParseObjectMutable</span> <span class="p">{</span>
+    <span class="c1">//: These are required by ParseObject</span>
+    <span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">createdAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">updatedAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">ACL</span><span class="p">:</span> <span class="kt">ParseACL</span><span class="p">?</span>
+
+    <span class="c1">//: Your own properties.</span>
+    <span class="k">var</span> <span class="nv">score</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">}</span>
+<span class="c1">//: It's recommended to place custom initializers in an extension</span>
+<span class="c1">//: to preserve the convenience initializer.</span>
+<span class="kd">extension</span> <span class="kt">GameScore</span> <span class="p">{</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">score</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
+    <span class="p">}</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">objectId</span> <span class="o">=</span> <span class="n">objectId</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="nv">newScore</span> <span class="o">=</span> <span class="kt">GameScore</span><span class="p">(</span><span class="nv">score</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">mutable</span>
+<span class="n">newScore</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="k">do</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="k">await</span> <span class="n">newScore</span><span class="o">.</span><span class="nf">save</span><span class="p">()</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c1">// Handle error</span>
+<span class="p">}</span>
+</code></pre>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Using the <code>ParseObjectMutable</code> protocol requires the developer to
+initialize all of the <code><a href="Protocols/ParseObject.html">ParseObject</a></code> properties. This can be accomplished by making all properties
+optional or setting default values for non-optional properties.
+This also allows your objects to be used as Parse <code><a href="Structs/Pointer.html">Pointer</a></code>‘s.
+It&rsquo;s recommended to place custom initializers in an extension
+to preserve the convenience initializer.
+
+</div>
+
+                        <a href="Protocols/ParseObjectMutable.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseObjectMutable</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift15QueryObservableP"></a>
                     <a name="//apple_ref/swift/Protocol/QueryObservable" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift15QueryObservableP">QueryObservable</a>
@@ -865,7 +970,7 @@ the server.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-10-25)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-10-31)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

@@ -204,6 +204,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/ParseObjectMutable.swift",
+      "line": 95,
+      "symbol": "ParseObjectMutable.init()",
+      "symbol_kind": "source.lang.swift.decl.function.method.instance",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/ParseType.swift",
       "line": 11,
       "symbol": "ParseType",

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <title>Objectable Protocol Reference</title>
+    <title>ParseObjectMutable Protocol Reference</title>
     <link rel="stylesheet" type="text/css" href="../css/jazzy.css" />
     <link rel="stylesheet" type="text/css" href="../css/highlight.css" />
     <meta charset="utf-8">
@@ -14,9 +14,9 @@
   </head>
   <body>
 
-    <a name="//apple_ref/swift/Protocol/Objectable" class="dashAnchor"></a>
+    <a name="//apple_ref/swift/Protocol/ParseObjectMutable" class="dashAnchor"></a>
 
-    <a title="Objectable Protocol Reference"></a>
+    <a title="ParseObjectMutable Protocol Reference"></a>
 
     <header class="header">
       <p class="header-col header-col--primary">
@@ -50,7 +50,7 @@
     <p class="breadcrumbs">
       <a class="breadcrumb" href="../index.html">ParseSwift Reference</a>
       <img class="carat" src="../img/carat.png" alt=""/>
-      Objectable Protocol Reference
+      ParseObjectMutable Protocol Reference
     </p>
 
     <div class="content-wrapper">
@@ -353,18 +353,94 @@
 
         <section class="section">
           <div class="section-content top-matter">
-            <h1>Objectable</h1>
+            <h1>ParseObjectMutable</h1>
               <div class="declaration">
                 <div class="language">
                   
-                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">Objectable</span> <span class="p">:</span> <span class="kt">ParseType</span><span class="p">,</span> <span class="kt">Decodable</span></code></pre>
+                  <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">protocol</span> <span class="kt">ParseObjectMutable</span> <span class="p">:</span> <span class="kt"><a href="../Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                 </div>
               </div>
-            <p>The base protocol for a <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.</p>
-<div class="aside aside-note">
-    <p class="aside-title">Note</p>
-    You should not use this directly and instead use <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.
+            <p>The <code>ParseObjectMutable</code> protocol creates an empty copy of the respective object.
+This can be used when you only need to update a subset of the fields of an object
+as oppose to updating every field of an object.
+Using the mutable copy and updating a subset of the fields reduces the amount of data
+sent between client and server when using <code>save</code> and <code>saveAll</code>
+to update objects.</p>
+
+<p><strong>Example use case for <code><a href="../Protocols/ParseUser.html">ParseUser</a></code>:</strong></p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">User</span><span class="p">:</span> <span class="kt">ParseUser</span><span class="p">,</span> <span class="kt">ParseObjectMutable</span> <span class="p">{</span>
+    <span class="c1">//: These are required by `ParseObject`.</span>
+    <span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">createdAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">updatedAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">ACL</span><span class="p">:</span> <span class="kt">ParseACL</span><span class="p">?</span>
+
+    <span class="c1">//: These are required by `ParseUser`.</span>
+    <span class="k">var</span> <span class="nv">username</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">email</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">emailVerified</span><span class="p">:</span> <span class="kt">Bool</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">password</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">]?]?</span>
+
+    <span class="c1">//: Your custom keys.</span>
+    <span class="k">var</span> <span class="nv">customKey</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">score</span><span class="p">:</span> <span class="kt">GameScore</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">targetScore</span><span class="p">:</span> <span class="kt">GameScore</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">allScores</span><span class="p">:</span> <span class="p">[</span><span class="kt">GameScore</span><span class="p">]?</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="nv">user</span> <span class="o">=</span> <span class="kt">User</span><span class="o">.</span><span class="n">current</span><span class="p">?</span><span class="o">.</span><span class="n">mutable</span>
+<span class="n">user</span><span class="p">?</span><span class="o">.</span><span class="n">customKey</span> <span class="o">=</span> <span class="s">"newValue"</span>
+
+<span class="k">do</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="k">await</span> <span class="n">user</span><span class="p">?</span><span class="o">.</span><span class="nf">save</span><span class="p">()</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c1">// Handle error</span>
+<span class="p">}</span>
+</code></pre>
+
+<p><strong>Example use case for a general <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>:</strong></p>
+<pre class="highlight swift"><code><span class="kd">struct</span> <span class="kt">GameScore</span><span class="p">:</span> <span class="kt">ParseObject</span><span class="p">,</span> <span class="kt">ParseObjectMutable</span> <span class="p">{</span>
+    <span class="c1">//: These are required by ParseObject</span>
+    <span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">createdAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">updatedAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span>
+    <span class="k">var</span> <span class="nv">ACL</span><span class="p">:</span> <span class="kt">ParseACL</span><span class="p">?</span>
+
+    <span class="c1">//: Your own properties.</span>
+    <span class="k">var</span> <span class="nv">score</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="p">}</span>
+<span class="c1">//: It's recommended to place custom initializers in an extension</span>
+<span class="c1">//: to preserve the convenience initializer.</span>
+<span class="kd">extension</span> <span class="kt">GameScore</span> <span class="p">{</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">score</span><span class="p">:</span> <span class="kt">Int</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="n">score</span>
+    <span class="p">}</span>
+
+    <span class="nf">init</span><span class="p">(</span><span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?)</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">objectId</span> <span class="o">=</span> <span class="n">objectId</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="k">var</span> <span class="nv">newScore</span> <span class="o">=</span> <span class="kt">GameScore</span><span class="p">(</span><span class="nv">score</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">mutable</span>
+<span class="n">newScore</span><span class="o">.</span><span class="n">score</span> <span class="o">=</span> <span class="mi">200</span>
+
+<span class="k">do</span> <span class="p">{</span>
+    <span class="k">try</span> <span class="k">await</span> <span class="n">newScore</span><span class="o">.</span><span class="nf">save</span><span class="p">()</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+    <span class="c1">// Handle error</span>
+<span class="p">}</span>
+</code></pre>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    Using the <code>ParseObjectMutable</code> protocol requires the developer to
+initialize all of the <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> properties. This can be accomplished by making all properties
+optional or setting default values for non-optional properties.
+This also allows your objects to be used as Parse <code><a href="../Structs/Pointer.html">Pointer</a></code>‘s.
+It&rsquo;s recommended to place custom initializers in an extension
+to preserve the convenience initializer.
 
 </div>
 
@@ -378,9 +454,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift10ObjectableP9classNameSSvpZ"></a>
-                    <a name="//apple_ref/swift/Variable/className" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift10ObjectableP9classNameSSvpZ">className</a>
+                    <a name="/s:10ParseSwift0A13ObjectMutableP7mutablexvp"></a>
+                    <a name="//apple_ref/swift/Property/mutable" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A13ObjectMutableP7mutablexvp">mutable</a>
                     </code>
                       <span class="declaration-note">
                         Default implementation
@@ -391,200 +467,24 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>The class name of the object.</p>
+                        <p>An empty copy of the respective object that allows you to update a
+a subset of the fields of an object as oppose to updating every field of an object.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    It is recommended to use this to create a mutable copy of your <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>.
+
+</div>
 
                       </div>
                       <h4>Default Implementation</h4>
                       <div class="default_impl abstract">
-                        <p>The class name of the object.</p>
-
+                        
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">className</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift10ObjectableP8objectIdSSSgvp"></a>
-                    <a name="//apple_ref/swift/Property/objectId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift10ObjectableP8objectIdSSSgvp">objectId</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The id of the object.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">objectId</span><span class="p">:</span> <span class="kt">String</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift10ObjectableP9createdAt10Foundation4DateVSgvp"></a>
-                    <a name="//apple_ref/swift/Property/createdAt" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift10ObjectableP9createdAt10Foundation4DateVSgvp">createdAt</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>When the object was created.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">createdAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift10ObjectableP9updatedAt10Foundation4DateVSgvp"></a>
-                    <a name="//apple_ref/swift/Property/updatedAt" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift10ObjectableP9updatedAt10Foundation4DateVSgvp">updatedAt</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>When the object was last updated.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">updatedAt</span><span class="p">:</span> <span class="kt">Date</span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift10ObjectableP3ACLAA0aD0VSgvp"></a>
-                    <a name="//apple_ref/swift/Property/ACL" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift10ObjectableP3ACLAA0aD0VSgvp">ACL</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The ACL for this object.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">ACL</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseACL.html">ParseACL</a></span><span class="p">?</span> <span class="p">{</span> <span class="k">get</span> <span class="k">set</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift10ObjectablePAAE9classNameSSvp"></a>
-                    <a name="//apple_ref/swift/Property/className" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift10ObjectablePAAE9classNameSSvp">className</a>
-                    </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>The class name of the object.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">className</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <div class="task-group">
-              <div class="task-name-container">
-                <a name="/Convenience"></a>
-                <a name="//apple_ref/swift/Section/Convenience" class="dashAnchor"></a>
-                <div class="section-name-container">
-                  <a class="section-name-link" href="#/Convenience"></a>
-                  <h3 class="section-name"><span>Convenience</span>
-</h3>
-                </div>
-              </div>
-              <ul class="item-container">
-                <li class="item">
-                  <div>
-                    <code>
-                    <a name="/s:10ParseSwift10ObjectablePAAE7isSavedSbvp"></a>
-                    <a name="//apple_ref/swift/Property/isSaved" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift10ObjectablePAAE7isSavedSbvp">isSaved</a>
-                    </code>
-                      <span class="declaration-note">
-                        Extension method
-                      </span>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Specifies if a <code><a href="../Protocols/ParseObject.html">ParseObject</a></code> has been saved.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="k">var</span> <span class="nv">isSaved</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">mutable</span><span class="p">:</span> <span class="k">Self</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
