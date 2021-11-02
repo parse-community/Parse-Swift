@@ -958,6 +958,29 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(fetchedFile.name, response.name)
         XCTAssertEqual(fetchedFile.url, response.url)
         XCTAssertNotNil(fetchedFile.localURL)
+
+        // Remove URL so we can check cache
+        MockURLProtocol.removeAll()
+
+        let fetchedFile2 = try parseFile.fetch(options: [.cachePolicy(.returnCacheDataDontLoad)])
+        XCTAssertEqual(fetchedFile2.name, fetchedFile.name)
+        XCTAssertEqual(fetchedFile2.url, fetchedFile.url)
+        XCTAssertNotNil(fetchedFile2.localURL)
+
+        // More cache tests
+        guard let currentMemoryUsage = URLSession.parse.configuration.urlCache?.currentMemoryUsage,
+                let currentDiskUsage = URLSession.parse.configuration.urlCache?.currentDiskUsage else {
+                    XCTFail("Should have unwrapped")
+                    return
+        }
+        XCTAssertGreaterThan(currentMemoryUsage, 0)
+        XCTAssertGreaterThan(currentDiskUsage, 0)
+        ParseSwift.clearCache()
+        guard let updatedMemoryUsage = URLSession.parse.configuration.urlCache?.currentMemoryUsage else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertLessThan(updatedMemoryUsage, currentMemoryUsage)
     }
 
     func testFetchFileProgress() throws {
