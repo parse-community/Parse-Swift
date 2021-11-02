@@ -1,7 +1,4 @@
 import Foundation
-#if canImport(Combine)
-import Combine
-#endif
 
 protocol ParsePointer: Encodable {
 
@@ -91,6 +88,7 @@ public extension Pointer {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: The `ParseObject` with respect to the `Pointer`.
      - throws: An error of `ParseError` type.
     */
     func fetch(includeKeys: [String]? = nil,
@@ -110,7 +108,7 @@ public extension Pointer {
      - parameter callbackQueue: The queue to return to after completion. Default
      value of .main.
      - parameter completion: The block to execute when completed.
-     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     It should have the following argument signature: `(Result<T, ParseError>)`.
     */
     func fetch(includeKeys: [String]? = nil,
                options: API.Options = [],
@@ -126,26 +124,6 @@ public extension Pointer {
             }
         }
     }
-
-    #if canImport(Combine)
-    /**
-     Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
-     Publishes when complete.
-     - parameter includeKeys: The name(s) of the key(s) to include that are
-     `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
-     `includeAll` for `Query`.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-    */
-    func fetchPublisher(includeKeys: [String]? = nil,
-                        options: API.Options = []) -> Future<T, ParseError> {
-        Future { promise in
-            self.fetch(includeKeys: includeKeys,
-                       options: options,
-                       completion: promise)
-        }
-    }
-    #endif
 }
 
 // MARK: CustomDebugStringConvertible
