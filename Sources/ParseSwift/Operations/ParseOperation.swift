@@ -38,7 +38,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         guard let target = self.target else {
             throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
         }
-        if !isEqual(target[keyPath: key.1], to: value) {
+        if target[keyPath: key.1] != value {
             mutableOperation.operations[key.0] = value
             mutableOperation.target?[keyPath: key.1] = value
         }
@@ -390,16 +390,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
             let encoder = container.superEncoder(forKey: .key(key))
             try value.encode(to: encoder)
         }
-    }
-
-    func isEqual(_ lhs: Encodable, to rhs: Encodable) -> Bool {
-        guard let lhsData = try? ParseCoding.parseEncoder().encode(lhs),
-              let lhsString = String(data: lhsData, encoding: .utf8),
-              let rhsData = try? ParseCoding.parseEncoder().encode(rhs),
-              let rhsString = String(data: rhsData, encoding: .utf8) else {
-            return false
-        }
-        return lhsString == rhsString
     }
 }
 
