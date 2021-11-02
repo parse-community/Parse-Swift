@@ -357,6 +357,8 @@ extension ParseInstallation {
     */
     public func fetch(includeKeys: [String]? = nil,
                       options: API.Options = []) throws -> Self {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let result: Self = try fetchCommand(include: includeKeys)
             .execute(options: options, callbackQueue: .main)
         try Self.updateKeychainIfNeeded([result])
@@ -381,6 +383,8 @@ extension ParseInstallation {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,

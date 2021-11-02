@@ -95,6 +95,8 @@ public extension Pointer {
     */
     func fetch(includeKeys: [String]? = nil,
                options: API.Options = []) throws -> T {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let path = API.Endpoint.object(className: className, objectId: objectId)
         return try API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
@@ -116,6 +118,8 @@ public extension Pointer {
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<T, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let path = API.Endpoint.object(className: className, objectId: objectId)
         API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in

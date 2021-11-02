@@ -574,8 +574,10 @@ extension ParseObject {
     */
     public func fetch(includeKeys: [String]? = nil,
                       options: API.Options = []) throws -> Self {
-        try fetchCommand(include: includeKeys).execute(options: options,
-                                   callbackQueue: .main)
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        return try fetchCommand(include: includeKeys).execute(options: options,
+                                                              callbackQueue: .main)
     }
 
     /**
@@ -594,6 +596,8 @@ extension ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,

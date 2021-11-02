@@ -110,11 +110,6 @@ extension URLSession {
         if let location = location {
             do {
                 let data = try ParseCoding.jsonEncoder().encode(location)
-                if URLSession.parse.configuration.urlCache?.cachedResponse(for: request) == nil {
-                    URLSession.parse.configuration.urlCache?.storeCachedResponse(.init(response: response,
-                                                              data: data),
-                                                        for: request)
-                }
                 return try .success(mapper(data))
             } catch {
                 guard let parseError = error as? ParseError else {

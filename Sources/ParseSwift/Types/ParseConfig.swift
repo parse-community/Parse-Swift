@@ -28,7 +28,9 @@ extension ParseConfig {
         - throws: An error of type `ParseError`.
     */
     public func fetch(options: API.Options = []) throws -> Self {
-        try fetchCommand().execute(options: options, callbackQueue: .main)
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        return try fetchCommand().execute(options: options, callbackQueue: .main)
     }
 
     /**
@@ -41,6 +43,8 @@ extension ParseConfig {
     public func fetch(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Self, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         fetchCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
                 callbackQueue.async {

@@ -545,6 +545,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
         return try downloadFileCommand()
             .executeStream(options: options,
@@ -574,6 +575,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
         return try downloadFileCommand()
             .execute(options: options,
@@ -648,6 +650,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
         return try downloadFileCommand()
             .execute(options: options,
@@ -713,6 +716,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
         downloadFileCommand()
             .executeAsync(options: options,
