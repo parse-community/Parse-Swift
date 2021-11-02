@@ -11,7 +11,7 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+// @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 class ParseAnanlyticsAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
     override func setUpWithError() throws {
         try super.setUpWithError()
