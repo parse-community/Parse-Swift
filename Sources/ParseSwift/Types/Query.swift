@@ -63,13 +63,13 @@ public struct QueryConstraint: Encodable, Equatable {
     }
 
     public static func == (lhs: QueryConstraint, rhs: QueryConstraint) -> Bool {
-        guard let lhsData = try? ParseCoding.parseEncoder().encode(lhs),
-              let lhsString = String(data: lhsData, encoding: .utf8),
-              let rhsData = try? ParseCoding.parseEncoder().encode(rhs),
-              let rhsString = String(data: rhsData, encoding: .utf8) else {
+        guard lhs.key == rhs.key,
+              lhs.comparator == rhs.comparator,
+              let lhsObject = lhs.value as? NSObject,
+              let rhsObject = rhs.value as? NSObject else {
             return false
         }
-        return lhsString == rhsString
+        return lhsObject == rhsObject
     }
 }
 
