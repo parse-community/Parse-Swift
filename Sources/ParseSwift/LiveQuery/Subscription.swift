@@ -58,7 +58,7 @@ private func == <T>(lhs: Event<T>, rhs: Event<T>) -> Bool {
 
 #if canImport(Combine)
 /**
- A default implementation of the `ParseSubscription` protocol. Suitable for `ObjectObserved`
+ A default implementation of the `QuerySubscribable` protocol. Suitable for `ObjectObserved`
  as the subscription can be used as a SwiftUI publisher. Meaning it can serve
  indepedently as a ViewModel in MVVM.
  */
