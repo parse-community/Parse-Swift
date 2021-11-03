@@ -10,7 +10,9 @@ import Foundation
 
 /**
  A default implementation of the `CloudCodeObservable` protocol. Suitable for `ObjectObserved`
- and can be used as a SwiftUI view model.
+ and can be used as a SwiftUI view model. Also can be used as a Combine publisher. See Apple's
+ [documentation](https://developer.apple.com/documentation/combine/observableobject)
+ for more details.
  */
 open class CloudViewModel<T: ParseCloud>: CloudObservable {
 
