@@ -13,7 +13,8 @@ import Foundation
 /**
  A default implementation of the `QuerySubscribable` protocol. Suitable for `ObjectObserved`
  as the subscription can be used as a SwiftUI publisher. Meaning it can serve
- indepedently as a ViewModel in MVVM. Also can be used as a Combine publisher.
+ indepedently as a ViewModel in MVVM. Also can be used as a Combine publisher. See Apple's [documentation](https://developer.apple.com/documentation/combine/observableobject)
+ for more details.
  */
 open class Subscription<T: ParseObject>: QueryViewModel<T>, QuerySubscribable {
 
