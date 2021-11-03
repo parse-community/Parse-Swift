@@ -162,6 +162,8 @@ extension ParseFile {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after synchronous completion.
      - throws: A `ParseError` if there was an issue deleting the file. Otherwise it was successful.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     public func delete(options: API.Options,
                        callbackQueue: DispatchQueue) throws {
@@ -190,7 +192,9 @@ extension ParseFile {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
-     It should have the following argument signature: `(Result<Void, ParseError>)`
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     public func delete(options: API.Options,
                        callbackQueue: DispatchQueue = .main,
@@ -262,6 +266,8 @@ extension ParseFile {
      - parameter callbackQueue: The queue to return to after synchronous completion.
      Default value of .main.
      - returns: A saved `ParseFile`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     public func save(options: API.Options = [],
                      stream: InputStream,
@@ -294,6 +300,8 @@ extension ParseFile {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after synchronous completion.
      - returns: A saved `ParseFile`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     public func save(options: API.Options = [],
                      callbackQueue: DispatchQueue) throws -> ParseFile {
@@ -368,6 +376,8 @@ extension ParseFile {
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A saved `ParseFile`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     public func save(options: API.Options = [],
                      callbackQueue: DispatchQueue = .main,
@@ -448,7 +458,6 @@ extension ParseFile {
                      progress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                      completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
-        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
         } else {
@@ -529,6 +538,8 @@ extension ParseFile {
      - parameter callbackQueue: The queue to return to after synchronous completion.
      Default value of .main.
      - returns: A saved `ParseFile`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     public func fetch(options: API.Options = [],
                       stream: InputStream,
@@ -545,6 +556,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
         return try downloadFileCommand()
             .executeStream(options: options,
@@ -558,6 +570,8 @@ extension ParseFile {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after synchronous completion.
      - returns: A saved `ParseFile`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     public func fetch(includeKeys: [String]? = nil,
                       options: API.Options = [],
@@ -574,6 +588,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
         return try downloadFileCommand()
             .execute(options: options,
@@ -585,6 +600,8 @@ extension ParseFile {
      - parameter includeKeys: Currently not used for `ParseFile`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A saved `ParseFile`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     public func fetch(includeKeys: [String]? = nil,
                       options: API.Options = []) throws -> ParseFile {
@@ -632,6 +649,8 @@ extension ParseFile {
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A saved `ParseFile`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     public func fetch(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
@@ -648,6 +667,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
         return try downloadFileCommand()
             .execute(options: options,
@@ -696,6 +716,8 @@ extension ParseFile {
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - parameter completion: A block that will be called when file fetches or fails.
      It should have the following argument signature: `(Result<Self, ParseError>)`
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     public func fetch(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
@@ -713,6 +735,7 @@ extension ParseFile {
         if let tags = tags {
             options.insert(.tags(tags))
         }
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
         downloadFileCommand()
             .executeAsync(options: options,

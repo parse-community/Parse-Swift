@@ -109,6 +109,8 @@ public extension Sequence where Element: ParseObject {
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
      client-side checks are disabled. Developers are responsible for handling such cases.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
                  transaction: Bool = false,
@@ -206,6 +208,8 @@ public extension Sequence where Element: ParseObject {
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
      client-side checks are disabled. Developers are responsible for handling such cases.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
@@ -440,6 +444,8 @@ public extension Sequence where Element: ParseObject {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func deleteAll(batchLimit limit: Int? = nil,
                    transaction: Bool = false,
@@ -486,6 +492,8 @@ public extension Sequence where Element: ParseObject {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func deleteAll(
         batchLimit limit: Int? = nil,
@@ -571,11 +579,15 @@ extension ParseObject {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     public func fetch(includeKeys: [String]? = nil,
                       options: API.Options = []) throws -> Self {
-        try fetchCommand(include: includeKeys).execute(options: options,
-                                   callbackQueue: .main)
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
+        return try fetchCommand(include: includeKeys).execute(options: options,
+                                                              callbackQueue: .main)
     }
 
     /**
@@ -587,6 +599,8 @@ extension ParseObject {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     public func fetch(
         includeKeys: [String]? = nil,
@@ -594,6 +608,8 @@ extension ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
@@ -652,6 +668,8 @@ extension ParseObject {
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
      client-side checks are disabled. Developers are responsible for handling such cases.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     public func save(isIgnoreCustomObjectIdConfig: Bool = false,
                      options: API.Options = []) throws -> Self {
@@ -751,6 +769,9 @@ extension ParseObject {
                                   autoreleaseFrequency: .inherit,
                                   target: nil)
         var options = options
+        // Remove any caching policy added by the developer as fresh data
+        // from the server is needed.
+        options.remove(.cachePolicy(.reloadIgnoringLocalCacheData))
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
 
         queue.sync {

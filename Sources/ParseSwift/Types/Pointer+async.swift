@@ -19,6 +19,8 @@ public extension Pointer {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: The `ParseObject` with respect to the `Pointer`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetch(includeKeys: [String]? = nil,
                options: API.Options = []) async throws -> T {

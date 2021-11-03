@@ -164,7 +164,7 @@ public struct API {
         }
 
         public static func == (lhs: API.Option, rhs: API.Option) -> Bool {
-            return AnyEncodable(lhs) == AnyEncodable(rhs)
+            lhs.hashValue == rhs.hashValue
         }
     }
 

@@ -148,11 +148,15 @@ public struct ParseFileManager {
 
     func moveItem(_ fromPath: URL, toPath: URL, completion: @escaping(Error?) -> Void) {
         synchronizationQueue.async {
-            do {
-                try FileManager.default.moveItem(at: fromPath, to: toPath)
+            if fromPath != toPath {
+                do {
+                    try FileManager.default.moveItem(at: fromPath, to: toPath)
+                    completion(nil)
+                } catch {
+                    completion(error)
+                }
+            } else {
                 completion(nil)
-            } catch {
-                completion(error)
             }
         }
     }

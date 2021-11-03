@@ -68,7 +68,9 @@ public struct ParseAnalytics: ParseType, Hashable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
-     It should have the following argument signature: `(Result<Void, ParseError>)`
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static public func trackAppOpened(launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil,
                                       at date: Date? = nil,
@@ -123,7 +125,9 @@ public struct ParseAnalytics: ParseType, Hashable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
-     It should have the following argument signature: `(Result<Void, ParseError>)`
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static public func trackAppOpened(dimensions: [String: String]? = nil,
                                       at date: Date? = nil,
@@ -169,7 +173,9 @@ public struct ParseAnalytics: ParseType, Hashable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
-     It should have the following argument signature: `(Result<Void, ParseError>)`
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     public func track(options: API.Options = [],
                       callbackQueue: DispatchQueue = .main,
@@ -214,7 +220,9 @@ public struct ParseAnalytics: ParseType, Hashable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: A block that will be called when file deletes or fails.
-     It should have the following argument signature: `(Result<Void, ParseError>)`
+     It should have the following argument signature: `(Result<Void, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     public mutating func track(dimensions: [String: String]?,
                                at date: Date? = nil,

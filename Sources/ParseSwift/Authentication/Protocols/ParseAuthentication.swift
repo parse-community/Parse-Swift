@@ -208,6 +208,8 @@ public extension ParseUser {
      - throws: An error of type `ParseError`.
      - returns: An instance of the logged in `ParseUser`.
      If login failed due to either an incorrect password or incorrect username, it throws a `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func login(_ type: String,
                       authData: [String: String],
@@ -298,6 +300,8 @@ public extension ParseUser {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
      */
     func unlink(_ type: String,
                 options: API.Options = [],
@@ -347,6 +351,8 @@ public extension ParseUser {
      - throws: An error of type `ParseError`.
      - returns: An instance of the logged in `ParseUser`.
      If login failed due to either an incorrect password or incorrect username, it throws a `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func link(_ type: String,
                      authData: [String: String],
@@ -371,6 +377,8 @@ public extension ParseUser {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static func link(_ type: String,
                      authData: [String: String],
