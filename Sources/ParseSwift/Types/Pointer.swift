@@ -90,6 +90,8 @@ public extension Pointer {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: The `ParseObject` with respect to the `Pointer`.
      - throws: An error of `ParseError` type.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetch(includeKeys: [String]? = nil,
                options: API.Options = []) throws -> T {
@@ -111,6 +113,8 @@ public extension Pointer {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<T, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetch(includeKeys: [String]? = nil,
                options: API.Options = [],

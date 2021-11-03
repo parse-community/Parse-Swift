@@ -15,9 +15,11 @@ public struct ParseHealth: ParseType, Decodable {
 
     /**
      Calls the health check function *synchronously* and returns a result of it's execution.
-        - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - returns: Returns the status of the server.
-        - throws: An error of type `ParseError`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the status of the server.
+     - throws: An error of type `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     static public func check(options: API.Options = []) throws -> String {
         var options = options
@@ -27,10 +29,10 @@ public struct ParseHealth: ParseType, Decodable {
 
     /**
      Calls the health check function *asynchronously* and returns a result of it's execution.
-        - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-        - parameter completion: A block that will be called when the health check completes or fails.
-        It should have the following argument signature: `(Result<String, ParseError>)`.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: A block that will be called when the health check completes or fails.
+     It should have the following argument signature: `(Result<String, ParseError>)`.
     */
     static public func check(options: API.Options = [],
                              callbackQueue: DispatchQueue = .main,
