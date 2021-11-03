@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 2.1.0 Docs
+          ParseSwift 2.2.0 Docs
         </a>
          (95% documented)
       </p>
@@ -551,6 +551,12 @@ time will be used. Defaults to <code>nil</code>.</p>
                         <p>Tracks <em>asynchronously</em> this application being launched. If this happened as the result of the
 user opening a push notification, this method sends along information to
 correlate this open with that push.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -629,7 +635,7 @@ server time will be used.</p>
                               <td>
                                 <div>
                                   <p>A block that will be called when file deletes or fails.
-It should have the following argument signature: <code>(Result&lt;Void, ParseError&gt;)</code></p>
+It should have the following argument signature: <code>(Result&lt;Void, ParseError&gt;)</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -653,6 +659,12 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Tracks <em>asynchronously</em> this application being launched with additional dimensions.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -730,7 +742,7 @@ server time will be used.</p>
                               <td>
                                 <div>
                                   <p>A block that will be called when file deletes or fails.
-It should have the following argument signature: <code>(Result&lt;Void, ParseError&gt;)</code></p>
+It should have the following argument signature: <code>(Result&lt;Void, ParseError&gt;)</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -754,6 +766,12 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Tracks <em>asynchronously</em> the occurrence of a custom event.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -803,7 +821,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                               <td>
                                 <div>
                                   <p>A block that will be called when file deletes or fails.
-It should have the following argument signature: <code>(Result&lt;Void, ParseError&gt;)</code></p>
+It should have the following argument signature: <code>(Result&lt;Void, ParseError&gt;)</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -827,6 +845,12 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Tracks <em>asynchronously</em> the occurrence of a custom event with additional dimensions.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -904,7 +928,7 @@ server time will be used.</p>
                               <td>
                                 <div>
                                   <p>A block that will be called when file deletes or fails.
-It should have the following argument signature: <code>(Result&lt;Void, ParseError&gt;)</code></p>
+It should have the following argument signature: <code>(Result&lt;Void, ParseError&gt;)</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1649,7 +1673,7 @@ server time will be used.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-10-31)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-11-03)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

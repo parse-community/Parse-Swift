@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 2.1.0 Docs
+          ParseSwift 2.2.0 Docs
         </a>
          (95% documented)
       </p>
@@ -405,6 +405,11 @@ the server.</p>
     <p class="aside-title">Throws</p>
     <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -543,6 +548,12 @@ the server.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fetch the Config <em>asynchronously</em>. Publishes when complete.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -679,6 +690,11 @@ the server.</p>
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
 </div>
 
                       </div>
@@ -733,6 +749,12 @@ the server.</p>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Fetch the Config <em>asynchronously</em>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -808,9 +830,13 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Update the Config <em>synchronously</em>.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: Returns <code>true</code> if updated, <code>false</code> otherwise.</p>
+                        <p>Update the Config <em>synchronously</em>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -820,6 +846,29 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">save</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">Bool</span></code></pre>
 
                         </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns <code>true</code> if updated, <code>false</code> otherwise.</p>
                       </div>
                     </section>
                   </div>
@@ -841,6 +890,12 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Update the Config <em>asynchronously</em>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
 
                       </div>
                       <div class="declaration">
@@ -1039,7 +1094,7 @@ It should have the following argument signature: <code>(Result&lt;Bool, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-10-31)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-11-03)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
