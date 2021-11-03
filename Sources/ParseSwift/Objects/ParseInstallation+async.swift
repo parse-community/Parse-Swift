@@ -23,6 +23,8 @@ public extension ParseInstallation {
      - returns: Returns saved `ParseInstallation`.
      - throws: `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetch(includeKeys: [String]? = nil,
                options: API.Options = []) async throws -> Self {

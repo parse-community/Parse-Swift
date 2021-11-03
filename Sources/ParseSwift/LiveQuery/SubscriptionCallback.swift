@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- A default implementation of the `ParseSubscription` protocol using closures for callbacks.
+ A default implementation of the `QuerySubscribable` protocol using closures for callbacks.
  */
 open class SubscriptionCallback<T: ParseObject>: QuerySubscribable {
 

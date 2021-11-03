@@ -65,10 +65,11 @@ public struct QueryConstraint: Encodable, Equatable {
     public static func == (lhs: QueryConstraint, rhs: QueryConstraint) -> Bool {
         guard lhs.key == rhs.key,
               lhs.comparator == rhs.comparator,
-              AnyEncodable(lhs.value) == AnyEncodable(rhs.value) else {
+              let lhsObject = lhs.value as? NSObject,
+              let rhsObject = rhs.value as? NSObject else {
             return false
         }
-        return true
+        return lhsObject == rhsObject
     }
 }
 

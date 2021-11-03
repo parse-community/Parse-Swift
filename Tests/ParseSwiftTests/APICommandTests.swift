@@ -117,6 +117,16 @@ class APICommandTests: XCTestCase {
         }
     }
 
+    func testOptionCacheHasher() throws {
+        var options = API.Options()
+        options.insert(.cachePolicy(.returnCacheDataDontLoad))
+        XCTAssertFalse(options.contains(.useMasterKey))
+        XCTAssertTrue(options.contains(.cachePolicy(.returnCacheDataDontLoad)))
+        XCTAssertTrue(options.contains(.cachePolicy(.reloadRevalidatingCacheData)))
+        options.insert(.useMasterKey)
+        XCTAssertTrue(options.contains(.useMasterKey))
+    }
+
     func testExecuteCorrectly() {
         let originalObject = "test"
         MockURLProtocol.mockRequests { _ in

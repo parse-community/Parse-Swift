@@ -21,6 +21,8 @@ public extension ParseObject {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - throws: `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetch(includeKeys: [String]? = nil,
                options: API.Options = []) async throws -> Self {

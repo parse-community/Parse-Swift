@@ -159,6 +159,8 @@ public extension ParseUser {
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - throws: `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     @MainActor
     func fetch(includeKeys: [String]? = nil,

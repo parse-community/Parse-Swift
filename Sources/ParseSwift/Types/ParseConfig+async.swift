@@ -19,6 +19,8 @@ public extension ParseConfig {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: The return type of self.
      - throws: `ParseError`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetch(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in

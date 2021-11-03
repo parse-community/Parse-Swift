@@ -90,9 +90,13 @@ public extension Pointer {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: The `ParseObject` with respect to the `Pointer`.
      - throws: An error of `ParseError` type.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetch(includeKeys: [String]? = nil,
                options: API.Options = []) throws -> T {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let path = API.Endpoint.object(className: className, objectId: objectId)
         return try API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in
@@ -109,11 +113,15 @@ public extension Pointer {
      value of .main.
      - parameter completion: The block to execute when completed.
      It should have the following argument signature: `(Result<T, ParseError>)`.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func fetch(includeKeys: [String]? = nil,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<T, ParseError>) -> Void) {
+        var options = options
+        options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let path = API.Endpoint.object(className: className, objectId: objectId)
         API.NonParseBodyCommand<NoBody, T>(method: .GET,
                                       path: path) { (data) -> T in

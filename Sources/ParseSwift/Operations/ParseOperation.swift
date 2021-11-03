@@ -34,16 +34,16 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func set<W>(_ key: (String, WritableKeyPath<T, W>),
                        value: W) throws -> Self where W: Encodable {
-        var mutableOperation = self
         guard let target = self.target else {
             throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
         }
+        var mutableOperation = self
         if let currentValue = target[keyPath: key.1] as? NSObject,
            let updatedValue = value as? NSObject {
-           if currentValue != updatedValue {
-               mutableOperation.operations[key.0] = value
-               mutableOperation.target?[keyPath: key.1] = value
-           }
+            if currentValue != updatedValue {
+                mutableOperation.operations[key.0] = value
+                mutableOperation.target?[keyPath: key.1] = value
+            }
         } else {
             mutableOperation.operations[key.0] = value
             mutableOperation.target?[keyPath: key.1] = value
@@ -60,6 +60,9 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func forceSet<W>(_ key: (String, WritableKeyPath<T, W>),
                             value: W) throws -> Self where W: Encodable {
+        guard self.target != nil else {
+            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
+        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = value
         mutableOperation.target?[keyPath: key.1] = value
@@ -312,6 +315,9 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - returns: The updated operations.
      */
     public func removeRelation<W>(_ key: String, objects: [W]) throws -> Self where W: ParseObject {
+        guard self.target != nil else {
+            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
+        }
         var mutableOperation = self
         mutableOperation.operations[key] = try RemoveRelation(objects: objects)
         return mutableOperation

@@ -2,8 +2,17 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.1.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.1.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.1.0...2.2.0)
+
+__Improvements__
+- Added ability to fetch ParsePointer using async/await ([#271](https://github.com/parse-community/Parse-Swift/pull/271)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- By default, don't use cache when fetching ParseObject's and `ParseFile`s. Developers can choose to fetch from cache if desired by passing the necessary option while fetching. Fixed a bug when the incorrect file location for a dowloaded ParseFile was being cached ([#272](https://github.com/parse-community/Parse-Swift/pull/272)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.1.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.0.3...2.1.0)
