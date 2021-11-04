@@ -288,13 +288,6 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Pointer.swift",
-      "line": 12,
-      "symbol": "ParsePointer",
-      "symbol_kind": "source.lang.swift.decl.extension",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
       "line": 992,
       "symbol": "Query.ResultType",
