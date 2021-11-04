@@ -12,12 +12,10 @@ protocol ParsePointer: Encodable {
 extension ParsePointer {
     /**
      Determines if two objects have the same objectId.
-
      - parameter as: Object to compare.
-
      - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
     */
-    public func hasSameObjectId(as other: ParsePointer) -> Bool {
+    func hasSameObjectId(as other: ParsePointer) -> Bool {
         return other.className == className && other.objectId == objectId
     }
 }
@@ -81,6 +79,24 @@ public struct Pointer<T: ParseObject>: ParsePointer, Fetchable, Encodable, Hasha
 }
 
 public extension Pointer {
+
+    /**
+     Determines if a `ParseObject` and `Pointer`have the same `objectId`.
+     - parameter as: `ParseObject` to compare.
+     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+    */
+    func hasSameObjectId(as other: T) -> Bool {
+        return other.className == className && other.objectId == objectId
+    }
+
+    /**
+     Determines if two `Pointer`'s have the same `objectId`.
+     - parameter as: `Pointer` to compare.
+     - returns: Returns a `true` if the other object has the same `objectId` or `false` if unsuccessful.
+    */
+    func hasSameObjectId(as other: Self) -> Bool {
+        return other.className == className && other.objectId == objectId
+    }
 
     /**
      Fetches the `ParseObject` *synchronously* with the current data from the server and sets an error if one occurs.

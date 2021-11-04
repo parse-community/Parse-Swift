@@ -92,6 +92,33 @@ class ParsePointerTests: XCTestCase {
         XCTAssertEqual(pointer.objectId, score.objectId)
     }
 
+    func testHasSameObjectId() throws {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+        let pointer = try score.toPointer()
+        let pointer2 = pointer
+        XCTAssertTrue(pointer.hasSameObjectId(as: pointer2))
+        XCTAssertTrue(pointer.hasSameObjectId(as: score))
+        score.objectId = "hello"
+        let pointer3 = try score.toPointer()
+        XCTAssertFalse(pointer.hasSameObjectId(as: pointer3))
+        XCTAssertFalse(pointer.hasSameObjectId(as: score))
+    }
+
+    func testPointerEquality() throws {
+        var score = GameScore(score: 10)
+        let objectId = "yarr"
+        score.objectId = objectId
+        let pointer = try score.toPointer()
+        var score2 = GameScore(score: 10)
+        score2.objectId = objectId
+        var pointer2 = try score2.toPointer()
+        XCTAssertEqual(pointer, pointer2)
+        pointer2.objectId = "hello"
+        XCTAssertNotEqual(pointer, pointer2)
+    }
+
     func testDetectCircularDependency() throws {
         var score = GameScore(score: 10)
         score.objectId = "nice"

@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.2.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.0...2.2.1)
+
+__Fixes__
+- Set the default cache policy for `ParseFile` to the default policy set when initializing the SDK ([#274](https://github.com/parse-community/Parse-Swift/pull/274)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.1.0...2.2.0)
