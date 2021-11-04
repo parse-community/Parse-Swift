@@ -44,9 +44,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
                 mutableOperation.operations[key.0] = value
                 mutableOperation.target?[keyPath: key.1] = value
             }
-        } else {
-            mutableOperation.operations[key.0] = value
-            mutableOperation.target?[keyPath: key.1] = value
         }
         return mutableOperation
     }
@@ -402,6 +399,16 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
             let encoder = container.superEncoder(forKey: .key(key))
             try value.encode(to: encoder)
         }
+    }
+
+    func isEqual(_ lhs: Encodable, to rhs: Encodable) -> Bool {
+        guard let lhsData = try? ParseCoding.parseEncoder().encode(lhs),
+              let lhsString = String(data: lhsData, encoding: .utf8),
+              let rhsData = try? ParseCoding.parseEncoder().encode(rhs),
+              let rhsString = String(data: rhsData, encoding: .utf8) else {
+         return false
+        }
+        return lhsString == rhsString
     }
 }
 

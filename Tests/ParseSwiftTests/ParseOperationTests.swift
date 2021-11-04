@@ -503,6 +503,15 @@ class ParseOperationTests: XCTestCase {
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
         XCTAssertEqual(operations.target?.score, 15)
+        var level = Level(level: 12)
+        level.members = ["hello", "world"]
+        let operations2 = try score.operation.set(("score", \.previous), value: [level])
+        let expected2 = "{\"score\":[{\"level\":12,\"members\":[\"hello\",\"world\"]}]}"
+        let encoded2 = try ParseCoding.parseEncoder()
+            .encode(operations2)
+        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
+        XCTAssertEqual(decoded2, expected2)
+        XCTAssertEqual(operations2.target?.previous, [level])
     }
     #endif
 
