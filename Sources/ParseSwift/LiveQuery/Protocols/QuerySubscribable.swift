@@ -13,7 +13,7 @@ import Foundation
  You can use this protocol on any custom class of yours, instead of `Subscription` or
  `SubscriptionCallback`, if it fits your use case better.
  */
-public protocol  QuerySubscribable: AnyObject {
+public protocol QuerySubscribable: AnyObject {
 
     /// The `ParseObject` associated with this subscription.
     associatedtype Object: ParseObject
