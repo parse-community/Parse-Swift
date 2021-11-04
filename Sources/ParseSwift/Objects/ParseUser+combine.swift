@@ -135,7 +135,7 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Fetchable - Combine
+    // MARK: Combine
     /**
      Fetches the `ParseUser` *aynchronously* with the current data from the server and sets an error if one occurs.
      Publishes when complete.
@@ -157,7 +157,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Savable - Combine
     /**
      Saves the `ParseUser` *asynchronously* and publishes when complete.
 
@@ -186,7 +185,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Deletable - Combine
     /**
      Deletes the `ParseUser` *asynchronously* and publishes when complete.
 

@@ -12,7 +12,7 @@ import Combine
 
 public extension ParseConfig {
 
-    // MARK: Fetchable - Combine
+    // MARK: Combine
 
     /**
      Fetch the Config *asynchronously*. Publishes when complete.
@@ -27,8 +27,6 @@ public extension ParseConfig {
                        completion: promise)
         }
     }
-
-    // MARK: Savable - Combine
 
     /**
      Update the Config *asynchronously*.

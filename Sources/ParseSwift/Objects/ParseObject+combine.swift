@@ -12,7 +12,7 @@ import Combine
 
 public extension ParseObject {
 
-    // MARK: Fetchable - Combine
+    // MARK: Combine
     /**
      Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.
      Publishes when complete.

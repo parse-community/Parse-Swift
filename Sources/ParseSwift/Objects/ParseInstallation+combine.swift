@@ -12,7 +12,7 @@ import Combine
 
 public extension ParseInstallation {
 
-    // MARK: Fetchable - Combine
+    // MARK: Combine
     /**
      Fetches the `ParseInstallation` *aynchronously* with the current data from the server
      and sets an error if one occurs. Publishes when complete.
@@ -34,7 +34,6 @@ public extension ParseInstallation {
         }
     }
 
-    // MARK: Savable - Combine
     /**
      Saves the `ParseInstallation` *asynchronously* and publishes when complete.
 
@@ -51,7 +50,6 @@ public extension ParseInstallation {
         }
     }
 
-    // MARK: Deletable - Combine
     /**
      Deletes the `ParseInstallation` *asynchronously* and publishes when complete.
 
