@@ -11,6 +11,9 @@ import Foundation
 /**
  The `ParseRelation` class that is used to access all of the children of a many-to-many relationship.
  Each instance of `ParseRelation` is associated with a particular parent object and key.
+ 
+ In most cases, you do not need to create an instance of `ParseOperation` directly as it can be
+ indirectly created from any `ParseObject` by using the respective `relation` property.
  */
 public struct ParseRelation<T>: Codable, Hashable where T: ParseObject {
     internal let __type: String = "Relation" // swiftlint:disable:this identifier_name

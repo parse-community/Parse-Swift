@@ -1,5 +1,5 @@
 //
-//  URLCache+extensions.swift
+//  URLCache.swift
 //  ParseSwift
 //
 //  Created by Corey Baker on 7/17/21.
@@ -11,7 +11,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension URLCache {
+internal extension URLCache {
     static let parse: URLCache = {
         guard let cacheURL = FileManager.default.urls(for: .cachesDirectory, in: .userDomainMask).first else {
             return URLCache(memoryCapacity: ParseSwift.configuration.cacheMemoryCapacity,

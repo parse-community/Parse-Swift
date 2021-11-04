@@ -13,8 +13,8 @@ import Foundation
  For example, setting, deleting, or incrementing a value are all `ParseOperation`'s.
  `ParseOperation` themselves can be considered to be immutable.
  
- In most cases, you should not call this class directly as a `ParseOperation` can be
- indirectly created from any `ParseObject` by using its `operation` property.
+ In most cases, you do not need to create an instance of `ParseOperation` directly as it can be
+ indirectly created from any `ParseObject` by using the respective `operation` property.
  */
 public struct ParseOperation<T>: Savable where T: ParseObject {
 
@@ -38,7 +38,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
             throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
         }
         var mutableOperation = self
-        if !isEqual(target[keyPath: key.1], to: value) {
+        if !target[keyPath: key.1].isEqual(value) {
             mutableOperation.operations[key.0] = value
             mutableOperation.target?[keyPath: key.1] = value
         }
@@ -396,16 +396,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
             let encoder = container.superEncoder(forKey: .key(key))
             try value.encode(to: encoder)
         }
-    }
-
-    func isEqual(_ lhs: Encodable, to rhs: Encodable) -> Bool {
-        guard let lhsData = try? ParseCoding.parseEncoder().encode(lhs),
-              let lhsString = String(data: lhsData, encoding: .utf8),
-              let rhsData = try? ParseCoding.parseEncoder().encode(rhs),
-              let rhsString = String(data: rhsData, encoding: .utf8) else {
-         return false
-        }
-        return lhsString == rhsString
     }
 }
 

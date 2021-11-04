@@ -1,9 +1,9 @@
 //
-//  URLSession+extensions.swift
+//  URLSession.swift
 //  ParseSwift
 //
 //  Original file, URLSession+sync.swift, created by Florent Vilmart on 17-09-24.
-//  Name change to URLSession+extensions.swift and support for sync/async by Corey Baker on 7/25/20.
+//  Name change to URLSession.swift and support for sync/async by Corey Baker on 7/25/20.
 //  Copyright © 2020 Parse Community. All rights reserved.
 //
 
@@ -12,7 +12,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
-extension URLSession {
+internal extension URLSession {
     static let parse: URLSession = {
         if !ParseSwift.configuration.isTestingSDK {
             let configuration = URLSessionConfiguration.default
@@ -29,11 +29,11 @@ extension URLSession {
         }
     }()
 
-    internal func makeResult<U>(request: URLRequest,
-                                responseData: Data?,
-                                urlResponse: URLResponse?,
-                                responseError: Error?,
-                                mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
+    func makeResult<U>(request: URLRequest,
+                       responseData: Data?,
+                       urlResponse: URLResponse?,
+                       responseError: Error?,
+                       mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         guard let response = urlResponse else {
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
@@ -87,11 +87,11 @@ extension URLSession {
                                    message: "Unable to sync with parse-server: \(String(describing: urlResponse))."))
     }
 
-    internal func makeResult<U>(request: URLRequest,
-                                location: URL?,
-                                urlResponse: URLResponse?,
-                                responseError: Error?,
-                                mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
+    func makeResult<U>(request: URLRequest,
+                       location: URL?,
+                       urlResponse: URLResponse?,
+                       responseError: Error?,
+                       mapper: @escaping (Data) throws -> U) -> Result<U, ParseError> {
         guard let response = urlResponse else {
             guard let parseError = responseError as? ParseError else {
                 return .failure(ParseError(code: .unknownError,
@@ -125,7 +125,7 @@ extension URLSession {
                                    message: "Unable to sync with parse-server: \(response)."))
     }
 
-    internal func dataTask<U>(
+    func dataTask<U>(
         with request: URLRequest,
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void
@@ -141,8 +141,8 @@ extension URLSession {
     }
 }
 
-extension URLSession {
-    internal func uploadTask<U>( // swiftlint:disable:this function_parameter_count
+internal extension URLSession {
+    func uploadTask<U>( // swiftlint:disable:this function_parameter_count
         callbackQueue: DispatchQueue,
         with request: URLRequest,
         from data: Data?,
@@ -176,7 +176,7 @@ extension URLSession {
         }
     }
 
-    internal func downloadTask<U>(
+    func downloadTask<U>(
         callbackQueue: DispatchQueue,
         with request: URLRequest,
         progress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)?,
@@ -210,7 +210,7 @@ extension URLSession {
         task.resume()
     }
 
-    internal func downloadTask<U>(
+    func downloadTask<U>(
         with request: URLRequest,
         mapper: @escaping (Data) throws -> U,
         completion: @escaping(Result<U, ParseError>) -> Void

@@ -117,10 +117,10 @@
 		7037DAB226384DE1005D7E62 /* TestParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7037DAB126384DE1005D7E62 /* TestParseEncoder.swift */; };
 		7037DAB326384DE1005D7E62 /* TestParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7037DAB126384DE1005D7E62 /* TestParseEncoder.swift */; };
 		7037DAB426384DE1005D7E62 /* TestParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7037DAB126384DE1005D7E62 /* TestParseEncoder.swift */; };
-		70386A0625D9718C0048EC1B /* Data+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data+hexString.swift */; };
-		70386A0725D9718C0048EC1B /* Data+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data+hexString.swift */; };
-		70386A0825D9718C0048EC1B /* Data+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data+hexString.swift */; };
-		70386A0925D9718C0048EC1B /* Data+hexString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data+hexString.swift */; };
+		70386A0625D9718C0048EC1B /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data.swift */; };
+		70386A0725D9718C0048EC1B /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data.swift */; };
+		70386A0825D9718C0048EC1B /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data.swift */; };
+		70386A0925D9718C0048EC1B /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A0525D9718C0048EC1B /* Data.swift */; };
 		70386A3825D998D90048EC1B /* ParseLDAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A3725D998D90048EC1B /* ParseLDAP.swift */; };
 		70386A3925D998D90048EC1B /* ParseLDAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A3725D998D90048EC1B /* ParseLDAP.swift */; };
 		70386A3A25D998D90048EC1B /* ParseLDAP.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70386A3725D998D90048EC1B /* ParseLDAP.swift */; };
@@ -297,6 +297,14 @@
 		7064369C273313D5007C6461 /* LiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7064369A273313D5007C6461 /* LiveQueryConstants.swift */; };
 		7064369D273313D5007C6461 /* LiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7064369A273313D5007C6461 /* LiveQueryConstants.swift */; };
 		7064369E273313D5007C6461 /* LiveQueryConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7064369A273313D5007C6461 /* LiveQueryConstants.swift */; };
+		706436A427341F6E007C6461 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706436A327341F6E007C6461 /* Encodable.swift */; };
+		706436A527341F6E007C6461 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706436A327341F6E007C6461 /* Encodable.swift */; };
+		706436A627341F6E007C6461 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706436A327341F6E007C6461 /* Encodable.swift */; };
+		706436A727341F6E007C6461 /* Encodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706436A327341F6E007C6461 /* Encodable.swift */; };
+		706436A927341FD0007C6461 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706436A827341FD0007C6461 /* Date.swift */; };
+		706436AA27341FD0007C6461 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706436A827341FD0007C6461 /* Date.swift */; };
+		706436AB27341FD0007C6461 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706436A827341FD0007C6461 /* Date.swift */; };
+		706436AC27341FD0007C6461 /* Date.swift in Sources */ = {isa = PBXBuildFile; fileRef = 706436A827341FD0007C6461 /* Date.swift */; };
 		70647E9C259E3A9A004C1004 /* ParseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E9B259E3A9A004C1004 /* ParseType.swift */; };
 		70647E9D259E3A9A004C1004 /* ParseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E9B259E3A9A004C1004 /* ParseType.swift */; };
 		70647E9E259E3A9A004C1004 /* ParseType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70647E9B259E3A9A004C1004 /* ParseType.swift */; };
@@ -476,10 +484,10 @@
 		89899DB526045DC4002E2043 /* ParseFacebookCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89899DB426045DC4002E2043 /* ParseFacebookCombineTests.swift */; };
 		89899DB626045DC4002E2043 /* ParseFacebookCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89899DB426045DC4002E2043 /* ParseFacebookCombineTests.swift */; };
 		89899DB726045DC4002E2043 /* ParseFacebookCombineTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89899DB426045DC4002E2043 /* ParseFacebookCombineTests.swift */; };
-		9116F66F26A35D610082F6D6 /* URLCache+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9116F66E26A35D600082F6D6 /* URLCache+extensions.swift */; };
-		9116F67026A35D610082F6D6 /* URLCache+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9116F66E26A35D600082F6D6 /* URLCache+extensions.swift */; };
-		9116F67126A35D620082F6D6 /* URLCache+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9116F66E26A35D600082F6D6 /* URLCache+extensions.swift */; };
-		9116F67226A35D620082F6D6 /* URLCache+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9116F66E26A35D600082F6D6 /* URLCache+extensions.swift */; };
+		9116F66F26A35D610082F6D6 /* URLCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9116F66E26A35D600082F6D6 /* URLCache.swift */; };
+		9116F67026A35D610082F6D6 /* URLCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9116F66E26A35D600082F6D6 /* URLCache.swift */; };
+		9116F67126A35D620082F6D6 /* URLCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9116F66E26A35D600082F6D6 /* URLCache.swift */; };
+		9116F67226A35D620082F6D6 /* URLCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9116F66E26A35D600082F6D6 /* URLCache.swift */; };
 		911DB12C24C3F7720027F3C7 /* MockURLResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB12B24C3F7720027F3C7 /* MockURLResponse.swift */; };
 		911DB12E24C4837E0027F3C7 /* APICommandTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB12D24C4837E0027F3C7 /* APICommandTests.swift */; };
 		911DB13324C494390027F3C7 /* MockURLProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 911DB13224C494390027F3C7 /* MockURLProtocol.swift */; };
@@ -619,10 +627,6 @@
 		F97B45D724D9C6F200F4A88B /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B624D9C6F200F4A88B /* ParseEncoder.swift */; };
 		F97B45D824D9C6F200F4A88B /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B624D9C6F200F4A88B /* ParseEncoder.swift */; };
 		F97B45D924D9C6F200F4A88B /* ParseEncoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B624D9C6F200F4A88B /* ParseEncoder.swift */; };
-		F97B45DA24D9C6F200F4A88B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B724D9C6F200F4A88B /* Extensions.swift */; };
-		F97B45DB24D9C6F200F4A88B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B724D9C6F200F4A88B /* Extensions.swift */; };
-		F97B45DC24D9C6F200F4A88B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B724D9C6F200F4A88B /* Extensions.swift */; };
-		F97B45DD24D9C6F200F4A88B /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B724D9C6F200F4A88B /* Extensions.swift */; };
 		F97B45DE24D9C6F200F4A88B /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B824D9C6F200F4A88B /* AnyCodable.swift */; };
 		F97B45DF24D9C6F200F4A88B /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B824D9C6F200F4A88B /* AnyCodable.swift */; };
 		F97B45E024D9C6F200F4A88B /* AnyCodable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B45B824D9C6F200F4A88B /* AnyCodable.swift */; };
@@ -699,10 +703,10 @@
 		F97B463024D9C74400F4A88B /* BatchUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462B24D9C74400F4A88B /* BatchUtils.swift */; };
 		F97B463124D9C74400F4A88B /* BatchUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462B24D9C74400F4A88B /* BatchUtils.swift */; };
 		F97B463224D9C74400F4A88B /* BatchUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462B24D9C74400F4A88B /* BatchUtils.swift */; };
-		F97B463324D9C74400F4A88B /* URLSession+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462C24D9C74400F4A88B /* URLSession+extensions.swift */; };
-		F97B463424D9C74400F4A88B /* URLSession+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462C24D9C74400F4A88B /* URLSession+extensions.swift */; };
-		F97B463524D9C74400F4A88B /* URLSession+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462C24D9C74400F4A88B /* URLSession+extensions.swift */; };
-		F97B463624D9C74400F4A88B /* URLSession+extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462C24D9C74400F4A88B /* URLSession+extensions.swift */; };
+		F97B463324D9C74400F4A88B /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462C24D9C74400F4A88B /* URLSession.swift */; };
+		F97B463424D9C74400F4A88B /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462C24D9C74400F4A88B /* URLSession.swift */; };
+		F97B463524D9C74400F4A88B /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462C24D9C74400F4A88B /* URLSession.swift */; };
+		F97B463624D9C74400F4A88B /* URLSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462C24D9C74400F4A88B /* URLSession.swift */; };
 		F97B463724D9C74400F4A88B /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462D24D9C74400F4A88B /* Responses.swift */; };
 		F97B463824D9C74400F4A88B /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462D24D9C74400F4A88B /* Responses.swift */; };
 		F97B463924D9C74400F4A88B /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = F97B462D24D9C74400F4A88B /* Responses.swift */; };
@@ -834,7 +838,7 @@
 		7033ECBC25584A85009770F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7033ECBE25584A85009770F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7037DAB126384DE1005D7E62 /* TestParseEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestParseEncoder.swift; sourceTree = "<group>"; };
-		70386A0525D9718C0048EC1B /* Data+hexString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+hexString.swift"; sourceTree = "<group>"; };
+		70386A0525D9718C0048EC1B /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
 		70386A3725D998D90048EC1B /* ParseLDAP.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLDAP.swift; sourceTree = "<group>"; };
 		70386A4525D99C8B0048EC1B /* ParseLDAPTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLDAPTests.swift; sourceTree = "<group>"; };
 		70386A5B25D9A4010048EC1B /* ParseLDAPCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseLDAPCombineTests.swift; sourceTree = "<group>"; };
@@ -883,6 +887,8 @@
 		705A9A2E25991C1400B3547F /* Fileable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fileable.swift; sourceTree = "<group>"; };
 		705D950725BE4C08003EF6F8 /* SubscriptionCallback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionCallback.swift; sourceTree = "<group>"; };
 		7064369A273313D5007C6461 /* LiveQueryConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiveQueryConstants.swift; sourceTree = "<group>"; };
+		706436A327341F6E007C6461 /* Encodable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encodable.swift; sourceTree = "<group>"; };
+		706436A827341FD0007C6461 /* Date.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Date.swift; sourceTree = "<group>"; };
 		70647E9B259E3A9A004C1004 /* ParseType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseType.swift; sourceTree = "<group>"; };
 		70732C592606CCAD000CAB81 /* ParseObjectCustomObjectIdTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseObjectCustomObjectIdTests.swift; sourceTree = "<group>"; };
 		707A3BF025B0A4F0000D215C /* ParseAuthentication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthentication.swift; sourceTree = "<group>"; };
@@ -937,7 +943,7 @@
 		89899CF32603CE9D002E2043 /* ParseFacebookTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFacebookTests.swift; sourceTree = "<group>"; };
 		89899D9E26045998002E2043 /* ParseTwitterCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseTwitterCombineTests.swift; sourceTree = "<group>"; };
 		89899DB426045DC4002E2043 /* ParseFacebookCombineTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseFacebookCombineTests.swift; sourceTree = "<group>"; };
-		9116F66E26A35D600082F6D6 /* URLCache+extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLCache+extensions.swift"; sourceTree = "<group>"; };
+		9116F66E26A35D600082F6D6 /* URLCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLCache.swift; sourceTree = "<group>"; };
 		911DB12B24C3F7720027F3C7 /* MockURLResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLResponse.swift; sourceTree = "<group>"; };
 		911DB12D24C4837E0027F3C7 /* APICommandTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APICommandTests.swift; sourceTree = "<group>"; };
 		911DB13224C494390027F3C7 /* MockURLProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockURLProtocol.swift; sourceTree = "<group>"; };
@@ -989,7 +995,6 @@
 		F97B45B424D9C6F200F4A88B /* ParseCoding.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseCoding.swift; sourceTree = "<group>"; };
 		F97B45B524D9C6F200F4A88B /* AnyDecodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyDecodable.swift; sourceTree = "<group>"; };
 		F97B45B624D9C6F200F4A88B /* ParseEncoder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseEncoder.swift; sourceTree = "<group>"; };
-		F97B45B724D9C6F200F4A88B /* Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		F97B45B824D9C6F200F4A88B /* AnyCodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyCodable.swift; sourceTree = "<group>"; };
 		F97B45B924D9C6F200F4A88B /* AnyEncodable.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnyEncodable.swift; sourceTree = "<group>"; };
 		F97B45BB24D9C6F200F4A88B /* Query.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Query.swift; sourceTree = "<group>"; };
@@ -1009,7 +1014,7 @@
 		F97B45CD24D9C6F200F4A88B /* ParseKeyValueStore.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseKeyValueStore.swift; sourceTree = "<group>"; };
 		F97B462624D9C72700F4A88B /* API.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		F97B462B24D9C74400F4A88B /* BatchUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BatchUtils.swift; sourceTree = "<group>"; };
-		F97B462C24D9C74400F4A88B /* URLSession+extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "URLSession+extensions.swift"; sourceTree = "<group>"; };
+		F97B462C24D9C74400F4A88B /* URLSession.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = URLSession.swift; sourceTree = "<group>"; };
 		F97B462D24D9C74400F4A88B /* Responses.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
 		F97B462E24D9C74400F4A88B /* API+Command.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "API+Command.swift"; sourceTree = "<group>"; };
 		F97B464024D9C78B00F4A88B /* ParseOperation.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ParseOperation.swift; sourceTree = "<group>"; };
@@ -1260,7 +1265,8 @@
 				F97B45C924D9C6F200F4A88B /* API */,
 				707A3BEF25B0A3B8000D215C /* Authentication */,
 				F97B45B324D9C6F200F4A88B /* Coding */,
-				70110D5D250849B30091CC1D /* Internal */,
+				706436A227341F36007C6461 /* Extensions */,
+				70110D5D250849B30091CC1D /* InternalObjects */,
 				70510AAA259EE23700FEA700 /* LiveQuery */,
 				F97B45C324D9C6F200F4A88B /* Objects */,
 				F97B463F24D9C78B00F4A88B /* Operations */,
@@ -1290,31 +1296,30 @@
 			path = Protocols;
 			sourceTree = "<group>";
 		};
-		70110D5D250849B30091CC1D /* Internal */ = {
+		70110D5D250849B30091CC1D /* InternalObjects */ = {
 			isa = PBXGroup;
 			children = (
-				F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */,
-				70110D562506CE890091CC1D /* BaseParseInstallation.swift */,
-				F97B45C224D9C6F200F4A88B /* NoBody.swift */,
 				70D1BE7225BB43EB00A42E7C /* BaseConfig.swift */,
-				70386A0525D9718C0048EC1B /* Data+hexString.swift */,
+				70110D562506CE890091CC1D /* BaseParseInstallation.swift */,
+				F97B45BD24D9C6F200F4A88B /* BaseParseUser.swift */,
+				F97B45C224D9C6F200F4A88B /* NoBody.swift */,
 			);
-			path = Internal;
+			path = InternalObjects;
 			sourceTree = "<group>";
 		};
 		70110D5E25084AF80091CC1D /* Protocols */ = {
 			isa = PBXGroup;
 			children = (
+				91F346BD269B77B5005727B6 /* CloudObservable.swift */,
 				708D035125215F9B00646C70 /* Deletable.swift */,
 				F97B45C524D9C6F200F4A88B /* Fetchable.swift */,
 				705A9A2E25991C1400B3547F /* Fileable.swift */,
 				70BC988F252A5B5C00FF3074 /* Objectable.swift */,
-				F97B45C824D9C6F200F4A88B /* Queryable.swift */,
-				F97B45C724D9C6F200F4A88B /* Savable.swift */,
-				70647E9B259E3A9A004C1004 /* ParseType.swift */,
 				CD1069FF272D481800939151 /* ParseObjectMutable.swift */,
+				70647E9B259E3A9A004C1004 /* ParseType.swift */,
+				F97B45C824D9C6F200F4A88B /* Queryable.swift */,
 				91BB8FCE2690BA70005A6BA5 /* QueryObservable.swift */,
-				91F346BD269B77B5005727B6 /* CloudObservable.swift */,
+				F97B45C724D9C6F200F4A88B /* Savable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1397,6 +1402,18 @@
 				700395DE25A147C40052CB31 /* Protocols */,
 			);
 			path = LiveQuery;
+			sourceTree = "<group>";
+		};
+		706436A227341F36007C6461 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				F97B462C24D9C74400F4A88B /* URLSession.swift */,
+				9116F66E26A35D600082F6D6 /* URLCache.swift */,
+				706436A327341F6E007C6461 /* Encodable.swift */,
+				70386A0525D9718C0048EC1B /* Data.swift */,
+				706436A827341FD0007C6461 /* Date.swift */,
+			);
+			path = Extensions;
 			sourceTree = "<group>";
 		};
 		707A3BEF25B0A3B8000D215C /* Authentication */ = {
@@ -1507,7 +1524,6 @@
 				F97B45B824D9C6F200F4A88B /* AnyCodable.swift */,
 				F97B45B524D9C6F200F4A88B /* AnyDecodable.swift */,
 				F97B45B924D9C6F200F4A88B /* AnyEncodable.swift */,
-				F97B45B724D9C6F200F4A88B /* Extensions.swift */,
 				F97B45B424D9C6F200F4A88B /* ParseCoding.swift */,
 				F97B45B624D9C6F200F4A88B /* ParseEncoder.swift */,
 			);
@@ -1537,6 +1553,9 @@
 				70F79A182639CE6F00731C46 /* ParseHealth.swift */,
 				703B08FC26BD953B005A112F /* ParseHealth+async.swift */,
 				7085DDA226CC8A470033B977 /* ParseHealth+combine.swift */,
+				F97B464024D9C78B00F4A88B /* ParseOperation.swift */,
+				703B091026BD992E005A112F /* ParseOperation+async.swift */,
+				7044C19E25C4FA870011F6E7 /* ParseOperation+combine.swift */,
 				91285B1B26990D7F0051B544 /* ParsePolygon.swift */,
 				7004C21F25B63C7A005E0AD9 /* ParseRelation.swift */,
 				91679D63268E596300F71809 /* ParseVersion.swift */,
@@ -1579,8 +1598,6 @@
 				F97B462B24D9C74400F4A88B /* BatchUtils.swift */,
 				7003972925A3B0130052CB31 /* ParseURLSessionDelegate.swift */,
 				F97B462D24D9C74400F4A88B /* Responses.swift */,
-				9116F66E26A35D600082F6D6 /* URLCache+extensions.swift */,
-				F97B462C24D9C74400F4A88B /* URLSession+extensions.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -1605,9 +1622,6 @@
 				F97B464324D9C78B00F4A88B /* AddUnique.swift */,
 				F97B464124D9C78B00F4A88B /* Delete.swift */,
 				F97B464524D9C78B00F4A88B /* Increment.swift */,
-				F97B464024D9C78B00F4A88B /* ParseOperation.swift */,
-				703B091026BD992E005A112F /* ParseOperation+async.swift */,
-				7044C19E25C4FA870011F6E7 /* ParseOperation+combine.swift */,
 				F97B464424D9C78B00F4A88B /* Remove.swift */,
 				70C5509F25B4A9F600B5DBC2 /* RemoveRelation.swift */,
 			);
@@ -2052,7 +2066,6 @@
 				916786E2259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				91F346B9269B766C005727B6 /* CloudViewModel.swift in Sources */,
 				F97B461624D9C6F200F4A88B /* Queryable.swift in Sources */,
-				F97B45DA24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				7028373426BD8883007688C9 /* ParseObject+async.swift in Sources */,
 				70C5503825B406B800B5DBC2 /* ParseSession.swift in Sources */,
 				7044C1C825C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */,
@@ -2060,7 +2073,7 @@
 				70D1BE7325BB43EB00A42E7C /* BaseConfig.swift in Sources */,
 				703B090726BD9764005A112F /* ParseCloud+async.swift in Sources */,
 				918CED592684C74000CFDC83 /* ParseLiveQuery+combine.swift in Sources */,
-				70386A0625D9718C0048EC1B /* Data+hexString.swift in Sources */,
+				70386A0625D9718C0048EC1B /* Data.swift in Sources */,
 				F97B465F24D9C7B500F4A88B /* KeychainStore.swift in Sources */,
 				70170A442656B02D0070C905 /* ParseAnalytics.swift in Sources */,
 				70110D52250680140091CC1D /* ParseConstants.swift in Sources */,
@@ -2108,7 +2121,7 @@
 				7044C17525C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */,
 				F97B45E224D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				700396EA25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
-				9116F66F26A35D610082F6D6 /* URLCache+extensions.swift in Sources */,
+				9116F66F26A35D610082F6D6 /* URLCache.swift in Sources */,
 				70572671259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				707A3C2025B14BD0000D215C /* ParseApple.swift in Sources */,
 				703B095D26BF481F005A112F /* ParseFacebook+async.swift in Sources */,
@@ -2132,6 +2145,7 @@
 				F97B45EA24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B460224D9C6F200F4A88B /* NoBody.swift in Sources */,
 				703B093026BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,
+				706436A927341FD0007C6461 /* Date.swift in Sources */,
 				700395BA25A1470F0052CB31 /* Subscription.swift in Sources */,
 				91285B132698DBF20051B544 /* ParseBytes.swift in Sources */,
 				7016ED5625C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
@@ -2142,12 +2156,13 @@
 				703B092B26BF290B005A112F /* ParseAuthentication+async.swift in Sources */,
 				F97B45F624D9C6F200F4A88B /* ParseError.swift in Sources */,
 				7045769D26BD934000F86F71 /* ParseFile+async.swift in Sources */,
-				F97B463324D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
+				F97B463324D9C74400F4A88B /* URLSession.swift in Sources */,
 				F97B464E24D9C78B00F4A88B /* Add.swift in Sources */,
 				703B095326BF47FD005A112F /* ParseTwitter+async.swift in Sources */,
 				70BC9890252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B45FE24D9C6F200F4A88B /* ParseFile.swift in Sources */,
 				F97B45EE24D9C6F200F4A88B /* BaseParseUser.swift in Sources */,
+				706436A427341F6E007C6461 /* Encodable.swift in Sources */,
 				F97B460A24D9C6F200F4A88B /* Fetchable.swift in Sources */,
 				703B090C26BD984D005A112F /* ParseConfig+async.swift in Sources */,
 				F97B460E24D9C6F200F4A88B /* ParseObject.swift in Sources */,
@@ -2266,7 +2281,6 @@
 				916786E3259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				91F346BA269B766D005727B6 /* CloudViewModel.swift in Sources */,
 				F97B461724D9C6F200F4A88B /* Queryable.swift in Sources */,
-				F97B45DB24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				7028373526BD8883007688C9 /* ParseObject+async.swift in Sources */,
 				70C5503925B406B800B5DBC2 /* ParseSession.swift in Sources */,
 				7044C1C925C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */,
@@ -2274,7 +2288,7 @@
 				70D1BE7425BB43EB00A42E7C /* BaseConfig.swift in Sources */,
 				703B090826BD9764005A112F /* ParseCloud+async.swift in Sources */,
 				918CED5A2684C74000CFDC83 /* ParseLiveQuery+combine.swift in Sources */,
-				70386A0725D9718C0048EC1B /* Data+hexString.swift in Sources */,
+				70386A0725D9718C0048EC1B /* Data.swift in Sources */,
 				F97B466024D9C7B500F4A88B /* KeychainStore.swift in Sources */,
 				70170A452656B02D0070C905 /* ParseAnalytics.swift in Sources */,
 				70110D53250680140091CC1D /* ParseConstants.swift in Sources */,
@@ -2322,7 +2336,7 @@
 				7044C17625C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */,
 				F97B45E324D9C6F200F4A88B /* AnyEncodable.swift in Sources */,
 				700396EB25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
-				9116F67026A35D610082F6D6 /* URLCache+extensions.swift in Sources */,
+				9116F67026A35D610082F6D6 /* URLCache.swift in Sources */,
 				70572672259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				707A3C2125B14BD0000D215C /* ParseApple.swift in Sources */,
 				703B095E26BF481F005A112F /* ParseFacebook+async.swift in Sources */,
@@ -2346,6 +2360,7 @@
 				F97B45EB24D9C6F200F4A88B /* ParseGeoPoint.swift in Sources */,
 				F97B460324D9C6F200F4A88B /* NoBody.swift in Sources */,
 				703B093126BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,
+				706436AA27341FD0007C6461 /* Date.swift in Sources */,
 				700395BB25A1470F0052CB31 /* Subscription.swift in Sources */,
 				91285B142698DBF20051B544 /* ParseBytes.swift in Sources */,
 				7016ED5725C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
@@ -2356,12 +2371,13 @@
 				703B092C26BF290B005A112F /* ParseAuthentication+async.swift in Sources */,
 				F97B45F724D9C6F200F4A88B /* ParseError.swift in Sources */,
 				7045769E26BD934000F86F71 /* ParseFile+async.swift in Sources */,
-				F97B463424D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
+				F97B463424D9C74400F4A88B /* URLSession.swift in Sources */,
 				F97B464F24D9C78B00F4A88B /* Add.swift in Sources */,
 				703B095426BF47FD005A112F /* ParseTwitter+async.swift in Sources */,
 				70BC9891252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B45FF24D9C6F200F4A88B /* ParseFile.swift in Sources */,
 				F97B45EF24D9C6F200F4A88B /* BaseParseUser.swift in Sources */,
+				706436A527341F6E007C6461 /* Encodable.swift in Sources */,
 				F97B460B24D9C6F200F4A88B /* Fetchable.swift in Sources */,
 				703B090D26BD984D005A112F /* ParseConfig+async.swift in Sources */,
 				F97B460F24D9C6F200F4A88B /* ParseObject.swift in Sources */,
@@ -2576,7 +2592,7 @@
 				916786E5259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				91F346BC269B766D005727B6 /* CloudViewModel.swift in Sources */,
 				F97B45E924D9C6F200F4A88B /* Query.swift in Sources */,
-				F97B463624D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
+				F97B463624D9C74400F4A88B /* URLSession.swift in Sources */,
 				7028373726BD8883007688C9 /* ParseObject+async.swift in Sources */,
 				70C5503B25B406B800B5DBC2 /* ParseSession.swift in Sources */,
 				7044C1CB25C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */,
@@ -2584,7 +2600,7 @@
 				70D1BE7625BB43EB00A42E7C /* BaseConfig.swift in Sources */,
 				703B090A26BD9764005A112F /* ParseCloud+async.swift in Sources */,
 				918CED5C2684C74000CFDC83 /* ParseLiveQuery+combine.swift in Sources */,
-				70386A0925D9718C0048EC1B /* Data+hexString.swift in Sources */,
+				70386A0925D9718C0048EC1B /* Data.swift in Sources */,
 				F97B460524D9C6F200F4A88B /* NoBody.swift in Sources */,
 				70170A472656B02D0070C905 /* ParseAnalytics.swift in Sources */,
 				F97B45E124D9C6F200F4A88B /* AnyCodable.swift in Sources */,
@@ -2630,9 +2646,8 @@
 				7045769626BD8F8100F86F71 /* ParseInstallation+async.swift in Sources */,
 				7003960C25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
 				7044C17825C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */,
-				F97B45DD24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				700396ED25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
-				9116F67226A35D620082F6D6 /* URLCache+extensions.swift in Sources */,
+				9116F67226A35D620082F6D6 /* URLCache.swift in Sources */,
 				70572674259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				707A3C2325B14BD0000D215C /* ParseApple.swift in Sources */,
 				703B096026BF481F005A112F /* ParseFacebook+async.swift in Sources */,
@@ -2656,6 +2671,7 @@
 				70110D5A2506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45F924D9C6F200F4A88B /* ParseError.swift in Sources */,
 				703B093326BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,
+				706436AC27341FD0007C6461 /* Date.swift in Sources */,
 				700395BD25A1470F0052CB31 /* Subscription.swift in Sources */,
 				91285B162698DBF20051B544 /* ParseBytes.swift in Sources */,
 				7016ED5925C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
@@ -2672,6 +2688,7 @@
 				70BC9893252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B465524D9C78C00F4A88B /* AddUnique.swift in Sources */,
 				F97B464D24D9C78B00F4A88B /* Delete.swift in Sources */,
+				706436A727341F6E007C6461 /* Encodable.swift in Sources */,
 				F97B461524D9C6F200F4A88B /* Savable.swift in Sources */,
 				703B090F26BD984D005A112F /* ParseConfig+async.swift in Sources */,
 				F97B462524D9C6F200F4A88B /* ParseKeyValueStore.swift in Sources */,
@@ -2703,7 +2720,7 @@
 				916786E4259B7DDA00BB5B4E /* ParseCloud.swift in Sources */,
 				91F346BB269B766D005727B6 /* CloudViewModel.swift in Sources */,
 				F97B45E824D9C6F200F4A88B /* Query.swift in Sources */,
-				F97B463524D9C74400F4A88B /* URLSession+extensions.swift in Sources */,
+				F97B463524D9C74400F4A88B /* URLSession.swift in Sources */,
 				7028373626BD8883007688C9 /* ParseObject+async.swift in Sources */,
 				70C5503A25B406B800B5DBC2 /* ParseSession.swift in Sources */,
 				7044C1CA25C5B2B10011F6E7 /* ParseAuthentication+combine.swift in Sources */,
@@ -2711,7 +2728,7 @@
 				70D1BE7525BB43EB00A42E7C /* BaseConfig.swift in Sources */,
 				703B090926BD9764005A112F /* ParseCloud+async.swift in Sources */,
 				918CED5B2684C74000CFDC83 /* ParseLiveQuery+combine.swift in Sources */,
-				70386A0825D9718C0048EC1B /* Data+hexString.swift in Sources */,
+				70386A0825D9718C0048EC1B /* Data.swift in Sources */,
 				F97B460424D9C6F200F4A88B /* NoBody.swift in Sources */,
 				70170A462656B02D0070C905 /* ParseAnalytics.swift in Sources */,
 				F97B45E024D9C6F200F4A88B /* AnyCodable.swift in Sources */,
@@ -2757,9 +2774,8 @@
 				7045769526BD8F8100F86F71 /* ParseInstallation+async.swift in Sources */,
 				7003960B25A184EF0052CB31 /* ParseLiveQuery.swift in Sources */,
 				7044C17725C4ECFF0011F6E7 /* ParseCloud+combine.swift in Sources */,
-				F97B45DC24D9C6F200F4A88B /* Extensions.swift in Sources */,
 				700396EC25A3892D0052CB31 /* LiveQuerySocketDelegate.swift in Sources */,
-				9116F67126A35D620082F6D6 /* URLCache+extensions.swift in Sources */,
+				9116F67126A35D620082F6D6 /* URLCache.swift in Sources */,
 				70572673259033A700F0ADD5 /* ParseFileManager.swift in Sources */,
 				707A3C2225B14BD0000D215C /* ParseApple.swift in Sources */,
 				703B095F26BF481F005A112F /* ParseFacebook+async.swift in Sources */,
@@ -2783,6 +2799,7 @@
 				70110D592506CE890091CC1D /* BaseParseInstallation.swift in Sources */,
 				F97B45F824D9C6F200F4A88B /* ParseError.swift in Sources */,
 				703B093226BF42C2005A112F /* ParseAnonymous+combine.swift in Sources */,
+				706436AB27341FD0007C6461 /* Date.swift in Sources */,
 				700395BC25A1470F0052CB31 /* Subscription.swift in Sources */,
 				91285B152698DBF20051B544 /* ParseBytes.swift in Sources */,
 				7016ED5825C4C32B00038648 /* ParseInstallation+combine.swift in Sources */,
@@ -2799,6 +2816,7 @@
 				70BC9892252A5B5C00FF3074 /* Objectable.swift in Sources */,
 				F97B465424D9C78C00F4A88B /* AddUnique.swift in Sources */,
 				F97B464C24D9C78B00F4A88B /* Delete.swift in Sources */,
+				706436A627341F6E007C6461 /* Encodable.swift in Sources */,
 				F97B461424D9C6F200F4A88B /* Savable.swift in Sources */,
 				703B090E26BD984D005A112F /* ParseConfig+async.swift in Sources */,
 				F97B462424D9C6F200F4A88B /* ParseKeyValueStore.swift in Sources */,
