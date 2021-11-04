@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ParseSwift 2.2.1 Docs
+          ParseSwift 2.2.2 Docs
         </a>
          (96% documented)
       </p>
@@ -656,39 +656,6 @@ Update commits as needed for improvement.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A9OperationV"></a>
-                    <a name="//apple_ref/swift/Struct/ParseOperation" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A9OperationV">ParseOperation</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>A <code>ParseOperation</code> represents a modification to a value in a <code><a href="Protocols/ParseObject.html">ParseObject</a></code>.
-For example, setting, deleting, or incrementing a value are all <code>ParseOperation</code>&lsquo;s.
-<code>ParseOperation</code> themselves can be considered to be immutable.</p>
-
-<p>In most cases, you should not call this class directly as a <code>ParseOperation</code> can be
-indirectly created from any <code><a href="Protocols/ParseObject.html">ParseObject</a></code> by using its <code>operation</code> property.</p>
-
-                        <a href="Structs/ParseOperation.html" class="slightly-smaller">See more</a>
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Savable</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
-
-                        </div>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
                     <a name="/s:10ParseSwift0A13ConfigurationV"></a>
                     <a name="//apple_ref/swift/Struct/ParseConfiguration" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift0A13ConfigurationV">ParseConfiguration</a>
@@ -1004,6 +971,39 @@ This can be a image, video, or anything else that an application needs to refere
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift0A9OperationV"></a>
+                    <a name="//apple_ref/swift/Struct/ParseOperation" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A9OperationV">ParseOperation</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A <code>ParseOperation</code> represents a modification to a value in a <code><a href="Protocols/ParseObject.html">ParseObject</a></code>.
+For example, setting, deleting, or incrementing a value are all <code>ParseOperation</code>&lsquo;s.
+<code>ParseOperation</code> themselves can be considered to be immutable.</p>
+
+<p>In most cases, you do not need to create an instance of <code>ParseOperation</code> directly as it can be
+indirectly created from any <code><a href="Protocols/ParseObject.html">ParseObject</a></code> by using the respective <code>operation</code> property.</p>
+
+                        <a href="Structs/ParseOperation.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseOperation</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt">Savable</span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift0A7PolygonV"></a>
                     <a name="//apple_ref/swift/Struct/ParsePolygon" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift0A7PolygonV">ParsePolygon</a>
@@ -1048,6 +1048,9 @@ for geo queries. This allows proximity-based queries on the key.</p>
                       <div class="abstract">
                         <p>The <code>ParseRelation</code> class that is used to access all of the children of a many-to-many relationship.
 Each instance of <code>ParseRelation</code> is associated with a particular parent object and key.</p>
+
+<p>In most cases, you do not need to create an instance of <code><a href="Structs/ParseOperation.html">ParseOperation</a></code> directly as it can be
+indirectly created from any <code><a href="Protocols/ParseObject.html">ParseObject</a></code> by using the respective <code>relation</code> property.</p>
 
                         <a href="Structs/ParseRelation.html" class="slightly-smaller">See more</a>
                       </div>
