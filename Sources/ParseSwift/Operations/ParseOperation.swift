@@ -38,12 +38,9 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
             throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
         }
         var mutableOperation = self
-        if let currentValue = target[keyPath: key.1] as? NSObject,
-           let updatedValue = value as? NSObject {
-            if currentValue != updatedValue {
-                mutableOperation.operations[key.0] = value
-                mutableOperation.target?[keyPath: key.1] = value
-            }
+        if !isEqual(target[keyPath: key.1], to: value) {
+            mutableOperation.operations[key.0] = value
+            mutableOperation.target?[keyPath: key.1] = value
         }
         return mutableOperation
     }
