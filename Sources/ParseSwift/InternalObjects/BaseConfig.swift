@@ -8,4 +8,4 @@
 
 import Foundation
 
-struct BaseConfig: ParseConfig { }
+struct BaseConfig: ParseConfig {}
