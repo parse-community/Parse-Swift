@@ -90,7 +90,6 @@ public extension ParseUser {
                       completion: promise)
         }
     }
-
 }
 
 #endif

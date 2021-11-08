@@ -12,7 +12,7 @@ import Combine
 
 public extension Query {
 
-    // MARK: Queryable - Combine
+    // MARK: Combine
 
     /**
      Finds objects *asynchronously* and publishes when complete.

@@ -11,7 +11,7 @@ import Foundation
 import Combine
 
 public extension ParseTwitter {
-    // MARK: Login - Combine
+    // MARK: Combine
 
     /**
      Login a `ParseUser` *asynchronously* using Twitter authentication. Publishes when complete.
@@ -60,7 +60,6 @@ public extension ParseTwitter {
 }
 
 public extension ParseTwitter {
-    // MARK: Link - Combine
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Twitter authentication. Publishes when complete.

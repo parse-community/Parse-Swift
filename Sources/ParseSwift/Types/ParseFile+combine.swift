@@ -15,7 +15,7 @@ import Combine
 
 public extension ParseFile {
 
-    // MARK: Fechable - Combine
+    // MARK: Combine
     /**
      Fetches a file with given url *synchronously*. Publishes when complete.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -50,7 +50,6 @@ public extension ParseFile {
         }
     }
 
-    // MARK: Savable - Combine
     /**
      Creates a file with given data *asynchronously* and executes the given callback block.
      Publishes when complete.
@@ -85,7 +84,6 @@ public extension ParseFile {
         }
     }
 
-    // MARK: Deletable - Combine
     /**
      Deletes the file from the Parse Server. Publishes when complete.
      - requires: `.useMasterKey` has to be available.

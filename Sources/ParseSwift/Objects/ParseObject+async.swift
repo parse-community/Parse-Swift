@@ -70,7 +70,6 @@ public extension ParseObject {
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension Sequence where Element: ParseObject {
-    // MARK: Batch Support - Async/Await
     /**
      Fetches a collection of objects *aynchronously* with the current data from the server and sets
      an error if one occurs.

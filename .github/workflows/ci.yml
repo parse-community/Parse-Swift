@@ -25,7 +25,6 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
-        target-name-filter: '^ParseSwift$'
         format: lcov
         search-paths: ./DerivedData
       env:

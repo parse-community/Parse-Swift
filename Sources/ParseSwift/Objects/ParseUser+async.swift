@@ -12,7 +12,7 @@ import Foundation
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseUser {
 
-    // MARK: Signing Up - Async/Await
+    // MARK: Async/Await
     /**
      Signs up the user *asynchronously* and publishes value.
 
@@ -55,7 +55,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Logging In - Async/Await
     /**
      Makes an *asynchronous* request to log in a user with specified credentials.
      Publishes an instance of the successfully logged in `ParseUser`.
@@ -98,7 +97,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Logging Out - Async/Await
     /**
      Logs out the currently logged in user *asynchronously*.
 
@@ -115,7 +113,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Password Reset - Async/Await
     /**
      Requests *asynchronously* a password reset email to be sent to the specified email address
      associated with the user account. This email allows the user to securely reset their password on the web.
@@ -132,7 +129,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Verification Email Request - Async/Await
     /**
      Requests *asynchronously* a verification email be sent to the specified email address
      associated with the user account.
@@ -149,7 +145,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Fetchable - Async/Await
     /**
      Fetches the `ParseUser` *aynchronously* with the current data from the server and sets an error if one occurs.
      - parameter includeKeys: The name(s) of the key(s) to include that are
@@ -172,7 +167,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Savable - Async/Await
     /**
      Saves the `ParseUser` *asynchronously*.
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
@@ -193,7 +187,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Deletable - Async/Await
     /**
      Deletes the `ParseUser` *asynchronously*.
 
@@ -210,7 +203,6 @@ public extension ParseUser {
     }
 }
 
-// MARK: Batch Support - Async/Await
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension Sequence where Element: ParseUser {
     /**

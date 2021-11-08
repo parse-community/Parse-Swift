@@ -11,7 +11,7 @@ import Foundation
 import Combine
 
 public extension ParseApple {
-    // MARK: Login - Combine
+    // MARK: Combine
 
     /**
      Login a `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
@@ -48,7 +48,6 @@ public extension ParseApple {
 }
 
 public extension ParseApple {
-    // MARK: Link - Combine
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.

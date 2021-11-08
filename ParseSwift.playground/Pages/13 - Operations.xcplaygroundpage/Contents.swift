@@ -21,7 +21,7 @@ struct GameScore: ParseObject {
     var ACL: ParseACL?
 
     //: Your own properties.
-    var score: Int = 0
+    var score: Int? = 0
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -45,7 +45,7 @@ do {
     savedScore = try GameScore(score: 102).save()
 } catch {
     savedScore = nil
-    fatalError("Error saving: \(error)")
+    assertionFailure("Error saving: \(error)")
 }
 
 //: Then we will increment the score.
@@ -69,8 +69,20 @@ do {
     print(error)
 }
 
-//: There are other operations: add/remove/delete objects from `ParseObject`s.
+//: You can also remove a value for a property using unset.
+let unsetOperation = savedScore
+    .operation.unset(("score", \.score))
+do {
+    let updatedScore = try unsetOperation.save()
+    print("Updated score: \(updatedScore). Check the new score on Parse Dashboard.")
+} catch {
+    print(error)
+}
+
+//: There are other operations: set/forceSet/unset/add/remove, etc. objects from `ParseObject`s.
 //: In fact, the `users` and `roles` relations from `ParseRoles` used the add/remove operations.
+//: Multiple operations can be chained together. See:
+//: https://github.com/parse-community/Parse-Swift/pull/268#issuecomment-955714414
 let operations = savedScore.operation
 
 //: Example: operations.add("hello", objects: ["test"]).

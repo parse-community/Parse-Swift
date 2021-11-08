@@ -64,7 +64,6 @@ public extension ParseObject {
 }
 
 public extension Sequence where Element: ParseObject {
-    // MARK: Batch Support - Combine
     /**
      Fetches a collection of objects *aynchronously* with the current data from the server and sets
      an error if one occurs. Publishes when complete.

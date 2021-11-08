@@ -45,7 +45,6 @@ public extension ParseAnonymous {
 
 public extension ParseAnonymous {
 
-    // MARK: Link - Combine
     func linkPublisher(authData: [String: String],
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
