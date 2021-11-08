@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 2.2.2 Docs
+          ParseSwift 2.2.3 Docs
         </a>
          (96% documented)
       </p>
@@ -919,6 +919,19 @@ It should have the following argument signature: <code>(Result&lt;AuthenticatedU
                     </section>
                   </div>
                 </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Combine"></a>
+                <a name="//apple_ref/swift/Section/Combine" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Combine"></a>
+                  <h3 class="section-name"><span>Combine</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
                 <li class="item">
                   <div>
                     <code>
@@ -932,7 +945,7 @@ It should have the following argument signature: <code>(Result&lt;AuthenticatedU
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using the respective authentication type.</p>
+                        <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using the respective authentication type. Publishes when complete.</p>
 
                       </div>
                       <div class="declaration">
@@ -1015,7 +1028,7 @@ It should have the following argument signature: <code>(Result&lt;AuthenticatedU
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using the respective authentication type.</p>
+                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using the respective authentication type. Publishes when complete.</p>
 
                       </div>
                       <div class="declaration">
@@ -1101,7 +1114,7 @@ It should have the following argument signature: <code>(Result&lt;AuthenticatedU
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Unlink the <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> from the respective authentication type.</p>
+                        <p>Unlink the <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> from the respective authentication type. Publishes when complete.</p>
 
                       </div>
                       <h4>Default Implementation</h4>
@@ -1192,7 +1205,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Unlink the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> from the respective authentication type.</p>
+                        <p>Unlink the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> from the respective authentication type. Publishes when complete.</p>
 
                       </div>
                       <h4>Default Implementation</h4>
@@ -1204,6 +1217,231 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">unlinkPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/Async%2FAwait"></a>
+                <a name="//apple_ref/swift/Section/Async/Await" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/Async%2FAwait"></a>
+                  <h3 class="section-name"><span>Async/Await</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A14AuthenticationP4link8authData7options17AuthenticatedUserQzSDyS2SG_ShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/link(authData:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A14AuthenticationP4link8authData7options17AuthenticatedUserQzSDyS2SG_ShyAA3APIV6OptionOGtYaKF">link(authData:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using the respective authentication type.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">12.0</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">15.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">8.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">15.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">link</span><span class="p">(</span><span class="nv">authData</span><span class="p">:</span> <span class="p">[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">String</span><span class="p">],</span>
+          <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">AuthenticatedUser</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>authData</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The authData for the respective authentication type.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>returns</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An instance of the linked <code>AuthenticatedUser</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A14AuthenticationP6unlink_7options17AuthenticatedUserQzAG_ShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/unlink(_:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A14AuthenticationP6unlink_7options17AuthenticatedUserQzAG_ShyAA3APIV6OptionOGtYaKF">unlink(_:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation, asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unlink the <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> from the respective authentication type.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">12.0</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">15.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">8.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">15.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">unlink</span><span class="p">(</span><span class="n">_</span> <span class="nv">user</span><span class="p">:</span> <span class="kt">AuthenticatedUser</span><span class="p">,</span>
+            <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">AuthenticatedUser</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>user</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> to unlink. The user must be logged in on this device.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>returns</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>An instance of the unlinked <code>AuthenticatedUser</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A14AuthenticationP6unlink7options17AuthenticatedUserQzShyAA3APIV6OptionOG_tYaKF"></a>
+                    <a name="//apple_ref/swift/Method/unlink(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A14AuthenticationP6unlink7options17AuthenticatedUserQzShyAA3APIV6OptionOG_tYaKF">unlink(options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Default implementation, asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Unlink the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> from the respective authentication type.</p>
+
+                      </div>
+                      <h4>Default Implementation</h4>
+                      <div class="default_impl abstract">
+                        
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">@available</span><span class="p">(</span><span class="n">macOS</span> <span class="mf">12.0</span><span class="p">,</span> <span class="n">iOS</span> <span class="mf">15.0</span><span class="p">,</span> <span class="n">watchOS</span> <span class="mf">8.0</span><span class="p">,</span> <span class="n">tvOS</span> <span class="mf">15.0</span><span class="p">,</span> <span class="o">*</span><span class="p">)</span>
+<span class="kd">func</span> <span class="nf">unlink</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span><span class="p">)</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">AuthenticatedUser</span></code></pre>
 
                         </div>
                       </div>
@@ -1238,13 +1476,12 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                             <tr>
                               <td>
                                 <code>
-                                <em>completion</em>
+                                <em>returns</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>The block to execute.
-It should have the following argument signature: <code>(Result&lt;Self, ParseError&gt;)</code>.</p>
+                                  <p>An instance of the unlinked <code>AuthenticatedUser</code>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1304,7 +1541,7 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-11-04)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-11-08)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

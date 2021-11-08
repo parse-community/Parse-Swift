@@ -29,15 +29,8 @@
       "warning": "undocumented"
     },
     {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Internal/ParseAnonymous+async.swift",
-      "line": 52,
-      "symbol": "ParseAnonymous.link(authData:options:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Internal/ParseAnonymous+combine.swift",
-      "line": 49,
+      "line": 48,
       "symbol": "ParseAnonymous.linkPublisher(authData:options:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -46,20 +39,6 @@
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Internal/ParseAnonymous.swift",
       "line": 41,
       "symbol": "ParseAnonymous.init()",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication+async.swift",
-      "line": 17,
-      "symbol": "ParseAuthentication.unlink(_:options:)",
-      "symbol_kind": "source.lang.swift.decl.function.method.instance",
-      "warning": "undocumented"
-    },
-    {
-      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication+async.swift",
-      "line": 22,
-      "symbol": "ParseAuthentication.unlink(options:)",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
     },
@@ -79,7 +58,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Authentication/Protocols/ParseAuthentication.swift",
-      "line": 148,
+      "line": 180,
       "symbol": "ParseAuthentication.isLinked",
       "symbol_kind": "source.lang.swift.decl.var.instance",
       "warning": "undocumented"
