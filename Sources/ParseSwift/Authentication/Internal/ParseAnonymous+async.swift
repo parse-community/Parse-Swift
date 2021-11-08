@@ -12,7 +12,7 @@ import Foundation
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseAnonymous {
 
-    // MARK: Login - Async/Await
+    // MARK: Async/Await
     /**
      Login a `ParseUser` *asynchronously* using the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -46,7 +46,6 @@ public extension ParseAnonymous {
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseAnonymous {
 
-    // MARK: Link - Async/Await
     func link(authData: [String: String],
               options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in

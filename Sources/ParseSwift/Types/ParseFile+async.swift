@@ -15,7 +15,7 @@ import FoundationNetworking
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseFile {
 
-    // MARK: Fetchable - Async/Await
+    // MARK: Async/Await
     /**
      Fetches a file with given url *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -52,7 +52,6 @@ public extension ParseFile {
         }
     }
 
-    // MARK: Savable - Async/Await
     /**
      Creates a file with given data *asynchronously* and executes the given callback block.
      A name will be assigned to it by the server. If the file hasn't been downloaded, it will automatically
@@ -91,7 +90,6 @@ public extension ParseFile {
         }
     }
 
-    // MARK: Deletable - Async/Await
     /**
      Deletes the file from the Parse Server. Publishes when complete.
      - requires: `.useMasterKey` has to be available.

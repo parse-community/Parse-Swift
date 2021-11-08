@@ -11,7 +11,7 @@ import Foundation
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseTwitter {
-    // MARK: Login - Async/Await
+    // MARK: Async/Await
 
     /**
      Login a `ParseUser` *asynchronously* using Twitter authentication.
@@ -63,7 +63,6 @@ public extension ParseTwitter {
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseTwitter {
-    // MARK: Link - Async/Await
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Twitter authentication.

@@ -64,7 +64,6 @@ public extension ParseInstallation {
     }
 }
 
-// MARK: Batch Support - Combine
 public extension Sequence where Element: ParseInstallation {
     /**
      Fetches a collection of installations *aynchronously* with the current data from the server and sets

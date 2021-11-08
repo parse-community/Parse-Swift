@@ -12,7 +12,7 @@ import Combine
 
 public extension ParseCloud {
 
-    // MARK: Functions - Combine
+    // MARK: Combine
 
     /**
      Calls a Cloud Code function *asynchronously* and returns a result of it's execution.
@@ -26,8 +26,6 @@ public extension ParseCloud {
                              completion: promise)
         }
     }
-
-    // MARK: Jobs - Combine
 
     /**
      Starts a Cloud Code Job *asynchronously* and returns a result with the jobStatusId of the job.

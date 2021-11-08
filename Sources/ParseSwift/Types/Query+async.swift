@@ -12,7 +12,7 @@ import Foundation
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension Query {
 
-    // MARK: Queryable - Async/Await
+    // MARK: Async/Await
 
     /**
      Finds objects *asynchronously* and publishes when complete.

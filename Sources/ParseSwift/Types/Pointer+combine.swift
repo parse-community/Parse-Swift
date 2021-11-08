@@ -10,7 +10,7 @@
 import Foundation
 import Combine
 
-// MARK: Fetchable - Combine
+// MARK: Combine
 public extension Pointer {
     /**
      Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.

@@ -12,7 +12,7 @@ import Foundation
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseCloud {
 
-    // MARK: Functions - Aysnc/Await
+    // MARK: Aysnc/Await
 
     /**
      Calls a Cloud Code function *asynchronously* and returns a result of it's execution.
@@ -26,8 +26,6 @@ public extension ParseCloud {
                              completion: continuation.resume)
         }
     }
-
-    // MARK: Jobs - Aysnc/Await
 
     /**
      Starts a Cloud Code Job *asynchronously* and returns a result with the jobStatusId of the job.

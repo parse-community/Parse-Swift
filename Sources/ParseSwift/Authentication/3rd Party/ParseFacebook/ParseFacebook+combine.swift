@@ -11,7 +11,7 @@ import Foundation
 import Combine
 
 public extension ParseFacebook {
-    // MARK: Login - Combine
+    // MARK: Combine
     /**
      Login a `ParseUser` *asynchronously* using Facebook authentication for limited login. Publishes when complete.
      - parameter userId: The `userId` from `FacebookSDK`.
@@ -70,7 +70,6 @@ public extension ParseFacebook {
 }
 
 public extension ParseFacebook {
-    // MARK: Link - Combine
     /**
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login.
      Publishes when complete.

@@ -11,7 +11,7 @@ import Foundation
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseLDAP {
-    // MARK: Login - Async/Await
+    // MARK: Async/Await
     /**
      Login a `ParseUser` *asynchronously* using LDAP authentication.
      - parameter id: The id of the `user`.
@@ -50,7 +50,6 @@ public extension ParseLDAP {
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseLDAP {
-    // MARK: Link - Async/Await
     /**
      Link the *current* `ParseUser` *asynchronously* using LDAP authentication.
      - parameter id: The id of the `user`.

@@ -11,7 +11,7 @@ import Foundation
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseApple {
-    // MARK: Login - Async/Await
+    // MARK: Async/Await
 
     /**
      Login a `ParseUser` *asynchronously* using Apple authentication.
@@ -51,7 +51,6 @@ public extension ParseApple {
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseApple {
-    // MARK: Link - Async/Await
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Apple authentication.

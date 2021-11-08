@@ -12,7 +12,7 @@ import Foundation
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseInstallation {
 
-    // MARK: Fetchable - Async/Await
+    // MARK: Async/Await
     /**
      Fetches the `ParseInstallation` *aynchronously* with the current data from the server
      and sets an error if one occurs. Publishes when complete.
@@ -35,7 +35,6 @@ public extension ParseInstallation {
         }
     }
 
-    // MARK: Savable - Async/Await
     /**
      Saves the `ParseInstallation` *asynchronously*.
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
@@ -55,7 +54,6 @@ public extension ParseInstallation {
         }
     }
 
-    // MARK: Deletable - Async/Await
     /**
      Deletes the `ParseInstallation` *asynchronously*.
 
@@ -71,7 +69,6 @@ public extension ParseInstallation {
     }
 }
 
-// MARK: Batch Support - Async/Await
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension Sequence where Element: ParseInstallation {
     /**

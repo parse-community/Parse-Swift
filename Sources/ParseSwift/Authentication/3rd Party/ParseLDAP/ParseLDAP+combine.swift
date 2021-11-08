@@ -11,7 +11,7 @@ import Foundation
 import Combine
 
 public extension ParseLDAP {
-    // MARK: Login - Combine
+    // MARK: Combine
     /**
      Login a `ParseUser` *asynchronously* using LDAP authentication. Publishes when complete.
      - parameter id: The id of the `user`.
@@ -47,7 +47,6 @@ public extension ParseLDAP {
 }
 
 public extension ParseLDAP {
-    // MARK: Link - Combine
     /**
      Link the *current* `ParseUser` *asynchronously* using LDAP authentication. Publishes when complete.
      - parameter id: The id of the `user`.
