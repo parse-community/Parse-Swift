@@ -25,7 +25,6 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
-        format: lcov
         search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -56,7 +55,6 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
-        format: lcov
         search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -81,7 +79,6 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
-        format: lcov
         search-paths: ./DerivedData
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -131,7 +128,6 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
-        format: lcov
         search-paths: ./.build
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -167,7 +163,6 @@ jobs:
       uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
-        format: lcov
         search-paths: ./.build
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v2
@@ -191,7 +186,7 @@ jobs:
         run: swift test --enable-test-discovery --enable-code-coverage
       - name: Prepare codecov
         run: |
-          llvm-cov export -format="lcov" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info_linux.lcov
+          llvm-cov export -format="txt" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info_linux.txt
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
