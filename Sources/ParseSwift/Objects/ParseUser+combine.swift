@@ -12,7 +12,7 @@ import Combine
 
 public extension ParseUser {
 
-    // MARK: Signing Up - Combine
+    // MARK: Combine
     /**
      Signs up the user *asynchronously* and publishes value.
 
@@ -51,7 +51,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Logging In - Combine
     /**
      Makes an *asynchronous* request to log in a user with specified credentials.
      Publishes an instance of the successfully logged in `ParseUser`.
@@ -89,7 +88,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Logging Out - Combine
     /**
      Logs out the currently logged in user *asynchronously*. Publishes when complete.
 
@@ -104,7 +102,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Password Reset - Combine
     /**
      Requests *asynchronously* a password reset email to be sent to the specified email address
      associated with the user account. This email allows the user to securely reset their password on the web.
@@ -120,7 +117,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Verification Email Request - Combine
     /**
      Requests *asynchronously* a verification email be sent to the specified email address
      associated with the user account. Publishes when complete.
@@ -135,7 +131,6 @@ public extension ParseUser {
         }
     }
 
-    // MARK: Combine
     /**
      Fetches the `ParseUser` *aynchronously* with the current data from the server and sets an error if one occurs.
      Publishes when complete.
@@ -199,7 +194,6 @@ public extension ParseUser {
     }
 }
 
-// MARK: Batch Support - Combine
 public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *aynchronously* with the current data from the server and sets
