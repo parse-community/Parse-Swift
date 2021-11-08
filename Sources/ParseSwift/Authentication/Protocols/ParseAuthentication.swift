@@ -145,9 +145,8 @@ public protocol ParseAuthentication: Codable {
      - parameter returns: An instance of the logged in `AuthenticatedUser`.
      */
     @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
-    func func login(_ type: String,
-                    authData: [String: String],
-                    options: API.Options = []) async throws -> AuthenticatedUser
+    func login(authData: [String: String],
+               options: API.Options) async throws -> AuthenticatedUser
 
     /**
      Link the *current* `ParseUser` *asynchronously* using the respective authentication type.
@@ -155,9 +154,9 @@ public protocol ParseAuthentication: Codable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter returns: An instance of the linked `AuthenticatedUser`.
      */
-    func link(_ type: String,
-                     authData: [String: String],
-                     options: API.Options = []) async throws -> AuthenticatedUser
+    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    func link(authData: [String: String],
+              options: API.Options) async throws -> AuthenticatedUser
 
     /**
      Unlink the `ParseUser` *asynchronously* from the respective authentication type.
@@ -165,8 +164,9 @@ public protocol ParseAuthentication: Codable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter returns: An instance of the unlinked `AuthenticatedUser`.
      */
+    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
     func unlink(_ user: AuthenticatedUser,
-                options: API.Options = []) async throws -> AuthenticatedUser
+                options: API.Options) async throws -> AuthenticatedUser
 
     /**
      Unlink the *current* `ParseUser` *asynchronously* from the respective authentication type.
@@ -174,7 +174,8 @@ public protocol ParseAuthentication: Codable {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter returns: An instance of the unlinked `AuthenticatedUser`.
      */
-    func unlink(options: API.Options = []) async throws -> AuthenticatedUser
+    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    func unlink(options: API.Options) async throws -> AuthenticatedUser
     #endif
 }
 
