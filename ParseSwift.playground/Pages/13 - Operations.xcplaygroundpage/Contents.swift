@@ -71,7 +71,7 @@ do {
 
 //: You can also remove a value for a property using unset.
 let unsetOperation = savedScore
-    .operation.unset(("score",\.score))
+    .operation.unset(("score", \.score))
 do {
     let updatedScore = try unsetOperation.save()
     print("Updated score: \(updatedScore). Check the new score on Parse Dashboard.")

@@ -96,8 +96,9 @@ public protocol ParseAuthentication: Codable {
     func strip(_ user: AuthenticatedUser) -> AuthenticatedUser
 
     #if canImport(Combine)
+    // MARK: Combine
     /**
-     Login a `ParseUser` *asynchronously* using the respective authentication type.
+     Login a `ParseUser` *asynchronously* using the respective authentication type. Publishes when complete.
      - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -107,7 +108,7 @@ public protocol ParseAuthentication: Codable {
                         options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using the respective authentication type.
+     Link the *current* `ParseUser` *asynchronously* using the respective authentication type. Publishes when complete.
      - parameter authData: The authData for the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -117,7 +118,7 @@ public protocol ParseAuthentication: Codable {
                        options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
     /**
-     Unlink the `ParseUser` *asynchronously* from the respective authentication type.
+     Unlink the `ParseUser` *asynchronously* from the respective authentication type. Publishes when complete.
      - parameter user: The `ParseUser` to unlink. The user must be logged in on this device.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -128,13 +129,52 @@ public protocol ParseAuthentication: Codable {
                          options: API.Options) -> Future<AuthenticatedUser, ParseError>
 
     /**
+     Unlink the *current* `ParseUser` *asynchronously* from the respective authentication type. Publishes when complete.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     */
+    func unlinkPublisher(options: API.Options) -> Future<AuthenticatedUser, ParseError>
+    #endif
+
+    #if swift(>=5.5) && canImport(_Concurrency)
+    // MARK: Async/Await
+    /**
+     Login a `ParseUser` *asynchronously* using the respective authentication type.
+     - parameter authData: The authData for the respective authentication type.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter returns: An instance of the logged in `AuthenticatedUser`.
+     */
+    @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+    func func login(_ type: String,
+                    authData: [String: String],
+                    options: API.Options = []) async throws -> AuthenticatedUser
+
+    /**
+     Link the *current* `ParseUser` *asynchronously* using the respective authentication type.
+     - parameter authData: The authData for the respective authentication type.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter returns: An instance of the linked `AuthenticatedUser`.
+     */
+    func link(_ type: String,
+                     authData: [String: String],
+                     options: API.Options = []) async throws -> AuthenticatedUser
+
+    /**
+     Unlink the `ParseUser` *asynchronously* from the respective authentication type.
+     - parameter user: The `ParseUser` to unlink. The user must be logged in on this device.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter returns: An instance of the unlinked `AuthenticatedUser`.
+     */
+    func unlink(_ user: AuthenticatedUser,
+                options: API.Options = []) async throws -> AuthenticatedUser
+
+    /**
      Unlink the *current* `ParseUser` *asynchronously* from the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-     - parameter completion: The block to execute.
-     It should have the following argument signature: `(Result<Self, ParseError>)`.
+     - parameter returns: An instance of the unlinked `AuthenticatedUser`.
      */
-    func unlinkPublisher(options: API.Options) -> Future<AuthenticatedUser, ParseError>
+    func unlink(options: API.Options = []) async throws -> AuthenticatedUser
     #endif
 }
 
