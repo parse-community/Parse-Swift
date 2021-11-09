@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.3...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.4...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.2.4
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.3...2.2.4)
+
+__Fixes__
+- Delete all stored Parse data and cache when deleteKeychainIfNeeded is true ([#280](https://github.com/parse-community/Parse-Swift/pull/280)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.2...2.2.3)

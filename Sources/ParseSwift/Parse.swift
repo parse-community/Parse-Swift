@@ -331,7 +331,7 @@ public struct ParseSwift {
         if UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) == nil {
             if Self.configuration.deleteKeychainIfNeeded == true {
                 try? KeychainStore.old.deleteAll()
-                try? KeychainStore.shared.deleteAll()
+                BaseParseUser.deleteCurrentKeychain()
             }
 
             // This is no longer the first run
