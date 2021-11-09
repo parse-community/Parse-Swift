@@ -9,7 +9,6 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseUser {
 
     // MARK: Async/Await
@@ -203,7 +202,6 @@ public extension ParseUser {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *aynchronously* with the current data from the server and sets

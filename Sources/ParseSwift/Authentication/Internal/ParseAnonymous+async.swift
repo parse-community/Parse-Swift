@@ -9,7 +9,6 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseAnonymous {
 
     // MARK: Async/Await
@@ -43,7 +42,6 @@ public extension ParseAnonymous {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 public extension ParseAnonymous {
 
     func link(authData: [String: String],
