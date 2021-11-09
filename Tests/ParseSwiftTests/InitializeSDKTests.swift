@@ -46,9 +46,9 @@ class InitializeSDKTests: XCTestCase {
         if let identifier = Bundle.main.bundleIdentifier {
             try KeychainStore(service: "\(identifier).com.parse.sdk").deleteAll()
         }
+        URLSession.shared.configuration.urlCache?.removeAllCachedResponses()
         #endif
         try ParseStorage.shared.deleteAll()
-        URLSession.shared.configuration.urlCache?.removeAllCachedResponses()
     }
 
     #if !os(Linux) && !os(Android)
