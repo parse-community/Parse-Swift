@@ -41,17 +41,17 @@ class InitializeSDKTests: XCTestCase {
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
-        MockURLProtocol.removeAll()
         #if !os(Linux) && !os(Android)
         try KeychainStore.shared.deleteAll()
         if let identifier = Bundle.main.bundleIdentifier {
             try KeychainStore(service: "\(identifier).com.parse.sdk").deleteAll()
         }
         #endif
-        URLSession.parse.configuration.urlCache?.removeAllCachedResponses()
         try ParseStorage.shared.deleteAll()
+        URLSession.shared.configuration.urlCache?.removeAllCachedResponses()
     }
 
+    #if !os(Linux) && !os(Android)
     func addCachedResponse() {
         if URLSession.parse.configuration.urlCache == nil {
             URLSession.parse.configuration.urlCache = .init()
@@ -180,6 +180,7 @@ class InitializeSDKTests: XCTestCase {
         #endif
     }
 
+    /*
     #if !os(Linux) && !os(Android)
     func testFetchMissingCurrentInstallation() {
         let memory = InMemoryKeyValueStore()
@@ -191,25 +192,27 @@ class InitializeSDKTests: XCTestCase {
         Installation.saveCurrentContainerToKeychain()
         ParseVersion.current = ParseConstants.version
 
+        var foundInstallation = Installation()
+        foundInstallation.updateAutomaticInfo()
+        foundInstallation.objectId = "yarr"
+        foundInstallation.installationId = installationId
+
+        let results = QueryResponse<Installation>(results: [foundInstallation], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
         let expectation1 = XCTestExpectation(description: "Wait")
         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            var foundInstallation = Installation()
-            foundInstallation.updateAutomaticInfo()
-            foundInstallation.objectId = "yarr"
-            foundInstallation.installationId = installationId
-
-            let results = QueryResponse<Installation>(results: [foundInstallation], count: 1)
-            MockURLProtocol.mockRequests { _ in
-                do {
-                    let encoded = try ParseCoding.jsonEncoder().encode(results)
-                    return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-                } catch {
-                    return nil
-                }
-            }
 
             guard let url = URL(string: "http://localhost:1337/1") else {
                 XCTFail("Should create valid URL")
+                expectation1.fulfill()
                 return
             }
 
@@ -226,7 +229,7 @@ class InitializeSDKTests: XCTestCase {
                 return
             }
 
-            XCTAssertEqual(currentInstallation, foundInstallation)
+            XCTAssertEqual(currentInstallation.installationId, installationId)
 
             // Should be in Keychain
             guard let memoryInstallation: CurrentInstallationContainer<Installation>
@@ -237,21 +240,22 @@ class InitializeSDKTests: XCTestCase {
             }
             XCTAssertEqual(memoryInstallation.currentInstallation, currentInstallation)
 
-            #if !os(Linux) && !os(Android)
             // Should be in Keychain
             guard let keychainInstallation: CurrentInstallationContainer<Installation>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
                     XCTFail("Should get object from Keychain")
+                    expectation1.fulfill()
                 return
             }
             XCTAssertEqual(keychainInstallation.currentInstallation, currentInstallation)
-            #endif
+            MockURLProtocol.removeAll()
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
     }
     #endif
-
+    */
+    
     func testUpdateAuthChallenge() {
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
