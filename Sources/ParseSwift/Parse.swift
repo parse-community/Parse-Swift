@@ -333,7 +333,7 @@ public struct ParseSwift {
                 try? KeychainStore.old.deleteAll()
                 try? KeychainStore.shared.deleteAll()
             }
-            ParseSwift.clearCache()
+            clearCache()
             // This is no longer the first run
             UserDefaults.standard.setValue(String(ParseConstants.bundlePrefix),
                                            forKey: ParseConstants.bundlePrefix)

@@ -48,7 +48,32 @@ class InitializeSDKTests: XCTestCase {
             try KeychainStore(service: "\(identifier).com.parse.sdk").deleteAll()
         }
         #endif
+        URLSession.parse.configuration.urlCache?.removeAllCachedResponses()
         try ParseStorage.shared.deleteAll()
+    }
+
+    func addCachedResponse() {
+        if URLSession.parse.configuration.urlCache == nil {
+            URLSession.parse.configuration.urlCache = .init()
+        }
+        guard let server = URL(string: "http://parse.com"),
+              let data = "Test".data(using: .utf8) else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+
+        let response = URLResponse(url: server, mimeType: nil,
+                                   expectedContentLength: data.count,
+                                   textEncodingName: nil)
+        URLSession.parse.configuration.urlCache?
+            .storeCachedResponse(.init(response: response,
+                                       data: data),
+                                 for: .init(url: server))
+        guard let currentCache = URLSession.parse.configuration.urlCache else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertTrue(currentCache.currentMemoryUsage > 0)
     }
 
     #if !os(Linux) && !os(Android)
@@ -65,41 +90,56 @@ class InitializeSDKTests: XCTestCase {
         let key = "Hello"
         let value = "World"
         try KeychainStore.shared.set(value, for: key)
+        addCachedResponse()
 
         // Keychain should contain value on first run
         ParseSwift.deleteKeychainIfNeeded()
-        let storedValue: String? = try KeychainStore.shared.get(valueFor: key)
-        XCTAssertEqual(storedValue, value)
-        guard let firstRun = UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) as? String else {
-            XCTFail("Should have unwrapped")
-            return
-        }
-        XCTAssertEqual(firstRun, ParseConstants.bundlePrefix)
 
-        // Keychain should remain unchanged on 2+ runs
-        ParseSwift.configuration.deleteKeychainIfNeeded = true
-        ParseSwift.deleteKeychainIfNeeded()
-        let storedValue2: String? = try KeychainStore.shared.get(valueFor: key)
-        XCTAssertEqual(storedValue2, value)
-        guard let firstRun2 = UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) as? String else {
-            XCTFail("Should have unwrapped")
-            return
-        }
-        XCTAssertEqual(firstRun2, ParseConstants.bundlePrefix)
+        do {
+            let storedValue: String? = try KeychainStore.shared.get(valueFor: key)
+            XCTAssertEqual(storedValue, value)
+            guard let firstRun = UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) as? String else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            XCTAssertEqual(firstRun, ParseConstants.bundlePrefix)
 
-        // Keychain should delete on first run
-        UserDefaults.standard.removeObject(forKey: ParseConstants.bundlePrefix)
-        UserDefaults.standard.synchronize()
-        let firstRun3 = UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) as? String
-        XCTAssertNil(firstRun3)
-        ParseSwift.deleteKeychainIfNeeded()
-        let storedValue3: String? = try KeychainStore.shared.get(valueFor: key)
-        XCTAssertNil(storedValue3)
-        guard let firstRun4 = UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) as? String else {
-            XCTFail("Should have unwrapped")
-            return
+            // Keychain should remain unchanged on 2+ runs
+            ParseSwift.configuration.deleteKeychainIfNeeded = true
+            ParseSwift.deleteKeychainIfNeeded()
+            let storedValue2: String? = try KeychainStore.shared.get(valueFor: key)
+            XCTAssertEqual(storedValue2, value)
+            guard let firstRun2 = UserDefaults.standard
+                    .object(forKey: ParseConstants.bundlePrefix) as? String else {
+                        XCTFail("Should have unwrapped")
+                        return
+                    }
+            XCTAssertEqual(firstRun2, ParseConstants.bundlePrefix)
+
+            // Keychain should delete on first run
+            UserDefaults.standard.removeObject(forKey: ParseConstants.bundlePrefix)
+            UserDefaults.standard.synchronize()
+            let firstRun3 = UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) as? String
+            XCTAssertNil(firstRun3)
+            addCachedResponse()
+            ParseSwift.deleteKeychainIfNeeded()
+            let storedValue3: String? = try KeychainStore.shared.get(valueFor: key)
+            XCTAssertNil(storedValue3)
+            guard let firstRun4 = UserDefaults.standard
+                    .object(forKey: ParseConstants.bundlePrefix) as? String else {
+                        XCTFail("Should have unwrapped")
+                        return
+                    }
+            XCTAssertEqual(firstRun4, ParseConstants.bundlePrefix)
+
+            guard let currentCache = URLSession.parse.configuration.urlCache else {
+                XCTFail("Should have unwrapped")
+                return
+            }
+            XCTAssertTrue(currentCache.currentMemoryUsage == 0)
+        } catch {
+            XCTFail("\(error)")
         }
-        XCTAssertEqual(firstRun4, ParseConstants.bundlePrefix)
     }
     #endif
 
