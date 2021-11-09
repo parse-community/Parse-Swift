@@ -331,9 +331,9 @@ public struct ParseSwift {
         if UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) == nil {
             if Self.configuration.deleteKeychainIfNeeded == true {
                 try? KeychainStore.old.deleteAll()
-                BaseParseUser.deleteCurrentKeychain()
+                try? KeychainStore.shared.deleteAll()
             }
-
+            ParseSwift.clearCache()
             // This is no longer the first run
             UserDefaults.standard.setValue(String(ParseConstants.bundlePrefix),
                                            forKey: ParseConstants.bundlePrefix)
