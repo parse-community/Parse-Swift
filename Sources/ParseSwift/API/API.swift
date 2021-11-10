@@ -130,7 +130,7 @@ public struct API {
         /// - note: This is typically used indirectly by `ParseFile`.
         case tags([String: String])
         /// Add context.
-        /// - warning: Requires Parse Server > 4.5.0.
+        /// - warning: Requires Parse Server 5.0.0+.
         case context(Encodable)
         /// The caching policy to use for a specific http request. Determines when to
         /// return a response from the cache. See Apple's

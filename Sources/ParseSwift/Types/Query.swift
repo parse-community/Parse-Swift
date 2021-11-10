@@ -834,7 +834,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Exclude specific keys for a `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be excluded.
      - parameter keys: A variadic list of keys include in the result.
-     - warning: Requires Parse Server > 4.5.0.
+     - warning: Requires Parse Server 5.0.0+.
      */
     public func exclude(_ keys: String...) -> Query<T> {
         var mutableQuery = self
@@ -850,7 +850,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Exclude specific keys for a `ParseObject`.
      If this is called multiple times, then all of the keys specified in each of the calls will be excluded.
      - parameter keys: An array of keys to exclude in the result.
-     - warning: Requires Parse Server > 4.5.0.
+     - warning: Requires Parse Server 5.0.0+.
     */
     public func exclude(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
@@ -866,7 +866,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: A variadic list of keys include in the result.
-     - warning: Requires Parse Server > 4.5.0.
+     - warning: Requires Parse Server 5.0.0+.
      */
     public func select(_ keys: String...) -> Query<T> {
         var mutableQuery = self
@@ -882,7 +882,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      Make the query restrict the fields of the returned `ParseObject`s to include only the provided keys.
      If this is called multiple times, then all of the keys specified in each of the calls will be included.
      - parameter keys: An array of keys to include in the result.
-     - warning: Requires Parse Server > 4.5.0.
+     - warning: Requires Parse Server 5.0.0+.
      */
     public func select(_ keys: [String]) -> Query<T> {
         var mutableQuery = self
