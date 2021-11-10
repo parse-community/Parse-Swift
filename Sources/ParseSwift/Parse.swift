@@ -191,7 +191,7 @@ public struct ParseSwift {
            BaseParseInstallation.currentContainer.currentInstallation == nil {
             if let foundInstallation = try? BaseParseInstallation
                 .query("installationId" == installationId)
-                .first() {
+                .first(options: [.cachePolicy(.reloadIgnoringLocalCacheData)]) {
                 let newContainer = CurrentInstallationContainer<BaseParseInstallation>(currentInstallation: foundInstallation,
                                                                                        installationId: installationId)
                 BaseParseInstallation.currentContainer = newContainer
@@ -333,7 +333,7 @@ public struct ParseSwift {
                 try? KeychainStore.old.deleteAll()
                 try? KeychainStore.shared.deleteAll()
             }
-
+            clearCache()
             // This is no longer the first run
             UserDefaults.standard.setValue(String(ParseConstants.bundlePrefix),
                                            forKey: ParseConstants.bundlePrefix)
