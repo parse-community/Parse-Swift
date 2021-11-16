@@ -103,7 +103,7 @@ public extension ParseUser {
         get {
             guard let currentUserInMemory: CurrentUserContainer<Self>
                 = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentUser) else {
-                #if !os(Linux) && !os(Android)
+                #if !os(Linux) && !os(Android) && !os(Windows)
                 return try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser)
                 #else
                 return nil
@@ -115,14 +115,14 @@ public extension ParseUser {
     }
 
     internal static func saveCurrentContainerToKeychain() {
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentUser)
         #endif
     }
 
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentUser)
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         if #available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *) {
             URLSession.liveQuery.closeAll()
         }
@@ -992,7 +992,7 @@ extension ParseUser {
         var mutableSelf = self
         if let currentUser = Self.current,
            currentUser.hasSameObjectId(as: mutableSelf) == true {
-            #if !os(Linux) && !os(Android)
+            #if !os(Linux) && !os(Android) && !os(Windows)
             // swiftlint:disable:next line_length
             if let currentUserContainerInKeychain: CurrentUserContainer<BaseParseUser> = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
                currentUserContainerInKeychain.currentUser?.email == mutableSelf.email {

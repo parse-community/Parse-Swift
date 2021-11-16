@@ -86,7 +86,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -148,7 +148,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             XCTAssertEqual(fetched.welcomeMessage, configOnServer.welcomeMessage)
             XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
 
-            #if !os(Linux) && !os(Android)
+            #if !os(Linux) && !os(Android) && !os(Windows)
             //Should be updated in Keychain
             guard let keychainConfig: CurrentConfigContainer<Config>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
@@ -197,7 +197,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             XCTAssertTrue(saved)
             XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
 
-            #if !os(Linux) && !os(Android)
+            #if !os(Linux) && !os(Android) && !os(Windows)
             //Should be updated in Keychain
             guard let keychainConfig: CurrentConfigContainer<Config>
                 = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {

@@ -128,7 +128,7 @@ public extension ParseInstallation {
         get {
             guard let installationInMemory: CurrentInstallationContainer<Self> =
                     try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
-                #if !os(Linux) && !os(Android)
+                #if !os(Linux) && !os(Android) && !os(Windows)
                 guard let installationFromKeyChain: CurrentInstallationContainer<Self> =
                         try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation)
                 else {
@@ -191,14 +191,14 @@ public extension ParseInstallation {
     }
 
     internal static func saveCurrentContainerToKeychain() {
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentInstallation)
         #endif
     }
 
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentInstallation)
         #endif
         //Prepare new installation
@@ -253,7 +253,7 @@ extension ParseInstallation {
         guard let appInfo = Bundle.main.infoDictionary else {
             return
         }
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         #if TARGET_OS_MACCATALYST
         // If using an Xcode new enough to know about Mac Catalyst:
         // Mac Catalyst Apps use a prefix to the bundle ID. This should not be transmitted

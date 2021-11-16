@@ -41,7 +41,7 @@ class InitializeSDKTests: XCTestCase {
 
     override func tearDownWithError() throws {
         try super.tearDownWithError()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         if let identifier = Bundle.main.bundleIdentifier {
             try KeychainStore(service: "\(identifier).com.parse.sdk").deleteAll()
@@ -51,7 +51,7 @@ class InitializeSDKTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func addCachedResponse() {
         if URLSession.parse.configuration.urlCache == nil {
             URLSession.parse.configuration.urlCache = .init()
@@ -168,7 +168,7 @@ class InitializeSDKTests: XCTestCase {
         }
         XCTAssertEqual(memoryInstallation.currentInstallation, currentInstallation)
 
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         // Should be in Keychain
         guard let keychainInstallation: CurrentInstallationContainer<Installation>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) else {
@@ -179,7 +179,7 @@ class InitializeSDKTests: XCTestCase {
         #endif
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testFetchMissingCurrentInstallation() {
         let memory = InMemoryKeyValueStore()
         ParseStorage.shared.use(memory)
@@ -270,7 +270,7 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertNil(ParseSwift.sessionDelegate.authentication)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testDontOverwriteMigratedInstallation() throws {
         guard let url = URL(string: "http://localhost:1337/1") else {
             XCTFail("Should create valid URL")
@@ -456,7 +456,7 @@ class InitializeSDKTests: XCTestCase {
         XCTAssertNotNil(installation.installationId)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testMigrateOldKeychainToNew() throws {
         var user = BaseParseUser()
         user.objectId = "wow"

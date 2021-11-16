@@ -6,7 +6,7 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android)
+#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 
 extension ParseLiveQuery {

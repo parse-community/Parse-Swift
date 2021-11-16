@@ -2,11 +2,18 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.4...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.5...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __Improvements__
 - Enable async/await for iOS13, tvOS13, watchOS6, and macOS10_15. Requires Xcode 13.2 ([#278](https://github.com/parse-community/Parse-Swift/pull/278)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.2.5
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.4...2.2.5)
+
+__Fixes__
+- Overload QueryConstraint to accept Pointer<ParseObject> ([#281](https://github.com/parse-community/Parse-Swift/pull/281)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add checks to build for Windows ([#281](https://github.com/parse-community/Parse-Swift/pull/281)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.3...2.2.4)
@@ -493,7 +500,7 @@ __Improvements__
 
 __Fixes__
 - Delete current installation during logout ([#52](https://github.com/parse-community/Parse-Swift/pull/52)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Parse server supports `$eq`, but this isn't supported by LiveQueryServer, switched to supported ([#48](https://github.com/parse-community/Parse-Swift/pull/48)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Parse server supports `$eq`, but this isn't supported by LiveQueryServer, switched to supported ([#49](https://github.com/parse-community/Parse-Swift/pull/49)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Bug when updating a ParseObject bug where objects was accidently converted to pointers ([#48](https://github.com/parse-community/Parse-Swift/pull/48)), thanks to [Corey Baker](https://github.com/cbaker6).
 - User logout was calling the wrong endpoint ([#43](https://github.com/parse-community/Parse-Swift/pull/43)), thanks to [Corey Baker](https://github.com/cbaker6) and [Tom Fox](https://github.com/TomWFox).
 - Fix an issue where ACL was overwritten with nil ([#40](https://github.com/parse-community/Parse-Swift/pull/40)), thanks to [Corey Baker](https://github.com/cbaker6).

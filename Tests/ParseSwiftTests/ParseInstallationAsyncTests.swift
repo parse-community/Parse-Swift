@@ -6,7 +6,7 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android)
+#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -104,7 +104,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -315,7 +315,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
                 }
                 XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                #if !os(Linux) && !os(Android)
+                #if !os(Linux) && !os(Android) && !os(Windows)
                 //Should be updated in Keychain
                 guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),
@@ -387,7 +387,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
                 }
                 XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                #if !os(Linux) && !os(Android)
+                #if !os(Linux) && !os(Android) && !os(Windows)
                 //Should be updated in Keychain
                 guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
                     = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation),

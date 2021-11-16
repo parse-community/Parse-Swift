@@ -158,7 +158,7 @@ public struct ParseSwift {
             let oneNineEightSDKVersion = try ParseVersion("1.9.8")
 
             // All migrations from previous versions to current should occur here:
-            #if !os(Linux) && !os(Android)
+            #if !os(Linux) && !os(Android) && !os(Windows)
             if previousSDKVersion < oneNineEightSDKVersion {
                 // Old macOS Keychain can't be used because it's global to all apps.
                 _ = KeychainStore.old
@@ -200,7 +200,7 @@ public struct ParseSwift {
         }
         BaseParseInstallation.createNewInstallationIfNeeded()
 
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         if configuration.migrateFromObjcSDK {
             if let identifier = Bundle.main.bundleIdentifier {
                 let objcParseKeychain = KeychainStore(service: "\(identifier).com.parse.sdk")
@@ -326,7 +326,7 @@ public struct ParseSwift {
     }
 
     static internal func deleteKeychainIfNeeded() {
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         // Clear items out of the Keychain on app first run.
         if UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) == nil {
             if Self.configuration.deleteKeychainIfNeeded == true {
@@ -357,7 +357,7 @@ public struct ParseSwift {
                                                        authentication: authentication)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     /**
      Delete the Parse iOS Objective-C SDK Keychain from the device.
      - note: ParseSwift uses a different Keychain. After migration, the iOS Objective-C SDK Keychain is no longer needed.

@@ -84,7 +84,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -375,7 +375,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                         XCTFail("Should have a new installation")
                     }
 
-                    #if !os(Linux) && !os(Android)
+                    #if !os(Linux) && !os(Android) && !os(Windows)
                     if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
                         = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
                         if installationFromKeychain.installationId == oldInstallationId
@@ -438,7 +438,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                         XCTFail("Should have a new installation")
                     }
 
-                    #if !os(Linux) && !os(Android)
+                    #if !os(Linux) && !os(Android) && !os(Windows)
                     if let installationFromKeychain: CurrentInstallationContainer<BaseParseInstallation>
                         = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentInstallation) {
                             if installationFromKeychain.installationId == oldInstallationId
@@ -788,7 +788,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                     }
                     XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                    #if !os(Linux) && !os(Android)
+                    #if !os(Linux) && !os(Android) && !os(Windows)
                     //Should be updated in Keychain
                     guard let keychainUser: CurrentUserContainer<BaseParseUser>
                         = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
@@ -880,7 +880,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                     }
                     XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
 
-                    #if !os(Linux) && !os(Android)
+                    #if !os(Linux) && !os(Android) && !os(Windows)
                     //Should be updated in Keychain
                     guard let keychainUser: CurrentUserContainer<BaseParseUser>
                         = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
