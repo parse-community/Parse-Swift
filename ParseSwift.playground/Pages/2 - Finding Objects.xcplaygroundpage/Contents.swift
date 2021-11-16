@@ -23,11 +23,13 @@ struct GameScore: ParseObject {
     var score: Int?
     var timeStamp: Date? = Date()
     var oldScore: Int?
+    var isHighest: Bool?
 }
 
 var score = GameScore()
 score.score = 200
 score.oldScore = 10
+score.isHighest = true
 do {
     try score.save()
 } catch {
@@ -65,11 +67,29 @@ query.limit(2).find(callbackQueue: .main) { results in
 //: Query synchronously (not preferred - all operations on main queue).
 let results = try query.find()
 assert(results.count >= 1)
-results.forEach { (score) in
+results.forEach { score in
     guard let createdAt = score.createdAt else { fatalError() }
     assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
     print("Found score: \(score)")
 }
+
+//: Query highest score using async/await
+#if swift(>=5.5) && canImport(_Concurrency)
+import _Concurrency
+if #available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *) {
+    let highestScoresQuery = GameScore.query("isHighest" == true)
+    Task {
+        do {
+            let highestScores = try await highestScoresQuery.find()
+            highestScores.forEach { score in
+                print("Found highest score: \(score)")
+            }
+        } catch {
+            print("Error: \(error)")
+        }
+    }
+}
+#endif
 
 //: Query first asynchronously (preferred way) - Performs work on background
 //: queue and returns to specified callbackQueue.

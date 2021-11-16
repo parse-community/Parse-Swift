@@ -497,7 +497,7 @@ __Improvements__
 
 __Fixes__
 - Delete current installation during logout ([#52](https://github.com/parse-community/Parse-Swift/pull/52)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Parse server supports `$eq`, but this isn't supported by LiveQueryServer, switched to supported ([#48](https://github.com/parse-community/Parse-Swift/pull/48)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Parse server supports `$eq`, but this isn't supported by LiveQueryServer, switched to supported ([#49](https://github.com/parse-community/Parse-Swift/pull/49)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Bug when updating a ParseObject bug where objects was accidently converted to pointers ([#48](https://github.com/parse-community/Parse-Swift/pull/48)), thanks to [Corey Baker](https://github.com/cbaker6).
 - User logout was calling the wrong endpoint ([#43](https://github.com/parse-community/Parse-Swift/pull/43)), thanks to [Corey Baker](https://github.com/cbaker6) and [Tom Fox](https://github.com/TomWFox).
 - Fix an issue where ACL was overwritten with nil ([#40](https://github.com/parse-community/Parse-Swift/pull/40)), thanks to [Corey Baker](https://github.com/cbaker6).
