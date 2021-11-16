@@ -10,6 +10,7 @@
 
 __Fixes__
 - Overload QueryConstraint to accept Pointer<ParseObject> ([#281](https://github.com/parse-community/Parse-Swift/pull/281)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add checks to build for Windows ([#281](https://github.com/parse-community/Parse-Swift/pull/281)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.3...2.2.4)

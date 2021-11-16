@@ -68,7 +68,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -87,7 +87,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testSaveCommand() throws {
         let score = GameScore(score: 10)
         let className = score.className

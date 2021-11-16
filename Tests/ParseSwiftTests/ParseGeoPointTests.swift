@@ -29,7 +29,7 @@ class ParseGeoPointTests: XCTestCase {
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -67,7 +67,7 @@ class ParseGeoPointTests: XCTestCase {
         }
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testDebugString() throws {
         let point = try ParseGeoPoint(latitude: 10, longitude: 20)
         let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"longitude\":20,\"latitude\":10})"

@@ -51,14 +51,14 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
     }
 
     //COREY: Linux decodes this differently for some reason
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testSaveAllCommand() throws {
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
@@ -274,7 +274,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testUpdateAllCommand() throws {
         var score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
@@ -747,7 +747,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeSaveAllAsync() {
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
@@ -959,7 +959,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeUpdateAllAsync() {
         var score = GameScore(score: 10)
         score.objectId = "yarr"
@@ -1224,7 +1224,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeFetchAllAsync() {
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
@@ -1370,7 +1370,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testDeleteAllError() {
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
         let response = [BatchResponseItem<NoBody>(success: nil, error: parseError),
