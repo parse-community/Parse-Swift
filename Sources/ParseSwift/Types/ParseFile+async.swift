@@ -12,6 +12,7 @@ import Foundation
 import FoundationNetworking
 #endif
 
+@MainActor
 public extension ParseFile {
 
     // MARK: Async/Await

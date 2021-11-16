@@ -145,6 +145,7 @@ public protocol ParseAuthentication: Codable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter returns: An instance of the linked `AuthenticatedUser`.
      */
+    @MainActor
     func link(authData: [String: String],
               options: API.Options) async throws -> AuthenticatedUser
 
@@ -154,6 +155,7 @@ public protocol ParseAuthentication: Codable {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter returns: An instance of the unlinked `AuthenticatedUser`.
      */
+    @MainActor
     func unlink(_ user: AuthenticatedUser,
                 options: API.Options) async throws -> AuthenticatedUser
 
@@ -163,6 +165,7 @@ public protocol ParseAuthentication: Codable {
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter returns: An instance of the unlinked `AuthenticatedUser`.
      */
+    @MainActor
     func unlink(options: API.Options) async throws -> AuthenticatedUser
     #endif
 }

@@ -10,6 +10,7 @@
 import Foundation
 
 // MARK: Async/Await
+@MainActor
 public extension Pointer {
     /**
      Fetches the `ParseObject` *aynchronously* with the current data from the server and sets an error if one occurs.

@@ -9,6 +9,7 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
+@MainActor
 public extension ParseInstallation {
 
     // MARK: Async/Await
@@ -68,6 +69,7 @@ public extension ParseInstallation {
     }
 }
 
+@MainActor
 public extension Sequence where Element: ParseInstallation {
     /**
      Fetches a collection of installations *aynchronously* with the current data from the server and sets

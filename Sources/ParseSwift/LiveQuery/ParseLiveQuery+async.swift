@@ -9,6 +9,7 @@
 #if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 
+@MainActor
 extension ParseLiveQuery {
     // MARK: Async/Await
 

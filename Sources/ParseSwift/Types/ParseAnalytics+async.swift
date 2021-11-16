@@ -13,6 +13,7 @@ import Foundation
 import UIKit
 #endif
 
+@MainActor
 public extension ParseAnalytics {
 
     // MARK: Aysnc/Await

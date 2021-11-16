@@ -9,6 +9,7 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
+@MainActor
 public extension ParseCloud {
 
     // MARK: Aysnc/Await
