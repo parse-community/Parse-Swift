@@ -21,6 +21,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         //: Your own properties
         var score: Int
+        var isCounts: Bool?
 
         //: a custom initializer
         init() {
@@ -1120,6 +1121,13 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     #if !os(Linux) && !os(Android) && !os(Windows)
+    func testWhereKeyEqualToBool() throws {
+        let query = GameScore.query("isCounts" == true)
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"isCounts\":true}})"
+        XCTAssertEqual(query.debugDescription, expected)
+        XCTAssertEqual(query.description, expected)
+    }
+
     func testWhereKeyEqualToParseObject() throws {
         var compareObject = GameScore(score: 11)
         compareObject.objectId = "hello"
