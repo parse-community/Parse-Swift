@@ -1115,6 +1115,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testWhereKeyEqualToParseObjectError() throws {
+        let compareObject = GameScore(score: 11)
+        XCTAssertThrowsError(try GameScore.query("yolo" == compareObject))
+    }
+
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testWhereKeyEqualToBool() throws {
         let query = GameScore.query("isCounts" == true)
         let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"isCounts\":true}})"
@@ -1122,12 +1128,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query.description, expected)
     }
 
-    func testWhereKeyEqualToParseObjectError() throws {
-        let compareObject = GameScore(score: 11)
-        XCTAssertThrowsError(try GameScore.query("yolo" == compareObject))
-    }
-
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testWhereKeyEqualToParseObject() throws {
         var compareObject = GameScore(score: 11)
         compareObject.objectId = "hello"
