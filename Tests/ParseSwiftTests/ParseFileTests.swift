@@ -44,7 +44,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
         URLSession.parse.configuration.urlCache?.removeAllCachedResponses()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -193,7 +193,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(parseFile1, parseFile2, "no urls, but localIds shoud be the same")
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testDebugString() throws {
         guard let sampleData = "Hello World".data(using: .utf8) else {
             throw ParseError(code: .unknownError, message: "Should have converted to data")
@@ -682,7 +682,7 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android)
+    #if !os(Linux) && !os(Android) && !os(Windows)
 
     //URL Mocker is not able to mock this in linux and tests fail, so don't run.
     func testFetchFileCancelAsync() throws {

@@ -126,19 +126,20 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
  - parameter key: The key that the value is stored in.
  - parameter value: The `ParseObject` to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
+ - throws: An error of type `ParseError`.
  */
 public func == <T>(key: String, value: T) throws -> QueryConstraint where T: ParseObject {
-    let constraint: QueryConstraint!
-    do {
-        constraint = try QueryConstraint(key: key, value: value.toPointer())
-    } catch {
-        guard let parseError = error as? ParseError else {
-            throw ParseError(code: .unknownError,
-                             message: error.localizedDescription)
-        }
-        throw parseError
-    }
-    return constraint
+    try QueryConstraint(key: key, value: value.toPointer())
+}
+
+/**
+ Add a constraint that requires that a key is equal to a `Pointer`.
+ - parameter key: The key that the value is stored in.
+ - parameter value: The `Pointer` to compare.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func == <T>(key: String, value: Pointer<T>) -> QueryConstraint where T: ParseObject {
+    QueryConstraint(key: key, value: value)
 }
 
 /**
@@ -586,6 +587,19 @@ internal struct RelatedCondition <T>: Encodable where T: ParseObject {
   Add a constraint that requires a key is related.
   - parameter key: The key that should be related.
   - parameter object: The object that should be related.
+  - returns: The same instance of `Query` as the receiver.
+  - throws: An error of type `ParseError`.
+ */
+public func related <T>(key: String, object: T) throws -> QueryConstraint where T: ParseObject {
+    let pointer = try object.toPointer()
+    let condition = RelatedCondition(object: pointer, key: key)
+    return .init(key: QueryConstraint.Comparator.relatedTo.rawValue, value: condition)
+}
+
+/**
+  Add a constraint that requires a key is related.
+  - parameter key: The key that should be related.
+  - parameter object: The pointer object that should be related.
   - returns: The same instance of `Query` as the receiver.
  */
 public func related <T>(key: String, object: Pointer<T>) -> QueryConstraint where T: ParseObject {

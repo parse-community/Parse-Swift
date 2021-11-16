@@ -6,7 +6,7 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android)
+#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 import XCTest
 @testable import ParseSwift
@@ -84,7 +84,7 @@ class ParseConfigAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
     override func tearDownWithError() throws {
         try super.tearDownWithError()
         MockURLProtocol.removeAll()
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
@@ -136,7 +136,7 @@ class ParseConfigAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         XCTAssertEqual(fetched.welcomeMessage, configOnServer.welcomeMessage)
         XCTAssertEqual(Config.current?.welcomeMessage, configOnServer.welcomeMessage)
 
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         //Should be updated in Keychain
         guard let keychainConfig: CurrentConfigContainer<Config>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {
@@ -171,7 +171,7 @@ class ParseConfigAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         XCTAssertTrue(saved)
         XCTAssertEqual(Config.current?.welcomeMessage, config.welcomeMessage)
 
-        #if !os(Linux) && !os(Android)
+        #if !os(Linux) && !os(Android) && !os(Windows)
         //Should be updated in Keychain
         guard let keychainConfig: CurrentConfigContainer<Config>
             = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentConfig) else {

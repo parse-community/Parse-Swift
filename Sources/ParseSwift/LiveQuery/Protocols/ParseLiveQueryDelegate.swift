@@ -5,7 +5,7 @@
 //  Created by Corey Baker on 1/4/21.
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
-#if !os(Linux) && !os(Android)
+#if !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
