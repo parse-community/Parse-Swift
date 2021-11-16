@@ -49,7 +49,7 @@ query.limit(2).find(callbackQueue: .main) { results in
     case .success(let scores):
 
         assert(scores.count >= 1)
-        scores.forEach { (score) in
+        scores.forEach { score in
             guard let createdAt = score.createdAt else { fatalError() }
             assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
             print("Found score: \(score)")
