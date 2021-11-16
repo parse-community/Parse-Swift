@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.4...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.5...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.2.5
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.4...2.2.5)
+
+__Fixes__
+- Overload QueryConstraint to accept Pointer<ParseObject> ([#281](https://github.com/parse-community/Parse-Swift/pull/281)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.4
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.3...2.2.4)

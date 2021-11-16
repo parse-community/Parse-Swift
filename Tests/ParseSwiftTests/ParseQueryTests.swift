@@ -1128,6 +1128,16 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}})"
         XCTAssertEqual(query.debugDescription, expected)
     }
+
+    func testWhereKeyEqualToParseObjectPointer() throws {
+        var compareObject = GameScore(score: 11)
+        compareObject.objectId = "hello"
+        let pointer = try compareObject.toPointer()
+        let query = GameScore.query("yolo" == pointer)
+        // swiftlint:disable:next line_length
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}})"
+        XCTAssertEqual(query.debugDescription, expected)
+    }
     #endif
 
     func testWhereKeyNotEqualTo() {
@@ -1863,6 +1873,49 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereKeyRelated() throws {
+        let expected: [String: AnyCodable] = [
+            "$relatedTo": [
+                "key": "yolo",
+                "object": ["__type": "Pointer",
+                           "className": "GameScore",
+                           "objectId": "hello"]
+            ]
+        ]
+        var object = GameScore(score: 50)
+        object.objectId = "hello"
+        let constraint = try related(key: "yolo", object: object)
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: Any],
+                  let expectedKey = expectedValues["key"] as? String,
+                  let expectedObject = expectedValues["object"] as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            guard let decodedValues = decodedDictionary.values.first?.value as? [String: Any],
+                  let decodedKey = decodedValues["key"] as? String,
+                  let decodedObject = decodedValues["object"] as? [String: String] else {
+                XCTFail("Should have casted")
+                return
+            }
+
+            XCTAssertEqual(expectedKey, decodedKey)
+            XCTAssertEqual(expectedObject, decodedObject)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereKeyRelatedPointer() throws {
         let expected: [String: AnyCodable] = [
             "$relatedTo": [
                 "key": "yolo",
