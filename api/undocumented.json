@@ -268,7 +268,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 990,
+      "line": 1004,
       "symbol": "Query.ResultType",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
