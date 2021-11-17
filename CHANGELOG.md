@@ -6,7 +6,7 @@
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __Improvements__
-- Enable async/await for iOS13, tvOS13, watchOS6, and macOS10_15. Requires Xcode 13.2 ([#278](https://github.com/parse-community/Parse-Swift/pull/278)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Enable async/await for iOS13, tvOS13, watchOS6, and macOS10_15. All async/await methods are @MainActor's. Requires Xcode 13.2 or above to use async/await. Not compatible with Xcode 13.0/1. Still works with Xcode 11/12 ([#278](https://github.com/parse-community/Parse-Swift/pull/278)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.4...2.2.5)
