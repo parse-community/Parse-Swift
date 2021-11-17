@@ -73,6 +73,7 @@ public extension ParseFacebook {
     }
 }
 
+@MainActor
 public extension ParseFacebook {
     /**
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login.

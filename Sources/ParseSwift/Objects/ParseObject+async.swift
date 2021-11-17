@@ -68,6 +68,7 @@ public extension ParseObject {
     }
 }
 
+@MainActor
 public extension Sequence where Element: ParseObject {
     /**
      Fetches a collection of objects *aynchronously* with the current data from the server and sets

@@ -48,6 +48,7 @@ public extension ParseLDAP {
     }
 }
 
+@MainActor
 public extension ParseLDAP {
     /**
      Link the *current* `ParseUser` *asynchronously* using LDAP authentication.

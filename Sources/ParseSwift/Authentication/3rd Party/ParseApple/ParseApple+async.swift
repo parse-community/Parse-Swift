@@ -49,6 +49,7 @@ public extension ParseApple {
     }
 }
 
+@MainActor
 public extension ParseApple {
 
     /**

@@ -61,6 +61,7 @@ public extension ParseTwitter {
     }
 }
 
+@MainActor
 public extension ParseTwitter {
 
     /**

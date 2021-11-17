@@ -43,6 +43,7 @@ public extension ParseAnonymous {
     }
 }
 
+@MainActor
 public extension ParseAnonymous {
 
     func link(authData: [String: String],
