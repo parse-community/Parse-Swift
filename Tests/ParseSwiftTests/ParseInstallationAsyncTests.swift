@@ -156,8 +156,8 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         }
 
         do {
-            let saved = try Installation.current!.save()
-            guard let newCurrentInstallation = Installation.current else {
+            guard let saved = try Installation.current?.save(),
+                let newCurrentInstallation = Installation.current else {
                 XCTFail("Should have a new current installation")
                 return
             }
