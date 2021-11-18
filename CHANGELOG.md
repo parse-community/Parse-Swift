@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.5...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.6...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.2.6
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.5...2.2.6)
+
+__Fixes__
+- Use default ACL automatically on newley created ParseObject's if a default ACL is available ([#283](https://github.com/parse-community/Parse-Swift/pull/283)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.4...2.2.5)
