@@ -193,7 +193,6 @@ class ParseAnalyticsTests: XCTestCase {
     func testTrackAppOpenedNotAuthorized() {
         if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
             ParseSwift.configuration.isTestingSDK = false //Allow authorization check
-
             let expectation = XCTestExpectation(description: "Analytics save")
             ParseAnalytics.trackAppOpened(dimensions: ["stop": "drop"]) { result in
 

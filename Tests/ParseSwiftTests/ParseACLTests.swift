@@ -247,6 +247,10 @@ class ParseACLTests: XCTestCase {
         }
     }
 
+    func testNoDefaultACL() {
+        XCTAssertThrowsError(try ParseACL.defaultACL())
+    }
+
     func testDefaultACL() {
         let loginResponse = LoginSignupResponse()
         let loginUserName = "hello10"
@@ -276,10 +280,8 @@ class ParseACLTests: XCTestCase {
         newACL.publicRead = true
         newACL.publicWrite = true
         do {
-            var defaultACL = try ParseACL.defaultACL()
-            XCTAssertNotEqual(newACL, defaultACL)
             _ = try ParseACL.setDefaultACL(newACL, withAccessForCurrentUser: true)
-            defaultACL = try ParseACL.defaultACL()
+            let defaultACL = try ParseACL.defaultACL()
             XCTAssertEqual(newACL.publicRead, defaultACL.publicRead)
             XCTAssertEqual(newACL.publicWrite, defaultACL.publicWrite)
             XCTAssertTrue(defaultACL.getReadAccess(objectId: userObjectId))

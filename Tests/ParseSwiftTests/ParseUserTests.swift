@@ -916,6 +916,102 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testSaveWithDefaultACL() throws { // swiftlint:disable:this function_body_length
+        try userSignUp()
+        guard let userObjectId = User.current?.objectId else {
+            XCTFail("Should have objectId")
+            return
+        }
+        let defaultACL = try ParseACL.setDefaultACL(ParseACL(),
+                                                    withAccessForCurrentUser: true)
+
+        let user = User()
+        var userOnServer = user
+        userOnServer.objectId = "hello"
+        userOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        userOnServer.updatedAt = userOnServer.createdAt
+
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let saved = try user.save(options: [.useMasterKey])
+            XCTAssert(saved.hasSameObjectId(as: userOnServer))
+            guard let savedCreatedAt = saved.createdAt,
+                let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = userOnServer.createdAt,
+                let originalUpdatedAt = userOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertNotNil(saved.ACL)
+            XCTAssertEqual(saved.ACL?.publicRead, defaultACL.publicRead)
+            XCTAssertEqual(saved.ACL?.publicWrite, defaultACL.publicWrite)
+            XCTAssertTrue(defaultACL.getReadAccess(objectId: userObjectId))
+            XCTAssertTrue(defaultACL.getWriteAccess(objectId: userObjectId))
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testUpdateWithDefaultACL() throws { // swiftlint:disable:this function_body_length
+        try userSignUp()
+        _ = try ParseACL.setDefaultACL(ParseACL(),
+                                                    withAccessForCurrentUser: true)
+        var user = User()
+        let objectId = "yarr"
+        user.objectId = objectId
+        user.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        user.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        user.ACL = nil
+
+        var userOnServer = user
+        userOnServer.updatedAt = Date()
+
+        let encoded: Data!
+        do {
+            encoded = try userOnServer.getEncoder().encode(userOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let saved = try user.save()
+            guard let savedUpdatedAt = saved.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
+            }
+            guard let originalUpdatedAt = user.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
+            }
+            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertNil(saved.ACL)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func updateAsync(user: User, userOnServer: User, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Update user1")

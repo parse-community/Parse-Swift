@@ -112,16 +112,22 @@ class ParseRoleTests: XCTestCase {
     }
 
     func testName() throws {
-        XCTAssertNoThrow(try Role<User>(name: "Hello9_- "))
+        let role1 = try Role<User>(name: "Hello9_- ")
+        let role2 = try Role<User>(name: "Hello9_- ", acl: ParseACL())
+        let roles = [role1: "hello",
+                     role2: "world"]
+        XCTAssertEqual(role1, role1)
+        XCTAssertNotEqual(role1, role2)
+        XCTAssertEqual(roles[role1], "hello")
+        XCTAssertEqual(roles[role2], "world")
         XCTAssertThrowsError(try Role<User>(name: "Hello9!"))
-        XCTAssertNoThrow(try Role<User>(name: "Hello9_- ", acl: ParseACL()))
         XCTAssertThrowsError(try Role<User>(name: "Hello9!", acl: ParseACL()))
     }
 
     func testEndPoint() throws {
         var role = try Role<User>(name: "Administrator")
+        XCTAssertEqual(role.endpoint.urlComponent, "/roles")
         role.objectId = "me"
-        //This endpoint is at the ParseRole level
         XCTAssertEqual(role.endpoint.urlComponent, "/roles/me")
     }
 
