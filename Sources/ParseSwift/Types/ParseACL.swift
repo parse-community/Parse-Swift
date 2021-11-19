@@ -303,32 +303,38 @@ extension ParseACL {
     */
     public static func defaultACL() throws -> Self {
 
-        let aclController: DefaultACL?
+        let aclController: DefaultACL!
 
         #if !os(Linux) && !os(Android) && !os(Windows)
-        aclController = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL)
+        if let controller: DefaultACL = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.defaultACL) {
+            aclController = controller
+        } else {
+            throw ParseError(code: .unknownError,
+                             message: "Default ACL can't be found in Keychain. You should `setDefaultACL` first")
+        }
         #else
-        aclController = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.defaultACL)
+        if let controller: DefaultACL = try? ParseStorage.shared.get(valueFor: ParseStorage.Keys.defaultACL) {
+            aclController = controller
+        } else {
+            throw ParseError(code: .unknownError,
+                             message: "Default ACL can't be found in Keychain. You should `setDefaultACL` first")
+        }
         #endif
 
-        if let acl = aclController {
-            if !acl.useCurrentUser {
-                return acl.defaultACL
-            } else {
-                guard let userObjectId = BaseParseUser.current?.objectId else {
-                    return acl.defaultACL
-                }
-
-                guard let lastCurrentUserObjectId = acl.lastCurrentUserObjectId,
-                    userObjectId == lastCurrentUserObjectId else {
-                    return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
-                }
-
-                return acl.defaultACL
+        if !aclController.useCurrentUser {
+            return aclController.defaultACL
+        } else {
+            guard let userObjectId = BaseParseUser.current?.objectId else {
+                return aclController.defaultACL
             }
-        }
 
-        return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
+            guard let lastCurrentUserObjectId = aclController.lastCurrentUserObjectId,
+                userObjectId == lastCurrentUserObjectId else {
+                return try setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
+            }
+
+            return aclController.defaultACL
+        }
     }
 
     /**

@@ -360,6 +360,11 @@ internal extension API.Command {
 
     // MARK: Saving ParseObjects - private
     private static func create<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+        var object = object
+        if object.ACL == nil,
+            let acl = try? ParseACL.defaultACL() {
+            object.ACL = acl
+        }
         let mapper = { (data) -> T in
             try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
         }

@@ -792,10 +792,10 @@ extension ParseObject {
                     try waitingToBeSaved.forEach { parseType in
 
                         if let parseFile = parseType as? ParseFile {
-                            //ParseFiles can be saved now
+                            // ParseFiles can be saved now
                             savableFiles.append(parseFile)
                         } else if let parseObject = parseType as? Objectable {
-                            //This is a ParseObject
+                            // This is a ParseObject
                             let waitingObjectInfo = try ParseCoding
                                 .parseEncoder()
                                 .encode(parseObject,

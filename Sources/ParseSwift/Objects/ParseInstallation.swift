@@ -598,12 +598,17 @@ extension ParseInstallation {
 
     // MARK: Saving ParseObjects - private
     private func createCommand() -> API.Command<Self, Self> {
+        var object = self
+        if object.ACL == nil,
+            let acl = try? ParseACL.defaultACL() {
+            object.ACL = acl
+        }
         let mapper = { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: self)
+            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
         }
         return API.Command<Self, Self>(method: .POST,
                                        path: endpoint(.POST),
-                                       body: self,
+                                       body: object,
                                        mapper: mapper)
     }
 

@@ -318,32 +318,35 @@ private class _ParseEncoder: JSONEncoder, Encoder {
             } else {
                 valueToEncode = pointer
             }
-        } else if let object = value as? Objectable,
-                  let pointer = try? PointerType(object) {
-            if let uniquePointer = self.uniquePointer,
-               uniquePointer.hasSameObjectId(as: pointer) {
-                throw ParseError(code: .unknownError,
-                                 message: "Found a circular dependency when encoding.")
-            }
-            if !self.collectChildren && codingPath.count > 0 {
-                valueToEncode = value
+        } else if let object = value as? Objectable {
+            if let pointer = try? PointerType(object) {
+                if let uniquePointer = self.uniquePointer,
+                   uniquePointer.hasSameObjectId(as: pointer) {
+                    throw ParseError(code: .unknownError,
+                                     message: "Found a circular dependency when encoding.")
+                }
+                if !self.collectChildren && codingPath.count > 0 {
+                    valueToEncode = value
+                } else {
+                    valueToEncode = pointer
+                }
             } else {
-                valueToEncode = pointer
-            }
-        } else {
-            let hashOfCurrentObject = try BaseObjectable.createHash(value)
-            if self.collectChildren {
+                var object = object
+                if object.ACL == nil,
+                    let acl = try? ParseACL.defaultACL() {
+                    object.ACL = acl
+                }
+                let hashOfCurrentObject = try BaseObjectable.createHash(object)
+                valueToEncode = object
                 if let pointerForCurrentObject = self.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
                     valueToEncode = pointerForCurrentObject
-                } else {
-                    //New object needs to be saved before it can be pointed to
-                    self.newObjects.append(value)
+                } else if self.collectChildren {
+                    // New object needs to be saved before it can be pointed to
+                    self.newObjects.append(object)
+                } else if dictionary.count > 0 {
+                    // Only top level objects can be saved without a pointer
+                    throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved object while encoding.")
                 }
-            } else if let pointerForCurrentObject = self.objectsSavedBeforeThisOne?[hashOfCurrentObject] {
-                valueToEncode = pointerForCurrentObject
-            } else if dictionary.count > 0 {
-                //Only top level objects can be saved without a pointer
-                throw ParseError(code: .unknownError, message: "Error. Couldn't resolve unsaved object while encoding.")
             }
         }
         return valueToEncode
