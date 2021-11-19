@@ -33,8 +33,10 @@ class ExtensionsTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testURLSession() throws {
         ParseSwift.configuration.isTestingSDK = false
         XCTAssertNotNil(URLSession.parse.configuration.urlCache)
     }
+    #endif
 }
