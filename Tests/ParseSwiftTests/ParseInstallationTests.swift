@@ -94,7 +94,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                               masterKey: "masterKey",
                               serverURL: url,
                               testing: true)
-        userLogin()
+        try userLogin()
     }
 
     override func tearDownWithError() throws {
@@ -106,7 +106,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         try ParseStorage.shared.deleteAll()
     }
 
-    func userLogin() {
+    func userLogin() throws {
         let loginResponse = LoginSignupResponse()
         let loginUserName = "hello10"
         let loginPassword = "world"
@@ -119,12 +119,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 return nil
             }
         }
-        do {
-            _ = try User.login(username: loginUserName, password: loginPassword)
-            MockURLProtocol.removeAll()
-        } catch {
-            XCTFail("Should login")
-        }
+        _ = try User.login(username: loginUserName, password: loginPassword)
+        MockURLProtocol.removeAll()
     }
 
     func testNewInstallationIdentifierIsLowercase() {
@@ -299,6 +295,53 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
     }
 
+    func testUpdateWithDefaultACL() throws {
+        try userLogin()
+        _ = try ParseACL.setDefaultACL(ParseACL(),
+                                       withAccessForCurrentUser: true)
+
+        var installation = Installation()
+        installation.objectId = testInstallationObjectId
+        installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        installation.ACL = nil
+        installation.installationId = "hello"
+
+        var installationOnServer = installation
+        installationOnServer.updatedAt = Date()
+
+        let encoded: Data!
+        do {
+            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let saved = try installation.save()
+            XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
+            XCTAssertTrue(saved.hasSameInstallationId(as: installationOnServer))
+            guard let savedUpdatedAt = saved.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
+            }
+            guard let serverUpdatedAt = installationOnServer.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
+            }
+            XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
+            XCTAssertNil(saved.ACL)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func testSaveCurrentInstallation() throws {
         guard var installation = Installation.current else {
             XCTFail("Should unwrap")
@@ -335,6 +378,59 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
             XCTAssertTrue(saved.hasSameInstallationId(as: installationOnServer))
             XCTAssertNil(saved.ACL)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testSaveCurrentInstallationWithDefaultACL() throws {
+        try userLogin()
+        guard let userObjectId = User.current?.objectId else {
+            XCTFail("Should have objectId")
+            return
+        }
+        let defaultACL = try ParseACL.setDefaultACL(ParseACL(),
+                                                    withAccessForCurrentUser: true)
+
+        guard var installation = Installation.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+        installation.objectId = testInstallationObjectId
+        installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        installation.ACL = nil
+
+        var installationOnServer = installation
+
+        let encoded: Data!
+        do {
+            encoded = try installationOnServer.getEncoder().encode(installationOnServer, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            installationOnServer = try installationOnServer.getDecoder().decode(Installation.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            guard let saved = try Installation.current?.save(),
+                let newCurrentInstallation = Installation.current else {
+                XCTFail("Should have a new current installation")
+                return
+            }
+            XCTAssertTrue(saved.hasSameInstallationId(as: newCurrentInstallation))
+            XCTAssertTrue(saved.hasSameObjectId(as: newCurrentInstallation))
+            XCTAssertTrue(saved.hasSameObjectId(as: installationOnServer))
+            XCTAssertTrue(saved.hasSameInstallationId(as: installationOnServer))
+            XCTAssertNotNil(saved.ACL)
+            XCTAssertEqual(saved.ACL?.publicRead, defaultACL.publicRead)
+            XCTAssertEqual(saved.ACL?.publicWrite, defaultACL.publicWrite)
+            XCTAssertTrue(defaultACL.getReadAccess(objectId: userObjectId))
+            XCTAssertTrue(defaultACL.getWriteAccess(objectId: userObjectId))
         } catch {
             XCTFail(error.localizedDescription)
         }

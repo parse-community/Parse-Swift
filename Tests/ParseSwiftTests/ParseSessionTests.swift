@@ -94,8 +94,8 @@ class ParseSessionTests: XCTestCase {
 
     func testEndPoint() throws {
         var session = Session<User>()
+        XCTAssertEqual(session.endpoint.urlComponent, "/sessions")
         session.objectId = "me"
-        //This endpoint is at the ParseSession level
         XCTAssertEqual(session.endpoint.urlComponent, "/sessions/me")
     }
 

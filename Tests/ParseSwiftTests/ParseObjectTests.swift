@@ -205,6 +205,72 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    struct User: ParseUser {
+
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        // These are required by ParseUser
+        var username: String?
+        var email: String?
+        var emailVerified: Bool?
+        var password: String?
+        var authData: [String: [String: String]?]?
+
+        // Your custom keys
+        var customKey: String?
+    }
+
+    struct LoginSignupResponse: ParseUser {
+
+        var objectId: String?
+        var createdAt: Date?
+        var sessionToken: String?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+
+        // These are required by ParseUser
+        var username: String?
+        var email: String?
+        var emailVerified: Bool?
+        var password: String?
+        var authData: [String: [String: String]?]?
+
+        // Your custom keys
+        var customKey: String?
+
+        init() {
+            let date = Date()
+            self.createdAt = date
+            self.updatedAt = date
+            self.objectId = "yarr"
+            self.ACL = nil
+            self.customKey = "blah"
+            self.sessionToken = "myToken"
+            self.username = "hello10"
+            self.email = "hello@parse.com"
+        }
+    }
+
+    func loginNormally() throws -> User {
+        let loginResponse = LoginSignupResponse()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try loginResponse.getEncoder().encode(loginResponse, skipKeys: .none)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+        let user = try User.login(username: "parse", password: "user")
+        MockURLProtocol.removeAll()
+        return user
+    }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -238,6 +304,21 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             expectation2.fulfill()
         }
         wait(for: [expectation2], timeout: 20.0)
+    }
+
+    func testIsEqualExtension() throws {
+        let score1 = GameScore(score: 2)
+        let score2 = GameScore(score: 3)
+        XCTAssertFalse(score1.isEqual(score2))
+    }
+
+    func testId() throws {
+        var score = GameScore()
+        let objectId = "yolo"
+        XCTAssertNotNil(UUID(uuidString: score.id))
+        XCTAssertNotEqual(score.id, objectId)
+        score.objectId = "yolo"
+        XCTAssertEqual(score.id, objectId)
     }
 
     func testParseObjectMutable() throws {
@@ -676,6 +757,60 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testSaveWithDefaultACL() throws { // swiftlint:disable:this function_body_length
+        let user = try loginNormally()
+        guard let userObjectId = user.objectId else {
+            XCTFail("Should have objectId")
+            return
+        }
+        let defaultACL = try ParseACL.setDefaultACL(ParseACL(),
+                                                    withAccessForCurrentUser: true)
+
+        let score = GameScore(score: 10)
+
+        var scoreOnServer = score
+        scoreOnServer.objectId = "yarr"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let saved = try score.save()
+            XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
+            guard let savedCreatedAt = saved.createdAt,
+                let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalCreatedAt = scoreOnServer.createdAt,
+                let originalUpdatedAt = scoreOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertNotNil(saved.ACL)
+            XCTAssertEqual(saved.ACL?.publicRead, defaultACL.publicRead)
+            XCTAssertEqual(saved.ACL?.publicWrite, defaultACL.publicWrite)
+            XCTAssertTrue(defaultACL.getReadAccess(objectId: userObjectId))
+            XCTAssertTrue(defaultACL.getWriteAccess(objectId: userObjectId))
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func testUpdate() {
         var score = GameScore(score: 10)
         score.objectId = "yarr"
@@ -717,6 +852,49 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         do {
             let saved = try score.save(options: [.useMasterKey])
+            guard let savedUpdatedAt = saved.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
+            }
+            guard let originalUpdatedAt = score.updatedAt else {
+                XCTFail("Should unwrap dates")
+                return
+            }
+            XCTAssertGreaterThan(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertNil(saved.ACL)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testUpdateWithDefaultACL() throws {
+        _ = try loginNormally()
+        _ = try ParseACL.setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
+
+        var score = GameScore(score: 10)
+        score.objectId = "yarr"
+        score.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        score.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
+        score.ACL = nil
+
+        var scoreOnServer = score
+        scoreOnServer.updatedAt = Date()
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let saved = try score.save()
             guard let savedUpdatedAt = saved.updatedAt else {
                 XCTFail("Should unwrap dates")
                 return
@@ -1268,6 +1446,124 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(savedGame.createdAt, gameOnServer.createdAt)
             XCTAssertEqual(savedGame.updatedAt, gameOnServer.updatedAt)
             XCTAssertEqual(savedGame.score, gameOnServer.score)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    // swiftlint:disable:next function_body_length
+    func testDeepSaveOneDeepWithDefaultACL() throws {
+        let user = try loginNormally()
+        guard let userObjectId = user.objectId else {
+            XCTFail("Should have objectId")
+            return
+        }
+        let defaultACL = try ParseACL.setDefaultACL(ParseACL(),
+                                                    withAccessForCurrentUser: true)
+
+        let score = GameScore(score: 10)
+        var game = Game(score: score)
+
+        var scoreOnServer = score
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+        scoreOnServer.objectId = "yarr"
+
+        let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try GameScore.getJSONEncoder().encode(response)
+            //Get dates in correct format from ParseDecoding strategy
+            let encodedScoreOnServer = try scoreOnServer.getEncoder().encode(scoreOnServer)
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encodedScoreOnServer)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let expectation1 = XCTestExpectation(description: "Deep save")
+        game.ensureDeepSave { (savedChildren, savedChildFiles, parseError) in
+
+            XCTAssertEqual(savedChildren.count, 1)
+            XCTAssertEqual(savedChildFiles.count, 0)
+            var counter = 0
+            var savedChildObject: PointerType?
+            savedChildren.forEach { (_, value) in
+                XCTAssertEqual(value.className, "GameScore")
+                XCTAssertEqual(value.objectId, "yarr")
+                if counter == 0 {
+                    savedChildObject = value
+                }
+                counter += 1
+            }
+            XCTAssertNil(parseError)
+
+            guard let savedChild = savedChildObject else {
+                XCTFail("Should have unwrapped child object")
+                expectation1.fulfill()
+                return
+            }
+
+            //Saved updated info for game
+            let encodedScore: Data
+            do {
+                encodedScore = try ParseCoding.jsonEncoder().encode(savedChild)
+                //Decode Pointer as GameScore
+                game.score = try game.getDecoder().decode(GameScore.self, from: encodedScore)
+            } catch {
+                XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
+                return
+            }
+
+            //Setup ParseObject to return from mocker
+            MockURLProtocol.removeAll()
+
+            var gameOnServer = game
+            gameOnServer.objectId = "nice"
+            gameOnServer.createdAt = Date()
+            gameOnServer.updatedAt = gameOnServer.createdAt
+
+            let encodedGamed: Data
+            do {
+                encodedGamed = try game.getEncoder().encode(gameOnServer, skipKeys: .none)
+                //Get dates in correct format from ParseDecoding strategy
+                gameOnServer = try game.getDecoder().decode(Game.self, from: encodedGamed)
+            } catch {
+                XCTFail("Should encode/decode. Error \(error)")
+                expectation1.fulfill()
+                return
+            }
+
+            MockURLProtocol.mockRequests { _ in
+                return MockURLResponse(data: encodedGamed, statusCode: 200, delay: 0.0)
+            }
+
+            guard let savedGame = try? game
+                    .saveCommand()
+                    .execute(options: [],
+                             callbackQueue: .main,
+                             childObjects: savedChildren,
+                             childFiles: savedChildFiles) else {
+                XCTFail("Should have saved game")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertEqual(savedGame.objectId, gameOnServer.objectId)
+            XCTAssertEqual(savedGame.createdAt, gameOnServer.createdAt)
+            XCTAssertEqual(savedGame.updatedAt, gameOnServer.updatedAt)
+            XCTAssertEqual(savedGame.score, gameOnServer.score)
+            XCTAssertNotNil(savedGame.ACL)
+            XCTAssertEqual(savedGame.ACL?.publicRead, defaultACL.publicRead)
+            XCTAssertEqual(savedGame.ACL?.publicWrite, defaultACL.publicWrite)
+            XCTAssertTrue(defaultACL.getReadAccess(objectId: userObjectId))
+            XCTAssertTrue(defaultACL.getWriteAccess(objectId: userObjectId))
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
