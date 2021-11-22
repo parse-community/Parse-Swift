@@ -20,7 +20,7 @@ public extension ParseObject {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the fetched `ParseObject`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -40,7 +40,7 @@ public extension ParseObject {
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the saved `ParseObject`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     func save(isIgnoreCustomObjectIdConfig: Bool = false,
@@ -56,7 +56,7 @@ public extension ParseObject {
      Deletes the `ParseObject` *asynchronously*.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func delete(options: API.Options = []) async throws {
@@ -76,8 +76,8 @@ public extension Sequence where Element: ParseObject {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: Returns an array of fetched `ParseObject`'s.
-     - throws: `ParseError`.
+     - returns: Returns an array of Result enums with the object if a fetch was successful or a `ParseError` if it failed.
+     - throws: An error of type `ParseError`..
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     func fetchAll(includeKeys: [String]? = nil,
@@ -100,12 +100,22 @@ public extension Sequence where Element: ParseObject {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: Returns an array of saved `ParseObject`'s.
-     - throws: `ParseError`.
-     - important: If an object saved has the same objectId as current, it will automatically update the current.
+     - returns: Returns an array of Result enums with the object if a save was successful or a `ParseError` if it failed.
+     - throws: An error of type `ParseError`..
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     and plan to generate all of your `objectId`'s on the client-side then you should leave
+     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ParseConfiguration.allowCustomObjectId = true` and
+     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     and the server will generate an `objectId` only when the client does not provide one. This can
+     increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
+     different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
+     client-side checks are disabled. Developers are responsible for handling such cases.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func saveAll(batchLimit limit: Int? = nil,
                  transaction: Bool = false,
@@ -129,7 +139,7 @@ public extension Sequence where Element: ParseObject {
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else

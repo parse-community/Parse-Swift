@@ -18,7 +18,7 @@ public extension ParseHealth {
      Calls the health check function *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Status of ParseServer.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     static func check(options: API.Options = []) async throws -> String {
         try await withCheckedThrowingContinuation { continuation in

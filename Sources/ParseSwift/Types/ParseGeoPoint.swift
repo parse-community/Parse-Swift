@@ -40,7 +40,7 @@ public struct ParseGeoPoint: Codable, Hashable {
       Create a new `ParseGeoPoint` instance with the specified latitude and longitude.
        - parameter latitude: Latitude of point in degrees.
        - parameter longitude: Longitude of point in degrees.
-       - throws: `ParseError`.
+       - throws: An error of type `ParseError`..
      */
     public init(latitude: Double, longitude: Double) throws {
         self.latitude = latitude
@@ -68,7 +68,7 @@ public struct ParseGeoPoint: Codable, Hashable {
     /**
       Creates a new `ParseGeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
        - parameter location: Instance of `CLLocation`, with set latitude and longitude.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     public init(location: CLLocation) throws {
         self.longitude = location.coordinate.longitude

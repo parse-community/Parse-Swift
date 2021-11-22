@@ -18,7 +18,7 @@ public extension ParseLDAP {
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     func login(id: String,
                password: String,
@@ -36,7 +36,7 @@ public extension ParseLDAP {
      - parameter authData: Dictionary containing key/values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     func login(authData: [String: String],
                options: API.Options = []) async throws -> AuthenticatedUser {
@@ -56,7 +56,7 @@ public extension ParseLDAP {
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     func link(id: String,
               password: String,
@@ -74,7 +74,7 @@ public extension ParseLDAP {
      - parameter authData: Dictionary containing key/values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     func link(authData: [String: String],
               options: API.Options = []) async throws -> AuthenticatedUser {

@@ -96,7 +96,7 @@ public extension Sequence where Element: ParseObject {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns an array of Result enums with the object if a save was successful or a `ParseError` if it failed.
-     - throws: `ParseError`
+     - throws: An error of type `ParseError`.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
@@ -333,7 +333,7 @@ public extension Sequence where Element: ParseObject {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns an array of Result enums with the object if a fetch was successful or a `ParseError` if it failed.
-     - throws: `ParseError`
+     - throws: An error of type `ParseError`.
      - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
      any particular order.
     */
@@ -440,7 +440,7 @@ public extension Sequence where Element: ParseObject {
         2. A non-aggregate Parse.Error. This indicates a serious error that
         caused the delete operation to be aborted partway through (for
         instance, a connection failure in the middle of the delete).
-     - throws: `ParseError`
+     - throws: An error of type `ParseError`.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
