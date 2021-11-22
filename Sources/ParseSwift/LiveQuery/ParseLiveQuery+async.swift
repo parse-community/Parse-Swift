@@ -14,7 +14,7 @@ extension ParseLiveQuery {
     // MARK: Async/Await
 
     /**
-     Manually establish a connection to the `ParseLiveQuery` Server. Publishes when established.
+     Manually establish a connection to the `ParseLiveQuery` Server.
       - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to `true`.
       - returns: An instance of the logged in `ParseUser`.
       - throws: `ParseError`.
@@ -32,7 +32,7 @@ extension ParseLiveQuery {
     }
 
     /**
-     Sends a ping frame from the client side. Publishes when a pong is received from the
+     Sends a ping frame from the client side. Returns when a pong is received from the
      server endpoint.
      - throws: `ParseError`.
     */

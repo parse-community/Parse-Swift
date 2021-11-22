@@ -15,7 +15,7 @@ public extension ParseHealth {
     // MARK: Combine
 
     /**
-     Calls the health check function *asynchronously*. Publishes when complete.
+     Calls the health check function *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */

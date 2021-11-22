@@ -22,7 +22,7 @@ public extension ParseAnalytics {
     /**
      Tracks *asynchronously* this application being launched. If this happened as the result of the
      user opening a push notification, this method sends along information to
-     correlate this open with that push. Publishes when complete.
+     correlate this open with that push.
      
      - parameter launchOptions: The dictionary indicating the reason the application was
      launched, if any. This value can be found as a parameter to various
@@ -30,7 +30,6 @@ public extension ParseAnalytics {
      - parameter at: Explicitly set the time associated with a given event. If not provided the
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
      - throws: `ParseError`.
     */
     static func trackAppOpened(launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil,
@@ -48,14 +47,13 @@ public extension ParseAnalytics {
     /**
      Tracks *asynchronously* this application being launched. If this happened as the result of the
      user opening a push notification, this method sends along information to
-     correlate this open with that push. Publishes when complete.
+     correlate this open with that push.
      
      - parameter dimensions: The dictionary of information by which to segment this
      event and can be empty or `nil`.
      - parameter at: Explicitly set the time associated with a given event. If not provided the
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
      - throws: `ParseError`.
     */
     static func trackAppOpened(dimensions: [String: String]? = nil,
@@ -70,10 +68,9 @@ public extension ParseAnalytics {
     }
 
     /**
-     Tracks *asynchronously* the occurrence of a custom event. Publishes when complete.
+     Tracks *asynchronously* the occurrence of a custom event.
   
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
      - throws: `ParseError`.
     */
     func track(options: API.Options = []) async throws {
@@ -85,14 +82,12 @@ public extension ParseAnalytics {
 
     /**
      Tracks *asynchronously* the occurrence of a custom event with additional dimensions.
-     Publishes when complete.
   
      - parameter dimensions: The dictionary of information by which to segment this
      event and can be empty or `nil`.
      - parameter at: Explicitly set the time associated with a given event. If not provided the
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
      - warning: This method makes a copy of the current `ParseAnalytics` and then mutates
      it. You will not have access to the mutated analytic after calling this method.
      - throws: `ParseError`.

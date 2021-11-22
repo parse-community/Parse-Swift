@@ -95,7 +95,7 @@ public extension Sequence where Element: ParseObject {
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
-     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
+     - returns: Returns an array of Result enums with the object if a save was successful or a `ParseError` if it failed.
      - throws: `ParseError`
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
@@ -332,7 +332,7 @@ public extension Sequence where Element: ParseObject {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
-     - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
+     - returns: Returns an array of Result enums with the object if a fetch was successful or a `ParseError` if it failed.
      - throws: `ParseError`
      - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
      any particular order.
@@ -579,6 +579,7 @@ extension ParseObject {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.
+     - returns: Returns the fetched `ParseObject`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */

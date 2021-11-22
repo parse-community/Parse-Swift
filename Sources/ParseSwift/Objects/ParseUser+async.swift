@@ -14,7 +14,7 @@ public extension ParseUser {
 
     // MARK: Async/Await
     /**
-     Signs up the user *asynchronously* and publishes value.
+     Signs up the user *asynchronously*.
 
      This will also enforce that the username isn't already taken.
 
@@ -22,7 +22,7 @@ public extension ParseUser {
      - parameter username: The username of the user.
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns the signed in `ParseUser`.
      - throws: `ParseError`.
     */
     static func signup(username: String,
@@ -37,13 +37,13 @@ public extension ParseUser {
     }
 
     /**
-     Signs up the user *asynchronously* and publishes value.
+     Signs up the user *asynchronously*.
 
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns the signed in `ParseUser`.
      - throws: `ParseError`.
     */
     func signup(options: API.Options = []) async throws -> Self {
@@ -55,13 +55,13 @@ public extension ParseUser {
 
     /**
      Makes an *asynchronous* request to log in a user with specified credentials.
-     Publishes an instance of the successfully logged in `ParseUser`.
+     Returns an instance of the successfully logged in `ParseUser`.
 
      This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter username: The username of the user.
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns the logged in `ParseUser`.
      - throws: `ParseError`.
     */
     static func login(username: String,
@@ -77,13 +77,13 @@ public extension ParseUser {
 
     /**
      Logs in a `ParseUser` *asynchronously* with a session token.
-     Publishes an instance of the successfully logged in `ParseUser`.
+     Returns an instance of the successfully logged in `ParseUser`.
      If successful, this saves the session to the keychain, so you can retrieve the currently logged in user
      using *current*.
 
      - parameter sessionToken: The sessionToken of the user to login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns the logged in `ParseUser`.
      - throws: `ParseError`.
     */
     func become(sessionToken: String,
@@ -99,7 +99,6 @@ public extension ParseUser {
      This will also remove the session from the Keychain, log out of linked services
      and all future calls to `current` will return `nil`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
      - throws: `ParseError`.
     */
     static func logout(options: API.Options = []) async throws {
@@ -113,7 +112,6 @@ public extension ParseUser {
      associated with the user account. This email allows the user to securely reset their password on the web.
         - parameter email: The email address associated with the user that forgot their password.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - returns: A publisher that eventually produces a single value and then finishes or fails.
         - throws: `ParseError`.
     */
     static func passwordReset(email: String,
@@ -128,7 +126,6 @@ public extension ParseUser {
      associated with the user account.
         - parameter email: The email address associated with the user.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - returns: A publisher that eventually produces a single value and then finishes or fails.
         - throws: `ParseError`.
     */
     static func verificationEmail(email: String,
@@ -144,7 +141,7 @@ public extension ParseUser {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns the fetched `ParseUser`.
      - throws: `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
@@ -165,7 +162,7 @@ public extension ParseUser {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns the saved `ParseUser`.
      - throws: `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
@@ -182,7 +179,6 @@ public extension ParseUser {
      Deletes the `ParseUser` *asynchronously*.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
      - throws: `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
@@ -202,7 +198,7 @@ public extension Sequence where Element: ParseUser {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns an array of fetched `ParseUser`'s.
      - throws: `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
@@ -226,7 +222,7 @@ public extension Sequence where Element: ParseUser {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns an array of saved `ParseUser`'s.
      - throws: `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
@@ -247,14 +243,14 @@ public extension Sequence where Element: ParseUser {
     }
 
     /**
-     Deletes a collection of users *asynchronously* and publishes when complete.
+     Deletes a collection of users *asynchronously*.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Each element in the array is `nil` if the delete successful or a `ParseError` if it failed.
      - throws: `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the

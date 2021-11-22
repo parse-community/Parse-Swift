@@ -19,7 +19,7 @@ public extension ParseObject {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns the fetched `ParseObject`.
      - throws: `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
@@ -39,7 +39,7 @@ public extension ParseObject {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns the saved `ParseObject`.
      - throws: `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
@@ -56,7 +56,6 @@ public extension ParseObject {
      Deletes the `ParseObject` *asynchronously*.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
      - throws: `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
@@ -77,7 +76,7 @@ public extension Sequence where Element: ParseObject {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: Returns an array of fetched `ParseObject`'s.
      - throws: `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
@@ -101,7 +100,7 @@ public extension Sequence where Element: ParseObject {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: Returns saved `ParseInstallation`.
+     - returns: Returns an array of saved `ParseObject`'s.
      - throws: `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
@@ -129,7 +128,7 @@ public extension Sequence where Element: ParseObject {
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: - returns: Returns saved `ParseInstallation`.
+     - returns: Returns `nil` if the delete successful or a `ParseError` if it failed.
      - throws: `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the

@@ -34,7 +34,7 @@ public extension ParseConfig {
     /**
      Update the Config *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: `true` if saved, `false` if save is unsuccessful.
      - throws: `ParseError`.
     */
     func save(options: API.Options = []) async throws -> Bool {
