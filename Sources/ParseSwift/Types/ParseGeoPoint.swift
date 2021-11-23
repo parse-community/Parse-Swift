@@ -75,6 +75,17 @@ public struct ParseGeoPoint: Codable, Hashable {
         self.latitude = location.coordinate.latitude
         try validate()
     }
+
+    /**
+      Creates a new `ParseGeoPoint` instance for the given `CLLocationCoordinate2D`, set to the location's coordinates.
+       - parameter location: Instance of `CLLocationCoordinate2D`, with set latitude and longitude.
+     - throws: `ParseError`.
+     */
+    public init(locationCoordinate: CLLocationCoordinate2D) throws {
+        self.longitude = locationCoordinate.longitude
+        self.latitude = locationCoordinate.latitude
+        try validate()
+    }
     #endif
 
     /**
@@ -152,5 +163,26 @@ extension ParseGeoPoint: CustomDebugStringConvertible {
 extension ParseGeoPoint: CustomStringConvertible {
     public var description: String {
         debugDescription
+    }
+}
+
+// MARK: Convenience
+extension ParseGeoPoint {
+    /**
+     Creates a new `CLLocation` instance for the given `ParseGeoPoint`, set to the location's coordinates.
+     - parameter geopoint: Instance of `ParseGeoPoint`, with set latitude and longitude.
+     - returns: Returns a `CLLocation`
+     */
+    public func toCLLocation() -> CLLocation {
+        return CLLocation(latitude: latitude, longitude: longitude)
+    }
+
+    /**
+     Creates a new `CLLocationCoordinate2D` instance for the given `ParseGeoPoint`, set to the location's coordinates.
+     - parameter geopoint: Instance of `ParseGeoPoint`, with set latitude and longitude.
+     - returns: Returns a `CLLocationCoordinate2D`
+     */
+    public func toCLLocationCoordinate2D() -> CLLocationCoordinate2D {
+        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
