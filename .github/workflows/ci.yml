@@ -16,7 +16,7 @@ jobs:
     - name: Use multiple cores
       run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData clean test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
@@ -49,7 +49,7 @@ jobs:
     - name: Use multiple cores
       run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData clean test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
