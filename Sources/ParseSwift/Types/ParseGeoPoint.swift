@@ -81,9 +81,9 @@ public struct ParseGeoPoint: Codable, Hashable {
        - parameter location: Instance of `CLLocationCoordinate2D`, with set latitude and longitude.
      - throws: `ParseError`.
      */
-    public init(locationCoordinate: CLLocationCoordinate2D) throws {
-        self.longitude = locationCoordinate.longitude
-        self.latitude = locationCoordinate.latitude
+    public init(coordinate: CLLocationCoordinate2D) throws {
+        self.longitude = coordinate.longitude
+        self.latitude = coordinate.latitude
         try validate()
     }
     #endif
@@ -174,7 +174,7 @@ extension ParseGeoPoint {
      - returns: Returns a `CLLocation`
      */
     public func toCLLocation() -> CLLocation {
-        return CLLocation(latitude: latitude, longitude: longitude)
+        CLLocation(latitude: latitude, longitude: longitude)
     }
 
     /**
@@ -183,6 +183,6 @@ extension ParseGeoPoint {
      - returns: Returns a `CLLocationCoordinate2D`
      */
     public func toCLLocationCoordinate2D() -> CLLocationCoordinate2D {
-        return CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
