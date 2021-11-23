@@ -89,7 +89,6 @@ public struct ParseGeoPoint: Codable, Hashable {
 
     /**
      Get distance in miles from this point to specified point.
-
      - parameter point: `ParseGeoPoint` that represents the location of other point.
      - returns: Distance in miles between the receiver and `point`.
     */
@@ -147,8 +146,8 @@ extension ParseGeoPoint: CustomStringConvertible {
 public extension ParseGeoPoint {
 
     /**
-      Creates a new `ParseGeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
-       - parameter location: Instance of `CLLocation`, with set latitude and longitude.
+     Creates a new `ParseGeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
+     - parameter location: Instance of `CLLocation`, with set latitude and longitude.
      - throws: An error of `ParseError` type.
      */
     init(location: CLLocation) throws {
@@ -158,8 +157,8 @@ public extension ParseGeoPoint {
     }
 
     /**
-      Creates a new `ParseGeoPoint` instance for the given `CLLocationCoordinate2D`, set to the location's coordinates.
-       - parameter location: Instance of `CLLocationCoordinate2D`, with set latitude and longitude.
+     Creates a new `ParseGeoPoint` instance for the given `CLLocationCoordinate2D`, set to the location's coordinates.
+     - parameter location: Instance of `CLLocationCoordinate2D`, with set latitude and longitude.
      - throws: An error of `ParseError` type.
      */
     init(coordinate: CLLocationCoordinate2D) throws {
