@@ -60,6 +60,20 @@ class ParseGeoPointTests: XCTestCase {
         XCTAssertEqual(geoPoint.latitude, location.latitude)
         XCTAssertEqual(geoPoint.longitude, location.longitude)
     }
+
+    func testToCLLocation() throws {
+        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let location = point.toCLLocation()
+        XCTAssertEqual(point.latitude, location.coordinate.latitude)
+        XCTAssertEqual(point.longitude, location.coordinate.longitude)
+    }
+
+    func testToCLLocationCoordinate2D() throws {
+        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
+        let location = point.toCLLocationCoordinate2D()
+        XCTAssertEqual(point.latitude, location.latitude)
+        XCTAssertEqual(point.longitude, location.longitude)
+    }
     #endif
 
     func testGeoPointEncoding() throws {
@@ -223,17 +237,4 @@ class ParseGeoPointTests: XCTestCase {
         XCTAssertTrue(point.debugDescription.contains("20"))
     }
 
-    func testToCLLocation() throws {
-        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
-        let location = point.toCLLocation()
-        XCTAssertEqual(point.latitude, location.coordinate.latitude)
-        XCTAssertEqual(point.longitude, location.coordinate.longitude)
-    }
-
-    func testToCLLocationCoordinate2D() throws {
-        let point = try ParseGeoPoint(latitude: 10, longitude: 20)
-        let location = point.toCLLocationCoordinate2D()
-        XCTAssertEqual(point.latitude, location.latitude)
-        XCTAssertEqual(point.longitude, location.longitude)
-    }
 }
