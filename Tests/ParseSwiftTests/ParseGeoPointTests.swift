@@ -56,7 +56,7 @@ class ParseGeoPointTests: XCTestCase {
 
     func testGeoPointFromLocationCoordinate2D() throws {
         let location = CLLocationCoordinate2D(latitude: 10.0, longitude: 20.0)
-        let geoPoint = try ParseGeoPoint(locationCoordinate: location)
+        let geoPoint = try ParseGeoPoint(coordinate: location)
         XCTAssertEqual(geoPoint.latitude, location.latitude)
         XCTAssertEqual(geoPoint.longitude, location.longitude)
     }

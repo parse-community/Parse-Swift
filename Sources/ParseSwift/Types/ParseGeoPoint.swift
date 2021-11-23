@@ -40,7 +40,7 @@ public struct ParseGeoPoint: Codable, Hashable {
       Create a new `ParseGeoPoint` instance with the specified latitude and longitude.
        - parameter latitude: Latitude of point in degrees.
        - parameter longitude: Longitude of point in degrees.
-       - throws: `ParseError`.
+     - throws: An error of `ParseError` type.
      */
     public init(latitude: Double, longitude: Double) throws {
         self.latitude = latitude
@@ -63,30 +63,6 @@ public struct ParseGeoPoint: Codable, Hashable {
                              message: "latitude should be < 90")
         }
     }
-
-    #if canImport(CoreLocation)
-    /**
-      Creates a new `ParseGeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
-       - parameter location: Instance of `CLLocation`, with set latitude and longitude.
-     - throws: `ParseError`.
-     */
-    public init(location: CLLocation) throws {
-        self.longitude = location.coordinate.longitude
-        self.latitude = location.coordinate.latitude
-        try validate()
-    }
-
-    /**
-      Creates a new `ParseGeoPoint` instance for the given `CLLocationCoordinate2D`, set to the location's coordinates.
-       - parameter location: Instance of `CLLocationCoordinate2D`, with set latitude and longitude.
-     - throws: `ParseError`.
-     */
-    public init(coordinate: CLLocationCoordinate2D) throws {
-        self.longitude = coordinate.longitude
-        self.latitude = coordinate.latitude
-        try validate()
-    }
-    #endif
 
     /**
      Get distance in radians from this point to specified point.
@@ -166,23 +142,48 @@ extension ParseGeoPoint: CustomStringConvertible {
     }
 }
 
-// MARK: Convenience
-extension ParseGeoPoint {
+#if canImport(CoreLocation)
+// MARK: CLLocation
+public extension ParseGeoPoint {
+
+    /**
+      Creates a new `ParseGeoPoint` instance for the given `CLLocation`, set to the location's coordinates.
+       - parameter location: Instance of `CLLocation`, with set latitude and longitude.
+     - throws: An error of `ParseError` type.
+     */
+    init(location: CLLocation) throws {
+        self.longitude = location.coordinate.longitude
+        self.latitude = location.coordinate.latitude
+        try validate()
+    }
+
+    /**
+      Creates a new `ParseGeoPoint` instance for the given `CLLocationCoordinate2D`, set to the location's coordinates.
+       - parameter location: Instance of `CLLocationCoordinate2D`, with set latitude and longitude.
+     - throws: An error of `ParseError` type.
+     */
+    init(coordinate: CLLocationCoordinate2D) throws {
+        self.longitude = coordinate.longitude
+        self.latitude = coordinate.latitude
+        try validate()
+    }
+
     /**
      Creates a new `CLLocation` instance for the given `ParseGeoPoint`, set to the location's coordinates.
      - parameter geopoint: Instance of `ParseGeoPoint`, with set latitude and longitude.
-     - returns: Returns a `CLLocation`
+     - returns: Returns a `CLLocation`.
      */
-    public func toCLLocation() -> CLLocation {
+    func toCLLocation() -> CLLocation {
         CLLocation(latitude: latitude, longitude: longitude)
     }
 
     /**
      Creates a new `CLLocationCoordinate2D` instance for the given `ParseGeoPoint`, set to the location's coordinates.
      - parameter geopoint: Instance of `ParseGeoPoint`, with set latitude and longitude.
-     - returns: Returns a `CLLocationCoordinate2D`
+     - returns: Returns a `CLLocationCoordinate2D`.
      */
-    public func toCLLocationCoordinate2D() -> CLLocationCoordinate2D {
+    func toCLLocationCoordinate2D() -> CLLocationCoordinate2D {
         CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
     }
 }
+#endif
