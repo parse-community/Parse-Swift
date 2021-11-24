@@ -13,8 +13,8 @@ jobs:
       - uses: actions/checkout@v2
       - name: Get release version
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-      - name: Use multiple cores
-        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+#      - name: Use multiple cores
+#        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
       - name: Update Framework Version
         run: ./Scripts/update_build
         env:
@@ -43,8 +43,8 @@ jobs:
           bundle install
       - name: Get release version
         run: echo "TAG=${GITHUB_REF/refs\/tags\//}" >> $GITHUB_ENV
-      - name: Use multiple cores
-        run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+ #     - name: Use multiple cores
+ #       run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
       - name: Create Jazzy Docs
         run: ./Scripts/jazzy.sh
         env:
