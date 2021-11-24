@@ -198,7 +198,8 @@ public extension Sequence where Element: ParseUser {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: Returns an array of Result enums with the object if a fetch was successful or a `ParseError` if it failed.
+     - returns: Returns an array of Result enums with the object if a fetch was successful or a
+     `ParseError` if it failed.
      - throws: An error of type `ParseError`..
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
@@ -222,7 +223,8 @@ public extension Sequence where Element: ParseUser {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: Returns an array of Result enums with the object if a save was successful or a `ParseError` if it failed.
+     - returns: Returns an array of Result enums with the object if a save was successful or a
+     `ParseError` if it failed.
      - throws: An error of type `ParseError`..
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
