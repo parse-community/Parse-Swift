@@ -20,8 +20,8 @@ internal extension URLSession {
             configuration.requestCachePolicy = ParseSwift.configuration.requestCachePolicy
             configuration.httpAdditionalHeaders = ParseSwift.configuration.httpAdditionalHeaders
             return URLSession(configuration: configuration,
-                   delegate: ParseSwift.sessionDelegate,
-                   delegateQueue: nil)
+                              delegate: ParseSwift.sessionDelegate,
+                              delegateQueue: nil)
         } else {
             let session = URLSession.shared
             session.configuration.urlCache = URLCache.parse
