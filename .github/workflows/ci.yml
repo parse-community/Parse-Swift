@@ -206,7 +206,7 @@ jobs:
       - uses: MaxDesiatov/swift-windows-action@v1
         with:
           swift-version: "5.5.1"
-          shell-action: swift test --enable-code-coverage
+          shell-action: swift test --enable-test-discovery --enable-code-coverage
       - name: Prepare codecov
         run: |
           llvm-cov export -format="lcov" .build\x86_64-unknown-windows-msvc\debug\ParseSwiftPackageTests.xctest -instr-profile .buildx86_64-unknown-windows-msvc\debug\codecov\default.profdata > info_windows.lcov
