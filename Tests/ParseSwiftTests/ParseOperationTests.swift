@@ -513,7 +513,6 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded2, expected2)
         XCTAssertEqual(operations2.target?.previous, [level])
     }
-    #endif
 
     func testObjectIdSet() throws {
         var score = GameScore()
@@ -537,6 +536,7 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded2, expected2)
         XCTAssertEqual(operations2.target?.previous, [level])
     }
+    #endif
 
     func testUnchangedSet() throws {
         let score = GameScore(score: 10)

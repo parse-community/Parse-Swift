@@ -1,6 +1,6 @@
 ![parse-repository-header-sdk-swift](https://user-images.githubusercontent.com/5673677/138289926-a26ca0bd-1713-4c30-b69a-acd840ccead0.png)
 
-<h3 align="center">iOS · macOS · watchOS · tvOS · Linux · Windows</h3>
+<h3 align="center">iOS · macOS · watchOS · tvOS · Linux · Android · Windows</h3>
 
 ---
 
