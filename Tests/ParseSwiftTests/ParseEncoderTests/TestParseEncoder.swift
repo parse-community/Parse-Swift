@@ -1081,7 +1081,6 @@ func XCTAssertEqualPaths(_ lhs: [CodingKey], _ rhs: [CodingKey], _ prefix: Strin
 }
 
 // MARK: - Test Types
-/* FIXME: Import from %S/Inputs/Coding/SharedTypes.swift somehow. */
 
 // MARK: - Empty Types
 private struct EmptyStruct: Codable, Equatable {

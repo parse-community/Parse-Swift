@@ -320,16 +320,6 @@ extension ParseFile {
     /**
      Creates a file with given data *synchronously*. A name will be assigned to it by the server.
      If the file hasn't been downloaded, it will automatically be downloaded before saved.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A saved `ParseFile`.
-     */
-    /*public func save(options: API.Options = []) throws -> ParseFile {
-        try save(options: options, callbackQueue: .main)
-    }*/
-
-    /**
-     Creates a file with given data *synchronously*. A name will be assigned to it by the server.
-     If the file hasn't been downloaded, it will automatically be downloaded before saved.
      
     **Checking progress**
              
