@@ -38,7 +38,6 @@ class ExtensionsTests: XCTestCase {
         ParseSwift.configuration.isTestingSDK = false
         XCTAssertNotNil(URLSession.parse.configuration.urlCache)
     }
-    #endif
 
     func testReconnectInterval() throws {
         for index in 1 ..< 50 {
@@ -47,4 +46,5 @@ class ExtensionsTests: XCTestCase {
             XCTAssertGreaterThan(time, -1)
         }
     }
+    #endif
 }
