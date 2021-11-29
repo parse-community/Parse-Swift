@@ -38,7 +38,7 @@ public protocol ParseUser: ParseObject {
 }
 
 // MARK: SignupLoginBody
-struct SignupLoginBody: Encodable {
+struct SignupLoginBody: ParseType {
     var username: String?
     var password: String?
     var authData: [String: [String: String]?]?
@@ -54,7 +54,7 @@ struct SignupLoginBody: Encodable {
 }
 
 // MARK: EmailBody
-struct EmailBody: Encodable {
+struct EmailBody: ParseType {
     let email: String
 }
 
@@ -203,20 +203,19 @@ extension ParseUser {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         loginCommand(username: username, password: password)
-            .executeAsync(options: options) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue) { result in
+                completion(result)
             }
     }
 
     internal static func loginCommand(username: String,
-                                      password: String) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
+                                      password: String) -> API.Command<SignupLoginBody, Self> {
 
         let body = SignupLoginBody(username: username, password: password)
-        return API.NonParseBodyCommand<SignupLoginBody, Self>(method: .POST,
-                                         path: .login,
-                                         body: body) { (data) -> Self in
+        return API.Command<SignupLoginBody, Self>(method: .POST,
+                                                  path: .login,
+                                                  body: body) { (data) -> Self in
             let sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
             var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
             user.username = username
@@ -247,8 +246,7 @@ extension ParseUser {
         options.insert(.sessionToken(sessionToken))
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         return try newUser.meCommand(sessionToken: sessionToken)
-            .execute(options: options,
-                     callbackQueue: .main)
+            .execute(options: options)
     }
 
     /**
@@ -358,29 +356,27 @@ extension ParseUser {
                               completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        logoutCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
+        logoutCommand().executeAsync(options: options,
+                                     callbackQueue: callbackQueue) { result in
+            //Always let user logout locally, no matter the error.
+            deleteCurrentKeychain()
 
-                //Always let user logout locally, no matter the error.
-                deleteCurrentKeychain()
+            switch result {
 
-                switch result {
-
-                case .success(let error):
-                    if let error = error {
-                        completion(.failure(error))
-                    } else {
-                        completion(.success(()))
-                    }
-                case .failure(let error):
+            case .success(let error):
+                if let error = error {
                     completion(.failure(error))
+                } else {
+                    completion(.success(()))
                 }
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
 
-    internal static func logoutCommand() -> API.NonParseBodyCommand<NoBody, ParseError?> {
-        return API.NonParseBodyCommand(method: .POST, path: .logout) { (data) -> ParseError? in
+    internal static func logoutCommand() -> API.Command<NoBody, ParseError?> {
+        return API.Command(method: .POST, path: .logout) { (data) -> ParseError? in
             do {
                 let parseError = try ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
                 return parseError
@@ -426,26 +422,26 @@ extension ParseUser {
                                      completion: @escaping (Result<Void, ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        passwordResetCommand(email: email).executeAsync(options: options) { result in
-            callbackQueue.async {
-                switch result {
+        passwordResetCommand(email: email).executeAsync(options: options,
+                                                        callbackQueue: callbackQueue) { result in
+            switch result {
 
-                case .success(let error):
-                    if let error = error {
-                        completion(.failure(error))
-                    } else {
-                        completion(.success(()))
-                    }
-                case .failure(let error):
+            case .success(let error):
+                if let error = error {
                     completion(.failure(error))
+                } else {
+                    completion(.success(()))
                 }
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
 
-    internal static func passwordResetCommand(email: String) -> API.NonParseBodyCommand<EmailBody, ParseError?> {
+    internal static func passwordResetCommand(email: String) -> API.Command<EmailBody, ParseError?> {
         let emailBody = EmailBody(email: email)
-        return API.NonParseBodyCommand(method: .POST, path: .passwordReset, body: emailBody) { (data) -> ParseError? in
+        return API.Command(method: .POST,
+                           path: .passwordReset, body: emailBody) { (data) -> ParseError? in
             try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
         }
     }
@@ -489,29 +485,26 @@ extension ParseUser {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         verificationEmailCommand(email: email)
-            .executeAsync(options: options) { result in
-                callbackQueue.async {
+            .executeAsync(options: options, callbackQueue: callbackQueue) { result in
+                switch result {
 
-                    switch result {
-
-                    case .success(let error):
-                        if let error = error {
-                            completion(.failure(error))
-                        } else {
-                            completion(.success(()))
-                        }
-                    case .failure(let error):
+                case .success(let error):
+                    if let error = error {
                         completion(.failure(error))
+                    } else {
+                        completion(.success(()))
                     }
+                case .failure(let error):
+                    completion(.failure(error))
                 }
         }
     }
 
-    internal static func verificationEmailCommand(email: String) -> API.NonParseBodyCommand<EmailBody, ParseError?> {
+    internal static func verificationEmailCommand(email: String) -> API.Command<EmailBody, ParseError?> {
         let emailBody = EmailBody(email: email)
-        return API.NonParseBodyCommand(method: .POST,
-                                       path: .verificationEmail,
-                                       body: emailBody) { (data) -> ParseError? in
+        return API.Command(method: .POST,
+                           path: .verificationEmail,
+                           body: emailBody) { (data) -> ParseError? in
             try? ParseCoding.jsonDecoder().decode(ParseError.self, from: data)
         }
     }
@@ -567,8 +560,7 @@ extension ParseUser {
             return try current.linkCommand()
                 .execute(options: options)
         } else {
-            return try signupCommand().execute(options: options,
-                                               callbackQueue: .main)
+            return try signupCommand().execute(options: options)
         }
     }
 
@@ -591,10 +583,9 @@ extension ParseUser {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let current = Self.current {
             current.linkCommand()
-                .executeAsync(options: options) { result in
-                    callbackQueue.async {
-                        completion(result)
-                    }
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { result in
+                    completion(result)
                 }
         } else {
             do {
@@ -645,7 +636,8 @@ extension ParseUser {
         let body = SignupLoginBody(username: username, password: password)
         if let current = Self.current {
             current.linkCommand(body: body)
-                .executeAsync(options: options) { result in
+                .executeAsync(options: options,
+                              callbackQueue: .main) { result in
                     callbackQueue.async {
                         completion(result)
                     }
@@ -653,7 +645,8 @@ extension ParseUser {
         } else {
             do {
                 try signupCommand(body: body)
-                    .executeAsync(options: options) { result in
+                    .executeAsync(options: options,
+                                  callbackQueue: .main) { result in
                     callbackQueue.async {
                         completion(result)
                     }
@@ -671,9 +664,10 @@ extension ParseUser {
         }
     }
 
-    internal static func signupCommand(body: SignupLoginBody) throws -> API.NonParseBodyCommand<SignupLoginBody, Self> {
-        API.NonParseBodyCommand(method: .POST,
-                                path: .users, body: body) { (data) -> Self in
+    internal static func signupCommand(body: SignupLoginBody) throws -> API.Command<SignupLoginBody, Self> {
+        API.Command(method: .POST,
+                    path: .users,
+                    body: body) { (data) -> Self in
 
             let sessionToken = try ParseCoding.jsonDecoder()
                 .decode(LoginSignupResponse.self, from: data).sessionToken
@@ -756,8 +750,7 @@ extension ParseUser {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let result: Self = try fetchCommand(include: includeKeys)
-            .execute(options: options,
-                     callbackQueue: .main)
+            .execute(options: options)
         try Self.updateKeychainIfNeeded([result])
         return result
     }
@@ -897,7 +890,6 @@ extension ParseUser {
 
         let result: Self = try saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
             .execute(options: options,
-                     callbackQueue: .main,
                      childObjects: childObjects,
                      childFiles: childFiles)
         try Self.updateKeychainIfNeeded([result])
@@ -1057,7 +1049,8 @@ extension ParseUser {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
-            try deleteCommand().executeAsync(options: options) { result in
+            try deleteCommand().executeAsync(options: options,
+                                             callbackQueue: .main) { result in
                 switch result {
 
                 case .success:
@@ -1197,7 +1190,6 @@ public extension Sequence where Element: ParseUser {
             let currentBatch = try API.Command<Self.Element, Self.Element>
                 .batch(commands: $0, transaction: transaction)
                 .execute(options: options,
-                         callbackQueue: .main,
                          childObjects: childObjects,
                          childFiles: childFiles)
             returnBatch.append(contentsOf: currentBatch)
@@ -1551,23 +1543,20 @@ public extension Sequence where Element: ParseUser {
             for batch in batches {
                 API.Command<Self.Element, ParseError?>
                         .batch(commands: batch, transaction: transaction)
-                        .executeAsync(options: options) { results in
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue) { results in
                     switch results {
 
                     case .success(let saved):
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
-                            callbackQueue.async {
-                                try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0},
-                                                                         deleting: true)
-                                completion(.success(returnBatch))
-                            }
+                            try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0},
+                                                                     deleting: true)
+                            completion(.success(returnBatch))
                         }
                         completed += 1
                     case .failure(let error):
-                        callbackQueue.async {
-                            completion(.failure(error))
-                        }
+                        completion(.failure(error))
                         return
                     }
                 }

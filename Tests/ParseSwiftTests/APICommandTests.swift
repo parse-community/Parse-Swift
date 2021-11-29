@@ -182,8 +182,8 @@ class APICommandTests: XCTestCase {
     }
 
     //This is how errors HTTP errors should typically come in
-    func testErrorHTTPJSON() {
-        let parseError = ParseError(code: .connectionFailed, message: "Connection failed")
+    func testErrorHTTP400JSON() {
+        let parseError = ParseError(code: .unknownError, message: "Connection failed")
         let errorKey = "error"
         let errorValue = "yarr"
         let codeKey = "code"
@@ -197,6 +197,46 @@ class APICommandTests: XCTestCase {
             do {
                 let json = try JSONSerialization.data(withJSONObject: responseDictionary, options: [])
                 return MockURLResponse(data: json, statusCode: 400, delay: 0.0)
+            } catch {
+                XCTFail(error.localizedDescription)
+                return nil
+            }
+        }
+
+        do {
+            _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (_) -> NoBody in
+                throw parseError
+            }).execute(options: [])
+
+            XCTFail("Should have thrown an error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("should be able unwrap final error to ParseError")
+                return
+            }
+            XCTAssertEqual(error.code, parseError.code)
+        }
+    }
+
+    //This is how errors HTTP errors should typically come in
+    func testErrorHTTP500JSON() {
+        let parseError = ParseError(code: .unknownError, message: "Connection failed")
+        let errorKey = "error"
+        let errorValue = "yarr"
+        let codeKey = "code"
+        let codeValue = 100
+        let responseDictionary: [String: Any] = [
+            errorKey: errorValue,
+            codeKey: codeValue
+        ]
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let json = try JSONSerialization.data(withJSONObject: responseDictionary, options: [])
+                return MockURLResponse(data: json, statusCode: 500, delay: 0.0)
             } catch {
                 XCTFail(error.localizedDescription)
                 return nil

@@ -37,7 +37,7 @@ extension ParseCloud {
         - throws: An error of type `ParseError`.
     */
     public func runFunction(options: API.Options = []) throws -> ReturnType {
-        try runFunctionCommand().execute(options: options, callbackQueue: .main)
+        try runFunctionCommand().execute(options: options)
     }
 
     /**
@@ -77,7 +77,7 @@ extension ParseCloud {
           - returns: Returns a `Decodable` type.
     */
     public func startJob(options: API.Options = []) throws -> ReturnType {
-        try startJobCommand().execute(options: options, callbackQueue: .main)
+        try startJobCommand().execute(options: options)
     }
 
     /**

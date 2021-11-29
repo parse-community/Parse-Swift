@@ -33,9 +33,15 @@ internal extension API {
 
         func execute(options: API.Options) throws -> U {
             var responseResult: Result<U, ParseError>?
+            let synchronizationQueue = DispatchQueue(label: "com.parse.NonParseBodyCommand.sync.\(UUID().uuidString)",
+                                                     qos: .default,
+                                                     attributes: .concurrent,
+                                                     autoreleaseFrequency: .inherit,
+                                                     target: nil)
             let group = DispatchGroup()
             group.enter()
-            self.executeAsync(options: options) { result in
+            self.executeAsync(options: options,
+                              callbackQueue: synchronizationQueue) { result in
                 responseResult = result
                 group.leave()
             }
@@ -50,11 +56,14 @@ internal extension API {
 
         // MARK: Asynchronous Execution
         func executeAsync(options: API.Options,
+                          callbackQueue: DispatchQueue,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
 
             switch self.prepareURLRequest(options: options) {
             case .success(let urlRequest):
-                URLSession.parse.dataTask(with: urlRequest, mapper: mapper) { result in
+                URLSession.parse.dataTask(with: urlRequest,
+                                          callbackQueue: callbackQueue,
+                                          mapper: mapper) { result in
                     switch result {
 
                     case .success(let decoded):
@@ -64,7 +73,9 @@ internal extension API {
                     }
                 }
             case .failure(let error):
-                completion(.failure(error))
+                callbackQueue.async {
+                    completion(.failure(error))
+                }
             }
         }
 

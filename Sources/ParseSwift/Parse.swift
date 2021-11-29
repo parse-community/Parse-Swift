@@ -56,6 +56,10 @@ public struct ParseConfiguration {
     /// Defaults to `false`.
     var deleteKeychainIfNeeded: Bool = false
 
+    /// Maximum number of times to try to connect to Parse Server.
+    /// Defaults to 5.
+    var maxConnectionAttempts: Int = 5
+
     internal var authentication: ((URLAuthenticationChallenge,
                                    (URLSession.AuthChallengeDisposition,
                                     URLCredential?) -> Void) -> Void)?
@@ -81,13 +85,15 @@ public struct ParseConfiguration {
      for more info.
      - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
      - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
-     - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
-     [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
-     for more info.
      - parameter migrateFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
      to `true` will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to `false`.
      - parameter deleteKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
      Defaults to `false`.
+     - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
+     [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
+     for more info.
+     - parameter maxConnectionAttempts: Maximum number of times to try to connect to Parse Server.
+     Defaults to 5.
      - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
      Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
@@ -109,6 +115,7 @@ public struct ParseConfiguration {
                 migrateFromObjcSDK: Bool = false,
                 deleteKeychainIfNeeded: Bool = false,
                 httpAdditionalHeaders: [String: String]? = nil,
+                maxConnectionAttempts: Int = 5,
                 authentication: ((URLAuthenticationChallenge,
                                   (URLSession.AuthChallengeDisposition,
                                    URLCredential?) -> Void) -> Void)? = nil) {
@@ -129,6 +136,7 @@ public struct ParseConfiguration {
         self.migrateFromObjcSDK = migrateFromObjcSDK
         self.deleteKeychainIfNeeded = deleteKeychainIfNeeded
         self.httpAdditionalHeaders = httpAdditionalHeaders
+        self.maxConnectionAttempts = maxConnectionAttempts
         ParseStorage.shared.use(keyValueStore ?? InMemoryKeyValueStore())
     }
 }
@@ -238,13 +246,13 @@ public struct ParseSwift {
      for more info.
      - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
      - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
-     - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
-     [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
-     for more info.
      - parameter migrateFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
      to `true` will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to `false`.
      - parameter deleteKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
      Defaults to `false`.
+     - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
+     [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
+     for more info.
      - parameter authentication: A callback block that will be used to receive/accept/decline network challenges.
      Defaults to `nil` in which the SDK will use the default OS authentication methods for challenges.
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
@@ -264,9 +272,10 @@ public struct ParseSwift {
         requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
         cacheMemoryCapacity: Int = 512_000,
         cacheDiskCapacity: Int = 10_000_000,
-        httpAdditionalHeaders: [String: String]? = nil,
         migrateFromObjcSDK: Bool = false,
         deleteKeychainIfNeeded: Bool = false,
+        httpAdditionalHeaders: [String: String]? = nil,
+        maxConnectionAttempts: Int = 5,
         authentication: ((URLAuthenticationChallenge,
                           (URLSession.AuthChallengeDisposition,
                            URLCredential?) -> Void) -> Void)? = nil
@@ -285,6 +294,7 @@ public struct ParseSwift {
                                         migrateFromObjcSDK: migrateFromObjcSDK,
                                         deleteKeychainIfNeeded: deleteKeychainIfNeeded,
                                         httpAdditionalHeaders: httpAdditionalHeaders,
+                                        maxConnectionAttempts: maxConnectionAttempts,
                                         authentication: authentication))
     }
 
@@ -299,9 +309,10 @@ public struct ParseSwift {
                                     requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                                     cacheMemoryCapacity: Int = 512_000,
                                     cacheDiskCapacity: Int = 10_000_000,
-                                    httpAdditionalHeaders: [String: String]? = nil,
                                     migrateFromObjcSDK: Bool = false,
                                     deleteKeychainIfNeeded: Bool = false,
+                                    httpAdditionalHeaders: [String: String]? = nil,
+                                    maxConnectionAttempts: Int = 5,
                                     testing: Bool = false,
                                     authentication: ((URLAuthenticationChallenge,
                                                       (URLSession.AuthChallengeDisposition,
@@ -320,6 +331,7 @@ public struct ParseSwift {
                                                migrateFromObjcSDK: migrateFromObjcSDK,
                                                deleteKeychainIfNeeded: deleteKeychainIfNeeded,
                                                httpAdditionalHeaders: httpAdditionalHeaders,
+                                               maxConnectionAttempts: maxConnectionAttempts,
                                                authentication: authentication)
         configuration.isTestingSDK = testing
         initialize(configuration: configuration)

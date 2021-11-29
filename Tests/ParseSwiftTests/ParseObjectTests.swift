@@ -1435,7 +1435,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             guard let savedGame = try? game
                     .saveCommand()
                     .execute(options: [],
-                             callbackQueue: .main,
                              childObjects: savedChildren,
                              childFiles: savedChildFiles) else {
                 XCTFail("Should have saved game")
@@ -1548,7 +1547,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             guard let savedGame = try? game
                     .saveCommand()
                     .execute(options: [],
-                             callbackQueue: .main,
                              childObjects: savedChildren,
                              childFiles: savedChildFiles) else {
                 XCTFail("Should have saved game")
@@ -1792,7 +1790,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             guard let savedGame = try? game
                     .saveCommand()
                     .execute(options: [],
-                             callbackQueue: .main,
                              childObjects: savedChildren,
                              childFiles: savedChildFiles) else {
                 XCTFail("Should have saved game")

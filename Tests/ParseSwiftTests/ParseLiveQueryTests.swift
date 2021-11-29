@@ -593,19 +593,6 @@ class ParseLiveQueryTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testReconnectInterval() throws {
-        guard let client = ParseLiveQuery.getDefault() else {
-            XCTFail("Should be able to get client")
-            return
-        }
-        for index in 0 ..< 50 {
-            let time = client.reconnectInterval
-            XCTAssertLessThan(time, 30)
-            XCTAssertGreaterThan(time, -1)
-            client.attempts += index
-        }
-    }
-
     func testRandomIdGenerator() throws {
         guard let client = ParseLiveQuery.getDefault() else {
             XCTFail("Should be able to get client")

@@ -40,16 +40,15 @@ public struct ParseHealth: ParseType, Decodable {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         healthCommand()
-            .executeAsync(options: options) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue) { result in
+                completion(result)
             }
     }
 
-    internal static func healthCommand() -> API.NonParseBodyCommand<NoBody, String> {
-        return API.NonParseBodyCommand(method: .POST,
-                                       path: .health) { (data) -> String in
+    internal static func healthCommand() -> API.Command<NoBody, String> {
+        return API.Command(method: .POST,
+                           path: .health) { (data) -> String in
             return try ParseCoding.jsonDecoder().decode(HealthResponse.self, from: data).status
         }
     }

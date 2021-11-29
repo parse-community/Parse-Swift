@@ -1054,10 +1054,9 @@ extension Query: Queryable {
             }
             return
         }
-        findCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
-                completion(result)
-            }
+        findCommand().executeAsync(options: options,
+                                   callbackQueue: callbackQueue) { result in
+            completion(result)
         }
     }
 
@@ -1081,10 +1080,9 @@ extension Query: Queryable {
             }
             return
         }
-        findExplainCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
-                completion(result)
-            }
+        findExplainCommand().executeAsync(options: options,
+                                          callbackQueue: callbackQueue) { result in
+            completion(result)
         }
     }
 
@@ -1221,10 +1219,9 @@ extension Query: Queryable {
             }
             return
         }
-        firstCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
-                completion(result)
-            }
+        firstCommand().executeAsync(options: options,
+                                    callbackQueue: callbackQueue) { result in
+            completion(result)
         }
     }
 
@@ -1252,10 +1249,9 @@ extension Query: Queryable {
             }
             return
         }
-        firstExplainCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
-                completion(result)
-            }
+        firstExplainCommand().executeAsync(options: options,
+                                           callbackQueue: callbackQueue) { result in
+            completion(result)
         }
     }
 
@@ -1308,10 +1304,9 @@ extension Query: Queryable {
             }
             return
         }
-        countCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
-                completion(result)
-            }
+        countCommand().executeAsync(options: options,
+                                    callbackQueue: callbackQueue) { result in
+            completion(result)
         }
     }
 
@@ -1335,10 +1330,9 @@ extension Query: Queryable {
             }
             return
         }
-        countExplainCommand().executeAsync(options: options) { result in
-            callbackQueue.async {
-                completion(result)
-            }
+        countExplainCommand().executeAsync(options: options,
+                                           callbackQueue: callbackQueue) { result in
+            completion(result)
         }
     }
 
@@ -1430,10 +1424,9 @@ extension Query: Queryable {
         }
 
         query.aggregateCommand()
-            .executeAsync(options: options) { result in
-            callbackQueue.async {
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue) { result in
                 completion(result)
-            }
         }
     }
 
@@ -1533,10 +1526,8 @@ extension Query: Queryable {
         }
 
         query.aggregateExplainCommand()
-            .executeAsync(options: options) { result in
-            callbackQueue.async {
+            .executeAsync(options: options, callbackQueue: callbackQueue) { result in
                 completion(result)
-            }
         }
     }
 
@@ -1583,10 +1574,9 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
         distinctCommand(key: key)
-            .executeAsync(options: options) { result in
-            callbackQueue.async {
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue) { result in
                 completion(result)
-            }
         }
     }
 
@@ -1641,10 +1631,9 @@ extension Query: Queryable {
         var options = options
         options.insert(.useMasterKey)
         distinctExplainCommand(key: key)
-            .executeAsync(options: options) { result in
-            callbackQueue.async {
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue) { result in
                 completion(result)
-            }
         }
     }
 }
