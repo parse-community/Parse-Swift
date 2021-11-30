@@ -57,7 +57,7 @@ import PackageDescription
 let package = Package(
     name: "YOUR_PROJECT_NAME",
     dependencies: [
-        .package(url: "https://github.com/parse-community/Parse-Swift", from: "2.2.4"),
+        .package(url: "https://github.com/parse-community/Parse-Swift", from: "2.3.1"),
     ]
 )
 ```

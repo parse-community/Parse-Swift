@@ -64,12 +64,14 @@ internal extension API {
                 URLSession.parse.dataTask(with: urlRequest,
                                           callbackQueue: callbackQueue,
                                           mapper: mapper) { result in
-                    switch result {
+                    callbackQueue.async {
+                        switch result {
 
-                    case .success(let decoded):
-                        completion(.success(decoded))
-                    case .failure(let error):
-                        completion(.failure(error))
+                        case .success(let decoded):
+                            completion(.success(decoded))
+                        case .failure(let error):
+                            completion(.failure(error))
+                        }
                     }
                 }
             case .failure(let error):
