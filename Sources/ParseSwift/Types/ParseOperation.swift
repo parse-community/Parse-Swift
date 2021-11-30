@@ -448,10 +448,9 @@ extension ParseOperation {
             return
         }
         do {
-            try self.saveCommand().executeAsync(options: options) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+            try self.saveCommand().executeAsync(options: options,
+                                                callbackQueue: callbackQueue) { result in
+                completion(result)
             }
         } catch {
             callbackQueue.async {

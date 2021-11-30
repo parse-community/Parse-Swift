@@ -38,5 +38,13 @@ class ExtensionsTests: XCTestCase {
         ParseSwift.configuration.isTestingSDK = false
         XCTAssertNotNil(URLSession.parse.configuration.urlCache)
     }
+
+    func testReconnectInterval() throws {
+        for index in 1 ..< 50 {
+            let time = URLSession.reconnectInterval(index)
+            XCTAssertLessThan(time, 30)
+            XCTAssertGreaterThan(time, -1)
+        }
+    }
     #endif
 }

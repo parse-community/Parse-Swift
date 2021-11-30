@@ -306,9 +306,10 @@ class ParseAnonymousTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.current?.username = "hello"
-        User.current?.password = "world"
-        User.current?.signup { result in
+        var current = User.current
+        current?.username = "hello"
+        current?.password = "world"
+        current?.signup { result in
             switch result {
 
             case .success(let user):
@@ -439,6 +440,46 @@ class ParseAnonymousTests: XCTestCase {
         XCTAssertEqual(signedInUser.username, "hello")
         XCTAssertEqual(signedInUser.password, "world")
         XCTAssertFalse(signedInUser.anonymous.isLinked)
+    }
+
+    func testCantReplaceAnonymousWithDifferentUser() throws {
+        try testLogin()
+        guard let user = User.current else {
+            XCTFail("Shold have unwrapped")
+            return
+        }
+        XCTAssertTrue(user.anonymous.isLinked)
+
+        let expectation1 = XCTestExpectation(description: "SignUp")
+        var differentUser = User()
+        differentUser.objectId = "nope"
+        differentUser.username = "shouldnot"
+        differentUser.password = "work"
+        differentUser.signup { result in
+            if case let .failure(error) = result {
+                XCTAssertEqual(error.code, .unknownError)
+                XCTAssertTrue(error.message.contains("different"))
+            } else {
+                XCTFail("Should have returned error")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testCantReplaceAnonymousWithDifferentUserSync() throws {
+        try testLogin()
+        guard let user = User.current else {
+            XCTFail("Shold have unwrapped")
+            return
+        }
+        XCTAssertTrue(user.anonymous.isLinked)
+
+        var differentUser = User()
+        differentUser.objectId = "nope"
+        differentUser.username = "shouldnot"
+        differentUser.password = "work"
+        XCTAssertThrowsError(try differentUser.signup())
     }
 
     func testReplaceAnonymousWithBecome() throws { // swiftlint:disable:this function_body_length

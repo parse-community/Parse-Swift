@@ -362,7 +362,7 @@ extension ParseInstallation {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let result: Self = try fetchCommand(include: includeKeys)
-            .execute(options: options, callbackQueue: .main)
+            .execute(options: options)
         try Self.updateKeychainIfNeeded([result])
         return result
     }
@@ -503,7 +503,6 @@ extension ParseInstallation {
 
         let result: Self = try saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
             .execute(options: options,
-                     callbackQueue: .main,
                      childObjects: childObjects,
                      childFiles: childFiles)
         try Self.updateKeychainIfNeeded([result])
@@ -663,27 +662,26 @@ extension ParseInstallation {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
             try deleteCommand()
-                .executeAsync(options: options) { result in
-                    callbackQueue.async {
-                        switch result {
+                 .executeAsync(options: options,
+                               callbackQueue: callbackQueue) { result in
+                     switch result {
 
-                        case .success:
-                            do {
-                                try Self.updateKeychainIfNeeded([self], deleting: true)
-                                completion(.success(()))
-                            } catch {
-                                let returnError: ParseError!
-                                if let parseError = error as? ParseError {
-                                    returnError = parseError
-                                } else {
-                                    returnError = ParseError(code: .unknownError, message: error.localizedDescription)
-                                }
-                                completion(.failure(returnError))
-                            }
-                        case .failure(let error):
-                            completion(.failure(error))
-                        }
-                    }
+                     case .success:
+                         do {
+                             try Self.updateKeychainIfNeeded([self], deleting: true)
+                             completion(.success(()))
+                         } catch {
+                             let returnError: ParseError!
+                             if let parseError = error as? ParseError {
+                                 returnError = parseError
+                             } else {
+                                 returnError = ParseError(code: .unknownError, message: error.localizedDescription)
+                             }
+                             completion(.failure(returnError))
+                         }
+                     case .failure(let error):
+                         completion(.failure(error))
+                     }
                 }
          } catch let error as ParseError {
             callbackQueue.async {
@@ -812,7 +810,6 @@ public extension Sequence where Element: ParseInstallation {
             let currentBatch = try API.Command<Self.Element, Self.Element>
                 .batch(commands: $0, transaction: transaction)
                 .execute(options: options,
-                         callbackQueue: .main,
                          childObjects: childObjects,
                          childFiles: childFiles)
             returnBatch.append(contentsOf: currentBatch)
@@ -1170,23 +1167,20 @@ public extension Sequence where Element: ParseInstallation {
             for batch in batches {
                 API.Command<Self.Element, ParseError?>
                         .batch(commands: batch, transaction: transaction)
-                        .executeAsync(options: options) { results in
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue) { results in
                     switch results {
 
                     case .success(let saved):
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
-                            callbackQueue.async {
-                                try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0},
-                                                                         deleting: true)
-                                completion(.success(returnBatch))
-                            }
+                            try? Self.Element.updateKeychainIfNeeded(self.compactMap {$0},
+                                                                     deleting: true)
+                            completion(.success(returnBatch))
                         }
                         completed += 1
                     case .failure(let error):
-                        callbackQueue.async {
-                            completion(.failure(error))
-                        }
+                        completion(.failure(error))
                         return
                     }
                 }

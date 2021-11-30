@@ -190,7 +190,8 @@ jobs:
       - uses: actions/checkout@v2
       - uses: sersoft-gmbh/SwiftyActions@v1
         with:
-          release-version: 5.5.1
+          release-version: "5"
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Build
         run: swift build
       - name: Test
@@ -203,7 +204,21 @@ jobs:
         with:
           env_vars: LINUX
           fail_ci_if_error: true
-
+          
+  windows:
+    runs-on: windows-2019
+    steps:
+      - uses: actions/checkout@v2
+      - uses: MaxDesiatov/swift-windows-action@v1
+        with:
+          swift-version: "5.5.1"
+          shell-action: swift test --enable-test-discovery --enable-code-coverage
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+          env_vars: WINDOWS
+          fail_ci_if_error: false
+  
   docs:
     needs: xcode-build-watchos
     runs-on: macos-latest

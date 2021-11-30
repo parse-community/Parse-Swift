@@ -406,6 +406,13 @@ extension ParseACL {
 
         return modifiedACL
     }
+
+    internal static func deleteDefaultFromKeychain() {
+        try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.defaultACL)
+        #if !os(Linux) && !os(Android) && !os(Windows)
+        try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.defaultACL)
+        #endif
+    }
 }
 
 // Encoding and decoding

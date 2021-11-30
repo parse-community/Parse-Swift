@@ -161,7 +161,7 @@ class ParseAuthenticationTests: XCTestCase {
         XCTAssertEqual(command.body?.authData, body.authData)
     }
 
-    func testLinkCommandNoBody() throws {
+    func testLinkCommandParseBody() throws {
         var user = User()
         user.username = "hello"
         user.password = "world"
@@ -169,7 +169,7 @@ class ParseAuthenticationTests: XCTestCase {
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/users")
         XCTAssertEqual(command.method, API.Method.PUT)
-        XCTAssertNil(command.body)
+        XCTAssertNotNil(command.body)
         XCTAssertNil(command.body?.authData)
     }
 
