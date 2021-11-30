@@ -162,7 +162,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Prepare codecov
-    - name: Build and Test
+      uses: sersoft-gmbh/swift-coverage-action@v2
       id: coverage-files
       with:
         format: lcov
