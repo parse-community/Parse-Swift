@@ -20,7 +20,7 @@ __Fixes__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.5...2.2.6)
 
 __Fixes__
-- Use default ACL automatically on newley created ParseObject's if a default ACL is available ([#283](https://github.com/parse-community/Parse-Swift/pull/283)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Use default ACL automatically on newley created ParseObject's if a default ACL is available ([#284](https://github.com/parse-community/Parse-Swift/pull/284)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.4...2.2.5)

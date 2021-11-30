@@ -306,9 +306,10 @@ class ParseAnonymousTests: XCTestCase {
 
         let expectation1 = XCTestExpectation(description: "Login")
 
-        User.current?.username = "hello"
-        User.current?.password = "world"
-        User.current?.signup { result in
+        var current = User.current
+        current?.username = "hello"
+        current?.password = "world"
+        current?.signup { result in
             switch result {
 
             case .success(let user):

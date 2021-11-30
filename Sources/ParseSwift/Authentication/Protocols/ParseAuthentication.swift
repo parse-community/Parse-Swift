@@ -434,7 +434,7 @@ public extension ParseUser {
 
     internal func linkCommand() -> API.Command<Self, Self> {
         var mutableSelf = self
-        mutableSelf.anonymous.strip()
+        mutableSelf = mutableSelf.anonymous.strip(mutableSelf)
         return API.Command<Self, Self>(method: .PUT,
                                        path: endpoint,
                                        body: mutableSelf) { (data) -> Self in

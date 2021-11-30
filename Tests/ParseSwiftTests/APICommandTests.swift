@@ -183,7 +183,7 @@ class APICommandTests: XCTestCase {
 
     //This is how errors HTTP errors should typically come in
     func testErrorHTTP400JSON() {
-        let parseError = ParseError(code: .unknownError, message: "Connection failed")
+        let parseError = ParseError(code: .connectionFailed, message: "Connection failed")
         let errorKey = "error"
         let errorValue = "yarr"
         let codeKey = "code"
@@ -223,7 +223,7 @@ class APICommandTests: XCTestCase {
 
     //This is how errors HTTP errors should typically come in
     func testErrorHTTP500JSON() {
-        let parseError = ParseError(code: .unknownError, message: "Connection failed")
+        let parseError = ParseError(code: .connectionFailed, message: "Connection failed")
         let errorKey = "error"
         let errorValue = "yarr"
         let codeKey = "code"
