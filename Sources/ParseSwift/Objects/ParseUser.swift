@@ -557,12 +557,7 @@ extension ParseUser {
     public func signup(options: API.Options = []) throws -> Self {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        if let current = Self.current {
-            guard current.hasSameObjectId(as: self) else {
-                let error = ParseError(code: .unknownError,
-                                       message: "Can't signup a user with a different objectId than the current user")
-                throw error
-            }
+        if Self.current != nil {
             return try self.linkCommand()
                 .execute(options: options)
         } else {
@@ -587,20 +582,24 @@ extension ParseUser {
                        completion: @escaping (Result<Self, ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        if let current = Self.current {
-            guard current.hasSameObjectId(as: self) else {
-                let error = ParseError(code: .unknownError,
-                                       message: "Can't signup a user with a different objectId than the current user")
+        if Self.current != nil {
+            do {
+                try self.linkCommand()
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue) { result in
+                        completion(result)
+                    }
+            } catch {
                 callbackQueue.async {
-                    completion(.failure(error))
+                    if let parseError = error as? ParseError {
+                        completion(.failure(parseError))
+                    } else {
+                        let parseError = ParseError(code: .unknownError,
+                                                    message: error.localizedDescription)
+                        completion(.failure(parseError))
+                    }
                 }
-                return
             }
-            self.linkCommand()
-                .executeAsync(options: options,
-                              callbackQueue: callbackQueue) { result in
-                    completion(result)
-                }
         } else {
             do {
                 try signupCommand()

@@ -27,18 +27,17 @@ struct MockURLResponse {
         try self.init(string: string, statusCode: 200, delay: .init(0.0))
     }
 
-    init(string: String, statusCode: Int, delay: TimeInterval,
+    init(string: String,
+         statusCode: Int,
+         delay: TimeInterval,
          headerFields: [String: String] = ["Content-Type": "application/json"]) throws {
-
-        do {
-            let encoded = try JSONEncoder().encode(string)
-            self.init(data: encoded, statusCode: statusCode, delay: delay, headerFields: headerFields)
-        } catch {
-            throw ParseError(code: .unknownError, message: "unable to convert string to data")
-        }
+        let encoded = try JSONEncoder().encode(string)
+        self.init(data: encoded, statusCode: statusCode, delay: delay, headerFields: headerFields)
     }
 
-    init(data: Data, statusCode: Int, delay: TimeInterval,
+    init(data: Data,
+         statusCode: Int,
+         delay: TimeInterval,
          headerFields: [String: String] = ["Content-Type": "application/json"]) {
         self.statusCode = statusCode
         self.headerFields = headerFields

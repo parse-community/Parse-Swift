@@ -432,9 +432,15 @@ public extension ParseUser {
             }
     }
 
-    internal func linkCommand() -> API.Command<Self, Self> {
-        var mutableSelf = self
-        mutableSelf = mutableSelf.anonymous.strip(mutableSelf)
+    internal func linkCommand() throws -> API.Command<Self, Self> {
+        var mutableSelf = self.anonymous.strip(self)
+        if let current = Self.current {
+            guard current.hasSameObjectId(as: self) else {
+                let error = ParseError(code: .unknownError,
+                                       message: "Can't signup a user with a different objectId than the current user")
+                throw error
+            }
+        }
         return API.Command<Self, Self>(method: .PUT,
                                        path: endpoint,
                                        body: mutableSelf) { (data) -> Self in

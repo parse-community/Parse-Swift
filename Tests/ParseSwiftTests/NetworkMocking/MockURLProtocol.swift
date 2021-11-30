@@ -37,7 +37,8 @@ class MockURLProtocol: URLProtocol {
         mockRequestsPassing(Int.max, test: test, with: response)
     }
 
-    class func mockRequestsPassing(_ attempts: Int, test: @escaping (URLRequest) -> Bool,
+    class func mockRequestsPassing(_ attempts: Int,
+                                   test: @escaping (URLRequest) -> Bool,
                                    with response: @escaping (URLRequest) -> MockURLResponse?) {
         let mock = MockURLProtocolMock(attempts: attempts, test: test, response: response)
         mocks.append(mock)
@@ -77,7 +78,9 @@ class MockURLProtocol: URLProtocol {
         return request
     }
 
-    override required init(request: URLRequest, cachedResponse: CachedURLResponse?, client: URLProtocolClient?) {
+    override required init(request: URLRequest,
+                           cachedResponse: CachedURLResponse?,
+                           client: URLProtocolClient?) {
         super.init(request: request, cachedResponse: cachedResponse, client: client)
         guard let mock = MockURLProtocol.firstMockForRequest(request) else {
             self.mock = nil
@@ -105,17 +108,17 @@ class MockURLProtocol: URLProtocol {
         }
 
         guard let url = request.url,
-            let urlResponse = HTTPURLResponse(url: url, statusCode: response.statusCode,
-                                              httpVersion: "HTTP/2", headerFields: response.headerFields) else {
-            return
-        }
-
-        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + response.delay) {
-
-            if !self.loading {
+            let urlResponse = HTTPURLResponse(url: url,
+                                              statusCode: response.statusCode,
+                                              httpVersion: "HTTP/2",
+                                              headerFields: response.headerFields) else {
                 return
             }
 
+        DispatchQueue.global(qos: .default).asyncAfter(deadline: .now() + response.delay) {
+            if !self.loading {
+                return
+            }
             self.client?.urlProtocol(self, didReceive: urlResponse, cacheStoragePolicy: .notAllowed)
             if let data = response.responseData {
                 self.client?.urlProtocol(self, didLoad: data)

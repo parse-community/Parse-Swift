@@ -16,7 +16,7 @@ jobs:
     #- name: Use multiple cores
     #  run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData clean test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
@@ -49,7 +49,7 @@ jobs:
     #- name: Use multiple cores
     #  run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData clean test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
@@ -76,7 +76,7 @@ jobs:
     #- name: Use multiple cores
     #  run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
     - name: Build
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV -derivedDataPath DerivedData clean test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
@@ -123,13 +123,9 @@ jobs:
         security default-keychain -s temporary
         security unlock-keychain -p "" temporary
         security set-keychain-settings -lut 7200 temporary
-    #- name: Use multiple cores
-    #  run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
-    - name: Build
-      run: swift build -v
-      env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
-    - name: Test
+    - name: Use multiple cores
+      run: defaults write com.apple.dt.XCBuild EnableSwiftBuildSystemIntegration 1
+    - name: Build and Test
       run: swift test --enable-code-coverage -v
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -161,16 +157,12 @@ jobs:
         security default-keychain -s temporary
         security unlock-keychain -p "" temporary
         security set-keychain-settings -lut 7200 temporary
-    - name: Build
-      run: swift build -v
-      env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
-    - name: Test
+    - name: Build and Test
       run: swift test --enable-code-coverage -v
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
     - name: Prepare codecov
-      uses: sersoft-gmbh/swift-coverage-action@v2
+    - name: Build and Test
       id: coverage-files
       with:
         format: lcov
@@ -192,10 +184,8 @@ jobs:
         with:
           release-version: "5"
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: swift build
-      - name: Test
-        run: swift test --enable-test-discovery --enable-code-coverage
+      - name: Build and Test
+        run: swift test --enable-test-discovery --enable-code-coverage -v
       - name: Prepare codecov
         run: |
           llvm-cov export -format="lcov" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info_linux.lcov
@@ -212,7 +202,7 @@ jobs:
       - uses: MaxDesiatov/swift-windows-action@v1
         with:
           swift-version: "5.5.1"
-          shell-action: swift test --enable-test-discovery --enable-code-coverage
+          shell-action: swift test --enable-test-discovery --enable-code-coverage -v
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
