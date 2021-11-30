@@ -433,21 +433,19 @@ public extension ParseUser {
     }
 
     internal func linkCommand() -> API.Command<Self, Self> {
-        Self.current?.anonymous.strip()
+        var mutableSelf = self
+        mutableSelf.anonymous.strip()
         return API.Command<Self, Self>(method: .PUT,
                                        path: endpoint,
-                                       body: Self.current) { (data) -> Self in
+                                       body: mutableSelf) { (data) -> Self in
             let user = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
-            Self.current?.updatedAt = user.updatedAt
-            guard let current = Self.current else {
-                throw ParseError(code: .unknownError, message: "Should have a current user.")
-            }
+            mutableSelf.updatedAt = user.updatedAt
             if let sessionToken = user.sessionToken {
-                Self.currentContainer = .init(currentUser: current,
-                                                  sessionToken: sessionToken)
+                Self.currentContainer = .init(currentUser: mutableSelf,
+                                              sessionToken: sessionToken)
             }
             Self.saveCurrentContainerToKeychain()
-            return current
+            return mutableSelf
         }
     }
 

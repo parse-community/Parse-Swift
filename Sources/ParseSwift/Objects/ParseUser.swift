@@ -86,6 +86,7 @@ extension ParseUser {
     static func deleteCurrentKeychain() {
         deleteCurrentContainerFromKeychain()
         BaseParseInstallation.deleteCurrentContainerFromKeychain()
+        ParseACL.deleteDefaultFromKeychain()
         BaseConfig.deleteCurrentContainerFromKeychain()
         ParseSwift.clearCache()
     }
@@ -557,7 +558,12 @@ extension ParseUser {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let current = Self.current {
-            return try current.linkCommand()
+            guard current.hasSameObjectId(as: self) else {
+                let error = ParseError(code: .unknownError,
+                                       message: "Can't signup a user with a different objectId than the current user")
+                throw error
+            }
+            return try self.linkCommand()
                 .execute(options: options)
         } else {
             return try signupCommand().execute(options: options)
@@ -582,7 +588,15 @@ extension ParseUser {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         if let current = Self.current {
-            current.linkCommand()
+            guard current.hasSameObjectId(as: self) else {
+                let error = ParseError(code: .unknownError,
+                                       message: "Can't signup a user with a different objectId than the current user")
+                callbackQueue.async {
+                    completion(.failure(error))
+                }
+                return
+            }
+            self.linkCommand()
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
                     completion(result)

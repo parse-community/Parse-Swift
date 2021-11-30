@@ -257,10 +257,10 @@ public struct ParseAnalytics: ParseType, Hashable {
         }
     }
 
-    internal func saveCommand() -> API.Command<Self, NoBody> {
-        return API.Command(method: .POST,
-                           path: .event(event: name),
-                           body: self) { (data) -> NoBody in
+    internal func saveCommand() -> API.NonParseBodyCommand<Self, NoBody> {
+        return API.NonParseBodyCommand(method: .POST,
+                                       path: .event(event: name),
+                                       body: self) { (data) -> NoBody in
             let parseError: ParseError!
             do {
                 parseError = try ParseCoding.jsonDecoder().decode(ParseError.self, from: data)

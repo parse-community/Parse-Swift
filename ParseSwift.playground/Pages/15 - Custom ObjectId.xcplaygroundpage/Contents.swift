@@ -60,7 +60,6 @@ score.save { result in
         assert(savedScore.objectId != nil)
         assert(savedScore.createdAt != nil)
         assert(savedScore.updatedAt != nil)
-        assert(savedScore.ACL == nil)
         assert(savedScore.score == 10)
 
         //: Now that this object has a `createdAt`, it's properly saved to the server.
@@ -120,7 +119,7 @@ scoreToFetch.fetch { result in
     case .success(let fetchedScore):
         print("Successfully fetched: \(fetchedScore)")
     case .failure(let error):
-        assertionFailure("Error fetching: \(error)")
+        assertionFailure("Error fetching on purpose: \(error)")
     }
 }
 

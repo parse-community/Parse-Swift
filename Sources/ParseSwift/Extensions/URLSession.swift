@@ -139,24 +139,24 @@ internal extension URLSession {
 
         dataTask(with: request) { (responseData, urlResponse, responseError) in
             guard let httpResponse = urlResponse as? HTTPURLResponse else {
-                guard let parseError = responseError as? ParseError else {
-                    let error = ParseError(code: .unknownError,
-                                           message: "No response from server")
-                    completion(.failure(error))
-                    return
-                }
-                completion(.failure(parseError))
+                completion(self.makeResult(request: request,
+                                           responseData: responseData,
+                                           urlResponse: urlResponse,
+                                           responseError: responseError,
+                                           mapper: mapper))
                 return
             }
             let statusCode = httpResponse.statusCode
             guard (200...299).contains(statusCode) else {
                 guard statusCode >= 500,
-                      attempts <= ParseSwift.configuration.maxConnectionAttempts + 1 else {
-                        let error = ParseError(code: .unknownError,
-                                               // swiftlint:disable:next line_length
-                                               message: "Unable to connect with parse-server: \(String(describing: urlResponse)).")
-                        completion(.failure(error))
-                        return
+                      attempts <= ParseSwift.configuration.maxConnectionAttempts + 1,
+                      responseData == nil else {
+                          completion(self.makeResult(request: request,
+                                                     responseData: responseData,
+                                                     urlResponse: urlResponse,
+                                                     responseError: responseError,
+                                                     mapper: mapper))
+                          return
                     }
                 let attempts = attempts + 1
                 callbackQueue.asyncAfter(deadline: .now() + DispatchTimeInterval
