@@ -32,7 +32,7 @@ extension ParseConfig {
     public func fetch(options: API.Options = []) throws -> Self {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        return try fetchCommand().execute(options: options, callbackQueue: .main)
+        return try fetchCommand().execute(options: options)
     }
 
     /**
@@ -81,7 +81,7 @@ extension ParseConfig {
     public func save(options: API.Options = []) throws -> Bool {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        return try updateCommand().execute(options: options, callbackQueue: .main)
+        return try updateCommand().execute(options: options)
     }
 
     /**

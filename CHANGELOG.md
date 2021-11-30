@@ -2,14 +2,25 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.6...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.3.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.3.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.6...2.3.0)
+
+__New features__
+- Add a retry mechanism to the SDK that randomly (up to 3 seconds each) tries to reconnect up to 5 times. The developer can increase or reduce the amount of retries when configuring the SDK ([#291](https://github.com/parse-community/Parse-Swift/pull/291)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add toCLLocation and toCLLocationCoordinate2D methods for easy conversion from a ParseGeoPoint object. ([#287](https://github.com/parse-community/Parse-Swift/pull/287)), thanks to [Jayson Ng](https://github.com/jaysonng).
+
+__Fixes__
+- Fixed an issue where an annonymous couldn't be turned into a regular user using signup ([#291](https://github.com/parse-community/Parse-Swift/pull/291)), thanks to [Corey Baker](https://github.com/cbaker6).
+- The default ACL is now deleted from the keychain when a user is logged out. This previously caused an issue when logging out a user and logging in as a different user caused all objects to only have ACL permisions for the logged in user ([#291](https://github.com/parse-community/Parse-Swift/pull/291)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.5...2.2.6)
 
 __Fixes__
-- Use default ACL automatically on newley created ParseObject's if a default ACL is available ([#283](https://github.com/parse-community/Parse-Swift/pull/283)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Use default ACL automatically on newley created ParseObject's if a default ACL is available ([#284](https://github.com/parse-community/Parse-Swift/pull/284)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.5
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.4...2.2.5)

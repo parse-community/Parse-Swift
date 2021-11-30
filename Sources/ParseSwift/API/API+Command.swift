@@ -72,16 +72,22 @@ internal extension API {
         }
 
         func execute(options: API.Options,
-                     callbackQueue: DispatchQueue,
+                     notificationQueue: DispatchQueue? = nil,
                      childObjects: [String: PointerType]? = nil,
                      childFiles: [UUID: ParseFile]? = nil,
                      uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                      downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil) throws -> U {
             var responseResult: Result<U, ParseError>?
+            let synchronizationQueue = DispatchQueue(label: "com.parse.Command.sync.\(UUID().uuidString)",
+                                                     qos: .default,
+                                                     attributes: .concurrent,
+                                                     autoreleaseFrequency: .inherit,
+                                                     target: nil)
             let group = DispatchGroup()
             group.enter()
             self.executeAsync(options: options,
-                              callbackQueue: callbackQueue,
+                              callbackQueue: synchronizationQueue,
+                              notificationQueue: notificationQueue,
                               childObjects: childObjects,
                               childFiles: childFiles,
                               uploadProgress: uploadProgress,
@@ -102,29 +108,41 @@ internal extension API {
         // swiftlint:disable:next function_body_length cyclomatic_complexity
         func executeAsync(options: API.Options,
                           callbackQueue: DispatchQueue,
+                          notificationQueue: DispatchQueue? = nil,
                           childObjects: [String: PointerType]? = nil,
                           childFiles: [UUID: ParseFile]? = nil,
                           uploadProgress: ((URLSessionTask, Int64, Int64, Int64) -> Void)? = nil,
                           downloadProgress: ((URLSessionDownloadTask, Int64, Int64, Int64) -> Void)? = nil,
                           completion: @escaping(Result<U, ParseError>) -> Void) {
-
+            let currentNotificationQueue: DispatchQueue!
+            if let notificationQueue = notificationQueue {
+                currentNotificationQueue = notificationQueue
+            } else {
+                currentNotificationQueue = callbackQueue
+            }
             if !path.urlComponent.contains("/files/") {
                 //All ParseObjects use the shared URLSession
                 switch self.prepareURLRequest(options: options,
                                               childObjects: childObjects,
                                               childFiles: childFiles) {
                 case .success(let urlRequest):
-                    URLSession.parse.dataTask(with: urlRequest, mapper: mapper) { result in
-                        switch result {
+                    URLSession.parse.dataTask(with: urlRequest,
+                                              callbackQueue: callbackQueue,
+                                              mapper: mapper) { result in
+                        callbackQueue.async {
+                            switch result {
 
-                        case .success(let decoded):
-                            completion(.success(decoded))
-                        case .failure(let error):
-                            completion(.failure(error))
+                            case .success(let decoded):
+                                completion(.success(decoded))
+                            case .failure(let error):
+                                completion(.failure(error))
+                            }
                         }
                     }
                 case .failure(let error):
-                    completion(.failure(error))
+                    callbackQueue.async {
+                        completion(.failure(error))
+                    }
                 }
             } else {
                 //ParseFiles are handled with a dedicated URLSession
@@ -137,22 +155,26 @@ internal extension API {
 
                         URLSession
                             .parse
-                            .uploadTask(callbackQueue: callbackQueue,
+                            .uploadTask(notificationQueue: currentNotificationQueue,
                                         with: urlRequest,
                                         from: uploadData,
                                         from: uploadFile,
                                         progress: uploadProgress,
                                         mapper: mapper) { result in
-                            switch result {
+                                callbackQueue.async {
+                                    switch result {
 
-                            case .success(let decoded):
-                                completion(.success(decoded))
-                            case .failure(let error):
-                                completion(.failure(error))
+                                    case .success(let decoded):
+                                        completion(.success(decoded))
+                                    case .failure(let error):
+                                        completion(.failure(error))
+                                    }
+                                }
                             }
-                        }
                     case .failure(let error):
-                        completion(.failure(error))
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
                     }
                 } else if method == .DELETE {
 
@@ -160,17 +182,23 @@ internal extension API {
                                                   childObjects: childObjects,
                                                   childFiles: childFiles) {
                     case .success(let urlRequest):
-                        URLSession.parse.dataTask(with: urlRequest, mapper: mapper) { result in
-                            switch result {
+                        URLSession.parse.dataTask(with: urlRequest,
+                                                  callbackQueue: callbackQueue,
+                                                  mapper: mapper) { result in
+                            callbackQueue.async {
+                                switch result {
 
-                            case .success(let decoded):
-                                completion(.success(decoded))
-                            case .failure(let error):
-                                completion(.failure(error))
+                                case .success(let decoded):
+                                    completion(.success(decoded))
+                                case .failure(let error):
+                                    completion(.failure(error))
+                                }
                             }
                         }
                     case .failure(let error):
-                        completion(.failure(error))
+                        callbackQueue.async {
+                            completion(.failure(error))
+                        }
                     }
 
                 } else {
@@ -183,10 +211,31 @@ internal extension API {
                         case .success(let urlRequest):
                             URLSession
                                 .parse
-                                .downloadTask(callbackQueue: callbackQueue,
+                                .downloadTask(notificationQueue: currentNotificationQueue,
                                               with: urlRequest,
                                               progress: downloadProgress,
                                               mapper: mapper) { result in
+                                    callbackQueue.async {
+                                        switch result {
+
+                                        case .success(let decoded):
+                                            completion(.success(decoded))
+                                        case .failure(let error):
+                                            completion(.failure(error))
+                                        }
+                                    }
+                                }
+                        case .failure(let error):
+                            callbackQueue.async {
+                                completion(.failure(error))
+                            }
+                        }
+                    } else if let otherURL = self.otherURL {
+                        //Non-parse servers don't receive any parse dedicated request info
+                        var request = URLRequest(url: otherURL)
+                        request.cachePolicy = requestCachePolicy(options: options)
+                        URLSession.parse.downloadTask(with: request, mapper: mapper) { result in
+                            callbackQueue.async {
                                 switch result {
 
                                 case .success(let decoded):
@@ -195,25 +244,13 @@ internal extension API {
                                     completion(.failure(error))
                                 }
                             }
-                        case .failure(let error):
-                            completion(.failure(error))
-                        }
-                    } else if let otherURL = self.otherURL {
-                        //Non-parse servers don't receive any parse dedicated request info
-                        var request = URLRequest(url: otherURL)
-                        request.cachePolicy = requestCachePolicy(options: options)
-                        URLSession.parse.downloadTask(with: request, mapper: mapper) { result in
-                            switch result {
-
-                            case .success(let decoded):
-                                completion(.success(decoded))
-                            case .failure(let error):
-                                completion(.failure(error))
-                            }
                         }
                     } else {
-                        completion(.failure(ParseError(code: .unknownError,
-                                                       message: "Can't download the file without specifying the url")))
+                        callbackQueue.async {
+                            completion(.failure(ParseError(code: .unknownError,
+                                                           // swiftlint:disable:next line_length
+                                                           message: "Can't download the file without specifying the url")))
+                        }
                     }
                 }
             }

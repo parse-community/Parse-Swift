@@ -286,7 +286,8 @@ class ParseACLTests: XCTestCase {
             XCTAssertEqual(newACL.publicWrite, defaultACL.publicWrite)
             XCTAssertTrue(defaultACL.getReadAccess(objectId: userObjectId))
             XCTAssertTrue(defaultACL.getWriteAccess(objectId: userObjectId))
-
+            try User.logout()
+            XCTAssertThrowsError(try ParseACL.defaultACL())
         } catch {
             XCTFail("Should have set new ACL. Error \(error)")
         }

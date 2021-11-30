@@ -62,7 +62,6 @@ score.save { result in
         assert(savedScore.objectId != nil)
         assert(savedScore.createdAt != nil)
         assert(savedScore.updatedAt != nil)
-        assert(savedScore.ACL == nil)
         assert(savedScore.score == 52)
         assert(savedScore.profilePicture != nil)
 

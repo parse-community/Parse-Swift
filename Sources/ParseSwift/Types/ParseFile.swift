@@ -172,8 +172,7 @@ extension ParseFile {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         options = options.union(self.options)
 
-        _ = try deleteFileCommand().execute(options: options,
-                                            callbackQueue: callbackQueue)
+        _ = try deleteFileCommand().execute(options: options)
     }
 
     /**
@@ -295,11 +294,9 @@ extension ParseFile {
      Creates a file with given data *synchronously*. A name will be assigned to it by the server.
      If the file hasn't been downloaded, it will automatically be downloaded before saved.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - parameter callbackQueue: The queue to return to after synchronous completion.
      - returns: A saved `ParseFile`.
      */
-    public func save(options: API.Options = [],
-                     callbackQueue: DispatchQueue) throws -> ParseFile {
+    public func save(options: API.Options = []) throws -> ParseFile {
         var options = options
         if let mimeType = mimeType {
             options.insert(.mimeType(mimeType))
@@ -315,19 +312,9 @@ extension ParseFile {
         options = options.union(self.options)
         if isDownloadNeeded {
             let fetched = try fetch(options: options)
-            return try fetched.uploadFileCommand().execute(options: options, callbackQueue: callbackQueue)
+            return try fetched.uploadFileCommand().execute(options: options)
         }
-        return try uploadFileCommand().execute(options: options, callbackQueue: callbackQueue)
-    }
-
-    /**
-     Creates a file with given data *synchronously*. A name will be assigned to it by the server.
-     If the file hasn't been downloaded, it will automatically be downloaded before saved.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A saved `ParseFile`.
-     */
-    public func save(options: API.Options = []) throws -> ParseFile {
-        try save(options: options, callbackQueue: .main)
+        return try uploadFileCommand().execute(options: options)
     }
 
     /**
@@ -392,11 +379,11 @@ extension ParseFile {
             return try fetched
                 .uploadFileCommand()
                 .execute(options: options,
-                         callbackQueue: callbackQueue,
+                         notificationQueue: callbackQueue,
                          uploadProgress: progress)
         }
         return try uploadFileCommand().execute(options: options,
-                                               callbackQueue: callbackQueue,
+                                               notificationQueue: callbackQueue,
                                                uploadProgress: progress)
     }
 
@@ -576,8 +563,7 @@ extension ParseFile {
         }
         options = options.union(self.options)
         return try downloadFileCommand()
-            .execute(options: options,
-                     callbackQueue: callbackQueue)
+            .execute(options: options)
     }
 
     /**
@@ -651,7 +637,7 @@ extension ParseFile {
         options = options.union(self.options)
         return try downloadFileCommand()
             .execute(options: options,
-                     callbackQueue: callbackQueue,
+                     notificationQueue: callbackQueue,
                      downloadProgress: progress)
     }
 

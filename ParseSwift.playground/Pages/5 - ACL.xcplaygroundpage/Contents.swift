@@ -50,9 +50,6 @@ extension GameScore {
 //: Define initial GameScores.
 var score = GameScore(score: 40)
 
-//: Set the ACL to default for your GameScore
-score.ACL = try? ParseACL.defaultACL()
-
 /*: Save asynchronously (preferred way) - Performs work on background
     queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.

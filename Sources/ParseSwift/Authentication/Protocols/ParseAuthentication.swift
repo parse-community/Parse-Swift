@@ -282,10 +282,9 @@ public extension ParseUser {
             let body = SignupLoginBody(authData: [type: authData])
             do {
                 try signupCommand(body: body)
-                    .executeAsync(options: options) { result in
-                        callbackQueue.async {
-                            completion(result)
-                        }
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue) { result in
+                        completion(result)
                 }
             } catch {
                 callbackQueue.async {
@@ -359,10 +358,9 @@ public extension ParseUser {
             }
             let body = SignupLoginBody(authData: authData)
             current.linkCommand(body: body)
-                .executeAsync(options: options) { result in
-                    callbackQueue.async {
-                        completion(result)
-                    }
+                .executeAsync(options: options,
+                              callbackQueue: callbackQueue) { result in
+                    completion(result)
                 }
         } else {
             callbackQueue.async {
@@ -428,33 +426,30 @@ public extension ParseUser {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let body = SignupLoginBody(authData: [type: authData])
         current.linkCommand(body: body)
-            .executeAsync(options: options) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+            .executeAsync(options: options,
+                          callbackQueue: callbackQueue) { result in
+                completion(result)
             }
     }
 
-    internal func linkCommand() -> API.NonParseBodyCommand<Self, Self> {
-        Self.current?.anonymous.strip()
-        return API.NonParseBodyCommand<Self, Self>(method: .PUT,
-                                         path: endpoint,
-                                         body: Self.current) { (data) -> Self in
+    internal func linkCommand() -> API.Command<Self, Self> {
+        var mutableSelf = self
+        mutableSelf = mutableSelf.anonymous.strip(mutableSelf)
+        return API.Command<Self, Self>(method: .PUT,
+                                       path: endpoint,
+                                       body: mutableSelf) { (data) -> Self in
             let user = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
-            Self.current?.updatedAt = user.updatedAt
-            guard let current = Self.current else {
-                throw ParseError(code: .unknownError, message: "Should have a current user.")
-            }
+            mutableSelf.updatedAt = user.updatedAt
             if let sessionToken = user.sessionToken {
-                Self.currentContainer = .init(currentUser: current,
-                                                  sessionToken: sessionToken)
+                Self.currentContainer = .init(currentUser: mutableSelf,
+                                              sessionToken: sessionToken)
             }
             Self.saveCurrentContainerToKeychain()
-            return current
+            return mutableSelf
         }
     }
 
-    internal func linkCommand(body: SignupLoginBody) -> API.NonParseBodyCommand<SignupLoginBody, Self> {
+    internal func linkCommand(body: SignupLoginBody) -> API.Command<SignupLoginBody, Self> {
         var body = body
         Self.current?.anonymous.strip()
         if var currentAuthData = Self.current?.authData {
@@ -466,9 +461,9 @@ public extension ParseUser {
             body.authData = currentAuthData
         }
 
-        return API.NonParseBodyCommand<SignupLoginBody, Self>(method: .PUT,
-                                         path: endpoint,
-                                         body: body) { (data) -> Self in
+        return API.Command<SignupLoginBody, Self>(method: .PUT,
+                                                  path: endpoint,
+                                                  body: body) { (data) -> Self in
             let user = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
             Self.current?.updatedAt = user.updatedAt
             Self.current?.authData = body.authData

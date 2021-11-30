@@ -174,7 +174,6 @@ public extension Sequence where Element: ParseObject {
             let currentBatch = try API.Command<Self.Element, Self.Element>
                 .batch(commands: $0, transaction: transaction)
                 .execute(options: options,
-                         callbackQueue: .main,
                          childObjects: childObjects,
                          childFiles: childFiles)
             returnBatch.append(contentsOf: currentBatch)
@@ -463,7 +462,8 @@ public extension Sequence where Element: ParseObject {
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
             let currentBatch = try API.Command<Self.Element, (Result<Void, ParseError>)>
-                .batch(commands: $0, transaction: transaction)
+                .batch(commands: $0,
+                       transaction: transaction)
                 .execute(options: options)
             returnBatch.append(contentsOf: currentBatch)
         }
@@ -518,21 +518,18 @@ public extension Sequence where Element: ParseObject {
             for batch in batches {
                 API.Command<Self.Element, ParseError?>
                         .batch(commands: batch, transaction: transaction)
-                        .executeAsync(options: options) { results in
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue) { results in
                     switch results {
 
                     case .success(let saved):
                         returnBatch.append(contentsOf: saved)
                         if completed == (batches.count - 1) {
-                            callbackQueue.async {
-                                completion(.success(returnBatch))
-                            }
+                            completion(.success(returnBatch))
                         }
                         completed += 1
                     case .failure(let error):
-                        callbackQueue.async {
-                            completion(.failure(error))
-                        }
+                        completion(.failure(error))
                         return
                     }
                 }
@@ -586,8 +583,7 @@ extension ParseObject {
                       options: API.Options = []) throws -> Self {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-        return try fetchCommand(include: includeKeys).execute(options: options,
-                                                              callbackQueue: .main)
+        return try fetchCommand(include: includeKeys).execute(options: options)
     }
 
     /**
@@ -694,7 +690,6 @@ extension ParseObject {
 
         return try saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
             .execute(options: options,
-                     callbackQueue: .main,
                      childObjects: childObjects,
                      childFiles: childFiles)
     }
@@ -833,7 +828,7 @@ extension ParseObject {
                     }
 
                     try savableFiles.forEach {
-                        filesFinishedSaving[$0.id] = try $0.save(options: options, callbackQueue: queue)
+                        filesFinishedSaving[$0.id] = try $0.save(options: options)
                     }
                 }
                 completion(objectsFinishedSaving, filesFinishedSaving, nil)
@@ -889,15 +884,14 @@ extension ParseObject {
         completion: @escaping (Result<Void, ParseError>) -> Void
     ) {
          do {
-            try deleteCommand().executeAsync(options: options) { result in
-                callbackQueue.async {
-                    switch result {
+            try deleteCommand().executeAsync(options: options,
+                                             callbackQueue: callbackQueue) { result in
+                switch result {
 
-                    case .success:
-                        completion(.success(()))
-                    case .failure(let error):
-                        completion(.failure(error))
-                    }
+                case .success:
+                    completion(.success(()))
+                case .failure(let error):
+                    completion(.failure(error))
                 }
             }
          } catch let error as ParseError {
