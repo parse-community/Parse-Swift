@@ -2,11 +2,17 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.3.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.3.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 __Improvements__
 - Enable async/await for iOS13, tvOS13, watchOS6, and macOS10_15. All async/await methods are @MainActor's. Requires Xcode 13.2 or above to use async/await. Not compatible with Xcode 13.0/1. Still works with Xcode 11/12 ([#278](https://github.com/parse-community/Parse-Swift/pull/278)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 2.3.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.3.0...2.3.1)
+
+__Fixes__
+- Fixed an issue where querying an object didn't dispatch to the proper queue which can cause app crashes ([#293](https://github.com/parse-community/Parse-Swift/pull/293)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.3.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.6...2.3.0)
