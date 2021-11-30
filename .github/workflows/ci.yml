@@ -119,11 +119,7 @@ jobs:
         security default-keychain -s temporary
         security unlock-keychain -p "" temporary
         security set-keychain-settings -lut 7200 temporary
-    - name: Build
-      run: swift build -v
-      env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
-    - name: Test
+    - name: Build and Test
       run: swift test --enable-code-coverage -v
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
@@ -155,11 +151,7 @@ jobs:
         security default-keychain -s temporary
         security unlock-keychain -p "" temporary
         security set-keychain-settings -lut 7200 temporary
-    - name: Build
-      run: swift build -v
-      env:
-          DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
-    - name: Test
+    - name: Build and Test
       run: swift test --enable-code-coverage -v
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_VER }}
@@ -186,10 +178,8 @@ jobs:
         with:
           release-version: "5"
           github-token: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build
-        run: swift build
-      - name: Test
-        run: swift test --enable-test-discovery --enable-code-coverage
+      - name: Build and Test
+        run: swift test --enable-test-discovery --enable-code-coverage -v
       - name: Prepare codecov
         run: |
           llvm-cov export -format="lcov" .build/x86_64-unknown-linux-gnu/debug/ParseSwiftPackageTests.xctest -instr-profile .build/x86_64-unknown-linux-gnu/debug/codecov/default.profdata > info_linux.lcov
@@ -206,7 +196,7 @@ jobs:
       - uses: MaxDesiatov/swift-windows-action@v1
         with:
           swift-version: "5.5.1"
-          shell-action: swift test --enable-test-discovery --enable-code-coverage
+          shell-action: swift test --enable-test-discovery --enable-code-coverage -v
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
