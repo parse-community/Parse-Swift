@@ -18,7 +18,7 @@ jobs:
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData clean test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(iOS\) -destination platform\=iOS\ Simulator,name\=iPhone\ 12\ Pro\ Max -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
@@ -49,7 +49,7 @@ jobs:
         security unlock-keychain -p "" temporary
         security set-keychain-settings -lut 7200 temporary
     - name: Build-Test
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData clean test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(macOS\) -destination platform\=macOS -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov
@@ -74,7 +74,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build
-      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV -derivedDataPath DerivedData clean test | xcpretty
+      run: set -o pipefail && env NSUnbufferedIO=YES xcodebuild -workspace Parse.xcworkspace -scheme ParseSwift\ \(tvOS\) -destination platform\=tvOS\ Simulator,name\=Apple\ TV -derivedDataPath DerivedData -test-iterations 10 -retry-tests-on-failure clean test | xcpretty
       env:
           DEVELOPER_DIR: ${{ env.CI_XCODE_13 }}
     - name: Prepare codecov

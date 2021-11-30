@@ -261,11 +261,34 @@ class APICommandTests: XCTestCase {
         }
     }
 
-    //This is less common as the HTTP won't be able to produce ParseErrors directly, but used for testing
-    func testErrorHTTPReturnsParseError1() {
+    func testErrorHTTPReturns400NoDataFromServer() {
         let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
         MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(error: originalError)
+            return MockURLResponse(error: originalError) // Status code defaults to 400
+        }
+        do {
+            _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
+                                                            path: .login,
+                                                            params: nil,
+                                                            mapper: { (_) -> NoBody in
+                throw originalError
+            }).execute(options: [])
+            XCTFail("Should have thrown an error")
+        } catch {
+            guard let error = error as? ParseError else {
+                XCTFail("should be able unwrap final error to ParseError")
+                return
+            }
+            XCTAssertEqual(originalError.code, error.code)
+        }
+    }
+
+    func testErrorHTTPReturns500NoDataFromServer() {
+        let originalError = ParseError(code: .unknownError, message: "Couldn't decode")
+        MockURLProtocol.mockRequests { _ in
+            var response = MockURLResponse(error: originalError)
+            response.statusCode = 500
+            return response
         }
         do {
             _ = try API.NonParseBodyCommand<NoBody, NoBody>(method: .GET,
