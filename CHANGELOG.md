@@ -10,7 +10,7 @@
 
 __New features__
 - Add a retry mechanism to the SDK that randomly (up to 3 seconds each) tries to reconnect up to 5 times. The developer can increase or reduce the amount of retries when configuring the SDK ([#291](https://github.com/parse-community/Parse-Swift/pull/291)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Add toCLLocation and toCLLocationCoordinate2D methods for easy conversion from a ParseGeoPoint object. ([#287](https://github.com/parse-community/Parse-Swift/pull/287)), thanks to [Jayson Ng](https://github.com/jaysonng).
+- Add toCLLocation and toCLLocationCoordinate2D methods for easy conversion from a ParseGeoPoint object ([#287](https://github.com/parse-community/Parse-Swift/pull/287)), thanks to [Jayson Ng](https://github.com/jaysonng).
 
 __Fixes__
 - Fixed an issue where an annonymous couldn't be turned into a regular user using signup ([#291](https://github.com/parse-community/Parse-Swift/pull/291)), thanks to [Corey Baker](https://github.com/cbaker6).
