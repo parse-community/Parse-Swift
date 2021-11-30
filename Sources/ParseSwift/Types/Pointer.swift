@@ -169,7 +169,7 @@ extension Pointer: CustomStringConvertible {
 
 internal struct PointerType: ParsePointer, Encodable {
 
-    var __type: String = "Pointer" // swiftlint:disable:this identifier_name
+    let __type: String = "Pointer" // swiftlint:disable:this identifier_name
     var objectId: String
     var className: String
 

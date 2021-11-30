@@ -1659,8 +1659,9 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testDeepSaveOfUnsavedPointerArray() throws {
         var score = GameScore(score: 10)
-        var newLevel = Level()
-        newLevel.objectId = "sameId"
+        let newLevel = Level()
+        var newLevel2 = Level()
+        newLevel2.name = "best"
         score.levels = [newLevel, newLevel]
 
         var scoreOnServer = score
