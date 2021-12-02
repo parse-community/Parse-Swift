@@ -47,6 +47,31 @@ struct Role<RoleUser: ParseUser>: ParseRole {
     }
 }
 
+//: Create your own value typed `ParseObject`.
+struct GameScore: ParseObject, ParseObjectMutable {
+    //: These are required by ParseObject
+    var objectId: String?
+    var createdAt: Date?
+    var updatedAt: Date?
+    var ACL: ParseACL?
+
+    //: Your own properties.
+    var score: Int = 0
+}
+
+//: It's recommended to place custom initializers in an extension
+//: to preserve the convenience initializer.
+extension GameScore {
+
+    init(score: Int) {
+        self.score = score
+    }
+
+    init(objectId: String?) {
+        self.objectId = objectId
+    }
+}
+
 //: Roles can provide additional access/security to your apps.
 
 //: This variable will store the saved role.
@@ -218,15 +243,71 @@ do {
     print(error)
 }
 
+//: Using this relation, you can create one-to-many relationships with other `ParseObjecs`,
+//: similar to `users` and `roles`.
 //: All `ParseObject`s have a `ParseRelation` attribute that be used on instances.
 //: For example, the User has:
-let relation = User.current!.relation
+var relation = User.current!.relation
+let score1 = GameScore(score: 53)
+let score2 = GameScore(score: 57)
 
-//: Example: relation.add(<#T##users: [ParseUser]##[ParseUser]#>)
-//: Example: relation.remove(<#T##key: String##String#>, objects: <#T##[ParseObject]#>)
+//: Add new child relationships.
+[score1, score2].saveAll { result in
+    switch result {
+    case .success(let savedScores):
+        //: Make an array of all scores that were properly saved.
+        let scores = savedScores.compactMap { try? $0.get() }
+        do {
+            let newRelations = try relation.add("scores", objects: scores)
+            newRelations.save { result in
+                switch result {
+                case .success(let saved):
+                    print("The relation saved successfully: \(saved)")
+                    print("Check \"scores\" field in your \"_User\" class in Parse Dashboard.")
 
-//: Using this relation, you can create many-to-many relationships with other `ParseObjecs`,
-//: similar to `users` and `roles`.
+                case .failure(let error):
+                    print("Error saving role: \(error)")
+                }
+            }
+        } catch {
+            print(error)
+        }
+    case .failure(let error):
+        print("Couldn't save scores. \(error)")
+    }
+}
+
+let specificRelation = User.current!.relation("scores", child: score1)
+//: You can also do
+// let specificRelation = User.current!.relation("scores", className: "GameScore")
+do {
+    try specificRelation.query(score1).find { result in
+        switch result {
+        case .success(let scores):
+            print("Found related scores: \(scores)")
+        case .failure(let error):
+            print("Error finding scores: \(error)")
+        }
+    }
+} catch {
+    print(error)
+}
+
+do {
+    //: You can also leverage the child to find scores related to the parent.
+    try score1.relation.query("scores", parent: User.current!).find { result in
+        switch result {
+        case .success(let scores):
+            print("Found related scores: \(scores)")
+        case .failure(let error):
+            print("Error finding scores: \(error)")
+        }
+    }
+} catch {
+    print(error)
+}
+
+//: Example: try relation.remove(<#T##key: String##String#>, objects: <#T##[ParseObject]#>)
 
 PlaygroundPage.current.finishExecution()
 //: [Next](@next)

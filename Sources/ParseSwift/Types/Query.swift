@@ -480,7 +480,7 @@ public func polygonContains(key: String, point: ParseGeoPoint) -> QueryConstrain
   string using Full Text Search.
   - parameter key: The key to be constrained.
   - parameter text: The substring that the value must contain.
-  - returns: The same instance of `Query` as the receiver.
+  - returns: The resulting `QueryConstraint`.
  */
 public func matchesText(key: String, text: String) -> QueryConstraint {
     let dictionary = [QueryConstraint.Comparator.search.rawValue: [QueryConstraint.Comparator.term.rawValue: text]]
@@ -495,7 +495,7 @@ public func matchesText(key: String, text: String) -> QueryConstraint {
   - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
   - `i` - Case insensitive search
   - `m` - Search across multiple lines of input
-  - returns: The same instance of `Query` as the receiver.
+  - returns: The resulting `QueryConstraint`.
  */
 public func matchesRegex(key: String, regex: String, modifiers: String? = nil) -> QueryConstraint {
 
@@ -523,7 +523,7 @@ private func regexStringForString(_ inputString: String) -> String {
   - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
     - `i` - Case insensitive search
     - `m` - Search across multiple lines of input
-  - returns: The same instance of `Query` as the receiver.
+  - returns: The resulting `QueryConstraint`.
  */
 public func containsString(key: String, substring: String, modifiers: String? = nil) -> QueryConstraint {
     let regex = regexStringForString(substring)
@@ -538,7 +538,7 @@ public func containsString(key: String, substring: String, modifiers: String? = 
   - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
     - `i` - Case insensitive search
     - `m` - Search across multiple lines of input
-  - returns: The same instance of `Query` as the receiver.
+  - returns: The resulting `QueryConstraint`.
  */
 public func hasPrefix(key: String, prefix: String, modifiers: String? = nil) -> QueryConstraint {
     let regex = "^\(regexStringForString(prefix))"
@@ -553,7 +553,7 @@ public func hasPrefix(key: String, prefix: String, modifiers: String? = nil) -> 
   - parameter modifiers: Any of the following supported PCRE modifiers (defaults to nil):
     - `i` - Case insensitive search
     - `m` - Search across multiple lines of input
-  - returns: The same instance of `Query` as the receiver.
+  - returns: The resulting `QueryConstraint`.
  */
 public func hasSuffix(key: String, suffix: String, modifiers: String? = nil) -> QueryConstraint {
     let regex = "\(regexStringForString(suffix))$"
@@ -563,7 +563,7 @@ public func hasSuffix(key: String, suffix: String, modifiers: String? = nil) -> 
 /**
   Add a constraint that requires a particular key exists.
   - parameter key: The key that should exist.
-  - returns: The same instance of `Query` as the receiver.
+  - returns: The resulting `QueryConstraint`.
  */
 public func exists(key: String) -> QueryConstraint {
     .init(key: key, value: true, comparator: .exists)
@@ -572,10 +572,18 @@ public func exists(key: String) -> QueryConstraint {
 /**
   Add a constraint that requires a key not exist.
   - parameter key: The key that should not exist.
-  - returns: The same instance of `Query` as the receiver.
+  - returns: The resulting `QueryConstraint`.
  */
 public func doesNotExist(key: String) -> QueryConstraint {
     .init(key: key, value: false, comparator: .exists)
+}
+
+internal struct RelatedKeyCondition: Encodable {
+    let key: String
+}
+
+internal struct RelatedObjectCondition <T>: Encodable where T: ParseObject {
+    let object: Pointer<T>
 }
 
 internal struct RelatedCondition <T>: Encodable where T: ParseObject {
@@ -587,7 +595,7 @@ internal struct RelatedCondition <T>: Encodable where T: ParseObject {
   Add a constraint that requires a key is related.
   - parameter key: The key that should be related.
   - parameter object: The object that should be related.
-  - returns: The same instance of `Query` as the receiver.
+  - returns: The resulting `QueryConstraint`.
   - throws: An error of type `ParseError`.
  */
 public func related <T>(key: String, object: T) throws -> QueryConstraint where T: ParseObject {
@@ -600,10 +608,43 @@ public func related <T>(key: String, object: T) throws -> QueryConstraint where 
   Add a constraint that requires a key is related.
   - parameter key: The key that should be related.
   - parameter object: The pointer object that should be related.
-  - returns: The same instance of `Query` as the receiver.
+  - returns: The resulting `QueryConstraint`.
  */
 public func related <T>(key: String, object: Pointer<T>) -> QueryConstraint where T: ParseObject {
     let condition = RelatedCondition(object: object, key: key)
+    return .init(key: QueryConstraint.Comparator.relatedTo.rawValue, value: condition)
+}
+
+/**
+  Add a constraint that requires a key is related.
+  - parameter key: The key that should be related.
+  - returns: The resulting `QueryConstraint`.
+  - throws: An error of type `ParseError`.
+ */
+public func related(key: String) -> QueryConstraint {
+    let condition = RelatedKeyCondition(key: key)
+    return .init(key: QueryConstraint.Comparator.relatedTo.rawValue, value: condition)
+}
+
+/**
+  Add a constraint that requires a key is related.
+  - parameter object: The object that should be related.
+  - returns: The resulting `QueryConstraint`.
+  - throws: An error of type `ParseError`.
+ */
+public func related <T>(object: T) throws -> QueryConstraint where T: ParseObject {
+    let pointer = try object.toPointer()
+    let condition = RelatedObjectCondition(object: pointer)
+    return .init(key: QueryConstraint.Comparator.relatedTo.rawValue, value: condition)
+}
+
+/**
+  Add a constraint that requires a key is related.
+  - parameter object: The pointer object that should be related.
+  - returns: The resulting `QueryConstraint`.
+ */
+public func related <T>(object: Pointer<T>) -> QueryConstraint where T: ParseObject {
+    let condition = RelatedObjectCondition(object: object)
     return .init(key: QueryConstraint.Comparator.relatedTo.rawValue, value: condition)
 }
 

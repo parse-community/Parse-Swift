@@ -502,7 +502,7 @@ class ParseOperationTests: XCTestCase {
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
-        XCTAssertEqual(operations.target?.score, 15)
+        XCTAssertEqual(operations.target.score, 15)
         var level = Level(level: 12)
         level.members = ["hello", "world"]
         let operations2 = try score.operation.set(("previous", \.previous), value: [level])
@@ -511,7 +511,7 @@ class ParseOperationTests: XCTestCase {
             .encode(operations2)
         let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
-        XCTAssertEqual(operations2.target?.previous, [level])
+        XCTAssertEqual(operations2.target.previous, [level])
     }
 
     func testObjectIdSet() throws {
@@ -524,7 +524,7 @@ class ParseOperationTests: XCTestCase {
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
-        XCTAssertEqual(operations.target?.objectId, "test")
+        XCTAssertEqual(operations.target.objectId, "test")
         var level = Level(level: 12)
         level.members = ["hello", "world"]
         score.previous = [level]
@@ -534,7 +534,7 @@ class ParseOperationTests: XCTestCase {
             .encode(operations2)
         let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
-        XCTAssertEqual(operations2.target?.previous, [level])
+        XCTAssertEqual(operations2.target.previous, [level])
     }
     #endif
 
