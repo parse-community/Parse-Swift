@@ -143,22 +143,7 @@ public struct ParseRelation<T>: Encodable, Hashable where T: ParseObject {
      - returns: A relation query.
     */
     public func query<U>(_ key: String, parent: U) throws -> Query<T> where U: ParseObject {
-        return Query<T>(related(key: key, object: try parent.toPointer()))
-    }
-
-    /**
-     Returns a `Query` that is limited to objects for a specific `key` and `child` in this relation.
-     - parameter key: The key for the relation.
-     - parameter child: The child class for the relation.
-     - throws: An error of type `ParseError`.
-     - returns: A relation query.
-    */
-    public func query<U>(_ key: String, child: U) throws -> Query<U> where U: ParseObject {
-        if !isSameClass([child]) {
-            throw ParseError(code: .unknownError,
-                             message: "ParseRelation must have the same child class as the original relation.")
-        }
-        return Query<U>(related(key: key, object: try parent.toPointer()))
+        Query<T>(related(key: key, object: try parent.toPointer()))
     }
 
     /**
@@ -177,6 +162,17 @@ public struct ParseRelation<T>: Encodable, Hashable where T: ParseObject {
                              message: "ParseRelation must have the same child class as the original relation.")
         }
         return Query<U>(related(key: key, object: try parent.toPointer()))
+    }
+
+    /**
+     Returns a `Query` that is limited to objects for a specific `key` and `child` in this relation.
+     - parameter key: The key for the relation.
+     - parameter child: The child class for the relation.
+     - throws: An error of type `ParseError`.
+     - returns: A relation query.
+    */
+    public func query<U>(_ key: String, child: U) throws -> Query<U> where U: ParseObject {
+        try Self(parent: parent, key: key).query(child)
     }
 
     func isSameClass<U>(_ objects: [U]) -> Bool where U: ParseObject {

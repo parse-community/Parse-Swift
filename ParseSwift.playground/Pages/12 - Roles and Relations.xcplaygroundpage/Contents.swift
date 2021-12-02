@@ -281,7 +281,7 @@ let specificRelation = User.current!.relation("scores", child: score1)
 //: You can also do
 // let specificRelation = User.current!.relation("scores", className: "GameScore")
 do {
-    try specificRelation.query(score1).includeAll().find { result in
+    try specificRelation.query(score1).find { result in
         switch result {
         case .success(let scores):
             print("Found related scores: \(scores)")
