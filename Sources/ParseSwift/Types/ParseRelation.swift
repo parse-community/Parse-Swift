@@ -89,6 +89,20 @@ public struct ParseRelation<T>: Encodable, Hashable where T: ParseObject {
     }
 
     /**
+     Adds a relation to the respective `ParseObject`'s with using the `key` for this `ParseRelation`.
+     - parameters:
+        - objects: An array of `ParseObject`'s to add relation to.
+     - throws: An error of type `ParseError`.
+     */
+    public func add<U>(_ objects: [U]) throws -> ParseOperation<T> where U: ParseObject {
+        guard let key = self.key else {
+            throw ParseError(code: .unknownError,
+                             message: "ParseRelation must have the key set before querying.")
+        }
+        return try add(key, objects: objects)
+    }
+
+    /**
      Removes a relation to the respective objects.
      - parameters:
         - key: The key for the relation.
@@ -105,6 +119,20 @@ public struct ParseRelation<T>: Encodable, Hashable where T: ParseObject {
             throw ParseError(code: .unknownError, message: "All objects have to have the same className.")
         }
         return try parent.operation.removeRelation(key, objects: objects)
+    }
+
+    /**
+     Removes a relation to the respective objects using the `key` for this `ParseRelation`.
+     - parameters:
+        - objects: An array of `ParseObject`'s to add relation to.
+     - throws: An error of type `ParseError`.
+     */
+    public func remove<U>(_ objects: [U]) throws -> ParseOperation<T> where U: ParseObject {
+        guard let key = self.key else {
+            throw ParseError(code: .unknownError,
+                             message: "ParseRelation must have the key set before querying.")
+        }
+        return try remove(key, objects: objects)
     }
 
     /**

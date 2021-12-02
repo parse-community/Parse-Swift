@@ -194,6 +194,25 @@ class ParseRelationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
+    func testAddOperationsNoKey() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+        var relation = score.relation
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+
+        XCTAssertThrowsError(try relation.add([level]))
+        relation.key = "level"
+        let operation = try relation.add([level])
+        // swiftlint:disable:next line_length
+        let expected = "{\"level\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"nice\"}],\"__op\":\"AddRelation\"}}"
+        let encoded = try ParseCoding.jsonEncoder().encode(operation)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
     func testAddOperationsKeyCheck() throws {
         var score = GameScore(score: 10)
         let objectId = "hello"
@@ -245,6 +264,25 @@ class ParseRelationTests: XCTestCase {
         relation.className = level.className
 
         let operation = try relation.remove("level", objects: [level])
+        // swiftlint:disable:next line_length
+        let expected = "{\"level\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"nice\"}],\"__op\":\"RemoveRelation\"}}"
+        let encoded = try ParseCoding.jsonEncoder().encode(operation)
+        let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
+        XCTAssertEqual(decoded, expected)
+    }
+
+    func testRemoveOperationsNoKey() throws {
+        var score = GameScore(score: 10)
+        let objectId = "hello"
+        score.objectId = objectId
+        var relation = score.relation
+        var level = Level(level: 1)
+        level.objectId = "nice"
+        relation.className = level.className
+
+        XCTAssertThrowsError(try relation.remove([level]))
+        relation.key = "level"
+        let operation = try relation.remove([level])
         // swiftlint:disable:next line_length
         let expected = "{\"level\":{\"objects\":[{\"__type\":\"Pointer\",\"className\":\"Level\",\"objectId\":\"nice\"}],\"__op\":\"RemoveRelation\"}}"
         let encoded = try ParseCoding.jsonEncoder().encode(operation)
