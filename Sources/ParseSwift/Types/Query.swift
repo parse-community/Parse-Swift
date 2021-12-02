@@ -592,7 +592,7 @@ internal struct RelatedCondition <T>: Encodable where T: ParseObject {
 }
 
 /**
-  Add a constraint that requires a key is related.
+  Add a constraint that requires a key and object are related.
   - parameter key: The key that should be related.
   - parameter object: The object that should be related.
   - returns: The resulting `QueryConstraint`.
@@ -605,7 +605,7 @@ public func related <T>(key: String, object: T) throws -> QueryConstraint where 
 }
 
 /**
-  Add a constraint that requires a key is related.
+  Add a constraint that requires a key and object are related.
   - parameter key: The key that should be related.
   - parameter object: The pointer object that should be related.
   - returns: The resulting `QueryConstraint`.
@@ -627,7 +627,7 @@ public func related(key: String) -> QueryConstraint {
 }
 
 /**
-  Add a constraint that requires a key is related.
+  Add a constraint that requires an object is related.
   - parameter object: The object that should be related.
   - returns: The resulting `QueryConstraint`.
   - throws: An error of type `ParseError`.
@@ -639,7 +639,7 @@ public func related <T>(object: T) throws -> QueryConstraint where T: ParseObjec
 }
 
 /**
-  Add a constraint that requires a key is related.
+  Add a constraint that requires an object is related.
   - parameter object: The pointer object that should be related.
   - returns: The resulting `QueryConstraint`.
  */

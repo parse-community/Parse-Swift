@@ -231,6 +231,12 @@ class ParseRelationTests: XCTestCase {
         XCTAssertEqual(decoded, expected)
     }
 
+    func testIsSameClassNone() throws {
+        let score = GameScore(score: 10)
+        let relation = score.relation
+        XCTAssertFalse(relation.isSameClass([GameScore]()))
+    }
+
     func testRemoveIncorrectClassError() throws {
         var score = GameScore(score: 10)
         let objectId = "hello"
