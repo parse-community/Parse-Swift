@@ -279,20 +279,38 @@ class ParseRelationTests: XCTestCase {
         level.objectId = "nice"
         relation.className = level.className
 
-        //No Key, this should throw
+        // No Key, this should throw
         XCTAssertThrowsError(try relation.query(level))
 
-        //Wrong child for the relation, should throw
+        // No child for the relation, should throw
         XCTAssertThrowsError(try relation.query(score))
 
-        relation.key = "level"
+        // Wrong child for the relation, should throw
+        relation.key = "naw"
+        XCTAssertThrowsError(try relation.query(score))
+
+        relation.key = "levels"
         let query = try relation.query(level)
 
         // swiftlint:disable:next line_length
-        let expected = "{\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"$relatedTo\":{\"key\":\"level\",\"object\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}}"
+        let expected = "{\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"$relatedTo\":{\"key\":\"levels\",\"object\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}}"
         let encoded = try ParseCoding.jsonEncoder().encode(query)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
+
+        let query2 = try relation.query("wow", child: level)
+        // swiftlint:disable:next line_length
+        let expected2 = "{\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"$relatedTo\":{\"key\":\"wow\",\"object\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}}"
+        let encoded2 = try ParseCoding.jsonEncoder().encode(query2)
+        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
+        XCTAssertEqual(decoded2, expected2)
+
+        let query3 = try level.relation.query("levels", parent: score)
+        // swiftlint:disable:next line_length
+        let expected3 = "{\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"$relatedTo\":{\"key\":\"levels\",\"object\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}}"
+        let encoded3 = try ParseCoding.jsonEncoder().encode(query3)
+        let decoded3 = try XCTUnwrap(String(data: encoded3, encoding: .utf8))
+        XCTAssertEqual(decoded3, expected3)
     }
 }
 #endif

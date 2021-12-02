@@ -18,7 +18,7 @@ import Foundation
  */
 public struct ParseOperation<T>: Savable where T: ParseObject {
 
-    var target: T?
+    var target: T
     var operations = [String: Encodable]()
 
     public init(target: T) {
@@ -34,13 +34,10 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func set<W>(_ key: (String, WritableKeyPath<T, W>),
                        value: W) throws -> Self where W: Encodable {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         if !target[keyPath: key.1].isEqual(value) {
             mutableOperation.operations[key.0] = value
-            mutableOperation.target?[keyPath: key.1] = value
+            mutableOperation.target[keyPath: key.1] = value
         }
         return mutableOperation
     }
@@ -54,12 +51,9 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func forceSet<W>(_ key: (String, WritableKeyPath<T, W>),
                             value: W) throws -> Self where W: Encodable {
-        guard self.target != nil else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = value
-        mutableOperation.target?[keyPath: key.1] = value
+        mutableOperation.target[keyPath: key.1] = value
         return mutableOperation
     }
 
@@ -100,14 +94,11 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]>),
                              objects: [V]) throws -> Self where V: Encodable, V: Hashable {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = AddUnique(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
-        mutableOperation.target?[keyPath: key.1] = Array(Set<V>(values))
+        mutableOperation.target[keyPath: key.1] = Array(Set<V>(values))
         return mutableOperation
     }
 
@@ -121,14 +112,11 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                              objects: [V]) throws -> Self where V: Encodable, V: Hashable {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = AddUnique(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
-        mutableOperation.target?[keyPath: key.1] = Array(Set<V>(values))
+        mutableOperation.target[keyPath: key.1] = Array(Set<V>(values))
         return mutableOperation
     }
 
@@ -154,14 +142,11 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func add<V>(_ key: (String, WritableKeyPath<T, [V]>),
                        objects: [V]) throws -> Self where V: Encodable {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = Add(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
-        mutableOperation.target?[keyPath: key.1] = values
+        mutableOperation.target[keyPath: key.1] = values
         return mutableOperation
     }
 
@@ -174,14 +159,11 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func add<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                        objects: [V]) throws -> Self where V: Encodable {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = Add(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
-        mutableOperation.target?[keyPath: key.1] = values
+        mutableOperation.target[keyPath: key.1] = values
         return mutableOperation
     }
 
@@ -207,14 +189,11 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func addRelation<V>(_ key: (String, WritableKeyPath<T, [V]>),
                                objects: [V]) throws -> Self where V: ParseObject {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = try AddRelation(objects: objects)
         var values = target[keyPath: key.1]
         values.append(contentsOf: objects)
-        mutableOperation.target?[keyPath: key.1] = values
+        mutableOperation.target[keyPath: key.1] = values
         return mutableOperation
     }
 
@@ -227,14 +206,11 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func addRelation<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                                objects: [V]) throws -> Self where V: ParseObject {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = try AddRelation(objects: objects)
         var values = target[keyPath: key.1] ?? []
         values.append(contentsOf: objects)
-        mutableOperation.target?[keyPath: key.1] = values
+        mutableOperation.target[keyPath: key.1] = values
         return mutableOperation
     }
 
@@ -262,9 +238,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]>),
                           objects: [V]) throws -> Self where V: Encodable, V: Hashable {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = Remove(objects: objects)
         let values = target[keyPath: key.1]
@@ -272,7 +245,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         objects.forEach {
             set.remove($0)
         }
-        mutableOperation.target?[keyPath: key.1] = Array(set)
+        mutableOperation.target[keyPath: key.1] = Array(set)
         return mutableOperation
     }
 
@@ -286,9 +259,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                           objects: [V]) throws -> Self where V: Encodable, V: Hashable {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = Remove(objects: objects)
         let values = target[keyPath: key.1]
@@ -296,7 +266,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         objects.forEach {
             set.remove($0)
         }
-        mutableOperation.target?[keyPath: key.1] = Array(set)
+        mutableOperation.target[keyPath: key.1] = Array(set)
         return mutableOperation
     }
 
@@ -309,9 +279,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - returns: The updated operations.
      */
     public func removeRelation<W>(_ key: String, objects: [W]) throws -> Self where W: ParseObject {
-        guard self.target != nil else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key] = try RemoveRelation(objects: objects)
         return mutableOperation
@@ -327,9 +294,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func removeRelation<V>(_ key: (String, WritableKeyPath<T, [V]>),
                                   objects: [V]) throws -> Self where V: ParseObject {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = try RemoveRelation(objects: objects)
         let values = target[keyPath: key.1]
@@ -337,7 +301,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         objects.forEach {
             set.remove($0)
         }
-        mutableOperation.target?[keyPath: key.1] = Array(set)
+        mutableOperation.target[keyPath: key.1] = Array(set)
         return mutableOperation
     }
 
@@ -351,9 +315,6 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
      */
     public func removeRelation<V>(_ key: (String, WritableKeyPath<T, [V]?>),
                                   objects: [V]) throws -> Self where V: ParseObject {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
         var mutableOperation = self
         mutableOperation.operations[key.0] = try RemoveRelation(objects: objects)
         let values = target[keyPath: key.1]
@@ -361,7 +322,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         objects.forEach {
             set.remove($0)
         }
-        mutableOperation.target?[keyPath: key.1] = Array(set)
+        mutableOperation.target[keyPath: key.1] = Array(set)
         return mutableOperation
     }
 
@@ -385,7 +346,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
     public func unset<V>(_ key: (String, WritableKeyPath<T, V?>)) -> Self where V: Encodable {
         var mutableOperation = self
         mutableOperation.operations[key.0] = Delete()
-        mutableOperation.target?[keyPath: key.1] = nil
+        mutableOperation.target[keyPath: key.1] = nil
         return mutableOperation
     }
 
@@ -410,9 +371,6 @@ extension ParseOperation {
      - returns: Returns saved `ParseObject`.
     */
     public func save(options: API.Options = []) throws -> T {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil.")
-        }
         if !target.isSaved {
             throw ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
         }
@@ -433,13 +391,6 @@ extension ParseOperation {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<T, ParseError>) -> Void
     ) {
-        guard let target = self.target else {
-            callbackQueue.async {
-                let error = ParseError(code: .unknownError, message: "Target shouldn't be nil.")
-                completion(.failure(error))
-            }
-            return
-        }
         if !target.isSaved {
             callbackQueue.async {
                 let error = ParseError(code: .missingObjectId, message: "ParseObject isn't saved.")
@@ -461,10 +412,7 @@ extension ParseOperation {
     }
 
     func saveCommand() throws -> API.NonParseBodyCommand<ParseOperation<T>, T> {
-        guard let target = self.target else {
-            throw ParseError(code: .unknownError, message: "Target shouldn't be nil")
-        }
-        return API.NonParseBodyCommand(method: .PUT, path: target.endpoint, body: self) {
+        API.NonParseBodyCommand(method: .PUT, path: target.endpoint, body: self) {
             try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: $0).apply(to: target)
         }
     }
