@@ -435,7 +435,7 @@ public extension ParseUser {
     internal func linkCommand() throws -> API.Command<Self, Self> {
         var mutableSelf = self.anonymous.strip(self)
         if let current = Self.current {
-            guard current.hasSameObjectId(as: self) else {
+            guard current.hasSameObjectId(as: mutableSelf) else {
                 let error = ParseError(code: .unknownError,
                                        message: "Can't signup a user with a different objectId than the current user")
                 throw error
@@ -456,8 +456,9 @@ public extension ParseUser {
     }
 
     internal func linkCommand(body: SignupLoginBody) -> API.Command<SignupLoginBody, Self> {
-        var body = body
+        let originalAuthData = Self.current?.authData
         Self.current?.anonymous.strip()
+        var body = body
         if var currentAuthData = Self.current?.authData {
             if let bodyAuthData = body.authData {
                 bodyAuthData.forEach { (key, value) in
@@ -470,6 +471,7 @@ public extension ParseUser {
         return API.Command<SignupLoginBody, Self>(method: .PUT,
                                                   path: endpoint,
                                                   body: body) { (data) -> Self in
+            Self.current?.authData = originalAuthData
             let user = try ParseCoding.jsonDecoder().decode(UpdateSessionTokenResponse.self, from: data)
             Self.current?.updatedAt = user.updatedAt
             Self.current?.authData = body.authData
@@ -478,7 +480,7 @@ public extension ParseUser {
             }
             if let sessionToken = user.sessionToken {
                 Self.currentContainer = .init(currentUser: current,
-                                                  sessionToken: sessionToken)
+                                              sessionToken: sessionToken)
             }
             Self.saveCurrentContainerToKeychain()
             return current
