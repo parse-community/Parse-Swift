@@ -322,6 +322,7 @@ public struct ParseSwift {
                                                masterKey: masterKey,
                                                serverURL: serverURL,
                                                liveQueryServerURL: liveQueryServerURL,
+                                               allowCustomObjectId: allowCustomObjectId,
                                                useTransactions: useTransactions,
                                                keyValueStore: keyValueStore,
                                                requestCachePolicy: requestCachePolicy,
