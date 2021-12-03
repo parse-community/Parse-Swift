@@ -1141,7 +1141,7 @@ public extension Sequence where Element: ParseUser {
      desires a different policy, it should be inserted in `options`.
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
-                 transaction: Bool = false,
+                 transaction: Bool = ParseSwift.configuration.useTransactions,
                  isIgnoreCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         var childObjects = [String: PointerType]()
@@ -1153,7 +1153,9 @@ public extension Sequence where Element: ParseUser {
         for user in users {
             let group = DispatchGroup()
             group.enter()
-            user.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+            user.ensureDeepSave(options: options,
+                                // swiftlint:disable:next line_length
+                                isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                 //If an error occurs, everything should be skipped
                 if parseError != nil {
                     error = parseError
@@ -1192,12 +1194,8 @@ public extension Sequence where Element: ParseUser {
         let commands = try map {
             try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
         }
-        let batchLimit: Int!
-        if transaction {
-            batchLimit = commands.count
-        } else {
-            batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-        }
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
             let currentBatch = try API.Command<Self.Element, Self.Element>
@@ -1243,7 +1241,7 @@ public extension Sequence where Element: ParseUser {
     */
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = false,
+        transaction: Bool = ParseSwift.configuration.useTransactions,
         isIgnoreCustomObjectIdConfig: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
@@ -1266,7 +1264,9 @@ public extension Sequence where Element: ParseUser {
             for user in users {
                 let group = DispatchGroup()
                 group.enter()
-                user.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                user.ensureDeepSave(options: options,
+                                    // swiftlint:disable:next line_length
+                                    isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                     //If an error occurs, everything should be skipped
                     if parseError != nil {
                         error = parseError
@@ -1309,12 +1309,8 @@ public extension Sequence where Element: ParseUser {
                 let commands = try map {
                     try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
                 }
-                let batchLimit: Int!
-                if transaction {
-                    batchLimit = commands.count
-                } else {
-                    batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-                }
+                let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+                try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
                 let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
                 var completed = 0
                 for batch in batches {
@@ -1483,18 +1479,14 @@ public extension Sequence where Element: ParseUser {
      desires a different policy, it should be inserted in `options`.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = false,
+                   transaction: Bool = ParseSwift.configuration.useTransactions,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
-        let batchLimit: Int!
-        if transaction {
-            batchLimit = commands.count
-        } else {
-            batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-        }
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
             let currentBatch = try API.Command<Self.Element, ParseError?>
@@ -1535,7 +1527,7 @@ public extension Sequence where Element: ParseUser {
     */
     func deleteAll(
         batchLimit limit: Int? = nil,
-        transaction: Bool = false,
+        transaction: Bool = ParseSwift.configuration.useTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
@@ -1545,12 +1537,8 @@ public extension Sequence where Element: ParseUser {
         do {
             var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })
-            let batchLimit: Int!
-            if transaction {
-                batchLimit = commands.count
-            } else {
-                batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
-            }
+            let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0
             for batch in batches {

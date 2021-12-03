@@ -120,7 +120,7 @@ public extension Sequence where Element: ParseObject {
      desires a different policy, it should be inserted in `options`.
     */
     func saveAll(batchLimit limit: Int? = nil,
-                 transaction: Bool = false,
+                 transaction: Bool = ParseSwift.configuration.useTransactions,
                  isIgnoreCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
@@ -148,7 +148,7 @@ public extension Sequence where Element: ParseObject {
      the transactions can fail.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = false,
+                   transaction: Bool = ParseSwift.configuration.useTransactions,
                    options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,

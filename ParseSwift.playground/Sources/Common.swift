@@ -6,7 +6,7 @@ public func initializeParse() {
                      clientKey: "clientKey",
                      masterKey: "masterKey",
                      serverURL: URL(string: "http://localhost:1337/1")!,
-                     useTransactionsInternally: false)
+                     useTransactions: false)
 }
 
 public func initializeParseCustomObjectId() {

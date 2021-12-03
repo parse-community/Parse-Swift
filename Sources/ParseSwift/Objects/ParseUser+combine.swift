@@ -243,7 +243,7 @@ public extension Sequence where Element: ParseUser {
      client-side checks are disabled. Developers are responsible for handling such cases.
     */
     func saveAllPublisher(batchLimit limit: Int? = nil,
-                          transaction: Bool = false,
+                          transaction: Bool = ParseSwift.configuration.useTransactions,
                           isIgnoreCustomObjectIdConfig: Bool = false,
                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
@@ -271,7 +271,7 @@ public extension Sequence where Element: ParseUser {
      the transactions can fail.
     */
     func deleteAllPublisher(batchLimit limit: Int? = nil,
-                            transaction: Bool = false,
+                            transaction: Bool = ParseSwift.configuration.useTransactions,
                             options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
         Future { promise in
             self.deleteAll(batchLimit: limit,
