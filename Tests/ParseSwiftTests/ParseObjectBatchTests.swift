@@ -238,7 +238,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
-    func testSaveAllTransactions() { // swiftlint:disable:this function_body_length cyclomatic_complexity
+    func testSaveAllTransaction() { // swiftlint:disable:this function_body_length cyclomatic_complexity
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
 
@@ -325,7 +325,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
-    func testSaveAllTransactionsErrorTooMany() {
+    func testSaveAllTransactionErrorTooMany() {
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
         do {
@@ -341,7 +341,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
-    func testSaveAllTransactionsErrorChild() {
+    func testSaveAllTransactionErrorChild() {
         let score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
         score2.other = Game2()
@@ -963,7 +963,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                           callbackQueue: .main)
     }
 
-    func testSaveAllAsyncTransactions() { // swiftlint:disable:this function_body_length cyclomatic_complexity
+    func testSaveAllAsyncTransaction() { // swiftlint:disable:this function_body_length cyclomatic_complexity
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
 
@@ -1004,7 +1004,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                           callbackQueue: .main)
     }
 
-    func testSaveAllAsyncTransactionsErrorTooMany() {
+    func testSaveAllAsyncTransactionErrorTooMany() {
         let score = GameScore(score: 10)
         let score2 = GameScore(score: 20)
         let expectation1 = XCTestExpectation(description: "Save object1")
@@ -1020,7 +1020,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    func testSaveAllAsyncTransactionsErrorChild() {
+    func testSaveAllAsyncTransactionErrorChild() {
         let score = GameScore(score: 10)
         var score2 = GameScore(score: 20)
         score2.other = Game2()
@@ -1579,6 +1579,89 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
+    func testDeleteAllTransaction() {
+        let response = [BatchResponseItem<NoBody>(success: NoBody(), error: nil),
+                        BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
+
+        let encoded: Data!
+        do {
+           encoded = try ParseCoding.jsonEncoder().encode(response)
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+           return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        do {
+            let deleted = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")].deleteAll(transaction: true)
+
+            XCTAssertEqual(deleted.count, 2)
+            guard let firstObject = deleted.first else {
+                    XCTFail("Should unwrap")
+                    return
+            }
+
+            if case let .failure(error) = firstObject {
+                XCTFail(error.localizedDescription)
+            }
+
+            guard let lastObject = deleted.last else {
+                    XCTFail("Should unwrap")
+                    return
+            }
+
+            if case let .failure(error) = lastObject {
+                XCTFail(error.localizedDescription)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+
+        do {
+            let deleted = try [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")]
+                .deleteAll(transaction: true)
+
+            XCTAssertEqual(deleted.count, 2)
+            guard let firstObject = deleted.first else {
+                    XCTFail("Should unwrap")
+                    return
+            }
+
+            if case let .failure(error) = firstObject {
+                XCTFail(error.localizedDescription)
+            }
+
+            guard let lastObject = deleted.last else {
+                    XCTFail("Should unwrap")
+                    return
+            }
+
+            if case let .failure(error) = lastObject {
+                XCTFail(error.localizedDescription)
+            }
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testDeleteAllTransactionErrorTooMany() {
+        do {
+            _ = try [GameScore(objectId: "yarr"),
+                     GameScore(objectId: "yolo")].deleteAll(batchLimit: 1,
+                                                            transaction: true)
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Error should have casted to ParseError")
+                return
+            }
+            XCTAssertEqual(parseError.code, .unknownError)
+            XCTAssertTrue(parseError.message.contains("exceed"))
+        }
+    }
+
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testDeleteAllError() {
         let parseError = ParseError(code: .objectNotFound, message: "Object not found")
@@ -1627,13 +1710,13 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
     }
     #endif
 
-    func deleteAllAsync(callbackQueue: DispatchQueue) {
+    func deleteAllAsync(transaction: Bool = false, callbackQueue: DispatchQueue) {
 
         let expectation1 = XCTestExpectation(description: "Delete object1")
         let expectation2 = XCTestExpectation(description: "Delete object2")
 
         [GameScore(objectId: "yarr"), GameScore(objectId: "yolo")]
-            .deleteAll(callbackQueue: callbackQueue) { result in
+            .deleteAll(transaction: transaction, callbackQueue: callbackQueue) { result in
 
             switch result {
 
@@ -1717,6 +1800,39 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
 
         self.deleteAllAsync(callbackQueue: .main)
+    }
+
+    func testDeleteAllAsyncMainQueueTransaction() {
+        let response = [BatchResponseItem<NoBody>(success: NoBody(), error: nil),
+                        BatchResponseItem<NoBody>(success: NoBody(), error: nil)]
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(response)
+            MockURLProtocol.mockRequests { _ in
+               return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            }
+        } catch {
+            XCTFail("Should have encoded/decoded. Error \(error)")
+            return
+        }
+
+        self.deleteAllAsync(transaction: true, callbackQueue: .main)
+    }
+
+    func testDeleteAllAsyncTransactionErrorTooMany() {
+        let expectation1 = XCTestExpectation(description: "Save object1")
+        [GameScore(objectId: "yarr"),
+         GameScore(objectId: "yolo")].deleteAll(batchLimit: 1,
+                                                transaction: true) { result in
+            if case .failure(let error) = result {
+                XCTAssertEqual(error.code, .unknownError)
+                XCTAssertTrue(error.message.contains("exceed"))
+            } else {
+                XCTFail("Should have received error")
+            }
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func deleteAllAsyncError(parseError: ParseError, callbackQueue: DispatchQueue) {
