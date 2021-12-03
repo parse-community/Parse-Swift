@@ -26,10 +26,6 @@ public struct ParseConfiguration {
     /// Allows objectIds to be created on the client.
     public internal(set) var allowCustomObjectId = false
 
-    /// Use transactions inside the Client SDK.
-    /// - warning: This is experimental.
-    public internal(set) var useTransactionsInternally = false
-
     /// Use transactions when saving/updating multiple objects.
     /// - warning: This is experimental.
     public internal(set) var useTransactions = false
@@ -79,7 +75,6 @@ public struct ParseConfiguration {
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowCustomObjectId: Allows objectIds to be created on the client.
      side for each object. Must be enabled on the server to work.
-     - parameter useTransactionsInternally: Use transactions inside the Client SDK.
      - parameter useTransactions: Use transactions when saving/updating multiple objects.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
@@ -104,7 +99,7 @@ public struct ParseConfiguration {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     - warning: `useTransactions` and `useTransactionsInternally` is experimental.
+     - warning: `useTransactions` is experimental.
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
@@ -112,7 +107,6 @@ public struct ParseConfiguration {
                 serverURL: URL,
                 liveQueryServerURL: URL? = nil,
                 allowCustomObjectId: Bool = false,
-                useTransactionsInternally: Bool = false,
                 useTransactions: Bool = false,
                 keyValueStore: ParseKeyValueStore? = nil,
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
@@ -131,7 +125,6 @@ public struct ParseConfiguration {
         self.serverURL = serverURL
         self.liveQuerysServerURL = liveQueryServerURL
         self.allowCustomObjectId = allowCustomObjectId
-        self.useTransactionsInternally = useTransactionsInternally
         self.useTransactions = useTransactions
         self.mountPath = "/" + serverURL.pathComponents
             .filter { $0 != "/" }
@@ -243,7 +236,6 @@ public struct ParseSwift {
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowCustomObjectId: Allows objectIds to be created on the client.
      side for each object. Must be enabled on the server to work.
-     - parameter useTransactionsInternally: Use transactions inside the Client SDK.
      - parameter useTransactions: Use transactions when saving/updating multiple objects.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
@@ -266,7 +258,7 @@ public struct ParseSwift {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     - warning: `useTransactions` and `useTransactionsInternally` is experimental.
+     - warning: `useTransactions` is experimental.
      */
     static public func initialize(
         applicationId: String,
@@ -275,7 +267,6 @@ public struct ParseSwift {
         serverURL: URL,
         liveQueryServerURL: URL? = nil,
         allowCustomObjectId: Bool = false,
-        useTransactionsInternally: Bool = false,
         useTransactions: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
         requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
@@ -295,7 +286,6 @@ public struct ParseSwift {
                                         serverURL: serverURL,
                                         liveQueryServerURL: liveQueryServerURL,
                                         allowCustomObjectId: allowCustomObjectId,
-                                        useTransactionsInternally: useTransactionsInternally,
                                         useTransactions: useTransactions,
                                         keyValueStore: keyValueStore,
                                         requestCachePolicy: requestCachePolicy,
@@ -314,7 +304,6 @@ public struct ParseSwift {
                                     serverURL: URL,
                                     liveQueryServerURL: URL? = nil,
                                     allowCustomObjectId: Bool = false,
-                                    useTransactionsInternally: Bool = false,
                                     useTransactions: Bool = false,
                                     keyValueStore: ParseKeyValueStore? = nil,
                                     requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
@@ -333,8 +322,6 @@ public struct ParseSwift {
                                                masterKey: masterKey,
                                                serverURL: serverURL,
                                                liveQueryServerURL: liveQueryServerURL,
-                                               allowCustomObjectId: allowCustomObjectId,
-                                               useTransactionsInternally: useTransactionsInternally,
                                                useTransactions: useTransactions,
                                                keyValueStore: keyValueStore,
                                                requestCachePolicy: requestCachePolicy,
