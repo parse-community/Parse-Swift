@@ -663,7 +663,7 @@ internal struct QueryWhere: Encodable, Equatable {
             try value.forEach { (constraint) in
                 if let comparotor = constraint.comparator {
                     var nestedContainer = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
-                                                      forKey: .key(key))
+                                                                    forKey: .key(key))
                     try constraint.encode(to: nestedContainer.superEncoder(forKey: comparotor))
                 } else {
                     try container.encode(constraint, forKey: .key(key))
