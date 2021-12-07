@@ -661,10 +661,10 @@ internal struct QueryWhere: Encodable, Equatable {
         var container = encoder.container(keyedBy: RawCodingKey.self)
         try constraints.forEach { (key, value) in
             try value.forEach { (constraint) in
-                if constraint.comparator != nil {
+                if let comparotor = constraint.comparator {
                     var nestedContainer = container.nestedContainer(keyedBy: QueryConstraint.Comparator.self,
                                                       forKey: .key(key))
-                    try constraint.encode(to: nestedContainer.superEncoder(forKey: constraint.comparator!))
+                    try constraint.encode(to: nestedContainer.superEncoder(forKey: comparotor))
                 } else {
                     try container.encode(constraint, forKey: .key(key))
                 }
