@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 2.3.1 Docs
+          ParseSwift 2.4.0 Docs
         </a>
          (96% documented)
       </p>
@@ -183,10 +183,19 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift15polygonContains3key5pointAA15QueryConstraintVSS_AA0A8GeoPointVtF">polygonContains(key:point:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7related3keyAA15QueryConstraintVSS_tF">related(key:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7related3key6objectAA15QueryConstraintVSS_AA7PointerVyxGtAA0A6ObjectRzlF">related(key:object:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7related3key6objectAA15QueryConstraintVSS_xtKAA0A6ObjectRzlF">related(key:object:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7related6objectAA15QueryConstraintVAA7PointerVyxG_tAA0A6ObjectRzlF">related(object:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7related6objectAA15QueryConstraintVx_tKAA0A6ObjectRzlF">related(object:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift8relativeyAA15QueryConstraintVADF">relative(_:)</a>
@@ -436,7 +445,7 @@ For information on acquiring Twitter sign-in credentials to use with <code>Parse
                         <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Twitter authentication.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
 
 </div>
 
@@ -572,7 +581,7 @@ For information on acquiring Twitter sign-in credentials to use with <code>Parse
                         <p>Login a <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Twitter authentication.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
 
 </div>
 
@@ -643,7 +652,7 @@ For information on acquiring Twitter sign-in credentials to use with <code>Parse
                         <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Twitter authentication.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
 
 </div>
 
@@ -779,7 +788,7 @@ For information on acquiring Twitter sign-in credentials to use with <code>Parse
                         <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Twitter authentication.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
 
 </div>
 
@@ -1444,7 +1453,7 @@ For information on acquiring Twitter sign-in credentials to use with <code>Parse
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Twitter authentication. Publishes when complete.</p>
+                        <p>Link the <em>current</em> <code><a href="../Protocols/ParseUser.html">ParseUser</a></code> <em>asynchronously</em> using Twitter authentication.</p>
 
                       </div>
                       <div class="declaration">
@@ -1551,12 +1560,20 @@ For information on acquiring Twitter sign-in credentials to use with <code>Parse
                                 </div>
                               </td>
                             </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.</p>
+                                </div>
+                              </td>
+                            </tr>
                           </tbody>
                         </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
                       </div>
                     </section>
                   </div>
@@ -1598,7 +1615,7 @@ For information on acquiring Twitter sign-in credentials to use with <code>Parse
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-11-30)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-08)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

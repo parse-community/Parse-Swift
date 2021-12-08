@@ -141,6 +141,13 @@
       "warning": "undocumented"
     },
     {
+      "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Parse.swift",
+      "line": 149,
+      "symbol": "ParseSwift.configuration",
+      "symbol_kind": "source.lang.swift.decl.var.static",
+      "warning": "undocumented"
+    },
+    {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/Deletable.swift",
       "line": 9,
       "symbol": "Deletable",
@@ -268,7 +275,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 1004,
+      "line": 1045,
       "symbol": "Query.ResultType",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
