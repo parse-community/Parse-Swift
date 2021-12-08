@@ -311,15 +311,11 @@ transactions for this call.
                         case .success(let saved):
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
-                                callbackQueue.async {
-                                    completion(.success(returnBatch))
-                                }
+                                completion(.success(returnBatch))
                             }
                             completed += 1
                         case .failure(let error):
-                            callbackQueue.async {
-                                completion(.failure(error))
-                            }
+                            completion(.failure(error))
                             return
                         }
                     }
@@ -417,9 +413,7 @@ transactions for this call.
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }
-                    callbackQueue.async {
-                        completion(.success(fetchedObjectsToReturn))
-                    }
+                    completion(.success(fetchedObjectsToReturn))
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))
@@ -615,9 +609,7 @@ extension ParseObject {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
                     completion(result)
-                }
             }
          } catch {
             callbackQueue.async {
@@ -733,9 +725,7 @@ extension ParseObject {
                                       callbackQueue: callbackQueue,
                                       childObjects: savedChildObjects,
                                       childFiles: savedChildFiles) { result in
-                        callbackQueue.async {
                             completion(result)
-                        }
                     }
                 } catch {
                     callbackQueue.async {

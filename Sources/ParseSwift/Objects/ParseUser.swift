@@ -272,29 +272,25 @@ extension ParseUser {
         var options = options
         options.insert(.sessionToken(sessionToken))
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
-         do {
+        do {
             try newUser.meCommand(sessionToken: sessionToken)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
                 if case .success(let foundResult) = result {
-                    callbackQueue.async {
-                        completion(.success(foundResult))
-                    }
+                    completion(.success(foundResult))
                 } else {
-                    callbackQueue.async {
-                        completion(result)
-                    }
+                    completion(result)
                 }
             }
-         } catch let error as ParseError {
+        } catch let error as ParseError {
             callbackQueue.async {
                 completion(.failure(error))
             }
-         } catch {
+        } catch {
             callbackQueue.async {
                 completion(.failure(ParseError(code: .unknownError, message: error.localizedDescription)))
             }
-         }
+        }
     }
 
     internal func meCommand(sessionToken: String) throws -> API.Command<Self, Self> {
@@ -605,9 +601,7 @@ extension ParseUser {
                 try signupCommand()
                     .executeAsync(options: options,
                                   callbackQueue: callbackQueue) { result in
-                    callbackQueue.async {
                         completion(result)
-                    }
                 }
             } catch {
                 callbackQueue.async {
@@ -650,19 +644,15 @@ extension ParseUser {
         if let current = Self.current {
             current.linkCommand(body: body)
                 .executeAsync(options: options,
-                              callbackQueue: .main) { result in
-                    callbackQueue.async {
-                        completion(result)
-                    }
+                              callbackQueue: callbackQueue) { result in
+                    completion(result)
                 }
         } else {
             do {
                 try signupCommand(body: body)
                     .executeAsync(options: options,
-                                  callbackQueue: .main) { result in
-                    callbackQueue.async {
+                                  callbackQueue: callbackQueue) { result in
                         completion(result)
-                    }
                 }
             } catch {
                 callbackQueue.async {
@@ -794,7 +784,6 @@ extension ParseUser {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
                     if case .success(let foundResult) = result {
                         do {
                             try Self.updateKeychainIfNeeded([foundResult])
@@ -812,7 +801,6 @@ extension ParseUser {
                         completion(result)
                     }
                 }
-            }
          } catch {
             callbackQueue.async {
                 if let error = error as? ParseError {
@@ -948,12 +936,10 @@ extension ParseUser {
                                       callbackQueue: callbackQueue,
                                       childObjects: savedChildObjects,
                                       childFiles: savedChildFiles) { result in
-                            callbackQueue.async {
-                                if case .success(let foundResults) = result {
-                                    try? Self.updateKeychainIfNeeded([foundResults])
-                                }
-                                completion(result)
+                            if case .success(let foundResults) = result {
+                                try? Self.updateKeychainIfNeeded([foundResults])
                             }
+                            completion(result)
                     }
                 } catch {
                     callbackQueue.async {
@@ -1063,14 +1049,12 @@ extension ParseUser {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
          do {
             try deleteCommand().executeAsync(options: options,
-                                             callbackQueue: .main) { result in
+                                             callbackQueue: callbackQueue) { result in
                 switch result {
 
                 case .success:
-                    callbackQueue.async {
-                        try? Self.updateKeychainIfNeeded([self], deleting: true)
-                        completion(.success(()))
-                    }
+                    try? Self.updateKeychainIfNeeded([self], deleting: true)
+                    completion(.success(()))
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))
@@ -1325,16 +1309,12 @@ public extension Sequence where Element: ParseUser {
                         case .success(let saved):
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
-                                callbackQueue.async {
-                                    try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
-                                    completion(.success(returnBatch))
-                                }
+                                try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
+                                completion(.success(returnBatch))
                             }
                             completed += 1
                         case .failure(let error):
-                            callbackQueue.async {
-                                completion(.failure(error))
-                            }
+                            completion(.failure(error))
                             return
                         }
                     }
@@ -1435,10 +1415,8 @@ public extension Sequence where Element: ParseUser {
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }
-                    callbackQueue.async {
-                        try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
-                        completion(.success(fetchedObjectsToReturn))
-                    }
+                    try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
+                    completion(.success(fetchedObjectsToReturn))
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))

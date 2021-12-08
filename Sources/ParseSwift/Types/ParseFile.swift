@@ -204,14 +204,11 @@ extension ParseFile {
         options = options.union(self.options)
 
         deleteFileCommand().executeAsync(options: options, callbackQueue: callbackQueue) { result in
-            callbackQueue.async {
-                switch result {
-
-                case .success:
-                    completion(.success(()))
-                case .failure(let error):
-                    completion(.failure(error))
-                }
+            switch result {
+            case .success:
+                completion(.success(()))
+            case .failure(let error):
+                completion(.failure(error))
             }
         }
     }
@@ -458,9 +455,7 @@ extension ParseFile {
                             .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
                                       uploadProgress: progress) { result in
-                                callbackQueue.async {
-                                    completion(result)
-                                }
+                                completion(result)
                             }
                     } catch {
                         callbackQueue.async {
@@ -484,9 +479,7 @@ extension ParseFile {
                     .executeAsync(options: options,
                                   callbackQueue: callbackQueue,
                                   uploadProgress: progress) { result in
-                        callbackQueue.async {
-                            completion(result)
-                        }
+                        completion(result)
                     }
             } catch {
                 callbackQueue.async {
@@ -704,9 +697,7 @@ extension ParseFile {
             .executeAsync(options: options,
                           callbackQueue: callbackQueue,
                           downloadProgress: progress) { result in
-            callbackQueue.async {
                 completion(result)
-            }
         }
     }
 
