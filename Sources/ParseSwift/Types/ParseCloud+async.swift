@@ -9,7 +9,7 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@MainActor
 public extension ParseCloud {
 
     // MARK: Aysnc/Await
@@ -18,7 +18,7 @@ public extension ParseCloud {
      Calls a Cloud Code function *asynchronously* and returns a result of it's execution.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: The return type.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     func runFunction(options: API.Options = []) async throws -> ReturnType {
         try await withCheckedThrowingContinuation { continuation in
@@ -30,8 +30,8 @@ public extension ParseCloud {
     /**
      Starts a Cloud Code Job *asynchronously* and returns a result with the jobStatusId of the job.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: The return type.
+     - throws: An error of type `ParseError`..
     */
     func startJob(options: API.Options = []) async throws -> ReturnType {
         try await withCheckedThrowingContinuation { continuation in

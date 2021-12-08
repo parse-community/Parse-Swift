@@ -9,7 +9,7 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@MainActor
 public extension ParseAuthentication {
 
     // MARK: Convenience Implementations - Async/Await
@@ -30,14 +30,14 @@ public extension ParseAuthentication {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@MainActor
 public extension ParseUser {
 
     // MARK: 3rd Party Authentication - Login Async/Await
 
     /**
      Makes an *asynchronous* request to log in a user with specified credentials.
-     Publishes an instance of the successfully logged in `ParseUser`.
+     Returns an instance of the successfully logged in `ParseUser`.
 
      This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter type: The authentication type.
@@ -73,7 +73,7 @@ public extension ParseUser {
 
     /**
      Makes an *asynchronous* request to link a user with specified credentials. The user should already be logged in.
-     Publishes an instance of the successfully linked `ParseUser`.
+     Returns an instance of the successfully linked `ParseUser`.
 
      This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter type: The authentication type.

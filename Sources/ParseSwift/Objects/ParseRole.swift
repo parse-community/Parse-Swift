@@ -44,7 +44,7 @@ public extension ParseRole {
     /**
      Create a `ParseRole` with a name. The `ParseACL` will still need to be initialized before saving.
      - parameter name: The name of the Role to create.
-     - throws: `ParseError` if the name has invalid characters.
+     - throws: An error of type `ParseError`. if the name has invalid characters.
      */
     init(name: String) throws {
         try Self.checkName(name)
@@ -56,7 +56,7 @@ public extension ParseRole {
      - parameter name: The name of the Role to create.
      - parameter acl: The `ParseACL` for this role. Roles must have an ACL.
      A `ParseRole` is a local representation of a role persisted to the Parse Server.
-     - throws: `ParseError` if the name has invalid characters.
+     - throws: An error of type `ParseError`. if the name has invalid characters.
      */
     init(name: String, acl: ParseACL) throws {
         try Self.checkName(name)

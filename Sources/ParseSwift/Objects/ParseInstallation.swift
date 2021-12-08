@@ -393,23 +393,21 @@ extension ParseInstallation {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
-                    callbackQueue.async {
-                        if case .success(let foundResult) = result {
-                            do {
-                                try Self.updateKeychainIfNeeded([foundResult])
-                                completion(.success(foundResult))
-                            } catch {
-                                let returnError: ParseError!
-                                if let parseError = error as? ParseError {
-                                    returnError = parseError
-                                } else {
-                                    returnError = ParseError(code: .unknownError, message: error.localizedDescription)
-                                }
-                                completion(.failure(returnError))
+                    if case .success(let foundResult) = result {
+                        do {
+                            try Self.updateKeychainIfNeeded([foundResult])
+                            completion(.success(foundResult))
+                        } catch {
+                            let returnError: ParseError!
+                            if let parseError = error as? ParseError {
+                                returnError = parseError
+                            } else {
+                                returnError = ParseError(code: .unknownError, message: error.localizedDescription)
                             }
-                        } else {
-                            completion(result)
+                            completion(.failure(returnError))
                         }
+                    } else {
+                        completion(result)
                     }
                 }
          } catch {
@@ -548,24 +546,22 @@ extension ParseInstallation {
                                       callbackQueue: callbackQueue,
                                       childObjects: savedChildObjects,
                                       childFiles: savedChildFiles) { result in
-                            callbackQueue.async {
-                                if case .success(let foundResults) = result {
-                                    do {
-                                        try Self.updateKeychainIfNeeded([foundResults])
-                                        completion(.success(foundResults))
-                                    } catch {
-                                        let returnError: ParseError!
-                                        if let parseError = error as? ParseError {
-                                            returnError = parseError
-                                        } else {
-                                            returnError = ParseError(code: .unknownError,
-                                                                     message: error.localizedDescription)
-                                        }
-                                        completion(.failure(returnError))
+                            if case .success(let foundResults) = result {
+                                do {
+                                    try Self.updateKeychainIfNeeded([foundResults])
+                                    completion(.success(foundResults))
+                                } catch {
+                                    let returnError: ParseError!
+                                    if let parseError = error as? ParseError {
+                                        returnError = parseError
+                                    } else {
+                                        returnError = ParseError(code: .unknownError,
+                                                                 message: error.localizedDescription)
                                     }
-                                } else {
-                                    completion(result)
+                                    completion(.failure(returnError))
                                 }
+                            } else {
+                                completion(result)
                             }
                         }
                 } catch {
@@ -729,7 +725,7 @@ public extension Sequence where Element: ParseInstallation {
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
 
      - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
-     - throws: `ParseError`
+     - throws: An error of type `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
@@ -931,10 +927,8 @@ public extension Sequence where Element: ParseInstallation {
                         case .success(let saved):
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
-                                callbackQueue.async {
-                                    try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
-                                    completion(.success(returnBatch))
-                                }
+                                try? Self.Element.updateKeychainIfNeeded(returnBatch.compactMap {try? $0.get()})
+                                completion(.success(returnBatch))
                             }
                             completed += 1
                         case .failure(let error):
@@ -965,7 +959,7 @@ public extension Sequence where Element: ParseInstallation {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
 
      - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
-     - throws: `ParseError`
+     - throws: An error of type `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - warning: The order in which installations are returned are not guarenteed. You shouldn't expect results in
      any particular order.
@@ -1043,10 +1037,8 @@ public extension Sequence where Element: ParseInstallation {
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }
-                    callbackQueue.async {
-                        try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
-                        completion(.success(fetchedObjectsToReturn))
-                    }
+                    try? Self.Element.updateKeychainIfNeeded(fetchedObjects)
+                    completion(.success(fetchedObjectsToReturn))
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))
@@ -1078,7 +1070,7 @@ public extension Sequence where Element: ParseInstallation {
         2. A non-aggregate Parse.Error. This indicates a serious error that
         caused the delete operation to be aborted partway through (for
         instance, a connection failure in the middle of the delete).
-     - throws: `ParseError`
+     - throws: An error of type `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else

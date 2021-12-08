@@ -9,16 +9,16 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@MainActor
 public extension Query {
 
     // MARK: Async/Await
 
     /**
-     Finds objects *asynchronously* and publishes when complete.
+     Finds objects *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     func find(options: API.Options = []) async throws -> [ResultType] {
         try await withCheckedThrowingContinuation { continuation in
@@ -28,14 +28,14 @@ public extension Query {
     }
 
     /**
-     Query plan information for finding objects *asynchronously* and publishes when complete.
+     Query plan information for finding objects *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
      different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - returns: An array of ParseObjects.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     func findExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
         try await withCheckedThrowingContinuation { continuation in
@@ -45,12 +45,11 @@ public extension Query {
     }
 
     /**
-     Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query
-     and publishes when complete.
+     Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      - warning: The items are processed in an unspecified order. The query may not have any sort
      order, and may not use limit or skip.
     */
@@ -64,10 +63,10 @@ public extension Query {
     }
 
     /**
-     Gets an object *asynchronously* and publishes when complete.
+     Gets an object *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: The first `ParseObject`.
+     - throws: An error of type `ParseError`..
     */
     func first(options: API.Options = []) async throws -> ResultType {
         try await withCheckedThrowingContinuation { continuation in
@@ -77,14 +76,14 @@ public extension Query {
     }
 
     /**
-     Query plan information for getting an object *asynchronously* and publishes when complete.
+     Query plan information for getting an object *asynchronously*.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
      different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     func firstExplain<U: Decodable>(options: API.Options = []) async throws -> U {
         try await withCheckedThrowingContinuation { continuation in
@@ -94,10 +93,10 @@ public extension Query {
     }
 
     /**
-     Count objects *asynchronously* and publishes when complete.
+     Count objects *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: The count of `ParseObject`'s.
+     - throws: An error of type `ParseError`..
     */
     func count(options: API.Options = []) async throws -> Int {
         try await withCheckedThrowingContinuation { continuation in
@@ -107,7 +106,7 @@ public extension Query {
     }
 
     /**
-     Query plan information for counting objects *asynchronously* and publishes when complete.
+     Query plan information for counting objects *asynchronously*.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
      different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
@@ -115,7 +114,7 @@ public extension Query {
      - parameter explain: Used to toggle the information on the query plan.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     func countExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
         try await withCheckedThrowingContinuation { continuation in
@@ -125,12 +124,12 @@ public extension Query {
     }
 
     /**
-     Executes an aggregate query *asynchronously* and publishes when complete.
+     Executes an aggregate query *asynchronously*.
      - requires: `.useMasterKey` has to be available.
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     func aggregate(_ pipeline: [[String: Encodable]],
                    options: API.Options = []) async throws -> [ResultType] {
@@ -142,7 +141,7 @@ public extension Query {
     }
 
     /**
-     Query plan information for executing an aggregate query *asynchronously* and publishes when complete.
+     Query plan information for executing an aggregate query *asynchronously*.
      - requires: `.useMasterKey` has to be available.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
@@ -151,7 +150,7 @@ public extension Query {
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     func aggregateExplain<U: Decodable>(_ pipeline: [[String: Encodable]],
                                         options: API.Options = []) async throws -> [U] {
@@ -163,12 +162,12 @@ public extension Query {
     }
 
     /**
-     Executes a distinct query *asynchronously* and publishes unique values when complete.
+     Executes a distinct query *asynchronously* and returns unique values when complete.
      - requires: `.useMasterKey` has to be available.
      - parameter key: A field to find distinct values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     func distinct(_ key: String,
                   options: API.Options = []) async throws -> [ResultType] {
@@ -180,7 +179,7 @@ public extension Query {
     }
 
     /**
-     Query plan information for executing a distinct query *asynchronously* and publishes unique values when complete.
+     Query plan information for executing a distinct query *asynchronously* and returns unique values when complete.
      - requires: `.useMasterKey` has to be available.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
@@ -189,7 +188,7 @@ public extension Query {
      - parameter key: A field to find distinct values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     func distinctExplain<U: Decodable>(_ key: String,
                                        options: API.Options = []) async throws -> [U] {

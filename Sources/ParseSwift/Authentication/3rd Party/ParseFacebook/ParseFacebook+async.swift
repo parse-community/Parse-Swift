@@ -9,7 +9,7 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@MainActor
 public extension ParseFacebook {
     // MARK: Async/Await
 
@@ -20,7 +20,7 @@ public extension ParseFacebook {
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     func login(userId: String,
                authenticationToken: String,
@@ -42,7 +42,7 @@ public extension ParseFacebook {
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     func login(userId: String,
                accessToken: String,
@@ -61,7 +61,7 @@ public extension ParseFacebook {
      Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login.
      - parameter authData: Dictionary containing key/values.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     func login(authData: [String: String],
                options: API.Options = []) async throws -> AuthenticatedUser {
@@ -73,7 +73,7 @@ public extension ParseFacebook {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@MainActor
 public extension ParseFacebook {
     /**
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login.
@@ -82,7 +82,7 @@ public extension ParseFacebook {
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     func link(userId: String,
               authenticationToken: String,
@@ -104,7 +104,7 @@ public extension ParseFacebook {
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     func link(userId: String,
               accessToken: String,
@@ -124,7 +124,7 @@ public extension ParseFacebook {
      - parameter authData: Dictionary containing key/values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      */
     func link(authData: [String: String],
               options: API.Options = []) async throws -> AuthenticatedUser {

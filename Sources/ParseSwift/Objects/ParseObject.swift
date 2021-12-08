@@ -110,9 +110,9 @@ transactions for this call.
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-
-     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
-     - throws: `ParseError`
+     - returns: Returns an array of Result enums with the object if a save was successful or a
+     `ParseError` if it failed.
+     - throws: An error of type `ParseError`.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
@@ -311,15 +311,11 @@ transactions for this call.
                         case .success(let saved):
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
-                                callbackQueue.async {
-                                    completion(.success(returnBatch))
-                                }
+                                completion(.success(returnBatch))
                             }
                             completed += 1
                         case .failure(let error):
-                            callbackQueue.async {
-                                completion(.failure(error))
-                            }
+                            completion(.failure(error))
                             return
                         }
                     }
@@ -342,9 +338,9 @@ transactions for this call.
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-
-     - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
-     - throws: `ParseError`
+     - returns: Returns an array of Result enums with the object if a fetch was successful or a
+     `ParseError` if it failed.
+     - throws: An error of type `ParseError`.
      - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
      any particular order.
     */
@@ -417,9 +413,7 @@ transactions for this call.
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }
-                    callbackQueue.async {
-                        completion(.success(fetchedObjectsToReturn))
-                    }
+                    completion(.success(fetchedObjectsToReturn))
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))
@@ -451,7 +445,7 @@ transactions for this call.
         2. A non-aggregate Parse.Error. This indicates a serious error that
         caused the delete operation to be aborted partway through (for
         instance, a connection failure in the middle of the delete).
-     - throws: `ParseError`
+     - throws: An error of type `ParseError`.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
@@ -580,6 +574,7 @@ extension ParseObject {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.
+     - returns: Returns the fetched `ParseObject`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -614,9 +609,7 @@ extension ParseObject {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
                     completion(result)
-                }
             }
          } catch {
             callbackQueue.async {
@@ -732,9 +725,7 @@ extension ParseObject {
                                       callbackQueue: callbackQueue,
                                       childObjects: savedChildObjects,
                                       childFiles: savedChildFiles) { result in
-                        callbackQueue.async {
                             completion(result)
-                        }
                     }
                 } catch {
                     callbackQueue.async {

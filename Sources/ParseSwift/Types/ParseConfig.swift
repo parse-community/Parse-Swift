@@ -51,9 +51,7 @@ extension ParseConfig {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         fetchCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+                completion(result)
             }
     }
 
@@ -101,9 +99,7 @@ extension ParseConfig {
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         updateCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+                completion(result)
             }
     }
 

@@ -9,7 +9,7 @@
 import Foundation
 
 /**
- The `ParseRelation` class that is used to access all of the children of a many-to-many relationship.
+ The `ParseRelation` object that is used to access all of the children of a many-to-many relationship.
  Each instance of `ParseRelation` is associated with a particular parent object and key.
  
  In most cases, you do not need to create an instance of `ParseRelation` directly as it can be
@@ -138,17 +138,48 @@ public struct ParseRelation<T>: Encodable, Hashable where T: ParseObject {
     /**
      Returns a `Query` that is limited to objects for a specific `key` and `parent` in this relation.
      - parameter key: The key for the relation.
-     - parameter parent: The child class for the relation.
+     - parameter parent: The parent pointer object for the relation.
+     - returns: A relation query.
+    */
+    public static func query<U>(_ key: String, parent: Pointer<U>) -> Query<T> where U: ParseObject {
+        Query<T>(related(key: key, object: parent))
+    }
+
+    /**
+     Returns a `Query` that is limited to objects for a specific `key` and `parent` in this relation.
+     - parameter key: The key for the relation.
+     - parameter parent: The parent object for the relation.
+     - throws: An error of type `ParseError`.
+     - returns: A relation query.
+    */
+    public static func query<U>(_ key: String, parent: U) throws -> Query<T> where U: ParseObject {
+        Self.query(key, parent: try parent.toPointer())
+    }
+
+    /**
+     Returns a `Query` that is limited to objects for a specific `key` and `parent` in this relation.
+     - parameter key: The key for the relation.
+     - parameter parent: The parent object for the relation.
      - throws: An error of type `ParseError`.
      - returns: A relation query.
     */
     public func query<U>(_ key: String, parent: U) throws -> Query<T> where U: ParseObject {
-        Query<T>(related(key: key, object: try parent.toPointer()))
+        try Self.query(key, parent: parent)
+    }
+
+    /**
+     Returns a `Query` that is limited to objects for a specific `key` and `parent` in this relation.
+     - parameter key: The key for the relation.
+     - parameter parent: The parent pointer object for the relation.
+     - returns: A relation query.
+    */
+    public func query<U>(_ key: String, parent: Pointer<U>) -> Query<T> where U: ParseObject {
+        Self.query(key, parent: parent)
     }
 
     /**
      Returns a `Query` that is limited to the key and objects in this relation.
-        - parameter child: The child class for the relation.
+        - parameter child: The child object for the relation.
         - throws: An error of type `ParseError`.
         - returns: A relation query.
     */
@@ -159,7 +190,7 @@ public struct ParseRelation<T>: Encodable, Hashable where T: ParseObject {
         }
         if !isSameClass([child]) {
             throw ParseError(code: .unknownError,
-                             message: "ParseRelation must have the same child class as the original relation.")
+                             message: "ParseRelation must have the same child className as the original relation.")
         }
         return Query<U>(related(key: key, object: try parent.toPointer()))
     }
@@ -167,7 +198,7 @@ public struct ParseRelation<T>: Encodable, Hashable where T: ParseObject {
     /**
      Returns a `Query` that is limited to objects for a specific `key` and `child` in this relation.
      - parameter key: The key for the relation.
-     - parameter child: The child class for the relation.
+     - parameter child: The child object for the relation.
      - throws: An error of type `ParseError`.
      - returns: A relation query.
     */
@@ -248,9 +279,31 @@ public extension ParseRelation {
 // MARK: ParseRelation
 public extension ParseObject {
 
+    /**
+     Returns a `Query` that is limited to objects for a specific `key` and `parent` in this relation.
+     - parameter key: The key for the relation.
+     - parameter parent: The parent object for the relation.
+     - throws: An error of type `ParseError`.
+     - returns: A relation query.
+    */
+    static func queryRelations<U: ParseObject>(_ key: String, parent: U) throws -> Query<Self> {
+        try ParseRelation<Self>.query(key, parent: parent)
+    }
+
+    /**
+     Returns a `Query` that is limited to objects for a specific `key` and `parent` in this relation.
+     - parameter key: The key for the relation.
+     - parameter parent: The parent pointer object for the relation.
+     - throws: An error of type `ParseError`.
+     - returns: A relation query.
+    */
+    static func queryRelations<U: ParseObject>(_ key: String, parent: Pointer<U>) -> Query<Self> {
+        ParseRelation<Self>.query(key, parent: parent)
+    }
+
     /// Create a new relation.
     var relation: ParseRelation<Self> {
-        return ParseRelation(parent: self)
+        ParseRelation(parent: self)
     }
 
     /**
