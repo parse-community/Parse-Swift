@@ -1146,6 +1146,15 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}})"
         XCTAssertEqual(query.debugDescription, expected)
     }
+
+    func testWhereKeyNotEqualToParseObject() throws {
+        var compareObject = GameScore(score: 11)
+        compareObject.objectId = "hello"
+        let query = try GameScore.query("yolo" != compareObject)
+        // swiftlint:disable:next line_length
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"$ne\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}})"
+        XCTAssertEqual(query.debugDescription, expected)
+    }
     #endif
 
     func testWhereKeyNotEqualTo() {
@@ -1801,6 +1810,100 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
     }
+
+    #if !os(Linux) && !os(Android) && !os(Windows)
+    func testWhereContainedInParseObject() throws {
+        var compareObject = GameScore(score: 11)
+        compareObject.objectId = "hello"
+        // swiftlint:disable:next line_length
+        let expected = "{\"yolo\":{\"$in\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}]}}"
+        let constraint = try containedIn(key: "yolo", array: [compareObject])
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            guard let decoded = String(data: encoded, encoding: .utf8) else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expected, decoded)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereNotContainedInParseObject() throws {
+        var compareObject = GameScore(score: 11)
+        compareObject.objectId = "hello"
+        // swiftlint:disable:next line_length
+        let expected = "{\"yolo\":{\"$nin\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}]}}"
+        let constraint = try notContainedIn(key: "yolo", array: [compareObject])
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            guard let decoded = String(data: encoded, encoding: .utf8) else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expected, decoded)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereContainedByParseObject() throws {
+        var compareObject = GameScore(score: 11)
+        compareObject.objectId = "hello"
+        // swiftlint:disable:next line_length
+        let expected = "{\"yolo\":{\"$containedBy\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}]}}"
+        let constraint = try containedBy(key: "yolo", array: [compareObject])
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            guard let decoded = String(data: encoded, encoding: .utf8) else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expected, decoded)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereContainsAllParseObject() throws {
+        var compareObject = GameScore(score: 11)
+        compareObject.objectId = "hello"
+        // swiftlint:disable:next line_length
+        let expected = "{\"yolo\":{\"$all\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}]}}"
+        let constraint = try containsAll(key: "yolo", array: [compareObject])
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            guard let decoded = String(data: encoded, encoding: .utf8) else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expected, decoded)
+
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+    #endif
 
     func testWhereContainedBy() {
         let expected: [String: AnyCodable] = [
@@ -2953,7 +3056,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testAggregateExplainCommand() throws {
         let query = GameScore.query()
-        let command: API.NonParseBodyCommand<AggregateBody<GameScore>,
+        let command: API.NonParseBodyCommand<Query<GameScore>.AggregateBody<GameScore>,
                                              [String]> = query.aggregateExplainCommand()
         let expected = "{\"path\":\"\\/aggregate\\/GameScore\",\"method\":\"POST\",\"body\":{\"explain\":true}}"
         let encoded = try ParseCoding.jsonEncoder()
@@ -2974,7 +3077,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testDistinctExplainCommand() throws {
         let query = GameScore.query()
-        let command: API.NonParseBodyCommand<DistinctBody<GameScore>,
+        let command: API.NonParseBodyCommand<Query<GameScore>.DistinctBody<GameScore>,
                                              [String]> = query.distinctExplainCommand(key: "hello")
         // swiftlint:disable:next line_length
         let expected = "{\"path\":\"\\/aggregate\\/GameScore\",\"method\":\"POST\",\"body\":{\"explain\":true,\"distinct\":\"hello\"}}"
