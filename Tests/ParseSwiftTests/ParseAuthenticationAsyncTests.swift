@@ -12,7 +12,6 @@ import XCTest
 @testable import ParseSwift
 import Combine
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct User: ParseUser {
 
@@ -98,13 +97,11 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
         }
 
         #if swift(>=5.5) && canImport(_Concurrency)
-        @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
         func login(authData: [String: String],
                    options: API.Options) async throws -> AuthenticatedUser {
             throw ParseError(code: .unknownError, message: "Not implemented")
         }
 
-        @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
         func link(authData: [String: String],
                   options: API.Options) async throws -> AuthenticatedUser {
             throw ParseError(code: .unknownError, message: "Not implemented")

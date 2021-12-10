@@ -52,9 +52,7 @@ extension ParseCloud {
                             completion: @escaping (Result<ReturnType, ParseError>) -> Void) {
         runFunctionCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+                completion(result)
             }
     }
 
@@ -92,9 +90,7 @@ extension ParseCloud {
                          completion: @escaping (Result<ReturnType, ParseError>) -> Void) {
         startJobCommand()
             .executeAsync(options: options, callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
-                    completion(result)
-                }
+                completion(result)
             }
     }
 

@@ -11,7 +11,6 @@ import Foundation
 import XCTest
 @testable import ParseSwift
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 class ParseConfigAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct Config: ParseConfig {
         var welcomeMessage: String?

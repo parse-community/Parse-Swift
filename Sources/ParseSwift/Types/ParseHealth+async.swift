@@ -9,7 +9,7 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@MainActor
 public extension ParseHealth {
 
     // MARK: Async/Await
@@ -18,7 +18,7 @@ public extension ParseHealth {
      Calls the health check function *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Status of ParseServer.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
     static func check(options: API.Options = []) async throws -> String {
         try await withCheckedThrowingContinuation { continuation in

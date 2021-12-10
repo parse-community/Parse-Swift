@@ -202,7 +202,8 @@ public extension Sequence where Element: ParseUser {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: A publisher that eventually produces an an array of Result enums with the object if a fetch was
+     successful or a `ParseError` if it failed.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     func fetchAllPublisher(includeKeys: [String]? = nil,
@@ -225,7 +226,8 @@ public extension Sequence where Element: ParseUser {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: A publisher that eventually produces an an array of Result enums with the object if a save was
+     successful or a `ParseError` if it failed.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
@@ -241,7 +243,7 @@ public extension Sequence where Element: ParseUser {
      client-side checks are disabled. Developers are responsible for handling such cases.
     */
     func saveAllPublisher(batchLimit limit: Int? = nil,
-                          transaction: Bool = false,
+                          transaction: Bool = ParseSwift.configuration.useTransactions,
                           isIgnoreCustomObjectIdConfig: Bool = false,
                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
@@ -261,14 +263,15 @@ public extension Sequence where Element: ParseUser {
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - returns: A publisher that eventually produces an an array of Result enums with `nil` if a delete was
+     successful or a `ParseError` if it failed.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
     */
     func deleteAllPublisher(batchLimit limit: Int? = nil,
-                            transaction: Bool = false,
+                            transaction: Bool = ParseSwift.configuration.useTransactions,
                             options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
         Future { promise in
             self.deleteAll(batchLimit: limit,

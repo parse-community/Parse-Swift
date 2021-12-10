@@ -9,56 +9,56 @@ import FoundationNetworking
 public struct ParseConfiguration {
 
     /// The application id of your Parse application.
-    var applicationId: String
+    public internal(set) var applicationId: String
 
     /// The master key of your Parse application.
-    var masterKey: String? // swiftlint:disable:this inclusive_language
+    public internal(set) var masterKey: String? // swiftlint:disable:this inclusive_language
 
     /// The client key of your Parse application.
-    var clientKey: String?
+    public internal(set) var clientKey: String?
 
     /// The server URL to connect to Parse Server.
-    var serverURL: URL
+    public internal(set) var serverURL: URL
 
     /// The live query server URL to connect to Parse Server.
-    var liveQuerysServerURL: URL?
+    public internal(set) var liveQuerysServerURL: URL?
 
     /// Allows objectIds to be created on the client.
-    var allowCustomObjectId = false
+    public internal(set) var allowCustomObjectId = false
 
-    /// Use transactions inside the Client SDK.
-    /// - warning: This is experimental and known not to work with mongoDB.
-    var useTransactionsInternally = false
+    /// Use transactions when saving/updating multiple objects.
+    /// - warning: This is experimental.
+    public internal(set) var useTransactions = false
 
     /// The default caching policy for all http requests that determines when to
     /// return a response from the cache. Defaults to `useProtocolCachePolicy`.
     /// See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
     /// for more info.
-    var requestCachePolicy = URLRequest.CachePolicy.useProtocolCachePolicy
+    public internal(set) var requestCachePolicy = URLRequest.CachePolicy.useProtocolCachePolicy
 
     /// A dictionary of additional headers to send with requests. See Apple's
     /// [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
     /// for more info.
-    var httpAdditionalHeaders: [String: String]?
+    public internal(set) var httpAdditionalHeaders: [String: String]?
 
     /// The memory capacity of the cache, in bytes. Defaults to 512KB.
-    var cacheMemoryCapacity = 512_000
+    public internal(set) var cacheMemoryCapacity = 512_000
 
     /// The disk capacity of the cache, in bytes. Defaults to 10MB.
-    var cacheDiskCapacity = 10_000_000
+    public internal(set) var cacheDiskCapacity = 10_000_000
 
     /// If your app previously used the iOS Objective-C SDK, setting this value
     /// to `true` will attempt to migrate relevant data stored in the Keychain to
     /// ParseSwift. Defaults to `false`.
-    var migrateFromObjcSDK: Bool = false
+    public internal(set) var migrateFromObjcSDK: Bool = false
 
     /// Deletes the Parse Keychain when the app is running for the first time.
     /// Defaults to `false`.
-    var deleteKeychainIfNeeded: Bool = false
+    public internal(set) var deleteKeychainIfNeeded: Bool = false
 
     /// Maximum number of times to try to connect to Parse Server.
     /// Defaults to 5.
-    var maxConnectionAttempts: Int = 5
+    public internal(set) var maxConnectionAttempts: Int = 5
 
     internal var authentication: ((URLAuthenticationChallenge,
                                    (URLSession.AuthChallengeDisposition,
@@ -75,7 +75,7 @@ public struct ParseConfiguration {
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowCustomObjectId: Allows objectIds to be created on the client.
      side for each object. Must be enabled on the server to work.
-     - parameter useTransactionsInternally: Use transactions inside the Client SDK.
+     - parameter useTransactions: Use transactions when saving/updating multiple objects.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
@@ -99,7 +99,7 @@ public struct ParseConfiguration {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     - warning: `useTransactionsInternally` is experimental and known not to work with mongoDB.
+     - warning: `useTransactions` is experimental.
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
@@ -107,7 +107,7 @@ public struct ParseConfiguration {
                 serverURL: URL,
                 liveQueryServerURL: URL? = nil,
                 allowCustomObjectId: Bool = false,
-                useTransactionsInternally: Bool = false,
+                useTransactions: Bool = false,
                 keyValueStore: ParseKeyValueStore? = nil,
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 cacheMemoryCapacity: Int = 512_000,
@@ -125,7 +125,7 @@ public struct ParseConfiguration {
         self.serverURL = serverURL
         self.liveQuerysServerURL = liveQueryServerURL
         self.allowCustomObjectId = allowCustomObjectId
-        self.useTransactionsInternally = useTransactionsInternally
+        self.useTransactions = useTransactions
         self.mountPath = "/" + serverURL.pathComponents
             .filter { $0 != "/" }
             .joined(separator: "/")
@@ -146,7 +146,7 @@ public struct ParseConfiguration {
  */
 public struct ParseSwift {
 
-    static var configuration: ParseConfiguration!
+    public internal(set) static var configuration: ParseConfiguration!
     static var sessionDelegate: ParseURLSessionDelegate!
 
     /**
@@ -236,7 +236,7 @@ public struct ParseSwift {
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
      - parameter allowCustomObjectId: Allows objectIds to be created on the client.
      side for each object. Must be enabled on the server to work.
-     - parameter useTransactionsInternally: Use transactions inside the Client SDK.
+     - parameter useTransactions: Use transactions when saving/updating multiple objects.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
@@ -258,7 +258,7 @@ public struct ParseSwift {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     - warning: `useTransactionsInternally` is experimental and known not to work with mongoDB.
+     - warning: `useTransactions` is experimental.
      */
     static public func initialize(
         applicationId: String,
@@ -267,7 +267,7 @@ public struct ParseSwift {
         serverURL: URL,
         liveQueryServerURL: URL? = nil,
         allowCustomObjectId: Bool = false,
-        useTransactionsInternally: Bool = false,
+        useTransactions: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
         requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
         cacheMemoryCapacity: Int = 512_000,
@@ -286,7 +286,7 @@ public struct ParseSwift {
                                         serverURL: serverURL,
                                         liveQueryServerURL: liveQueryServerURL,
                                         allowCustomObjectId: allowCustomObjectId,
-                                        useTransactionsInternally: useTransactionsInternally,
+                                        useTransactions: useTransactions,
                                         keyValueStore: keyValueStore,
                                         requestCachePolicy: requestCachePolicy,
                                         cacheMemoryCapacity: cacheMemoryCapacity,
@@ -304,7 +304,7 @@ public struct ParseSwift {
                                     serverURL: URL,
                                     liveQueryServerURL: URL? = nil,
                                     allowCustomObjectId: Bool = false,
-                                    useTransactionsInternally: Bool = false,
+                                    useTransactions: Bool = false,
                                     keyValueStore: ParseKeyValueStore? = nil,
                                     requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                                     cacheMemoryCapacity: Int = 512_000,
@@ -323,7 +323,7 @@ public struct ParseSwift {
                                                serverURL: serverURL,
                                                liveQueryServerURL: liveQueryServerURL,
                                                allowCustomObjectId: allowCustomObjectId,
-                                               useTransactionsInternally: useTransactionsInternally,
+                                               useTransactions: useTransactions,
                                                keyValueStore: keyValueStore,
                                                requestCachePolicy: requestCachePolicy,
                                                cacheMemoryCapacity: cacheMemoryCapacity,

@@ -83,6 +83,22 @@ public extension ParseObject {
 // MARK: Batch Support
 public extension Sequence where Element: ParseObject {
 
+    internal func canSendTransactions(_ isUsingTransactions: Bool,
+                                      objectCount: Int,
+                                      batchLimit: Int) throws {
+        if isUsingTransactions {
+            if objectCount > batchLimit {
+                let error = ParseError(code: .unknownError,
+                                       message: """
+The amount of objects (\(objectCount)) can't exceed the batch size(\(batchLimit)).
+Either decrease the amount of objects, increase the batch size, or disable
+transactions for this call.
+""")
+                throw error
+            }
+        }
+    }
+
     /**
      Saves a collection of objects *synchronously* all at once and throws an error if necessary.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
@@ -94,9 +110,9 @@ public extension Sequence where Element: ParseObject {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-
-     - returns: Returns a Result enum with the object if a save was successful or a `ParseError` if it failed.
-     - throws: `ParseError`
+     - returns: Returns an array of Result enums with the object if a save was successful or a
+     `ParseError` if it failed.
+     - throws: An error of type `ParseError`.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
@@ -113,7 +129,7 @@ public extension Sequence where Element: ParseObject {
      desires a different policy, it should be inserted in `options`.
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
-                 transaction: Bool = false,
+                 transaction: Bool = ParseSwift.configuration.useTransactions,
                  isIgnoreCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         var options = options
@@ -126,7 +142,9 @@ public extension Sequence where Element: ParseObject {
         for object in objects {
             let group = DispatchGroup()
             group.enter()
-            object.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+            object.ensureDeepSave(options: options,
+                                  // swiftlint:disable:next line_length
+                                  isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                 //If an error occurs, everything should be skipped
                 if parseError != nil {
                     error = parseError
@@ -163,12 +181,8 @@ public extension Sequence where Element: ParseObject {
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = try map { try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig) }
-        let batchLimit: Int!
-        if transaction {
-            batchLimit = commands.count
-        } else {
-            batchLimit = limit ?? ParseConstants.batchLimit
-        }
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
             let currentBatch = try API.Command<Self.Element, Self.Element>
@@ -212,7 +226,7 @@ public extension Sequence where Element: ParseObject {
     */
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = false,
+        transaction: Bool = ParseSwift.configuration.useTransactions,
         isIgnoreCustomObjectIdConfig: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
@@ -236,7 +250,9 @@ public extension Sequence where Element: ParseObject {
             for object in objects {
                 let group = DispatchGroup()
                 group.enter()
-                object.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, parseError) -> Void in
+                object.ensureDeepSave(options: options,
+                                      // swiftlint:disable:next line_length
+                                      isShouldReturnIfChildObjectsFound: true) { (savedChildObjects, savedChildFiles, parseError) -> Void in
                     //If an error occurs, everything should be skipped
                     if parseError != nil {
                         error = parseError
@@ -279,12 +295,8 @@ public extension Sequence where Element: ParseObject {
                 let commands = try map {
                     try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
                 }
-                let batchLimit: Int!
-                if transaction {
-                    batchLimit = commands.count
-                } else {
-                    batchLimit = limit ?? ParseConstants.batchLimit
-                }
+                let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+                try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
                 let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
                 var completed = 0
                 for batch in batches {
@@ -299,15 +311,11 @@ public extension Sequence where Element: ParseObject {
                         case .success(let saved):
                             returnBatch.append(contentsOf: saved)
                             if completed == (batches.count - 1) {
-                                callbackQueue.async {
-                                    completion(.success(returnBatch))
-                                }
+                                completion(.success(returnBatch))
                             }
                             completed += 1
                         case .failure(let error):
-                            callbackQueue.async {
-                                completion(.failure(error))
-                            }
+                            completion(.failure(error))
                             return
                         }
                     }
@@ -330,9 +338,9 @@ public extension Sequence where Element: ParseObject {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-
-     - returns: Returns a Result enum with the object if a fetch was successful or a `ParseError` if it failed.
-     - throws: `ParseError`
+     - returns: Returns an array of Result enums with the object if a fetch was successful or a
+     `ParseError` if it failed.
+     - throws: An error of type `ParseError`.
      - warning: The order in which objects are returned are not guarenteed. You shouldn't expect results in
      any particular order.
     */
@@ -405,9 +413,7 @@ public extension Sequence where Element: ParseObject {
                                                                               message: "objectId \"\(uniqueObjectId)\" was not found in className \"\(Self.Element.className)\"")))
                         }
                     }
-                    callbackQueue.async {
-                        completion(.success(fetchedObjectsToReturn))
-                    }
+                    completion(.success(fetchedObjectsToReturn))
                 case .failure(let error):
                     callbackQueue.async {
                         completion(.failure(error))
@@ -439,7 +445,7 @@ public extension Sequence where Element: ParseObject {
         2. A non-aggregate Parse.Error. This indicates a serious error that
         caused the delete operation to be aborted partway through (for
         instance, a connection failure in the middle of the delete).
-     - throws: `ParseError`
+     - throws: An error of type `ParseError`.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
@@ -447,18 +453,14 @@ public extension Sequence where Element: ParseObject {
      desires a different policy, it should be inserted in `options`.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = false,
+                   transaction: Bool = ParseSwift.configuration.useTransactions,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         var returnBatch = [(Result<Void, ParseError>)]()
         let commands = try map { try $0.deleteCommand() }
-        let batchLimit: Int!
-        if transaction {
-            batchLimit = commands.count
-        } else {
-            batchLimit = limit ?? ParseConstants.batchLimit
-        }
+        let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+        try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
         let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
         try batches.forEach {
             let currentBatch = try API.Command<Self.Element, (Result<Void, ParseError>)>
@@ -497,7 +499,7 @@ public extension Sequence where Element: ParseObject {
     */
     func deleteAll(
         batchLimit limit: Int? = nil,
-        transaction: Bool = false,
+        transaction: Bool = ParseSwift.configuration.useTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void
@@ -507,12 +509,8 @@ public extension Sequence where Element: ParseObject {
             options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
             var returnBatch = [(Result<Void, ParseError>)]()
             let commands = try map({ try $0.deleteCommand() })
-            let batchLimit: Int!
-            if transaction {
-                batchLimit = commands.count
-            } else {
-                batchLimit = limit ?? ParseConstants.batchLimit
-            }
+            let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
+            try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
             let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
             var completed = 0
             for batch in batches {
@@ -576,6 +574,7 @@ extension ParseObject {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of `ParseError` type.
+     - returns: Returns the fetched `ParseObject`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -610,9 +609,7 @@ extension ParseObject {
             try fetchCommand(include: includeKeys)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in
-                callbackQueue.async {
                     completion(result)
-                }
             }
          } catch {
             callbackQueue.async {
@@ -728,9 +725,7 @@ extension ParseObject {
                                       callbackQueue: callbackQueue,
                                       childObjects: savedChildObjects,
                                       childFiles: savedChildFiles) { result in
-                        callbackQueue.async {
                             completion(result)
-                        }
                     }
                 } catch {
                     callbackQueue.async {
@@ -755,6 +750,7 @@ extension ParseObject {
 
     // swiftlint:disable:next function_body_length
     internal func ensureDeepSave(options: API.Options = [],
+                                 isShouldReturnIfChildObjectsFound: Bool = false,
                                  completion: @escaping ([String: PointerType],
                                                         [UUID: ParseFile], ParseError?) -> Void) {
         let uuid = UUID()
@@ -779,7 +775,16 @@ extension ParseObject {
                             filesSavedBeforeThisOne: nil)
 
                 var waitingToBeSaved = object.unsavedChildren
-
+                if isShouldReturnIfChildObjectsFound && waitingToBeSaved.count > 0 {
+                    let error = ParseError(code: .unknownError,
+                                           message: """
+    When using transactions, all child ParseObjects have to originally
+    be saved to the Parse Server. Either save all child objects first
+    or disable transactions for this call.
+    """)
+                    completion([String: PointerType](), [UUID: ParseFile](), error)
+                    return
+                }
                 while waitingToBeSaved.count > 0 {
                     var savableObjects = [ParseType]()
                     var savableFiles = [ParseFile]()
@@ -848,7 +853,7 @@ extension ParseObject {
 // MARK: Savable Encodable Version
 internal extension ParseType {
     func saveAll(objects: [ParseType],
-                 transaction: Bool = ParseSwift.configuration.useTransactionsInternally,
+                 transaction: Bool = ParseSwift.configuration.useTransactions,
                  options: API.Options = []) throws -> [(Result<PointerType, ParseError>)] {
         try API.NonParseBodyCommand<AnyCodable, PointerType>
                 .batch(objects: objects,

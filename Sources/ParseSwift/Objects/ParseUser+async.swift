@@ -9,12 +9,12 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@MainActor
 public extension ParseUser {
 
     // MARK: Async/Await
     /**
-     Signs up the user *asynchronously* and publishes value.
+     Signs up the user *asynchronously*.
 
      This will also enforce that the username isn't already taken.
 
@@ -22,10 +22,9 @@ public extension ParseUser {
      - parameter username: The username of the user.
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: Returns the signed in `ParseUser`.
+     - throws: An error of type `ParseError`..
     */
-    @MainActor
     static func signup(username: String,
                        password: String,
                        options: API.Options = []) async throws -> Self {
@@ -38,16 +37,15 @@ public extension ParseUser {
     }
 
     /**
-     Signs up the user *asynchronously* and publishes value.
+     Signs up the user *asynchronously*.
 
      This will also enforce that the username isn't already taken.
 
      - warning: Make sure that password and username are set before calling this method.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: Returns the signed in `ParseUser`.
+     - throws: An error of type `ParseError`..
     */
-    @MainActor
     func signup(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
             self.signup(options: options,
@@ -57,16 +55,15 @@ public extension ParseUser {
 
     /**
      Makes an *asynchronous* request to log in a user with specified credentials.
-     Publishes an instance of the successfully logged in `ParseUser`.
+     Returns an instance of the successfully logged in `ParseUser`.
 
      This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter username: The username of the user.
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: Returns the logged in `ParseUser`.
+     - throws: An error of type `ParseError`..
     */
-    @MainActor
     static func login(username: String,
                       password: String,
                       options: API.Options = []) async throws -> Self {
@@ -80,16 +77,15 @@ public extension ParseUser {
 
     /**
      Logs in a `ParseUser` *asynchronously* with a session token.
-     Publishes an instance of the successfully logged in `ParseUser`.
+     Returns an instance of the successfully logged in `ParseUser`.
      If successful, this saves the session to the keychain, so you can retrieve the currently logged in user
      using *current*.
 
      - parameter sessionToken: The sessionToken of the user to login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: Returns the logged in `ParseUser`.
+     - throws: An error of type `ParseError`..
     */
-    @MainActor
     func become(sessionToken: String,
                 options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -103,10 +99,8 @@ public extension ParseUser {
      This will also remove the session from the Keychain, log out of linked services
      and all future calls to `current` will return `nil`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
     */
-    @MainActor
     static func logout(options: API.Options = []) async throws {
         _ = try await withCheckedThrowingContinuation { continuation in
             Self.logout(options: options, completion: continuation.resume)
@@ -118,10 +112,8 @@ public extension ParseUser {
      associated with the user account. This email allows the user to securely reset their password on the web.
         - parameter email: The email address associated with the user that forgot their password.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - returns: A publisher that eventually produces a single value and then finishes or fails.
-        - throws: `ParseError`.
+        - throws: An error of type `ParseError`..
     */
-    @MainActor
     static func passwordReset(email: String,
                               options: API.Options = []) async throws {
         _ = try await withCheckedThrowingContinuation { continuation in
@@ -134,10 +126,8 @@ public extension ParseUser {
      associated with the user account.
         - parameter email: The email address associated with the user.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - returns: A publisher that eventually produces a single value and then finishes or fails.
-        - throws: `ParseError`.
+        - throws: An error of type `ParseError`..
     */
-    @MainActor
     static func verificationEmail(email: String,
                                   options: API.Options = []) async throws {
         _ = try await withCheckedThrowingContinuation { continuation in
@@ -151,13 +141,12 @@ public extension ParseUser {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: Returns the fetched `ParseUser`.
+     - throws: An error of type `ParseError`..
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    @MainActor
     func fetch(includeKeys: [String]? = nil,
                options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -173,11 +162,10 @@ public extension ParseUser {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: Returns the saved `ParseUser`.
+     - throws: An error of type `ParseError`..
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
-    @MainActor
     func save(isIgnoreCustomObjectIdConfig: Bool = false,
               options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -191,11 +179,9 @@ public extension ParseUser {
      Deletes the `ParseUser` *asynchronously*.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - throws: An error of type `ParseError`..
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
-    @MainActor
     func delete(options: API.Options = []) async throws {
         _ = try await withCheckedThrowingContinuation { continuation in
             self.delete(options: options, completion: continuation.resume)
@@ -203,7 +189,7 @@ public extension ParseUser {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@MainActor
 public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *aynchronously* with the current data from the server and sets
@@ -212,11 +198,11 @@ public extension Sequence where Element: ParseUser {
      `ParseObject`s. Use `["*"]` to include all keys. This is similar to `include` and
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: Returns an array of Result enums with the object if a fetch was successful or a
+     `ParseError` if it failed.
+     - throws: An error of type `ParseError`..
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
-    @MainActor
     func fetchAll(includeKeys: [String]? = nil,
                   options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
@@ -237,16 +223,27 @@ public extension Sequence where Element: ParseUser {
      when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: Returns an array of Result enums with the object if a save was successful or a
+     `ParseError` if it failed.
+     - throws: An error of type `ParseError`..
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
+     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     and plan to generate all of your `objectId`'s on the client-side then you should leave
+     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ParseConfiguration.allowCustomObjectId = true` and
+     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     and the server will generate an `objectId` only when the client does not provide one. This can
+     increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
+     different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
+     client-side checks are disabled. Developers are responsible for handling such cases.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
-    @MainActor
     func saveAll(batchLimit limit: Int? = nil,
-                 transaction: Bool = false,
+                 transaction: Bool = ParseSwift.configuration.useTransactions,
                  isIgnoreCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
@@ -259,23 +256,22 @@ public extension Sequence where Element: ParseUser {
     }
 
     /**
-     Deletes a collection of users *asynchronously* and publishes when complete.
+     Deletes a collection of users *asynchronously*.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - throws: `ParseError`.
+     - returns: Each element in the array is `nil` if the delete successful or a `ParseError` if it failed.
+     - throws: An error of type `ParseError`..
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
     */
-    @MainActor
     func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = false,
+                   transaction: Bool = ParseSwift.configuration.useTransactions,
                    options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,

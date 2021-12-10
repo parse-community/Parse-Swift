@@ -76,19 +76,19 @@ results.forEach { score in
 //: Query highest score using async/await
 #if swift(>=5.5) && canImport(_Concurrency)
 import _Concurrency
-if #available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *) {
-    let highestScoresQuery = GameScore.query("isHighest" == true)
-    Task {
-        do {
-            let highestScores = try await highestScoresQuery.find()
-            highestScores.forEach { score in
-                print("Found highest score: \(score)")
-            }
-        } catch {
-            print("Error: \(error)")
+
+let highestScoresQuery = GameScore.query("isHighest" == true)
+Task {
+    do {
+        let highestScores = try await highestScoresQuery.find()
+        highestScores.forEach { score in
+            print("Found highest score: \(score)")
         }
+    } catch {
+        print("Error: \(error)")
     }
 }
+
 #endif
 
 //: Query first asynchronously (preferred way) - Performs work on background
