@@ -28,8 +28,4 @@ enum OperationErrorResponse: String, Codable {
 // the foot with array indexes.
 struct RequestId: Hashable, Equatable, Codable {
     let value: Int
-
-    init(value: Int) {
-        self.value = value
-    }
 }
