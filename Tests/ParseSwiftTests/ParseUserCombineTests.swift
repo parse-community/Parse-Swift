@@ -904,7 +904,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             expectation1.fulfill()
                 return
         }
-
+        user.createdAt = nil
         user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
         user.customKey = "newValue"
         let userOnServer = [BatchResponseItem<User>(success: user, error: nil)]
@@ -938,22 +938,17 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                 switch $0 {
                 case .success(let saved):
                     XCTAssert(saved.hasSameObjectId(as: user))
-                    guard let savedCreatedAt = saved.createdAt,
-                        let savedUpdatedAt = saved.updatedAt else {
+                    guard let savedUpdatedAt = saved.updatedAt else {
                             XCTFail("Should unwrap dates")
                             expectation1.fulfill()
                             return
                     }
-                    guard let originalCreatedAt = user.createdAt,
-                        let originalUpdatedAt = user.updatedAt,
-                        let serverUpdatedAt = user.updatedAt else {
+                    guard let originalUpdatedAt = user.updatedAt else {
                             XCTFail("Should unwrap dates")
                             expectation1.fulfill()
                             return
                     }
-                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                     XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                    XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
                     XCTAssertEqual(User.current?.customKey, user.customKey)
 
                     //Should be updated in memory
@@ -962,7 +957,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                         expectation1.fulfill()
                         return
                     }
-                    XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+                    XCTAssertEqual(updatedCurrentDate, originalUpdatedAt)
 
                     #if !os(Linux) && !os(Android) && !os(Windows)
                     //Should be updated in Keychain
@@ -973,7 +968,7 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                             expectation1.fulfill()
                         return
                     }
-                    XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    XCTAssertEqual(keychainUpdatedCurrentDate, originalUpdatedAt)
                     #endif
                 case .failure(let error):
                     XCTFail("Should have fetched: \(error.localizedDescription)")

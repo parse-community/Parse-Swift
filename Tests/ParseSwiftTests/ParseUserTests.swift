@@ -2084,7 +2084,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should unwrap dates")
             return
         }
-
+        user.createdAt = nil
         var user2 = user
         user2.customKey = "oldValue"
         user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
@@ -2112,20 +2112,15 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 switch $0 {
                 case .success(let saved):
                     XCTAssert(saved.hasSameObjectId(as: user))
-                    guard let savedCreatedAt = saved.createdAt,
-                        let savedUpdatedAt = saved.updatedAt else {
+                    guard let savedUpdatedAt = saved.updatedAt else {
                             XCTFail("Should unwrap dates")
                             return
                     }
-                    guard let originalCreatedAt = user.createdAt,
-                        let originalUpdatedAt = user.updatedAt,
-                        let serverUpdatedAt = user.updatedAt else {
+                    guard let originalUpdatedAt = user.updatedAt else {
                             XCTFail("Should unwrap dates")
                             return
                     }
-                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                     XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                    XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
                     XCTAssertEqual(User.current?.customKey, user.customKey)
 
                     //Should be updated in memory
@@ -2133,7 +2128,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                         XCTFail("Should unwrap current date")
                         return
                     }
-                    XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+                    XCTAssertEqual(updatedCurrentDate, originalUpdatedAt)
 
                     #if !os(Linux) && !os(Android) && !os(Windows)
                     //Should be updated in Keychain
@@ -2143,7 +2138,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                             XCTFail("Should get object from Keychain")
                         return
                     }
-                    XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    XCTAssertEqual(keychainUpdatedCurrentDate, originalUpdatedAt)
                     #endif
                 case .failure(let error):
                     XCTFail("Should have fetched: \(error.localizedDescription)")
@@ -2159,20 +2154,15 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 switch $0 {
                 case .success(let saved):
                     XCTAssert(saved.hasSameObjectId(as: user))
-                    guard let savedCreatedAt = saved.createdAt,
-                        let savedUpdatedAt = saved.updatedAt else {
+                    guard let savedUpdatedAt = saved.updatedAt else {
                             XCTFail("Should unwrap dates")
                             return
                     }
-                    guard let originalCreatedAt = user.createdAt,
-                        let originalUpdatedAt = user.updatedAt,
-                        let serverUpdatedAt = user.updatedAt else {
+                    guard let originalUpdatedAt = user.updatedAt else {
                             XCTFail("Should unwrap dates")
                             return
                     }
-                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                     XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                    XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
                     XCTAssertEqual(User.current?.customKey, user.customKey)
 
                     //Should be updated in memory
@@ -2180,7 +2170,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                         XCTFail("Should unwrap current date")
                         return
                     }
-                    XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+                    XCTAssertEqual(updatedCurrentDate, originalUpdatedAt)
 
                     #if !os(Linux) && !os(Android) && !os(Windows)
                     //Should be updated in Keychain
@@ -2190,7 +2180,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                             XCTFail("Should get object from Keychain")
                         return
                     }
-                    XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    XCTAssertEqual(keychainUpdatedCurrentDate, originalUpdatedAt)
                     #endif
                 case .failure(let error):
                     XCTFail("Should have fetched: \(error.localizedDescription)")
@@ -2215,7 +2205,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             expectation2.fulfill()
             return
         }
-
+        user.createdAt = nil
         var user2 = user
         user2.customKey = "oldValue"
         user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
@@ -2247,22 +2237,17 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     switch $0 {
                     case .success(let saved):
                         XCTAssert(saved.hasSameObjectId(as: user))
-                        guard let savedCreatedAt = saved.createdAt,
-                            let savedUpdatedAt = saved.updatedAt else {
+                        guard let savedUpdatedAt = saved.updatedAt else {
                                 XCTFail("Should unwrap dates")
                                 expectation1.fulfill()
                                 return
                         }
-                        guard let originalCreatedAt = user.createdAt,
-                            let originalUpdatedAt = user.updatedAt,
-                            let serverUpdatedAt = user.updatedAt else {
+                        guard let originalUpdatedAt = user.updatedAt else {
                                 XCTFail("Should unwrap dates")
                                 expectation1.fulfill()
                                 return
                         }
-                        XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                         XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                        XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
                         XCTAssertEqual(User.current?.customKey, user.customKey)
 
                         //Should be updated in memory
@@ -2271,7 +2256,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                             expectation1.fulfill()
                             return
                         }
-                        XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+                        XCTAssertEqual(updatedCurrentDate, originalUpdatedAt)
 
                         #if !os(Linux) && !os(Android) && !os(Windows)
                         //Should be updated in Keychain
@@ -2282,7 +2267,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                                 expectation1.fulfill()
                             return
                         }
-                        XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                        XCTAssertEqual(keychainUpdatedCurrentDate, originalUpdatedAt)
                         #endif
                     case .failure(let error):
                         XCTFail("Should have fetched: \(error.localizedDescription)")
@@ -2302,22 +2287,17 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                     switch $0 {
                     case .success(let saved):
                         XCTAssert(saved.hasSameObjectId(as: user))
-                        guard let savedCreatedAt = saved.createdAt,
-                            let savedUpdatedAt = saved.updatedAt else {
+                        guard let savedUpdatedAt = saved.updatedAt else {
                                 XCTFail("Should unwrap dates")
                                 expectation2.fulfill()
                                 return
                         }
-                        guard let originalCreatedAt = user.createdAt,
-                            let originalUpdatedAt = user.updatedAt,
-                            let serverUpdatedAt = user.updatedAt else {
+                        guard let originalUpdatedAt = user.updatedAt else {
                                 XCTFail("Should unwrap dates")
                                 expectation2.fulfill()
                                 return
                         }
-                        XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                         XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                        XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
                         XCTAssertEqual(User.current?.customKey, user.customKey)
 
                         //Should be updated in memory
@@ -2326,7 +2306,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                             expectation2.fulfill()
                             return
                         }
-                        XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+                        XCTAssertEqual(updatedCurrentDate, originalUpdatedAt)
 
                         #if !os(Linux) && !os(Android) && !os(Windows)
                         //Should be updated in Keychain
@@ -2337,7 +2317,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                                 expectation2.fulfill()
                             return
                         }
-                        XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                        XCTAssertEqual(keychainUpdatedCurrentDate, originalUpdatedAt)
                         #endif
                     case .failure(let error):
                         XCTFail("Should have fetched: \(error.localizedDescription)")
