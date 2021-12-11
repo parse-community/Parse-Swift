@@ -462,7 +462,7 @@ internal extension API.Command where T: ParseObject {
 
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
 
-            let decodingType = [BatchResponseItem<WriteResponse>].self
+            let decodingType = [BatchResponseItem<BatchResponse>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
                 return commands.enumerated().map({ (object) -> (Result<T, ParseError>) in
@@ -470,8 +470,9 @@ internal extension API.Command where T: ParseObject {
                     if let success = response.success,
                        let body = object.element.body {
                         do {
-                            let result = try success.apply(to: body, method: object.element.method)
-                            return .success(result)
+                            let updatedObject = try success.apply(to: body,
+                                                                  method: object.element.method)
+                            return .success(updatedObject)
                         } catch {
                             guard let parseError = error as? ParseError else {
                                 return .failure(ParseError(code: .unknownError,

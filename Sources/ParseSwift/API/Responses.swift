@@ -45,7 +45,7 @@ internal struct BatchResponseItem<T>: Codable where T: Codable {
     let error: ParseError?
 }
 
-internal struct WriteResponse: Codable {
+internal struct BatchResponse: Codable {
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
