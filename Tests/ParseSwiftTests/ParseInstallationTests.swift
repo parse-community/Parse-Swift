@@ -261,6 +261,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         installation.installationId = "hello"
 
         var installationOnServer = installation
+        installationOnServer.createdAt = nil
         installationOnServer.updatedAt = Date()
 
         let encoded: Data!
@@ -308,6 +309,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         installation.installationId = "hello"
 
         var installationOnServer = installation
+        installationOnServer.createdAt = nil
         installationOnServer.updatedAt = Date()
 
         let encoded: Data!
@@ -478,6 +480,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         installation.installationId = "hello"
 
         var installationOnServer = installation
+        installationOnServer.createdAt = nil
         installationOnServer.updatedAt = Date()
         let encoded: Data!
         do {
@@ -1058,7 +1061,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertNotNil(command.body)
     }
 
-    func testUpdateCommand() throws {
+    func testSaveUpdateCommand() throws {
         var installation = Installation()
         let objectId = "yarr"
         installation.objectId = objectId
@@ -1067,6 +1070,45 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+    }
+
+    func testCreateCommand() throws {
+        let installation = Installation()
+
+        let command = installation.createCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/installations")
+        XCTAssertEqual(command.method, API.Method.POST)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+    }
+
+    func testReplaceCommand() throws {
+        var installation = Installation()
+        XCTAssertThrowsError(try installation.replaceCommand())
+        let objectId = "yarr"
+        installation.objectId = objectId
+
+        let command = try installation.replaceCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PUT)
+        XCTAssertNil(command.params)
+        XCTAssertNotNil(command.body)
+    }
+
+    func testUpdateCommand() throws {
+        var installation = Installation()
+        XCTAssertThrowsError(try installation.updateCommand())
+        let objectId = "yarr"
+        installation.objectId = objectId
+
+        let command = try installation.updateCommand()
+        XCTAssertNotNil(command)
+        XCTAssertEqual(command.path.urlComponent, "/installations/\(objectId)")
+        XCTAssertEqual(command.method, API.Method.PATCH)
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
     }
@@ -1080,7 +1122,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTFail("Should unwrap dates")
             return
         }
-
+        installation.createdAt = nil
         var installation2 = installation
         installation2.objectId = "old"
         installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
@@ -1097,6 +1139,8 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             //Get dates in correct format from ParseDecoding strategy
             let encoded1 = try ParseCoding.jsonEncoder().encode(installation)
             installation = try installation.getDecoder().decode(Installation.self, from: encoded1)
+            let encoded2 = try ParseCoding.jsonEncoder().encode(installation2)
+            installation2 = try installation.getDecoder().decode(Installation.self, from: encoded2)
         } catch {
             XCTFail("Should encode/decode. Error \(error)")
             return
@@ -1118,20 +1162,11 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
                     XCTAssertTrue(saved.hasSameObjectId(as: installation))
                     XCTAssertTrue(saved.hasSameInstallationId(as: installation))
-                    guard let savedCreatedAt = saved.createdAt,
-                        let savedUpdatedAt = saved.updatedAt else {
+                    guard let savedUpdatedAt = saved.updatedAt else {
                             XCTFail("Should unwrap dates")
                             return
                     }
-                    guard let originalCreatedAt = installation.createdAt,
-                        let originalUpdatedAt = installation.updatedAt,
-                        let serverUpdatedAt = installation.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            return
-                    }
-                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                    XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                    XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
+                    XCTAssertEqual(savedUpdatedAt, installation.updatedAt)
                     XCTAssertEqual(Installation.current?.customKey, installation.customKey)
 
                     //Should be updated in memory
@@ -1139,7 +1174,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         XCTFail("Should unwrap current date")
                         return
                     }
-                    XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+                    XCTAssertEqual(updatedCurrentDate, installation.updatedAt)
 
                     #if !os(Linux) && !os(Android) && !os(Windows)
                     //Should be updated in Keychain
@@ -1149,7 +1184,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                             XCTFail("Should get object from Keychain")
                         return
                     }
-                    XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    XCTAssertEqual(keychainUpdatedCurrentDate, installation.updatedAt)
                     #endif
                 case .failure(let error):
                     XCTFail("Should have fetched: \(error.localizedDescription)")
@@ -1170,20 +1205,11 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                     }
                     XCTAssertTrue(saved.hasSameObjectId(as: currentInstallation))
                     XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
-                    guard let savedCreatedAt = saved.createdAt,
-                        let savedUpdatedAt = saved.updatedAt else {
+                    guard let savedUpdatedAt = saved.updatedAt else {
                             XCTFail("Should unwrap dates")
                             return
                     }
-                    guard let originalCreatedAt = installation.createdAt,
-                        let originalUpdatedAt = installation.updatedAt,
-                        let serverUpdatedAt = installation.updatedAt else {
-                            XCTFail("Should unwrap dates")
-                            return
-                    }
-                    XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                    XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                    XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
+                    XCTAssertEqual(savedUpdatedAt, installation.updatedAt)
                     XCTAssertEqual(Installation.current?.customKey, installation.customKey)
 
                     //Should be updated in memory
@@ -1191,7 +1217,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         XCTFail("Should unwrap current date")
                         return
                     }
-                    XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+                    XCTAssertEqual(updatedCurrentDate, installation.updatedAt)
 
                     #if !os(Linux) && !os(Android) && !os(Windows)
                     //Should be updated in Keychain
@@ -1201,7 +1227,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                             XCTFail("Should get object from Keychain")
                         return
                     }
-                    XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                    XCTAssertEqual(keychainUpdatedCurrentDate, installation.updatedAt)
                     #endif
                 case .failure(let error):
                     XCTFail("Should have fetched: \(error.localizedDescription)")
@@ -1225,7 +1251,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             expectation2.fulfill()
             return
         }
-
+        installation.createdAt = nil
         var installation2 = installation
         installation2.objectId = "old"
         installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
@@ -1266,22 +1292,12 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
                         XCTAssertTrue(saved.hasSameObjectId(as: installation))
                         XCTAssertTrue(saved.hasSameInstallationId(as: installation))
-                        guard let savedCreatedAt = saved.createdAt,
-                            let savedUpdatedAt = saved.updatedAt else {
+                        guard let savedUpdatedAt = saved.updatedAt else {
                                 XCTFail("Should unwrap dates")
                                 expectation1.fulfill()
                                 return
                         }
-                        guard let originalCreatedAt = installation.createdAt,
-                            let originalUpdatedAt = installation.updatedAt,
-                            let serverUpdatedAt = installation.updatedAt else {
-                                XCTFail("Should unwrap dates")
-                                expectation1.fulfill()
-                                return
-                        }
-                        XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                        XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                        XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
+                        XCTAssertEqual(savedUpdatedAt, installation.updatedAt)
                         XCTAssertEqual(Installation.current?.customKey, installation.customKey)
 
                         //Should be updated in memory
@@ -1290,7 +1306,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                             expectation1.fulfill()
                             return
                         }
-                        XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+                        XCTAssertEqual(updatedCurrentDate, installation.updatedAt)
                         #if !os(Linux) && !os(Android) && !os(Windows)
                         //Should be updated in Keychain
                         guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
@@ -1301,7 +1317,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                                 expectation1.fulfill()
                             return
                         }
-                        XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                        XCTAssertEqual(keychainUpdatedCurrentDate, installation.updatedAt)
                         #endif
                     case .failure(let error):
                         XCTFail("Should have fetched: \(error.localizedDescription)")
@@ -1326,22 +1342,12 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                         }
                         XCTAssertTrue(saved.hasSameObjectId(as: currentInstallation))
                         XCTAssertTrue(saved.hasSameInstallationId(as: currentInstallation))
-                        guard let savedCreatedAt = saved.createdAt,
-                            let savedUpdatedAt = saved.updatedAt else {
+                        guard let savedUpdatedAt = saved.updatedAt else {
                                 XCTFail("Should unwrap dates")
                                 expectation2.fulfill()
                                 return
                         }
-                        guard let originalCreatedAt = installation.createdAt,
-                            let originalUpdatedAt = installation.updatedAt,
-                            let serverUpdatedAt = installation.updatedAt else {
-                                XCTFail("Should unwrap dates")
-                                expectation2.fulfill()
-                                return
-                        }
-                        XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                        XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                        XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
+                        XCTAssertEqual(savedUpdatedAt, installation.updatedAt)
                         XCTAssertEqual(Installation.current?.customKey, installation.customKey)
 
                         //Should be updated in memory
@@ -1350,7 +1356,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                             expectation2.fulfill()
                             return
                         }
-                        XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+                        XCTAssertEqual(updatedCurrentDate, installation.updatedAt)
                         #if !os(Linux) && !os(Android) && !os(Windows)
                         //Should be updated in Keychain
                         guard let keychainInstallation: CurrentInstallationContainer<BaseParseInstallation>
@@ -1361,7 +1367,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                                 expectation2.fulfill()
                             return
                         }
-                        XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                        XCTAssertEqual(keychainUpdatedCurrentDate, installation.updatedAt)
                         #endif
                     case .failure(let error):
                         XCTFail("Should have fetched: \(error.localizedDescription)")

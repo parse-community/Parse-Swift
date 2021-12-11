@@ -24,9 +24,25 @@ internal struct CreateResponse: Decodable {
     }
 }
 
-internal struct UpdateSessionTokenResponse: Decodable {
-    var updatedAt: Date
-    let sessionToken: String?
+internal struct ReplaceResponse: Decodable {
+    var createdAt: Date?
+    var updatedAt: Date?
+
+    func apply<T>(to object: T) throws -> T where T: ParseObject {
+        guard let objectId = object.objectId else {
+            throw ParseError(code: .missingObjectId,
+                             message: "Response from server should not have an objectId of nil")
+        }
+        guard let createdAt = createdAt else {
+            guard let updatedAt = updatedAt else {
+                throw ParseError(code: .unknownError,
+                                 message: "Response from server should not have an updatedAt of nil")
+            }
+            return UpdateResponse(updatedAt: updatedAt).apply(to: object)
+        }
+        return CreateResponse(objectId: objectId,
+                              createdAt: createdAt).apply(to: object)
+    }
 }
 
 internal struct UpdateResponse: Decodable {
@@ -37,6 +53,11 @@ internal struct UpdateResponse: Decodable {
         object.updatedAt = updatedAt
         return object
     }
+}
+
+internal struct UpdateSessionTokenResponse: Decodable {
+    var updatedAt: Date
+    let sessionToken: String?
 }
 
 // MARK: ParseObject Batch
@@ -62,6 +83,10 @@ internal struct BatchResponse: Codable {
         return CreateResponse(objectId: objectId, createdAt: createdAt)
     }
 
+    func asReplaceResponse() -> ReplaceResponse {
+        ReplaceResponse(createdAt: createdAt, updatedAt: updatedAt)
+    }
+
     func asUpdateResponse() throws -> UpdateResponse {
         guard let updatedAt = updatedAt else {
             throw ParseError(code: .unknownError,
@@ -74,7 +99,9 @@ internal struct BatchResponse: Codable {
         switch method {
         case .POST:
             return try asCreateResponse().apply(to: object)
-        case .PUT, .PATCH:
+        case .PUT:
+            return try asReplaceResponse().apply(to: object)
+        case .PATCH:
             return try asUpdateResponse().apply(to: object)
         case .GET:
             fatalError("Parse-server doesn't support batch fetching like this. Try \"fetchAll\".")

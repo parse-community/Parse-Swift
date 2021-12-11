@@ -232,13 +232,13 @@ transactions for this call.
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        batch(batchLimit: limit,
-              transaction: transaction,
-              isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
-              command: .save,
-              options: options,
-              callbackQueue: callbackQueue,
-              completion: completion)
+        batchCommand(method: .save,
+                     batchLimit: limit,
+                     transaction: transaction,
+                     isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                     options: options,
+                     callbackQueue: callbackQueue,
+                     completion: completion)
     }
 
     /**
@@ -265,12 +265,44 @@ transactions for this call.
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        batch(batchLimit: limit,
-              transaction: transaction,
-              command: .create,
-              options: options,
-              callbackQueue: callbackQueue,
-              completion: completion)
+        batchCommand(method: .create,
+                     batchLimit: limit,
+                     transaction: transaction,
+                     options: options,
+                     callbackQueue: callbackQueue,
+                     completion: completion)
+    }
+
+    /**
+     Replaces a collection of objects all at once *asynchronously* and executes the completion block when done.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func replaceAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
+        batchLimit limit: Int? = nil,
+        transaction: Bool = ParseSwift.configuration.useTransactions,
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
+    ) {
+        batchCommand(method: .replace,
+                     batchLimit: limit,
+                     transaction: transaction,
+                     options: options,
+                     callbackQueue: callbackQueue,
+                     completion: completion)
     }
 
     /**
@@ -290,28 +322,28 @@ transactions for this call.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func updateAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
+    internal func updateAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
         transaction: Bool = ParseSwift.configuration.useTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
-        batch(batchLimit: limit,
-              transaction: transaction,
-              command: .update,
-              options: options,
-              callbackQueue: callbackQueue,
-              completion: completion)
+        batchCommand(method: .update,
+                     batchLimit: limit,
+                     transaction: transaction,
+                     options: options,
+                     callbackQueue: callbackQueue,
+                     completion: completion)
     }
 
-    internal func batch(batchLimit limit: Int?, // swiftlint:disable:this function_parameter_count
-                        transaction: Bool,
-                        isIgnoreCustomObjectIdConfig: Bool = false,
-                        command: Command,
-                        options: API.Options,
-                        callbackQueue: DispatchQueue,
-                        completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void) {
+    internal func batchCommand(method: Method, // swiftlint:disable:this function_parameter_count
+                               batchLimit limit: Int?,
+                               transaction: Bool,
+                               isIgnoreCustomObjectIdConfig: Bool = false,
+                               options: API.Options,
+                               callbackQueue: DispatchQueue,
+                               completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let uuid = UUID()
@@ -373,13 +405,15 @@ transactions for this call.
             do {
                 var returnBatch = [(Result<Self.Element, ParseError>)]()
                 let commands: [API.Command<Self.Element, Self.Element>]!
-                switch command {
+                switch method {
                 case .save:
                     commands = try map {
                         try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
                     }
                 case .create:
                     commands = map { $0.createCommand() }
+                case .replace:
+                    commands = try map { try $0.replaceCommand() }
                 case .update:
                     commands = try map { try $0.updateCommand() }
                 }
@@ -806,31 +840,11 @@ extension ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
-            guard let parseError = error else {
-                do {
-                    try self.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
-                        .executeAsync(options: options,
-                                      callbackQueue: callbackQueue,
-                                      childObjects: savedChildObjects,
-                                      childFiles: savedChildFiles) { result in
-                            completion(result)
-                    }
-                } catch {
-                    callbackQueue.async {
-                        if let parseError = error as? ParseError {
-                            completion(.failure(parseError))
-                        } else {
-                            completion(.failure(.init(code: .unknownError, message: error.localizedDescription)))
-                        }
-                    }
-                }
-                return
-            }
-            callbackQueue.async {
-                completion(.failure(parseError))
-            }
-        }
+        command(method: .save,
+                isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                options: options,
+                callbackQueue: callbackQueue,
+                completion: completion)
     }
 
     /**
@@ -846,20 +860,29 @@ extension ParseObject {
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
-        self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
-            guard let parseError = error else {
-                self.createCommand()
-                    .executeAsync(options: options,
-                                  callbackQueue: callbackQueue,
-                                  childObjects: savedChildObjects,
-                                  childFiles: savedChildFiles,
-                                  completion: completion)
-                return
-            }
-            callbackQueue.async {
-                completion(.failure(parseError))
-            }
-        }
+        command(method: .create,
+                options: options,
+                callbackQueue: callbackQueue,
+                completion: completion)
+    }
+
+    /**
+     Replaces the `ParseObject` *asynchronously* and executes the given callback block.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+    */
+    public func replace(
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<Self, ParseError>) -> Void
+    ) {
+        command(method: .replace,
+                options: options,
+                callbackQueue: callbackQueue,
+                completion: completion)
     }
 
     /**
@@ -870,15 +893,37 @@ extension ParseObject {
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
     */
-    public func update(
+    func update(
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
+        command(method: .update,
+                options: options,
+                callbackQueue: callbackQueue,
+                completion: completion)
+    }
+
+    func command(method: Method,
+                 isIgnoreCustomObjectIdConfig: Bool = false,
+                 options: API.Options,
+                 callbackQueue: DispatchQueue,
+                 completion: @escaping (Result<Self, ParseError>) -> Void) {
         self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
             guard let parseError = error else {
                 do {
-                    try self.updateCommand()
+                    let command: API.Command<Self, Self>!
+                    switch method {
+                    case .save:
+                        command = try saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+                    case .create:
+                        command = createCommand()
+                    case .replace:
+                        command = try replaceCommand()
+                    case .update:
+                        command = try updateCommand()
+                    }
+                    command
                         .executeAsync(options: options,
                                       callbackQueue: callbackQueue,
                                       childObjects: savedChildObjects,
@@ -909,6 +954,10 @@ extension ParseObject {
 
     internal func createCommand() -> API.Command<Self, Self> {
         API.Command<Self, Self>.create(self)
+    }
+
+    internal func replaceCommand() throws -> API.Command<Self, Self> {
+        try API.Command<Self, Self>.replace(self)
     }
 
     internal func updateCommand() throws -> API.Command<Self, Self> {

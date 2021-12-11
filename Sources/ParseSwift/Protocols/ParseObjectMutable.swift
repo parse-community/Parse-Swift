@@ -10,8 +10,8 @@ import Foundation
 
 /**
  The `ParseObjectMutable` protocol creates an empty copy of the respective object.
- This can be used when you only need to update a subset of the fields of an object
- as oppose to updating every field of an object.
+ This can be used when you only need to update a subset of the fields (PATCH) of an object
+ as oppose to replacing (PUT) an object.
  Using the mutable copy and updating a subset of the fields reduces the amount of data
  sent between client and server when using `save` and `saveAll`
  to update objects.

@@ -9,7 +9,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.4.0...2.5.0)
 
 __Improvements__
-- Added create(), update(), createAll(), updateAll() to ParseObjects ([#299](https://github.com/parse-community/Parse-Swift/pull/299)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added create(), replace(), update(), createAll(), replaceAll(), and updateAll() to ParseObjects. Currently, update() and updateAll() are unavaivalble due to limitations of PATCH on the Parse Server ([#299](https://github.com/parse-community/Parse-Swift/pull/299)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Added convenience methods to convert ParseObject's to Pointer<ParseObject>'s for QueryConstraint's: !=, containedIn, notContainedIn, containedBy, containsAll ([#298](https://github.com/parse-community/Parse-Swift/pull/298)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.4.0

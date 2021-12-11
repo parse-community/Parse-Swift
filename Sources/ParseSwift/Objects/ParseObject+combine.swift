@@ -75,12 +75,25 @@ public extension ParseObject {
     }
 
     /**
+     Replaces the `ParseObject` *asynchronously* and publishes when complete.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    func replacePublisher(options: API.Options = []) -> Future<Self, ParseError> {
+        Future { promise in
+            self.replace(options: options,
+                         completion: promise)
+        }
+    }
+
+    /**
      Updates the `ParseObject` *asynchronously* and publishes when complete.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
     */
-    func updatePublisher(options: API.Options = []) -> Future<Self, ParseError> {
+    internal func updatePublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
             self.update(options: options,
                         completion: promise)
@@ -185,6 +198,31 @@ public extension Sequence where Element: ParseObject {
     }
 
     /**
+     Replaces a collection of objects *asynchronously* and publishes when complete.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces an an array of Result enums with the object if a save was
+     successful or a `ParseError` if it failed.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
+    */
+    func replaceAllPublisher(batchLimit limit: Int? = nil,
+                             transaction: Bool = ParseSwift.configuration.useTransactions,
+                             options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
+        Future { promise in
+            self.replaceAll(batchLimit: limit,
+                            transaction: transaction,
+                            options: options,
+                            completion: promise)
+        }
+    }
+
+    /**
      Updates a collection of objects *asynchronously* and publishes when complete.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
@@ -198,9 +236,10 @@ public extension Sequence where Element: ParseObject {
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
     */
-    func updateAllPublisher(batchLimit limit: Int? = nil,
-                            transaction: Bool = ParseSwift.configuration.useTransactions,
-                            options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
+    internal func updateAllPublisher(batchLimit limit: Int? = nil,
+                                     transaction: Bool = ParseSwift.configuration.useTransactions,
+                                     options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)],
+                                                                            ParseError> {
         Future { promise in
             self.updateAll(batchLimit: limit,
                            transaction: transaction,

@@ -1052,6 +1052,127 @@ class ParseUserCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         wait(for: [expectation1], timeout: 20.0)
     }
 
+    func testReplaceAllCreate() {
+        login()
+        MockURLProtocol.removeAll()
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        var user = User()
+        user.username = "stop"
+        user.objectId = "yolo"
+
+        var serverResponse = user
+        serverResponse.createdAt = Date()
+        let userOnServer = [BatchResponseItem<User>(success: serverResponse, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(serverResponse)
+            serverResponse = try user.getDecoder().decode(User.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            expectation1.fulfill()
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let publisher = [user].replaceAllPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { saved in
+
+            saved.forEach {
+                switch $0 {
+                case .success(let saved):
+                    XCTAssertTrue(saved.hasSameObjectId(as: serverResponse))
+                    XCTAssertEqual(saved.createdAt, serverResponse.createdAt)
+                    XCTAssertEqual(saved.updatedAt, serverResponse.createdAt)
+
+                case .failure(let error):
+                    XCTFail("Should have fetched: \(error.localizedDescription)")
+                }
+            }
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
+    func testReplaceAllUpdate() {
+        login()
+        MockURLProtocol.removeAll()
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
+
+        var user = User()
+        user.username = "stop"
+        user.objectId = "yolo"
+
+        var serverResponse = user
+        serverResponse.updatedAt = Date()
+        let userOnServer = [BatchResponseItem<User>(success: serverResponse, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(serverResponse)
+            serverResponse = try user.getDecoder().decode(User.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            expectation1.fulfill()
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let publisher = [user].replaceAllPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { saved in
+
+            saved.forEach {
+                switch $0 {
+                case .success(let saved):
+                    XCTAssertTrue(saved.hasSameObjectId(as: serverResponse))
+                    guard let savedUpdatedAt = saved.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
+                            return
+                    }
+                    guard let originalUpdatedAt = serverResponse.updatedAt else {
+                            XCTFail("Should unwrap dates")
+                            expectation1.fulfill()
+                            return
+                    }
+                    XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+
+                case .failure(let error):
+                    XCTFail("Should have fetched: \(error.localizedDescription)")
+                }
+            }
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     func testUpdateAll() {
         login()
         MockURLProtocol.removeAll()

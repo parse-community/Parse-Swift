@@ -145,7 +145,7 @@ internal extension API {
                     }
                 }
             } else {
-                //ParseFiles are handled with a dedicated URLSession
+                // ParseFiles are handled with a dedicated URLSession
                 if method == .POST || method == .PUT || method == .PATCH {
                     switch self.prepareURLRequest(options: options,
                                                   childObjects: childObjects,
@@ -262,7 +262,7 @@ internal extension API {
                                childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
             var headers = API.getHeaders(options: options)
-            if !(method == .POST) && !(method == .PUT) && !(method == .PATCH) {
+            if method == .GET || method == .DELETE {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
             let url = parseURL == nil ?
@@ -390,7 +390,7 @@ internal extension API.Command {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if object.isSaved {
-            return try update(object)
+            return try replace(object) // Should be switched to "update" when server supports PATCH.
         }
         return create(object)
     }
@@ -411,6 +411,20 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
+    static func replace<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
+        guard object.objectId != nil else {
+            throw ParseError(code: .missingObjectId,
+                             message: "objectId must not be nil")
+        }
+        let mapper = { (data) -> T in
+            try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: object)
+        }
+        return API.Command<T, T>(method: .PUT,
+                                 path: object.endpoint,
+                                 body: object,
+                                 mapper: mapper)
+    }
+
     static func update<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
         guard object.objectId != nil else {
             throw ParseError(code: .missingObjectId,
@@ -419,7 +433,7 @@ internal extension API.Command {
         let mapper = { (data) -> T in
             try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
         }
-        return API.Command<T, T>(method: .PUT,
+        return API.Command<T, T>(method: .PATCH,
                                  path: object.endpoint,
                                  body: object,
                                  mapper: mapper)

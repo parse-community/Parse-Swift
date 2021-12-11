@@ -34,6 +34,6 @@ enum ParseConstants {
     #endif
 }
 
-enum Command: String {
-    case save, create, update
+enum Method: String {
+    case save, create, replace, update
 }

@@ -241,7 +241,6 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
 
         var serverResponse = LoginSignupResponse()
-        serverResponse.createdAt = User.current?.createdAt
         serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
         serverResponse.sessionToken = "newValue"
         serverResponse.username = "stop"
@@ -257,7 +256,6 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
         let signedUp = try await user.become(sessionToken: serverResponse.sessionToken)
         XCTAssertNotNil(signedUp)
-        XCTAssertNotNil(signedUp.createdAt)
         XCTAssertNotNil(signedUp.updatedAt)
         XCTAssertNotNil(signedUp.email)
         XCTAssertNotNil(signedUp.username)
@@ -512,7 +510,6 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         user.username = "stop"
 
         var serverResponse = user
-        serverResponse.createdAt = User.current?.createdAt
         serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
 
         MockURLProtocol.mockRequests { _ in
@@ -547,7 +544,6 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         var serverResponse = user
         serverResponse.objectId = "yolo"
         serverResponse.createdAt = User.current?.createdAt
-        serverResponse.updatedAt = User.current?.updatedAt?.addingTimeInterval(+300)
 
         MockURLProtocol.mockRequests { _ in
             do {
@@ -589,6 +585,79 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertEqual(saved.objectId, serverResponse.objectId)
         XCTAssertEqual(saved.createdAt, serverResponse.createdAt)
         XCTAssertEqual(saved.updatedAt, serverResponse.createdAt)
+    }
+
+    @MainActor
+    func testReplaceCreate() async throws {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        var user = User()
+        user.username = "stop"
+        user.objectId = "yolo"
+
+        var serverResponse = user
+        serverResponse.createdAt = Date()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                serverResponse = try serverResponse.getDecoder().decode(User.self, from: encoded)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let saved = try await user.replace()
+        XCTAssertEqual(saved.objectId, serverResponse.objectId)
+        XCTAssertEqual(saved.createdAt, serverResponse.createdAt)
+        XCTAssertEqual(saved.updatedAt, serverResponse.createdAt)
+    }
+
+    @MainActor
+    func testReplaceUpdate() async throws {
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        var user = User()
+        user.username = "stop"
+        user.objectId = "yolo"
+
+        var serverResponse = user
+        serverResponse.updatedAt = Date()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                serverResponse = try serverResponse.getDecoder().decode(User.self, from: encoded)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let saved = try await user.replace()
+        XCTAssertEqual(saved.objectId, serverResponse.objectId)
+        XCTAssertEqual(saved.updatedAt, serverResponse.updatedAt)
+    }
+
+    @MainActor
+    func testReplaceClientMissingObjectId() async throws {
+        var user = User()
+        user.customKey = "123"
+        do {
+            _ = try await user.replace()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted to ParseError")
+                return
+            }
+            XCTAssertEqual(parseError.code, .missingObjectId)
+        }
     }
 
     @MainActor
@@ -751,7 +820,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTFail("Should unwrap dates")
             return
         }
-
+        user.createdAt = nil
         user.updatedAt = user.updatedAt?.addingTimeInterval(+300)
         user.customKey = "newValue"
         let userOnServer = [BatchResponseItem<User>(success: user, error: nil)]
@@ -775,18 +844,15 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             switch $0 {
             case .success(let saved):
                 XCTAssert(saved.hasSameObjectId(as: user))
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
+                guard let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
                         return
                 }
-                guard let originalCreatedAt = user.createdAt,
-                    let originalUpdatedAt = user.updatedAt,
+                guard let originalUpdatedAt = user.updatedAt,
                     let serverUpdatedAt = user.updatedAt else {
                         XCTFail("Should unwrap dates")
                         return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
                 XCTAssertEqual(User.current?.customKey, user.customKey)
@@ -858,6 +924,99 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 }
                 XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(savedUpdatedAt, originalCreatedAt)
+
+            case .failure(let error):
+                XCTFail("Should have fetched: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @MainActor
+    func testReplaceAllCreate() async throws {
+        login()
+        MockURLProtocol.removeAll()
+
+        var user = User()
+        user.username = "stop"
+        user.objectId = "yolo"
+
+        var userOnServer = user
+        userOnServer.createdAt = Date()
+
+        let serverResponse = [BatchResponseItem<User>(success: userOnServer, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(userOnServer)
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let saved = try await [user].replaceAll()
+        saved.forEach {
+            switch $0 {
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: userOnServer))
+                XCTAssertEqual(saved.createdAt, userOnServer.createdAt)
+                XCTAssertEqual(saved.updatedAt, userOnServer.createdAt)
+                XCTAssertEqual(saved.username, userOnServer.username)
+
+            case .failure(let error):
+                XCTFail("Should have fetched: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @MainActor
+    func testReplaceAllUpdate() async throws {
+        login()
+        MockURLProtocol.removeAll()
+
+        var user = User()
+        user.username = "stop"
+        user.objectId = "yolo"
+
+        var userOnServer = user
+        userOnServer.updatedAt = Date()
+
+        let serverResponse = [BatchResponseItem<User>(success: userOnServer, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(serverResponse)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(userOnServer)
+            userOnServer = try userOnServer.getDecoder().decode(User.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let saved = try await [user].replaceAll()
+        saved.forEach {
+            switch $0 {
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: userOnServer))
+                guard let savedUpdatedAt = saved.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                guard let originalUpdatedAt = userOnServer.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertEqual(saved.username, userOnServer.username)
 
             case .failure(let error):
                 XCTFail("Should have fetched: \(error.localizedDescription)")
