@@ -623,13 +623,13 @@ extension ParseInstallation {
                     let command: API.Command<Self, Self>!
                     switch method {
                     case .save:
-                        command = try saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+                        command = try self.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
                     case .create:
-                        command = createCommand()
+                        command = self.createCommand()
                     case .replace:
-                        command = try replaceCommand()
+                        command = try self.replaceCommand()
                     case .update:
-                        command = try updateCommand()
+                        command = try self.updateCommand()
                     }
                     command
                         .executeAsync(options: options,
