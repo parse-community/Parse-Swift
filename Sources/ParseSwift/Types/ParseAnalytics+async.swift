@@ -13,7 +13,6 @@ import Foundation
 import UIKit
 #endif
 
-@MainActor
 public extension ParseAnalytics {
 
     // MARK: Aysnc/Await
@@ -30,7 +29,7 @@ public extension ParseAnalytics {
      - parameter at: Explicitly set the time associated with a given event. If not provided the
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     static func trackAppOpened(launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil,
                                at date: Date? = nil,
@@ -54,7 +53,7 @@ public extension ParseAnalytics {
      - parameter at: Explicitly set the time associated with a given event. If not provided the
      server time will be used.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     static func trackAppOpened(dimensions: [String: String]? = nil,
                                at date: Date? = nil,
@@ -71,7 +70,7 @@ public extension ParseAnalytics {
      Tracks *asynchronously* the occurrence of a custom event.
   
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     func track(options: API.Options = []) async throws {
         _ = try await withCheckedThrowingContinuation { continuation in
@@ -90,7 +89,7 @@ public extension ParseAnalytics {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - warning: This method makes a copy of the current `ParseAnalytics` and then mutates
      it. You will not have access to the mutated analytic after calling this method.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     func track(dimensions: [String: String]?,
                at date: Date? = nil,

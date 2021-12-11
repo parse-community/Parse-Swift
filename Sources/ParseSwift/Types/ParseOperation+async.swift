@@ -9,7 +9,6 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@MainActor
 public extension ParseOperation {
 
     // MARK: Async/Await
@@ -19,7 +18,7 @@ public extension ParseOperation {
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A saved `ParseFile`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     func save(options: API.Options = []) async throws -> T {
         try await withCheckedThrowingContinuation { continuation in

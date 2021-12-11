@@ -10,7 +10,7 @@ import Foundation
 
 enum ParseConstants {
     static let sdk = "swift"
-    static let version = "2.4.0"
+    static let version = "2.5.0"
     static let fileManagementDirectory = "parse/"
     static let fileManagementPrivateDocumentsDirectory = "Private Documents/"
     static let fileManagementLibraryDirectory = "Library/"
@@ -32,4 +32,8 @@ enum ParseConstants {
     #elseif os(Windows)
     static let deviceType = "windows"
     #endif
+}
+
+enum Command: String {
+    case save, create, update
 }

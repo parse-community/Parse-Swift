@@ -232,10 +232,90 @@ transactions for this call.
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
     ) {
+        batch(batchLimit: limit,
+              transaction: transaction,
+              isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+              command: .save,
+              options: options,
+              callbackQueue: callbackQueue,
+              completion: completion)
+    }
+
+    /**
+     Creates a collection of objects all at once *asynchronously* and executes the completion block when done.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func createAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
+        batchLimit limit: Int? = nil,
+        transaction: Bool = ParseSwift.configuration.useTransactions,
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
+    ) {
+        batch(batchLimit: limit,
+              transaction: transaction,
+              command: .create,
+              options: options,
+              callbackQueue: callbackQueue,
+              completion: completion)
+    }
+
+    /**
+     Updates a collection of objects all at once *asynchronously* and executes the completion block when done.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<[(Result<Element, ParseError>)], ParseError>)`.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func updateAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
+        batchLimit limit: Int? = nil,
+        transaction: Bool = ParseSwift.configuration.useTransactions,
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
+    ) {
+        batch(batchLimit: limit,
+              transaction: transaction,
+              command: .update,
+              options: options,
+              callbackQueue: callbackQueue,
+              completion: completion)
+    }
+
+    internal func batch(batchLimit limit: Int?, // swiftlint:disable:this function_parameter_count
+                        transaction: Bool,
+                        isIgnoreCustomObjectIdConfig: Bool = false,
+                        command: Command,
+                        options: API.Options,
+                        callbackQueue: DispatchQueue,
+                        completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void) {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
         let uuid = UUID()
-        let queue = DispatchQueue(label: "com.parse.saveAll.\(uuid)",
+        let queue = DispatchQueue(label: "com.parse.batch.\(uuid)",
                                   qos: .default,
                                   attributes: .concurrent,
                                   autoreleaseFrequency: .inherit,
@@ -292,9 +372,18 @@ transactions for this call.
 
             do {
                 var returnBatch = [(Result<Self.Element, ParseError>)]()
-                let commands = try map {
-                    try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+                let commands: [API.Command<Self.Element, Self.Element>]!
+                switch command {
+                case .save:
+                    commands = try map {
+                        try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+                    }
+                case .create:
+                    commands = map { $0.createCommand() }
+                case .update:
+                    commands = try map { try $0.updateCommand() }
                 }
+
                 let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
                 try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
                 let batches = BatchUtils.splitArray(commands, valuesPerSegment: batchLimit)
@@ -744,8 +833,86 @@ extension ParseObject {
         }
     }
 
+    /**
+     Creates the `ParseObject` *asynchronously* and executes the given callback block.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+    */
+    public func create(
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<Self, ParseError>) -> Void
+    ) {
+        self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
+            guard let parseError = error else {
+                self.createCommand()
+                    .executeAsync(options: options,
+                                  callbackQueue: callbackQueue,
+                                  childObjects: savedChildObjects,
+                                  childFiles: savedChildFiles,
+                                  completion: completion)
+                return
+            }
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
+        }
+    }
+
+    /**
+     Updates the `ParseObject` *asynchronously* and executes the given callback block.
+
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - parameter callbackQueue: The queue to return to after completion. Default value of .main.
+     - parameter completion: The block to execute.
+     It should have the following argument signature: `(Result<Self, ParseError>)`.
+    */
+    public func update(
+        options: API.Options = [],
+        callbackQueue: DispatchQueue = .main,
+        completion: @escaping (Result<Self, ParseError>) -> Void
+    ) {
+        self.ensureDeepSave(options: options) { (savedChildObjects, savedChildFiles, error) in
+            guard let parseError = error else {
+                do {
+                    try self.updateCommand()
+                        .executeAsync(options: options,
+                                      callbackQueue: callbackQueue,
+                                      childObjects: savedChildObjects,
+                                      childFiles: savedChildFiles,
+                                      completion: completion)
+                } catch {
+                    callbackQueue.async {
+                        guard let parseError = error as? ParseError else {
+                            let error = ParseError(code: .unknownError,
+                                                   message: error.localizedDescription)
+                            completion(.failure(error))
+                            return
+                        }
+                        completion(.failure(parseError))
+                    }
+                }
+                return
+            }
+            callbackQueue.async {
+                completion(.failure(parseError))
+            }
+        }
+    }
+
     internal func saveCommand(isIgnoreCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
         try API.Command<Self, Self>.save(self, isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+    }
+
+    internal func createCommand() -> API.Command<Self, Self> {
+        API.Command<Self, Self>.create(self)
+    }
+
+    internal func updateCommand() throws -> API.Command<Self, Self> {
+        try API.Command<Self, Self>.update(self)
     }
 
     // swiftlint:disable:next function_body_length

@@ -9,7 +9,6 @@
 #if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 
-@MainActor
 extension ParseLiveQuery {
     // MARK: Async/Await
 
@@ -17,7 +16,7 @@ extension ParseLiveQuery {
      Manually establish a connection to the `ParseLiveQuery` Server.
       - parameter isUserWantsToConnect: Specifies if the user is calling this function. Defaults to `true`.
       - returns: An instance of the logged in `ParseUser`.
-      - throws: An error of type `ParseError`..
+      - throws: An error of type `ParseError`.
     */
     public func open(isUserWantsToConnect: Bool = true) async throws {
         let _: Void = try await withCheckedThrowingContinuation { continuation in
@@ -34,7 +33,7 @@ extension ParseLiveQuery {
     /**
      Sends a ping frame from the client side. Returns when a pong is received from the
      server endpoint.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     public func sendPing() async throws {
         let _: Void = try await withCheckedThrowingContinuation { continuation in

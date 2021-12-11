@@ -2,15 +2,22 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.4.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.5.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.4.0...2.5.0)
+
+__Improvements__
+- Added create(), update(), createAll(), updateAll() to ParseObjects.  ([#299](https://github.com/parse-community/Parse-Swift/pull/299)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Added convenience methods to convert ParseObject's to Pointer<ParseObject>'s for QueryConstraint's: !=, containedIn, notContainedIn, containedBy, containsAll ([#298](https://github.com/parse-community/Parse-Swift/pull/298)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.4.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.3.1...2.4.0)
 
 __Improvements__
 - Added additional methods to ParseRelation to make it easier to create and query relations ([#294](https://github.com/parse-community/Parse-Swift/pull/294)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Enable async/await for iOS13, tvOS13, watchOS6, and macOS10_15. All async/await methods are @MainActor's. Requires Xcode 13.2 or above to use async/await. Not compatible with Xcode 13.0/1, will need to upgrade to 13.2+. Still works with Xcode 11/12 ([#278](https://github.com/parse-community/Parse-Swift/pull/278)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Enable async/await for iOS13, tvOS13, watchOS6, and macOS10_15. All async/await methods are MainActor's. Requires Xcode 13.2 or above to use async/await. Not compatible with Xcode 13.0/1, will need to upgrade to 13.2+. Still works with Xcode 11/12 ([#278](https://github.com/parse-community/Parse-Swift/pull/278)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
 - When transactions are enabled errors are now thrown from the client if the amount of objects in a transaction exceeds the batch size. An error will also be thrown if a developer attempts to save objects in a transation that has unsaved children ([#295](https://github.com/parse-community/Parse-Swift/pull/294)), thanks to [Corey Baker](https://github.com/cbaker6).

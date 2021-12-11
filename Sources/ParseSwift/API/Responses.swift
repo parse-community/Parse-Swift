@@ -8,7 +8,7 @@
 
 import Foundation
 
-internal struct SaveResponse: Decodable {
+internal struct CreateResponse: Decodable {
     var objectId: String
     var createdAt: Date
     var updatedAt: Date {
@@ -50,26 +50,32 @@ internal struct WriteResponse: Codable {
     var createdAt: Date?
     var updatedAt: Date?
 
-    func asSaveResponse() -> SaveResponse {
-        guard let objectId = objectId, let createdAt = createdAt else {
-            fatalError("Cannot create a SaveResponse without objectId")
+    func asCreateResponse() throws -> CreateResponse {
+        guard let objectId = objectId else {
+            throw ParseError(code: .missingObjectId,
+                             message: "Response from server should not have an objectId of nil")
         }
-        return SaveResponse(objectId: objectId, createdAt: createdAt)
+        guard let createdAt = createdAt else {
+            throw ParseError(code: .unknownError,
+                             message: "Response from server should not have an createdAt of nil")
+        }
+        return CreateResponse(objectId: objectId, createdAt: createdAt)
     }
 
-    func asUpdateResponse() -> UpdateResponse {
+    func asUpdateResponse() throws -> UpdateResponse {
         guard let updatedAt = updatedAt else {
-            fatalError("Cannot create an UpdateResponse without updatedAt")
+            throw ParseError(code: .unknownError,
+                             message: "Response from server should not have an updatedAt of nil")
         }
         return UpdateResponse(updatedAt: updatedAt)
     }
 
-    func apply<T>(to object: T, method: API.Method) -> T where T: ParseObject {
+    func apply<T>(to object: T, method: API.Method) throws -> T where T: ParseObject {
         switch method {
         case .POST:
-            return asSaveResponse().apply(to: object)
+            return try asCreateResponse().apply(to: object)
         case .PUT, .PATCH:
-            return asUpdateResponse().apply(to: object)
+            return try asUpdateResponse().apply(to: object)
         case .GET:
             fatalError("Parse-server doesn't support batch fetching like this. Try \"fetchAll\".")
         default:

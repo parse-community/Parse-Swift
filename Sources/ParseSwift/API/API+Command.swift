@@ -390,20 +390,20 @@ internal extension API.Command {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if object.isSaved {
-            return update(object)
+            return try update(object)
         }
         return create(object)
     }
 
     // MARK: Saving ParseObjects - private
-    private static func create<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+    static func create<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         var object = object
         if object.ACL == nil,
             let acl = try? ParseACL.defaultACL() {
             object.ACL = acl
         }
         let mapper = { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
+            try ParseCoding.jsonDecoder().decode(CreateResponse.self, from: data).apply(to: object)
         }
         return API.Command<T, T>(method: .POST,
                                  path: object.endpoint(.POST),
@@ -411,7 +411,11 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    private static func update<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+    static func update<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
+        guard object.objectId != nil else {
+            throw ParseError(code: .missingObjectId,
+                             message: "objectId must not be nil")
+        }
         let mapper = { (data) -> T in
             try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
         }
@@ -465,7 +469,16 @@ internal extension API.Command where T: ParseObject {
                     let response = responses[object.offset]
                     if let success = response.success,
                        let body = object.element.body {
-                        return .success(success.apply(to: body, method: object.element.method))
+                        do {
+                            let result = try success.apply(to: body, method: object.element.method)
+                            return .success(result)
+                        } catch {
+                            guard let parseError = error as? ParseError else {
+                                return .failure(ParseError(code: .unknownError,
+                                                           message: error.localizedDescription))
+                            }
+                            return .failure(parseError)
+                        }
                     } else {
                         guard let parseError = response.error else {
                             return .failure(ParseError(code: .unknownError, message: "unknown error"))

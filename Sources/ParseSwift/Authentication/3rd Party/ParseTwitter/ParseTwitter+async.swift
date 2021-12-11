@@ -9,7 +9,6 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@MainActor
 public extension ParseTwitter {
     // MARK: Async/Await
 
@@ -23,7 +22,7 @@ public extension ParseTwitter {
      - parameter authTokenSecret: The Twitter `authSecretToken` obtained from Twitter.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func login(userId: String,
                screenName: String? = nil,
@@ -49,7 +48,7 @@ public extension ParseTwitter {
      - parameter authData: Dictionary containing key/values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func login(authData: [String: String],
                options: API.Options = []) async throws -> AuthenticatedUser {
@@ -61,7 +60,6 @@ public extension ParseTwitter {
     }
 }
 
-@MainActor
 public extension ParseTwitter {
 
     /**
@@ -74,7 +72,7 @@ public extension ParseTwitter {
      - parameter authTokenSecret: The Twitter `authSecretToken` obtained from Twitter.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func link(userId: String,
               screenName: String? = nil,
@@ -100,7 +98,7 @@ public extension ParseTwitter {
      - parameter authData: Dictionary containing key/values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func link(authData: [String: String],
               options: API.Options = []) async throws -> AuthenticatedUser {
