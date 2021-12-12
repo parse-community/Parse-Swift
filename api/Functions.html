@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ParseSwift 2.4.0 Docs
+          ParseSwift 2.5.0 Docs
         </a>
          (96% documented)
       </p>
@@ -102,6 +102,9 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_AA0D0VyxGtAA0A6ObjectRzlF">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtKAA0A6ObjectRzlF">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtSERzlF">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
@@ -112,9 +115,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA0D0VyxGtAA0A6ObjectRzlF">==(_:_:)</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA7PointerVyxGtAA0A6ObjectRzlF">==(_:_:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_xtKAA0A6ObjectRzlF">==(_:_:)</a>
@@ -132,10 +132,19 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">and(queries:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containedBy(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containedBy(key:array:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containedIn(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containedIn(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containsAll(key:array:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containsAll(key:array:)</a>
@@ -172,6 +181,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift3nor7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">nor(queries:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">notContainedIn(key:array:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">notContainedIn(key:array:)</a>
@@ -758,68 +770,6 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA7PointerVyxGtAA0A6ObjectRzlF"></a>
-                    <a name="//apple_ref/swift/Function/==(_:_:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA7PointerVyxGtAA0A6ObjectRzlF">==(_:<wbr>_:<wbr>)</a>
-                    </code>
-                  </div>
-                  <div class="height-container">
-                    <div class="pointer-container"></div>
-                    <section class="section">
-                      <div class="pointer"></div>
-                      <div class="abstract">
-                        <p>Add a constraint that requires that a key is equal to a <code><a href="Structs/Pointer.html">Pointer</a></code>.</p>
-
-                      </div>
-                      <div class="declaration">
-                        <h4>Declaration</h4>
-                        <div class="language">
-                          <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="o">==</span> <span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt"><a href="Structs/Pointer.html">Pointer</a></span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
-
-                        </div>
-                      </div>
-                      <div>
-                        <h4>Parameters</h4>
-                        <table class="graybox">
-                          <tbody>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>key</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The key that the value is stored in.</p>
-                                </div>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>
-                                <code>
-                                <em>value</em>
-                                </code>
-                              </td>
-                              <td>
-                                <div>
-                                  <p>The <code><a href="Structs/Pointer.html">Pointer</a></code> to compare.</p>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                      <div>
-                        <h4>Return Value</h4>
-                        <p>The same instance of <code><a href="Structs/QueryConstraint.html">QueryConstraint</a></code> as the receiver.</p>
-                      </div>
-                    </section>
-                  </div>
-                </li>
-                <li class="item">
-                  <div>
-                    <code>
                     <a name="/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtSERzlF"></a>
                     <a name="//apple_ref/swift/Function/!=(_:_:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtSERzlF">!=(_:<wbr>_:<wbr>)</a>
@@ -866,6 +816,68 @@
                               <td>
                                 <div>
                                   <p>The value to compare.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The same instance of <code><a href="Structs/QueryConstraint.html">QueryConstraint</a></code> as the receiver.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtKAA0A6ObjectRzlF"></a>
+                    <a name="//apple_ref/swift/Function/!=(_:_:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtKAA0A6ObjectRzlF">!=(_:<wbr>_:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add a constraint that requires that a key is not equal to a <code><a href="Protocols/ParseObject.html">ParseObject</a></code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="o">!=</span> <span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">T</span><span class="p">)</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key that the value is stored in.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The <code><a href="Protocols/ParseObject.html">ParseObject</a></code> to compare.</p>
                                 </div>
                               </td>
                             </tr>
@@ -992,13 +1004,13 @@
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Constructs a Query that is the <code>and</code> of the passed in queries. For
- example:</p>
-<pre class="highlight swift"><code> <span class="k">var</span> <span class="nv">compoundQueryConstraints</span> <span class="o">=</span> <span class="nf">and</span><span class="p">(</span><span class="n">query1</span><span class="p">,</span> <span class="n">query2</span><span class="p">,</span> <span class="n">query3</span><span class="p">)</span>
+                        <p>Constructs a Query that is the <code>and</code> of the passed in queries.</p>
+
+<p>For example:</p>
+<pre class="highlight swift"><code><span class="k">var</span> <span class="nv">compoundQueryConstraints</span> <span class="o">=</span> <span class="nf">and</span><span class="p">(</span><span class="n">query1</span><span class="p">,</span> <span class="n">query2</span><span class="p">,</span> <span class="n">query3</span><span class="p">)</span>
 </code></pre>
 
-<p>will create a compoundQuery that is an and of the query1, query2, and
- query3.</p>
+<p>will create a compoundQuery that is an and of the query1, query2, and query3.</p>
 
                       </div>
                       <div class="declaration">
@@ -1385,6 +1397,69 @@ to be contained in the provided array.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF"></a>
+                    <a name="//apple_ref/swift/Function/containedIn(key:array:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containedIn(key:<wbr>array:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add a constraint to the query that requires a particular key&rsquo;s object
+to be contained in the provided array of <code>ParseObjects</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">containedIn</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">T</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key to be constrained.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>array</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The possible values for the key&rsquo;s object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The same instance of <code><a href="Structs/QueryConstraint.html">QueryConstraint</a></code> as the receiver.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF"></a>
                     <a name="//apple_ref/swift/Function/notContainedIn(key:array:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">notContainedIn(key:<wbr>array:<wbr>)</a>
@@ -1404,6 +1479,69 @@ not be contained in the provided array.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">notContainedIn</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">T</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt">Encodable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key to be constrained.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>array</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The list of values the key&rsquo;s object should not be.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The same instance of <code><a href="Structs/QueryConstraint.html">QueryConstraint</a></code> as the receiver.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF"></a>
+                    <a name="//apple_ref/swift/Function/notContainedIn(key:array:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">notContainedIn(key:<wbr>array:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add a constraint to the query that requires a particular key&rsquo;s object
+not be contained in the provided array of <code><a href="Protocols/ParseObject.html">ParseObject</a></code> pointers.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">notContainedIn</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">T</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
 
                         </div>
                       </div>
@@ -1511,6 +1649,69 @@ contains every element of the provided array.</p>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF"></a>
+                    <a name="//apple_ref/swift/Function/containsAll(key:array:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containsAll(key:<wbr>array:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add a constraint to the query that requires a particular key&rsquo;s array
+contains every element of the provided array of `ParseObject&rsquo;s.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">containsAll</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">T</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key to be constrained.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>array</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The possible values for the key&rsquo;s object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The same instance of <code><a href="Structs/QueryConstraint.html">QueryConstraint</a></code> as the receiver.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF"></a>
                     <a name="//apple_ref/swift/Function/containedBy(key:array:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containedBy(key:<wbr>array:<wbr>)</a>
@@ -1574,6 +1775,70 @@ to be contained by the provided array. Get objects where all array elements matc
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF"></a>
+                    <a name="//apple_ref/swift/Function/containedBy(key:array:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containedBy(key:<wbr>array:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Add a constraint to the query that requires a particular key&rsquo;s object
+to be contained by the provided array of <code><a href="Protocols/ParseObject.html">ParseObject</a></code>&lsquo;s.
+Get objects where all array elements match.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">containedBy</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span> <span class="nv">array</span><span class="p">:</span> <span class="p">[</span><span class="kt">T</span><span class="p">])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt"><a href="Structs/QueryConstraint.html">QueryConstraint</a></span> <span class="k">where</span> <span class="kt">T</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseObject.html">ParseObject</a></span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>key</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The key to be constrained.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>array</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The possible values for the key&rsquo;s object.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The same instance of <code><a href="Structs/QueryConstraint.html">QueryConstraint</a></code> as the receiver.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift8relativeyAA15QueryConstraintVADF"></a>
                     <a name="//apple_ref/swift/Function/relative(_:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift8relativeyAA15QueryConstraintVADF">relative(_:<wbr>)</a>
@@ -1584,8 +1849,10 @@ to be contained by the provided array. Get objects where all array elements matc
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Add a constraint to the query that requires a particular key&rsquo;s time is related to a specified time. For example:</p>
-<pre class="highlight swift"><code> <span class="k">let</span> <span class="nv">queryRelative</span> <span class="o">=</span> <span class="kt">GameScore</span><span class="o">.</span><span class="nf">query</span><span class="p">(</span><span class="nf">relative</span><span class="p">(</span><span class="s">"createdAt"</span> <span class="o">&lt;</span> <span class="s">"12 days ago"</span><span class="p">))</span>
+                        <p>Add a constraint to the query that requires a particular key&rsquo;s time is related to a specified time.</p>
+
+<p>For example:</p>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">queryRelative</span> <span class="o">=</span> <span class="kt">GameScore</span><span class="o">.</span><span class="nf">query</span><span class="p">(</span><span class="nf">relative</span><span class="p">(</span><span class="s">"createdAt"</span> <span class="o">&lt;</span> <span class="s">"12 days ago"</span><span class="p">))</span>
 </code></pre>
 
 <p>will create a relative query where <code>createdAt</code> is less than 12 days ago.</p>
@@ -1617,7 +1884,7 @@ to be contained by the provided array. Get objects where all array elements matc
                               <td>
                                 <div>
                                   <p>The key to be constrained. Should be a Date field. The value is a
-reference time, e.g. &ldquo;12 days ago&rdquo;. Currently only comparators supported are: &lt;, &lt;=, &gt;=, and &gt;=.</p>
+reference time, e.g. &ldquo;12 days ago&rdquo;. Currently only comparators supported are: &lt;, &lt;=, &gt;, and &gt;=.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2761,7 +3028,7 @@ This will use smart indexing, so it will be fast for large datasets.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Add a constraint that requires a key and object are related.</p>
+                        <p>Add a constraint that requires a key is related.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     An error of type <code><a href="Structs/ParseError.html">ParseError</a></code>.
@@ -2828,7 +3095,7 @@ This will use smart indexing, so it will be fast for large datasets.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Add a constraint that requires a key and object are related.</p>
+                        <p>Add a constraint that requires a key is related.</p>
 
                       </div>
                       <div class="declaration">
@@ -2945,7 +3212,7 @@ This will use smart indexing, so it will be fast for large datasets.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Add a constraint that requires an object is related.</p>
+                        <p>Add a constraint that requires a key is related.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
     An error of type <code><a href="Structs/ParseError.html">ParseError</a></code>.
@@ -3000,7 +3267,7 @@ This will use smart indexing, so it will be fast for large datasets.</p>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Add a constraint that requires an object is related.</p>
+                        <p>Add a constraint that requires a key is related.</p>
 
                       </div>
                       <div class="declaration">
@@ -3045,7 +3312,7 @@ This will use smart indexing, so it will be fast for large datasets.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-08)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-12)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

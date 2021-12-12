@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 2.4.0 Docs
+          ParseSwift 2.5.0 Docs
         </a>
          (96% documented)
       </p>
@@ -102,6 +102,9 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_AA0D0VyxGtAA0A6ObjectRzlF">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtKAA0A6ObjectRzlF">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtSERzlF">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
@@ -112,9 +115,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA0D0VyxGtAA0A6ObjectRzlF">==(_:_:)</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA7PointerVyxGtAA0A6ObjectRzlF">==(_:_:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_xtKAA0A6ObjectRzlF">==(_:_:)</a>
@@ -132,10 +132,19 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">and(queries:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containedBy(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containedBy(key:array:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containedIn(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containedIn(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containsAll(key:array:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containsAll(key:array:)</a>
@@ -172,6 +181,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3nor7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">nor(queries:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">notContainedIn(key:array:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">notContainedIn(key:array:)</a>
@@ -415,7 +427,7 @@
 an error if one occurs.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -493,7 +505,7 @@ an error if one occurs.</p>
                         <p>Saves a collection of installations <em>asynchronously</em>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -607,6 +619,208 @@ when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mix
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE9createAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/createAll(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE9createAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF">createAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a collection of installations <em>asynchronously</em>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+               <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+               <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns an array of Result enums with the object if a save was successful or a
+<code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE10replaceAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/replaceAll(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE10replaceAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF">replaceAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces a collection of installations <em>asynchronously</em>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object replaced has the same objectId as current, it will automatically replace the current.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replaceAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+                <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns an array of Result enums with the object if a save was successful or a
+<code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE9deleteAll10batchLimit11transaction7optionsSays6ResultOyytAA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF"></a>
                     <a name="//apple_ref/swift/Method/deleteAll(batchLimit:transaction:options:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE9deleteAll10batchLimit11transaction7optionsSays6ResultOyytAA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF">deleteAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
@@ -623,7 +837,7 @@ when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mix
                         <p>Deletes a collection of installations <em>asynchronously</em>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -825,6 +1039,208 @@ desires a different policy, it should be inserted in <code>options</code>.
                       <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
                       <span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isIgnoreCustomObjectIdConfig</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Ignore checking for <code>objectId</code>
+when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
+<code>objectId</code> environments. Defaults to false.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces an an array of Result enums with the object if a save was
+successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE18createAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/createAllPublisher(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE18createAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF">createAllPublisher(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a collection of installations <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces an an array of Result enums with the object if a save was
+successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE19replaceAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/replaceAllPublisher(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE19replaceAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF">replaceAllPublisher(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces a collection of installations <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object replaced has the same objectId as current, it will automatically replace the current.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replaceAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                         <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+                         <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1200,6 +1616,242 @@ prevents the transaction from completing, then none of the objects are committed
                                   <p>Ignore checking for <code>objectId</code>
 when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
 <code>objectId</code> environments. Defaults to false.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;[(Result&lt;Element, ParseError&gt;)], ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE9createAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF"></a>
+                    <a name="//apple_ref/swift/Method/createAll(batchLimit:transaction:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE9createAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF">createAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a collection of installations all at once <em>asynchronously</em> and executes the completion block when done.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createAll</span><span class="p">(</span> <span class="c1">// swiftlint:disable:this function_body_length cyclomatic_complexity</span>
+    <span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;[(Result&lt;Element, ParseError&gt;)], ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE10replaceAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF"></a>
+                    <a name="//apple_ref/swift/Method/replaceAll(batchLimit:transaction:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A12Installation7ElementRpzrlE10replaceAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF">replaceAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces a collection of installations all at once <em>asynchronously</em> and executes the completion block when done.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object replaced has the same objectId as current, it will automatically replace the current.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replaceAll</span><span class="p">(</span> <span class="c1">// swiftlint:disable:this function_body_length cyclomatic_complexity</span>
+    <span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1697,11 +2349,7 @@ Each element in the array is either <code>nil</code> if the delete successful or
 an error if one occurs.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
-
-</div><div class="aside aside-important">
-    <p class="aside-title">Important</p>
-    If an object fetched has the same objectId as current, it will automatically update the current.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div>
 
@@ -1775,7 +2423,7 @@ an error if one occurs.</p>
                         <p>Saves a collection of objects <em>asynchronously</em>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -1885,6 +2533,204 @@ when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mix
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE9createAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/createAll(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE9createAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF">createAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a collection of objects <em>asynchronously</em>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+               <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+               <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns an array of Result enums with the object if a save was successful or a
+<code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE10replaceAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/replaceAll(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE10replaceAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF">replaceAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces a collection of objects <em>asynchronously</em>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replaceAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+                <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns an array of Result enums with the object if a save was successful or a
+<code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE9deleteAll10batchLimit11transaction7optionsSays6ResultOyytAA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF"></a>
                     <a name="//apple_ref/swift/Method/deleteAll(batchLimit:transaction:options:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE9deleteAll10batchLimit11transaction7optionsSays6ResultOyytAA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF">deleteAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
@@ -1901,11 +2747,7 @@ when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mix
                         <p>Deletes a collection of objects <em>asynchronously</em>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
-
-</div><div class="aside aside-important">
-    <p class="aside-title">Important</p>
-    If an object deleted has the same objectId as current, it will automatically update the current.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
@@ -1994,11 +2836,6 @@ prevents the transaction from completing, then none of the objects are committed
                       <div class="abstract">
                         <p>Fetches a collection of objects <em>aynchronously</em> with the current data from the server and sets
 an error if one occurs. Publishes when complete.</p>
-<div class="aside aside-important">
-    <p class="aside-title">Important</p>
-    If an object fetched has the same objectId as current, it will automatically update the current.
-
-</div>
 
                       </div>
                       <div class="declaration">
@@ -2168,6 +3005,180 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE18createAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/createAllPublisher(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE18createAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF">createAllPublisher(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a collection of objects <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces an an array of Result enums with the object if a save was
+successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE19replaceAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/replaceAllPublisher(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE19replaceAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF">replaceAllPublisher(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces a collection of objects <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replaceAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                         <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+                         <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces an an array of Result enums with the object if a save was
+successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE18deleteAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyytAA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF"></a>
                     <a name="//apple_ref/swift/Method/deleteAllPublisher(batchLimit:transaction:options:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE18deleteAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyytAA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF">deleteAllPublisher(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
@@ -2179,11 +3190,7 @@ successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code>
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Deletes a collection of objects <em>asynchronously</em> and publishes when complete.</p>
-<div class="aside aside-important">
-    <p class="aside-title">Important</p>
-    If an object deleted has the same objectId as current, it will automatically update the current.
-
-</div><div class="aside aside-warning">
+<div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
 objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
@@ -2476,6 +3483,238 @@ prevents the transaction from completing, then none of the objects are committed
                                   <p>Ignore checking for <code>objectId</code>
 when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
 <code>objectId</code> environments. Defaults to false.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;[(Result&lt;Element, ParseError&gt;)], ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE9createAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF"></a>
+                    <a name="//apple_ref/swift/Method/createAll(batchLimit:transaction:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE9createAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF">createAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a collection of objects all at once <em>asynchronously</em> and executes the completion block when done.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createAll</span><span class="p">(</span> <span class="c1">// swiftlint:disable:this function_body_length cyclomatic_complexity</span>
+    <span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;[(Result&lt;Element, ParseError&gt;)], ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE10replaceAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF"></a>
+                    <a name="//apple_ref/swift/Method/replaceAll(batchLimit:transaction:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A6Object7ElementRpzrlE10replaceAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF">replaceAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces a collection of objects all at once <em>asynchronously</em> and executes the completion block when done.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replaceAll</span><span class="p">(</span> <span class="c1">// swiftlint:disable:this function_body_length cyclomatic_complexity</span>
+    <span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2958,7 +4197,7 @@ Each element in the array is <code>nil</code> if the delete successful or a <cod
 an error if one occurs.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -3036,7 +4275,7 @@ an error if one occurs.</p>
                         <p>Saves a collection of users <em>asynchronously</em>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -3150,6 +4389,208 @@ when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mix
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE9createAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/createAll(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE9createAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF">createAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a collection of users <em>asynchronously</em>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+               <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+               <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns an array of Result enums with the object if a save was successful or a
+<code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE10replaceAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF"></a>
+                    <a name="//apple_ref/swift/Method/replaceAll(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE10replaceAll10batchLimit11transaction7optionsSays6ResultOyAdA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF">replaceAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces a collection of users <em>asynchronously</em>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object replaced has the same objectId as current, it will automatically replace the current.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replaceAll</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+                <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)]</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns an array of Result enums with the object if a save was successful or a
+<code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE9deleteAll10batchLimit11transaction7optionsSays6ResultOyytAA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF"></a>
                     <a name="//apple_ref/swift/Method/deleteAll(batchLimit:transaction:options:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE9deleteAll10batchLimit11transaction7optionsSays6ResultOyytAA0A5ErrorVGGSiSg_SbShyAA3APIV6OptionOGtYaKF">deleteAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
@@ -3166,7 +4607,7 @@ when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mix
                         <p>Deletes a collection of users <em>asynchronously</em>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-important">
     <p class="aside-title">Important</p>
@@ -3408,6 +4849,185 @@ prevents the transaction from completing, then none of the objects are committed
                                   <p>Ignore checking for <code>objectId</code>
 when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
 <code>objectId</code> environments. Defaults to false.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces an an array of Result enums with the object if a save was
+successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE18createAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/createAllPublisher(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE18createAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF">createAllPublisher(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a collection of users <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                        <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces an an array of Result enums with the object if a save was
+successful or a <code><a href="../Structs/ParseError.html">ParseError</a></code> if it failed.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE19replaceAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF"></a>
+                    <a name="//apple_ref/swift/Method/replaceAllPublisher(batchLimit:transaction:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE19replaceAllPublisher10batchLimit11transaction7options7Combine6FutureCySays6ResultOyAdA0A5ErrorVGGAOGSiSg_SbShyAA3APIV6OptionOGtF">replaceAllPublisher(batchLimit:<wbr>transaction:<wbr>options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces a collection of users <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object replaced has the same objectId as current, it will automatically replace the current.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replaceAllPublisher</span><span class="p">(</span><span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+                         <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+                         <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="o">.</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span>
+                                                                <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3752,6 +5372,242 @@ prevents the transaction from completing, then none of the objects are committed
                                   <p>Ignore checking for <code>objectId</code>
 when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
 <code>objectId</code> environments. Defaults to false.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;[(Result&lt;Element, ParseError&gt;)], ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE9createAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF"></a>
+                    <a name="//apple_ref/swift/Method/createAll(batchLimit:transaction:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE9createAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF">createAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates a collection of users all at once <em>asynchronously</em> and executes the completion block when done.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createAll</span><span class="p">(</span> <span class="c1">// swiftlint:disable:this function_body_length cyclomatic_complexity</span>
+    <span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;[(Result&lt;Element, ParseError&gt;)], ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:ST10ParseSwiftAA0A4User7ElementRpzrlE10replaceAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF"></a>
+                    <a name="//apple_ref/swift/Method/replaceAll(batchLimit:transaction:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:ST10ParseSwiftAA0A4User7ElementRpzrlE10replaceAll10batchLimit11transaction7options13callbackQueue10completionySiSg_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayATyAdA0A5ErrorVGGAVGctF">replaceAll(batchLimit:<wbr>transaction:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces a collection of users all at once <em>asynchronously</em> and executes the completion block when done.</p>
+<div class="aside aside-important">
+    <p class="aside-title">Important</p>
+    If an object replaced has the same objectId as current, it will automatically replace the current.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If <code>transaction = true</code>, then <code>batchLimit</code> will be automatically be set to the amount of the
+objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+the transactions can fail.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replaceAll</span><span class="p">(</span> <span class="c1">// swiftlint:disable:this function_body_length cyclomatic_complexity</span>
+    <span class="n">batchLimit</span> <span class="nv">limit</span><span class="p">:</span> <span class="kt">Int</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
+    <span class="nv">transaction</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kt"><a href="../Structs/ParseSwift.html">ParseSwift</a></span><span class="o">.</span><span class="n">configuration</span><span class="o">.</span><span class="n">useTransactions</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Element</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>batchLimit</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The maximum number of objects to send in each batch. If the items to be batched.
+is greater than the <code>batchLimit</code>, the objects will be sent to the server in waves up to the <code>batchLimit</code>.
+Defaults to 50.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>transaction</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Treat as an all-or-nothing operation. If some operation failure occurs that
+prevents the transaction from completing, then none of the objects are committed to the Parse Server database.</p>
                                 </div>
                               </td>
                             </tr>
@@ -4224,7 +6080,7 @@ Each element in the array is <code>nil</code> if the delete successful or a <cod
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-08)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-12)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

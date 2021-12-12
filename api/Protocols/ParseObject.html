@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 2.4.0 Docs
+          ParseSwift 2.5.0 Docs
         </a>
          (96% documented)
       </p>
@@ -102,6 +102,9 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_AA0D0VyxGtAA0A6ObjectRzlF">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtKAA0A6ObjectRzlF">!=(_:_:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2neoiyAA15QueryConstraintVSS_xtSERzlF">!=(_:_:)</a>
               </li>
               <li class="nav-group-task">
@@ -112,9 +115,6 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA0D0VyxGtAA0A6ObjectRzlF">==(_:_:)</a>
-              </li>
-              <li class="nav-group-task">
-                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_AA7PointerVyxGtAA0A6ObjectRzlF">==(_:_:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift2eeoiyAA15QueryConstraintVSS_xtKAA0A6ObjectRzlF">==(_:_:)</a>
@@ -132,10 +132,19 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3and7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">and(queries:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containedBy(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedBy3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containedBy(key:array:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containedIn(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containedIn(key:array:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">containsAll(key:array:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11containsAll3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">containsAll(key:array:)</a>
@@ -172,6 +181,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift3nor7queriesAA15QueryConstraintVSayAA0E0VyxGG_tAA0A6ObjectRzlF">nor(queries:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtKAA0A6ObjectRzlF">notContainedIn(key:array:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift14notContainedIn3key5arrayAA15QueryConstraintVSS_SayxGtSERzlF">notContainedIn(key:array:)</a>
@@ -656,7 +668,7 @@ from the server.</p>
                         <p>Fetches the <code>ParseObject</code> <em>aynchronously</em> with the current data from the server and sets an error if one occurs.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div><div class="aside aside-note">
     <p class="aside-title">Note</p>
@@ -734,11 +746,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                         <p>Saves the <code>ParseObject</code> <em>asynchronously</em>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
-
-</div><div class="aside aside-important">
-    <p class="aside-title">Important</p>
-    If an object saved has the same objectId as current, it will automatically update the current.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div>
 
@@ -795,6 +803,122 @@ when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mix
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE6create7optionsxShyAA3APIV6OptionOG_tYaKF"></a>
+                    <a name="//apple_ref/swift/Method/create(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE6create7optionsxShyAA3APIV6OptionOG_tYaKF">create(options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method, asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates the <code>ParseObject</code> <em>asynchronously</em>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">create</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns the saved <code>ParseObject</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE7replace7optionsxShyAA3APIV6OptionOG_tYaKF"></a>
+                    <a name="//apple_ref/swift/Method/replace(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE7replace7optionsxShyAA3APIV6OptionOG_tYaKF">replace(options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method, asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces the <code>ParseObject</code> <em>asynchronously</em>.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replace</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="k">Self</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>Returns the saved <code>ParseObject</code>.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift0A6ObjectPAAE6delete7optionsyShyAA3APIV6OptionOG_tYaKF"></a>
                     <a name="//apple_ref/swift/Method/delete(options:)" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE6delete7optionsyShyAA3APIV6OptionOG_tYaKF">delete(options:<wbr>)</a>
@@ -811,11 +935,7 @@ when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mix
                         <p>Deletes the <code>ParseObject</code> <em>asynchronously</em>.</p>
 <div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>..
-
-</div><div class="aside aside-important">
-    <p class="aside-title">Important</p>
-    If an object deleted has the same objectId as current, it will automatically update the current.
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
 </div>
 
@@ -955,9 +1075,22 @@ desires a different policy, it should be inserted in <code>options</code>.
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Saves the <code>ParseObject</code> <em>asynchronously</em> and publishes when complete.</p>
-<div class="aside aside-important">
-    <p class="aside-title">Important</p>
-    If an object saved has the same objectId as current, it will automatically update the current.
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    If you are using <code>ParseConfiguration.allowCustomObjectId = true</code>
+and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
+<code>isIgnoreCustomObjectIdConfig = false</code>. Setting
+<code>ParseConfiguration.allowCustomObjectId = true</code> and
+<code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
+and the server will generate an <code>objectId</code> only when the client does not provide one. This can
+increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
+different algorithms. This can also lead to overwriting of <code>ParseObject</code>&rsquo;s by accident as the
+client-side checks are disabled. Developers are responsible for handling such cases.
+
+</div><div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    The default cache policy for this method is <code>.reloadIgnoringLocalCacheData</code>. If a developer
+desires a different policy, it should be inserted in <code>options</code>.
 
 </div>
 
@@ -968,6 +1101,126 @@ desires a different policy, it should be inserted in <code>options</code>.
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">savePublisher</span><span class="p">(</span><span class="nv">isIgnoreCustomObjectIdConfig</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isIgnoreCustomObjectIdConfig</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Ignore checking for <code>objectId</code>
+when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
+<code>objectId</code> environments. Defaults to false.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE15createPublisher7options7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_tF"></a>
+                    <a name="//apple_ref/swift/Method/createPublisher(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE15createPublisher7options7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_tF">createPublisher(options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates the <code>ParseObject</code> <em>asynchronously</em> and publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">createPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE16replacePublisher7options7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_tF"></a>
+                    <a name="//apple_ref/swift/Method/replacePublisher(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE16replacePublisher7options7Combine6FutureCyxAA0A5ErrorVGShyAA3APIV6OptionOG_tF">replacePublisher(options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces the <code>ParseObject</code> <em>asynchronously</em> and publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">replacePublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -1014,11 +1267,6 @@ desires a different policy, it should be inserted in <code>options</code>.
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Deletes the <code>ParseObject</code> <em>asynchronously</em> and publishes when complete.</p>
-<div class="aside aside-important">
-    <p class="aside-title">Important</p>
-    If an object deleted has the same objectId as current, it will automatically update the current.
-
-</div>
 
                       </div>
                       <div class="declaration">
@@ -1732,6 +1980,162 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
                     </section>
                   </div>
                 </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE6create7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/create(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE6create7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">create(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Creates the <code>ParseObject</code> <em>asynchronously</em> and executes the given callback block.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">create</span><span class="p">(</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;Self, ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6ObjectPAAE7replace7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/replace(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6ObjectPAAE7replace7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyxAA0A5ErrorVGctF">replace(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Replaces the <code>ParseObject</code> <em>asynchronously</em> and executes the given callback block.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">replace</span><span class="p">(</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+    <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+    <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="k">Self</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span>
+<span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of .main.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;Self, ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
               </ul>
             </div>
             <div class="task-group">
@@ -2395,7 +2799,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-08)</p>
+      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-12)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
