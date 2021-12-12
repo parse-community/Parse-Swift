@@ -351,7 +351,6 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
         installation.objectId = testInstallationObjectId
         installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         installation.ACL = nil
 
         var installationOnServer = installation
@@ -400,7 +399,6 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
         installation.objectId = testInstallationObjectId
         installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         installation.ACL = nil
 
         var installationOnServer = installation
@@ -551,7 +549,6 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             return
         }
         installation.objectId = testInstallationObjectId
-        installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         installation.ACL = nil
 
