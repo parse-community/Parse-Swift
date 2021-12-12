@@ -581,6 +581,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
     func testFetchCommand() {
         var installation = Installation()
+        XCTAssertThrowsError(try installation.fetchCommand(include: nil))
         let objectId = "yarr"
         installation.objectId = objectId
         do {

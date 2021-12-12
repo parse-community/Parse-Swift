@@ -333,6 +333,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testFetchCommand() {
         var score = GameScore(score: 10)
         let className = score.className
+        XCTAssertThrowsError(try score.fetchCommand(include: nil))
         let objectId = "yarr"
         score.objectId = objectId
         do {
