@@ -9,7 +9,6 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@MainActor
 public extension ParseAnonymous {
 
     // MARK: Async/Await
@@ -17,7 +16,7 @@ public extension ParseAnonymous {
      Login a `ParseUser` *asynchronously* using the respective authentication type.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func login(options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
@@ -31,7 +30,7 @@ public extension ParseAnonymous {
      - parameter authData: The authData for the respective authentication type. This will be ignored.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func login(authData: [String: String],
                options: API.Options = []) async throws -> AuthenticatedUser {
@@ -43,7 +42,6 @@ public extension ParseAnonymous {
     }
 }
 
-@MainActor
 public extension ParseAnonymous {
 
     func link(authData: [String: String],

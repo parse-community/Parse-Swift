@@ -174,7 +174,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         XCTAssertEqual(decoded, expected)
     }
 
-    func testUpdateCommand() throws {
+    func testSaveUpdateCommand() throws {
         var score = GameScore(score: 10)
         let className = score.className
         let objectId = "yarr"
@@ -545,7 +545,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = scoreOnServer.createdAt
 
         let encoded: Data!
         do {
@@ -579,7 +578,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = scoreOnServer.createdAt
 
         let encoded: Data!
         do {
@@ -818,7 +816,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var score = GameScore(score: 10)
         score.objectId = "yarr"
         score.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        score.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         score.ACL = nil
 
         var scoreOnServer = score
@@ -858,7 +855,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
     func testUpdateNoObjectIdIgnoreConfigAsyncMainQueue() {
         var score = GameScore(score: 10)
         score.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        score.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         score.ACL = nil
 
         var scoreOnServer = score
@@ -890,12 +886,10 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         var scoreOnServer2 = score2
         scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
         let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil),
@@ -956,13 +950,11 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
-        scoreOnServer.updatedAt = scoreOnServer.createdAt
         scoreOnServer.ACL = nil
 
         var scoreOnServer2 = score2
         scoreOnServer2.objectId = "yolo"
         scoreOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        scoreOnServer2.updatedAt = scoreOnServer2.createdAt
         scoreOnServer2.ACL = nil
 
         let response = [BatchResponseItem<GameScore>(success: scoreOnServer, error: nil),
@@ -1120,7 +1112,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         var userOnServer = user
         userOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        userOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
 
         let encoded: Data!
         do {
@@ -1155,7 +1146,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var userOnServer = user
         userOnServer.objectId = "yarr"
         userOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        userOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
 
         let encoded: Data!
         do {
@@ -1276,7 +1266,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         var userOnServer = user
         userOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        userOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
@@ -1315,7 +1304,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var userOnServer = user
         userOnServer.objectId = "yarr"
         userOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        userOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(userOnServer)
@@ -1404,12 +1392,10 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         var userOnServer = user
         userOnServer.createdAt = Date()
-        userOnServer.updatedAt = userOnServer.createdAt
         userOnServer.ACL = nil
 
         var userOnServer2 = user2
         userOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        userOnServer2.updatedAt = userOnServer2.createdAt
         userOnServer2.ACL = nil
 
         let response = [BatchResponseItem<User>(success: userOnServer, error: nil),
@@ -1635,7 +1621,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         var installationOnServer = installation
         installationOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installationOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
 
         let encoded: Data!
         do {
@@ -1670,7 +1655,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var installationOnServer = installation
         installationOnServer.objectId = "yarr"
         installationOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installationOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
 
         let encoded: Data!
         do {
@@ -1807,7 +1791,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         var installationOnServer = installation
         installationOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installationOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
@@ -1849,7 +1832,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var installationOnServer = installation
         installationOnServer.objectId = "yarr"
         installationOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installationOnServer.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         let encoded: Data!
         do {
             encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
@@ -1970,12 +1952,10 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         var installationOnServer = installation
         installationOnServer.createdAt = Date()
-        installationOnServer.updatedAt = installationOnServer.createdAt
         installationOnServer.ACL = nil
 
         var installationOnServer2 = installation2
         installationOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installationOnServer2.updatedAt = installationOnServer2.createdAt
         installationOnServer2.ACL = nil
 
         let response = [BatchResponseItem<Installation>(success: installationOnServer, error: nil),
@@ -2011,13 +1991,8 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
                         XCTFail("Should unwrap dates")
                         return
                 }
-                guard let originalCreatedAt = installationOnServer.createdAt,
-                    let originalUpdatedAt = installationOnServer.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertEqual(savedCreatedAt, installationOnServer.createdAt)
+                XCTAssertEqual(savedUpdatedAt, installationOnServer.createdAt)
                 XCTAssertNil(first.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
@@ -2050,13 +2025,11 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var installationOnServer = installation
         installationOnServer.objectId = "yarr"
         installationOnServer.createdAt = Date()
-        installationOnServer.updatedAt = installationOnServer.createdAt
         installationOnServer.ACL = nil
 
         var installationOnServer2 = installation2
         installationOnServer2.objectId = "yolo"
         installationOnServer2.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installationOnServer2.updatedAt = installationOnServer2.createdAt
         installationOnServer2.ACL = nil
 
         let response = [BatchResponseItem<Installation>(success: installationOnServer, error: nil),
@@ -2092,13 +2065,8 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
                         XCTFail("Should unwrap dates")
                         return
                 }
-                guard let originalCreatedAt = installationOnServer.createdAt,
-                    let originalUpdatedAt = installationOnServer.updatedAt else {
-                        XCTFail("Should unwrap dates")
-                        return
-                }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
-                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+                XCTAssertEqual(savedCreatedAt, installationOnServer.createdAt)
+                XCTAssertEqual(savedUpdatedAt, installationOnServer.createdAt)
                 XCTAssertNil(first.ACL)
             case .failure(let error):
                 XCTFail(error.localizedDescription)

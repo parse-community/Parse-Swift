@@ -206,13 +206,13 @@ public func nor <T>(queries: [Query<T>]) -> QueryConstraint where T: ParseObject
 }
 
 /**
-   Constructs a Query that is the `and` of the passed in queries. For
-    example:
-    ~~~
-    var compoundQueryConstraints = and(query1, query2, query3)
-    ~~~
-   will create a compoundQuery that is an and of the query1, query2, and
-    query3.
+ Constructs a Query that is the `and` of the passed in queries.
+ 
+ For example:
+    
+     var compoundQueryConstraints = and(query1, query2, query3)
+    
+ will create a compoundQuery that is an and of the query1, query2, and query3.
     - parameter queries: The list of queries to `and` together.
     - returns: An instance of `QueryConstraint`'s that are the `and` of the passed in queries.
 */
@@ -363,13 +363,15 @@ public func containedBy <T>(key: String, array: [T]) throws -> QueryConstraint w
 }
 
 /**
- Add a constraint to the query that requires a particular key's time is related to a specified time. For example:
-  ~~~
-  let queryRelative = GameScore.query(relative("createdAt" < "12 days ago"))
-  ~~~
+ Add a constraint to the query that requires a particular key's time is related to a specified time.
+ 
+ For example:
+
+     let queryRelative = GameScore.query(relative("createdAt" < "12 days ago"))
+
  will create a relative query where `createdAt` is less than 12 days ago.
  - parameter constraint: The key to be constrained. Should be a Date field. The value is a
- reference time, e.g. "12 days ago". Currently only comparators supported are: <, <=, >=, and >=.
+ reference time, e.g. "12 days ago". Currently only comparators supported are: <, <=, >, and >=.
  - returns: The same instance of `QueryConstraint` as the receiver.
  - warning: This only works with Parse Servers using mongoDB.
  */

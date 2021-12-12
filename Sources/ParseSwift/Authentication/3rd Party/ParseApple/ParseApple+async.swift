@@ -9,7 +9,6 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@MainActor
 public extension ParseApple {
     // MARK: Async/Await
 
@@ -19,7 +18,7 @@ public extension ParseApple {
      - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func login(user: String,
                identityToken: Data,
@@ -37,7 +36,7 @@ public extension ParseApple {
      - parameter authData: Dictionary containing key/values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func login(authData: [String: String],
                options: API.Options = []) async throws -> AuthenticatedUser {
@@ -49,7 +48,6 @@ public extension ParseApple {
     }
 }
 
-@MainActor
 public extension ParseApple {
 
     /**
@@ -58,7 +56,7 @@ public extension ParseApple {
      - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func link(user: String,
               identityToken: Data,
@@ -76,7 +74,7 @@ public extension ParseApple {
      - parameter authData: Dictionary containing key/values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func link(authData: [String: String],
               options: API.Options = []) async throws -> AuthenticatedUser {

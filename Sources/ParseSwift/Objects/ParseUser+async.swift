@@ -9,7 +9,6 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@MainActor
 public extension ParseUser {
 
     // MARK: Async/Await
@@ -23,7 +22,7 @@ public extension ParseUser {
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the signed in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     static func signup(username: String,
                        password: String,
@@ -44,7 +43,7 @@ public extension ParseUser {
      - warning: Make sure that password and username are set before calling this method.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the signed in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     func signup(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -62,7 +61,7 @@ public extension ParseUser {
      - parameter password: The password of the user.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     static func login(username: String,
                       password: String,
@@ -84,7 +83,7 @@ public extension ParseUser {
      - parameter sessionToken: The sessionToken of the user to login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the logged in `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     func become(sessionToken: String,
                 options: API.Options = []) async throws -> Self {
@@ -99,7 +98,7 @@ public extension ParseUser {
      This will also remove the session from the Keychain, log out of linked services
      and all future calls to `current` will return `nil`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     static func logout(options: API.Options = []) async throws {
         _ = try await withCheckedThrowingContinuation { continuation in
@@ -112,7 +111,7 @@ public extension ParseUser {
      associated with the user account. This email allows the user to securely reset their password on the web.
         - parameter email: The email address associated with the user that forgot their password.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - throws: An error of type `ParseError`..
+        - throws: An error of type `ParseError`.
     */
     static func passwordReset(email: String,
                               options: API.Options = []) async throws {
@@ -126,7 +125,7 @@ public extension ParseUser {
      associated with the user account.
         - parameter email: The email address associated with the user.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
-        - throws: An error of type `ParseError`..
+        - throws: An error of type `ParseError`.
     */
     static func verificationEmail(email: String,
                                   options: API.Options = []) async throws {
@@ -142,7 +141,7 @@ public extension ParseUser {
      `includeAll` for `Query`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the fetched `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
@@ -163,8 +162,19 @@ public extension ParseUser {
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the saved `ParseUser`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
+     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     and plan to generate all of your `objectId`'s on the client-side then you should leave
+     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ParseConfiguration.allowCustomObjectId = true` and
+     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     and the server will generate an `objectId` only when the client does not provide one. This can
+     increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
+     different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
+     client-side checks are disabled. Developers are responsible for handling such cases.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
     */
     func save(isIgnoreCustomObjectIdConfig: Bool = false,
               options: API.Options = []) async throws -> Self {
@@ -176,10 +186,51 @@ public extension ParseUser {
     }
 
     /**
+     Creates the `ParseUser` *asynchronously*.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the saved `ParseUser`.
+     - throws: An error of type `ParseError`.
+    */
+    func create(options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
+            self.create(options: options,
+                        completion: continuation.resume)
+        }
+    }
+
+    /**
+     Replaces the `ParseUser` *asynchronously*.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the saved `ParseUser`.
+     - throws: An error of type `ParseError`.
+     - important: If an object replaced has the same objectId as current, it will automatically replace the current.
+    */
+    func replace(options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
+            self.replace(options: options,
+                         completion: continuation.resume)
+        }
+    }
+
+    /**
+     Updates the `ParseUser` *asynchronously*.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns the saved `ParseUser`.
+     - throws: An error of type `ParseError`.
+     - important: If an object updated has the same objectId as current, it will automatically update the current.
+    */
+    internal func update(options: API.Options = []) async throws -> Self {
+        try await withCheckedThrowingContinuation { continuation in
+            self.update(options: options,
+                        completion: continuation.resume)
+        }
+    }
+
+    /**
      Deletes the `ParseUser` *asynchronously*.
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
     */
     func delete(options: API.Options = []) async throws {
@@ -189,7 +240,6 @@ public extension ParseUser {
     }
 }
 
-@MainActor
 public extension Sequence where Element: ParseUser {
     /**
      Fetches a collection of users *aynchronously* with the current data from the server and sets
@@ -200,7 +250,7 @@ public extension Sequence where Element: ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns an array of Result enums with the object if a fetch was successful or a
      `ParseError` if it failed.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      - important: If an object fetched has the same objectId as current, it will automatically update the current.
     */
     func fetchAll(includeKeys: [String]? = nil,
@@ -225,7 +275,7 @@ public extension Sequence where Element: ParseUser {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns an array of Result enums with the object if a save was successful or a
      `ParseError` if it failed.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
@@ -256,6 +306,92 @@ public extension Sequence where Element: ParseUser {
     }
 
     /**
+     Creates a collection of users *asynchronously*.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns an array of Result enums with the object if a save was successful or a
+     `ParseError` if it failed.
+     - throws: An error of type `ParseError`.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func createAll(batchLimit limit: Int? = nil,
+                   transaction: Bool = ParseSwift.configuration.useTransactions,
+                   options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+        try await withCheckedThrowingContinuation { continuation in
+            self.createAll(batchLimit: limit,
+                           transaction: transaction,
+                           options: options,
+                           completion: continuation.resume)
+        }
+    }
+
+    /**
+     Replaces a collection of users *asynchronously*.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns an array of Result enums with the object if a save was successful or a
+     `ParseError` if it failed.
+     - throws: An error of type `ParseError`.
+     - important: If an object replaced has the same objectId as current, it will automatically replace the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    func replaceAll(batchLimit limit: Int? = nil,
+                    transaction: Bool = ParseSwift.configuration.useTransactions,
+                    options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+        try await withCheckedThrowingContinuation { continuation in
+            self.replaceAll(batchLimit: limit,
+                            transaction: transaction,
+                            options: options,
+                            completion: continuation.resume)
+        }
+    }
+
+    /**
+     Updates a collection of users *asynchronously*.
+     - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
+     is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
+     Defaults to 50.
+     - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
+     prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: Returns an array of Result enums with the object if a save was successful or a
+     `ParseError` if it failed.
+     - throws: An error of type `ParseError`.
+     - important: If an object updated has the same objectId as current, it will automatically update the current.
+     - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
+     objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
+     the transactions can fail.
+     - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
+     desires a different policy, it should be inserted in `options`.
+    */
+    internal func updateAll(batchLimit limit: Int? = nil,
+                            transaction: Bool = ParseSwift.configuration.useTransactions,
+                            options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
+        try await withCheckedThrowingContinuation { continuation in
+            self.updateAll(batchLimit: limit,
+                           transaction: transaction,
+                           options: options,
+                           completion: continuation.resume)
+        }
+    }
+
+    /**
      Deletes a collection of users *asynchronously*.
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
@@ -264,7 +400,7 @@ public extension Sequence where Element: ParseUser {
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Each element in the array is `nil` if the delete successful or a `ParseError` if it failed.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      - important: If an object deleted has the same objectId as current, it will automatically update the current.
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else

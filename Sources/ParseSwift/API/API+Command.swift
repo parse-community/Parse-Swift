@@ -145,7 +145,7 @@ internal extension API {
                     }
                 }
             } else {
-                //ParseFiles are handled with a dedicated URLSession
+                // ParseFiles are handled with a dedicated URLSession
                 if method == .POST || method == .PUT || method == .PATCH {
                     switch self.prepareURLRequest(options: options,
                                                   childObjects: childObjects,
@@ -262,7 +262,7 @@ internal extension API {
                                childFiles: [UUID: ParseFile]? = nil) -> Result<URLRequest, ParseError> {
             let params = self.params?.getQueryItems()
             var headers = API.getHeaders(options: options)
-            if !(method == .POST) && !(method == .PUT) && !(method == .PATCH) {
+            if method == .GET || method == .DELETE {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
             let url = parseURL == nil ?
@@ -390,20 +390,20 @@ internal extension API.Command {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if object.isSaved {
-            return update(object)
+            return try replace(object) // Should be switched to "update" when server supports PATCH.
         }
         return create(object)
     }
 
     // MARK: Saving ParseObjects - private
-    private static func create<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+    static func create<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         var object = object
         if object.ACL == nil,
             let acl = try? ParseACL.defaultACL() {
             object.ACL = acl
         }
         let mapper = { (data) -> T in
-            try ParseCoding.jsonDecoder().decode(SaveResponse.self, from: data).apply(to: object)
+            try ParseCoding.jsonDecoder().decode(CreateResponse.self, from: data).apply(to: object)
         }
         return API.Command<T, T>(method: .POST,
                                  path: object.endpoint(.POST),
@@ -411,11 +411,29 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    private static func update<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
+    static func replace<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
+        guard object.objectId != nil else {
+            throw ParseError(code: .missingObjectId,
+                             message: "objectId must not be nil")
+        }
+        let mapper = { (data) -> T in
+            try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: object)
+        }
+        return API.Command<T, T>(method: .PUT,
+                                 path: object.endpoint,
+                                 body: object,
+                                 mapper: mapper)
+    }
+
+    static func update<T>(_ object: T) throws -> API.Command<T, T> where T: ParseObject {
+        guard object.objectId != nil else {
+            throw ParseError(code: .missingObjectId,
+                             message: "objectId must not be nil")
+        }
         let mapper = { (data) -> T in
             try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: object)
         }
-        return API.Command<T, T>(method: .PUT,
+        return API.Command<T, T>(method: .PATCH,
                                  path: object.endpoint,
                                  body: object,
                                  mapper: mapper)
@@ -458,14 +476,24 @@ internal extension API.Command where T: ParseObject {
 
         let mapper = { (data: Data) -> [Result<T, ParseError>] in
 
-            let decodingType = [BatchResponseItem<WriteResponse>].self
+            let decodingType = [BatchResponseItem<BatchResponse>].self
             do {
                 let responses = try ParseCoding.jsonDecoder().decode(decodingType, from: data)
                 return commands.enumerated().map({ (object) -> (Result<T, ParseError>) in
                     let response = responses[object.offset]
                     if let success = response.success,
                        let body = object.element.body {
-                        return .success(success.apply(to: body, method: object.element.method))
+                        do {
+                            let updatedObject = try success.apply(to: body,
+                                                                  method: object.element.method)
+                            return .success(updatedObject)
+                        } catch {
+                            guard let parseError = error as? ParseError else {
+                                return .failure(ParseError(code: .unknownError,
+                                                           message: error.localizedDescription))
+                            }
+                            return .failure(parseError)
+                        }
                     } else {
                         guard let parseError = response.error else {
                             return .failure(ParseError(code: .unknownError, message: "unknown error"))

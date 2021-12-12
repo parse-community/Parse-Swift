@@ -9,7 +9,6 @@
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-@MainActor
 public extension ParseAuthentication {
 
     // MARK: Convenience Implementations - Async/Await
@@ -30,7 +29,6 @@ public extension ParseAuthentication {
     }
 }
 
-@MainActor
 public extension ParseUser {
 
     // MARK: 3rd Party Authentication - Login Async/Await

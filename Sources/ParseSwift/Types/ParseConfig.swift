@@ -105,7 +105,7 @@ extension ParseConfig {
 
     internal func updateCommand() -> API.Command<ConfigUpdateBody<Self>, Bool> {
         let body = ConfigUpdateBody(params: self)
-        return API.Command(method: .PUT,
+        return API.Command(method: .PUT, // Should be switched to ".PATCH" when server supports PATCH.
                            path: .config,
                            body: body) { (data) -> Bool in
             let updated = try ParseCoding.jsonDecoder().decode(ConfigUpdateResponse.self, from: data).result

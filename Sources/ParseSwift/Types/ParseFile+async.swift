@@ -12,7 +12,6 @@ import Foundation
 import FoundationNetworking
 #endif
 
-@MainActor
 public extension ParseFile {
 
     // MARK: Async/Await
@@ -20,7 +19,7 @@ public extension ParseFile {
      Fetches a file with given url *asynchronously*.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A fetched `ParseFile`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -38,7 +37,7 @@ public extension ParseFile {
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A fetched `ParseFile`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
@@ -58,7 +57,7 @@ public extension ParseFile {
      be downloaded before saved.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A saved `ParseFile`.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
     */
     func save(options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
@@ -76,7 +75,7 @@ public extension ParseFile {
      It should have the following argument signature: `(task: URLSessionDownloadTask,
      bytesWritten: Int64, totalBytesWritten: Int64, totalBytesExpectedToWrite: Int64)`.
      - returns: A ParsFile.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func save(options: API.Options = [],
               progress: ((URLSessionTask,
@@ -94,7 +93,7 @@ public extension ParseFile {
      Deletes the file from the Parse Server.
      - requires: `.useMasterKey` has to be available.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-     - throws: An error of type `ParseError`..
+     - throws: An error of type `ParseError`.
      */
     func delete(options: API.Options = []) async throws {
         _ = try await withCheckedThrowingContinuation { continuation in

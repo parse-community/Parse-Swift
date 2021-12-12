@@ -632,6 +632,19 @@ class APICommandTests: XCTestCase {
             XCTFail(error.localizedDescription)
         }
 
+        let patch = API.Command<Level, NoBody?>(method: .PATCH, path: .login) { _ in
+            return nil
+        }
+        switch patch.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] == nil {
+                XCTFail("Should contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
         let delete = API.Command<Level, NoBody?>(method: .DELETE, path: .login) { _ in
             return nil
         }
@@ -680,6 +693,19 @@ class APICommandTests: XCTestCase {
             return nil
         }
         switch put.prepareURLRequest(options: []) {
+
+        case .success(let request):
+            if request.allHTTPHeaderFields?["X-Parse-Request-Id"] == nil {
+                XCTFail("Should contain idempotent header ID")
+            }
+        case .failure(let error):
+            XCTFail(error.localizedDescription)
+        }
+
+        let patch = API.NonParseBodyCommand<NoBody, NoBody?>(method: .PATCH, path: .login) { _ in
+            return nil
+        }
+        switch patch.prepareURLRequest(options: []) {
 
         case .success(let request):
             if request.allHTTPHeaderFields?["X-Parse-Request-Id"] == nil {

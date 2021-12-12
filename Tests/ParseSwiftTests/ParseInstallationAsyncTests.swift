@@ -130,16 +130,14 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
     }
 
     func saveCurrentInstallation() throws {
-        guard var installation = Installation.current else {
+        guard let installation = Installation.current else {
             XCTFail("Should unwrap")
             return
         }
-        installation.objectId = testInstallationObjectId
-        installation.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installation.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
-        installation.ACL = nil
 
         var installationOnServer = installation
+        installationOnServer.objectId = testInstallationObjectId
+        installationOnServer.createdAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
 
         let encoded: Data!
         do {
@@ -170,6 +168,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         }
     }
 
+    @MainActor
     func testFetch() async throws {
         try saveCurrentInstallation()
         MockURLProtocol.removeAll()
@@ -200,7 +199,8 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         XCTAssertEqual(Installation.current?.customKey, serverResponse.customKey)
     }
 
-    func testSave() async throws {
+    @MainActor
+    func testSaveCurrent() async throws {
         try saveCurrentInstallation()
         MockURLProtocol.removeAll()
 
@@ -230,6 +230,176 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         XCTAssertEqual(Installation.current?.customKey, serverResponse.customKey)
     }
 
+    @MainActor
+    func testSave() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        var installation = Installation()
+        installation.customKey = "newValue"
+        installation.installationId = "123"
+
+        var serverResponse = installation
+        serverResponse.objectId = "yolo"
+        serverResponse.createdAt = Date()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                //Get dates in correct format from ParseDecoding strategy
+                serverResponse = try serverResponse.getDecoder().decode(Installation.self, from: encoded)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let saved = try await installation.save()
+        XCTAssert(saved.hasSameObjectId(as: serverResponse))
+        XCTAssert(saved.hasSameInstallationId(as: serverResponse))
+        XCTAssertEqual(saved.createdAt, serverResponse.createdAt)
+        XCTAssertEqual(saved.updatedAt, serverResponse.createdAt)
+    }
+
+    @MainActor
+    func testCreate() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        var installation = Installation()
+        installation.customKey = "newValue"
+        installation.installationId = "123"
+
+        var serverResponse = installation
+        serverResponse.objectId = "yolo"
+        serverResponse.createdAt = Date()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                //Get dates in correct format from ParseDecoding strategy
+                serverResponse = try serverResponse.getDecoder().decode(Installation.self, from: encoded)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let saved = try await installation.create()
+        XCTAssert(saved.hasSameObjectId(as: serverResponse))
+        XCTAssert(saved.hasSameInstallationId(as: serverResponse))
+        XCTAssertEqual(saved.createdAt, serverResponse.createdAt)
+        XCTAssertEqual(saved.updatedAt, serverResponse.createdAt)
+    }
+
+    @MainActor
+    func testReplaceCreate() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        var installation = Installation()
+        installation.objectId = "yolo"
+        installation.customKey = "newValue"
+        installation.installationId = "123"
+
+        var serverResponse = installation
+        serverResponse.createdAt = Date()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                //Get dates in correct format from ParseDecoding strategy
+                serverResponse = try serverResponse.getDecoder().decode(Installation.self, from: encoded)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let saved = try await installation.replace()
+        XCTAssert(saved.hasSameObjectId(as: serverResponse))
+        XCTAssert(saved.hasSameInstallationId(as: serverResponse))
+        XCTAssertEqual(saved.createdAt, serverResponse.createdAt)
+        XCTAssertEqual(saved.updatedAt, serverResponse.createdAt)
+    }
+
+    @MainActor
+    func testReplaceUpdate() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        var installation = Installation()
+        installation.objectId = "yolo"
+        installation.customKey = "newValue"
+        installation.installationId = "123"
+
+        var serverResponse = installation
+        serverResponse.updatedAt = Date()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                //Get dates in correct format from ParseDecoding strategy
+                serverResponse = try serverResponse.getDecoder().decode(Installation.self, from: encoded)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let saved = try await installation.replace()
+        XCTAssert(saved.hasSameObjectId(as: serverResponse))
+        XCTAssert(saved.hasSameInstallationId(as: serverResponse))
+        XCTAssertEqual(saved.updatedAt, serverResponse.updatedAt)
+    }
+
+    @MainActor
+    func testUpdate() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        var installation = Installation()
+        installation.objectId = "yolo"
+        installation.customKey = "newValue"
+        installation.installationId = "123"
+
+        var serverResponse = installation
+        serverResponse.updatedAt = Date()
+
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+                //Get dates in correct format from ParseDecoding strategy
+                serverResponse = try serverResponse.getDecoder().decode(Installation.self, from: encoded)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let saved = try await installation.update()
+        XCTAssert(saved.hasSameObjectId(as: serverResponse))
+        XCTAssert(saved.hasSameInstallationId(as: serverResponse))
+        XCTAssertEqual(saved.updatedAt, serverResponse.updatedAt)
+    }
+
+    @MainActor
+    func testUpdateClientMissingObjectId() async throws {
+        var installation = Installation()
+        installation.installationId = "123"
+        do {
+            _ = try await installation.update()
+            XCTFail("Should have thrown error")
+        } catch {
+            guard let parseError = error as? ParseError else {
+                XCTFail("Should have casted to ParseError")
+                return
+            }
+            XCTAssertEqual(parseError.code, .missingObjectId)
+        }
+    }
+
+    @MainActor
     func testDelete() async throws {
         try saveCurrentInstallation()
         MockURLProtocol.removeAll()
@@ -260,6 +430,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         }
     }
 
+    @MainActor
     func testFetchAll() async throws {
         try saveCurrentInstallation()
         MockURLProtocol.removeAll()
@@ -331,6 +502,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         }
     }
 
+    @MainActor
     func testSaveAll() async throws {
         try saveCurrentInstallation()
         MockURLProtocol.removeAll()
@@ -339,7 +511,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
             XCTFail("Should unwrap dates")
             return
         }
-
+        installation.createdAt = nil
         installation.updatedAt = installation.updatedAt?.addingTimeInterval(+300)
         installation.customKey = "newValue"
         let installationOnServer = [BatchResponseItem<Installation>(success: installation, error: nil)]
@@ -364,20 +536,15 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
             case .success(let saved):
                 XCTAssert(saved.hasSameObjectId(as: installation))
                 XCTAssert(saved.hasSameInstallationId(as: installation))
-                guard let savedCreatedAt = saved.createdAt,
-                    let savedUpdatedAt = saved.updatedAt else {
+                guard let savedUpdatedAt = saved.updatedAt else {
                         XCTFail("Should unwrap dates")
                         return
                 }
-                guard let originalCreatedAt = installation.createdAt,
-                    let originalUpdatedAt = installation.updatedAt,
-                    let serverUpdatedAt = installation.updatedAt else {
+                guard let originalUpdatedAt = installation.updatedAt else {
                         XCTFail("Should unwrap dates")
                         return
                 }
-                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
-                XCTAssertEqual(savedUpdatedAt, serverUpdatedAt)
                 XCTAssertEqual(Installation.current?.customKey, installation.customKey)
 
                 //Should be updated in memory
@@ -385,7 +552,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
                     XCTFail("Should unwrap current date")
                     return
                 }
-                XCTAssertEqual(updatedCurrentDate, serverUpdatedAt)
+                XCTAssertEqual(updatedCurrentDate, originalUpdatedAt)
 
                 #if !os(Linux) && !os(Android) && !os(Windows)
                 //Should be updated in Keychain
@@ -395,7 +562,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
                         XCTFail("Should get object from Keychain")
                     return
                 }
-                XCTAssertEqual(keychainUpdatedCurrentDate, serverUpdatedAt)
+                XCTAssertEqual(keychainUpdatedCurrentDate, originalUpdatedAt)
                 #endif
             case .failure(let error):
                 XCTFail("Should have fetched: \(error.localizedDescription)")
@@ -403,6 +570,202 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         }
     }
 
+    @MainActor
+    func testCreateAll() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        var installation = Installation()
+        installation.customKey = "newValue"
+        installation.installationId = "123"
+
+        var serverResponse = installation
+        serverResponse.objectId = "yolo"
+        serverResponse.createdAt = Date()
+        let installationOnServer = [BatchResponseItem<Installation>(success: serverResponse, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(serverResponse)
+            serverResponse = try installation.getDecoder().decode(Installation.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let saved = try await [installation].createAll()
+        saved.forEach {
+            switch $0 {
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: serverResponse))
+                XCTAssert(saved.hasSameInstallationId(as: serverResponse))
+                guard let savedCreatedAt = saved.createdAt,
+                    let savedUpdatedAt = saved.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                guard let originalCreatedAt = serverResponse.createdAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(savedCreatedAt, originalCreatedAt)
+                XCTAssertEqual(savedUpdatedAt, originalCreatedAt)
+
+            case .failure(let error):
+                XCTFail("Should have fetched: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @MainActor
+    func testReplaceAllCreate() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        var installation = Installation()
+        installation.customKey = "newValue"
+        installation.installationId = "123"
+        installation.objectId = "yolo"
+
+        var serverResponse = installation
+        serverResponse.createdAt = Date()
+        let installationOnServer = [BatchResponseItem<Installation>(success: serverResponse, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(serverResponse)
+            serverResponse = try installation.getDecoder().decode(Installation.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let saved = try await [installation].replaceAll()
+        saved.forEach {
+            switch $0 {
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: serverResponse))
+                XCTAssert(saved.hasSameInstallationId(as: serverResponse))
+                XCTAssertEqual(saved.createdAt, serverResponse.createdAt)
+                XCTAssertEqual(saved.updatedAt, serverResponse.createdAt)
+
+            case .failure(let error):
+                XCTFail("Should have fetched: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @MainActor
+    func testReplaceAllUpdate() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        var installation = Installation()
+        installation.customKey = "newValue"
+        installation.installationId = "123"
+        installation.objectId = "yolo"
+
+        var serverResponse = installation
+        serverResponse.updatedAt = Date()
+        let installationOnServer = [BatchResponseItem<Installation>(success: serverResponse, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(serverResponse)
+            serverResponse = try installation.getDecoder().decode(Installation.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let saved = try await [installation].replaceAll()
+        saved.forEach {
+            switch $0 {
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: serverResponse))
+                XCTAssert(saved.hasSameInstallationId(as: serverResponse))
+                guard let savedUpdatedAt = saved.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                guard let originalUpdatedAt = serverResponse.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+
+            case .failure(let error):
+                XCTFail("Should have fetched: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @MainActor
+    func testUpdateAll() async throws {
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        var installation = Installation()
+        installation.customKey = "newValue"
+        installation.installationId = "123"
+        installation.objectId = "yolo"
+
+        var serverResponse = installation
+        serverResponse.updatedAt = Date()
+        let installationOnServer = [BatchResponseItem<Installation>(success: serverResponse, error: nil)]
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(installationOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            let encoded1 = try ParseCoding.jsonEncoder().encode(serverResponse)
+            serverResponse = try installation.getDecoder().decode(Installation.self, from: encoded1)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let saved = try await [installation].updateAll()
+        saved.forEach {
+            switch $0 {
+            case .success(let saved):
+                XCTAssert(saved.hasSameObjectId(as: serverResponse))
+                XCTAssert(saved.hasSameInstallationId(as: serverResponse))
+                guard let savedUpdatedAt = saved.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                guard let originalUpdatedAt = serverResponse.updatedAt else {
+                        XCTFail("Should unwrap dates")
+                        return
+                }
+                XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+
+            case .failure(let error):
+                XCTFail("Should have fetched: \(error.localizedDescription)")
+            }
+        }
+    }
+
+    @MainActor
     func testDeleteAll() async throws {
         try saveCurrentInstallation()
         MockURLProtocol.removeAll()

@@ -84,7 +84,7 @@ internal extension API {
         // MARK: URL Preperation
         func prepareURLRequest(options: API.Options) -> Result<URLRequest, ParseError> {
             var headers = API.getHeaders(options: options)
-            if !(method == .POST) && !(method == .PUT) && !(method == .PATCH) {
+            if method == .GET || method == .DELETE {
                 headers.removeValue(forKey: "X-Parse-Request-Id")
             }
             let url = ParseSwift.configuration.serverURL.appendingPathComponent(path.urlComponent)
