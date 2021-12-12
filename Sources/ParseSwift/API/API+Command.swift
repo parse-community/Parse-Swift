@@ -121,7 +121,7 @@ internal extension API {
                 currentNotificationQueue = callbackQueue
             }
             if !path.urlComponent.contains("/files/") {
-                //All ParseObjects use the shared URLSession
+                // All ParseObjects use the shared URLSession
                 switch self.prepareURLRequest(options: options,
                                               childObjects: childObjects,
                                               childFiles: childFiles) {
@@ -395,7 +395,6 @@ internal extension API.Command {
         return create(object)
     }
 
-    // MARK: Saving ParseObjects - private
     static func create<T>(_ object: T) -> API.Command<T, T> where T: ParseObject {
         var object = object
         if object.ACL == nil,
@@ -439,10 +438,11 @@ internal extension API.Command {
                                  mapper: mapper)
     }
 
-    // MARK: Fetching
+    // MARK: Fetching ParseObjects
     static func fetch<T>(_ object: T, include: [String]?) throws -> API.Command<T, T> where T: ParseObject {
         guard object.objectId != nil else {
-            throw ParseError(code: .unknownError, message: "Cannot Fetch an object without id")
+            throw ParseError(code: .missingObjectId,
+                             message: "objectId must not be nil")
         }
 
         var params: [String: String]?
@@ -462,7 +462,7 @@ internal extension API.Command {
 
 internal extension API.Command where T: ParseObject {
 
-    // MARK: Batch - Saving, Fetching
+    // MARK: Batch - Saving, Fetching ParseObjects
     static func batch(commands: [API.Command<T, T>],
                       transaction: Bool) -> RESTBatchCommandType<T> {
         let batchCommands = commands.compactMap { (command) -> API.Command<T, T>? in
@@ -514,7 +514,7 @@ internal extension API.Command where T: ParseObject {
         return RESTBatchCommandType<T>(method: .POST, path: .batch, body: batchCommand, mapper: mapper)
     }
 
-    // MARK: Batch - Deleting
+    // MARK: Batch - Deleting ParseObjects
     static func batch(commands: [API.NonParseBodyCommand<NoBody, NoBody>],
                       transaction: Bool) -> RESTBatchCommandNoBodyType<NoBody> {
         let commands = commands.compactMap { (command) -> API.NonParseBodyCommand<NoBody, NoBody>? in

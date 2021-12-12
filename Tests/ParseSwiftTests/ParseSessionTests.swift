@@ -78,6 +78,7 @@ class ParseSessionTests: XCTestCase {
 
     func testFetchCommand() throws {
         var session = Session<User>()
+        XCTAssertThrowsError(try session.fetchCommand(include: nil))
         session.objectId = "me"
         do {
             let command = try session.fetchCommand(include: nil)

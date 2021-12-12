@@ -100,6 +100,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testFetchCommand() {
         var user = User()
+        XCTAssertThrowsError(try user.fetchCommand(include: nil))
         let objectId = "yarr"
         user.objectId = objectId
         do {

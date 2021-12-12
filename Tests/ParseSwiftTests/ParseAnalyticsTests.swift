@@ -119,7 +119,7 @@ class ParseAnalyticsTests: XCTestCase {
     #if canImport(AppTrackingTransparency)
     func testTrackAppOpenedUIKitNotAuthorized() {
         if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+            ParseSwift.configuration.isTestingSDK = false // Allow authorization check
             let expectation = XCTestExpectation(description: "Analytics save")
             let options = [UIApplication.LaunchOptionsKey.remoteNotification: ["stop": "drop"]]
             ParseAnalytics.trackAppOpened(launchOptions: options) { result in
@@ -192,7 +192,7 @@ class ParseAnalyticsTests: XCTestCase {
     #if canImport(AppTrackingTransparency)
     func testTrackAppOpenedNotAuthorized() {
         if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+            ParseSwift.configuration.isTestingSDK = false // Allow authorization check
             let expectation = XCTestExpectation(description: "Analytics save")
             ParseAnalytics.trackAppOpened(dimensions: ["stop": "drop"]) { result in
 
@@ -317,7 +317,7 @@ class ParseAnalyticsTests: XCTestCase {
     #if canImport(AppTrackingTransparency)
     func testTrackEventNotAuthorized() {
         if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+            ParseSwift.configuration.isTestingSDK = false // Allow authorization check
 
             let expectation = XCTestExpectation(description: "Analytics save")
             let event = ParseAnalytics(name: "hello")
@@ -338,7 +338,7 @@ class ParseAnalyticsTests: XCTestCase {
 
     func testTrackEventNotAuthorizedMutated() {
         if #available(macOS 11.0, iOS 14.0, macCatalyst 14.0, tvOS 14.0, *) {
-            ParseSwift.configuration.isTestingSDK = false //Allow authorization check
+            ParseSwift.configuration.isTestingSDK = false // Allow authorization check
 
             let expectation = XCTestExpectation(description: "Analytics save")
             var event = ParseAnalytics(name: "hello")

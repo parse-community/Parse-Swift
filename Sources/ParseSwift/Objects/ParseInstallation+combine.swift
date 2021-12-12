@@ -82,7 +82,7 @@ public extension ParseInstallation {
 
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
-     - important: If an object replcaed has the same objectId as current, it will automatically replace the current.
+     - important: If an object replaced has the same objectId as current, it will automatically replace the current.
     */
     func replacePublisher(options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in

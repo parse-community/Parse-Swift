@@ -424,7 +424,8 @@ extension ParseInstallation {
 
     func fetchCommand(include: [String]?) throws -> API.Command<Self, Self> {
         guard objectId != nil else {
-            throw ParseError(code: .unknownError, message: "Cannot fetch an object without id")
+            throw ParseError(code: .missingObjectId,
+                             message: "objectId must not be nil")
         }
 
         var params: [String: String]?
