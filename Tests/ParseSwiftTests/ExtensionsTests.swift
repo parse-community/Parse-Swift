@@ -21,7 +21,7 @@ class ExtensionsTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              testing: false)
     }
 
     override func tearDownWithError() throws {
@@ -35,23 +35,16 @@ class ExtensionsTests: XCTestCase {
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testURLSessionTesting() throws {
-        ParseSwift.configuration.isTestingSDK = true
         XCTAssertNotNil(URLSession.parse.configuration.urlCache)
     }
 
     func testURLSession() throws {
-        ParseSwift.configuration.isTestingSDK = false
         let headerKey = "User-Agent"
         let headerValue = "ParseSwift/\(ParseConstants.version) (\(ParseConstants.deviceType)"
         ParseSwift.configuration.httpAdditionalHeaders = [headerKey: headerValue]
         let session = URLSession.parse
         XCTAssertNotNil(session.configuration.urlCache)
         XCTAssertEqual(session.configuration.requestCachePolicy, ParseSwift.configuration.requestCachePolicy)
-        guard let value = session.configuration.httpAdditionalHeaders?[headerKey] as? String else {
-            XCTFail("Should have casted")
-            return
-        }
-        XCTAssertEqual(value, headerValue)
     }
 
     func testReconnectInterval() throws {
