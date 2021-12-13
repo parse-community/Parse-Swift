@@ -124,9 +124,7 @@ public extension ParseUser {
     internal static func deleteCurrentContainerFromKeychain() {
         try? ParseStorage.shared.delete(valueFor: ParseStorage.Keys.currentUser)
         #if !os(Linux) && !os(Android) && !os(Windows)
-        if #available(macOS 10.15, iOS 13.0, macCatalyst 13.0, watchOS 6.0, tvOS 13.0, *) {
-            URLSession.liveQuery.closeAll()
-        }
+        URLSession.liveQuery.closeAll()
         try? KeychainStore.shared.delete(valueFor: ParseStorage.Keys.currentUser)
         #endif
         Self.currentContainer = nil
