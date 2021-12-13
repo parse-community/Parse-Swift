@@ -125,6 +125,14 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter constraints: A variadic amount of zero or more `QueryConstraint`'s.
      */
     public func `where`(_ constraints: QueryConstraint...) -> Query<T> {
+        self.`where`(constraints)
+    }
+
+    /**
+      Add an array of variadic constraints.
+     - parameter constraints: An array of zero or more `QueryConstraint`'s.
+     */
+    public func `where`(_ constraints: [QueryConstraint]) -> Query<T> {
         var mutableQuery = self
         constraints.forEach({ mutableQuery.where.add($0) })
         return mutableQuery
@@ -186,13 +194,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter keys: A variadic list of keys to load child `ParseObject`s for.
      */
     public func include(_ keys: String...) -> Query<T> {
-        var mutableQuery = self
-        if mutableQuery.include != nil {
-            mutableQuery.include = mutableQuery.include?.union(keys)
-        } else {
-            mutableQuery.include = Set(keys)
-        }
-        return mutableQuery
+        self.include(keys)
     }
 
     /**
@@ -227,13 +229,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      - warning: Requires Parse Server 5.0.0+.
      */
     public func exclude(_ keys: String...) -> Query<T> {
-        var mutableQuery = self
-        if mutableQuery.excludeKeys != nil {
-            mutableQuery.excludeKeys = mutableQuery.excludeKeys?.union(keys)
-        } else {
-            mutableQuery.excludeKeys = Set(keys)
-        }
-        return mutableQuery
+        self.exclude(keys)
     }
 
     /**
@@ -259,13 +255,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      - warning: Requires Parse Server 5.0.0+.
      */
     public func select(_ keys: String...) -> Query<T> {
-        var mutableQuery = self
-        if mutableQuery.keys != nil {
-            mutableQuery.keys = mutableQuery.keys?.union(keys)
-        } else {
-            mutableQuery.keys = Set(keys)
-        }
-        return mutableQuery
+        self.select(keys)
     }
 
     /**
@@ -306,13 +296,7 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
      - parameter keys: A variadic list of fields to receive back instead of the whole `ParseObject`.
      */
     public func fields(_ keys: String...) -> Query<T> {
-        var mutableQuery = self
-        if mutableQuery.fields != nil {
-            mutableQuery.fields = mutableQuery.fields?.union(keys)
-        } else {
-            mutableQuery.fields = Set(keys)
-        }
-        return mutableQuery
+        self.fields(keys)
     }
 
     /**
@@ -1128,7 +1112,7 @@ public extension ParseObject {
      - returns: An instance of query for easy chaining.
      */
     static func query(_ constraints: QueryConstraint...) -> Query<Self> {
-        Query<Self>(constraints)
+        Self.query(constraints)
     }
 
     /**

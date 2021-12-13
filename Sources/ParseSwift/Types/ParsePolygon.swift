@@ -22,7 +22,7 @@ public struct ParsePolygon: Codable, Hashable {
 
     /**
       Create new `ParsePolygon` instance with coordinates.
-       - parameter coordinates: The geopoints that make the polygon.
+       - parameter coordinates: An array of geopoints that make the polygon.
        - throws: An error of type `ParseError`.
      */
     public init(_ coordinates: [ParseGeoPoint]) throws {
@@ -36,8 +36,7 @@ public struct ParsePolygon: Codable, Hashable {
        - throws: An error of type `ParseError`.
      */
     public init(_ coordinates: ParseGeoPoint...) throws {
-        self.coordinates = coordinates
-        try validate()
+        try self.init(coordinates)
     }
 
     func validate() throws {
