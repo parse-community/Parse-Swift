@@ -39,7 +39,7 @@ public struct ParseConfiguration {
     /// A dictionary of additional headers to send with requests. See Apple's
     /// [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
     /// for more info.
-    public internal(set) var httpAdditionalHeaders: [String: String]?
+    public internal(set) var httpAdditionalHeaders: [AnyHashable: Any]?
 
     /// The memory capacity of the cache, in bytes. Defaults to 512KB.
     public internal(set) var cacheMemoryCapacity = 512_000
@@ -114,7 +114,7 @@ public struct ParseConfiguration {
                 cacheDiskCapacity: Int = 10_000_000,
                 migrateFromObjcSDK: Bool = false,
                 deleteKeychainIfNeeded: Bool = false,
-                httpAdditionalHeaders: [String: String]? = nil,
+                httpAdditionalHeaders: [AnyHashable: Any]? = nil,
                 maxConnectionAttempts: Int = 5,
                 authentication: ((URLAuthenticationChallenge,
                                   (URLSession.AuthChallengeDisposition,
@@ -274,7 +274,7 @@ public struct ParseSwift {
         cacheDiskCapacity: Int = 10_000_000,
         migrateFromObjcSDK: Bool = false,
         deleteKeychainIfNeeded: Bool = false,
-        httpAdditionalHeaders: [String: String]? = nil,
+        httpAdditionalHeaders: [AnyHashable: Any]? = nil,
         maxConnectionAttempts: Int = 5,
         authentication: ((URLAuthenticationChallenge,
                           (URLSession.AuthChallengeDisposition,
@@ -311,7 +311,7 @@ public struct ParseSwift {
                                     cacheDiskCapacity: Int = 10_000_000,
                                     migrateFromObjcSDK: Bool = false,
                                     deleteKeychainIfNeeded: Bool = false,
-                                    httpAdditionalHeaders: [String: String]? = nil,
+                                    httpAdditionalHeaders: [AnyHashable: Any]? = nil,
                                     maxConnectionAttempts: Int = 5,
                                     testing: Bool = false,
                                     authentication: ((URLAuthenticationChallenge,
