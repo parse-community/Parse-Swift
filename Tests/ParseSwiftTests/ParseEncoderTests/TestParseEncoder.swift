@@ -858,7 +858,6 @@ class TestParseEncoder: XCTestCase {
   }
 /*
   func testInterceptURLWithoutEscapingOption() {
-    if #available(macOS 10.15, iOS 13.0, watchOS 6.0, tvOS 13.0, *) {
       // Want to make sure JSONEncoder writes out single-value URLs, not the keyed encoding.
       let expectedJSON = "\"http://swift.org\"".data(using: .utf8)!
       let url = URL(string: "http://swift.org")!
@@ -866,7 +865,6 @@ class TestParseEncoder: XCTestCase {
 
       // Optional URLs should encode the same way.
       _testRoundTrip(of: Optional(url), expectedJSON: expectedJSON, outputFormatting: [.withoutEscapingSlashes])
-    }
   }*/
 
   // MARK: - Type coercion
