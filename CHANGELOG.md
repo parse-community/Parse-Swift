@@ -2,8 +2,18 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 2.5.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.0...2.5.1)
+
+__Improvements__
+- Reduce call sites by having all methods with variadic arguments call their array counterparts ([#301](https://github.com/parse-community/Parse-Swift/pull/301)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Fixes__
+- Let additional headers accept [AnyHashable: Any] ([#302](https://github.com/parse-community/Parse-Swift/pull/302)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Throw .missingObjectId when missing the client detects a missing objectId instead of throwing an .unknown error ([#300](https://github.com/parse-community/Parse-Swift/pull/300)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.5.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.4.0...2.5.0)
