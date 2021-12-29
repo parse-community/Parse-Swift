@@ -112,7 +112,7 @@ query.first { results in
     }
 }
 
-//: Query based on relative time. Have to be using mongoDB.
+//: Query based on relative time. Have to be using MongoDB.
 /*let queryRelative = GameScore.query(relative("createdAt" < "10 minutes ago"))
 queryRelative.find { results in
     switch results {
