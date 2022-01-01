@@ -19,17 +19,18 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties.
-    var score: Int? = 0
+    var points: Int? = 0
 }
 
 //: It's recommended to place custom initializers in an extension
 //: to preserve the convenience initializer.
 extension GameScore {
     //: Custom initializer.
-    init(score: Int) {
-        self.score = score
+    init(points: Int) {
+        self.points = points
     }
 
     init(objectId: String?) {
@@ -42,15 +43,15 @@ extension GameScore {
 //: First lets create another GameScore.
 let savedScore: GameScore!
 do {
-    savedScore = try GameScore(score: 102).save()
+    savedScore = try GameScore(points: 102).save()
 } catch {
     savedScore = nil
     assertionFailure("Error saving: \(error)")
 }
 
-//: Then we will increment the score.
+//: Then we will increment the points.
 let incrementOperation = savedScore
-    .operation.increment("score", by: 1)
+    .operation.increment("points", by: 1)
 
 incrementOperation.save { result in
     switch result {
@@ -71,7 +72,7 @@ do {
 
 //: You can also remove a value for a property using unset.
 let unsetOperation = savedScore
-    .operation.unset(("score", \.score))
+    .operation.unset(("points", \.points))
 do {
     let updatedScore = try unsetOperation.save()
     print("Updated score: \(updatedScore). Check the new score on Parse Dashboard.")

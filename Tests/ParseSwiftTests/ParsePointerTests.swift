@@ -18,19 +18,20 @@ class ParsePointerTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int
+        var points: Int
         var other: Pointer<GameScore>?
         var others: [Pointer<GameScore>]?
 
         //: a custom initializer
         init() {
-            self.score = 5
+            self.points = 5
         }
 
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
         }
     }
 
@@ -56,7 +57,7 @@ class ParsePointerTests: XCTestCase {
     }
 
     func testPointer() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
         let pointer = try score.toPointer()
         let initializedPointer = try Pointer(score)
@@ -68,7 +69,7 @@ class ParsePointerTests: XCTestCase {
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testDebugString() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
         let pointer = try score.toPointer()
         XCTAssertEqual(pointer.debugDescription,
@@ -79,13 +80,13 @@ class ParsePointerTests: XCTestCase {
     #endif
 
     func testPointerNoObjectId() throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         XCTAssertThrowsError(try Pointer(score))
     }
 
     func testPointerObjectId() throws {
         let score = Pointer<GameScore>(objectId: "yarr")
-        var score2 = GameScore(score: 10)
+        var score2 = GameScore(points: 10)
         score2.objectId = "yarr"
         let pointer = try score2.toPointer()
         XCTAssertEqual(pointer.className, score.className)
@@ -93,7 +94,7 @@ class ParsePointerTests: XCTestCase {
     }
 
     func testHasSameObjectId() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
         let pointer = try score.toPointer()
@@ -107,11 +108,11 @@ class ParsePointerTests: XCTestCase {
     }
 
     func testPointerEquality() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
         let pointer = try score.toPointer()
-        var score2 = GameScore(score: 10)
+        var score2 = GameScore(points: 10)
         score2.objectId = objectId
         var pointer2 = try score2.toPointer()
         XCTAssertEqual(pointer, pointer2)
@@ -120,7 +121,7 @@ class ParsePointerTests: XCTestCase {
     }
 
     func testDetectCircularDependency() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "nice"
         score.other = try score.toPointer()
 
@@ -134,7 +135,7 @@ class ParsePointerTests: XCTestCase {
     }
 
     func testDetectCircularDependencyArray() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "nice"
         let first = try score.toPointer()
         score.others = [first, first]
@@ -150,7 +151,7 @@ class ParsePointerTests: XCTestCase {
 
     // swiftlint:disable:next function_body_length
     func testFetch() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
         let pointer = try score.toPointer()
@@ -274,11 +275,11 @@ class ParsePointerTests: XCTestCase {
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testEncodeEmbeddedPointer() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
-        var score2 = GameScore(score: 50)
+        var score2 = GameScore(points: 50)
         score2.other = try score.toPointer()
 
         let encoded = try score2.getEncoder().encode(score2,
@@ -289,13 +290,13 @@ class ParsePointerTests: XCTestCase {
         let decoded = String(data: encoded.encoded, encoding: .utf8)
         XCTAssertEqual(decoded,
                        // swiftlint:disable:next line_length
-                       "{\"score\":50,\"other\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"}}")
+                       "{\"points\":50,\"other\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"}}")
         XCTAssertNil(encoded.unique)
         XCTAssertEqual(encoded.unsavedChildren.count, 0)
     }
 
     func testPointerTypeEncoding() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -308,7 +309,7 @@ class ParsePointerTests: XCTestCase {
     }
 
     func testThreadSafeFetchAsync() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
         let pointer = try score.toPointer()
@@ -339,7 +340,7 @@ class ParsePointerTests: XCTestCase {
     #endif
 
     func testFetchAsyncMainQueue() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
         let pointer = try score.toPointer()

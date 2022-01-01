@@ -19,6 +19,7 @@ struct User: ParseUser {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: These are required by `ParseUser`.
     var username: String?
@@ -38,6 +39,7 @@ struct Role<RoleUser: ParseUser>: ParseRole {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Provided by Role.
     var name: String
@@ -54,17 +56,18 @@ struct GameScore: ParseObject, ParseObjectMutable {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int = 0
 }
 
 //: It's recommended to place custom initializers in an extension
 //: to preserve the convenience initializer.
 extension GameScore {
 
-    init(score: Int) {
-        self.score = score
+    init(points: Int) {
+        self.points = points
     }
 
     init(objectId: String?) {
@@ -248,8 +251,8 @@ do {
 //: All `ParseObject`s have a `ParseRelation` attribute that be used on instances.
 //: For example, the User has:
 var relation = User.current!.relation
-let score1 = GameScore(score: 53)
-let score2 = GameScore(score: 57)
+let score1 = GameScore(points: 53)
+let score2 = GameScore(points: 57)
 
 //: Add new child relationships.
 [score1, score2].saveAll { result in
@@ -263,7 +266,7 @@ let score2 = GameScore(score: 57)
                 switch result {
                 case .success(let saved):
                     print("The relation saved successfully: \(saved)")
-                    print("Check \"scores\" field in your \"_User\" class in Parse Dashboard.")
+                    print("Check \"pointss\" field in your \"_User\" class in Parse Dashboard.")
 
                 case .failure(let error):
                     print("Error saving role: \(error)")

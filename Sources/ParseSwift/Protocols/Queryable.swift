@@ -58,7 +58,7 @@ extension Queryable {
     }
 
     /**
-      Finds objects *asynchronously* and calls the given block with the results.
+      Finds objects *asynchronously* and returns a completion block with the results.
 
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
@@ -69,7 +69,7 @@ extension Queryable {
     }
 
     /**
-      Gets an object *asynchronously* and calls the given block with the result.
+      Gets an object *asynchronously* and returns a completion block with the result.
 
       - warning: This method mutates the query. It will reset the limit to `1`.
 
@@ -84,7 +84,7 @@ extension Queryable {
     }
 
     /**
-      Counts objects *asynchronously* and calls the given block with the counts.
+      Counts objects *asynchronously* and returns a completion block with the count.
 
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.

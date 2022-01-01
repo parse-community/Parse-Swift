@@ -21,16 +21,17 @@ class ParsePointerCombineTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int
+        var points: Int
 
         //: a custom initializer
         init() {
-            self.score = 5
+            self.points = 5
         }
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
         }
     }
 
@@ -56,7 +57,7 @@ class ParsePointerCombineTests: XCTestCase {
     }
 
     func testFetch() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
         let pointer = try score.toPointer()

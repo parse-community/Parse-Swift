@@ -19,6 +19,7 @@ struct User: ParseUser, ParseObjectMutable {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: These are required by `ParseUser`.
     var username: String?
@@ -29,7 +30,7 @@ struct User: ParseUser, ParseObjectMutable {
 
     //: Your custom keys.
     var customKey: String?
-    var score: GameScore?
+    var gameScore: GameScore?
     var targetScore: GameScore?
     var allScores: [GameScore]?
 }
@@ -52,17 +53,18 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties.
-    var score: Int? = 0
+    var points: Int? = 0
 }
 
 //: It's recommended to place custom initializers in an extension
 //: to preserve the convenience initializer.
 extension GameScore {
     //: Custom initializer.
-    init(score: Int) {
-        self.score = score
+    init(points: Int) {
+        self.points = points
     }
 
     init(objectId: String?) {
@@ -108,9 +110,9 @@ User.login(username: "hello", password: "world") { result in
 */
 var currentUser = User.current?.mutable
 currentUser?.customKey = "myCustom"
-currentUser?.score = GameScore(score: 12)
-currentUser?.targetScore = GameScore(score: 100)
-currentUser?.allScores = [GameScore(score: 5), GameScore(score: 8)]
+currentUser?.gameScore = GameScore(points: 12)
+currentUser?.targetScore = GameScore(points: 100)
+currentUser?.allScores = [GameScore(points: 5), GameScore(points: 8)]
 currentUser?.save { result in
 
     switch result {
@@ -122,25 +124,25 @@ currentUser?.save { result in
 }
 
 //: Looking at the output of user from the previous login, it only has
-//: a pointer to the `score` and `targetScore` fields. You can
-//: fetch using `include` to get the score.
-User.current?.fetch(includeKeys: ["score"]) { result in
+//: a pointer to the `gameScore` and `targetScore` fields. You can
+//: fetch using `include` to get the gameScore.
+User.current?.fetch(includeKeys: ["gameScore"]) { result in
     switch result {
     case .success:
-        print("Successfully fetched user with score key: \(String(describing: User.current))")
+        print("Successfully fetched user with gameScore key: \(String(describing: User.current))")
     case .failure(let error):
-        print("Error fetching score: \(error)")
+        print("Error fetching User: \(error)")
     }
 }
 
-//: The `target` score is still missing. You can get all pointer fields at
+//: The `target` gameScore is still missing. You can get all pointer fields at
 //: once by including `["*"]`.
 User.current?.fetch(includeKeys: ["*"]) { result in
     switch result {
     case .success:
         print("Successfully fetched user with all keys: \(String(describing: User.current))")
     case .failure(let error):
-        print("Error fetching score: \(error)")
+        print("Error fetching User: \(error)")
     }
 }
 

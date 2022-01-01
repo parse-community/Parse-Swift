@@ -123,6 +123,38 @@ public extension Query {
     }
 
     /**
+     Finds objects *asynchronously* and returns a tuple of the results which include
+     the total number of objects satisfying this query, despite limits/skip. Might be useful for pagination.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: The count of `ParseObject`'s.
+     - throws: An error of type `ParseError`.
+    */
+    func withCount(options: API.Options = []) async throws -> ([ResultType], Int) {
+        try await withCheckedThrowingContinuation { continuation in
+            self.withCount(options: options,
+                           completion: continuation.resume)
+        }
+    }
+
+    /**
+     Query plan information for withCount objects *asynchronously*.
+     - note: An explain query will have many different underlying types. Since Swift is a strongly
+     typed language, a developer should specify the type expected to be decoded which will be
+     different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+     such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
+     - parameter explain: Used to toggle the information on the query plan.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: An array of ParseObjects.
+     - throws: An error of type `ParseError`.
+    */
+    func withCountExplain<U: Decodable>(options: API.Options = []) async throws -> [U] {
+        try await withCheckedThrowingContinuation { continuation in
+            self.withCountExplain(options: options,
+                                  completion: continuation.resume)
+        }
+    }
+
+    /**
      Executes an aggregate query *asynchronously*.
      - requires: `.useMasterKey` has to be available.
      - parameter pipeline: A pipeline of stages to process query.

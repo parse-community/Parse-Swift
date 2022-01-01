@@ -21,9 +21,10 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int?
+        var points: Int?
         var player: String?
 
         //custom initializers
@@ -31,12 +32,12 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         init (objectId: String?) {
             self.objectId = objectId
         }
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
             self.player = "Jen"
         }
-        init(score: Int, name: String) {
-            self.score = score
+        init(points: Int, name: String) {
+            self.points = points
             self.player = name
         }
     }
@@ -64,7 +65,7 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
     }
 
     func testFetch() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -121,7 +122,7 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
     }
 
     func testSave() {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -171,7 +172,7 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
     }
 
     func testCreate() {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -225,7 +226,7 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
     }
 
     func testUpdate() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
 
         var scoreOnServer = score
@@ -277,7 +278,7 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
     }
 
     func testDelete() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
 
         let scoreOnServer = NoBody()
@@ -317,8 +318,8 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Fetch")
 
-        let score = GameScore(score: 10)
-        let score2 = GameScore(score: 20)
+        let score = GameScore(points: 10)
+        let score2 = GameScore(points: 20)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -384,7 +385,7 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(first.ACL)
-                XCTAssertEqual(first.score, scoreOnServer.score)
+                XCTAssertEqual(first.points, scoreOnServer.points)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -406,7 +407,7 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
                 XCTAssertEqual(savedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(second.ACL)
-                XCTAssertEqual(second.score, scoreOnServer2.score)
+                XCTAssertEqual(second.points, scoreOnServer2.points)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -420,8 +421,8 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        let score = GameScore(score: 10)
-        let score2 = GameScore(score: 20)
+        let score = GameScore(points: 10)
+        let score2 = GameScore(points: 20)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -504,8 +505,8 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        let score = GameScore(score: 10)
-        let score2 = GameScore(score: 20)
+        let score = GameScore(points: 10)
+        let score2 = GameScore(points: 20)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -592,9 +593,9 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
-        var score2 = GameScore(score: 20)
+        var score2 = GameScore(points: 20)
         score2.objectId = "yolo"
 
         var scoreOnServer = score
@@ -670,9 +671,9 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
-        var score2 = GameScore(score: 20)
+        var score2 = GameScore(points: 20)
         score2.objectId = "yolo"
 
         var scoreOnServer = score
@@ -754,9 +755,9 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
-        var score2 = GameScore(score: 20)
+        var score2 = GameScore(points: 20)
         score2.objectId = "yolo"
 
         var scoreOnServer = score

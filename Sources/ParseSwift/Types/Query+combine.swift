@@ -118,6 +118,37 @@ public extension Query {
     }
 
     /**
+     Finds objects *asynchronously* and returns a tuple of the results which include
+     the total number of objects satisfying this query, despite limits/skip. Might be useful for pagination.
+     Publishes when complete.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    func withCountPublisher(options: API.Options = []) -> Future<([ResultType], Int), ParseError> {
+        Future { promise in
+            self.withCount(options: options,
+                           completion: promise)
+        }
+    }
+
+    /**
+     Query plan information for counting objects *asynchronously* and publishes when complete.
+     - note: An explain query will have many different underlying types. Since Swift is a strongly
+     typed language, a developer should specify the type expected to be decoded which will be
+     different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+     such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
+     - parameter explain: Used to toggle the information on the query plan.
+     - parameter options: A set of header options sent to the server. Defaults to an empty set.
+     - returns: A publisher that eventually produces a single value and then finishes or fails.
+    */
+    func withCountExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<[U], ParseError> {
+        Future { promise in
+            self.withCountExplain(options: options,
+                                  completion: promise)
+        }
+    }
+
+    /**
      Executes an aggregate query *asynchronously* and publishes when complete.
      - requires: `.useMasterKey` has to be available.
      - parameter pipeline: A pipeline of stages to process query.

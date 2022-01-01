@@ -25,9 +25,10 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int = 0
     var location: ParseGeoPoint?
     var name: String?
     var myFiles: [ParseFile]?
@@ -37,9 +38,9 @@ struct GameScore: ParseObject {
 //: to preserve the convenience initializer.
 extension GameScore {
     //: Custom initializer.
-    init(name: String, score: Int) {
+    init(name: String, points: Int) {
         self.name = name
-        self.score = score
+        self.points = points
     }
 }
 
@@ -49,11 +50,11 @@ extension GameScore {
 struct ContentView: View {
 
     //: A view model in SwiftUI
-    @ObservedObject var viewModel = GameScore.query("score" > 2)
-        .order([.descending("score")])
+    @ObservedObject var viewModel = GameScore.query("points" > 2)
+        .order([.descending("points")])
         .viewModel
     @State var name = ""
-    @State var score = ""
+    @State var points = ""
     @State var isShowingAction = false
     @State var savedLabel = ""
 
@@ -61,14 +62,14 @@ struct ContentView: View {
         NavigationView {
             VStack {
                 TextField("Name", text: $name)
-                TextField("Score", text: $score)
+                TextField("Points", text: $points)
                 Button(action: {
-                    guard let scoreValue = Int(score),
+                    guard let pointsValue = Int(points),
                           let linkToFile = URL(string: "https://parseplatform.org/img/logo.svg") else {
                         return
                     }
                     var score = GameScore(name: name,
-                                          score: scoreValue)
+                                          points: pointsValue)
                     //: Create new `ParseFile` for saving.
                     let file1 = ParseFile(name: "file1.svg",
                                           cloudURL: linkToFile)
@@ -95,7 +96,7 @@ struct ContentView: View {
                 //: Warning - List seems to only work in Playgrounds Xcode 13+.
                 List(viewModel.results, id: \.id) { result in
                     VStack(alignment: .leading) {
-                        Text("Score: \(result.score)")
+                        Text("Points: \(result.points)")
                             .font(.headline)
                         if let createdAt = result.createdAt {
                             Text("\(createdAt.description)")

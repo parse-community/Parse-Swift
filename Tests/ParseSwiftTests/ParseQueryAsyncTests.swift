@@ -18,21 +18,22 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int?
+        var points: Int?
         var player: String?
         init() { }
         //custom initializers
         init (objectId: String?) {
             self.objectId = objectId
         }
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
             self.player = "Jen"
         }
-        init(score: Int, name: String) {
-            self.score = score
+        init(points: Int, name: String) {
+            self.points = points
             self.player = name
         }
     }
@@ -70,8 +71,8 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     @MainActor
     func testFind() async throws {
 
-        var scoreOnServer = GameScore(score: 10)
-        scoreOnServer.score = 11
+        var scoreOnServer = GameScore(points: 10)
+        scoreOnServer.points = 11
         scoreOnServer.objectId = "yolo"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -98,9 +99,81 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     }
 
     @MainActor
+    func testWithCount() async throws {
+
+        var scoreOnServer = GameScore(points: 10)
+        scoreOnServer.points = 11
+        scoreOnServer.objectId = "yolo"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: 1)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query()
+
+        let found = try await query.withCount()
+        guard let object = found.0.first else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertTrue(object.hasSameObjectId(as: scoreOnServer))
+        XCTAssertEqual(found.1, 1)
+    }
+
+    @MainActor
+    func testWithCountMissingCount() async throws {
+
+        var scoreOnServer = GameScore(points: 10)
+        scoreOnServer.points = 11
+        scoreOnServer.objectId = "yolo"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: nil)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query()
+
+        let found = try await query.withCount()
+        guard let object = found.0.first else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertTrue(object.hasSameObjectId(as: scoreOnServer))
+        XCTAssertEqual(found.1, 0)
+    }
+
+    @MainActor
+    func testWithCountLimitZero() async throws {
+
+        var query = GameScore.query()
+        query.limit = 0
+        let found = try await query.withCount()
+        XCTAssertEqual(found.0.count, 0)
+        XCTAssertEqual(found.1, 0)
+    }
+
+    @MainActor
     func testFindAll() async throws {
 
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -147,10 +220,41 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     }
 
     @MainActor
+    func testWithCountExplain() async throws {
+
+        let json = AnyResultsResponse(results: [["yolo": "yarr"]])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        let queryResult: [[String: String]] = try await query.withCountExplain()
+        XCTAssertEqual(queryResult, json.results)
+    }
+
+    @MainActor
+    func testWithCountExplainLimitZero() async throws {
+
+        var query = GameScore.query()
+        query.limit = 0
+        let found: [[String: String]] = try await query.withCountExplain()
+        XCTAssertEqual(found.count, 0)
+    }
+
+    @MainActor
     func testFirst() async throws {
 
-        var scoreOnServer = GameScore(score: 10)
-        scoreOnServer.score = 11
+        var scoreOnServer = GameScore(points: 10)
+        scoreOnServer.points = 11
         scoreOnServer.objectId = "yolo"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -197,8 +301,8 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     @MainActor
     func testCount() async throws {
 
-        var scoreOnServer = GameScore(score: 10)
-        scoreOnServer.score = 11
+        var scoreOnServer = GameScore(points: 10)
+        scoreOnServer.points = 11
         scoreOnServer.objectId = "yolo"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -245,7 +349,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     @MainActor
     func testAggregate() async throws {
 
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -297,7 +401,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     @MainActor
     func testDistinct() async throws {
 
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt

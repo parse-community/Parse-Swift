@@ -19,6 +19,7 @@ struct Installation: ParseInstallation {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: These are required by `ParseInstallation`.
     var installationId: String?
@@ -48,6 +49,7 @@ currentInstallation?.save { results in
 
     switch results {
     case .success(let updatedInstallation):
+        currentInstallation = updatedInstallation
         print("Successfully save myCustomInstallationKey to ParseServer: \(updatedInstallation)")
     case .failure(let error):
         print("Failed to update installation: \(error)")
