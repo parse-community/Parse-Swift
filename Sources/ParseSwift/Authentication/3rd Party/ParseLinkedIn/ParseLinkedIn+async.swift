@@ -1,52 +1,41 @@
 //
-//  ParseTwitter+async.swift
-//  ParseTwitter+async
+//  ParseLinkedIn+async.swift
+//  ParseSwift
 //
-//  Created by Corey Baker on 8/7/21.
-//  Copyright © 2021 Parse Community. All rights reserved.
+//  Created by Corey Baker on 1/1/22.
+//  Copyright © 2022 Parse Community. All rights reserved.
 //
 
 #if swift(>=5.5) && canImport(_Concurrency)
 import Foundation
 
-public extension ParseTwitter {
+public extension ParseLinkedIn {
     // MARK: Async/Await
 
     /**
-     Login a `ParseUser` *asynchronously* using Twitter authentication.
-     - parameter user: The **id** from **Twitter**.
-     - parameter screenName: The `user screenName` from **Twitter**.
-     - parameter consumerKey: The `consumerKey` from **Twitter**.
-     - parameter consumerSecret: The `consumerSecret` from **Twitter**.
-     - parameter authToken: The Twitter `authToken` obtained from Twitter.
-     - parameter authTokenSecret: The Twitter `authSecretToken` obtained from Twitter.
+     Login a `ParseUser` *asynchronously* using LinkedIn authentication for graph API login.
+     - parameter userId: The **id** from **LinkedIn**.
+     - parameter accessToken: Required **access_token** from **LinkedIn**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
      - throws: An error of type `ParseError`.
      */
     func login(userId: String,
-               screenName: String? = nil,
-               consumerKey: String,
-               consumerSecret: String,
-               authToken: String,
-               authTokenSecret: String,
+               accessToken: String,
+               isMobileSDK: Bool,
                options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
             self.login(userId: userId,
-                       screenName: screenName,
-                       authToken: consumerKey,
-                       authTokenSecret: consumerSecret,
-                       consumerKey: authToken,
-                       consumerSecret: authTokenSecret,
+                       accessToken: accessToken,
+                       isMobileSDK: isMobileSDK,
                        options: options,
                        completion: continuation.resume)
         }
     }
 
     /**
-     Login a `ParseUser` *asynchronously* using Twitter authentication.
+     Login a `ParseUser` *asynchronously* using LinkedIn authentication for graph API login.
      - parameter authData: Dictionary containing key/values.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
      - throws: An error of type `ParseError`.
      */
@@ -60,41 +49,31 @@ public extension ParseTwitter {
     }
 }
 
-public extension ParseTwitter {
+public extension ParseLinkedIn {
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using Twitter authentication.
-     - parameter user: The `user` from **Twitter**.
-     - parameter screenName: The `user screenName` from **Twitter**.
-     - parameter consumerKey: The `consumerKey` from **Twitter**.
-     - parameter consumerSecret: The `consumerSecret` from **Twitter**.
-     - parameter authToken: The Twitter `authToken` obtained from Twitter.
-     - parameter authTokenSecret: The Twitter `authSecretToken` obtained from Twitter.
+     Link the *current* `ParseUser` *asynchronously* using LinkedIn authentication for graph API login.
+     - parameter userId: The **id** from **LinkedIn**.
+     - parameter accessToken: Required **access_token** from **LinkedIn**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
      - throws: An error of type `ParseError`.
      */
     func link(userId: String,
-              screenName: String? = nil,
-              consumerKey: String,
-              consumerSecret: String,
-              authToken: String,
-              authTokenSecret: String,
+              accessToken: String,
+              isMobileSDK: Bool,
               options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
             self.link(userId: userId,
-                      screenName: screenName,
-                      consumerKey: consumerKey,
-                      consumerSecret: consumerSecret,
-                      authToken: authToken,
-                      authTokenSecret: authTokenSecret,
+                      accessToken: accessToken,
+                      isMobileSDK: isMobileSDK,
                       options: options,
                       completion: continuation.resume)
         }
     }
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using Twitter authentication.
+     Link the *current* `ParseUser` *asynchronously* using LinkedIn authentication for graph API login.
      - parameter authData: Dictionary containing key/values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
@@ -109,5 +88,4 @@ public extension ParseTwitter {
         }
     }
 }
-
 #endif

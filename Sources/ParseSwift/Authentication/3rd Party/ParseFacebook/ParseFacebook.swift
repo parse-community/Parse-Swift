@@ -11,7 +11,7 @@ import Foundation
 
 /**
  Provides utility functions for working with Facebook User Authentication and `ParseUser`'s.
- Be sure your Parse Server is configured for [sign in with Facebook](https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-sign-in-with-facebook).
+ Be sure your Parse Server is configured for [sign in with Facebook](https://docs.parseplatform.org/parse-server/guide/#facebook-authdata).
  For information on acquiring Facebook sign-in credentials to use with `ParseFacebook`, refer to [Facebook's Documentation](https://developers.facebook.com/docs/facebook-login/limited-login).
  */
 public struct ParseFacebook<AuthenticatedUser: ParseUser>: ParseAuthentication {
@@ -79,8 +79,8 @@ public extension ParseFacebook {
 
     /**
      Login a `ParseUser` *asynchronously* using Facebook authentication for limited login.
-     - parameter userId: The `Facebook userId` from `FacebookSDK`.
-     - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
+     - parameter userId: The `Facebook userId` from **FacebookSDK**.
+     - parameter authenticationToken: The `authenticationToken` from **FacebookSDK**.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -105,8 +105,8 @@ public extension ParseFacebook {
 
     /**
      Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login.
-     - parameter userId: The `Facebook userId` from `FacebookSDK`.
-     - parameter accessToken: The `accessToken` from `FacebookSDK`.
+     - parameter userId: The `Facebook userId` from **FacebookSDK**.
+     - parameter accessToken: The `accessToken` from **FacebookSDK**.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -154,8 +154,8 @@ public extension ParseFacebook {
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login.
-     - parameter userId: The `userId` from `FacebookSDK`.
-     - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
+     - parameter userId: The **id** from **FacebookSDK**.
+     - parameter authenticationToken: The `authenticationToken` from **FacebookSDK**.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -180,8 +180,8 @@ public extension ParseFacebook {
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for graph API login.
-     - parameter userId: The `userId` from `FacebookSDK`.
-     - parameter accessToken: The `accessToken` from `FacebookSDK`.
+     - parameter userId: The **id** from **FacebookSDK**.
+     - parameter accessToken: The `accessToken` from **FacebookSDK**.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.

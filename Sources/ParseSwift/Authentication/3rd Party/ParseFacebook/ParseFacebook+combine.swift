@@ -14,8 +14,8 @@ public extension ParseFacebook {
     // MARK: Combine
     /**
      Login a `ParseUser` *asynchronously* using Facebook authentication for limited login. Publishes when complete.
-     - parameter userId: The `userId` from `FacebookSDK`.
-     - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
+     - parameter userId: The **id** from **FacebookSDK**.
+     - parameter authenticationToken: The `authenticationToken` from **FacebookSDK**.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -35,8 +35,8 @@ public extension ParseFacebook {
 
     /**
      Login a `ParseUser` *asynchronously* using Facebook authentication for graph API login. Publishes when complete.
-     - parameter userId: The `userId` from `FacebookSDK`.
-     - parameter accessToken: The `accessToken` from `FacebookSDK`.
+     - parameter userId: The **id** from **FacebookSDK**.
+     - parameter accessToken: The `accessToken` from **FacebookSDK**.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -73,8 +73,8 @@ public extension ParseFacebook {
     /**
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for limited login.
      Publishes when complete.
-     - parameter userId: The `userId` from `FacebookSDK`.
-     - parameter authenticationToken: The `authenticationToken` from `FacebookSDK`.
+     - parameter userId: The **id** from **FacebookSDK**.
+     - parameter authenticationToken: The `authenticationToken` from **FacebookSDK**.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
@@ -95,8 +95,8 @@ public extension ParseFacebook {
     /**
      Link the *current* `ParseUser` *asynchronously* using Facebook authentication for graph API login.
      Publishes when complete.
-     - parameter userId: The `userId` from `FacebookSDK`.
-     - parameter accessToken: The `accessToken` from `FacebookSDK`.
+     - parameter userId: The **id** from **FacebookSDK**.
+     - parameter accessToken: The `accessToken` from **FacebookSDK**.
      - parameter expiresIn: Optional expiration in seconds for Facebook login.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.

@@ -15,7 +15,7 @@ public extension ParseApple {
     /**
      Login a `ParseUser` *asynchronously* using Apple authentication.
      - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     - parameter identityToken: The **identityToken** from `ASAuthorizationAppleIDCredential`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
      - throws: An error of type `ParseError`.
@@ -53,7 +53,7 @@ public extension ParseApple {
     /**
      Link the *current* `ParseUser` *asynchronously* using Apple authentication.
      - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     - parameter identityToken: The **identityToken** from `ASAuthorizationAppleIDCredential`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
      - throws: An error of type `ParseError`.
