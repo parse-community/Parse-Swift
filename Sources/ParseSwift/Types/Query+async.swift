@@ -31,7 +31,7 @@ public extension Query {
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
-     different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+     different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - returns: An array of ParseObjects.
      - throws: An error of type `ParseError`.
@@ -78,7 +78,7 @@ public extension Query {
      Query plan information for getting an object *asynchronously*.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
-     different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+     different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An array of ParseObjects.
@@ -108,7 +108,7 @@ public extension Query {
      Query plan information for counting objects *asynchronously*.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
-     different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+     different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter explain: Used to toggle the information on the query plan.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -176,7 +176,7 @@ public extension Query {
      - requires: `.useMasterKey` has to be available.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
-     different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+     different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter pipeline: A pipeline of stages to process query.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -214,7 +214,7 @@ public extension Query {
      - requires: `.useMasterKey` has to be available.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
-     different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+     different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter key: A field to find distinct values.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
