@@ -17,19 +17,20 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int
+        var points: Int
         var members = [String]()
         var levels: [String]?
 
         //custom initializers
         init() {
-            self.score = 5
+            self.points = 5
         }
 
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
         }
     }
 
@@ -40,6 +41,7 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         // These are required by ParseUser
         var username: String?
@@ -59,6 +61,7 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         // provided by Role
         var name: String
@@ -74,6 +77,7 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
         var level: Int

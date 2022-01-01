@@ -43,8 +43,8 @@ public struct QueryConstraint: Encodable, Equatable {
         case search = "$search"
         case term = "$term"
         case regexOptions = "$options"
-        case object = "object"
         case relativeTime = "$relativeTime"
+        case score = "$score"
     }
 
     var key: String
@@ -530,10 +530,68 @@ public func polygonContains(key: String, point: ParseGeoPoint) -> QueryConstrain
   - parameter key: The key to be constrained.
   - parameter text: The substring that the value must contain.
   - returns: The resulting `QueryConstraint`.
+  - note: In order to sort you must use `Query.sortByTextScore()`.
+    To retrieve the weight/rank, access the "score" property of your `ParseObject`.
+  - warning: This may be slow for large datasets. Requires Parse Server > 2.5.0.
  */
 public func matchesText(key: String, text: String) -> QueryConstraint {
     let dictionary = [QueryConstraint.Comparator.search.rawValue: [QueryConstraint.Comparator.term.rawValue: text]]
     return .init(key: key, value: dictionary, comparator: .text)
+}
+
+/**
+  Options used to constrain a text search.
+ */
+public enum ParseTextOption: String {
+    /// The language that determines the list of stop words for the search and the rules for the stemmer and tokenizer.
+    /// Must be of type `String`.
+    case language = "$language"
+    /// A boolean flag to enable or disable case sensitive search.
+    case caseSensitive = "$caseSensitive"
+    /// A boolean flag to enable or disable diacritic sensitive search.
+    case diacriticSensitive = "$diacriticSensitive"
+
+    internal func buildSearch(_ text: String,
+                              options: [Self: Encodable]) throws -> [String: Encodable] {
+        var dictionary: [String: Encodable] = [QueryConstraint.Comparator.term.rawValue: text]
+        for (key, value) in options {
+            switch key {
+            case .language:
+                guard (value as? String) != nil else {
+                    throw ParseError(code: .unknownError,
+                                     message: "Text option \(key) has to be a String")
+                }
+                dictionary[key.rawValue] = value
+            case .caseSensitive, .diacriticSensitive:
+                guard (value as? Bool) != nil else {
+                    throw ParseError(code: .unknownError,
+                                     message: "Text option \(key) has to be a Bool")
+                }
+                dictionary[key.rawValue] = value
+            }
+        }
+        return dictionary
+    }
+}
+
+/**
+  Add a constraint for finding string values that contain a provided
+  string using Full Text Search.
+  - parameter key: The key to be constrained.
+  - parameter text: The substring that the value must contain.
+  - parameter options: The dictionary of options to constrain the search.
+     The key is of type `TextOption` and must have a respective value.
+  - returns: The resulting `QueryConstraint`.
+  - note: In order to sort you must use `Query.sortByTextScore()`.
+    To retrieve the weight/rank, access the "score" property of your `ParseObject`.
+  - warning: This may be slow for large datasets. Requires Parse Server > 2.5.0.
+ */
+public func matchesText(key: String,
+                        text: String,
+                        options: [ParseTextOption: Encodable]) throws -> QueryConstraint {
+    let search = try ParseTextOption.language.buildSearch(text, options: options)
+    let dictionary = [QueryConstraint.Comparator.search.rawValue: search]
+    return .init(key: key, value: AnyEncodable(dictionary), comparator: .text)
 }
 
 /**

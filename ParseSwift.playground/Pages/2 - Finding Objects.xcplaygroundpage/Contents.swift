@@ -18,28 +18,29 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties.
-    var score: Int?
+    var points: Int?
     var timeStamp: Date? = Date()
     var oldScore: Int?
     var isHighest: Bool?
 }
 
-var score = GameScore()
-score.score = 200
-score.oldScore = 10
-score.isHighest = true
+var points = GameScore()
+points.points = 200
+points.oldScore = 10
+points.isHighest = true
 do {
-    try score.save()
+    try points.save()
 } catch {
     print(error)
 }
 
 let afterDate = Date().addingTimeInterval(-300)
-var query = GameScore.query("score" > 50,
+var query = GameScore.query("points" > 50,
                             "createdAt" > afterDate)
-    .order([.descending("score")])
+    .order([.descending("points")])
 
 //: Query asynchronously (preferred way) - Performs work on background
 //: queue and returns to specified callbackQueue.
@@ -73,24 +74,6 @@ results.forEach { score in
     print("Found score: \(score)")
 }
 
-//: Query highest score using async/await
-#if swift(>=5.5) && canImport(_Concurrency)
-import _Concurrency
-
-let highestScoresQuery = GameScore.query("isHighest" == true)
-Task {
-    do {
-        let highestScores = try await highestScoresQuery.find()
-        highestScores.forEach { score in
-            print("Found highest score: \(score)")
-        }
-    } catch {
-        print("Error: \(error)")
-    }
-}
-
-#endif
-
 //: Query first asynchronously (preferred way) - Performs work on background
 //: queue and returns to specified callbackQueue.
 //: If no callbackQueue is specified it returns to main queue.
@@ -102,6 +85,23 @@ query.first { results in
             let createdAt = score.createdAt else { fatalError() }
         assert(createdAt.timeIntervalSince1970 > afterDate.timeIntervalSince1970, "date should be ok")
         print("Found score: \(score)")
+
+    case .failure(let error):
+        if error.containedIn([.objectNotFound, .invalidQuery]) {
+            assertionFailure("The query is invalid or the object is not found.")
+        } else {
+            assertionFailure("Error querying: \(error)")
+        }
+    }
+}
+
+//: Query first asynchronously (preferred way) - Performs work on background
+//: queue and returns to specified callbackQueue.
+//: If no callbackQueue is specified it returns to main queue.
+query.withCount { results in
+    switch results {
+    case .success(let (score, count)):
+        print("Found scores: \(score) total amount: \(count)")
 
     case .failure(let error):
         if error.containedIn([.objectNotFound, .invalidQuery]) {
@@ -126,7 +126,7 @@ queryRelative.find { results in
 }
 */
 
-let querySelect = query.select("score")
+let querySelect = query.select("points")
 querySelect.first { results in
     switch results {
     case .success(let score):
@@ -145,7 +145,7 @@ querySelect.first { results in
     }
 }
 
-let queryExclude = query.exclude("score")
+let queryExclude = query.exclude("points")
 queryExclude.first { results in
     switch results {
     case .success(let score):

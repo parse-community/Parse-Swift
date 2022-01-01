@@ -22,6 +22,8 @@ class APICommandTests: XCTestCase {
         var ACL: ParseACL?
 
         var name = "First"
+
+        var score: Double?
     }
 
     override func setUpWithError() throws {
@@ -63,6 +65,7 @@ class APICommandTests: XCTestCase {
 
         // Your custom keys
         var customKey: String?
+        var score: Double?
     }
 
     struct LoginSignupResponse: ParseUser {
@@ -72,6 +75,7 @@ class APICommandTests: XCTestCase {
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         // These are required by ParseUser
         var username: String?

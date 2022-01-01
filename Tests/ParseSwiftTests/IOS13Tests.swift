@@ -20,6 +20,8 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var ACL: ParseACL?
 
+        var score: Double?
+
         var name = "First"
     }
 
@@ -30,9 +32,10 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int?
+        var points: Int?
         var player: String?
         var level: Level?
         var levels: [Level]?
@@ -42,12 +45,12 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         init (objectId: String?) {
             self.objectId = objectId
         }
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
             self.player = "Jen"
         }
-        init(score: Int, name: String) {
-            self.score = score
+        init(points: Int, name: String) {
+            self.points = points
             self.player = name
         }
     }
@@ -89,7 +92,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testSaveCommand() throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let className = score.className
 
         let command = try score.saveCommand()
@@ -98,13 +101,13 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
 
-        let expected = "GameScore ({\"score\":10,\"player\":\"Jen\"})"
+        let expected = "GameScore ({\"points\":10,\"player\":\"Jen\"})"
         let decoded = score.debugDescription
         XCTAssertEqual(decoded, expected)
     }
 
     func testUpdateCommand() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let className = score.className
         let objectId = "yarr"
         score.objectId = objectId
@@ -122,7 +125,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
 
-        let expected = "{\"score\":10,\"player\":\"Jen\"}"
+        let expected = "{\"points\":10,\"player\":\"Jen\"}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,

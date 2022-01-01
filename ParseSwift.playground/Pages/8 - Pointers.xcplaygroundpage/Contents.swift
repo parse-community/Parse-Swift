@@ -20,6 +20,7 @@ struct Book: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
     var relatedBook: Pointer<Book>?
 
     //: Your own properties.
@@ -41,6 +42,7 @@ struct Author: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties.
     var name: String
@@ -177,7 +179,7 @@ do {
     print("\(error)")
 }
 
-//: Here's an example of saving Pointers as properties
+//: Here's an example of saving Pointers as properties.
 do {
     //: First we query
     let query5 = try Author.query("book" == newBook)
@@ -186,7 +188,7 @@ do {
     query5.first { results in
         switch results {
         case .success(let author):
-            print("Found author and included all: \(author)")
+            print("Found author and included \"book\": \(author)")
             //: Setup related books.
             newBook.relatedBook = try? author.otherBooks?.first?.toPointer()
 
@@ -204,6 +206,26 @@ do {
                     assertionFailure("Error saving: \(error)")
                 }
             }
+        case .failure(let error):
+            assertionFailure("Error querying: \(error)")
+        }
+    }
+} catch {
+    print("\(error)")
+}
+
+//: Here's an example of querying using matchesText.
+do {
+    let query6 = try Book.query(matchesText(key: "title",
+                                            text: "like",
+                                            options: [:]))
+        .include(["*"])
+        .sortByTextScore()
+
+    query6.find { results in
+        switch results {
+        case .success(let books):
+            print("Found books and included all: \(books)")
         case .failure(let error):
             assertionFailure("Error querying: \(error)")
         }

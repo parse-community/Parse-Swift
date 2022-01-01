@@ -29,12 +29,13 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties
-    var score: Int
+    var points: Int
 
     init() {
-        self.score = 0
+        self.points = 0
     }
 }
 
@@ -42,13 +43,13 @@ struct GameScore: ParseObject {
 //: to preserve the convenience initializer.
 extension GameScore {
     //: Custom initializer.
-    init(score: Int) {
-        self.score = score
+    init(points: Int) {
+        self.points = points
     }
 }
 
 //: Define initial GameScores.
-var score = GameScore(score: 40)
+var score = GameScore(points: 40)
 
 /*: Save asynchronously (preferred way) - Performs work on background
     queue and returns to specified callbackQueue.
@@ -60,7 +61,7 @@ score.save { result in
         assert(savedScore.objectId != nil)
         assert(savedScore.createdAt != nil)
         assert(savedScore.updatedAt != nil)
-        assert(savedScore.score == 40)
+        assert(savedScore.points == 40)
         assert(savedScore.ACL != nil)
 
         print("Saved score with ACL: \(savedScore)")

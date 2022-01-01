@@ -20,9 +20,10 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int = 0
     var profilePicture: ParseFile?
     var myData: ParseFile?
 }
@@ -31,8 +32,8 @@ struct GameScore: ParseObject {
 //: to preserve the convenience initializer.
 extension GameScore {
     //: Custom initializer.
-    init(score: Int) {
-        self.score = score
+    init(points: Int) {
+        self.points = points
     }
 
     init(objectId: String?) {
@@ -41,7 +42,7 @@ extension GameScore {
 }
 
 //: Define initial GameScore.
-var score = GameScore(score: 52)
+var score = GameScore(points: 52)
 
 //: Set the link online for the file.
 let linkToFile = URL(string: "https://parseplatform.org/img/logo.svg")!
@@ -62,7 +63,7 @@ score.save { result in
         assert(savedScore.objectId != nil)
         assert(savedScore.createdAt != nil)
         assert(savedScore.updatedAt != nil)
-        assert(savedScore.score == 52)
+        assert(savedScore.points == 52)
         assert(savedScore.profilePicture != nil)
 
         print("Your profile picture has been successfully saved")
@@ -106,7 +107,7 @@ let sampleData = "Hello World".data(using: .utf8)!
 let helloFile = ParseFile(name: "hello.txt", data: sampleData)
 
 //: Define another GameScore.
-var score2 = GameScore(score: 105)
+var score2 = GameScore(points: 105)
 score2.myData = helloFile
 
 //: Save synchronously (not preferred - all operations on main queue).

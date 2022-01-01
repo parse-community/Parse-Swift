@@ -18,17 +18,18 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int
+        var points: Int
         var isCounts: Bool?
 
         //: a custom initializer
         init() {
-            self.score = 5
+            self.points = 5
         }
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
         }
     }
 
@@ -38,8 +39,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
-        var score: Int? //Left as non-optional to throw error on pointer
+        var points: Int?
     }
 
     struct AnyResultResponse<U: Codable>: Codable {
@@ -83,12 +85,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query2.className, query.className)
         XCTAssertEqual(query2.`where`.constraints.values.count, 0)
 
-        let query3 = GameScore.query("score" > 100, "createdAt" > Date())
+        let query3 = GameScore.query("points" > 100, "createdAt" > Date())
         XCTAssertEqual(query3.className, GameScore.className)
         XCTAssertEqual(query3.className, query.className)
         XCTAssertEqual(query3.`where`.constraints.values.count, 2)
 
-        let query4 = GameScore.query(["score" > 100, "createdAt" > Date()])
+        let query4 = GameScore.query(["points" > 100, "createdAt" > Date()])
         XCTAssertEqual(query4.className, GameScore.className)
         XCTAssertEqual(query4.className, query.className)
         XCTAssertEqual(query4.`where`.constraints.values.count, 2)
@@ -96,14 +98,14 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testCompareQueries() {
 
-        let query1 = GameScore.query("score" > 100, "createdAt" > Date())
+        let query1 = GameScore.query("points" > 100, "createdAt" > Date())
         let query2 = GameScore.query([containsString(key: "hello",
                                                      substring: "world"),
-                                      "score" > 100,
+                                      "points" > 100,
                                       "createdAt" > Date()])
         let query3 = GameScore.query([containsString(key: "hello",
                                                      substring: "world"),
-                                      "score" > 101,
+                                      "points" > 101,
                                       "createdAt" > Date()])
         XCTAssertEqual(query1, query1)
         XCTAssertEqual(query2, query2)
@@ -298,13 +300,47 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(Set(decodedValues2), Set(["yolo", "hello", "wow"]))
     }
 
+    func testSortByTextScore() throws {
+        let query = GameScore.query()
+        XCTAssertNil(query.keys)
+
+        let expectedOrder = Query<GameScore>.Order.ascending("$score")
+        var query2 = GameScore.query().sortByTextScore()
+        XCTAssertEqual(query2.keys?.count, 1)
+        XCTAssertEqual(query2.keys?.first, "$score")
+        XCTAssertEqual(query2.order?.first, expectedOrder)
+        let encoded = try ParseCoding.jsonEncoder().encode(query2)
+        let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+        guard let decodedKeys = decodedDictionary["keys"],
+            let decodedValues = decodedKeys.value as? [String],
+            let decodedOrder = decodedDictionary["order"],
+            let decodedOrderValue = decodedOrder.value as? [String] else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(decodedValues, ["$score"])
+        XCTAssertEqual(decodedOrderValue, ["$score"])
+
+        query2 = query2.select(["hello", "wow"])
+        XCTAssertEqual(query2.keys?.count, 3)
+        XCTAssertEqual(query2.keys, ["$score", "hello", "wow"])
+        let encoded2 = try ParseCoding.jsonEncoder().encode(query2)
+        let decodedDictionary2 = try JSONDecoder().decode([String: AnyCodable].self, from: encoded2)
+        guard let decodedKeys2 = decodedDictionary2["keys"],
+            let decodedValues2 = decodedKeys2.value as? [String] else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(Set(decodedValues2), Set(["$score", "hello", "wow"]))
+    }
+
     func testAddingConstraints() {
         var query = GameScore.query()
         XCTAssertEqual(query.className, GameScore.className)
         XCTAssertEqual(query.className, query.className)
         XCTAssertEqual(query.`where`.constraints.values.count, 0)
 
-        query = query.`where`("score" > 100, "createdAt" > Date())
+        query = query.`where`("points" > 100, "createdAt" > Date())
         XCTAssertEqual(query.`where`.constraints.values.count, 2)
     }
 
@@ -342,7 +378,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     // MARK: Querying Parse Server
     func testFind() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -447,7 +483,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeFindAsync() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -470,7 +506,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testFindAsyncMainQueue() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -506,7 +542,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFindAllAsync() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -543,7 +579,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFindAllAsyncErrorSkip() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -576,7 +612,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFindAllAsyncErrorOrder() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -592,7 +628,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
         let query = GameScore.query()
-            .order([.ascending("score")])
+            .order([.ascending("points")])
         let expectation = XCTestExpectation(description: "Count object1")
         query.findAll { result in
 
@@ -609,7 +645,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFindAllAsyncErrorLimit() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -684,7 +720,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testFirst() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -737,7 +773,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
             #if !os(Linux) && !os(Android) && !os(Windows)
             // swiftlint:disable:next line_length
-            XCTAssertEqual(error.message, "Invalid struct: No value associated with key CodingKeys(stringValue: \"score\", intValue: nil) (\"score\").")
+            XCTAssertEqual(error.message, "Invalid struct: No value associated with key CodingKeys(stringValue: \"points\", intValue: nil) (\"points\").")
             XCTAssertEqual(error.code, .unknownError)
             #endif
         }
@@ -814,7 +850,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeFirstAsync() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -837,7 +873,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testFirstAsyncMainQueue() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -857,7 +893,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeFirstAsyncNoObjectFound() {
-        let scoreOnServer = GameScore(score: 10)
+        let scoreOnServer = GameScore(points: 10)
         let results = QueryResponse<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
@@ -875,7 +911,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testFirstAsyncNoObjectFoundMainQueue() {
-        let scoreOnServer = GameScore(score: 10)
+        let scoreOnServer = GameScore(points: 10)
         let results = QueryResponse<GameScore>(results: [GameScore](), count: 0)
         MockURLProtocol.mockRequests { _ in
             do {
@@ -932,7 +968,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testCount() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -985,7 +1021,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeCountAsync() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -1008,7 +1044,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testCountAsyncMainQueue() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -1116,7 +1152,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereKeyEqualToParseObjectError() throws {
-        let compareObject = GameScore(score: 11)
+        let compareObject = GameScore(points: 11)
         XCTAssertThrowsError(try GameScore.query("yolo" == compareObject))
     }
 
@@ -1129,7 +1165,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereKeyEqualToParseObject() throws {
-        var compareObject = GameScore(score: 11)
+        var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
         let query = try GameScore.query("yolo" == compareObject)
         // swiftlint:disable:next line_length
@@ -1138,7 +1174,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereKeyEqualToParseObjectPointer() throws {
-        var compareObject = GameScore(score: 11)
+        var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
         let pointer = try compareObject.toPointer()
         let query = GameScore.query("yolo" == pointer)
@@ -1148,7 +1184,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereKeyNotEqualToParseObject() throws {
-        var compareObject = GameScore(score: 11)
+        var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
         let query = try GameScore.query("yolo" != compareObject)
         // swiftlint:disable:next line_length
@@ -1306,6 +1342,81 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail(error.localizedDescription)
             return
         }
+    }
+
+    func testWhereKeyMatchesTextNoOptions() throws {
+        let expected: [String: AnyCodable] = [
+            "yolo": ["$text": ["$search": ["$term": "yarr"]]]
+        ]
+        let constraint = try matchesText(key: "yolo", text: "yarr", options: [:])
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: AnyCodable].self, from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected.values.first?.value as? [String: [String: [String: String]]],
+                  let decodedValues = decodedDictionary.values.first?.value as?
+                    [String: [String: [String: String]]] else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedValues, decodedValues)
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereKeyMatchesTextWithOptions() throws {
+        let expected: [String: [String: [String: [String: AnyCodable]]]] = [
+            "yolo": ["$text": ["$search": [
+                "$term": "yarr",
+                "$caseSensitive": true,
+                "$diacriticSensitive": true
+            ]]]
+        ]
+        let options: [ParseTextOption: Encodable] = [
+            ParseTextOption.language: "brew",
+            ParseTextOption.caseSensitive: true,
+            ParseTextOption.diacriticSensitive: true
+        ]
+        let constraint = try matchesText(key: "yolo", text: "yarr", options: options)
+        let query = GameScore.query(constraint)
+        let queryWhere = query.`where`
+
+        do {
+            let encoded = try ParseCoding.jsonEncoder().encode(queryWhere)
+            let decodedDictionary = try JSONDecoder().decode([String: [String: [String: [String: AnyCodable]]]].self,
+                                                             from: encoded)
+            XCTAssertEqual(expected.keys, decodedDictionary.keys)
+
+            guard let expectedValues = expected["yolo"]?["$text"]?["$search"],
+                  let expectedTerm = expectedValues["$term"]?.value as? String,
+                  let expectedCaseSensitive = expectedValues["$caseSensitive"]?.value as? Bool,
+                  let expectedDiacriticSensitive = expectedValues["$diacriticSensitive"]?.value as? Bool,
+                  let decodedValues = decodedDictionary["yolo"]?["$text"]?["$search"],
+                  let decodedTerm = decodedValues["$term"]?.value as? String,
+                  let decodedCaseSensitive = decodedValues["$caseSensitive"]?.value as? Bool,
+                  let decodedDiacriticSensitive = decodedValues["$diacriticSensitive"]?.value as? Bool else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertEqual(expectedTerm, decodedTerm)
+            XCTAssertEqual(expectedCaseSensitive, decodedCaseSensitive)
+            XCTAssertEqual(expectedDiacriticSensitive, decodedDiacriticSensitive)
+        } catch {
+            XCTFail(error.localizedDescription)
+            return
+        }
+    }
+
+    func testWhereKeyMatchesTextBadOptions() throws {
+        XCTAssertThrowsError(try matchesText(key: "yolo", text: "yarr", options: [.language: true]))
+        XCTAssertThrowsError(try matchesText(key: "yolo", text: "yarr", options: [.caseSensitive: "yolo"]))
+        XCTAssertThrowsError(try matchesText(key: "yolo", text: "yarr", options: [.diacriticSensitive: "yolo"]))
     }
 
     func testWhereKeyMatchesRegex() {
@@ -1525,12 +1636,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testOrQuery() {
         let expected: [String: AnyCodable] = [
             "$or": [
-                ["score": ["$lte": 50]],
-                ["score": ["$lte": 200]]
+                ["points": ["$lte": 50]],
+                ["points": ["$lte": 200]]
             ]
         ]
-        let query1 = GameScore.query("score" <= 50)
-        let query2 = GameScore.query("score" <= 200)
+        let query1 = GameScore.query("points" <= 50)
+        let query2 = GameScore.query("points" <= 200)
         let constraint = or(queries: [query1, query2])
         let query = Query<GameScore>(constraint)
         let queryWhere = query.`where`
@@ -1556,12 +1667,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testNorQuery() {
         let expected: [String: AnyCodable] = [
             "$nor": [
-                ["score": ["$lte": 50]],
-                ["score": ["$lte": 200]]
+                ["points": ["$lte": 50]],
+                ["points": ["$lte": 200]]
             ]
         ]
-        let query1 = GameScore.query("score" <= 50)
-        let query2 = GameScore.query("score" <= 200)
+        let query1 = GameScore.query("points" <= 50)
+        let query2 = GameScore.query("points" <= 200)
         let constraint = nor(queries: [query1, query2])
         let query = Query<GameScore>(constraint)
         let queryWhere = query.`where`
@@ -1587,12 +1698,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testAndQuery() {
         let expected: [String: AnyCodable] = [
             "$and": [
-                ["score": ["$lte": 50]],
-                ["score": ["$lte": 200]]
+                ["points": ["$lte": 50]],
+                ["points": ["$lte": 200]]
             ]
         ]
-        let query1 = GameScore.query("score" <= 50)
-        let query2 = GameScore.query("score" <= 200)
+        let query1 = GameScore.query("points" <= 50)
+        let query2 = GameScore.query("points" <= 200)
         let constraint = and(queries: [query1, query2])
         let query = Query<GameScore>(constraint)
         let queryWhere = query.`where`
@@ -1813,7 +1924,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testWhereContainedInParseObject() throws {
-        var compareObject = GameScore(score: 11)
+        var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
         // swiftlint:disable:next line_length
         let expected = "{\"yolo\":{\"$in\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}]}}"
@@ -1836,7 +1947,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereNotContainedInParseObject() throws {
-        var compareObject = GameScore(score: 11)
+        var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
         // swiftlint:disable:next line_length
         let expected = "{\"yolo\":{\"$nin\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}]}}"
@@ -1859,7 +1970,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereContainedByParseObject() throws {
-        var compareObject = GameScore(score: 11)
+        var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
         // swiftlint:disable:next line_length
         let expected = "{\"yolo\":{\"$containedBy\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}]}}"
@@ -1882,7 +1993,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereContainsAllParseObject() throws {
-        var compareObject = GameScore(score: 11)
+        var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
         // swiftlint:disable:next line_length
         let expected = "{\"yolo\":{\"$all\":[{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}]}}"
@@ -1992,7 +2103,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                            "objectId": "hello"]
             ]
         ]
-        var object = GameScore(score: 50)
+        var object = GameScore(points: 50)
         object.objectId = "hello"
         let constraint = try related(key: "yolo", object: object)
         let query = GameScore.query(constraint)
@@ -2032,7 +2143,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 "key": "yolo"
             ]
         ]
-        var object = GameScore(score: 50)
+        var object = GameScore(points: 50)
         object.objectId = "hello"
         let constraint = related(key: "yolo")
         let query = GameScore.query(constraint)
@@ -2073,7 +2184,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                            "objectId": "hello"]
             ]
         ]
-        var object = GameScore(score: 50)
+        var object = GameScore(points: 50)
         object.objectId = "hello"
         let constraint = related(key: "yolo", object: try object.toPointer())
         let query = GameScore.query(constraint)
@@ -2115,7 +2226,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                            "objectId": "hello"]
             ]
         ]
-        var object = GameScore(score: 50)
+        var object = GameScore(points: 50)
         object.objectId = "hello"
         let constraint = related(object: try object.toPointer())
         let query = GameScore.query(constraint)
@@ -2156,7 +2267,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                            "objectId": "hello"]
             ]
         ]
-        var object = GameScore(score: 50)
+        var object = GameScore(points: 50)
         object.objectId = "hello"
         let constraint = try related(key: "yolo", object: object)
         let query = GameScore.query(constraint)
@@ -2198,7 +2309,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                            "objectId": "hello"]
             ]
         ]
-        var object = GameScore(score: 50)
+        var object = GameScore(points: 50)
         object.objectId = "hello"
         let constraint = try related(object: object)
         let query = GameScore.query(constraint)
@@ -2236,7 +2347,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 "$gte": ["$relativeTime": "3 days ago"]
             ]
         ]
-        var object = GameScore(score: 50)
+        var object = GameScore(points: 50)
         object.objectId = "hello"
         let constraint = relative("yolo" >= "3 days ago")
         let query = GameScore.query(constraint)
@@ -3250,7 +3361,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testAggregate() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -3280,7 +3391,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testAggregateWithWhere() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -3296,7 +3407,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
 
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         do {
             let pipeline = [[String: String]]()
             guard let score = try query.aggregate(pipeline).first else {
@@ -3337,7 +3448,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         do {
             let pipeline = [[String: String]]()
             guard let score: [String: String] = try query.aggregateExplain(pipeline).first else {
@@ -3352,7 +3463,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testAggregateExplainWithWhereLimit() {
 
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
             .limit(0)
         do {
             let pipeline = [[String: String]]()
@@ -3364,7 +3475,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testAggregateAsyncMainQueue() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = Date()
@@ -3402,7 +3513,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testAggregateWhereAsyncMainQueue() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -3417,7 +3528,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return nil
             }
         }
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let expectation = XCTestExpectation(description: "Aggregate object1")
         let pipeline = [[String: AnyEncodable]]()
         query.aggregate(pipeline, options: [], callbackQueue: .main) { result in
@@ -3475,7 +3586,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
         let expectation = XCTestExpectation(description: "Aggregate object1")
         let pipeline = [[String: String]]()
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         query.aggregateExplain(pipeline,
                                options: [],
                                callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
@@ -3501,7 +3612,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let expectation = XCTestExpectation(description: "Aggregate object1")
         let pipeline = [[String: String]]()
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
             .limit(0)
         query.aggregateExplain(pipeline,
                                options: [],
@@ -3520,7 +3631,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDistinct() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -3536,7 +3647,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             }
         }
 
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         do {
             guard let score = try query.distinct("hello").first else {
                 XCTFail("Should unwrap first object found")
@@ -3550,7 +3661,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testDistinctLimit() {
 
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
             .limit(0)
         do {
             let scores = try query.distinct("hello")
@@ -3575,7 +3686,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         do {
             guard let score: [String: String] = try query.distinctExplain("hello").first else {
                 XCTFail("Should unwrap first object found")
@@ -3589,7 +3700,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testDistinctExplainLimit() {
 
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
             .limit(0)
         do {
             let scores: [[String: String]] = try query.distinctExplain("hello")
@@ -3600,7 +3711,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDistinctAsyncMainQueue() {
-        var scoreOnServer = GameScore(score: 10)
+        var scoreOnServer = GameScore(points: 10)
         scoreOnServer.objectId = "yarr"
         scoreOnServer.createdAt = Date()
         scoreOnServer.updatedAt = scoreOnServer.createdAt
@@ -3615,7 +3726,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return nil
             }
         }
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         let expectation = XCTestExpectation(description: "Distinct object1")
         query.distinct("hello", options: [], callbackQueue: .main) { result in
 
@@ -3637,7 +3748,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDistinctAsyncMainQueueLimit() {
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
             .limit(0)
         let expectation = XCTestExpectation(description: "Distinct object1")
         query.distinct("hello", options: [], callbackQueue: .main) { result in
@@ -3669,7 +3780,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         let expectation = XCTestExpectation(description: "Aggregate object1")
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
         query.distinctExplain("hello",
                               options: [],
                               callbackQueue: .main) { (result: Result<[[String: String]], ParseError>) in
@@ -3693,7 +3804,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     func testDistinctExplainAsyncMainQueueLimit() {
         let expectation = XCTestExpectation(description: "Aggregate object1")
-        let query = GameScore.query("score" > 9)
+        let query = GameScore.query("points" > 9)
             .limit(0)
         query.distinctExplain("hello",
                               options: [],

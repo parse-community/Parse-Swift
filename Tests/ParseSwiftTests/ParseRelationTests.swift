@@ -18,18 +18,19 @@ class ParseRelationTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int
+        var points: Int
         var members = [String]()
         var levels: [String]?
 
         //custom initializers
         init() {
-            self.score = 5
+            self.points = 5
         }
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
         }
     }
 
@@ -39,6 +40,7 @@ class ParseRelationTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
         var level: Int
@@ -77,7 +79,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testEncoding() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -99,7 +101,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testParseObjectRelation() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
 
@@ -134,7 +136,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testInitWithChild() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
 
@@ -155,7 +157,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testAddIncorrectClassError() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -166,7 +168,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testAddIncorrectKeyError() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -178,7 +180,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testAddOperations() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -195,7 +197,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testAddOperationsNoKey() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -214,7 +216,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testAddOperationsKeyCheck() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -232,13 +234,13 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testIsSameClassNone() throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let relation = score.relation
         XCTAssertFalse(relation.isSameClass([GameScore]()))
     }
 
     func testRemoveIncorrectClassError() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -249,7 +251,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testRemoveIncorrectKeyError() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -261,7 +263,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testRemoveOperations() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -278,7 +280,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testRemoveOperationsNoKey() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -297,7 +299,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testRemoveOperationsKeyCheck() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -315,7 +317,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testQuery() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
         var relation = score.relation
@@ -358,7 +360,7 @@ class ParseRelationTests: XCTestCase {
     }
 
     func testQueryStatic() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "hello"
         score.objectId = objectId
 

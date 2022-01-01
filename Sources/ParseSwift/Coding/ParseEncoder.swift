@@ -72,9 +72,9 @@ public struct ParseEncoder {
             switch self {
 
             case .object:
-                return Set(["createdAt", "updatedAt", "objectId", "className", "emailVerified", "id"])
+                return Set(["createdAt", "updatedAt", "objectId", "className", "emailVerified", "id", "score"])
             case .customObjectId:
-                return Set(["createdAt", "updatedAt", "className", "emailVerified", "id"])
+                return Set(["createdAt", "updatedAt", "className", "emailVerified", "id", "score"])
             case .cloud:
                 return Set(["functionJobName"])
             case .none:

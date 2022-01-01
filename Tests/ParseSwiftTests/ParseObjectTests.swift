@@ -22,6 +22,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var name: String?
 
+        var score: Double?
+
         init() {
             name = "First"
         }
@@ -33,9 +35,10 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int?
+        var points: Int?
         var player: String?
         var level: Level?
         var levels: [Level]?
@@ -47,12 +50,12 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         init(objectId: String?) {
             self.objectId = objectId
         }
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
             self.player = "Jen"
         }
-        init(score: Int, name: String) {
-            self.score = score
+        init(points: Int, name: String) {
+            self.points = points
             self.player = name
         }
     }
@@ -63,20 +66,21 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: GameScore
-        var scores = [GameScore]()
+        var gameScore: GameScore
+        var gameScores = [GameScore]()
         var name = "Hello"
         var profilePicture: ParseFile?
 
         //: a custom initializer
         init() {
-            self.score = GameScore()
+            self.gameScore = GameScore()
         }
 
-        init(score: GameScore) {
-            self.score = score
+        init(gameScore: GameScore) {
+            self.gameScore = gameScore
         }
     }
 
@@ -86,6 +90,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
         var name = "Hello"
@@ -99,9 +104,10 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int
+        var points: Int
         var player = "Jen"
         var level: Level?
         var levels: [Level]?
@@ -109,11 +115,11 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         //: a custom initializer
         required init() {
-            self.score = 5
+            self.points = 5
         }
 
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
         }
 
         /**
@@ -157,19 +163,20 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: GameScoreClass
-        var scores = [GameScore]()
+        var gameScore: GameScoreClass
+        var gameScores = [GameScore]()
         var name = "Hello"
 
         //: a custom initializer
         required init() {
-            self.score = GameScoreClass()
+            self.gameScore = GameScoreClass()
         }
 
-        init(score: GameScoreClass) {
-            self.score = score
+        init(gameScore: GameScoreClass) {
+            self.gameScore = gameScore
         }
 
         /**
@@ -212,6 +219,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         // These are required by ParseUser
         var username: String?
@@ -231,6 +239,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         // These are required by ParseUser
         var username: String?
@@ -307,8 +316,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testIsEqualExtension() throws {
-        let score1 = GameScore(score: 2)
-        let score2 = GameScore(score: 3)
+        let score1 = GameScore(points: 2)
+        let score2 = GameScore(points: 3)
         XCTAssertFalse(score1.isEqual(score2))
     }
 
@@ -322,7 +331,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testParseObjectMutable() throws {
-        var score = GameScore(score: 19, name: "fire")
+        var score = GameScore(points: 19, name: "fire")
         score.objectId = "yolo"
         score.createdAt = Date()
         let empty = score.mutable
@@ -331,7 +340,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFetchCommand() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let className = score.className
         XCTAssertThrowsError(try score.fetchCommand(include: nil))
         let objectId = "yarr"
@@ -349,7 +358,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFetchIncludeCommand() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let className = score.className
         let objectId = "yarr"
         score.objectId = objectId
@@ -381,7 +390,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     // swiftlint:disable:next function_body_length
     func testFetch() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -444,7 +453,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testFetchBasedOnObjectId() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -482,7 +491,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
             XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(fetched.ACL)
-            XCTAssertEqual(fetched.score, score.score)
+            XCTAssertEqual(fetched.points, score.points)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -512,7 +521,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(fetched.ACL)
-                XCTAssertEqual(fetched.score, scoreOnServer.score)
+                XCTAssertEqual(fetched.points, scoreOnServer.points)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -540,7 +549,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
                 XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
                 XCTAssertNil(fetched.ACL)
-                XCTAssertEqual(fetched.score, scoreOnServer.score)
+                XCTAssertEqual(fetched.points, scoreOnServer.points)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -551,7 +560,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeFetchAsync() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -581,7 +590,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testFetchAsyncMainQueue() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -607,7 +616,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testSaveCommand() throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         let className = score.className
 
         let command = try score.saveCommand()
@@ -616,16 +625,16 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
 
-        let expected = "GameScore ({\"score\":10,\"player\":\"Jen\"})"
+        let expected = "GameScore ({\"points\":10,\"player\":\"Jen\"})"
         let decoded = score.debugDescription
         XCTAssertEqual(decoded, expected)
-        let expected2 = "GameScore ({\"score\":10,\"player\":\"Jen\"})"
+        let expected2 = "GameScore ({\"points\":10,\"player\":\"Jen\"})"
         let decoded2 = score.description
         XCTAssertEqual(decoded2, expected2)
     }
 
     func testSaveUpdateCommand() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let className = score.className
         let objectId = "yarr"
         score.objectId = objectId
@@ -643,7 +652,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
 
-        let expected = "{\"score\":10,\"player\":\"Jen\"}"
+        let expected = "{\"points\":10,\"player\":\"Jen\"}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -653,7 +662,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testSaveUpdateCommandParseObjectMutable() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let className = score.className
         let objectId = "yarr"
         score.objectId = objectId
@@ -696,7 +705,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testCreateCommand() throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         let command = score.createCommand()
         XCTAssertNotNil(command)
@@ -707,7 +716,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testReplaceCommand() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         XCTAssertThrowsError(try score.replaceCommand())
         let objectId = "yarr"
         score.objectId = objectId
@@ -721,7 +730,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testUpdateCommand() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         XCTAssertThrowsError(try score.updateCommand())
         let objectId = "yarr"
         score.objectId = objectId
@@ -736,7 +745,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testSave() { // swiftlint:disable:this function_body_length
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -795,7 +804,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let defaultACL = try ParseACL.setDefaultACL(ParseACL(),
                                                     withAccessForCurrentUser: true)
 
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -835,7 +844,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testUpdate() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
         score.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         score.ACL = nil
@@ -893,7 +902,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         _ = try loginNormally()
         _ = try ParseACL.setDefaultACL(ParseACL(), withAccessForCurrentUser: true)
 
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
         score.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         score.ACL = nil
@@ -983,7 +992,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeSaveAsync() {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -1009,7 +1018,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testSaveAsyncMainQueue() {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -1086,7 +1095,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeUpdateAsync() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
         score.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         score.ACL = nil
@@ -1113,7 +1122,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testUpdateAsyncMainQueue() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
         score.updatedAt = Calendar.current.date(byAdding: .init(day: -1), to: Date())
         score.ACL = nil
@@ -1136,7 +1145,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDeleteCommand() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let className = score.className
         let objectId = "yarr"
         score.objectId = objectId
@@ -1152,7 +1161,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDelete() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -1187,7 +1196,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDeleteError() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -1251,7 +1260,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeDeleteAsync() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -1281,7 +1290,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     #endif
 
     func testDeleteAsyncMainQueue() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -1332,7 +1341,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDeleteAsyncMainQueueError() {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
 
@@ -1353,8 +1362,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     // swiftlint:disable:next function_body_length
     func testDeepSaveOneDeep() throws {
-        let score = GameScore(score: 10)
-        var game = Game(score: score)
+        let score = GameScore(points: 10)
+        var game = Game(gameScore: score)
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
@@ -1406,7 +1415,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             do {
                 encodedScore = try ParseCoding.jsonEncoder().encode(savedChild)
                 //Decode Pointer as GameScore
-                game.score = try game.getDecoder().decode(GameScore.self, from: encodedScore)
+                game.gameScore = try game.getDecoder().decode(GameScore.self, from: encodedScore)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
                 expectation1.fulfill()
@@ -1447,7 +1456,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(savedGame.objectId, gameOnServer.objectId)
             XCTAssertEqual(savedGame.createdAt, gameOnServer.createdAt)
             XCTAssertEqual(savedGame.updatedAt, gameOnServer.createdAt)
-            XCTAssertEqual(savedGame.score, gameOnServer.score)
+            XCTAssertEqual(savedGame.gameScore, gameOnServer.gameScore)
             expectation1.fulfill()
         }
         wait(for: [expectation1], timeout: 20.0)
@@ -1463,8 +1472,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let defaultACL = try ParseACL.setDefaultACL(ParseACL(),
                                                     withAccessForCurrentUser: true)
 
-        let score = GameScore(score: 10)
-        var game = Game(score: score)
+        let score = GameScore(points: 10)
+        var game = Game(gameScore: score)
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
@@ -1516,7 +1525,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             do {
                 encodedScore = try ParseCoding.jsonEncoder().encode(savedChild)
                 //Decode Pointer as GameScore
-                game.score = try game.getDecoder().decode(GameScore.self, from: encodedScore)
+                game.gameScore = try game.getDecoder().decode(GameScore.self, from: encodedScore)
             } catch {
                 XCTFail("Should encode/decode. Error \(error)")
                 expectation1.fulfill()
@@ -1557,7 +1566,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(savedGame.objectId, gameOnServer.objectId)
             XCTAssertEqual(savedGame.createdAt, gameOnServer.createdAt)
             XCTAssertEqual(savedGame.updatedAt, gameOnServer.createdAt)
-            XCTAssertEqual(savedGame.score, gameOnServer.score)
+            XCTAssertEqual(savedGame.gameScore, gameOnServer.gameScore)
             XCTAssertNotNil(savedGame.ACL)
             XCTAssertEqual(savedGame.ACL?.publicRead, defaultACL.publicRead)
             XCTAssertEqual(savedGame.ACL?.publicWrite, defaultACL.publicWrite)
@@ -1569,8 +1578,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDeepSaveDetectCircular() throws {
-        let score = GameScoreClass(score: 10)
-        let game = GameClass(score: score)
+        let score = GameScoreClass(points: 10)
+        let game = GameClass(gameScore: score)
         game.objectId = "nice"
         score.game = game
         let expectation1 = XCTestExpectation(description: "Deep save")
@@ -1588,7 +1597,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testAllowFieldsWithSameObject() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         var level = Level()
         level.objectId = "nice"
         score.level = level
@@ -1602,9 +1611,9 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDeepSaveTwoDeep() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.level = Level()
-        var game = Game(score: score)
+        var game = Game(gameScore: score)
         game.objectId = "nice"
 
         var levelOnServer = score
@@ -1658,7 +1667,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDeepSaveOfUnsavedPointerArray() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let newLevel = Level()
         var newLevel2 = Level()
         newLevel2.name = "best"
@@ -1683,7 +1692,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testDeepSavePointerArray() throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         var level1 = Level()
         level1.objectId = "level1"
         var level2 = Level()

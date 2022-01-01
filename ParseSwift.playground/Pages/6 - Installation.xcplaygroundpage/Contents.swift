@@ -19,6 +19,7 @@ struct Installation: ParseInstallation {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: These are required by `ParseInstallation`.
     var installationId: String?

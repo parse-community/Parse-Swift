@@ -57,7 +57,7 @@ import PackageDescription
 let package = Package(
     name: "YOUR_PROJECT_NAME",
     dependencies: [
-        .package(url: "https://github.com/parse-community/Parse-Swift", from: "2.3.1"),
+        .package(url: "https://github.com/parse-community/Parse-Swift", from: "3.0.0"),
     ]
 )
 ```
@@ -115,7 +115,7 @@ The easiest way to setup the LiveQuery server is to make it run with the [Open S
 The LiveQuery client interface is based around the concept of `Subscription`s. You can register any `Query` for live updates from the associated live query server and use the query as a view model for a SwiftUI view by simply using the `subscribe` property of a query:
 
 ```swift
-let myQuery = GameScore.query("score" > 9)
+let myQuery = GameScore.query("points" > 9)
 
 struct ContentView: View {
 
@@ -135,15 +135,15 @@ struct ContentView: View {
                 switch event.event {
 
                 case .entered(let object):
-                    Text("Entered with score: \(object.score)")
+                    Text("Entered with points: \(object.points)")
                 case .left(let object):
-                    Text("Left with score: \(object.score)")
+                    Text("Left with points: \(object.points)")
                 case .created(let object):
-                    Text("Created with score: \(object.score)")
+                    Text("Created with points: \(object.points)")
                 case .updated(let object):
-                    Text("Updated with score: \(object.score)")
+                    Text("Updated with points: \(object.points)")
                 case .deleted(let object):
-                    Text("Deleted with score: \(object.score)")
+                    Text("Deleted with points: \(object.points)")
                 }
             } else {
                 Text("Not subscribed to a query")

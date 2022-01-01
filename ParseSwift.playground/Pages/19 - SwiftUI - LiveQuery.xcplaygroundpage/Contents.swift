@@ -24,9 +24,10 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int = 0
     var location: ParseGeoPoint?
     var name: String?
 }
@@ -35,16 +36,16 @@ struct GameScore: ParseObject {
 //: to preserve the convenience initializer.
 extension GameScore {
     //: Custom initializer.
-    init(name: String, score: Int) {
+    init(name: String, points: Int) {
         self.name = name
-        self.score = score
+        self.points = points
     }
 }
 
 //: Be sure you have LiveQuery enabled on your server.
 
 //: Create a query just as you normally would.
-var query = GameScore.query("score" < 11)
+var query = GameScore.query("points" < 11)
 
 //: To use subscriptions inside of SwiftUI
 struct ContentView: View {
@@ -65,15 +66,15 @@ struct ContentView: View {
                 switch event.event {
 
                 case .entered(let object):
-                    Text("Entered with score: \(object.score)")
+                    Text("Entered with points: \(object.points)")
                 case .left(let object):
-                    Text("Left with score: \(object.score)")
+                    Text("Left with points: \(object.points)")
                 case .created(let object):
-                    Text("Created with score: \(object.score)")
+                    Text("Created with points: \(object.points)")
                 case .updated(let object):
-                    Text("Updated with score: \(object.score)")
+                    Text("Updated with points: \(object.points)")
                 case .deleted(let object):
-                    Text("Deleted with score: \(object.score)")
+                    Text("Deleted with points: \(object.points)")
                 }
             } else {
                 Text("Not subscribed to a query")

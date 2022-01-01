@@ -24,6 +24,7 @@ import Foundation
      var createdAt: Date?
      var updatedAt: Date?
      var ACL: ParseACL?
+     var score: Double?
 
      //: These are required by `ParseUser`.
      var username: String?
@@ -34,7 +35,7 @@ import Foundation
 
      //: Your custom keys.
      var customKey: String?
-     var score: GameScore?
+     var gameScore: GameScore?
      var targetScore: GameScore?
      var allScores: [GameScore]?
  }
@@ -57,16 +58,17 @@ import Foundation
      var createdAt: Date?
      var updatedAt: Date?
      var ACL: ParseACL?
+     var score: Double?
 
      //: Your own properties.
-     var score: Int = 0
+     var points: Int = 0
  }
  //: It's recommended to place custom initializers in an extension
  //: to preserve the convenience initializer.
  extension GameScore {
    
-     init(score: Int) {
-         self.score = score
+     init(points: Int) {
+         self.points = points
      }
    
      init(objectId: String?) {
@@ -74,8 +76,8 @@ import Foundation
      }
  }
  
- var newScore = GameScore(score: 10).mutable
- newScore.score = 200
+ var newScore = GameScore(points: 10).mutable
+ newScore.points = 200
  
  do {
      try await newScore.save()

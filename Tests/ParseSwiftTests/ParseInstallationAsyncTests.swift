@@ -20,6 +20,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         // These are required by ParseUser
         var username: String?
@@ -39,6 +40,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         // These are required by ParseUser
         var username: String?
@@ -79,6 +81,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
         var customKey: String?
     }
 

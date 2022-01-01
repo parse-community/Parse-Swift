@@ -173,6 +173,21 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
+      Method to sort the full text search by text score.
+      - parameter value: String or Object of index that should be used when executing query.
+    */
+    public func sortByTextScore() -> Query<T> {
+        var mutableQuery = self
+        let ascendingScore = Order.ascending(QueryConstraint.Comparator.score.rawValue)
+        if mutableQuery.order != nil {
+            mutableQuery.order!.append(ascendingScore)
+        } else {
+            mutableQuery.order = [ascendingScore]
+        }
+        return mutableQuery.select(QueryConstraint.Comparator.score.rawValue)
+    }
+
+    /**
       Changes the read preference that the backend will use when performing the query to the database.
       - parameter readPreference: The read preference for the main query.
       - parameter includeReadPreference: The read preference for the queries to include pointers.
@@ -394,7 +409,7 @@ extension Query: Queryable {
     }
 
     /**
-      Finds objects *asynchronously* and calls the given block with the results.
+      Finds objects *asynchronously* and returns a completion block with the results.
 
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
@@ -417,7 +432,7 @@ extension Query: Queryable {
     }
 
     /**
-     Query plan information for finding objects *asynchronously* and calls the given block with the results.
+     Query plan information for finding objects *asynchronously* and returns a completion block with the results.
       - note: An explain query will have many different underlying types. Since Swift is a strongly
       typed language, a developer should specify the type expected to be decoded which will be
       different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
@@ -582,7 +597,7 @@ extension Query: Queryable {
     }
 
     /**
-     Query plan information for getting an object *asynchronously* and calls the given block with the result.
+     Query plan information for getting an object *asynchronously* and returns a completion block with the result.
 
       - warning: This method mutates the query. It will reset the limit to `1`.
       - note: An explain query will have many different underlying types. Since Swift is a strongly
@@ -645,14 +660,15 @@ extension Query: Queryable {
     }
 
     /**
-      Counts objects *asynchronously* and calls the given block with the counts.
+      Counts objects *asynchronously* and returns a completion block with the count.
 
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Int, ParseError>)`
     */
-    public func count(options: API.Options = [], callbackQueue: DispatchQueue = .main,
+    public func count(options: API.Options = [],
+                      callbackQueue: DispatchQueue = .main,
                       completion: @escaping (Result<Int, ParseError>) -> Void) {
         if limit == 0 {
             callbackQueue.async {
@@ -667,7 +683,7 @@ extension Query: Queryable {
     }
 
     /**
-     Query plan information for counting objects *asynchronously* and calls the given block with the counts.
+     Query plan information for counting objects *asynchronously* and returns a completion block with the count.
       - note: An explain query will have many different underlying types. Since Swift is a strongly
       typed language, a developer should specify the type expected to be decoded which will be
       different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
@@ -688,6 +704,56 @@ extension Query: Queryable {
         }
         countExplainCommand().executeAsync(options: options,
                                            callbackQueue: callbackQueue) { result in
+            completion(result)
+        }
+    }
+
+    /**
+     Finds objects *asynchronously* and returns a completion block with the results which include
+     the total number of objects satisfying this query, despite limits/skip. Might be useful for pagination.
+
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+      - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
+      - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<([ResultType], Int), ParseError>)`
+    */
+    public func withCount(options: API.Options = [],
+                          callbackQueue: DispatchQueue = .main,
+                          completion: @escaping (Result<([ResultType], Int), ParseError>) -> Void) {
+        if limit == 0 {
+            callbackQueue.async {
+                completion(.success(([], 0)))
+            }
+            return
+        }
+        withCountCommand().executeAsync(options: options,
+                                        callbackQueue: callbackQueue) { result in
+            completion(result)
+        }
+    }
+
+    /**
+     Query plan information for withCount objects *asynchronously* and a completion block with the results.
+      - note: An explain query will have many different underlying types. Since Swift is a strongly
+      typed language, a developer should specify the type expected to be decoded which will be
+      different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
+      - parameter options: A set of header options sent to the server. Defaults to an empty set.
+      - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
+      - parameter completion: The block to execute.
+      It should have the following argument signature: `(Result<Decodable, ParseError>)`.
+    */
+    public func withCountExplain<U: Decodable>(options: API.Options = [],
+                                               callbackQueue: DispatchQueue = .main,
+                                               completion: @escaping (Result<[U], ParseError>) -> Void) {
+        if limit == 0 {
+            callbackQueue.async {
+                completion(.success([U]()))
+            }
+            return
+        }
+        withCountExplainCommand().executeAsync(options: options,
+                                               callbackQueue: callbackQueue) { result in
             completion(result)
         }
     }
@@ -1026,6 +1092,17 @@ extension Query {
         }
     }
 
+    func withCountCommand() -> API.NonParseBodyCommand<Query<ResultType>, ([ResultType], Int)> {
+        var query = self
+        query.isCount = true
+        return API.NonParseBodyCommand(method: .POST,
+                                       path: query.endpoint,
+                                       body: query) {
+            let decoded = try ParseCoding.jsonDecoder().decode(QueryResponse<T>.self, from: $0)
+            return (decoded.results, decoded.count ?? 0)
+        }
+    }
+
     func aggregateCommand() -> API.NonParseBodyCommand<AggregateBody<ResultType>, [ResultType]> {
         let query = self
         let body = AggregateBody(query: query)
@@ -1067,6 +1144,16 @@ extension Query {
     func countExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
         var query = self
         query.limit = 1
+        query.isCount = true
+        query.explain = true
+        return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {
+            let decoded: [U] = try ParseCoding.jsonDecoder().decode(AnyResultsResponse.self, from: $0).results
+            return decoded
+        }
+    }
+
+    func withCountExplainCommand<U: Decodable>() -> API.NonParseBodyCommand<Query<ResultType>, [U]> {
+        var query = self
         query.isCount = true
         query.explain = true
         return API.NonParseBodyCommand(method: .POST, path: query.endpoint, body: query) {

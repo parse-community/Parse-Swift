@@ -16,9 +16,10 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int = 0
     var location: ParseGeoPoint?
     var name: String?
 }
@@ -27,9 +28,9 @@ struct GameScore: ParseObject {
 //: to preserve the convenience initializer.
 extension GameScore {
     //: Custom initializer.
-    init(name: String, score: Int) {
+    init(name: String, points: Int) {
         self.name = name
-        self.score = score
+        self.points = points
     }
 }
 
@@ -54,7 +55,7 @@ if let socket = ParseLiveQuery.getDefault() {
 }
 
 //: Create a query just as you normally would.
-var query = GameScore.query("score" < 11)
+var query = GameScore.query("points" < 11)
 
 //: This is how you subscribe to your created query using callbacks.
 let subscription = query.subscribeCallback!
@@ -126,10 +127,10 @@ ParseLiveQuery.client?.sendPing { error in
 }
 
 //: Create a new query.
-var query2 = GameScore.query("score" > 50)
+var query2 = GameScore.query("points" > 50)
 
 //: Select the fields you are interested in receiving.
-query2.fields("score")
+query2.fields("points")
 
 //: Subscribe to your new query.
 let subscription2 = query2.subscribeCallback!

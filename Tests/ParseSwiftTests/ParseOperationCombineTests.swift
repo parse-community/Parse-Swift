@@ -21,9 +21,10 @@ class ParseOperationCombineTests: XCTestCase { // swiftlint:disable:this type_bo
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int?
+        var points: Int?
         var player: String?
 
         //custom initializers
@@ -31,12 +32,12 @@ class ParseOperationCombineTests: XCTestCase { // swiftlint:disable:this type_bo
         init (objectId: String?) {
             self.objectId = objectId
         }
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
             self.player = "Jen"
         }
-        init(score: Int, name: String) {
-            self.score = score
+        init(points: Int, name: String) {
+            self.points = points
             self.player = name
         }
     }
@@ -67,13 +68,13 @@ class ParseOperationCombineTests: XCTestCase { // swiftlint:disable:this type_bo
         var subscriptions = Set<AnyCancellable>()
         let expectation1 = XCTestExpectation(description: "Save")
 
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
         let operations = score.operation
-            .increment("score", by: 1)
+            .increment("points", by: 1)
 
         var scoreOnServer = score
-        scoreOnServer.score = 11
+        scoreOnServer.points = 11
         scoreOnServer.updatedAt = Date()
         scoreOnServer.ACL = nil
 

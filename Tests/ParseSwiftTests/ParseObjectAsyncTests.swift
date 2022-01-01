@@ -20,9 +20,10 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
 
         //: Your own properties
-        var score: Int?
+        var points: Int?
         var player: String?
 
         init() { }
@@ -31,12 +32,12 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         init (objectId: String?) {
             self.objectId = objectId
         }
-        init(score: Int) {
-            self.score = score
+        init(points: Int) {
+            self.points = points
             self.player = "Jen"
         }
-        init(score: Int, name: String) {
-            self.score = score
+        init(points: Int, name: String) {
+            self.points = points
             self.player = name
         }
     }
@@ -65,7 +66,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testFetch() async throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         let objectId = "yarr"
         score.objectId = objectId
         let score2 = score
@@ -109,7 +110,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testSave() async throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -143,7 +144,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testCreate() async throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -182,7 +183,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testReplaceCreated() async throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
 
         var scoreOnServer = score
@@ -216,7 +217,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testReplaceUpdated() async throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
 
         var scoreOnServer = score
@@ -253,7 +254,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testReplaceClientMissingObjectId() async throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         do {
             _ = try await score.replace()
             XCTFail("Should have thrown error")
@@ -268,7 +269,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testUpdate() async throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
 
         var scoreOnServer = score
@@ -305,7 +306,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testUpdateClientMissingObjectId() async throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
         do {
             _ = try await score.update()
             XCTFail("Should have thrown error")
@@ -320,7 +321,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testDelete() async throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
         let score2 = score
 
@@ -342,8 +343,8 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testFetchAll() async throws {
-        let score = GameScore(score: 10)
-        let score2 = GameScore(score: 20)
+        let score = GameScore(points: 10)
+        let score2 = GameScore(points: 20)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -402,7 +403,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(fetchedCreatedAt, originalCreatedAt)
             XCTAssertEqual(fetchedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(first.ACL)
-            XCTAssertEqual(first.score, scoreOnServerImmutable.score)
+            XCTAssertEqual(first.points, scoreOnServerImmutable.points)
         case .failure(let error):
             XCTFail(error.localizedDescription)
         }
@@ -424,7 +425,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(savedCreatedAt, originalCreatedAt)
             XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
             XCTAssertNil(second.ACL)
-            XCTAssertEqual(second.score, scoreOnServer2Immutable.score)
+            XCTAssertEqual(second.points, scoreOnServer2Immutable.points)
         case .failure(let error):
             XCTFail(error.localizedDescription)
         }
@@ -432,8 +433,8 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testSaveAll() async throws {
-        let score = GameScore(score: 10)
-        let score2 = GameScore(score: 20)
+        let score = GameScore(points: 10)
+        let score2 = GameScore(points: 20)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -501,8 +502,8 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testCreateAll() async throws {
-        let score = GameScore(score: 10)
-        let score2 = GameScore(score: 20)
+        let score = GameScore(points: 10)
+        let score2 = GameScore(points: 20)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yarr"
@@ -580,7 +581,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testCreateAllServerMissingObjectId() async throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         var scoreOnServer = score
         scoreOnServer.createdAt = Date()
@@ -613,7 +614,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testCreateAllServerMissingCreatedAt() async throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         var scoreOnServer = score
         scoreOnServer.objectId = "yolo"
@@ -646,9 +647,9 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testReplaceAll() async throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
-        var score2 = GameScore(score: 20)
+        var score2 = GameScore(points: 20)
         score2.objectId = "yolo"
 
         var scoreOnServer = score
@@ -727,9 +728,9 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testReplaceAllUpdate() async throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
-        var score2 = GameScore(score: 20)
+        var score2 = GameScore(points: 20)
         score2.objectId = "yolo"
 
         var scoreOnServer = score
@@ -800,7 +801,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testReplaceAllServerMissingObjectId() async throws {
-        let score = GameScore(score: 10)
+        let score = GameScore(points: 10)
 
         do {
             _ = try await [score].replaceAll()
@@ -816,7 +817,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testReplaceAllServerMissingUpdatedAt() async throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yolo"
 
         let scoreOnServer = score
@@ -848,9 +849,9 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testUpdateAll() async throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yarr"
-        var score2 = GameScore(score: 20)
+        var score2 = GameScore(points: 20)
         score2.objectId = "yolo"
 
         var scoreOnServer = score
@@ -921,7 +922,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
 
     @MainActor
     func testUpdateAllServerMissingUpdatedAt() async throws {
-        var score = GameScore(score: 10)
+        var score = GameScore(points: 10)
         score.objectId = "yolo"
 
         var scoreOnServer = score

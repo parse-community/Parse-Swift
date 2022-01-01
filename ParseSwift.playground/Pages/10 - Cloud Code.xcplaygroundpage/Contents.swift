@@ -93,15 +93,15 @@ struct GameScore: ParseObject {
     var ACL: ParseACL?
 
     //: Your own properties.
-    var score: Int = 0
+    var points: Int = 0
 }
 
 //: It's recommended to place custom initializers in an extension
 //: to preserve the convenience initializer.
 extension GameScore {
     //: Custom initializer.
-    init(score: Int) {
-        self.score = score
+    init(points: Int) {
+        self.points = points
     }
 
     init(objectId: String?) {
@@ -110,7 +110,7 @@ extension GameScore {
 }
 
 //: Define a GameScore.
-let score = GameScore(score: 10)
+let score = GameScore(points: 10)
 
 //: Save asynchronously (preferred way) with the context option.
 score.save(options: [.context(["hello": "world"])]) { result in
