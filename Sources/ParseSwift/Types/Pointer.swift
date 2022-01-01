@@ -20,13 +20,6 @@ extension ParsePointer {
     }
 }
 
-private func getObjectId<T: ParseObject>(target: T) throws -> String {
-    guard let objectId = target.objectId else {
-        throw ParseError(code: .missingObjectId, message: "Cannot set a pointer to an unsaved object")
-    }
-    return objectId
-}
-
 private func getObjectId(target: Objectable) throws -> String {
     guard let objectId = target.objectId else {
         throw ParseError(code: .missingObjectId, message: "Cannot set a pointer to an unsaved object")
@@ -69,12 +62,6 @@ public struct Pointer<T: ParseObject>: ParsePointer, Fetchable, Encodable, Hasha
 
     private enum CodingKeys: String, CodingKey {
         case __type, objectId, className // swiftlint:disable:this identifier_name
-    }
-
-    public init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        objectId = try values.decode(String.self, forKey: .objectId)
-        className = try values.decode(String.self, forKey: .className)
     }
 }
 

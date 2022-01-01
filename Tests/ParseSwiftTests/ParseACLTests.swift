@@ -146,6 +146,10 @@ class ParseACLTests: XCTestCase {
         acl.setReadAccess(role: role, value: true)
         XCTAssertTrue(acl.getReadAccess(role: role))
 
+        let user2 = User()
+        acl.setReadAccess(user: user2, value: true)
+        XCTAssertFalse(acl.getReadAccess(user: user2))
+
         acl.publicWrite = true
         XCTAssertTrue(acl.publicWrite)
     }
@@ -177,6 +181,10 @@ class ParseACLTests: XCTestCase {
 
         acl.setWriteAccess(role: role, value: true)
         XCTAssertTrue(acl.getWriteAccess(role: role))
+
+        let user2 = User()
+        acl.setWriteAccess(user: user2, value: true)
+        XCTAssertFalse(acl.getWriteAccess(user: user2))
 
         acl.publicWrite = true
         XCTAssertTrue(acl.publicWrite)

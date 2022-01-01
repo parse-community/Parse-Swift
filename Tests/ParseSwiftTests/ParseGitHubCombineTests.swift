@@ -1,17 +1,20 @@
 //
-//  ParseLDAPAsyncTests.swift
+//  ParseGitHubCombineTests.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 9/28/21.
-//  Copyright © 2021 Parse Community. All rights reserved.
+//  Created by Corey Baker on 1/1/22.
+//  Copyright © 2022 Parse Community. All rights reserved.
 //
 
-#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
+#if canImport(Combine)
+
 import Foundation
 import XCTest
+import Combine
 @testable import ParseSwift
 
-class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
+
     struct User: ParseUser {
 
         //: These are required by ParseObject
@@ -83,8 +86,9 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         try ParseStorage.shared.deleteAll()
     }
 
-    @MainActor
-    func testLogin() async throws {
+    func testLogin() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
 
         var serverResponse = LoginSignupResponse()
         let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
@@ -92,7 +96,7 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
+        serverResponse.authData = [serverResponse.gitHub.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -111,16 +115,30 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.ldap.login(id: "testing", password: "this")
-        XCTAssertEqual(user, User.current)
-        XCTAssertEqual(user, userOnServer)
-        XCTAssertEqual(user.username, "hello")
-        XCTAssertEqual(user.password, "world")
-        XCTAssertTrue(user.ldap.isLinked)
+        let publisher = User.gitHub.loginPublisher(id: "testing", accessToken: "this")
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user, userOnServer)
+            XCTAssertEqual(user.username, "hello")
+            XCTAssertEqual(user.password, "world")
+            XCTAssertTrue(user.gitHub.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
     }
 
-    @MainActor
-    func testLoginAuthData() async throws {
+    func testLoginAuthData() {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
 
         var serverResponse = LoginSignupResponse()
         let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
@@ -128,7 +146,7 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
+        serverResponse.authData = [serverResponse.gitHub.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -147,13 +165,26 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.ldap.login(authData: (["id": "testing",
-                                                         "password": "this"]))
-        XCTAssertEqual(user, User.current)
-        XCTAssertEqual(user, userOnServer)
-        XCTAssertEqual(user.username, "hello")
-        XCTAssertEqual(user.password, "world")
-        XCTAssertTrue(user.ldap.isLinked)
+        let publisher = User.gitHub.loginPublisher(authData: (["id": "testing",
+                                                               "access_token": "this"]))
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user, userOnServer)
+            XCTAssertEqual(user.username, "hello")
+            XCTAssertEqual(user.password, "world")
+            XCTAssertTrue(user.gitHub.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
     }
 
     func loginNormally() throws -> User {
@@ -170,8 +201,9 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         return try User.login(username: "parse", password: "user")
     }
 
-    @MainActor
-    func testLink() async throws {
+    func testLink() throws {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
 
         _ = try loginNormally()
         MockURLProtocol.removeAll()
@@ -194,17 +226,32 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.ldap.link(id: "testing", password: "password")
-        XCTAssertEqual(user, User.current)
-        XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-        XCTAssertEqual(user.username, "parse")
-        XCTAssertNil(user.password)
-        XCTAssertTrue(user.ldap.isLinked)
-        XCTAssertFalse(user.anonymous.isLinked)
+        let publisher = User.gitHub.linkPublisher(id: "testing",
+                                                  accessToken: "this")
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+            XCTAssertEqual(user.username, "parse")
+            XCTAssertNil(user.password)
+            XCTAssertTrue(user.gitHub.isLinked)
+            XCTAssertFalse(user.anonymous.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
     }
 
-    @MainActor
-    func testLinkAuthData() async throws {
+    func testLinkAuthData() throws {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
 
         _ = try loginNormally()
         MockURLProtocol.removeAll()
@@ -226,29 +273,43 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-        let authData = ParseLDAP<User>
-            .AuthenticationKeys.id.makeDictionary(id: "testing", password: "authenticationToken")
 
-        let user = try await User.ldap.link(authData: authData)
-        XCTAssertEqual(user, User.current)
-        XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-        XCTAssertEqual(user.username, "parse")
-        XCTAssertNil(user.password)
-        XCTAssertTrue(user.ldap.isLinked)
-        XCTAssertFalse(user.anonymous.isLinked)
+        let authData = ParseGitHub<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing", accessToken: "accessToken")
+        let publisher = User.gitHub.linkPublisher(authData: authData)
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+            XCTAssertEqual(user.username, "parse")
+            XCTAssertNil(user.password)
+            XCTAssertTrue(user.gitHub.isLinked)
+            XCTAssertFalse(user.anonymous.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
     }
 
-    @MainActor
-    func testUnlink() async throws {
+    func testUnlink() throws {
+        var subscriptions = Set<AnyCancellable>()
+        let expectation1 = XCTestExpectation(description: "Save")
 
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
-        let authData = ParseLDAP<User>
+        let authData = ParseGitHub<User>
             .AuthenticationKeys.id.makeDictionary(id: "testing",
-                                              password: "this")
-        User.current?.authData = [User.ldap.__type: authData]
-        XCTAssertTrue(User.ldap.isLinked)
+                                                  accessToken: "this")
+        User.current?.authData = [User.gitHub.__type: authData]
+        XCTAssertTrue(User.gitHub.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -268,12 +329,26 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.ldap.unlink()
-        XCTAssertEqual(user, User.current)
-        XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-        XCTAssertEqual(user.username, "parse")
-        XCTAssertNil(user.password)
-        XCTAssertFalse(user.ldap.isLinked)
+        let publisher = User.gitHub.unlinkPublisher()
+            .sink(receiveCompletion: { result in
+
+                if case let .failure(error) = result {
+                    XCTFail(error.localizedDescription)
+                }
+                expectation1.fulfill()
+
+        }, receiveValue: { user in
+
+            XCTAssertEqual(user, User.current)
+            XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+            XCTAssertEqual(user.username, "parse")
+            XCTAssertNil(user.password)
+            XCTAssertFalse(user.gitHub.isLinked)
+        })
+        publisher.store(in: &subscriptions)
+
+        wait(for: [expectation1], timeout: 20.0)
     }
 }
+
 #endif

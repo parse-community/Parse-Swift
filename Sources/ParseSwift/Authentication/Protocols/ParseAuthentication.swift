@@ -11,6 +11,8 @@ import Foundation
 import Combine
 #endif
 
+// swiftlint:disable line_length
+
 /**
  Objects that conform to the `ParseAuthentication` protocol provide
  convenience implementations for using 3rd party authentication methods.
@@ -233,6 +235,7 @@ public extension ParseUser {
 
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
+     See [supported 3rd party authentications](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) for more information.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      - returns: An instance of the logged in `ParseUser`.
@@ -260,6 +263,7 @@ public extension ParseUser {
      This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
+     See [supported 3rd party authentications](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) for more information.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -374,6 +378,7 @@ public extension ParseUser {
 
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
+     See [supported 3rd party authentications](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) for more information.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      - returns: An instance of the logged in `ParseUser`.
@@ -400,6 +405,7 @@ public extension ParseUser {
      This also caches the user locally so that calls to *current* will use the latest logged in user.
      - parameter type: The authentication type.
      - parameter authData: The data that represents the authentication.
+     See [supported 3rd party authentications](https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications) for more information.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.

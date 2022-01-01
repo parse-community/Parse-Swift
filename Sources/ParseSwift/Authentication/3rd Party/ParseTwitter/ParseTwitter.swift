@@ -13,7 +13,7 @@ import Foundation
 
 /**
  Provides utility functions for working with Twitter User Authentication and `ParseUser`'s.
- Be sure your Parse Server is configured for [sign in with Twitter](https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-sign-in-with-twitter).
+ Be sure your Parse Server is configured for [sign in with Twitter](https://docs.parseplatform.org/parse-server/guide/#twitter-authdata).
  For information on acquiring Twitter sign-in credentials to use with `ParseTwitter`, refer to [Twitter's Documentation](https://developer.twitter.com/en/docs/authentication/guides/log-in-with-twitter).
  */
 public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
@@ -29,9 +29,9 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
 
         /// Properly makes an authData dictionary with the required keys.
         /// - parameter userId: Required id.
-        /// - parameter screenName: The `Twitter screenName` from `Twitter`.
-        /// - parameter consumerKey: The `Twitter consumerKey` from `Twitter`.
-        /// - parameter consumerSecret: The `Twitter consumerSecret` from `Twitter`.
+        /// - parameter screenName: The `Twitter screenName` from **Twitter**.
+        /// - parameter consumerKey: The `Twitter consumerKey` from **Twitter**.
+        /// - parameter consumerSecret: The `Twitter consumerSecret` from **Twitter**.
         /// - parameter authToken: Required Twitter authToken obtained from Twitter.
         /// - parameter authTokenSecret: Required Twitter authSecretToken obtained from Twitter.
         /// - returns: authData dictionary.
@@ -76,10 +76,10 @@ public struct ParseTwitter<AuthenticatedUser: ParseUser>: ParseAuthentication {
 public extension ParseTwitter {
     /**
      Login a `ParseUser` *asynchronously* using Twitter authentication.
-     - parameter userId: The `Twitter userId` from `Twitter`.
-     - parameter screenName: The `Twitter screenName` from `Twitter`.
-     - parameter consumerKey: The `Twitter consumerKey` from `Twitter`.
-     - parameter consumerSecret: The `Twitter consumerSecret` from `Twitter`.
+     - parameter userId: The `Twitter userId` from **Twitter**.
+     - parameter screenName: The `Twitter screenName` from **Twitter**.
+     - parameter consumerKey: The `Twitter consumerKey` from **Twitter**.
+     - parameter consumerSecret: The `Twitter consumerSecret` from **Twitter**.
      - parameter authToken: The Twitter `authToken` obtained from Twitter.
      - parameter authTokenSecret: The Twitter `authSecretToken` obtained from Twitter.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -138,10 +138,10 @@ public extension ParseTwitter {
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Twitter authentication.
-     - parameter user: The `userId` from `Twitter`.
-     - parameter screenName: The `user screenName` from `Twitter`.
-     - parameter consumerKey: The `consumerKey` from `Twitter`.
-     - parameter consumerSecret: The `consumerSecret` from `Twitter`.
+     - parameter user: The **id** from **Twitter**.
+     - parameter screenName: The `user screenName` from **Twitter**.
+     - parameter consumerKey: The `consumerKey` from **Twitter**.
+     - parameter consumerSecret: The `consumerSecret` from **Twitter**.
      - parameter authToken: The Twitter `authToken` obtained from Twitter.
      - parameter authTokenSecret: The Twitter `authSecretToken` obtained from Twitter.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.

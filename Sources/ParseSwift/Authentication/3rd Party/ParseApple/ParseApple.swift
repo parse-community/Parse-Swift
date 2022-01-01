@@ -26,7 +26,7 @@ public struct ParseApple<AuthenticatedUser: ParseUser>: ParseAuthentication {
         /// - parameter user: Required id for the user.
         /// - parameter identityToken: Required identity token for the user.
         /// - returns: authData dictionary.
-        /// - throws: `ParseError` if the `identityToken` can't be converted
+        /// - throws: `ParseError` if the **identityToken** can't be converted
         /// to a string.
         func makeDictionary(user: String,
                             identityToken: Data) throws -> [String: String] {
@@ -59,7 +59,7 @@ public extension ParseApple {
     /**
      Login a `ParseUser` *asynchronously* using Apple authentication.
      - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     - parameter identityToken: The **identityToken** from `ASAuthorizationAppleIDCredential`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
@@ -108,7 +108,7 @@ public extension ParseApple {
     /**
      Link the *current* `ParseUser` *asynchronously* using Apple authentication.
      - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The `identityToken` from `ASAuthorizationAppleIDCredential`.
+     - parameter identityToken: The **identityToken** from `ASAuthorizationAppleIDCredential`.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.

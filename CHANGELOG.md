@@ -11,6 +11,7 @@
 __Improvements__
 - (Breaking Change) Adds options to matchesText query constraint along with the ability to see matching score. The compiler should recommend the new score property to all ParseObjects ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Adds withCount query ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Adds auth support for GitHub, Google, and LinkedIn ([#307](https://github.com/parse-community/Parse-Swift/pull/307)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.5.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.0...2.5.1)

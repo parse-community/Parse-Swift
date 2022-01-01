@@ -1,40 +1,38 @@
 //
-//  ParseApple+combine.swift
-//  ParseApple+combine
+//  ParseGitHub+combine.swift
+//  ParseSwift
 //
-//  Created by Corey Baker on 8/7/21.
-//  Copyright © 2021 Parse Community. All rights reserved.
+//  Created by Corey Baker on 1/1/22.
+//  Copyright © 2022 Parse Community. All rights reserved.
 //
 
 #if canImport(Combine)
 import Foundation
 import Combine
 
-public extension ParseApple {
+public extension ParseGitHub {
     // MARK: Combine
-
     /**
-     Login a `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
-     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The **identityToken** from `ASAuthorizationAppleIDCredential`.
+     Login a `ParseUser` *asynchronously* using GitHub authentication for graph API login. Publishes when complete.
+     - parameter id: The **id** from **GitHub**.
+     - parameter accessToken: Required **access_token** from **GitHub**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
-    func loginPublisher(user: String,
-                        identityToken: Data,
+    func loginPublisher(id: String,
+                        accessToken: String,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
-            self.login(user: user,
-                       identityToken: identityToken,
+            self.login(id: id,
+                       accessToken: accessToken,
                        options: options,
                        completion: promise)
         }
     }
 
     /**
-     Login a `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
+     Login a `ParseUser` *asynchronously* using GitHub authentication for graph API login. Publishes when complete.
      - parameter authData: Dictionary containing key/values.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     func loginPublisher(authData: [String: String],
@@ -47,30 +45,30 @@ public extension ParseApple {
     }
 }
 
-public extension ParseApple {
-
+public extension ParseGitHub {
     /**
-     Link the *current* `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
-     - parameter user: The `user` from `ASAuthorizationAppleIDCredential`.
-     - parameter identityToken: The **identityToken** from `ASAuthorizationAppleIDCredential`.
+     Link the *current* `ParseUser` *asynchronously* using GitHub authentication for graph API login.
+     Publishes when complete.
+     - parameter id: The **id** from **GitHub**.
+     - parameter accessToken: Required **access_token** from **GitHub**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
-    func linkPublisher(user: String,
-                       identityToken: Data,
+    func linkPublisher(id: String,
+                       accessToken: String,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
-            self.link(user: user,
-                      identityToken: identityToken,
+            self.link(id: id,
+                      accessToken: accessToken,
                       options: options,
                       completion: promise)
         }
     }
 
     /**
-     Link the *current* `ParseUser` *asynchronously* using Apple authentication. Publishes when complete.
+     Link the *current* `ParseUser` *asynchronously* using GitHub authentication for graph API login.
+     Publishes when complete.
      - parameter authData: Dictionary containing key/values.
-     - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
     func linkPublisher(authData: [String: String],
