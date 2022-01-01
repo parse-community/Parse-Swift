@@ -332,6 +332,18 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
         XCTAssertEqual(Set(decodedValues2), Set(["$score", "hello", "wow"]))
+
+        query2 = query2.sortByTextScore()
+        XCTAssertEqual(query2.keys?.count, 3)
+        XCTAssertEqual(query2.keys, ["$score", "hello", "wow"])
+        let encoded3 = try ParseCoding.jsonEncoder().encode(query2)
+        let decodedDictionary3 = try JSONDecoder().decode([String: AnyCodable].self, from: encoded3)
+        guard let decodedKeys3 = decodedDictionary3["keys"],
+            let decodedValues3 = decodedKeys3.value as? [String] else {
+            XCTFail("Should have casted")
+            return
+        }
+        XCTAssertEqual(Set(decodedValues3), Set(["$score", "hello", "wow"]))
     }
 
     func testAddingConstraints() {

@@ -130,6 +130,47 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     }
 
     @MainActor
+    func testWithCountMissingCount() async throws {
+
+        var scoreOnServer = GameScore(points: 10)
+        scoreOnServer.points = 11
+        scoreOnServer.objectId = "yolo"
+        scoreOnServer.createdAt = Date()
+        scoreOnServer.updatedAt = scoreOnServer.createdAt
+        scoreOnServer.ACL = nil
+
+        let results = QueryResponse<GameScore>(results: [scoreOnServer], count: nil)
+        MockURLProtocol.mockRequests { _ in
+            do {
+                let encoded = try ParseCoding.jsonEncoder().encode(results)
+                return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+            } catch {
+                return nil
+            }
+        }
+
+        let query = GameScore.query()
+
+        let found = try await query.withCount()
+        guard let object = found.0.first else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        XCTAssertTrue(object.hasSameObjectId(as: scoreOnServer))
+        XCTAssertEqual(found.1, 0)
+    }
+
+    @MainActor
+    func testWithCountLimitZero() async throws {
+
+        var query = GameScore.query()
+        query.limit = 0
+        let found = try await query.withCount()
+        XCTAssertEqual(found.0.count, 0)
+        XCTAssertEqual(found.1, 0)
+    }
+
+    @MainActor
     func testFindAll() async throws {
 
         var scoreOnServer = GameScore(points: 10)
@@ -198,6 +239,15 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query()
         let queryResult: [[String: String]] = try await query.withCountExplain()
         XCTAssertEqual(queryResult, json.results)
+    }
+
+    @MainActor
+    func testWithCountExplainLimitZero() async throws {
+
+        var query = GameScore.query()
+        query.limit = 0
+        let found: [[String: String]] = try await query.withCountExplain()
+        XCTAssertEqual(found.count, 0)
     }
 
     @MainActor
