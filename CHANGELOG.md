@@ -2,8 +2,15 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.1...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.0.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 3.0.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.1...3.0.0)
+
+__Improvements__
+- (Breaking Change) Adds options to matchesText query constraint along with the ability to see matching score. The compiler should recommend the new score property to all ParseObjects ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Adds withCount query ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.5.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.0...2.5.1)
