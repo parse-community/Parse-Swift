@@ -223,6 +223,20 @@ class ParseGitHubTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     @MainActor
+    func testLoginAuthDataBadAuth() async throws {
+        do {
+            _ = try await User.gitHub.login(authData: (["id": "testing",
+                                                        "bad": "token"]))
+        } catch {
+            guard let parseError = error.containedIn([.unknownError]) else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("consisting of keys"))
+        }
+    }
+
+    @MainActor
     func testReplaceAnonymousWithLoggedIn() async throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()

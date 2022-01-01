@@ -228,6 +228,20 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
     }
 
     @MainActor
+    func testLoginAuthDataBadAuth() async throws {
+        do {
+            _ = try await User.linkedIn.login(authData: (["id": "testing",
+                                                        "bad": "token"]))
+        } catch {
+            guard let parseError = error.containedIn([.unknownError]) else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("consisting of keys"))
+        }
+    }
+
+    @MainActor
     func testReplaceAnonymousWithLoggedIn() async throws {
         try loginAnonymousUser()
         MockURLProtocol.removeAll()

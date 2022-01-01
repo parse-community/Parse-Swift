@@ -194,8 +194,7 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.ldap.link(authData: ["id": "testing",
-                                                       "password": "this"])
+        let user = try await User.ldap.link(id: "testing", password: "password")
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
         XCTAssertEqual(user.username, "parse")

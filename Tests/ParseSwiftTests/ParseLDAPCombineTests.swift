@@ -226,8 +226,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.linkPublisher(authData: ["id": "testing",
-                                                           "password": "this"])
+        let publisher = User.ldap.linkPublisher(id: "testing", password: "this")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {

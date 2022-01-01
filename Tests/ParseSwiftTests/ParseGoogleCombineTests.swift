@@ -226,8 +226,8 @@ class ParseGoogleCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.google.linkPublisher(authData: ["id": "testing",
-                                                             "access_token": "this"])
+        let publisher = User.google.linkPublisher(id: "testing",
+                                                  accessToken: "this")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {

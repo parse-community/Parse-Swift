@@ -226,8 +226,8 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.gitHub.linkPublisher(authData: ["id": "testing",
-                                                             "access_token": "this"])
+        let publisher = User.gitHub.linkPublisher(id: "testing",
+                                                  accessToken: "this")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {

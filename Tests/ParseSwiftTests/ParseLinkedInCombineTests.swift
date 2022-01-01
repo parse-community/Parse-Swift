@@ -229,9 +229,9 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.linkedIn.linkPublisher(authData: ["id": "testing",
-                                                               "access_token": "this",
-                                                               "is_mobile_sdk": "\(true)"])
+        let publisher = User.linkedIn.linkPublisher(id: "testing",
+                                                    accessToken: "this",
+                                                    isMobileSDK: true)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {

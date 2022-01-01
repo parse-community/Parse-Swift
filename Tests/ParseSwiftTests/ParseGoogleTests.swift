@@ -137,6 +137,14 @@ class ParseGoogleTests: XCTestCase { // swiftlint:disable:this type_body_length
                                                   idToken: "this",
                                                   accessToken: "that")
         XCTAssertEqual(authData, ["id": "testing", "access_token": "that"])
+        let authData2 = ParseGoogle<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing",
+                                                  accessToken: "that")
+        XCTAssertEqual(authData2, ["id": "testing", "access_token": "that"])
+        let authData3 = ParseGoogle<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing",
+                                                  idToken: "this")
+        XCTAssertEqual(authData3, ["id": "testing", "id_token": "this"])
     }
 
     func testVerifyMandatoryKeys() throws {
@@ -225,6 +233,20 @@ class ParseGoogleTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(user.username, "hello")
         XCTAssertEqual(user.password, "world")
         XCTAssertTrue(user.google.isLinked)
+    }
+
+    @MainActor
+    func testLoginAuthDataBadAuth() async throws {
+        do {
+            _ = try await User.google.login(authData: (["id": "testing",
+                                                        "bad": "token"]))
+        } catch {
+            guard let parseError = error.containedIn([.unknownError]) else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("consisting of keys"))
+        }
     }
 
     @MainActor
@@ -390,7 +412,7 @@ class ParseGoogleTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let authData = ParseGoogle<User>
             .AuthenticationKeys.id.makeDictionary(id: "testing",
-                                                  accessToken: "this")
+                                                  idToken: "this")
         User.current?.authData = [User.google.__type: authData]
         XCTAssertTrue(User.google.isLinked)
 
