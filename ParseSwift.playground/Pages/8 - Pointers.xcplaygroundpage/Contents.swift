@@ -73,7 +73,6 @@ author.save { result in
         assert(savedAuthorAndBook.objectId != nil)
         assert(savedAuthorAndBook.createdAt != nil)
         assert(savedAuthorAndBook.updatedAt != nil)
-        assert(savedAuthorAndBook.ACL == nil)
 
         print("Saved \(savedAuthorAndBook)")
     case .failure(let error):
@@ -92,7 +91,6 @@ author2.save { result in
         assert(savedAuthorAndBook.objectId != nil)
         assert(savedAuthorAndBook.createdAt != nil)
         assert(savedAuthorAndBook.updatedAt != nil)
-        assert(savedAuthorAndBook.ACL == nil)
         assert(savedAuthorAndBook.otherBooks?.count == 2)
 
         //: Notice the pointer objects haven't been updated on the client.

@@ -14,13 +14,28 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 //: Create your own value typed `ParseCloud` type.
-struct Cloud: ParseCloud {
+struct Hello: ParseCloud {
 
     //: Return type of your Cloud Function
     typealias ReturnType = String
 
-    //: These are required by `ParseCloud`
-    var functionJobName: String
+    //: These are required by `ParseCloud`, you can set the default value to make it easier
+    //: to use.
+    var functionJobName: String = "hello"
+
+    //: If your cloud function takes arguments, they can be passed by creating properties:
+    //var argument1: [String: Int] = ["test": 5]
+}
+
+//: Create another `ParseCloud` type.
+struct TestCloudCode: ParseCloud {
+
+    //: Return type of your Cloud Function
+    typealias ReturnType = String
+
+    //: These are required by `ParseCloud`, you can set the default value to make it easier
+    //: to use.
+    var functionJobName: String = "testCloudCode"
 
     //: If your cloud function takes arguments, they can be passed by creating properties:
     //var argument1: [String: Int] = ["test": 5]
@@ -32,9 +47,9 @@ struct Cloud: ParseCloud {
        return 'Hello world!';
      });
  */
-let cloud = Cloud(functionJobName: "hello")
+let hello = Hello()
 
-cloud.runFunction { result in
+hello.runFunction { result in
     switch result {
     case .success(let response):
         print("Response from cloud function: \(response)")
@@ -50,9 +65,9 @@ cloud.runFunction { result in
         throw new Parse.Error(3000, "cloud has an error on purpose.");
      });
  */
-let cloudError = Cloud(functionJobName: "testCloudCode")
+let testCloudCode = TestCloudCode()
 
-cloudError.runFunction { result in
+testCloudCode.runFunction { result in
     switch result {
     case .success:
         assertionFailure("Should have thrown a custom error")
@@ -91,6 +106,7 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var score: Double?
 
     //: Your own properties.
     var points: Int = 0

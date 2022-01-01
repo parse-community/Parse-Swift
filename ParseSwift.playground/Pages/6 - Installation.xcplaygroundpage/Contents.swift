@@ -49,6 +49,7 @@ currentInstallation?.save { results in
 
     switch results {
     case .success(let updatedInstallation):
+        currentInstallation = updatedInstallation
         print("Successfully save myCustomInstallationKey to ParseServer: \(updatedInstallation)")
     case .failure(let error):
         print("Failed to update installation: \(error)")

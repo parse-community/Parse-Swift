@@ -27,12 +27,12 @@ struct GameScore: ParseObject {
     var isHighest: Bool?
 }
 
-var points = GameScore()
-points.points = 200
-points.oldScore = 10
-points.isHighest = true
+var score = GameScore()
+score.points = 200
+score.oldScore = 10
+score.isHighest = true
 do {
-    try points.save()
+    try score.save()
 } catch {
     print(error)
 }
@@ -121,7 +121,7 @@ queryRelative.find { results in
         print("Found scores using relative time: \(scores)")
 
     case .failure(let error):
-        assertionFailure("Error querying: \(error)")
+        print("Error querying: \(error)")
     }
 }
 

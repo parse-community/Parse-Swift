@@ -150,7 +150,7 @@ var score2ForFetchedLater: GameScore?
 }
 
 //: Saving multiple GameScores at once using a transaction.
-//: Currently doesn't work on mongo
+//: May not work on MongoDB depending on your configuration.
 /*[score, score2].saveAll(transaction: true) { results in
     switch results {
     case .success(let otherResults):
