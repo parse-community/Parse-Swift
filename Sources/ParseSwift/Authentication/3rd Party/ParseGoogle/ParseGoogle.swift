@@ -24,15 +24,15 @@ public struct ParseGoogle<AuthenticatedUser: ParseUser>: ParseAuthentication {
         case accessToken = "access_token"
 
         /// Properly makes an authData dictionary with the required keys.
-        /// - parameter userId: Required id for the user.
+        /// - parameter id: Required id for the user.
         /// - parameter idToken: Optional identity token for Google.
         /// - parameter accessToken: Optional identity token for Google.
         /// - returns: authData dictionary.
-        func makeDictionary(userId: String,
+        func makeDictionary(id: String,
                             idToken: String? = nil,
                             accessToken: String? = nil) -> [String: String] {
 
-            var returnDictionary = [AuthenticationKeys.id.rawValue: userId]
+            var returnDictionary = [AuthenticationKeys.id.rawValue: id]
             if let accessToken = accessToken {
               returnDictionary[AuthenticationKeys.accessToken.rawValue] = accessToken
             } else if let idToken = idToken {
@@ -69,14 +69,14 @@ public extension ParseGoogle {
 
     /**
      Login a `ParseUser` *asynchronously* using Google authentication for graph API login.
-     - parameter userId: The `Google userId` from **Google**.
+     - parameter id: The `id` from **Google**.
      - parameter idToken: Optional **id_token** from **Google**.
      - parameter accessToken: Optional **access_token** from **Google**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func login(userId: String,
+    func login(id: String,
                idToken: String? = nil,
                accessToken: String? = nil,
                options: API.Options = [],
@@ -84,7 +84,7 @@ public extension ParseGoogle {
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
 
         let googleAuthData = AuthenticationKeys.id
-                .makeDictionary(userId: userId,
+                .makeDictionary(id: id,
                                 idToken: idToken,
                                 accessToken: accessToken)
         login(authData: googleAuthData,
@@ -117,21 +117,21 @@ public extension ParseGoogle {
 
     /**
      Link the *current* `ParseUser` *asynchronously* using Google authentication for graph API login.
-     - parameter userId: The **id** from **Google**.
+     - parameter id: The **id** from **Google**.
      - parameter idToken: Optional **id_token** from **Google**.
      - parameter accessToken: Optional **access_token** from **Google**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func link(userId: String,
+    func link(id: String,
               idToken: String? = nil,
               accessToken: String? = nil,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         let googleAuthData = AuthenticationKeys.id
-            .makeDictionary(userId: userId,
+            .makeDictionary(id: id,
                             idToken: idToken,
                             accessToken: accessToken)
         link(authData: googleAuthData,

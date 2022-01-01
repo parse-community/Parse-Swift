@@ -23,14 +23,14 @@ public struct ParseGitHub<AuthenticatedUser: ParseUser>: ParseAuthentication {
         case accessToken = "access_token"
 
         /// Properly makes an authData dictionary with the required keys.
-        /// - parameter userId: Required id for the user.
+        /// - parameter id: Required id for the user.
         /// - parameter accessToken: Required identity token for GitHub.
         /// - returns: authData dictionary.
-        func makeDictionary(userId: String,
+        func makeDictionary(id: String,
                             accessToken: String) -> [String: String] {
 
             let returnDictionary = [
-                AuthenticationKeys.id.rawValue: userId,
+                AuthenticationKeys.id.rawValue: id,
                 AuthenticationKeys.accessToken.rawValue: accessToken
             ]
             return returnDictionary
@@ -44,7 +44,7 @@ public struct ParseGitHub<AuthenticatedUser: ParseUser>: ParseAuthentication {
                   authData[AuthenticationKeys.accessToken.rawValue] != nil else {
                 return false
             }
-            return false
+            return true
         }
     }
 
@@ -60,20 +60,20 @@ public extension ParseGitHub {
 
     /**
      Login a `ParseUser` *asynchronously* using GitHub authentication for graph API login.
-     - parameter userId: The `GitHub userId` from **GitHub**.
+     - parameter id: The `GitHub id` from **GitHub**.
      - parameter accessToken: Required **access_token** from **GitHub**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func login(userId: String,
+    func login(id: String,
                accessToken: String,
                options: API.Options = [],
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
 
         let gitHubAuthData = AuthenticationKeys.id
-                .makeDictionary(userId: userId,
+                .makeDictionary(id: id,
                                 accessToken: accessToken)
         login(authData: gitHubAuthData,
               options: options,
@@ -105,19 +105,19 @@ public extension ParseGitHub {
 
     /**
      Link the *current* `ParseUser` *asynchronously* using GitHub authentication for graph API login.
-     - parameter userId: The **id** from **GitHub**.
+     - parameter id: The **id** from **GitHub**.
      - parameter accessToken: Required **access_token** from **GitHub**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      */
-    func link(userId: String,
+    func link(id: String,
               accessToken: String,
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
         let gitHubAuthData = AuthenticationKeys.id
-            .makeDictionary(userId: userId,
+            .makeDictionary(id: id,
                             accessToken: accessToken)
         link(authData: gitHubAuthData,
              options: options,

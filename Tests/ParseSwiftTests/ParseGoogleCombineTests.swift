@@ -1,9 +1,9 @@
 //
-//  ParseLDAPCombineTests.swift
+//  ParseGoogleCombineTests.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 2/14/21.
-//  Copyright © 2021 Parse Community. All rights reserved.
+//  Created by Corey Baker on 1/1/22.
+//  Copyright © 2022 Parse Community. All rights reserved.
 //
 
 #if canImport(Combine)
@@ -13,7 +13,7 @@ import XCTest
 import Combine
 @testable import ParseSwift
 
-class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseGoogleCombineTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     struct User: ParseUser {
 
@@ -96,7 +96,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
+        serverResponse.authData = [serverResponse.google.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -115,7 +115,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.loginPublisher(id: "testing", password: "this")
+        let publisher = User.google.loginPublisher(id: "testing", accessToken: "this")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -129,7 +129,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user, userOnServer)
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.google.isLinked)
         })
         publisher.store(in: &subscriptions)
 
@@ -146,7 +146,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
+        serverResponse.authData = [serverResponse.google.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -165,8 +165,8 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.loginPublisher(authData: (["id": "testing",
-                                                             "password": "this"]))
+        let publisher = User.google.loginPublisher(authData: (["id": "testing",
+                                                               "access_token": "this"]))
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -180,7 +180,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user, userOnServer)
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.google.isLinked)
         })
         publisher.store(in: &subscriptions)
 
@@ -226,8 +226,8 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.linkPublisher(authData: ["id": "testing",
-                                                           "password": "this"])
+        let publisher = User.google.linkPublisher(authData: ["id": "testing",
+                                                             "access_token": "this"])
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -241,7 +241,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.google.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
         })
         publisher.store(in: &subscriptions)
@@ -274,9 +274,9 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let authData = ParseLDAP<User>
-            .AuthenticationKeys.id.makeDictionary(id: "testing", password: "authenticationToken")
-        let publisher = User.ldap.linkPublisher(authData: authData)
+        let authData = ParseGoogle<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing", accessToken: "accessToken")
+        let publisher = User.google.linkPublisher(authData: authData)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -290,7 +290,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertTrue(user.ldap.isLinked)
+            XCTAssertTrue(user.google.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
         })
         publisher.store(in: &subscriptions)
@@ -305,11 +305,11 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
-        let authData = ParseLDAP<User>
+        let authData = ParseGoogle<User>
             .AuthenticationKeys.id.makeDictionary(id: "testing",
-                                              password: "this")
-        User.current?.authData = [User.ldap.__type: authData]
-        XCTAssertTrue(User.ldap.isLinked)
+                                                  accessToken: "this")
+        User.current?.authData = [User.google.__type: authData]
+        XCTAssertTrue(User.google.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -329,7 +329,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.ldap.unlinkPublisher()
+        let publisher = User.google.unlinkPublisher()
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -343,7 +343,7 @@ class ParseLDAPCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertFalse(user.ldap.isLinked)
+            XCTAssertFalse(user.google.isLinked)
         })
         publisher.store(in: &subscriptions)
 

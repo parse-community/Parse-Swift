@@ -14,18 +14,18 @@ public extension ParseLinkedIn {
 
     /**
      Login a `ParseUser` *asynchronously* using LinkedIn authentication for graph API login.
-     - parameter userId: The **id** from **LinkedIn**.
+     - parameter id: The **id** from **LinkedIn**.
      - parameter accessToken: Required **access_token** from **LinkedIn**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
      - throws: An error of type `ParseError`.
      */
-    func login(userId: String,
+    func login(id: String,
                accessToken: String,
                isMobileSDK: Bool,
                options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
-            self.login(userId: userId,
+            self.login(id: id,
                        accessToken: accessToken,
                        isMobileSDK: isMobileSDK,
                        options: options,
@@ -53,18 +53,18 @@ public extension ParseLinkedIn {
 
     /**
      Link the *current* `ParseUser` *asynchronously* using LinkedIn authentication for graph API login.
-     - parameter userId: The **id** from **LinkedIn**.
+     - parameter id: The **id** from **LinkedIn**.
      - parameter accessToken: Required **access_token** from **LinkedIn**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: An instance of the logged in `ParseUser`.
      - throws: An error of type `ParseError`.
      */
-    func link(userId: String,
+    func link(id: String,
               accessToken: String,
               isMobileSDK: Bool,
               options: API.Options = []) async throws -> AuthenticatedUser {
         try await withCheckedThrowingContinuation { continuation in
-            self.link(userId: userId,
+            self.link(id: id,
                       accessToken: accessToken,
                       isMobileSDK: isMobileSDK,
                       options: options,

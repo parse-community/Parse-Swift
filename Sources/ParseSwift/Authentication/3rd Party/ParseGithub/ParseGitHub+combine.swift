@@ -14,16 +14,16 @@ public extension ParseGitHub {
     // MARK: Combine
     /**
      Login a `ParseUser` *asynchronously* using GitHub authentication for graph API login. Publishes when complete.
-     - parameter userId: The **id** from **GitHub**.
+     - parameter id: The **id** from **GitHub**.
      - parameter accessToken: Required **access_token** from **GitHub**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
-    func loginPublisher(userId: String,
+    func loginPublisher(id: String,
                         accessToken: String,
                         options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
-            self.login(userId: userId,
+            self.login(id: id,
                        accessToken: accessToken,
                        options: options,
                        completion: promise)
@@ -49,16 +49,16 @@ public extension ParseGitHub {
     /**
      Link the *current* `ParseUser` *asynchronously* using GitHub authentication for graph API login.
      Publishes when complete.
-     - parameter userId: The **id** from **GitHub**.
+     - parameter id: The **id** from **GitHub**.
      - parameter accessToken: Required **access_token** from **GitHub**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      */
-    func linkPublisher(userId: String,
+    func linkPublisher(id: String,
                        accessToken: String,
                        options: API.Options = []) -> Future<AuthenticatedUser, ParseError> {
         Future { promise in
-            self.link(userId: userId,
+            self.link(id: id,
                       accessToken: accessToken,
                       options: options,
                       completion: promise)

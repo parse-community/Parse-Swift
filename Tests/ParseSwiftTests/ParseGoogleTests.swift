@@ -1,17 +1,16 @@
 //
-//  ParseLDAPAsyncTests.swift
+//  ParseGoogleTests.swift
 //  ParseSwift
 //
-//  Created by Corey Baker on 9/28/21.
-//  Copyright © 2021 Parse Community. All rights reserved.
+//  Created by Corey Baker on 1/1/22.
+//  Copyright © 2022 Parse Community. All rights reserved.
 //
 
-#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
 import Foundation
 import XCTest
 @testable import ParseSwift
 
-class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
+class ParseGoogleTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct User: ParseUser {
 
         //: These are required by ParseObject
@@ -33,7 +32,7 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
         var objectId: String?
         var createdAt: Date?
-        var sessionToken: String
+        var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
@@ -83,79 +82,6 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         try ParseStorage.shared.deleteAll()
     }
 
-    @MainActor
-    func testLogin() async throws {
-
-        var serverResponse = LoginSignupResponse()
-        let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
-        serverResponse.username = "hello"
-        serverResponse.password = "world"
-        serverResponse.objectId = "yarr"
-        serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
-        serverResponse.createdAt = Date()
-        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
-
-        var userOnServer: User!
-
-        let encoded: Data!
-        do {
-            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
-            //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let user = try await User.ldap.login(id: "testing", password: "this")
-        XCTAssertEqual(user, User.current)
-        XCTAssertEqual(user, userOnServer)
-        XCTAssertEqual(user.username, "hello")
-        XCTAssertEqual(user.password, "world")
-        XCTAssertTrue(user.ldap.isLinked)
-    }
-
-    @MainActor
-    func testLoginAuthData() async throws {
-
-        var serverResponse = LoginSignupResponse()
-        let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
-        serverResponse.username = "hello"
-        serverResponse.password = "world"
-        serverResponse.objectId = "yarr"
-        serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.ldap.__type: authData]
-        serverResponse.createdAt = Date()
-        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
-
-        var userOnServer: User!
-
-        let encoded: Data!
-        do {
-            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
-            //Get dates in correct format from ParseDecoding strategy
-            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
-        } catch {
-            XCTFail("Should encode/decode. Error \(error)")
-            return
-        }
-        MockURLProtocol.mockRequests { _ in
-            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
-        }
-
-        let user = try await User.ldap.login(authData: (["id": "testing",
-                                                         "password": "this"]))
-        XCTAssertEqual(user, User.current)
-        XCTAssertEqual(user, userOnServer)
-        XCTAssertEqual(user.username, "hello")
-        XCTAssertEqual(user.password, "world")
-        XCTAssertTrue(user.ldap.isLinked)
-    }
-
     func loginNormally() throws -> User {
         let loginResponse = LoginSignupResponse()
 
@@ -168,6 +94,205 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             }
         }
         return try User.login(username: "parse", password: "user")
+    }
+
+    func loginAnonymousUser() throws {
+        let authData = ["id": "yolo"]
+
+        //: Convert the anonymous user to a real new user.
+        var serverResponse = LoginSignupResponse()
+        serverResponse.username = "hello"
+        serverResponse.objectId = "yarr"
+        serverResponse.sessionToken = "myToken"
+        serverResponse.authData = [serverResponse.anonymous.__type: authData]
+        serverResponse.createdAt = Date()
+        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let user = try User.anonymous.login()
+        XCTAssertEqual(user, User.current)
+        XCTAssertEqual(user, userOnServer)
+        XCTAssertEqual(user.username, "hello")
+        XCTAssertNil(user.password)
+        XCTAssertTrue(user.anonymous.isLinked)
+    }
+
+    func testAuthenticationKeys() throws {
+        let authData = ParseGoogle<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing",
+                                                  idToken: "this",
+                                                  accessToken: "that")
+        XCTAssertEqual(authData, ["id": "testing", "access_token": "that"])
+    }
+
+    func testVerifyMandatoryKeys() throws {
+        let authData = ["id": "testing", "id_token": "this"]
+        let authData2 = ["id": "testing", "access_token": "this"]
+        let authDataWrong = ["id": "testing", "hello": "test"]
+        XCTAssertTrue(ParseGoogle<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData))
+        XCTAssertTrue(ParseGoogle<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authData2))
+        XCTAssertFalse(ParseGoogle<User>
+                        .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong))
+    }
+
+#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
+    @MainActor
+    func testLogin() async throws {
+
+        var serverResponse = LoginSignupResponse()
+        let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
+        serverResponse.username = "hello"
+        serverResponse.password = "world"
+        serverResponse.objectId = "yarr"
+        serverResponse.sessionToken = "myToken"
+        serverResponse.authData = [serverResponse.google.__type: authData]
+        serverResponse.createdAt = Date()
+        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let user = try await User.google.login(id: "testing",
+                                               idToken: "this",
+                                               accessToken: "that")
+        XCTAssertEqual(user, User.current)
+        XCTAssertEqual(user, userOnServer)
+        XCTAssertEqual(user.username, "hello")
+        XCTAssertEqual(user.password, "world")
+        XCTAssertTrue(user.google.isLinked)
+    }
+
+    @MainActor
+    func testLoginAuthData() async throws {
+
+        var serverResponse = LoginSignupResponse()
+        let authData = ParseAnonymous<User>.AuthenticationKeys.id.makeDictionary()
+        serverResponse.username = "hello"
+        serverResponse.password = "world"
+        serverResponse.objectId = "yarr"
+        serverResponse.sessionToken = "myToken"
+        serverResponse.authData = [serverResponse.google.__type: authData]
+        serverResponse.createdAt = Date()
+        serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let user = try await User.google.login(authData: (["id": "testing",
+                                                           "id_token": "this"]))
+        XCTAssertEqual(user, User.current)
+        XCTAssertEqual(user, userOnServer)
+        XCTAssertEqual(user.username, "hello")
+        XCTAssertEqual(user.password, "world")
+        XCTAssertTrue(user.google.isLinked)
+    }
+
+    @MainActor
+    func testReplaceAnonymousWithLoggedIn() async throws {
+        try loginAnonymousUser()
+        MockURLProtocol.removeAll()
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = Date()
+        serverResponse.password = nil
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let user = try await User.google.login(id: "testing",
+                                               idToken: "this",
+                                               accessToken: "that")
+        XCTAssertEqual(user, User.current)
+        XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+        XCTAssertEqual(user.username, "hello")
+        XCTAssertNil(user.password)
+        XCTAssertTrue(user.google.isLinked)
+        XCTAssertFalse(user.anonymous.isLinked)
+    }
+
+    @MainActor
+    func testReplaceAnonymousWithLinked() async throws {
+        try loginAnonymousUser()
+        MockURLProtocol.removeAll()
+        var serverResponse = LoginSignupResponse()
+        serverResponse.updatedAt = Date()
+        serverResponse.password = nil
+
+        var userOnServer: User!
+
+        let encoded: Data!
+        do {
+            encoded = try serverResponse.getEncoder().encode(serverResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            userOnServer = try serverResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let user = try await User.google.link(id: "testing",
+                                              idToken: "this",
+                                              accessToken: "that")
+        XCTAssertEqual(user, User.current)
+        XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
+        XCTAssertEqual(user.username, "hello")
+        XCTAssertNil(user.password)
+        XCTAssertTrue(user.google.isLinked)
+        XCTAssertFalse(user.anonymous.isLinked)
     }
 
     @MainActor
@@ -194,24 +319,26 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.ldap.link(authData: ["id": "testing",
-                                                       "password": "this"])
+        let user = try await User.google.link(id: "testing",
+                                              idToken: "this",
+                                              accessToken: "that")
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
         XCTAssertEqual(user.username, "parse")
         XCTAssertNil(user.password)
-        XCTAssertTrue(user.ldap.isLinked)
+        XCTAssertTrue(user.google.isLinked)
         XCTAssertFalse(user.anonymous.isLinked)
     }
 
     @MainActor
-    func testLinkAuthData() async throws {
+    func testLinkLoggedInAuthData() async throws {
 
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
+        serverResponse.sessionToken = nil
 
         var userOnServer: User!
 
@@ -227,16 +354,32 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-        let authData = ParseLDAP<User>
-            .AuthenticationKeys.id.makeDictionary(id: "testing", password: "authenticationToken")
 
-        let user = try await User.ldap.link(authData: authData)
+        let authData = ParseGoogle<User>
+            .AuthenticationKeys.id.makeDictionary(id: "testing", accessToken: "accessToken")
+
+        let user = try await User.google.link(authData: authData)
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
         XCTAssertEqual(user.username, "parse")
         XCTAssertNil(user.password)
-        XCTAssertTrue(user.ldap.isLinked)
+        XCTAssertTrue(user.google.isLinked)
         XCTAssertFalse(user.anonymous.isLinked)
+    }
+
+    @MainActor
+    func testLinkLoggedInUserWrongKeys() async throws {
+        _ = try loginNormally()
+        MockURLProtocol.removeAll()
+        do {
+            _ = try await User.google.link(authData: ["hello": "world"])
+        } catch {
+            guard let parseError = error.containedIn([.unknownError]) else {
+                XCTFail("Should have casted")
+                return
+            }
+            XCTAssertTrue(parseError.message.contains("consisting of keys"))
+        }
     }
 
     @MainActor
@@ -245,11 +388,11 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         _ = try loginNormally()
         MockURLProtocol.removeAll()
 
-        let authData = ParseLDAP<User>
+        let authData = ParseGoogle<User>
             .AuthenticationKeys.id.makeDictionary(id: "testing",
-                                              password: "this")
-        User.current?.authData = [User.ldap.__type: authData]
-        XCTAssertTrue(User.ldap.isLinked)
+                                                  accessToken: "this")
+        User.current?.authData = [User.google.__type: authData]
+        XCTAssertTrue(User.google.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -269,12 +412,12 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.ldap.unlink()
+        let user = try await User.google.unlink()
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
         XCTAssertEqual(user.username, "parse")
         XCTAssertNil(user.password)
-        XCTAssertFalse(user.ldap.isLinked)
+        XCTAssertFalse(user.google.isLinked)
     }
-}
 #endif
+}
