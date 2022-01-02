@@ -9,11 +9,11 @@
 import Foundation
 
 struct QueryWhere: Encodable, Equatable {
-    var constraints = [String: [QueryConstraint]]()
+    var constraints = [String: Set<QueryConstraint>]()
 
     mutating func add(_ constraint: QueryConstraint) {
         var existing = constraints[constraint.key] ?? []
-        existing.append(constraint)
+        existing.insert(constraint)
         constraints[constraint.key] = existing
     }
 

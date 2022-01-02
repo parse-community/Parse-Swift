@@ -107,10 +107,18 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                                                      substring: "world"),
                                       "points" > 101,
                                       "createdAt" > Date()])
+        let query4 = GameScore.query([containsString(key: "hello",
+                                                     substring: "world"),
+                                      "points" > 101,
+                                      "createdAt" > Date(),
+                                      isNull(key: "points")])
+        let query5 = GameScore.query(isNull(key: "points"))
         XCTAssertEqual(query1, query1)
         XCTAssertEqual(query2, query2)
         XCTAssertNotEqual(query1, query2)
         XCTAssertNotEqual(query2, query3)
+        XCTAssertNotEqual(query3, query4)
+        XCTAssertEqual(query5, query5)
     }
 
     func testEndPoints() {
