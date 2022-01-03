@@ -30,6 +30,10 @@ public struct ParseConfiguration {
     /// - warning: This is experimental.
     public internal(set) var isUsingTransactions = false
 
+    /// Use the **$eq** query constraint when querying.
+    /// - warning: This is known not to work for LiveQuery on Parse Servers <= 5.0.0.
+    public internal(set) var isUsingEqualQueryConstraint = false
+
     /// The default caching policy for all http requests that determines when to
     /// return a response from the cache. Defaults to `useProtocolCachePolicy`.
     /// See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
@@ -76,6 +80,7 @@ public struct ParseConfiguration {
      - parameter isAllowingCustomObjectIds: Allows objectIds to be created on the client.
      side for each object. Must be enabled on the server to work.
      - parameter isUsingTransactions: Use transactions when saving/updating multiple objects.
+     - parameter isUsingEqualQueryConstraint: Use the **$eq** query constraint when querying.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
@@ -106,8 +111,10 @@ public struct ParseConfiguration {
                 masterKey: String? = nil,
                 serverURL: URL,
                 liveQueryServerURL: URL? = nil,
+                allowCustomObjectId: Bool = false,
                 isAllowingCustomObjectIds: Bool = false,
                 isUsingTransactions: Bool = false,
+                isUsingEqualQueryConstraint: Bool = false,
                 keyValueStore: ParseKeyValueStore? = nil,
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 cacheMemoryCapacity: Int = 512_000,
@@ -126,6 +133,7 @@ public struct ParseConfiguration {
         self.liveQuerysServerURL = liveQueryServerURL
         self.isAllowingCustomObjectIds = isAllowingCustomObjectIds
         self.isUsingTransactions = isUsingTransactions
+        self.isUsingEqualQueryConstraint = isUsingEqualQueryConstraint
         self.mountPath = "/" + serverURL.pathComponents
             .filter { $0 != "/" }
             .joined(separator: "/")
@@ -237,6 +245,7 @@ public struct ParseSwift {
      - parameter isAllowingCustomObjectIds: Allows objectIds to be created on the client.
      side for each object. Must be enabled on the server to work.
      - parameter isUsingTransactions: Use transactions when saving/updating multiple objects.
+     - parameter isUsingEqualQueryConstraint: Use the **$eq** query constraint when querying.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
@@ -268,6 +277,7 @@ public struct ParseSwift {
         liveQueryServerURL: URL? = nil,
         isAllowingCustomObjectIds: Bool = false,
         isUsingTransactions: Bool = false,
+        isUsingEqualQueryConstraint: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
         requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
         cacheMemoryCapacity: Int = 512_000,
@@ -287,6 +297,7 @@ public struct ParseSwift {
                                         liveQueryServerURL: liveQueryServerURL,
                                         isAllowingCustomObjectIds: isAllowingCustomObjectIds,
                                         isUsingTransactions: isUsingTransactions,
+                                        isUsingEqualQueryConstraint: isUsingEqualQueryConstraint,
                                         keyValueStore: keyValueStore,
                                         requestCachePolicy: requestCachePolicy,
                                         cacheMemoryCapacity: cacheMemoryCapacity,
@@ -305,6 +316,7 @@ public struct ParseSwift {
                                     liveQueryServerURL: URL? = nil,
                                     isAllowingCustomObjectIds: Bool = false,
                                     isUsingTransactions: Bool = false,
+                                    isUsingEqualQueryConstraint: Bool = false,
                                     keyValueStore: ParseKeyValueStore? = nil,
                                     requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                                     cacheMemoryCapacity: Int = 512_000,
@@ -324,6 +336,7 @@ public struct ParseSwift {
                                                liveQueryServerURL: liveQueryServerURL,
                                                isAllowingCustomObjectIds: isAllowingCustomObjectIds,
                                                isUsingTransactions: isUsingTransactions,
+                                               isUsingEqualQueryConstraint: isUsingEqualQueryConstraint,
                                                keyValueStore: keyValueStore,
                                                requestCachePolicy: requestCachePolicy,
                                                cacheMemoryCapacity: cacheMemoryCapacity,

@@ -15,6 +15,7 @@ public struct QueryConstraint: Encodable, Hashable {
         case lessThanOrEqualTo = "$lte"
         case greaterThan = "$gt"
         case greaterThanOrEqualTo = "$gte"
+        case equalTo = "$eq"
         case notEqualTo = "$ne"
         case containedIn = "$in"
         case notContainedIn = "$nin"
@@ -136,9 +137,36 @@ public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
  - parameter key: The key that the value is stored in.
  - parameter value: The value to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
+ - warning: See `equalTo` for more information.
+ Behavior changes based on `ParseSwift.configuration.isUsingEqualQueryConstraint`
+ where isUsingEqualQueryConstraint == true is known not to work for LiveQuery on
+ Parse Servers  <= 5.0.0.
  */
 public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
-    QueryConstraint(key: key, value: value)
+    equalTo(key: key, value: value)
+}
+
+/**
+ Add a constraint that requires that a key is equal to a value.
+ - parameter key: The key that the value is stored in.
+ - parameter value: The value to compare.
+ - parameter isUsingEQ: Set to **true** to use **$eq** comparater,
+ allowing for multiple `QueryConstraint`'s to be used on a single **key**.
+ Setting to *false* may override any `QueryConstraint`'s on the same **key**.
+ Defaults to `ParseSwift.configuration.isUsingEqualQueryConstraint`.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ - warning: `isUsingEQ == true` is known not to work for LiveQueries
+ on Parse Servers <= 5.0.0.
+ */
+public func equalTo <T>(key: String,
+                        value: T,
+                        //swiftlint:disable:next line_length
+                        isUsingEQ: Bool = ParseSwift.configuration.isUsingEqualQueryConstraint) -> QueryConstraint where T: Encodable {
+    if !isUsingEQ {
+        return QueryConstraint(key: key, value: value)
+    } else {
+        return QueryConstraint(key: key, value: value, comparator: .equalTo)
+    }
 }
 
 /**
@@ -147,9 +175,37 @@ public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
  - parameter value: The `ParseObject` to compare.
  - returns: The same instance of `QueryConstraint` as the receiver.
  - throws: An error of type `ParseError`.
+ - warning: See `equalTo` for more information.
+ Behavior changes based on `ParseSwift.configuration.isUsingEqualQueryConstraint`
+ where isUsingEqualQueryConstraint == true is known not to work for LiveQuery on
+ Parse Servers  <= 5.0.0.
  */
 public func == <T>(key: String, value: T) throws -> QueryConstraint where T: ParseObject {
-    try QueryConstraint(key: key, value: value.toPointer())
+    try equalTo(key: key, value: value)
+}
+
+/**
+ Add a constraint that requires that a key is equal to a `ParseObject`.
+ - parameter key: The key that the value is stored in.
+ - parameter value: The `ParseObject` to compare.
+ - parameter isUsingEQ: Set to **true** to use **$eq** comparater,
+ allowing for multiple `QueryConstraint`'s to be used on a single **key**.
+ Setting to *false* may override any `QueryConstraint`'s on the same **key**.
+ Defaults to `ParseSwift.configuration.isUsingEqualQueryConstraint`.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ - throws: An error of type `ParseError`.
+ - warning: `isUsingEQ == true` is known not to work for LiveQueries
+ on Parse Servers <= 5.0.0.
+ */
+public func equalTo <T>(key: String,
+                        value: T,
+                        //swiftlint:disable:next line_length
+                        isUsingEQ: Bool = ParseSwift.configuration.isUsingEqualQueryConstraint) throws -> QueryConstraint where T: ParseObject {
+    if !isUsingEQ {
+        return try QueryConstraint(key: key, value: value.toPointer())
+    } else {
+        return try QueryConstraint(key: key, value: value.toPointer(), comparator: .equalTo)
+    }
 }
 
 /**
@@ -703,7 +759,7 @@ public func isNull (key: String) -> QueryConstraint {
  - parameter key: The key that the value is stored in.
  - returns: The same instance of `QueryConstraint` as the receiver.
  */
-public func notNull (key: String) -> QueryConstraint {
+public func isNotNull (key: String) -> QueryConstraint {
     QueryConstraint(key: key, comparator: .notEqualTo, isNull: true)
 }
 
