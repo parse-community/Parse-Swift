@@ -72,6 +72,13 @@ do {
     print(error)
 }
 
+//: Query all scores who have a name.
+let query1 = GameScore.query(notNull(key: "name"))
+let results1 = try query1.find()
+results1.forEach { score in
+    print("Found score with a name: \(score)")
+}
+
 //: You can also remove a value for a property using unset.
 let unsetOperation = savedScore
     .operation.unset(("points", \.points))
@@ -91,6 +98,13 @@ do {
     print("Updated score: \(updatedScore). Check the new score on Parse Dashboard.")
 } catch {
     print(error)
+}
+
+//: Query synchronously (not preferred - all operations on main queue).
+let query2 = GameScore.query(isNull(key: "name"))
+let results2 = try query2.find()
+results2.forEach { score in
+    print("Found score with name is null: \(score)")
 }
 
 //: There are other operations: set/forceSet/unset/add/remove, etc. objects from `ParseObject`s.
