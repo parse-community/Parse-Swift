@@ -115,6 +115,7 @@ public struct ParseConfiguration {
                 isAllowingCustomObjectIds: Bool = false,
                 isUsingTransactions: Bool = false,
                 isUsingEqualQueryConstraint: Bool = false,
+                keyValueStore: ParseKeyValueStore? = nil,
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 cacheMemoryCapacity: Int = 512_000,
                 cacheDiskCapacity: Int = 10_000_000,
@@ -279,6 +280,9 @@ public struct ParseSwift {
         keyValueStore: ParseKeyValueStore? = nil,
         requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
         cacheMemoryCapacity: Int = 512_000,
+        cacheDiskCapacity: Int = 10_000_000,
+        isMigratingFromObjcSDK: Bool = false,
+        isDeletingKeychainIfNeeded: Bool = false,
         httpAdditionalHeaders: [AnyHashable: Any]? = nil,
         maxConnectionAttempts: Int = 5,
         authentication: ((URLAuthenticationChallenge,
@@ -299,6 +303,9 @@ public struct ParseSwift {
                                         cacheDiskCapacity: cacheDiskCapacity,
                                         isMigratingFromObjcSDK: isMigratingFromObjcSDK,
                                         isDeletingKeychainIfNeeded: isDeletingKeychainIfNeeded,
+                                        httpAdditionalHeaders: httpAdditionalHeaders,
+                                        maxConnectionAttempts: maxConnectionAttempts,
+                                        authentication: authentication))
     }
 
     internal static func initialize(applicationId: String,
@@ -320,14 +327,14 @@ public struct ParseSwift {
                                     isTesting: Bool = false,
                                     authentication: ((URLAuthenticationChallenge,
                                                       (URLSession.AuthChallengeDisposition,
-                                                       URLCredential?) -> Void) -> Void)? = nil)
+                                                       URLCredential?) -> Void) -> Void)? = nil) {
         var configuration = ParseConfiguration(applicationId: applicationId,
                                                clientKey: clientKey,
                                                masterKey: masterKey,
                                                serverURL: serverURL,
                                                liveQueryServerURL: liveQueryServerURL,
-                                               allowCustomObjectId: allowCustomObjectId,
-                                               useTransactions: useTransactions,
+                                               isAllowingCustomObjectIds: isAllowingCustomObjectIds,
+                                               isUsingTransactions: isUsingTransactions,
                                                isUsingEqualQueryConstraint: isUsingEqualQueryConstraint,
                                                keyValueStore: keyValueStore,
                                                requestCachePolicy: requestCachePolicy,
@@ -338,6 +345,9 @@ public struct ParseSwift {
                                                httpAdditionalHeaders: httpAdditionalHeaders,
                                                maxConnectionAttempts: maxConnectionAttempts,
                                                authentication: authentication)
+        configuration.isTestingSDK = isTesting
+        initialize(configuration: configuration)
+    }
 
     static internal func isDeletingKeychainIfNeeded() {
         #if !os(Linux) && !os(Android) && !os(Windows)
