@@ -38,15 +38,15 @@ public extension ParseInstallation {
      Saves the `ParseInstallation` *asynchronously* and publishes when complete.
 
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
+     `ParseConfiguration.isAllowingCustomObjectIds = true` and
      `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -148,7 +148,7 @@ public extension Sequence where Element: ParseInstallation {
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces an an array of Result enums with the object if a save was
@@ -157,10 +157,10 @@ public extension Sequence where Element: ParseInstallation {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
+     `ParseConfiguration.isAllowingCustomObjectIds = true` and
      `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -170,7 +170,7 @@ public extension Sequence where Element: ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     func saveAllPublisher(batchLimit limit: Int? = nil,
-                          transaction: Bool = ParseSwift.configuration.useTransactions,
+                          transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                           isIgnoreCustomObjectIdConfig: Bool = false,
                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
@@ -199,7 +199,7 @@ public extension Sequence where Element: ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     func createAllPublisher(batchLimit limit: Int? = nil,
-                            transaction: Bool = ParseSwift.configuration.useTransactions,
+                            transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                             options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
             self.createAll(batchLimit: limit,
@@ -227,7 +227,7 @@ public extension Sequence where Element: ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     func replaceAllPublisher(batchLimit limit: Int? = nil,
-                             transaction: Bool = ParseSwift.configuration.useTransactions,
+                             transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                              options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
             self.replaceAll(batchLimit: limit,
@@ -255,7 +255,7 @@ public extension Sequence where Element: ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     internal func updateAllPublisher(batchLimit limit: Int? = nil,
-                                     transaction: Bool = ParseSwift.configuration.useTransactions,
+                                     transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                                      options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)],
                                                                             ParseError> {
         Future { promise in
@@ -282,7 +282,7 @@ public extension Sequence where Element: ParseInstallation {
      the transactions can fail.
     */
     func deleteAllPublisher(batchLimit limit: Int? = nil,
-                            transaction: Bool = ParseSwift.configuration.useTransactions,
+                            transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                             options: API.Options = []) -> Future<[(Result<Void, ParseError>)], ParseError> {
         Future { promise in
             self.deleteAll(batchLimit: limit,

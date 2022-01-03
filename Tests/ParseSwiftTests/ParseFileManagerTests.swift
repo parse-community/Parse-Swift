@@ -27,7 +27,7 @@ class ParseFileManagerTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              isTesting: true)
 
         guard let fileManager = ParseFileManager(),
               let defaultDirectory = fileManager.defaultDataDirectoryPath else {

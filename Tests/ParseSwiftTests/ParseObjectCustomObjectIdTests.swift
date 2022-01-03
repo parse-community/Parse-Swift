@@ -127,8 +127,8 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              allowCustomObjectId: true,
-                              testing: true)
+                              isAllowingCustomObjectIds: true,
+                              isTesting: true)
     }
 
     override func tearDownWithError() throws {

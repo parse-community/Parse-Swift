@@ -126,7 +126,7 @@ public struct ParseEncoder {
                                          objectsSavedBeforeThisOne: [String: PointerType]?,
                                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
         let keysToSkip: Set<String>!
-        if !ParseSwift.configuration.allowCustomObjectId {
+        if !ParseSwift.configuration.isAllowingCustomObjectIds {
             keysToSkip = SkipKeys.object.keys()
         } else {
             keysToSkip = SkipKeys.customObjectId.keys()
@@ -148,7 +148,7 @@ public struct ParseEncoder {
                          objectsSavedBeforeThisOne: [String: PointerType]?,
                          filesSavedBeforeThisOne: [UUID: ParseFile]?) throws -> (encoded: Data, unique: PointerType?, unsavedChildren: [Encodable]) {
         let keysToSkip: Set<String>!
-        if !ParseSwift.configuration.allowCustomObjectId {
+        if !ParseSwift.configuration.isAllowingCustomObjectIds {
             keysToSkip = SkipKeys.object.keys()
         } else {
             keysToSkip = SkipKeys.customObjectId.keys()

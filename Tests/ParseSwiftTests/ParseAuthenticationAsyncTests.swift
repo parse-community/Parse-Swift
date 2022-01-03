@@ -121,7 +121,7 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              isTesting: true)
 
     }
 

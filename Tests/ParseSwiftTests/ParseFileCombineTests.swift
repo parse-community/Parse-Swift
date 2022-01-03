@@ -32,7 +32,7 @@ class ParseFileCombineTests: XCTestCase { // swiftlint:disable:this type_body_le
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              isTesting: true)
         guard let fileManager = ParseFileManager() else {
             throw ParseError(code: .unknownError, message: "Should have initialized file manage")
         }

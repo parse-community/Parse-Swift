@@ -96,7 +96,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              isTesting: true)
         try userLogin()
     }
 
