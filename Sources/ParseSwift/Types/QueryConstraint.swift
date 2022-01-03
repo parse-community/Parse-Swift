@@ -139,7 +139,7 @@ public func <= <T>(key: String, value: T) -> QueryConstraint where T: Encodable 
  - returns: The same instance of `QueryConstraint` as the receiver.
  - warning: See `equalTo` for more information.
  Behavior changes based on `ParseSwift.configuration.isUsingEqualQueryConstraint`
- where isUsingEqualQueryConstraint == true is known not to work for  LiveQueries on
+ where isUsingEqualQueryConstraint == true is known not to work for LiveQuery on
  Parse Servers  <= 5.0.0.
  */
 public func == <T>(key: String, value: T) -> QueryConstraint where T: Encodable {
@@ -177,7 +177,7 @@ public func equalTo <T>(key: String,
  - throws: An error of type `ParseError`.
  - warning: See `equalTo` for more information.
  Behavior changes based on `ParseSwift.configuration.isUsingEqualQueryConstraint`
- where isUsingEqualQueryConstraint == true is known not to work for  LiveQueries on
+ where isUsingEqualQueryConstraint == true is known not to work for LiveQuery on
  Parse Servers  <= 5.0.0.
  */
 public func == <T>(key: String, value: T) throws -> QueryConstraint where T: ParseObject {

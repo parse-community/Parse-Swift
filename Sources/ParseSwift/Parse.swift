@@ -31,7 +31,7 @@ public struct ParseConfiguration {
     public internal(set) var isUsingTransactions = false
 
     /// Use the **$eq** query constraint when querying.
-    /// - warning: This is known not to work for LiveQueries on Parse Servers < 5.0.0.
+    /// - warning: This is known not to work for LiveQuery on Parse Servers <= 5.0.0.
     public internal(set) var isUsingEqualQueryConstraint = false
 
     /// The default caching policy for all http requests that determines when to
@@ -249,6 +249,7 @@ public struct ParseSwift {
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
+     encrypted one.
      - parameter requestCachePolicy: The default caching policy for all http requests that determines
      when to return a response from the cache. Defaults to `useProtocolCachePolicy`. See Apple's [documentation](https://developer.apple.com/documentation/foundation/url_loading_system/accessing_cached_data)
      for more info.

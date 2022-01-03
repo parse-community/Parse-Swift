@@ -72,7 +72,7 @@ do {
     print(error)
 }
 
-//: Query all scores whose is null or undefined.
+//: Query all scores whose name is null or undefined.
 let query1 = GameScore.query(isNotNull(key: "name"))
 let results1 = try query1.find()
 print("Total found: \(results1.count)")
