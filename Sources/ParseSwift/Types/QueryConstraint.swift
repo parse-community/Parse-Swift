@@ -172,24 +172,6 @@ public func != <T>(key: String, value: T) throws -> QueryConstraint where T: Par
     try QueryConstraint(key: key, value: value.toPointer(), comparator: .notEqualTo)
 }
 
-/**
- Add a constraint that requires that a key is equal to **null**.
- - parameter key: The key that the value is stored in.
- - returns: The same instance of `QueryConstraint` as the receiver.
- */
-public func isNull (key: String) -> QueryConstraint {
-    QueryConstraint(key: key, isNull: true)
-}
-
-/**
- Add a constraint that requires that a key is not equal to **null**.
- - parameter key: The key that the value is stored in.
- - returns: The same instance of `QueryConstraint` as the receiver.
- */
-public func notNull (key: String) -> QueryConstraint {
-    QueryConstraint(key: key, comparator: .notEqualTo, isNull: true)
-}
-
 internal struct InQuery<T>: Encodable where T: ParseObject {
     let query: Query<T>
     var className: String {
@@ -708,7 +690,25 @@ public func hasSuffix(key: String, suffix: String, modifiers: String? = nil) -> 
 }
 
 /**
-  Add a constraint that requires a particular key exists.
+ Add a constraint that requires that a key is equal to **null** or **undefined**.
+ - parameter key: The key that the value is stored in.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func isNull (key: String) -> QueryConstraint {
+    QueryConstraint(key: key, isNull: true)
+}
+
+/**
+ Add a constraint that requires that a key is not equal to **null** or **undefined**.
+ - parameter key: The key that the value is stored in.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func notNull (key: String) -> QueryConstraint {
+    QueryConstraint(key: key, comparator: .notEqualTo, isNull: true)
+}
+
+/**
+  Add a constraint that requires a particular key to be equal to **undefined**.
   - parameter key: The key that should exist.
   - returns: The resulting `QueryConstraint`.
  */
@@ -717,7 +717,7 @@ public func exists(key: String) -> QueryConstraint {
 }
 
 /**
-  Add a constraint that requires a key not exist.
+  Add a constraint that requires a key  to not be equal to **undefined**.
   - parameter key: The key that should not exist.
   - returns: The resulting `QueryConstraint`.
  */

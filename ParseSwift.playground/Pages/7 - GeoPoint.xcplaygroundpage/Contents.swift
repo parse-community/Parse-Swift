@@ -136,7 +136,7 @@ query2.find { results in
     }
 }
 
-//: If you want to query for points > 50 and don't have a `ParseGeoPoint`.
+//: If you want to query for points > 50 and whose location is undefined.
 var query3 = GameScore.query("points" > 50, doesNotExist(key: "location"))
 query3.find { results in
     switch results {
@@ -154,7 +154,7 @@ query3.find { results in
     }
 }
 
-//: Get the same results as the previous query using `isNull`.
+//: If you want to query for points > 50 and whose location is null or undefined.
 var anotherQuery3 = GameScore.query("points" > 50, isNull(key: "location"))
 anotherQuery3.find { results in
     switch results {
@@ -172,7 +172,7 @@ anotherQuery3.find { results in
     }
 }
 
-//: If you want to query for points > 9 and have a `ParseGeoPoint`.
+//: If you want to query for points > 9 and whose location is not undefined.
 var query4 = GameScore.query("points" > 9, exists(key: "location"))
 query4.find { results in
     switch results {
@@ -191,7 +191,7 @@ query4.find { results in
     }
 }
 
-//: Get the same results as the previous query using `notNull`.
+//: Get the same results as the previous query whose location is not null or undefined.
 var anotherQuery4 = GameScore.query("points" > 9, notNull(key: "location"))
 anotherQuery4.find { results in
     switch results {
