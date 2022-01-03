@@ -93,7 +93,7 @@ extension ParseInstallation {
     }
 
     func endpoint(_ method: API.Method) -> API.Endpoint {
-        if !ParseSwift.configuration.allowCustomObjectId || method != .POST {
+        if !ParseSwift.configuration.isAllowingCustomObjectIds || method != .POST {
             return endpoint
         } else {
             return .installations
@@ -461,16 +461,16 @@ extension ParseInstallation {
      Saves the `ParseInstallation` *synchronously* and throws an error if there's an issue.
 
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - throws: An error of type `ParseError`.
      - returns: Returns saved `ParseInstallation`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
+     `ParseConfiguration.isAllowingCustomObjectIds = true` and
      `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -512,17 +512,17 @@ extension ParseInstallation {
      Saves the `ParseInstallation` *asynchronously* and executes the given callback block.
 
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
      - parameter completion: The block to execute.
      It should have the following argument signature: `(Result<Self, ParseError>)`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
+     `ParseConfiguration.isAllowingCustomObjectIds = true` and
      `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -660,7 +660,7 @@ extension ParseInstallation {
     }
 
     func saveCommand(isIgnoreCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
-        if ParseSwift.configuration.allowCustomObjectId && objectId == nil && !isIgnoreCustomObjectIdConfig {
+        if ParseSwift.configuration.isAllowingCustomObjectIds && objectId == nil && !isIgnoreCustomObjectIdConfig {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved {
@@ -814,7 +814,7 @@ public extension Sequence where Element: ParseInstallation {
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
@@ -826,10 +826,10 @@ public extension Sequence where Element: ParseInstallation {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
+     `ParseConfiguration.isAllowingCustomObjectIds = true` and
      `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -839,7 +839,7 @@ public extension Sequence where Element: ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
-                 transaction: Bool = ParseSwift.configuration.useTransactions,
+                 transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                  isIgnoreCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         var options = options
@@ -914,7 +914,7 @@ public extension Sequence where Element: ParseInstallation {
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
@@ -924,10 +924,10 @@ public extension Sequence where Element: ParseInstallation {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
+     `ParseConfiguration.isAllowingCustomObjectIds = true` and
      `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -938,7 +938,7 @@ public extension Sequence where Element: ParseInstallation {
     */
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.useTransactions,
+        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
         isIgnoreCustomObjectIdConfig: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
@@ -972,7 +972,7 @@ public extension Sequence where Element: ParseInstallation {
     */
     func createAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.useTransactions,
+        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1005,7 +1005,7 @@ public extension Sequence where Element: ParseInstallation {
     */
     func replaceAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.useTransactions,
+        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1038,7 +1038,7 @@ public extension Sequence where Element: ParseInstallation {
     */
     internal func updateAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.useTransactions,
+        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1302,7 +1302,7 @@ public extension Sequence where Element: ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.useTransactions,
+                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                    options: API.Options = []) throws -> [(Result<Void, ParseError>)] {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -1351,7 +1351,7 @@ public extension Sequence where Element: ParseInstallation {
     */
     func deleteAll(
         batchLimit limit: Int? = nil,
-        transaction: Bool = ParseSwift.configuration.useTransactions,
+        transaction: Bool = ParseSwift.configuration.isUsingTransactions,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Void, ParseError>)], ParseError>) -> Void

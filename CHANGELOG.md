@@ -15,6 +15,7 @@ __New features__
 - Adds isNull QueryConstraint along with the ability set/forceSet null using ParseOperation ([#308](https://github.com/parse-community/Parse-Swift/pull/308)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
+- (Breaking Change) Change boolean configuration parameters to match Swift conventions. The compilor should help with name changes ([#311](https://github.com/parse-community/Parse-Swift/pull/311)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Improve QueryWhere by making at a set of QueryConstraint's instead of any array. This dedupes the same constraint when encoding the query; improving the encoding speed when the same constraints are added ([#308](https://github.com/parse-community/Parse-Swift/pull/308)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.5.1
@@ -78,7 +79,7 @@ __Fixes__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.3...2.2.4)
 
 __Fixes__
-- Delete all stored Parse data and cache when deleteKeychainIfNeeded is true ([#280](https://github.com/parse-community/Parse-Swift/pull/280)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Delete all stored Parse data and cache when isDeletingKeychainIfNeeded is true ([#280](https://github.com/parse-community/Parse-Swift/pull/280)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.2.3
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.2.2...2.2.3)
@@ -320,7 +321,7 @@ __Improvements__
 - Append instead of replace when using query select, exclude, include, and fields ([#155](https://github.com/parse-community/Parse-Swift/pull/155)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Fixes__
-- Transactions currently don't work when using MongoDB(postgres does work) on the parse-server. Internal use of transactions are disabled by default. If you want the Swift SDK to use transactions internally, you need to set useTransactionsInternally=true when configuring the client. It is recommended not to use transactions if you are using MongoDB until it's fixed on the server ([#158](https://github.com/parse-community/Parse-Swift/pull/158)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Transactions currently don't work when using MongoDB(postgres does work) on the parse-server. Internal use of transactions are disabled by default. If you want the Swift SDK to use transactions internally, you need to set isUsingTransactionsInternally=true when configuring the client. It is recommended not to use transactions if you are using MongoDB until it's fixed on the server ([#158](https://github.com/parse-community/Parse-Swift/pull/158)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.8.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.7.2...1.8.0)

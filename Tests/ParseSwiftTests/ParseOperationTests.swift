@@ -69,7 +69,7 @@ class ParseOperationTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              isTesting: true)
     }
 
     override func tearDownWithError() throws {

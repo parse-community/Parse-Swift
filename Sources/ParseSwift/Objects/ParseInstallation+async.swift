@@ -37,16 +37,16 @@ public extension ParseInstallation {
     /**
      Saves the `ParseInstallation` *asynchronously*.
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns saved `ParseInstallation`.
      - throws: An error of type `ParseError`.
      - important: If an object saved has the same objectId as current, it will automatically update the current.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
+     `ParseConfiguration.isAllowingCustomObjectIds = true` and
      `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -150,7 +150,7 @@ public extension Sequence where Element: ParseInstallation {
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
      - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
-     when `ParseConfiguration.allowCustomObjectId = true` to allow for mixed
+     when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns an array of Result enums with the object if a save was successful or a
@@ -160,10 +160,10 @@ public extension Sequence where Element: ParseInstallation {
      - warning: If `transaction = true`, then `batchLimit` will be automatically be set to the amount of the
      objects in the transaction. The developer should ensure their respective Parse Servers can handle the limit or else
      the transactions can fail.
-     - warning: If you are using `ParseConfiguration.allowCustomObjectId = true`
+     - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
      `isIgnoreCustomObjectIdConfig = false`. Setting
-     `ParseConfiguration.allowCustomObjectId = true` and
+     `ParseConfiguration.isAllowingCustomObjectIds = true` and
      `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
@@ -173,7 +173,7 @@ public extension Sequence where Element: ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     func saveAll(batchLimit limit: Int? = nil,
-                 transaction: Bool = ParseSwift.configuration.useTransactions,
+                 transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                  isIgnoreCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
@@ -203,7 +203,7 @@ public extension Sequence where Element: ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     func createAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.useTransactions,
+                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                    options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.createAll(batchLimit: limit,
@@ -232,7 +232,7 @@ public extension Sequence where Element: ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     func replaceAll(batchLimit limit: Int? = nil,
-                    transaction: Bool = ParseSwift.configuration.useTransactions,
+                    transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                     options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.replaceAll(batchLimit: limit,
@@ -261,7 +261,7 @@ public extension Sequence where Element: ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     internal func updateAll(batchLimit limit: Int? = nil,
-                            transaction: Bool = ParseSwift.configuration.useTransactions,
+                            transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                             options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.updateAll(batchLimit: limit,
@@ -287,7 +287,7 @@ public extension Sequence where Element: ParseInstallation {
      the transactions can fail.
     */
     func deleteAll(batchLimit limit: Int? = nil,
-                   transaction: Bool = ParseSwift.configuration.useTransactions,
+                   transaction: Bool = ParseSwift.configuration.isUsingTransactions,
                    options: API.Options = []) async throws -> [(Result<Void, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.deleteAll(batchLimit: limit,
