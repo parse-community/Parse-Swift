@@ -96,7 +96,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.linkedIn.__type: authData]
+        serverResponse.authData = [serverResponse.linkedin.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -115,7 +115,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.linkedIn.loginPublisher(id: "testing",
+        let publisher = User.linkedin.loginPublisher(id: "testing",
                                                      accessToken: "this",
                                                      isMobileSDK: true)
             .sink(receiveCompletion: { result in
@@ -131,7 +131,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             XCTAssertEqual(user, userOnServer)
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
-            XCTAssertTrue(user.linkedIn.isLinked)
+            XCTAssertTrue(user.linkedin.isLinked)
         })
         publisher.store(in: &subscriptions)
 
@@ -148,7 +148,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.linkedIn.__type: authData]
+        serverResponse.authData = [serverResponse.linkedin.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -167,7 +167,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.linkedIn.loginPublisher(authData: (["id": "testing",
+        let publisher = User.linkedin.loginPublisher(authData: (["id": "testing",
                                                                  "access_token": "this",
                                                                  "is_mobile_sdk": "\(true)"]))
             .sink(receiveCompletion: { result in
@@ -183,7 +183,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             XCTAssertEqual(user, userOnServer)
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
-            XCTAssertTrue(user.linkedIn.isLinked)
+            XCTAssertTrue(user.linkedin.isLinked)
         })
         publisher.store(in: &subscriptions)
 
@@ -229,7 +229,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.linkedIn.linkPublisher(id: "testing",
+        let publisher = User.linkedin.linkPublisher(id: "testing",
                                                     accessToken: "this",
                                                     isMobileSDK: true)
             .sink(receiveCompletion: { result in
@@ -245,7 +245,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertTrue(user.linkedIn.isLinked)
+            XCTAssertTrue(user.linkedin.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
         })
         publisher.store(in: &subscriptions)
@@ -282,7 +282,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             .AuthenticationKeys.id.makeDictionary(id: "testing",
                                                   accessToken: "accessToken",
                                                   isMobileSDK: true)
-        let publisher = User.linkedIn.linkPublisher(authData: authData)
+        let publisher = User.linkedin.linkPublisher(authData: authData)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -296,7 +296,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertTrue(user.linkedIn.isLinked)
+            XCTAssertTrue(user.linkedin.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
         })
         publisher.store(in: &subscriptions)
@@ -315,8 +315,8 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             .AuthenticationKeys.id.makeDictionary(id: "testing",
                                                   accessToken: "this",
                                                   isMobileSDK: true)
-        User.current?.authData = [User.linkedIn.__type: authData]
-        XCTAssertTrue(User.linkedIn.isLinked)
+        User.current?.authData = [User.linkedin.__type: authData]
+        XCTAssertTrue(User.linkedin.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -336,7 +336,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.linkedIn.unlinkPublisher()
+        let publisher = User.linkedin.unlinkPublisher()
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -350,7 +350,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertFalse(user.linkedIn.isLinked)
+            XCTAssertFalse(user.linkedin.isLinked)
         })
         publisher.store(in: &subscriptions)
 

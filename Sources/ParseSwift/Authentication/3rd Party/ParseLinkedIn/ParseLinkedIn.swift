@@ -77,11 +77,11 @@ public extension ParseLinkedIn {
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
 
-        let linkedInAuthData = AuthenticationKeys.id
+        let linkedinAuthData = AuthenticationKeys.id
                 .makeDictionary(id: id,
                                 accessToken: accessToken,
                                 isMobileSDK: isMobileSDK)
-        login(authData: linkedInAuthData,
+        login(authData: linkedinAuthData,
               options: options,
               callbackQueue: callbackQueue,
               completion: completion)
@@ -123,11 +123,11 @@ public extension ParseLinkedIn {
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        let linkedInAuthData = AuthenticationKeys.id
+        let linkedinAuthData = AuthenticationKeys.id
             .makeDictionary(id: id,
                             accessToken: accessToken,
                             isMobileSDK: isMobileSDK)
-        link(authData: linkedInAuthData,
+        link(authData: linkedinAuthData,
              options: options,
              callbackQueue: callbackQueue,
              completion: completion)
@@ -155,13 +155,13 @@ public extension ParseLinkedIn {
 // MARK: 3rd Party Authentication - ParseLinkedIn
 public extension ParseUser {
 
-    /// A linkedIn `ParseUser`.
-    static var linkedIn: ParseLinkedIn<Self> {
+    /// A linkedin `ParseUser`.
+    static var linkedin: ParseLinkedIn<Self> {
         ParseLinkedIn<Self>()
     }
 
-    /// An linkedIn `ParseUser`.
-    var linkedIn: ParseLinkedIn<Self> {
-        Self.linkedIn
+    /// An linkedin `ParseUser`.
+    var linkedin: ParseLinkedIn<Self> {
+        Self.linkedin
     }
 }
