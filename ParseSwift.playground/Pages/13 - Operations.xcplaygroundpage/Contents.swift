@@ -23,6 +23,7 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var points: Int? = 0
+    var name: String?
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -43,7 +44,8 @@ extension GameScore {
 //: First lets create another GameScore.
 let savedScore: GameScore!
 do {
-    savedScore = try GameScore(points: 102).save()
+    let score = GameScore(points: 102, name: "player1")
+    savedScore = try score.save()
 } catch {
     savedScore = nil
     assertionFailure("Error saving: \(error)")
@@ -70,6 +72,22 @@ do {
     print(error)
 }
 
+//: Query all scores whose is null or undefined.
+let query1 = GameScore.query(notNull(key: "name"))
+let results1 = try query1.find()
+print("Total found: \(results1.count)")
+results1.forEach { score in
+    print("Found score with a name: \(score)")
+}
+
+//: Query all scores whose name is undefined.
+let query2 = GameScore.query(exists(key: "name"))
+let results2 = try query2.find()
+print("Total found: \(results2.count)")
+results2.forEach { score in
+    print("Found score with a name: \(score)")
+}
+
 //: You can also remove a value for a property using unset.
 let unsetOperation = savedScore
     .operation.unset(("points", \.points))
@@ -78,6 +96,33 @@ do {
     print("Updated score: \(updatedScore). Check the new score on Parse Dashboard.")
 } catch {
     print(error)
+}
+
+//: There may be cases where you want to set/forceSet a value to null
+//: instead of unsetting
+let setToNullOperation = savedScore
+    .operation.set(("name", \.name), value: nil)
+do {
+    let updatedScore = try setToNullOperation.save()
+    print("Updated score: \(updatedScore). Check the new score on Parse Dashboard.")
+} catch {
+    print(error)
+}
+
+//: Query all scores whose name is null or undefined.
+let query3 = GameScore.query(isNull(key: "name"))
+let results3 = try query3.find()
+print("Total found: \(results3.count)")
+results3.forEach { score in
+    print("Found score with name is null: \(score)")
+}
+
+//: Query all scores whose name is undefined.
+let query4 = GameScore.query(doesNotExist(key: "name"))
+let results4 = try query4.find()
+print("Total found: \(results4.count)")
+results4.forEach { score in
+    print("Found score with name does not exist: \(score)")
 }
 
 //: There are other operations: set/forceSet/unset/add/remove, etc. objects from `ParseObject`s.

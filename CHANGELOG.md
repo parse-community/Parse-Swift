@@ -8,10 +8,14 @@
 ### 3.0.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.1...3.0.0)
 
-__Improvements__
-- (Breaking Change) Adds options to matchesText query constraint along with the ability to see matching score. The compiler should recommend the new score property to all ParseObjects ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
+__New features__
+- (Breaking Change) Adds options to matchesText QueryConstraint along with the ability to see matching score. The compiler should recommend the new score property to all ParseObjects ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Adds withCount query ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Adds auth support for GitHub, Google, and LinkedIn ([#307](https://github.com/parse-community/Parse-Swift/pull/307)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Adds isNull QueryConstraint along with the ability set/forceSet null using ParseOperation ([#308](https://github.com/parse-community/Parse-Swift/pull/308)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+__Improvements__
+- Improve QueryWhere by making at a set of QueryConstraint's instead of any array. This dedupes the same constraint when encoding the query; improving the encoding speed when the same constraints are added ([#308](https://github.com/parse-community/Parse-Swift/pull/308)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.5.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.0...2.5.1)
@@ -26,14 +30,14 @@ __Fixes__
 ### 2.5.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.4.0...2.5.0)
 
-__Improvements__
+__New features__
 - Added create(), replace(), update(), createAll(), replaceAll(), and updateAll() to ParseObjects. Currently, update() and updateAll() are unavaivalble due to limitations of PATCH on the Parse Server ([#299](https://github.com/parse-community/Parse-Swift/pull/299)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Added convenience methods to convert ParseObject's to Pointer<ParseObject>'s for QueryConstraint's: !=, containedIn, notContainedIn, containedBy, containsAll ([#298](https://github.com/parse-community/Parse-Swift/pull/298)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 2.4.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.3.1...2.4.0)
 
-__Improvements__
+__New features__
 - Added additional methods to ParseRelation to make it easier to create and query relations ([#294](https://github.com/parse-community/Parse-Swift/pull/294)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Enable async/await for iOS13, tvOS13, watchOS6, and macOS10_15. All async/await methods are MainActor's. Requires Xcode 13.2 or above to use async/await. Not compatible with Xcode 13.0/1, will need to upgrade to 13.2+. Still works with Xcode 11/12 ([#278](https://github.com/parse-community/Parse-Swift/pull/278)), thanks to [Corey Baker](https://github.com/cbaker6).
 

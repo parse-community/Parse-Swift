@@ -20,8 +20,8 @@ class ParseOperationTests: XCTestCase {
         var score: Double?
 
         //: Your own properties
-        var points: Int
-        var members = [String]()
+        var points: Int?
+        var members: [String] = [String]()
         var levels: [String]?
         var previous: [Level]?
         var next: [Level]
@@ -138,13 +138,14 @@ class ParseOperationTests: XCTestCase {
                     XCTFail("Should unwrap dates")
                     return
             }
-            guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+            guard let originalUpdatedAt = scoreOnServer.updatedAt,
+                  let originalPoints = scoreOnServer.points else {
                     XCTFail("Should unwrap dates")
                     return
             }
             XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
             XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
-            XCTAssertEqual(saved.points+1, scoreOnServer.points)
+            XCTAssertEqual(saved.points, originalPoints-1)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -187,14 +188,15 @@ class ParseOperationTests: XCTestCase {
                         expectation1.fulfill()
                         return
                 }
-                guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+                guard let originalUpdatedAt = scoreOnServer.updatedAt,
+                      let originalPoints = scoreOnServer.points else {
                         XCTFail("Should unwrap dates")
                         expectation1.fulfill()
                         return
                 }
                 XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
                 XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
-                XCTAssertEqual(saved.points+1, scoreOnServer.points)
+                XCTAssertEqual(saved.points, originalPoints-1)
             case .failure(let error):
                 XCTFail(error.localizedDescription)
             }
@@ -206,7 +208,7 @@ class ParseOperationTests: XCTestCase {
     func testSaveSet() throws { // swiftlint:disable:this function_body_length
         var score = GameScore(points: 10)
         score.objectId = "yarr"
-        let operations = try score.operation
+        let operations = score.operation
             .set(("points", \.points), value: 15)
 
         var scoreOnServer = score
@@ -245,10 +247,52 @@ class ParseOperationTests: XCTestCase {
         }
     }
 
+    func testSaveSetToNull() throws { // swiftlint:disable:this function_body_length
+        var score = GameScore(points: 10)
+        score.objectId = "yarr"
+        let operations = score.operation
+            .set(("points", \.points), value: nil)
+
+        var scoreOnServer = score
+        scoreOnServer.points = nil
+        scoreOnServer.updatedAt = Date()
+
+        let encoded: Data!
+        do {
+            encoded = try ParseCoding.jsonEncoder().encode(scoreOnServer)
+            //Get dates in correct format from ParseDecoding strategy
+            scoreOnServer = try scoreOnServer.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        do {
+            let saved = try operations.save()
+            XCTAssert(saved.hasSameObjectId(as: scoreOnServer))
+            guard let savedUpdatedAt = saved.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            guard let originalUpdatedAt = scoreOnServer.updatedAt else {
+                    XCTFail("Should unwrap dates")
+                    return
+            }
+            XCTAssertEqual(savedUpdatedAt, originalUpdatedAt)
+            XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
+            XCTAssertEqual(saved.points, scoreOnServer.points)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func testSaveSetAsyncMainQueue() throws {
         var score = GameScore(points: 10)
         score.objectId = "yarr"
-        let operations = try score.operation
+        let operations = score.operation
             .set(("points", \.points), value: 15)
 
         var scoreOnServer = score
@@ -324,7 +368,7 @@ class ParseOperationTests: XCTestCase {
 
     func testAddKeypath() throws {
         let score = GameScore(points: 10)
-        let operations = try score.operation
+        let operations = score.operation
             .add(("test", \.members), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Add\"}}"
         let encoded = try ParseCoding.parseEncoder()
@@ -336,7 +380,7 @@ class ParseOperationTests: XCTestCase {
 
     func testAddOptionalKeypath() throws {
         let score = GameScore(points: 10)
-        let operations = try score.operation
+        let operations = score.operation
             .add(("test", \.levels), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Add\"}}"
         let encoded = try ParseCoding.parseEncoder()
@@ -358,7 +402,7 @@ class ParseOperationTests: XCTestCase {
 
     func testAddUniqueKeypath() throws {
         let score = GameScore(points: 10)
-        let operations = try score.operation
+        let operations = score.operation
             .addUnique(("test", \.members), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"AddUnique\"}}"
         let encoded = try ParseCoding.parseEncoder()
@@ -369,7 +413,7 @@ class ParseOperationTests: XCTestCase {
 
     func testAddUniqueOptionalKeypath() throws {
         let score = GameScore(points: 10)
-        let operations = try score.operation
+        let operations = score.operation
             .addUnique(("test", \.levels), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"AddUnique\"}}"
         let encoded = try ParseCoding.parseEncoder()
@@ -433,7 +477,7 @@ class ParseOperationTests: XCTestCase {
 
     func testRemoveKeypath() throws {
         let score = GameScore(points: 10)
-        let operations = try score.operation
+        let operations = score.operation
             .remove(("test", \.members), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Remove\"}}"
         let encoded = try ParseCoding.parseEncoder()
@@ -444,7 +488,7 @@ class ParseOperationTests: XCTestCase {
 
     func testRemoveOptionalKeypath() throws {
         let score = GameScore(points: 10)
-        let operations = try score.operation
+        let operations = score.operation
             .remove(("test", \.levels), objects: ["hello"])
         let expected = "{\"test\":{\"objects\":[\"hello\"],\"__op\":\"Remove\"}}"
         let encoded = try ParseCoding.parseEncoder()
@@ -497,7 +541,7 @@ class ParseOperationTests: XCTestCase {
 
     func testSet() throws {
         let score = GameScore(points: 10)
-        let operations = try score.operation.set(("points", \.points), value: 15)
+        let operations = score.operation.set(("points", \.points), value: 15)
             .set(("levels", \.levels), value: ["hello"])
         let expected = "{\"points\":15,\"levels\":[\"hello\"]}"
         let encoded = try ParseCoding.parseEncoder()
@@ -507,20 +551,28 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(operations.target.points, 15)
         var level = Level(level: 12)
         level.members = ["hello", "world"]
-        let operations2 = try score.operation.set(("previous", \.previous), value: [level])
+        let operations2 = score.operation.set(("previous", \.previous), value: [level])
         let expected2 = "{\"previous\":[{\"level\":12,\"members\":[\"hello\",\"world\"]}]}"
         let encoded2 = try ParseCoding.parseEncoder()
             .encode(operations2)
         let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
         XCTAssertEqual(operations2.target.previous, [level])
+        let operations3 = score.operation.set(("points", \.points), value: nil)
+            .set(("levels", \.levels), value: ["hello"])
+        let expected3 = "{\"points\":null,\"levels\":[\"hello\"]}"
+        let encoded3 = try ParseCoding.parseEncoder()
+            .encode(operations3)
+        let decoded3 = try XCTUnwrap(String(data: encoded3, encoding: .utf8))
+        XCTAssertEqual(decoded3, expected3)
+        XCTAssertNil(operations3.target.points)
     }
 
     func testObjectIdSet() throws {
         var score = GameScore()
         score.objectId = "test"
         score.levels = nil
-        let operations = try score.operation.set(("objectId", \.objectId), value: "test")
+        let operations = score.operation.set(("objectId", \.objectId), value: "test")
         let expected = "{}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
@@ -531,7 +583,7 @@ class ParseOperationTests: XCTestCase {
         level.members = ["hello", "world"]
         score.previous = [level]
         let expected2 = "{}"
-        let operations2 = try score.operation.set(("previous", \.previous), value: [level])
+        let operations2 = score.operation.set(("previous", \.previous), value: [level])
         let encoded2 = try ParseCoding.parseEncoder()
             .encode(operations2)
         let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
@@ -542,22 +594,38 @@ class ParseOperationTests: XCTestCase {
 
     func testUnchangedSet() throws {
         let score = GameScore(points: 10)
-        let operations = try score.operation.set(("points", \.points), value: 10)
+        let operations = score.operation.set(("points", \.points), value: 10)
         let expected = "{}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
+        let operations2 = score.operation
+            .set(("levels", \.levels), value: nil)
+        let expected2 = "{}"
+        let encoded2 = try ParseCoding.parseEncoder()
+            .encode(operations2)
+        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
+        XCTAssertEqual(decoded2, expected2)
+        XCTAssertNil(operations2.target.levels)
     }
 
     func testForceSet() throws {
         let score = GameScore(points: 10)
-        let operations = try score.operation.forceSet(("points", \.points), value: 10)
+        let operations = score.operation.forceSet(("points", \.points), value: 10)
         let expected = "{\"points\":10}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(operations)
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
+        let operations2 = score.operation
+            .forceSet(("points", \.points), value: nil)
+        let expected2 = "{\"points\":null}"
+        let encoded2 = try ParseCoding.parseEncoder()
+            .encode(operations2)
+        let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
+        XCTAssertEqual(decoded2, expected2)
+        XCTAssertNil(operations2.target.points)
     }
 
     func testUnset() throws {

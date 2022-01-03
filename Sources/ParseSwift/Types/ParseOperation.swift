@@ -20,6 +20,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
 
     var target: T
     var operations = [String: Encodable]()
+    var keysToNull = Set<String>()
 
     public init(target: T) {
         self.target = target
@@ -31,11 +32,15 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - key: A tuple consisting of the key and the respective KeyPath of the object.
         - value: The value to set it to.
         - returns: The updated operations.
+     - Note: Set the value to "nil" if you want it to be "null" on the Parse Server.
      */
-    public func set<W>(_ key: (String, WritableKeyPath<T, W>),
-                       value: W) throws -> Self where W: Encodable {
+    public func set<W>(_ key: (String, WritableKeyPath<T, W?>),
+                       value: W?) -> Self where W: Encodable {
         var mutableOperation = self
-        if !target[keyPath: key.1].isEqual(value) {
+        if value == nil && target[keyPath: key.1] != nil {
+            mutableOperation.keysToNull.insert(key.0)
+            mutableOperation.target[keyPath: key.1] = value
+        } else if !target[keyPath: key.1].isEqual(value) {
             mutableOperation.operations[key.0] = value
             mutableOperation.target[keyPath: key.1] = value
         }
@@ -48,11 +53,16 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - key: A tuple consisting of the key and the respective KeyPath of the object.
         - value: The value to set it to.
         - returns: The updated operations.
+     - Note: Set the value to "nil" if you want it to be "null" on the Parse Server.
      */
-    public func forceSet<W>(_ key: (String, WritableKeyPath<T, W>),
-                            value: W) throws -> Self where W: Encodable {
+    public func forceSet<W>(_ key: (String, WritableKeyPath<T, W?>),
+                            value: W?) -> Self where W: Encodable {
         var mutableOperation = self
-        mutableOperation.operations[key.0] = value
+        if value != nil {
+            mutableOperation.operations[key.0] = value
+        } else {
+            mutableOperation.keysToNull.insert(key.0)
+        }
         mutableOperation.target[keyPath: key.1] = value
         return mutableOperation
     }
@@ -93,7 +103,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - returns: The updated operations.
      */
     public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                             objects: [V]) throws -> Self where V: Encodable, V: Hashable {
+                             objects: [V]) -> Self where V: Encodable, V: Hashable {
         var mutableOperation = self
         mutableOperation.operations[key.0] = AddUnique(objects: objects)
         var values = target[keyPath: key.1]
@@ -111,7 +121,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - returns: The updated operations.
      */
     public func addUnique<V>(_ key: (String, WritableKeyPath<T, [V]?>),
-                             objects: [V]) throws -> Self where V: Encodable, V: Hashable {
+                             objects: [V]) -> Self where V: Encodable, V: Hashable {
         var mutableOperation = self
         mutableOperation.operations[key.0] = AddUnique(objects: objects)
         var values = target[keyPath: key.1] ?? []
@@ -141,7 +151,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - returns: The updated operations.
      */
     public func add<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                       objects: [V]) throws -> Self where V: Encodable {
+                       objects: [V]) -> Self where V: Encodable {
         var mutableOperation = self
         mutableOperation.operations[key.0] = Add(objects: objects)
         var values = target[keyPath: key.1]
@@ -158,7 +168,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - returns: The updated operations.
      */
     public func add<V>(_ key: (String, WritableKeyPath<T, [V]?>),
-                       objects: [V]) throws -> Self where V: Encodable {
+                       objects: [V]) -> Self where V: Encodable {
         var mutableOperation = self
         mutableOperation.operations[key.0] = Add(objects: objects)
         var values = target[keyPath: key.1] ?? []
@@ -237,7 +247,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - returns: The updated operations.
      */
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]>),
-                          objects: [V]) throws -> Self where V: Encodable, V: Hashable {
+                          objects: [V]) -> Self where V: Encodable, V: Hashable {
         var mutableOperation = self
         mutableOperation.operations[key.0] = Remove(objects: objects)
         let values = target[keyPath: key.1]
@@ -258,7 +268,7 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
         - returns: The updated operations.
      */
     public func remove<V>(_ key: (String, WritableKeyPath<T, [V]?>),
-                          objects: [V]) throws -> Self where V: Encodable, V: Hashable {
+                          objects: [V]) -> Self where V: Encodable, V: Hashable {
         var mutableOperation = self
         mutableOperation.operations[key.0] = Remove(objects: objects)
         let values = target[keyPath: key.1]
@@ -356,6 +366,11 @@ public struct ParseOperation<T>: Savable where T: ParseObject {
             let (key, value) = pair
             let encoder = container.superEncoder(forKey: .key(key))
             try value.encode(to: encoder)
+        }
+        try keysToNull.forEach { key in
+            let encoder = container.superEncoder(forKey: .key(key))
+            var container = encoder.singleValueContainer()
+            try container.encodeNil()
         }
     }
 }

@@ -9,7 +9,7 @@
 import Foundation
 
 /// Used to constrain a query.
-public struct QueryConstraint: Encodable, Equatable {
+public struct QueryConstraint: Encodable, Hashable {
     enum Comparator: String, CodingKey, Encodable {
         case lessThan = "$lt"
         case lessThanOrEqualTo = "$lte"
@@ -48,24 +48,46 @@ public struct QueryConstraint: Encodable, Equatable {
     }
 
     var key: String
-    var value: Encodable
+    var value: Encodable?
     var comparator: Comparator?
+    var isNull: Bool = false
 
     public func encode(to encoder: Encoder) throws {
-        if let value = value as? Date {
+        if isNull {
+            var container = encoder.singleValueContainer()
+            try container.encodeNil()
+        } else if let value = value as? Date {
             // Parse uses special case for date
             try value.parseRepresentation.encode(to: encoder)
         } else {
-            try value.encode(to: encoder)
+            try value?.encode(to: encoder)
         }
     }
 
     public static func == (lhs: QueryConstraint, rhs: QueryConstraint) -> Bool {
         guard lhs.key == rhs.key,
-              lhs.comparator == rhs.comparator else {
+              lhs.comparator == rhs.comparator,
+              lhs.isNull == rhs.isNull else {
             return false
         }
-        return lhs.value.isEqual(rhs.value)
+        guard let lhsValue = lhs.value,
+              let rhsValue = rhs.value else {
+                  guard lhs.value == nil,
+                        rhs.value == nil else {
+                      return false
+                  }
+                  return true
+              }
+        return lhsValue.isEqual(rhsValue)
+    }
+
+    public func hash(into hasher: inout Hasher) {
+        do {
+            let encodedData = try ParseCoding.jsonEncoder().encode(self)
+            hasher.combine(encodedData)
+        } catch {
+            hasher.combine(0)
+        }
     }
 }
 
@@ -668,7 +690,25 @@ public func hasSuffix(key: String, suffix: String, modifiers: String? = nil) -> 
 }
 
 /**
-  Add a constraint that requires a particular key exists.
+ Add a constraint that requires that a key is equal to **null** or **undefined**.
+ - parameter key: The key that the value is stored in.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func isNull (key: String) -> QueryConstraint {
+    QueryConstraint(key: key, isNull: true)
+}
+
+/**
+ Add a constraint that requires that a key is not equal to **null** or **undefined**.
+ - parameter key: The key that the value is stored in.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func notNull (key: String) -> QueryConstraint {
+    QueryConstraint(key: key, comparator: .notEqualTo, isNull: true)
+}
+
+/**
+  Add a constraint that requires a particular key to be equal to **undefined**.
   - parameter key: The key that should exist.
   - returns: The resulting `QueryConstraint`.
  */
@@ -677,7 +717,7 @@ public func exists(key: String) -> QueryConstraint {
 }
 
 /**
-  Add a constraint that requires a key not exist.
+  Add a constraint that requires a key  to not be equal to **undefined**.
   - parameter key: The key that should not exist.
   - returns: The resulting `QueryConstraint`.
  */

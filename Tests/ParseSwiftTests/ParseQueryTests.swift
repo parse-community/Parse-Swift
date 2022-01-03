@@ -107,10 +107,20 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                                                      substring: "world"),
                                       "points" > 101,
                                       "createdAt" > Date()])
+        let query4 = GameScore.query([containsString(key: "hello",
+                                                     substring: "world"),
+                                      "points" > 101,
+                                      "createdAt" > Date(),
+                                      isNull(key: "points")])
+        let query5 = GameScore.query(isNull(key: "points"))
+        let query6 = GameScore.query(isNull(key: "hello"))
         XCTAssertEqual(query1, query1)
         XCTAssertEqual(query2, query2)
         XCTAssertNotEqual(query1, query2)
         XCTAssertNotEqual(query2, query3)
+        XCTAssertNotEqual(query3, query4)
+        XCTAssertEqual(query5, query5)
+        XCTAssertNotEqual(query5, query6)
     }
 
     func testEndPoints() {
@@ -1185,6 +1195,16 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query.debugDescription, expected)
     }
 
+    func testWhereKeyEqualToParseObjectDuplicateConstraint() throws {
+        var compareObject = GameScore(points: 11)
+        compareObject.objectId = "hello"
+        let query = try GameScore.query("yolo" == compareObject,
+                                        "yolo" == compareObject)
+        // swiftlint:disable:next line_length
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}})"
+        XCTAssertEqual(query.debugDescription, expected)
+    }
+
     func testWhereKeyEqualToParseObjectPointer() throws {
         var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
@@ -1201,6 +1221,62 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = try GameScore.query("yolo" != compareObject)
         // swiftlint:disable:next line_length
         let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"$ne\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}})"
+        XCTAssertEqual(query.debugDescription, expected)
+    }
+
+    func testWhereKeyIsNull() throws {
+        var compareObject = GameScore(points: 11)
+        compareObject.objectId = "hello"
+        let query = GameScore.query(isNull(key: "yolo"))
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":null}})"
+        XCTAssertEqual(query.debugDescription, expected)
+    }
+
+    func testWhereKeyNotNull() throws {
+        var compareObject = GameScore(points: 11)
+        compareObject.objectId = "hello"
+        let query = GameScore.query(notNull(key: "yolo"))
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"$ne\":null}}})"
+        XCTAssertEqual(query.debugDescription, expected)
+    }
+
+    func testWhereKeyIsNullDuplicateConstraint() throws {
+        var compareObject = GameScore(points: 11)
+        compareObject.objectId = "hello"
+        let query = GameScore.query(isNull(key: "yolo"),
+                                    isNull(key: "yolo"))
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":null}})"
+        XCTAssertEqual(query.debugDescription, expected)
+    }
+
+    func testWhereKeyIsNullMultipleKey() throws {
+        var compareObject = GameScore(points: 11)
+        compareObject.objectId = "hello"
+        let query = GameScore.query(isNull(key: "yolo"),
+                                    isNull(key: "hello"))
+        // swiftlint:disable:next line_length
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"hello\":null,\"yolo\":null}})"
+        XCTAssertEqual(query.debugDescription, expected)
+    }
+
+    func testWhereKeyComparatorMultipleSameKey() throws {
+        var compareObject = GameScore(points: 11)
+        compareObject.objectId = "hello"
+        let query = GameScore.query("yolo" >= 5,
+                                    "yolo" <= 10)
+        // swiftlint:disable:next line_length
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"$lte\":10,\"$gte\":5}}})"
+        XCTAssertEqual(query.debugDescription, expected)
+    }
+
+    func testWhereKeyComparatorMultipleSameKeyDuplicate() throws {
+        var compareObject = GameScore(points: 11)
+        compareObject.objectId = "hello"
+        let query = GameScore.query("yolo" >= 5,
+                                    "yolo" >= 5,
+                                    "yolo" <= 10)
+        // swiftlint:disable:next line_length
+        let expected = "GameScore ({\"limit\":100,\"skip\":0,\"_method\":\"GET\",\"where\":{\"yolo\":{\"$lte\":10,\"$gte\":5}}})"
         XCTAssertEqual(query.debugDescription, expected)
     }
     #endif
