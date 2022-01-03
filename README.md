@@ -64,7 +64,7 @@ let package = Package(
 Then run `swift build`. 
 
 You can also install using SPM in your Xcode project by going to 
-"Project->NameOfYourProject->Swift Packages" and placing "https://github.com/parse-community/Parse-Swift.git" in the 
+"Project->NameOfYourProject->Swift Packages" and placing `https://github.com/parse-community/Parse-Swift.git` in the 
 search field.
 
 ### [CocoaPods](https://cocoapods.org)
