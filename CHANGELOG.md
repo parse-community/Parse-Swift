@@ -13,7 +13,7 @@ __New features__
 - Adds withCount query ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Adds auth support for GitHub, Google, and LinkedIn ([#307](https://github.com/parse-community/Parse-Swift/pull/307)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Adds isNull and isNotNull QueryConstraint along with the ability set/forceSet null using ParseOperation ([#308](https://github.com/parse-community/Parse-Swift/pull/308)), thanks to [Corey Baker](https://github.com/cbaker6).
-- Adds equalTo QueryConstraint along with ability to change the SDK default behavior of using $eq QueryConstraint parameter or not ([#308](https://github.com/parse-community/Parse-Swift/pull/308)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Adds equalTo QueryConstraint along with ability to change the SDK default behavior of using $eq QueryConstraint parameter or not ([#309](https://github.com/parse-community/Parse-Swift/pull/309)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__
 - Improve QueryWhere by making at a set of QueryConstraint's instead of any array. This dedupes the same constraint when encoding the query; improving the encoding speed when the same constraints are added ([#308](https://github.com/parse-community/Parse-Swift/pull/308)), thanks to [Corey Baker](https://github.com/cbaker6).

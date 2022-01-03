@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import UIKit
 
 /// Used to constrain a query.
 public struct QueryConstraint: Encodable, Hashable {
