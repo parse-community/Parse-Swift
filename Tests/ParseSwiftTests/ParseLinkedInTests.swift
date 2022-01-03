@@ -160,7 +160,7 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.linkedIn.__type: authData]
+        serverResponse.authData = [serverResponse.linkedin.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -179,14 +179,14 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.linkedIn.login(id: "testing",
+        let user = try await User.linkedin.login(id: "testing",
                                                  accessToken: "that",
                                                  isMobileSDK: true)
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user, userOnServer)
         XCTAssertEqual(user.username, "hello")
         XCTAssertEqual(user.password, "world")
-        XCTAssertTrue(user.linkedIn.isLinked)
+        XCTAssertTrue(user.linkedin.isLinked)
     }
 
     @MainActor
@@ -198,7 +198,7 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.linkedIn.__type: authData]
+        serverResponse.authData = [serverResponse.linkedin.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -217,20 +217,20 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.linkedIn.login(authData: (["id": "testing",
+        let user = try await User.linkedin.login(authData: (["id": "testing",
                                                              "access_token": "this",
                                                              "is_mobile_sdk": "\(true)"]))
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user, userOnServer)
         XCTAssertEqual(user.username, "hello")
         XCTAssertEqual(user.password, "world")
-        XCTAssertTrue(user.linkedIn.isLinked)
+        XCTAssertTrue(user.linkedin.isLinked)
     }
 
     @MainActor
     func testLoginAuthDataBadAuth() async throws {
         do {
-            _ = try await User.linkedIn.login(authData: (["id": "testing",
+            _ = try await User.linkedin.login(authData: (["id": "testing",
                                                         "bad": "token"]))
         } catch {
             guard let parseError = error.containedIn([.unknownError]) else {
@@ -264,14 +264,14 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.linkedIn.login(id: "testing",
+        let user = try await User.linkedin.login(id: "testing",
                                                  accessToken: "that",
                                                  isMobileSDK: true)
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
         XCTAssertEqual(user.username, "hello")
         XCTAssertNil(user.password)
-        XCTAssertTrue(user.linkedIn.isLinked)
+        XCTAssertTrue(user.linkedin.isLinked)
         XCTAssertFalse(user.anonymous.isLinked)
     }
 
@@ -298,14 +298,14 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.linkedIn.link(id: "testing",
+        let user = try await User.linkedin.link(id: "testing",
                                                 accessToken: "that",
                                                 isMobileSDK: true)
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
         XCTAssertEqual(user.username, "hello")
         XCTAssertNil(user.password)
-        XCTAssertTrue(user.linkedIn.isLinked)
+        XCTAssertTrue(user.linkedin.isLinked)
         XCTAssertFalse(user.anonymous.isLinked)
     }
 
@@ -333,14 +333,14 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.linkedIn.link(id: "testing",
+        let user = try await User.linkedin.link(id: "testing",
                                                 accessToken: "that",
                                                 isMobileSDK: true)
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
         XCTAssertEqual(user.username, "parse")
         XCTAssertNil(user.password)
-        XCTAssertTrue(user.linkedIn.isLinked)
+        XCTAssertTrue(user.linkedin.isLinked)
         XCTAssertFalse(user.anonymous.isLinked)
     }
 
@@ -374,12 +374,12 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
                                                   accessToken: "accessToken",
                                                   isMobileSDK: true)
 
-        let user = try await User.linkedIn.link(authData: authData)
+        let user = try await User.linkedin.link(authData: authData)
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
         XCTAssertEqual(user.username, "parse")
         XCTAssertNil(user.password)
-        XCTAssertTrue(user.linkedIn.isLinked)
+        XCTAssertTrue(user.linkedin.isLinked)
         XCTAssertFalse(user.anonymous.isLinked)
     }
 
@@ -388,7 +388,7 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
         _ = try loginNormally()
         MockURLProtocol.removeAll()
         do {
-            _ = try await User.linkedIn.link(authData: ["hello": "world"])
+            _ = try await User.linkedin.link(authData: ["hello": "world"])
         } catch {
             guard let parseError = error.containedIn([.unknownError]) else {
                 XCTFail("Should have casted")
@@ -408,8 +408,8 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
             .AuthenticationKeys.id.makeDictionary(id: "testing",
                                                   accessToken: "this",
                                                   isMobileSDK: true)
-        User.current?.authData = [User.linkedIn.__type: authData]
-        XCTAssertTrue(User.linkedIn.isLinked)
+        User.current?.authData = [User.linkedin.__type: authData]
+        XCTAssertTrue(User.linkedin.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -429,12 +429,12 @@ class ParseLinkedInTests: XCTestCase { // swiftlint:disable:this type_body_lengt
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let user = try await User.linkedIn.unlink()
+        let user = try await User.linkedin.unlink()
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
         XCTAssertEqual(user.username, "parse")
         XCTAssertNil(user.password)
-        XCTAssertFalse(user.linkedIn.isLinked)
+        XCTAssertFalse(user.linkedin.isLinked)
     }
 #endif
 }
