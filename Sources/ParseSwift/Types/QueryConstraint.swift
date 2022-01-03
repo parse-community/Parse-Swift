@@ -181,6 +181,15 @@ public func isNull (key: String) -> QueryConstraint {
     QueryConstraint(key: key, isNull: true)
 }
 
+/**
+ Add a constraint that requires that a key is not equal to **null**.
+ - parameter key: The key that the value is stored in.
+ - returns: The same instance of `QueryConstraint` as the receiver.
+ */
+public func notNull (key: String) -> QueryConstraint {
+    QueryConstraint(key: key, comparator: .notEqualTo, isNull: true)
+}
+
 internal struct InQuery<T>: Encodable where T: ParseObject {
     let query: Query<T>
     var className: String {

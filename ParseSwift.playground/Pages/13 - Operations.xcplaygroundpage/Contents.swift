@@ -23,6 +23,7 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var points: Int? = 0
+    var name: String?
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -43,7 +44,8 @@ extension GameScore {
 //: First lets create another GameScore.
 let savedScore: GameScore!
 do {
-    savedScore = try GameScore(points: 102).save()
+    let score = GameScore(points: 102, name: "player1")
+    savedScore = try score.save()
 } catch {
     savedScore = nil
     assertionFailure("Error saving: \(error)")
@@ -75,6 +77,17 @@ let unsetOperation = savedScore
     .operation.unset(("points", \.points))
 do {
     let updatedScore = try unsetOperation.save()
+    print("Updated score: \(updatedScore). Check the new score on Parse Dashboard.")
+} catch {
+    print(error)
+}
+
+//: There may be cases where you want to set/forceSet a value to null
+//: instead of unsetting
+let setToNullOperation = savedScore
+    .operation.set(("name", \.name), value: nil)
+do {
+    let updatedScore = try setToNullOperation.save()
     print("Updated score: \(updatedScore). Check the new score on Parse Dashboard.")
 } catch {
     print(error)

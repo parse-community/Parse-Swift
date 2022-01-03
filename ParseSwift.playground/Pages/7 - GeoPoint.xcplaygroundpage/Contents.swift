@@ -154,9 +154,46 @@ query3.find { results in
     }
 }
 
+//: Get the same results as the previous query using `isNull`.
+var anotherQuery3 = GameScore.query("points" > 50, isNull(key: "location"))
+anotherQuery3.find { results in
+    switch results {
+    case .success(let scores):
+
+        scores.forEach { (score) in
+            print("""
+                Someone has a points value of \"\(String(describing: score.points))\"
+                with no geopoint \(String(describing: score.location))
+            """)
+        }
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
 //: If you want to query for points > 9 and have a `ParseGeoPoint`.
 var query4 = GameScore.query("points" > 9, exists(key: "location"))
 query4.find { results in
+    switch results {
+    case .success(let scores):
+
+        assert(scores.count >= 1)
+        scores.forEach { (score) in
+            print("""
+                Someone has a points of \"\(String(describing: score.points))\"
+                with geopoint \(String(describing: score.location))
+            """)
+        }
+
+    case .failure(let error):
+        assertionFailure("Error querying: \(error)")
+    }
+}
+
+//: Get the same results as the previous query using `notNull`.
+var anotherQuery4 = GameScore.query("points" > 9, notNull(key: "location"))
+anotherQuery4.find { results in
     switch results {
     case .success(let scores):
 
