@@ -79,7 +79,7 @@ class ParseConfigAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              isTesting: true)
     }
 
     override func tearDownWithError() throws {

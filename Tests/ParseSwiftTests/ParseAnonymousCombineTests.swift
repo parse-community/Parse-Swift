@@ -73,7 +73,7 @@ class ParseAnonymousCombineTests: XCTestCase { // swiftlint:disable:this type_bo
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              isTesting: true)
     }
 
     override func tearDownWithError() throws {

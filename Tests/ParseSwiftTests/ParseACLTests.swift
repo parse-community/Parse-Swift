@@ -21,7 +21,7 @@ class ParseACLTests: XCTestCase {
         ParseSwift.initialize(applicationId: "applicationId",
                               clientKey: "clientKey",
                               masterKey: "masterKey",
-                              serverURL: url, testing: true)
+                              serverURL: url, isTesting: true)
     }
 
     override func tearDownWithError() throws {

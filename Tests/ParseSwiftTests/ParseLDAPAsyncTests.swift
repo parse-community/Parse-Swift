@@ -71,7 +71,7 @@ class ParseLDAPAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              isTesting: true)
     }
 
     override func tearDownWithError() throws {

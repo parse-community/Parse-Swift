@@ -70,7 +70,7 @@ class ParseLDAPTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              testing: true)
+                              isTesting: true)
 
     }
 
