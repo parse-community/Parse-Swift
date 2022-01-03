@@ -72,10 +72,10 @@ public extension ParseGitHub {
                callbackQueue: DispatchQueue = .main,
                completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
 
-        let gitHubAuthData = AuthenticationKeys.id
+        let githubAuthData = AuthenticationKeys.id
                 .makeDictionary(id: id,
                                 accessToken: accessToken)
-        login(authData: gitHubAuthData,
+        login(authData: githubAuthData,
               options: options,
               callbackQueue: callbackQueue,
               completion: completion)
@@ -116,10 +116,10 @@ public extension ParseGitHub {
               options: API.Options = [],
               callbackQueue: DispatchQueue = .main,
               completion: @escaping (Result<AuthenticatedUser, ParseError>) -> Void) {
-        let gitHubAuthData = AuthenticationKeys.id
+        let githubAuthData = AuthenticationKeys.id
             .makeDictionary(id: id,
                             accessToken: accessToken)
-        link(authData: gitHubAuthData,
+        link(authData: githubAuthData,
              options: options,
              callbackQueue: callbackQueue,
              completion: completion)
@@ -147,13 +147,13 @@ public extension ParseGitHub {
 // MARK: 3rd Party Authentication - ParseGitHub
 public extension ParseUser {
 
-    /// A gitHub `ParseUser`.
-    static var gitHub: ParseGitHub<Self> {
+    /// A github `ParseUser`.
+    static var github: ParseGitHub<Self> {
         ParseGitHub<Self>()
     }
 
-    /// An gitHub `ParseUser`.
-    var gitHub: ParseGitHub<Self> {
-        Self.gitHub
+    /// An github `ParseUser`.
+    var github: ParseGitHub<Self> {
+        Self.github
     }
 }

@@ -96,7 +96,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.gitHub.__type: authData]
+        serverResponse.authData = [serverResponse.github.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -115,7 +115,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.gitHub.loginPublisher(id: "testing", accessToken: "this")
+        let publisher = User.github.loginPublisher(id: "testing", accessToken: "this")
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -129,7 +129,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             XCTAssertEqual(user, userOnServer)
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
-            XCTAssertTrue(user.gitHub.isLinked)
+            XCTAssertTrue(user.github.isLinked)
         })
         publisher.store(in: &subscriptions)
 
@@ -146,7 +146,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         serverResponse.password = "world"
         serverResponse.objectId = "yarr"
         serverResponse.sessionToken = "myToken"
-        serverResponse.authData = [serverResponse.gitHub.__type: authData]
+        serverResponse.authData = [serverResponse.github.__type: authData]
         serverResponse.createdAt = Date()
         serverResponse.updatedAt = serverResponse.createdAt?.addingTimeInterval(+300)
 
@@ -165,7 +165,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.gitHub.loginPublisher(authData: (["id": "testing",
+        let publisher = User.github.loginPublisher(authData: (["id": "testing",
                                                                "access_token": "this"]))
             .sink(receiveCompletion: { result in
 
@@ -180,7 +180,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             XCTAssertEqual(user, userOnServer)
             XCTAssertEqual(user.username, "hello")
             XCTAssertEqual(user.password, "world")
-            XCTAssertTrue(user.gitHub.isLinked)
+            XCTAssertTrue(user.github.isLinked)
         })
         publisher.store(in: &subscriptions)
 
@@ -226,7 +226,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.gitHub.linkPublisher(id: "testing",
+        let publisher = User.github.linkPublisher(id: "testing",
                                                   accessToken: "this")
             .sink(receiveCompletion: { result in
 
@@ -241,7 +241,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertTrue(user.gitHub.isLinked)
+            XCTAssertTrue(user.github.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
         })
         publisher.store(in: &subscriptions)
@@ -276,7 +276,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
 
         let authData = ParseGitHub<User>
             .AuthenticationKeys.id.makeDictionary(id: "testing", accessToken: "accessToken")
-        let publisher = User.gitHub.linkPublisher(authData: authData)
+        let publisher = User.github.linkPublisher(authData: authData)
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -290,7 +290,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertTrue(user.gitHub.isLinked)
+            XCTAssertTrue(user.github.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
         })
         publisher.store(in: &subscriptions)
@@ -308,8 +308,8 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         let authData = ParseGitHub<User>
             .AuthenticationKeys.id.makeDictionary(id: "testing",
                                                   accessToken: "this")
-        User.current?.authData = [User.gitHub.__type: authData]
-        XCTAssertTrue(User.gitHub.isLinked)
+        User.current?.authData = [User.github.__type: authData]
+        XCTAssertTrue(User.github.isLinked)
 
         var serverResponse = LoginSignupResponse()
         serverResponse.updatedAt = Date()
@@ -329,7 +329,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
 
-        let publisher = User.gitHub.unlinkPublisher()
+        let publisher = User.github.unlinkPublisher()
             .sink(receiveCompletion: { result in
 
                 if case let .failure(error) = result {
@@ -343,7 +343,7 @@ class ParseGitHubCombineTests: XCTestCase { // swiftlint:disable:this type_body_
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
             XCTAssertEqual(user.username, "parse")
             XCTAssertNil(user.password)
-            XCTAssertFalse(user.gitHub.isLinked)
+            XCTAssertFalse(user.github.isLinked)
         })
         publisher.store(in: &subscriptions)
 
