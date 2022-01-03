@@ -73,7 +73,7 @@ do {
 }
 
 //: Query all scores whose is null or undefined.
-let query1 = GameScore.query(notNull(key: "name"))
+let query1 = GameScore.query(isNotNull(key: "name"))
 let results1 = try query1.find()
 print("Total found: \(results1.count)")
 results1.forEach { score in

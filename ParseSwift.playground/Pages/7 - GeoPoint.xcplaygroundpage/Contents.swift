@@ -192,7 +192,7 @@ query4.find { results in
 }
 
 //: Get the same results as the previous query whose location is not null or undefined.
-var anotherQuery4 = GameScore.query("points" > 9, notNull(key: "location"))
+var anotherQuery4 = GameScore.query("points" > 9, isNotNull(key: "location"))
 anotherQuery4.find { results in
     switch results {
     case .success(let scores):
