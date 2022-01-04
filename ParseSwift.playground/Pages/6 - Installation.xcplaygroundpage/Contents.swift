@@ -13,7 +13,7 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-struct Installation: ParseInstallation, ParseObjectMutable {
+struct Installation: ParseInstallation {
     //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
@@ -41,16 +41,15 @@ struct Installation: ParseInstallation, ParseObjectMutable {
 /*: Save your first `customKey` value to your `ParseInstallation`.
     Performs work on background queue and returns to designated on
     designated callbackQueue. If no callbackQueue is specified it
-    returns to main queue.
+    returns to main queue. Note that this may be the first time you
+    are saving your Installation.
  */
-var currentInstallation = Installation.current
-currentInstallation?.customKey = "myCustomInstallationKey2"
+let currentInstallation = Installation.current
 currentInstallation?.save { results in
 
     switch results {
     case .success(let updatedInstallation):
-        currentInstallation = updatedInstallation
-        print("Successfully save myCustomInstallationKey to ParseServer: \(updatedInstallation)")
+        print("Successfully saved Installation to ParseServer: \(updatedInstallation)")
     case .failure(let error):
         print("Failed to update installation: \(error)")
     }
@@ -59,12 +58,10 @@ currentInstallation?.save { results in
 /*: Update your `ParseInstallation` `customKey` value.
     Performs work on background queue and returns to designated on
     designated callbackQueue. If no callbackQueue is specified it
-    returns to main queue. Using `mutable` allows you to only
-    send the updated keys to the parse server as opposed to the
-    whole object.
+    returns to main queue.
  */
-var installationToUpdate = currentInstallation?.mutable
-installationToUpdate?.customKey = "updatedValue"
+var installationToUpdate = Installation.current
+installationToUpdate?.customKey = "myCustomInstallationKey2"
 installationToUpdate?.save { results in
 
     switch results {
