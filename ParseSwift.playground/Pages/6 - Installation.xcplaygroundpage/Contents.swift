@@ -13,7 +13,7 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-struct Installation: ParseInstallation {
+struct Installation: ParseInstallation, ParseObjectMutable {
     //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
@@ -63,8 +63,9 @@ currentInstallation?.save { results in
     send the updated keys to the parse server as opposed to the
     whole object.
  */
-currentInstallation?.customKey = "updatedValue"
-currentInstallation?.save { results in
+var installationToUpdate = currentInstallation?.mutable
+installationToUpdate?.customKey = "updatedValue"
+installationToUpdate?.save { results in
 
     switch results {
     case .success(let updatedInstallation):
