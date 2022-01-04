@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 2.5.1 Docs
+          ParseSwift 3.0.0 Docs
         </a>
          (96% documented)
       </p>
@@ -81,6 +81,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ParseTextOption.html">ParseTextOption</a>
               </li>
             </ul>
           </li>
@@ -159,6 +162,12 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:isUsingEQ:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:isUsingEQ:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
               </li>
               <li class="nav-group-task">
@@ -168,6 +177,12 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift9hasSuffix3key6suffix9modifiersAA15QueryConstraintVSS_S2SSgtF">hasSuffix(key:suffix:modifiers:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift9isNotNull3keyAA15QueryConstraintVSS_tF">isNotNull(key:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6isNull3keyAA15QueryConstraintVSS_tF">isNull(key:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift17matchesKeyInQuery3key05queryD00H0AA0F10ConstraintVSS_SSAA0F0VyxGtAA0A6ObjectRzlF">matchesKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
@@ -175,6 +190,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11matchesText3key4textAA15QueryConstraintVSS_SStF">matchesText(key:text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11matchesText3key4text7optionsAA15QueryConstraintVSS_SSSDyAA0aD6OptionOSE_pGtKF">matchesText(key:text:options:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift4near3key8geoPointAA15QueryConstraintVSS_AA0a3GeoF0VtF">near(key:geoPoint:)</a>
@@ -337,10 +355,19 @@
                 <a class="nav-group-task-link" href="../Structs/ParseGeoPoint.html">ParseGeoPoint</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseGitHub.html">ParseGitHub</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseGoogle.html">ParseGoogle</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseHealth.html">ParseHealth</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseLDAP.html">ParseLDAP</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseLinkedIn.html">ParseLinkedIn</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseOperation.html">ParseOperation</a>
@@ -693,6 +720,152 @@ or any authentication type that conforms to <code><a href="../Protocols/ParseAut
             </div>
             <div class="task-group">
               <div class="task-name-container">
+                <a name="/3rd%20Party%20Authentication%20-%20ParseGitHub"></a>
+                <a name="//apple_ref/swift/Section/3rd Party Authentication - ParseGitHub" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/3rd%20Party%20Authentication%20-%20ParseGitHub"></a>
+                  <h3 class="section-name"><span>3rd Party Authentication - ParseGitHub</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE6githubAA0A6GitHubVyxGvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/github" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6githubAA0A6GitHubVyxGvpZ">github</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A github <code>ParseUser</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">github</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseGitHub.html">ParseGitHub</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE6githubAA0A6GitHubVyxGvp"></a>
+                    <a name="//apple_ref/swift/Property/github" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6githubAA0A6GitHubVyxGvp">github</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An github <code>ParseUser</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">github</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseGitHub.html">ParseGitHub</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/3rd%20Party%20Authentication%20-%20ParseGoogle"></a>
+                <a name="//apple_ref/swift/Section/3rd Party Authentication - ParseGoogle" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/3rd%20Party%20Authentication%20-%20ParseGoogle"></a>
+                  <h3 class="section-name"><span>3rd Party Authentication - ParseGoogle</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE6googleAA0A6GoogleVyxGvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/google" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6googleAA0A6GoogleVyxGvpZ">google</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A google <code>ParseUser</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">google</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseGoogle.html">ParseGoogle</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE6googleAA0A6GoogleVyxGvp"></a>
+                    <a name="//apple_ref/swift/Property/google" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE6googleAA0A6GoogleVyxGvp">google</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An google <code>ParseUser</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">google</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseGoogle.html">ParseGoogle</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
                 <a name="/3rd%20Party%20Authentication%20-%20ParseLDAP"></a>
                 <a name="//apple_ref/swift/Section/3rd Party Authentication - ParseLDAP" class="dashAnchor"></a>
                 <div class="section-name-container">
@@ -756,6 +929,79 @@ or any authentication type that conforms to <code><a href="../Protocols/ParseAut
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">ldap</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseLDAP.html">ParseLDAP</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+              </ul>
+            </div>
+            <div class="task-group">
+              <div class="task-name-container">
+                <a name="/3rd%20Party%20Authentication%20-%20ParseLinkedIn"></a>
+                <a name="//apple_ref/swift/Section/3rd Party Authentication - ParseLinkedIn" class="dashAnchor"></a>
+                <div class="section-name-container">
+                  <a class="section-name-link" href="#/3rd%20Party%20Authentication%20-%20ParseLinkedIn"></a>
+                  <h3 class="section-name"><span>3rd Party Authentication - ParseLinkedIn</span>
+</h3>
+                </div>
+              </div>
+              <ul class="item-container">
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE8linkedinAA0A8LinkedInVyxGvpZ"></a>
+                    <a name="//apple_ref/swift/Variable/linkedin" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE8linkedinAA0A8LinkedInVyxGvpZ">linkedin</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>A linkedin <code>ParseUser</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">static</span> <span class="k">var</span> <span class="nv">linkedin</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseLinkedIn.html">ParseLinkedIn</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A4UserPAAE8linkedinAA0A8LinkedInVyxGvp"></a>
+                    <a name="//apple_ref/swift/Property/linkedin" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A4UserPAAE8linkedinAA0A8LinkedInVyxGvp">linkedin</a>
+                    </code>
+                      <span class="declaration-note">
+                        Extension method
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>An linkedin <code>ParseUser</code>.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="k">var</span> <span class="nv">linkedin</span><span class="p">:</span> <span class="kt"><a href="../Structs/ParseLinkedIn.html">ParseLinkedIn</a></span><span class="o">&lt;</span><span class="k">Self</span><span class="o">&gt;</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -1473,7 +1719,8 @@ desires a different policy, it should be inserted in <code>options</code>.
                               </td>
                               <td>
                                 <div>
-                                  <p>The data that represents the authentication.</p>
+                                  <p>The data that represents the authentication.
+See <a href="https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications">supported 3rd party authentications</a> for more information.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1558,7 +1805,8 @@ Returns an instance of the successfully logged in <code>ParseUser</code>.</p>
                               </td>
                               <td>
                                 <div>
-                                  <p>The data that represents the authentication.</p>
+                                  <p>The data that represents the authentication.
+See <a href="https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications">supported 3rd party authentications</a> for more information.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1886,7 +2134,8 @@ desires a different policy, it should be inserted in <code>options</code>.
                               </td>
                               <td>
                                 <div>
-                                  <p>The data that represents the authentication.</p>
+                                  <p>The data that represents the authentication.
+See <a href="https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications">supported 3rd party authentications</a> for more information.</p>
                                 </div>
                               </td>
                             </tr>
@@ -1977,7 +2226,8 @@ desires a different policy, it should be inserted in <code>options</code>.
                               </td>
                               <td>
                                 <div>
-                                  <p>The data that represents the authentication.</p>
+                                  <p>The data that represents the authentication.
+See <a href="https://docs.parseplatform.org/parse-server/guide/#supported-3rd-party-authentications">supported 3rd party authentications</a> for more information.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2654,10 +2904,10 @@ desires a different policy, it should be inserted in <code>options</code>.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    If you are using <code>ParseConfiguration.allowCustomObjectId = true</code>
+    If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
 <code>isIgnoreCustomObjectIdConfig = false</code>. Setting
-<code>ParseConfiguration.allowCustomObjectId = true</code> and
+<code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
 <code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
@@ -2694,7 +2944,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                               <td>
                                 <div>
                                   <p>Ignore checking for <code>objectId</code>
-when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
+when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow for mixed
 <code>objectId</code> environments. Defaults to false.</p>
                                 </div>
                               </td>
@@ -3501,10 +3751,10 @@ desires a different policy, it should be inserted in <code>options</code>.
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    If you are using <code>ParseConfiguration.allowCustomObjectId = true</code>
+    If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
 <code>isIgnoreCustomObjectIdConfig = false</code>. Setting
-<code>ParseConfiguration.allowCustomObjectId = true</code> and
+<code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
 <code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
@@ -3536,7 +3786,7 @@ client-side checks are disabled. Developers are responsible for handling such ca
                               <td>
                                 <div>
                                   <p>Ignore checking for <code>objectId</code>
-when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
+when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow for mixed
 <code>objectId</code> environments. Defaults to false.</p>
                                 </div>
                               </td>
@@ -5433,10 +5683,10 @@ It should have the following argument signature: <code>(Result&lt;Self, ParseErr
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    If you are using <code>ParseConfiguration.allowCustomObjectId = true</code>
+    If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
 <code>isIgnoreCustomObjectIdConfig = false</code>. Setting
-<code>ParseConfiguration.allowCustomObjectId = true</code> and
+<code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
 <code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
@@ -5473,7 +5723,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                               <td>
                                 <div>
                                   <p>Ignore checking for <code>objectId</code>
-when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
+when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow for mixed
 <code>objectId</code> environments. Defaults to false.</p>
                                 </div>
                               </td>
@@ -5523,10 +5773,10 @@ when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mix
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    If you are using <code>ParseConfiguration.allowCustomObjectId = true</code>
+    If you are using <code>ParseConfiguration.isAllowingCustomObjectIds = true</code>
 and plan to generate all of your <code>objectId</code>&lsquo;s on the client-side then you should leave
 <code>isIgnoreCustomObjectIdConfig = false</code>. Setting
-<code>ParseConfiguration.allowCustomObjectId = true</code> and
+<code>ParseConfiguration.isAllowingCustomObjectIds = true</code> and
 <code>isIgnoreCustomObjectIdConfig = true</code> means the client will generate <code>objectId</code>&rsquo;s
 and the server will generate an <code>objectId</code> only when the client does not provide one. This can
 increase the probability of colliiding <code>objectId</code>&rsquo;s as the client and server <code>objectId</code>&rsquo;s may be generated using
@@ -5567,7 +5817,7 @@ desires a different policy, it should be inserted in <code>options</code>.
                               <td>
                                 <div>
                                   <p>Ignore checking for <code>objectId</code>
-when <code>ParseConfiguration.allowCustomObjectId = true</code> to allow for mixed
+when <code>ParseConfiguration.isAllowingCustomObjectIds = true</code> to allow for mixed
 <code>objectId</code> environments. Defaults to false.</p>
                                 </div>
                               </td>
@@ -5949,7 +6199,7 @@ It should have the following argument signature: <code>(Result&lt;Void, ParseErr
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-23)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

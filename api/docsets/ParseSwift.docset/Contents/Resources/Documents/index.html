@@ -20,7 +20,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ParseSwift 2.5.1 Docs
+          ParseSwift 3.0.0 Docs
         </a>
          (96% documented)
       </p>
@@ -80,6 +80,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Enums/Event.html">Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/ParseTextOption.html">ParseTextOption</a>
               </li>
             </ul>
           </li>
@@ -158,6 +161,12 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:isUsingEQ:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:isUsingEQ:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
               </li>
               <li class="nav-group-task">
@@ -167,6 +176,12 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift9hasSuffix3key6suffix9modifiersAA15QueryConstraintVSS_S2SSgtF">hasSuffix(key:suffix:modifiers:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift9isNotNull3keyAA15QueryConstraintVSS_tF">isNotNull(key:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift6isNull3keyAA15QueryConstraintVSS_tF">isNull(key:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift17matchesKeyInQuery3key05queryD00H0AA0F10ConstraintVSS_SSAA0F0VyxGtAA0A6ObjectRzlF">matchesKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
@@ -174,6 +189,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift11matchesText3key4textAA15QueryConstraintVSS_SStF">matchesText(key:text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift11matchesText3key4text7optionsAA15QueryConstraintVSS_SSSDyAA0aD6OptionOSE_pGtKF">matchesText(key:text:options:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift4near3key8geoPointAA15QueryConstraintVSS_AA0a3GeoF0VtF">near(key:geoPoint:)</a>
@@ -336,10 +354,19 @@
                 <a class="nav-group-task-link" href="Structs/ParseGeoPoint.html">ParseGeoPoint</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseGitHub.html">ParseGitHub</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseGoogle.html">ParseGoogle</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ParseHealth.html">ParseHealth</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ParseLDAP.html">ParseLDAP</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseLinkedIn.html">ParseLinkedIn</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ParseOperation.html">ParseOperation</a>
@@ -410,7 +437,7 @@
 
 <p>For more information about the Parse Platform and its features, see the public <a href="https://docs.parseplatform.org">documentation</a>. The ParseSwift SDK is not a port of the <a href="https://github.com/parse-community/Parse-SDK-iOS-OSX">Parse-SDK-iOS-OSX SDK</a> and though some of it may feel familiar, it is not backwards compatible and is designed with a new philosophy. For more details visit the <a href="http://parseplatform.org/Parse-Swift/api/">api documentation</a>.</p>
 
-<p>To learn how to use or experiment with ParseSwift, you can run and edit the <a href="https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground/Pages">ParseSwift.playground</a>. You can use the parse-server in <a href="https://github.com/netreconlab/parse-hipaa/tree/parse-swift">this repo</a> which has docker compose files (<code>docker-compose up</code> gives you a working server) configured to connect with the playground files, has <a href="https://github.com/parse-community/parse-dashboard">Parse Dashboard</a>, and can be used with mongoDB or PostgreSQL.</p>
+<p>To learn how to use or experiment with ParseSwift, you can run and edit the <a href="https://github.com/parse-community/Parse-Swift/tree/main/ParseSwift.playground/Pages">ParseSwift.playground</a>. You can use the parse-server in <a href="https://github.com/netreconlab/parse-hipaa/tree/parse-swift">this repo</a> which has docker compose files (<code>docker-compose up</code> gives you a working server) configured to connect with the playground files, has <a href="https://github.com/parse-community/parse-dashboard">Parse Dashboard</a>, and can be used with MongoDB or PostgreSQL. You can also configure the Swift Playgrounds to work with your own Parse Server by editing the configuation in <a href="https://github.com/parse-community/Parse-Swift/blob/e9ba846c399257100b285d25d2bd055628b13b4b/ParseSwift.playground/Sources/Common.swift#L4-L19">Common.swift</a>. To learn more, check out <a href="https://github.com/parse-community/Parse-Swift/blob/main/CONTRIBUTING.md#swift-playgrounds">CONTRIBUTING.md</a>.</p>
 
 <hr>
 
@@ -443,7 +470,7 @@
 <span class="k">let</span> <span class="nv">package</span> <span class="o">=</span> <span class="kt">Package</span><span class="p">(</span>
     <span class="nv">name</span><span class="p">:</span> <span class="s">"YOUR_PROJECT_NAME"</span><span class="p">,</span>
     <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span>
-        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/parse-community/Parse-Swift"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"2.3.1"</span><span class="p">),</span>
+        <span class="o">.</span><span class="nf">package</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="s">"https://github.com/parse-community/Parse-Swift"</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="s">"3.0.0"</span><span class="p">),</span>
     <span class="p">]</span>
 <span class="p">)</span>
 </code></pre>
@@ -451,7 +478,7 @@
 <p>Then run <code>swift build</code>. </p>
 
 <p>You can also install using SPM in your Xcode project by going to 
-&ldquo;Project-&gt;NameOfYourProject-&gt;Swift Packages&rdquo; and placing &ldquo;<a href="https://github.com/parse-community/Parse-Swift.git">https://github.com/parse-community/Parse-Swift.git</a>&rdquo; in the 
+&ldquo;Project-&gt;NameOfYourProject-&gt;Swift Packages&rdquo; and placing <code>https://github.com/parse-community/Parse-Swift.git</code> in the 
 search field.</p>
 <h3 id='a-href-https-cocoapods-org-cocoapods-a' class='heading'><a href="https://cocoapods.org">CocoaPods</a></h3>
 
@@ -490,7 +517,7 @@ search field.</p>
 <h4 id='swiftui-view-models-using-combine' class='heading'>SwiftUI View Models Using Combine</h4>
 
 <p>The LiveQuery client interface is based around the concept of <code><a href="Classes/Subscription.html">Subscription</a></code>s. You can register any <code><a href="Structs/Query.html">Query</a></code> for live updates from the associated live query server and use the query as a view model for a SwiftUI view by simply using the <code>subscribe</code> property of a query:</p>
-<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myQuery</span> <span class="o">=</span> <span class="kt">GameScore</span><span class="o">.</span><span class="nf">query</span><span class="p">(</span><span class="s">"score"</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">)</span>
+<pre class="highlight swift"><code><span class="k">let</span> <span class="nv">myQuery</span> <span class="o">=</span> <span class="kt">GameScore</span><span class="o">.</span><span class="nf">query</span><span class="p">(</span><span class="s">"points"</span> <span class="o">&gt;</span> <span class="mi">9</span><span class="p">)</span>
 
 <span class="kd">struct</span> <span class="kt">ContentView</span><span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
 
@@ -510,15 +537,15 @@ search field.</p>
                 <span class="k">switch</span> <span class="n">event</span><span class="o">.</span><span class="n">event</span> <span class="p">{</span>
 
                 <span class="k">case</span> <span class="o">.</span><span class="nf">entered</span><span class="p">(</span><span class="k">let</span> <span class="nv">object</span><span class="p">):</span>
-                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Entered with score: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">score</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Entered with points: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">points</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                 <span class="k">case</span> <span class="o">.</span><span class="nf">left</span><span class="p">(</span><span class="k">let</span> <span class="nv">object</span><span class="p">):</span>
-                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Left with score: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">score</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Left with points: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">points</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                 <span class="k">case</span> <span class="o">.</span><span class="nf">created</span><span class="p">(</span><span class="k">let</span> <span class="nv">object</span><span class="p">):</span>
-                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Created with score: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">score</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Created with points: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">points</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                 <span class="k">case</span> <span class="o">.</span><span class="nf">updated</span><span class="p">(</span><span class="k">let</span> <span class="nv">object</span><span class="p">):</span>
-                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Updated with score: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">score</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Updated with points: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">points</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                 <span class="k">case</span> <span class="o">.</span><span class="nf">deleted</span><span class="p">(</span><span class="k">let</span> <span class="nv">object</span><span class="p">):</span>
-                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Deleted with score: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">score</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
+                    <span class="kt">Text</span><span class="p">(</span><span class="s">"Deleted with points: </span><span class="se">\(</span><span class="n">object</span><span class="o">.</span><span class="n">points</span><span class="se">)</span><span class="s">"</span><span class="p">)</span>
                 <span class="p">}</span>
             <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
                 <span class="kt">Text</span><span class="p">(</span><span class="s">"Not subscribed to a query"</span><span class="p">)</span>
@@ -615,7 +642,7 @@ search field.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-23)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

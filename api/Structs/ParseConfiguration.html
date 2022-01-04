@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 2.5.1 Docs
+          ParseSwift 3.0.0 Docs
         </a>
          (96% documented)
       </p>
@@ -81,6 +81,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ParseTextOption.html">ParseTextOption</a>
               </li>
             </ul>
           </li>
@@ -159,6 +162,12 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:isUsingEQ:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:isUsingEQ:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
               </li>
               <li class="nav-group-task">
@@ -168,6 +177,12 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift9hasSuffix3key6suffix9modifiersAA15QueryConstraintVSS_S2SSgtF">hasSuffix(key:suffix:modifiers:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift9isNotNull3keyAA15QueryConstraintVSS_tF">isNotNull(key:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6isNull3keyAA15QueryConstraintVSS_tF">isNull(key:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift17matchesKeyInQuery3key05queryD00H0AA0F10ConstraintVSS_SSAA0F0VyxGtAA0A6ObjectRzlF">matchesKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
@@ -175,6 +190,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11matchesText3key4textAA15QueryConstraintVSS_SStF">matchesText(key:text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11matchesText3key4text7optionsAA15QueryConstraintVSS_SSSDyAA0aD6OptionOSE_pGtKF">matchesText(key:text:options:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift4near3key8geoPointAA15QueryConstraintVSS_AA0a3GeoF0VtF">near(key:geoPoint:)</a>
@@ -337,10 +355,19 @@
                 <a class="nav-group-task-link" href="../Structs/ParseGeoPoint.html">ParseGeoPoint</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseGitHub.html">ParseGitHub</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseGoogle.html">ParseGoogle</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseHealth.html">ParseHealth</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseLDAP.html">ParseLDAP</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseLinkedIn.html">ParseLinkedIn</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseOperation.html">ParseOperation</a>
@@ -535,9 +562,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A13ConfigurationV19allowCustomObjectIdSbvp"></a>
-                    <a name="//apple_ref/swift/Property/allowCustomObjectId" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV19allowCustomObjectIdSbvp">allowCustomObjectId</a>
+                    <a name="/s:10ParseSwift0A13ConfigurationV25isAllowingCustomObjectIdsSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isAllowingCustomObjectIds" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV25isAllowingCustomObjectIdsSbvp">isAllowingCustomObjectIds</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -552,7 +579,7 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">allowCustomObjectId</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">isAllowingCustomObjectIds</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -562,9 +589,9 @@
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A13ConfigurationV15useTransactionsSbvp"></a>
-                    <a name="//apple_ref/swift/Property/useTransactions" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV15useTransactionsSbvp">useTransactions</a>
+                    <a name="/s:10ParseSwift0A13ConfigurationV19isUsingTransactionsSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isUsingTransactions" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV19isUsingTransactionsSbvp">isUsingTransactions</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -584,7 +611,39 @@
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">useTransactions</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">isUsingTransactions</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A13ConfigurationV27isUsingEqualQueryConstraintSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isUsingEqualQueryConstraint" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV27isUsingEqualQueryConstraintSbvp">isUsingEqualQueryConstraint</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Use the <strong>$eq</strong> query constraint when querying.</p>
+<div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    This is known not to work for LiveQuery on Parse Servers &lt;= 5.0.0.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">isUsingEqualQueryConstraint</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -707,9 +766,9 @@ for more info.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A13ConfigurationV18migrateFromObjcSDKSbvp"></a>
-                    <a name="//apple_ref/swift/Property/migrateFromObjcSDK" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV18migrateFromObjcSDKSbvp">migrateFromObjcSDK</a>
+                    <a name="/s:10ParseSwift0A13ConfigurationV22isMigratingFromObjcSDKSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isMigratingFromObjcSDK" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV22isMigratingFromObjcSDKSbvp">isMigratingFromObjcSDK</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -726,7 +785,7 @@ ParseSwift. Defaults to <code>false</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">migrateFromObjcSDK</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">isMigratingFromObjcSDK</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -736,9 +795,9 @@ ParseSwift. Defaults to <code>false</code>.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A13ConfigurationV22deleteKeychainIfNeededSbvp"></a>
-                    <a name="//apple_ref/swift/Property/deleteKeychainIfNeeded" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV22deleteKeychainIfNeededSbvp">deleteKeychainIfNeeded</a>
+                    <a name="/s:10ParseSwift0A13ConfigurationV26isDeletingKeychainIfNeededSbvp"></a>
+                    <a name="//apple_ref/swift/Property/isDeletingKeychainIfNeeded" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV26isDeletingKeychainIfNeededSbvp">isDeletingKeychainIfNeeded</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -754,7 +813,7 @@ Defaults to <code>false</code>.</p>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">deleteKeychainIfNeeded</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">internal(set)</span> <span class="k">var</span> <span class="nv">isDeletingKeychainIfNeeded</span><span class="p">:</span> <span class="kt">Bool</span> <span class="p">{</span> <span class="k">get</span> <span class="p">}</span></code></pre>
 
                         </div>
                       </div>
@@ -792,9 +851,9 @@ Defaults to 5.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift0A13ConfigurationV13applicationId9clientKey06masterG09serverURL015liveQueryServerJ0017allowCustomObjectE015useTransactions13keyValueStore18requestCachePolicy19cacheMemoryCapacity0Y12DiskCapacity18migrateFromObjcSDK22deleteKeychainIfNeeded21httpAdditionalHeaders21maxConnectionAttempts14authenticationACSS_SSSgAT10Foundation0J0VAWSgS2bAA0agtU0_pSgSo012NSURLRequestwX0VS2iS2bSDys11AnyHashableVypGSgSiySo28NSURLAuthenticationChallengeC_ySo36NSURLSessionAuthChallengeDispositionV_So15NSURLCredentialCSgtXEtcSgtcfc"></a>
-                    <a name="//apple_ref/swift/Method/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:useTransactions:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:migrateFromObjcSDK:deleteKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV13applicationId9clientKey06masterG09serverURL015liveQueryServerJ0017allowCustomObjectE015useTransactions13keyValueStore18requestCachePolicy19cacheMemoryCapacity0Y12DiskCapacity18migrateFromObjcSDK22deleteKeychainIfNeeded21httpAdditionalHeaders21maxConnectionAttempts14authenticationACSS_SSSgAT10Foundation0J0VAWSgS2bAA0agtU0_pSgSo012NSURLRequestwX0VS2iS2bSDys11AnyHashableVypGSgSiySo28NSURLAuthenticationChallengeC_ySo36NSURLSessionAuthChallengeDispositionV_So15NSURLCredentialCSgtXEtcSgtcfc">init(applicationId:<wbr>clientKey:<wbr>masterKey:<wbr>serverURL:<wbr>liveQueryServerURL:<wbr>allowCustomObjectId:<wbr>useTransactions:<wbr>keyValueStore:<wbr>requestCachePolicy:<wbr>cacheMemoryCapacity:<wbr>cacheDiskCapacity:<wbr>migrateFromObjcSDK:<wbr>deleteKeychainIfNeeded:<wbr>httpAdditionalHeaders:<wbr>maxConnectionAttempts:<wbr>authentication:<wbr>)</a>
+                    <a name="/s:10ParseSwift0A13ConfigurationV13applicationId9clientKey06masterG09serverURL015liveQueryServerJ0017allowCustomObjectE0010isAllowingoP3Ids0Q17UsingTransactions0qt5EqualL10Constraint13keyValueStore18requestCachePolicy19cacheMemoryCapacity17cacheDiskCapacity0Q20MigratingFromObjcSDK0Q24DeletingKeychainIfNeeded21httpAdditionalHeaders21maxConnectionAttempts14authenticationACSS_SSSgAV10Foundation0J0VAYSgS4bAA0agyZ0_pSgSo23NSURLRequestCachePolicyVS2iS2bSDys11AnyHashableVypGSgSiySo28NSURLAuthenticationChallengeC_ySo36NSURLSessionAuthChallengeDispositionV_So15NSURLCredentialCSgtXEtcSgtcfc"></a>
+                    <a name="//apple_ref/swift/Method/init(applicationId:clientKey:masterKey:serverURL:liveQueryServerURL:allowCustomObjectId:isAllowingCustomObjectIds:isUsingTransactions:isUsingEqualQueryConstraint:keyValueStore:requestCachePolicy:cacheMemoryCapacity:cacheDiskCapacity:isMigratingFromObjcSDK:isDeletingKeychainIfNeeded:httpAdditionalHeaders:maxConnectionAttempts:authentication:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A13ConfigurationV13applicationId9clientKey06masterG09serverURL015liveQueryServerJ0017allowCustomObjectE0010isAllowingoP3Ids0Q17UsingTransactions0qt5EqualL10Constraint13keyValueStore18requestCachePolicy19cacheMemoryCapacity17cacheDiskCapacity0Q20MigratingFromObjcSDK0Q24DeletingKeychainIfNeeded21httpAdditionalHeaders21maxConnectionAttempts14authenticationACSS_SSSgAV10Foundation0J0VAYSgS4bAA0agyZ0_pSgSo23NSURLRequestCachePolicyVS2iS2bSDys11AnyHashableVypGSgSiySo28NSURLAuthenticationChallengeC_ySo36NSURLSessionAuthChallengeDispositionV_So15NSURLCredentialCSgtXEtcSgtcfc">init(applicationId:<wbr>clientKey:<wbr>masterKey:<wbr>serverURL:<wbr>liveQueryServerURL:<wbr>allowCustomObjectId:<wbr>isAllowingCustomObjectIds:<wbr>isUsingTransactions:<wbr>isUsingEqualQueryConstraint:<wbr>keyValueStore:<wbr>requestCachePolicy:<wbr>cacheMemoryCapacity:<wbr>cacheDiskCapacity:<wbr>isMigratingFromObjcSDK:<wbr>isDeletingKeychainIfNeeded:<wbr>httpAdditionalHeaders:<wbr>maxConnectionAttempts:<wbr>authentication:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -805,7 +864,7 @@ Defaults to 5.</p>
                         <p>Create a Parse Swift configuration.</p>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    <code><a href="../Structs/ParseConfiguration.html#/s:10ParseSwift0A13ConfigurationV15useTransactionsSbvp">useTransactions</a></code> is experimental.
+    <code><a href="../Structs/ParseConfiguration.html#/s:10ParseSwift0A13ConfigurationV19isUsingTransactionsSbvp">isUsingTransactions</a></code> is experimental.
 
 </div>
 
@@ -820,13 +879,15 @@ Defaults to 5.</p>
             <span class="nv">serverURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">,</span>
             <span class="nv">liveQueryServerURL</span><span class="p">:</span> <span class="kt">URL</span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
             <span class="nv">allowCustomObjectId</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-            <span class="nv">useTransactions</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nv">isAllowingCustomObjectIds</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nv">isUsingTransactions</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nv">isUsingEqualQueryConstraint</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
             <span class="nv">keyValueStore</span><span class="p">:</span> <span class="kt"><a href="../Protocols/ParseKeyValueStore.html">ParseKeyValueStore</a></span><span class="p">?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
             <span class="nv">requestCachePolicy</span><span class="p">:</span> <span class="kt">URLRequest</span><span class="o">.</span><span class="kt">CachePolicy</span> <span class="o">=</span> <span class="o">.</span><span class="n">useProtocolCachePolicy</span><span class="p">,</span>
             <span class="nv">cacheMemoryCapacity</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">512_000</span><span class="p">,</span>
             <span class="nv">cacheDiskCapacity</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">10_000_000</span><span class="p">,</span>
-            <span class="nv">migrateFromObjcSDK</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
-            <span class="nv">deleteKeychainIfNeeded</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nv">isMigratingFromObjcSDK</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+            <span class="nv">isDeletingKeychainIfNeeded</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
             <span class="nv">httpAdditionalHeaders</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyHashable</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?</span> <span class="o">=</span> <span class="kc">nil</span><span class="p">,</span>
             <span class="nv">maxConnectionAttempts</span><span class="p">:</span> <span class="kt">Int</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span>
             <span class="nv">authentication</span><span class="p">:</span> <span class="p">((</span><span class="kt">URLAuthenticationChallenge</span><span class="p">,</span>
@@ -902,7 +963,7 @@ Defaults to 5.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>allowCustomObjectId</em>
+                                <em>isAllowingCustomObjectIds</em>
                                 </code>
                               </td>
                               <td>
@@ -915,12 +976,24 @@ side for each object. Must be enabled on the server to work.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>useTransactions</em>
+                                <em>isUsingTransactions</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
                                   <p>Use transactions when saving/updating multiple objects.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingEqualQueryConstraint</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Use the <strong>$eq</strong> query constraint when querying.</p>
                                 </div>
                               </td>
                             </tr>
@@ -980,7 +1053,7 @@ for more info.</p>
                             <tr>
                               <td>
                                 <code>
-                                <em>migrateFromObjcSDK</em>
+                                <em>isMigratingFromObjcSDK</em>
                                 </code>
                               </td>
                               <td>
@@ -993,7 +1066,7 @@ to <code>true</code> will attempt to migrate relevant data stored in the Keychai
                             <tr>
                               <td>
                                 <code>
-                                <em>deleteKeychainIfNeeded</em>
+                                <em>isDeletingKeychainIfNeeded</em>
                                 </code>
                               </td>
                               <td>
@@ -1060,7 +1133,7 @@ See Apple&rsquo;s <a href="https://developer.apple.com/documentation/foundation/
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-23)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 2.5.1 Docs
+          ParseSwift 3.0.0 Docs
         </a>
          (96% documented)
       </p>
@@ -81,6 +81,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Enums/Event.html">Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Enums/ParseTextOption.html">ParseTextOption</a>
               </li>
             </ul>
           </li>
@@ -159,6 +162,12 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:isUsingEQ:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:isUsingEQ:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
               </li>
               <li class="nav-group-task">
@@ -168,6 +177,12 @@
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift9hasSuffix3key6suffix9modifiersAA15QueryConstraintVSS_S2SSgtF">hasSuffix(key:suffix:modifiers:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift9isNotNull3keyAA15QueryConstraintVSS_tF">isNotNull(key:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift6isNull3keyAA15QueryConstraintVSS_tF">isNull(key:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift17matchesKeyInQuery3key05queryD00H0AA0F10ConstraintVSS_SSAA0F0VyxGtAA0A6ObjectRzlF">matchesKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
@@ -175,6 +190,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11matchesText3key4textAA15QueryConstraintVSS_SStF">matchesText(key:text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift11matchesText3key4text7optionsAA15QueryConstraintVSS_SSSDyAA0aD6OptionOSE_pGtKF">matchesText(key:text:options:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Functions.html#/s:10ParseSwift4near3key8geoPointAA15QueryConstraintVSS_AA0a3GeoF0VtF">near(key:geoPoint:)</a>
@@ -337,10 +355,19 @@
                 <a class="nav-group-task-link" href="../Structs/ParseGeoPoint.html">ParseGeoPoint</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseGitHub.html">ParseGitHub</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseGoogle.html">ParseGoogle</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseHealth.html">ParseHealth</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseLDAP.html">ParseLDAP</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="../Structs/ParseLinkedIn.html">ParseLinkedIn</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="../Structs/ParseOperation.html">ParseOperation</a>
@@ -777,6 +804,52 @@ This is useful for pagination. Default is to skip zero results.</p>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">hint</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">value</span><span class="p">:</span> <span class="kt">U</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Encodable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>value</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>String or Object of index that should be used when executing query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV15sortByTextScoreACyxGyF"></a>
+                    <a name="//apple_ref/swift/Method/sortByTextScore()" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV15sortByTextScoreACyxGyF">sortByTextScore()</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Method to sort the full text search by text score.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">sortByTextScore</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">Query</span><span class="o">&lt;</span><span class="kt">T</span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -2114,7 +2187,7 @@ Upon completing the registration, the subscribe handler will be called with the 
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-throws">
@@ -2313,7 +2386,7 @@ order, and may not use limit or skip.
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-throws">
@@ -2436,7 +2509,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-throws">
@@ -2451,6 +2524,142 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">countExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>explain</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Used to toggle the information on the query plan.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>An array of ParseObjects.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV9withCount7optionsSayxG_SitShyAA3APIV6OptionOG_tYaKF"></a>
+                    <a name="//apple_ref/swift/Method/withCount(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV9withCount7optionsSayxG_SitShyAA3APIV6OptionOG_tYaKF">withCount(options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Finds objects <em>asynchronously</em> and returns a tuple of the results which include
+the total number of objects satisfying this query, despite limits/skip. Might be useful for pagination.</p>
+<div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">withCount</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">([</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">Int</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>The count of <code><a href="../Protocols/ParseObject.html">ParseObject</a></code>&lsquo;s.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV16withCountExplain7optionsSayqd__GShyAA3APIV6OptionOG_tYaKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/withCountExplain(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV16withCountExplain7optionsSayqd__GShyAA3APIV6OptionOG_tYaKSeRd__lF">withCountExplain(options:<wbr>)</a>
+                    </code>
+                      <span class="declaration-note">
+                        Asynchronous
+                      </span>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query plan information for withCount objects <em>asynchronously</em>.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
+</div><div class="aside aside-throws">
+    <p class="aside-title">Throws</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">withCountExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
 
                         </div>
                       </div>
@@ -2592,7 +2801,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-throws">
@@ -2749,7 +2958,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-throws">
@@ -2887,7 +3096,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div>
@@ -3065,7 +3274,7 @@ order, and may not use limit or skip.
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div>
@@ -3173,7 +3382,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div>
@@ -3184,6 +3393,128 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">countExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>explain</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Used to toggle the information on the query plan.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV18withCountPublisher7options7Combine6FutureCySayxG_SitAA0A5ErrorVGShyAA3APIV6OptionOG_tF"></a>
+                    <a name="//apple_ref/swift/Method/withCountPublisher(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV18withCountPublisher7options7Combine6FutureCySayxG_SitAA0A5ErrorVGShyAA3APIV6OptionOG_tF">withCountPublisher(options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Finds objects <em>asynchronously</em> and returns a tuple of the results which include
+the total number of objects satisfying this query, despite limits/skip. Might be useful for pagination.
+Publishes when complete.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="nf">withCountPublisher</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">([</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">Int</span><span class="p">),</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                      <div>
+                        <h4>Return Value</h4>
+                        <p>A publisher that eventually produces a single value and then finishes or fails.</p>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV25withCountExplainPublisher7options7Combine6FutureCySayqd__GAA0A5ErrorVGShyAA3APIV6OptionOG_tSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/withCountExplainPublisher(options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV25withCountExplainPublisher7options7Combine6FutureCySayqd__GAA0A5ErrorVGShyAA3APIV6OptionOG_tSeRd__lF">withCountExplainPublisher(options:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query plan information for counting objects <em>asynchronously</em> and publishes when complete.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">withCountExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
 
                         </div>
                       </div>
@@ -3315,7 +3646,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div>
@@ -3458,7 +3789,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div>
@@ -3598,7 +3929,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-throws">
@@ -3655,7 +3986,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Finds objects <em>asynchronously</em> and calls the given block with the results.</p>
+                        <p>Finds objects <em>asynchronously</em> and returns a completion block with the results.</p>
 
                       </div>
                       <div class="declaration">
@@ -3728,12 +4059,12 @@ It should have the following argument signature: <code>(Result&lt;[ResultType], 
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Query plan information for finding objects <em>asynchronously</em> and calls the given block with the results.</p>
+                        <p>Query plan information for finding objects <em>asynchronously</em> and returns a completion block with the results.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div>
@@ -3972,7 +4303,7 @@ constructed query and sets an error if any occurred.</p>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-throws">
@@ -4107,7 +4438,7 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Query plan information for getting an object <em>asynchronously</em> and calls the given block with the result.</p>
+                        <p>Query plan information for getting an object <em>asynchronously</em> and returns a completion block with the result.</p>
 <div class="aside aside-warning">
     <p class="aside-title">Warning</p>
     This method mutates the query. It will reset the limit to <code>1</code>.
@@ -4116,7 +4447,7 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div>
@@ -4253,7 +4584,7 @@ constructed query and sets an error if there was one.</p>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-throws">
@@ -4310,14 +4641,15 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Counts objects <em>asynchronously</em> and calls the given block with the counts.</p>
+                        <p>Counts objects <em>asynchronously</em> and returns a completion block with the count.</p>
 
                       </div>
                       <div class="declaration">
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span> <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">count</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                  <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                   <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">Int</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
@@ -4382,7 +4714,162 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                     <section class="section">
                       <div class="pointer"></div>
                       <div class="abstract">
-                        <p>Query plan information for counting objects <em>asynchronously</em> and calls the given block with the counts.</p>
+                        <p>Query plan information for counting objects <em>asynchronously</em> and returns a completion block with the count.</p>
+<div class="aside aside-note">
+    <p class="aside-title">Note</p>
+    An explain query will have many different underlying types. Since Swift is a strongly
+typed language, a developer should specify the type expected to be decoded which will be
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
+
+</div>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">countExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                                       <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                                       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of <code>.main</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;Decodable, ParseError&gt;)</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV9withCount7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayxG_SitAA0A5ErrorVGctF"></a>
+                    <a name="//apple_ref/swift/Method/withCount(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV9withCount7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayxG_SitAA0A5ErrorVGctF">withCount(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Finds objects <em>asynchronously</em> and returns a completion block with the results which include
+the total number of objects satisfying this query, despite limits/skip. Might be useful for pagination.</p>
+
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="nf">withCount</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                      <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                      <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">([</span><span class="kt">ResultType</span><span class="p">],</span> <span class="kt">Int</span><span class="p">),</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+
+                        </div>
+                      </div>
+                      <div>
+                        <h4>Parameters</h4>
+                        <table class="graybox">
+                          <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>options</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>A set of header options sent to the server. Defaults to an empty set.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>callbackQueue</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The queue to return to after completion. Default value of <code>.main</code>.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>completion</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>The block to execute.
+It should have the following argument signature: <code>(Result&lt;([ResultType], Int), ParseError&gt;)</code></p>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift5QueryV16withCountExplain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/withCountExplain(options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV16withCountExplain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">withCountExplain(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Query plan information for withCount objects <em>asynchronously</em> and a completion block with the results.</p>
 <div class="aside aside-note">
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
@@ -4397,9 +4884,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">countExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
-                                       <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
-                                       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">withCountExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                                           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
+                                           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
                         </div>
                       </div>
@@ -4643,7 +5130,7 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-throws">
@@ -4726,7 +5213,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-warning">
@@ -4999,7 +5486,7 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-throws">
@@ -5082,7 +5569,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Note</p>
     An explain query will have many different underlying types. Since Swift is a strongly
 typed language, a developer should specify the type expected to be decoded which will be
-different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
+different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
 </div><div class="aside aside-warning">
@@ -5342,7 +5829,7 @@ indepedently as a ViewModel in MVVM.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-23)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>

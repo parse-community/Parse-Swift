@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="index.html">
-          ParseSwift 2.5.1 Docs
+          ParseSwift 3.0.0 Docs
         </a>
          (96% documented)
       </p>
@@ -81,6 +81,9 @@
             <ul class="nav-group-tasks">
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Enums/Event.html">Event</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Enums/ParseTextOption.html">ParseTextOption</a>
               </li>
             </ul>
           </li>
@@ -159,6 +162,12 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift22doesNotMatchKeyInQuery3key05queryF00J0AA0H10ConstraintVSS_SSAA0H0VyxGtAA0A6ObjectRzlF">doesNotMatchKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtKAA0A6ObjectRzlF">equalTo(key:value:isUsingEQ:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift7equalTo3key5value9isUsingEQAA15QueryConstraintVSS_xSbtSERzlF">equalTo(key:value:isUsingEQ:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift6exists3keyAA15QueryConstraintVSS_tF">exists(key:)</a>
               </li>
               <li class="nav-group-task">
@@ -168,6 +177,12 @@
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift9hasSuffix3key6suffix9modifiersAA15QueryConstraintVSS_S2SSgtF">hasSuffix(key:suffix:modifiers:)</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift9isNotNull3keyAA15QueryConstraintVSS_tF">isNotNull(key:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift6isNull3keyAA15QueryConstraintVSS_tF">isNull(key:)</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift17matchesKeyInQuery3key05queryD00H0AA0F10ConstraintVSS_SSAA0F0VyxGtAA0A6ObjectRzlF">matchesKeyInQuery(key:queryKey:query:)</a>
               </li>
               <li class="nav-group-task">
@@ -175,6 +190,9 @@
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift11matchesText3key4textAA15QueryConstraintVSS_SStF">matchesText(key:text:)</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift11matchesText3key4text7optionsAA15QueryConstraintVSS_SSSDyAA0aD6OptionOSE_pGtKF">matchesText(key:text:options:)</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Functions.html#/s:10ParseSwift4near3key8geoPointAA15QueryConstraintVSS_AA0a3GeoF0VtF">near(key:geoPoint:)</a>
@@ -337,10 +355,19 @@
                 <a class="nav-group-task-link" href="Structs/ParseGeoPoint.html">ParseGeoPoint</a>
               </li>
               <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseGitHub.html">ParseGitHub</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseGoogle.html">ParseGoogle</a>
+              </li>
+              <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ParseHealth.html">ParseHealth</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ParseLDAP.html">ParseLDAP</a>
+              </li>
+              <li class="nav-group-task">
+                <a class="nav-group-task-link" href="Structs/ParseLinkedIn.html">ParseLinkedIn</a>
               </li>
               <li class="nav-group-task">
                 <a class="nav-group-task-link" href="Structs/ParseOperation.html">ParseOperation</a>
@@ -462,7 +489,7 @@ For information on acquiring Apple sign-in credentials to use with <code>ParseAp
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Provides utility functions for working with Facebook User Authentication and <code><a href="Protocols/ParseUser.html">ParseUser</a></code>&lsquo;s.
-Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-sign-in-with-facebook">sign in with Facebook</a>.
+Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#facebook-authdata">sign in with Facebook</a>.
 For information on acquiring Facebook sign-in credentials to use with <code>ParseFacebook</code>, refer to <a href="https://developers.facebook.com/docs/facebook-login/limited-login">Facebook&rsquo;s Documentation</a>.</p>
 
                         <a href="Structs/ParseFacebook.html" class="slightly-smaller">See more</a>
@@ -472,6 +499,66 @@ For information on acquiring Facebook sign-in credentials to use with <code>Pars
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseFacebook</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseAuthentication.html">ParseAuthentication</a></span> <span class="k">where</span> <span class="kt">AuthenticatedUser</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseUser.html">ParseUser</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6GitHubV"></a>
+                    <a name="//apple_ref/swift/Struct/ParseGitHub" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6GitHubV">ParseGitHub</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Provides utility functions for working with GitHub User Authentication and <code><a href="Protocols/ParseUser.html">ParseUser</a></code>&lsquo;s.
+Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#github-authdata">sign in with GitHub</a>.
+For information on acquiring GitHub sign-in credentials to use with <code>ParseGitHub</code>, refer to <a href="https://docs.github.com/en/developers/apps/building-oauth-apps/authorizing-oauth-apps">GitHub&rsquo;s Documentation</a>.</p>
+
+                        <a href="Structs/ParseGitHub.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseGitHub</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseAuthentication.html">ParseAuthentication</a></span> <span class="k">where</span> <span class="kt">AuthenticatedUser</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseUser.html">ParseUser</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
+                    <a name="/s:10ParseSwift0A6GoogleV"></a>
+                    <a name="//apple_ref/swift/Struct/ParseGoogle" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A6GoogleV">ParseGoogle</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Provides utility functions for working with Google User Authentication and <code><a href="Protocols/ParseUser.html">ParseUser</a></code>&lsquo;s.
+Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#google-authdata">sign in with Google</a>.
+For information on acquiring Google sign-in credentials to use with <code>ParseGoogle</code>, refer to <a href="https://developers.google.com/identity/protocols/oauth2">Google&rsquo;s Documentation</a>.</p>
+
+                        <a href="Structs/ParseGoogle.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseGoogle</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseAuthentication.html">ParseAuthentication</a></span> <span class="k">where</span> <span class="kt">AuthenticatedUser</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseUser.html">ParseUser</a></span></code></pre>
 
                         </div>
                       </div>
@@ -510,6 +597,36 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                 <li class="item">
                   <div>
                     <code>
+                    <a name="/s:10ParseSwift0A8LinkedInV"></a>
+                    <a name="//apple_ref/swift/Struct/ParseLinkedIn" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift0A8LinkedInV">ParseLinkedIn</a>
+                    </code>
+                  </div>
+                  <div class="height-container">
+                    <div class="pointer-container"></div>
+                    <section class="section">
+                      <div class="pointer"></div>
+                      <div class="abstract">
+                        <p>Provides utility functions for working with LinkedIn User Authentication and <code><a href="Protocols/ParseUser.html">ParseUser</a></code>&lsquo;s.
+Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#linkedin-authdata">sign in with LinkedIn</a>.
+For information on acquiring LinkedIn sign-in credentials to use with <code>ParseLinkedIn</code>, refer to <a href="https://docs.microsoft.com/en-us/linkedin/shared/authentication/authentication?context=linkedin/consumer/context">LinkedIn&rsquo;s Documentation</a>.</p>
+
+                        <a href="Structs/ParseLinkedIn.html" class="slightly-smaller">See more</a>
+                      </div>
+                      <div class="declaration">
+                        <h4>Declaration</h4>
+                        <div class="language">
+                          <p class="aside-title">Swift</p>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">ParseLinkedIn</span><span class="o">&lt;</span><span class="kt">AuthenticatedUser</span><span class="o">&gt;</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseAuthentication.html">ParseAuthentication</a></span> <span class="k">where</span> <span class="kt">AuthenticatedUser</span> <span class="p">:</span> <span class="kt"><a href="Protocols/ParseUser.html">ParseUser</a></span></code></pre>
+
+                        </div>
+                      </div>
+                    </section>
+                  </div>
+                </li>
+                <li class="item">
+                  <div>
+                    <code>
                     <a name="/s:10ParseSwift0A7TwitterV"></a>
                     <a name="//apple_ref/swift/Struct/ParseTwitter" class="dashAnchor"></a>
                     <a class="token" href="#/s:10ParseSwift0A7TwitterV">ParseTwitter</a>
@@ -521,7 +638,7 @@ Be sure your Parse Server is configured for <a href="https://docs.parseplatform.
                       <div class="pointer"></div>
                       <div class="abstract">
                         <p>Provides utility functions for working with Twitter User Authentication and <code><a href="Protocols/ParseUser.html">ParseUser</a></code>&lsquo;s.
-Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#configuring-parse-server-for-sign-in-with-twitter">sign in with Twitter</a>.
+Be sure your Parse Server is configured for <a href="https://docs.parseplatform.org/parse-server/guide/#twitter-authdata">sign in with Twitter</a>.
 For information on acquiring Twitter sign-in credentials to use with <code>ParseTwitter</code>, refer to <a href="https://developer.twitter.com/en/docs/authentication/guides/log-in-with-twitter">Twitter&rsquo;s Documentation</a>.</p>
 
                         <a href="Structs/ParseTwitter.html" class="slightly-smaller">See more</a>
@@ -1175,7 +1292,7 @@ indirectly created from any <code><a href="Protocols/ParseObject.html">ParseObje
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">QueryConstraint</span> <span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">Equatable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">struct</span> <span class="kt">QueryConstraint</span> <span class="p">:</span> <span class="kt">Encodable</span><span class="p">,</span> <span class="kt">Hashable</span></code></pre>
 
                         </div>
                       </div>
@@ -1190,7 +1307,7 @@ indirectly created from any <code><a href="Protocols/ParseObject.html">ParseObje
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2021 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2021-12-23)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-04)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
