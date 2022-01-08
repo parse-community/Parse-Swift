@@ -21,7 +21,7 @@
     <header class="header">
       <p class="header-col header-col--primary">
         <a class="header-link" href="../index.html">
-          ParseSwift 3.0.0 Docs
+          ParseSwift 3.1.0 Docs
         </a>
          (96% documented)
       </p>
@@ -2169,9 +2169,9 @@ Upon completing the registration, the subscribe handler will be called with the 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV11findExplain7optionsSayqd__GShyAA3APIV6OptionOG_tYaKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/findExplain(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV11findExplain7optionsSayqd__GShyAA3APIV6OptionOG_tYaKSeRd__lF">findExplain(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV11findExplain14isUsingMongoDB7optionsSayqd__GSb_ShyAA3APIV6OptionOGtYaKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/findExplain(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV11findExplain14isUsingMongoDB7optionsSayqd__GSb_ShyAA3APIV6OptionOGtYaKSeRd__lF">findExplain(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -2194,6 +2194,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -2201,7 +2207,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">findExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">findExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                               <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -2209,6 +2216,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -2368,9 +2387,9 @@ order, and may not use limit or skip.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV12firstExplain7optionsqd__ShyAA3APIV6OptionOG_tYaKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/firstExplain(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV12firstExplain7optionsqd__ShyAA3APIV6OptionOG_tYaKSeRd__lF">firstExplain(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV12firstExplain14isUsingMongoDB7optionsqd__Sb_ShyAA3APIV6OptionOGtYaKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/firstExplain(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV12firstExplain14isUsingMongoDB7optionsqd__Sb_ShyAA3APIV6OptionOGtYaKSeRd__lF">firstExplain(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -2393,6 +2412,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -2400,7 +2425,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">firstExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">U</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">firstExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">U</span></code></pre>
 
                         </div>
                       </div>
@@ -2408,6 +2434,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -2491,9 +2529,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV12countExplain7optionsSayqd__GShyAA3APIV6OptionOG_tYaKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/countExplain(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV12countExplain7optionsSayqd__GShyAA3APIV6OptionOG_tYaKSeRd__lF">countExplain(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV12countExplain14isUsingMongoDB7optionsSayqd__GSb_ShyAA3APIV6OptionOGtYaKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/countExplain(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV12countExplain14isUsingMongoDB7optionsSayqd__GSb_ShyAA3APIV6OptionOGtYaKSeRd__lF">countExplain(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -2516,6 +2554,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -2523,7 +2567,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">countExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">countExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -2534,12 +2579,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                             <tr>
                               <td>
                                 <code>
-                                <em>explain</em>
+                                <em>isUsingMongoDB</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Used to toggle the information on the query plan.</p>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2627,9 +2672,9 @@ the total number of objects satisfying this query, despite limits/skip. Might be
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV16withCountExplain7optionsSayqd__GShyAA3APIV6OptionOG_tYaKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/withCountExplain(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV16withCountExplain7optionsSayqd__GShyAA3APIV6OptionOG_tYaKSeRd__lF">withCountExplain(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV16withCountExplain14isUsingMongoDB7optionsSayqd__GSb_ShyAA3APIV6OptionOGtYaKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/withCountExplain(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV16withCountExplain14isUsingMongoDB7optionsSayqd__GSb_ShyAA3APIV6OptionOGtYaKSeRd__lF">withCountExplain(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -2652,6 +2697,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -2659,7 +2710,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">withCountExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">withCountExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -2670,12 +2722,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                             <tr>
                               <td>
                                 <code>
-                                <em>explain</em>
+                                <em>isUsingMongoDB</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Used to toggle the information on the query plan.</p>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2779,9 +2831,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV16aggregateExplain_7optionsSayqd__GSaySDySSSE_pGG_ShyAA3APIV6OptionOGtYaKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/aggregateExplain(_:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV16aggregateExplain_7optionsSayqd__GSaySDySSSE_pGG_ShyAA3APIV6OptionOGtYaKSeRd__lF">aggregateExplain(_:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV16aggregateExplain_14isUsingMongoDB7optionsSayqd__GSaySDySSSE_pGG_SbShyAA3APIV6OptionOGtYaKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/aggregateExplain(_:isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV16aggregateExplain_14isUsingMongoDB7optionsSayqd__GSaySDySSSE_pGG_SbShyAA3APIV6OptionOGtYaKSeRd__lF">aggregateExplain(_:<wbr>isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -2808,6 +2860,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -2816,6 +2874,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">aggregateExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">]],</span>
+                                    <span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                                     <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span></code></pre>
 
                         </div>
@@ -2833,6 +2892,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                               <td>
                                 <div>
                                   <p>A pipeline of stages to process query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -2936,9 +3007,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV15distinctExplain_7optionsSayqd__GSS_ShyAA3APIV6OptionOGtYaKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/distinctExplain(_:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV15distinctExplain_7optionsSayqd__GSS_ShyAA3APIV6OptionOGtYaKSeRd__lF">distinctExplain(_:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV15distinctExplain_14isUsingMongoDB7optionsSayqd__GSS_SbShyAA3APIV6OptionOGtYaKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/distinctExplain(_:isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV15distinctExplain_14isUsingMongoDB7optionsSayqd__GSS_SbShyAA3APIV6OptionOGtYaKSeRd__lF">distinctExplain(_:<wbr>isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                       <span class="declaration-note">
                         Asynchronous
@@ -2965,6 +3036,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Throws</p>
     An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -2973,6 +3050,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">distinctExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                   <span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                                    <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">async</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span></code></pre>
 
                         </div>
@@ -2990,6 +3068,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                               <td>
                                 <div>
                                   <p>A field to find distinct values.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3081,9 +3171,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV20findExplainPublisher7options7Combine6FutureCySayqd__GAA0A5ErrorVGShyAA3APIV6OptionOG_tSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/findExplainPublisher(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV20findExplainPublisher7options7Combine6FutureCySayqd__GAA0A5ErrorVGShyAA3APIV6OptionOG_tSeRd__lF">findExplainPublisher(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV20findExplainPublisher14isUsingMongoDB7options7Combine6FutureCySayqd__GAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/findExplainPublisher(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV20findExplainPublisher14isUsingMongoDB7options7Combine6FutureCySayqd__GAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtSeRd__lF">findExplainPublisher(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3099,6 +3189,12 @@ typed language, a developer should specify the type expected to be decoded which
 different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -3106,7 +3202,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">findExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">findExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                        <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -3114,6 +3211,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -3259,9 +3368,9 @@ order, and may not use limit or skip.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV21firstExplainPublisher7options7Combine6FutureCyqd__AA0A5ErrorVGShyAA3APIV6OptionOG_tSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/firstExplainPublisher(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV21firstExplainPublisher7options7Combine6FutureCyqd__AA0A5ErrorVGShyAA3APIV6OptionOG_tSeRd__lF">firstExplainPublisher(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV21firstExplainPublisher14isUsingMongoDB7options7Combine6FutureCyqd__AA0A5ErrorVGSb_ShyAA3APIV6OptionOGtSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/firstExplainPublisher(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV21firstExplainPublisher14isUsingMongoDB7options7Combine6FutureCyqd__AA0A5ErrorVGSb_ShyAA3APIV6OptionOGtSeRd__lF">firstExplainPublisher(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3277,6 +3386,12 @@ typed language, a developer should specify the type expected to be decoded which
 different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -3284,7 +3399,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">firstExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">firstExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                         <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -3292,6 +3408,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -3367,9 +3495,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV21countExplainPublisher7options7Combine6FutureCySayqd__GAA0A5ErrorVGShyAA3APIV6OptionOG_tSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/countExplainPublisher(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV21countExplainPublisher7options7Combine6FutureCySayqd__GAA0A5ErrorVGShyAA3APIV6OptionOG_tSeRd__lF">countExplainPublisher(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV21countExplainPublisher14isUsingMongoDB7options7Combine6FutureCySayqd__GAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/countExplainPublisher(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV21countExplainPublisher14isUsingMongoDB7options7Combine6FutureCySayqd__GAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtSeRd__lF">countExplainPublisher(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3385,6 +3513,12 @@ typed language, a developer should specify the type expected to be decoded which
 different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -3392,7 +3526,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">countExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">countExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                         <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -3403,12 +3538,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                             <tr>
                               <td>
                                 <code>
-                                <em>explain</em>
+                                <em>isUsingMongoDB</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Used to toggle the information on the query plan.</p>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3489,9 +3624,9 @@ Publishes when complete.</p>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV25withCountExplainPublisher7options7Combine6FutureCySayqd__GAA0A5ErrorVGShyAA3APIV6OptionOG_tSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/withCountExplainPublisher(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV25withCountExplainPublisher7options7Combine6FutureCySayqd__GAA0A5ErrorVGShyAA3APIV6OptionOG_tSeRd__lF">withCountExplainPublisher(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV25withCountExplainPublisher14isUsingMongoDB7options7Combine6FutureCySayqd__GAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/withCountExplainPublisher(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV25withCountExplainPublisher14isUsingMongoDB7options7Combine6FutureCySayqd__GAA0A5ErrorVGSb_ShyAA3APIV6OptionOGtSeRd__lF">withCountExplainPublisher(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3507,6 +3642,12 @@ typed language, a developer should specify the type expected to be decoded which
 different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -3514,7 +3655,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">withCountExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">withCountExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                             <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
                       </div>
@@ -3525,12 +3667,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                             <tr>
                               <td>
                                 <code>
-                                <em>explain</em>
+                                <em>isUsingMongoDB</em>
                                 </code>
                               </td>
                               <td>
                                 <div>
-                                  <p>Used to toggle the information on the query plan.</p>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3627,9 +3769,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV25aggregateExplainPublisher_7options7Combine6FutureCySayqd__GAA0A5ErrorVGSaySDySSSE_pGG_ShyAA3APIV6OptionOGtSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/aggregateExplainPublisher(_:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV25aggregateExplainPublisher_7options7Combine6FutureCySayqd__GAA0A5ErrorVGSaySDySSSE_pGG_ShyAA3APIV6OptionOGtSeRd__lF">aggregateExplainPublisher(_:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV25aggregateExplainPublisher_14isUsingMongoDB7options7Combine6FutureCySayqd__GAA0A5ErrorVGSaySDySSSE_pGG_SbShyAA3APIV6OptionOGtSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/aggregateExplainPublisher(_:isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV25aggregateExplainPublisher_14isUsingMongoDB7options7Combine6FutureCySayqd__GAA0A5ErrorVGSaySDySSSE_pGG_SbShyAA3APIV6OptionOGtSeRd__lF">aggregateExplainPublisher(_:<wbr>isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3649,6 +3791,12 @@ typed language, a developer should specify the type expected to be decoded which
 different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -3657,6 +3805,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">aggregateExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">]],</span>
+                                             <span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                                              <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -3674,6 +3823,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                               <td>
                                 <div>
                                   <p>A pipeline of stages to process query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3770,9 +3931,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV24distinctExplainPublisher_7options7Combine6FutureCySayqd__GAA0A5ErrorVGSS_ShyAA3APIV6OptionOGtSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/distinctExplainPublisher(_:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV24distinctExplainPublisher_7options7Combine6FutureCySayqd__GAA0A5ErrorVGSS_ShyAA3APIV6OptionOGtSeRd__lF">distinctExplainPublisher(_:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV24distinctExplainPublisher_14isUsingMongoDB7options7Combine6FutureCySayqd__GAA0A5ErrorVGSS_SbShyAA3APIV6OptionOGtSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/distinctExplainPublisher(_:isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV24distinctExplainPublisher_14isUsingMongoDB7options7Combine6FutureCySayqd__GAA0A5ErrorVGSS_SbShyAA3APIV6OptionOGtSeRd__lF">distinctExplainPublisher(_:<wbr>isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3792,6 +3953,12 @@ typed language, a developer should specify the type expected to be decoded which
 different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -3800,6 +3967,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">func</span> <span class="n">distinctExplainPublisher</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                            <span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                                             <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="o">-&gt;</span> <span class="kt">Future</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span></code></pre>
 
                         </div>
@@ -3817,6 +3985,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                               <td>
                                 <div>
                                   <p>A field to find distinct values.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -3913,9 +4093,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV11findExplain7optionsSayqd__GShyAA3APIV6OptionOG_tKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/findExplain(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV11findExplain7optionsSayqd__GShyAA3APIV6OptionOG_tKSeRd__lF">findExplain(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV11findExplain14isUsingMongoDB7optionsSayqd__GSb_ShyAA3APIV6OptionOGtKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/findExplain(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV11findExplain14isUsingMongoDB7optionsSayqd__GSb_ShyAA3APIV6OptionOGtKSeRd__lF">findExplain(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -3934,7 +4114,13 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
 
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p>An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
 
 </div>
 
@@ -3943,7 +4129,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">findExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">findExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -3951,6 +4138,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -4049,9 +4248,9 @@ It should have the following argument signature: <code>(Result&lt;[ResultType], 
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV11findExplain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/findExplain(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV11findExplain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">findExplain(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV11findExplain14isUsingMongoDB7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/findExplain(isUsingMongoDB:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV11findExplain14isUsingMongoDB7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">findExplain(isUsingMongoDB:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -4067,6 +4266,12 @@ typed language, a developer should specify the type expected to be decoded which
 different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -4074,7 +4279,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">findExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">findExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                      <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                       <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                       <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
@@ -4084,6 +4290,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -4283,9 +4501,9 @@ order, and may not use limit or skip.
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV12firstExplain7optionsqd__ShyAA3APIV6OptionOG_tKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/firstExplain(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV12firstExplain7optionsqd__ShyAA3APIV6OptionOG_tKSeRd__lF">firstExplain(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV12firstExplain14isUsingMongoDB7optionsqd__Sb_ShyAA3APIV6OptionOGtKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/firstExplain(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV12firstExplain14isUsingMongoDB7optionsqd__Sb_ShyAA3APIV6OptionOGtKSeRd__lF">firstExplain(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -4308,7 +4526,13 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
 
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p>An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
 
 </div>
 
@@ -4317,7 +4541,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">firstExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">U</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">firstExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="kt">U</span></code></pre>
 
                         </div>
                       </div>
@@ -4325,6 +4550,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -4428,9 +4665,9 @@ It should have the following argument signature: <code>(Result&lt;ParseObject, P
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV12firstExplain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/firstExplain(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV12firstExplain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF">firstExplain(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV12firstExplain14isUsingMongoDB7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/firstExplain(isUsingMongoDB:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV12firstExplain14isUsingMongoDB7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOyqd__AA0A5ErrorVGctSeRd__lF">firstExplain(isUsingMongoDB:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -4450,6 +4687,12 @@ typed language, a developer should specify the type expected to be decoded which
 different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -4457,7 +4700,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">firstExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">firstExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                        <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                        <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">,</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
@@ -4467,6 +4711,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -4568,9 +4824,9 @@ It should have the following argument signature: <code>(Result&lt;Decodable, Par
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV12countExplain7optionsSayqd__GShyAA3APIV6OptionOG_tKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/countExplain(options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV12countExplain7optionsSayqd__GShyAA3APIV6OptionOG_tKSeRd__lF">countExplain(options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV12countExplain14isUsingMongoDB7optionsSayqd__GSb_ShyAA3APIV6OptionOGtKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/countExplain(isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV12countExplain14isUsingMongoDB7optionsSayqd__GSb_ShyAA3APIV6OptionOGtKSeRd__lF">countExplain(isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -4589,7 +4845,13 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
 
 </div><div class="aside aside-throws">
     <p class="aside-title">Throws</p>
-    <p>An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.</p>
+    An error of type <code><a href="../Structs/ParseError.html">ParseError</a></code>.
+
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
 
 </div>
 
@@ -4598,7 +4860,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">countExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span> <span class="k">where</span> <span class="kt">U</span> <span class="p">:</span> <span class="kt">Decodable</span></code></pre>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">countExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span></code></pre>
 
                         </div>
                       </div>
@@ -4606,6 +4869,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -4704,9 +4979,9 @@ It should have the following argument signature: <code>(Result&lt;Int, ParseErro
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV12countExplain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/countExplain(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV12countExplain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">countExplain(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV12countExplain14isUsingMongoDB7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/countExplain(isUsingMongoDB:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV12countExplain14isUsingMongoDB7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">countExplain(isUsingMongoDB:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -4722,6 +4997,12 @@ typed language, a developer should specify the type expected to be decoded which
 different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -4729,7 +5010,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">countExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">countExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                       <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                        <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                        <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
@@ -4739,6 +5021,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -4859,9 +5153,9 @@ It should have the following argument signature: <code>(Result&lt;([ResultType],
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV16withCountExplain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/withCountExplain(options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV16withCountExplain7options13callbackQueue10completionyShyAA3APIV6OptionOG_So17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">withCountExplain(options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV16withCountExplain14isUsingMongoDB7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/withCountExplain(isUsingMongoDB:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV16withCountExplain14isUsingMongoDB7options13callbackQueue10completionySb_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">withCountExplain(isUsingMongoDB:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -4877,6 +5171,12 @@ typed language, a developer should specify the type expected to be decoded which
 different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
 such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a> package.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -4884,7 +5184,8 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Declaration</h4>
                         <div class="language">
                           <p class="aside-title">Swift</p>
-                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">withCountExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
+                          <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">withCountExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
+                                           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                            <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                            <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
 
@@ -4894,6 +5195,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <h4>Parameters</h4>
                         <table class="graybox">
                           <tbody>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
+                                </div>
+                              </td>
+                            </tr>
                             <tr>
                               <td>
                                 <code>
@@ -5111,9 +5424,9 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV16aggregateExplain_7optionsSayqd__GSaySDySSSE_pGG_ShyAA3APIV6OptionOGtKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/aggregateExplain(_:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV16aggregateExplain_7optionsSayqd__GSaySDySSSE_pGG_ShyAA3APIV6OptionOGtKSeRd__lF">aggregateExplain(_:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV16aggregateExplain_14isUsingMongoDB7optionsSayqd__GSaySDySSSE_pGG_SbShyAA3APIV6OptionOGtKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/aggregateExplain(_:isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV16aggregateExplain_14isUsingMongoDB7optionsSayqd__GSaySDySSSE_pGG_SbShyAA3APIV6OptionOGtKSeRd__lF">aggregateExplain(_:<wbr>isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -5139,7 +5452,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    This hasn&rsquo;t been tested thoroughly.
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
 
 </div>
 
@@ -5149,6 +5464,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">aggregateExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">]],</span>
+                                           <span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                                            <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span></code></pre>
 
                         </div>
@@ -5166,6 +5482,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                               <td>
                                 <div>
                                   <p>A pipeline of stages to process query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -5194,9 +5522,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV16aggregateExplain_7options13callbackQueue10completionySaySDySSSE_pGG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/aggregateExplain(_:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV16aggregateExplain_7options13callbackQueue10completionySaySDySSSE_pGG_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">aggregateExplain(_:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV16aggregateExplain_14isUsingMongoDB7options13callbackQueue10completionySaySDySSSE_pGG_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/aggregateExplain(_:isUsingMongoDB:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV16aggregateExplain_14isUsingMongoDB7options13callbackQueue10completionySaySDySSSE_pGG_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">aggregateExplain(_:<wbr>isUsingMongoDB:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -5218,7 +5546,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    This hasn&rsquo;t been tested thoroughly.
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
 
 </div>
 
@@ -5228,6 +5558,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">aggregateExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">pipeline</span><span class="p">:</span> <span class="p">[[</span><span class="kt">String</span><span class="p">:</span> <span class="kt">Encodable</span><span class="p">]],</span>
+                                           <span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                                            <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                            <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                            <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
@@ -5247,6 +5578,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                               <td>
                                 <div>
                                   <p>A pipeline of stages to process query.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -5467,9 +5810,9 @@ It should have the following argument signature: <code>(Result&lt;[ParseObject],
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV15distinctExplain_7optionsSayqd__GSS_ShyAA3APIV6OptionOGtKSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/distinctExplain(_:options:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV15distinctExplain_7optionsSayqd__GSS_ShyAA3APIV6OptionOGtKSeRd__lF">distinctExplain(_:<wbr>options:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV15distinctExplain_14isUsingMongoDB7optionsSayqd__GSS_SbShyAA3APIV6OptionOGtKSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/distinctExplain(_:isUsingMongoDB:options:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV15distinctExplain_14isUsingMongoDB7optionsSayqd__GSS_SbShyAA3APIV6OptionOGtKSeRd__lF">distinctExplain(_:<wbr>isUsingMongoDB:<wbr>options:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -5497,6 +5840,12 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
     <p class="aside-title">Warning</p>
     This hasn&rsquo;t been tested thoroughly.
 
+</div><div class="aside aside-warning">
+    <p class="aside-title">Warning</p>
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
+
 </div>
 
                       </div>
@@ -5505,6 +5854,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">distinctExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                          <span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                                           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[])</span> <span class="k">throws</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="kt">U</span><span class="p">]</span></code></pre>
 
                         </div>
@@ -5522,6 +5872,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                               <td>
                                 <div>
                                   <p>A field to find distinct values.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -5550,9 +5912,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                 <li class="item">
                   <div>
                     <code>
-                    <a name="/s:10ParseSwift5QueryV15distinctExplain_7options13callbackQueue10completionySS_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
-                    <a name="//apple_ref/swift/Method/distinctExplain(_:options:callbackQueue:completion:)" class="dashAnchor"></a>
-                    <a class="token" href="#/s:10ParseSwift5QueryV15distinctExplain_7options13callbackQueue10completionySS_ShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">distinctExplain(_:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
+                    <a name="/s:10ParseSwift5QueryV15distinctExplain_14isUsingMongoDB7options13callbackQueue10completionySS_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF"></a>
+                    <a name="//apple_ref/swift/Method/distinctExplain(_:isUsingMongoDB:options:callbackQueue:completion:)" class="dashAnchor"></a>
+                    <a class="token" href="#/s:10ParseSwift5QueryV15distinctExplain_14isUsingMongoDB7options13callbackQueue10completionySS_SbShyAA3APIV6OptionOGSo17OS_dispatch_queueCys6ResultOySayqd__GAA0A5ErrorVGctSeRd__lF">distinctExplain(_:<wbr>isUsingMongoDB:<wbr>options:<wbr>callbackQueue:<wbr>completion:<wbr>)</a>
                     </code>
                   </div>
                   <div class="height-container">
@@ -5574,7 +5936,9 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
 
 </div><div class="aside aside-warning">
     <p class="aside-title">Warning</p>
-    This hasn&rsquo;t been tested thoroughly.
+    MongoDB&rsquo;s <strong>explain</strong> does not conform to the traditional Parse Server response, so the
+<code>isUsingMongoDB</code> flag needs to be set for MongoDB users. See more
+<a href="https://github.com/parse-community/parse-server/pull/7440">here</a>.
 
 </div>
 
@@ -5584,6 +5948,7 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                         <div class="language">
                           <p class="aside-title">Swift</p>
                           <pre class="highlight swift"><code><span class="kd">public</span> <span class="kd">func</span> <span class="n">distinctExplain</span><span class="o">&lt;</span><span class="kt">U</span><span class="p">:</span> <span class="kt">Decodable</span><span class="o">&gt;</span><span class="p">(</span><span class="n">_</span> <span class="nv">key</span><span class="p">:</span> <span class="kt">String</span><span class="p">,</span>
+                                          <span class="nv">isUsingMongoDB</span><span class="p">:</span> <span class="kt">Bool</span> <span class="o">=</span> <span class="kc">false</span><span class="p">,</span>
                                           <span class="nv">options</span><span class="p">:</span> <span class="kt"><a href="../Structs/API.html">API</a></span><span class="o">.</span><span class="kt">Options</span> <span class="o">=</span> <span class="p">[],</span>
                                           <span class="nv">callbackQueue</span><span class="p">:</span> <span class="kt">DispatchQueue</span> <span class="o">=</span> <span class="o">.</span><span class="n">main</span><span class="p">,</span>
                                           <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Result</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">U</span><span class="p">],</span> <span class="kt"><a href="../Structs/ParseError.html">ParseError</a></span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Void</span><span class="p">)</span></code></pre>
@@ -5603,6 +5968,18 @@ such as the <a href="https://github.com/Flight-School/AnyCodable">AnyCodable</a>
                               <td>
                                 <div>
                                   <p>A field to find distinct values.</p>
+                                </div>
+                              </td>
+                            </tr>
+                            <tr>
+                              <td>
+                                <code>
+                                <em>isUsingMongoDB</em>
+                                </code>
+                              </td>
+                              <td>
+                                <div>
+                                  <p>Set to <strong>true</strong> if your Parse Server uses MongoDB. Defaults to <strong>false</strong>.</p>
                                 </div>
                               </td>
                             </tr>
@@ -5829,7 +6206,7 @@ indepedently as a ViewModel in MVVM.</p>
       </article>
     </div>
     <section class="footer">
-      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-04)</p>
+      <p>&copy; 2022 <a class="link" href="http://parseplatform.org" target="_blank" rel="external noopener">Parse Community</a>. All rights reserved. (Last updated: 2022-01-08)</p>
       <p>Generated by <a class="link" href="https://github.com/realm/jazzy" target="_blank" rel="external noopener">jazzy ♪♫ v0.14.1</a>, a <a class="link" href="https://realm.io" target="_blank" rel="external noopener">Realm</a> project.</p>
     </section>
   </body>
