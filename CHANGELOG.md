@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.0.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 3.1.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.0.0...3.1.0)
+
+__New features__
+- Add the ability to explain MongoDB queries by setting isUsingMongoDB = true for the respective explain query ([#314](https://github.com/parse-community/Parse-Swift/pull/314)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 3.0.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.1...3.0.0)

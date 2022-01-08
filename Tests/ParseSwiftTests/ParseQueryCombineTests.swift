@@ -43,12 +43,8 @@ class ParseQueryCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
     }
 
-    struct AnyResultResponse<U: Codable>: Codable {
-        let result: U
-    }
-
     struct AnyResultsResponse<U: Codable>: Codable {
-        let results: U
+        let results: [U]
     }
 
     override func setUpWithError() throws {

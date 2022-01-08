@@ -38,11 +38,11 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
     }
 
-    struct AnyResultResponse<U: Codable>: Codable {
-        let result: U
+    struct AnyResultsResponse<U: Codable>: Codable {
+        let results: [U]
     }
 
-    struct AnyResultsResponse<U: Codable>: Codable {
+    struct AnyResultsMongoResponse<U: Codable>: Codable {
         let results: U
     }
 
@@ -220,6 +220,28 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     }
 
     @MainActor
+    func testFindExplainMongo() async throws {
+
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        let queryResult: [[String: String]] = try await query.findExplain(isUsingMongoDB: true)
+        XCTAssertEqual(queryResult, [json.results])
+    }
+
+    @MainActor
     func testWithCountExplain() async throws {
 
         let json = AnyResultsResponse(results: [["yolo": "yarr"]])
@@ -239,6 +261,28 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query()
         let queryResult: [[String: String]] = try await query.withCountExplain()
         XCTAssertEqual(queryResult, json.results)
+    }
+
+    @MainActor
+    func testWithCountExplainMongo() async throws {
+
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        let queryResult: [[String: String]] = try await query.withCountExplain(isUsingMongoDB: true)
+        XCTAssertEqual(queryResult, [json.results])
     }
 
     @MainActor
@@ -299,6 +343,29 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     }
 
     @MainActor
+    func testFirstExplainMongo() async throws {
+
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+
+        let queryResult: [String: String] = try await query.firstExplain(isUsingMongoDB: true)
+        XCTAssertEqual(queryResult, json.results)
+    }
+
+    @MainActor
     func testCount() async throws {
 
         var scoreOnServer = GameScore(points: 10)
@@ -344,6 +411,28 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query()
         let queryResult: [[String: String]] = try await query.countExplain()
         XCTAssertEqual(queryResult, json.results)
+    }
+
+    @MainActor
+    func testCountExplainMongo() async throws {
+
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        let queryResult: [[String: String]] = try await query.countExplain(isUsingMongoDB: true)
+        XCTAssertEqual(queryResult, [json.results])
     }
 
     @MainActor
@@ -399,6 +488,30 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
     }
 
     @MainActor
+    func testAggregateExplainMongo() async throws {
+
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        let pipeline = [[String: String]]()
+        let queryResult: [[String: String]] = try await query.aggregateExplain(pipeline,
+                                                                               isUsingMongoDB: true)
+        XCTAssertEqual(queryResult, [json.results])
+    }
+
+    @MainActor
     func testDistinct() async throws {
 
         var scoreOnServer = GameScore(points: 10)
@@ -446,6 +559,29 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query()
         let queryResult: [[String: String]] = try await query.distinctExplain("hello")
         XCTAssertEqual(queryResult, json.results)
+    }
+
+    @MainActor
+    func testDistinctExplainMongo() async throws {
+
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        let queryResult: [[String: String]] = try await query.distinctExplain("hello",
+                                                                              isUsingMongoDB: true)
+        XCTAssertEqual(queryResult, [json.results])
     }
 }
 #endif

@@ -44,12 +44,12 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var points: Int?
     }
 
-    struct AnyResultResponse<U: Codable>: Codable {
-        let result: U
-    }
-
     struct AnyResultsResponse<U: Codable>: Codable {
         let results: [U]
+    }
+
+    struct AnyResultsMongoResponse<U: Codable>: Codable {
+        let results: U
     }
 
     override func setUpWithError() throws {
@@ -3020,6 +3020,30 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testExplainMongoFindSynchronous() {
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        do {
+            let queryResult: [[String: String]] = try query.findExplain(isUsingMongoDB: true)
+            XCTAssertEqual(queryResult, [json.results])
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
     func testExplainFindLimitSynchronous() {
         let query = GameScore.query()
             .limit(0)
@@ -3098,6 +3122,30 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         do {
             let queryResult: [String: String] = try query.firstExplain()
             XCTAssertEqual(queryResult, json.results.first)
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
+    func testExplainMongoFirstSynchronous() {
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        do {
+            let queryResult: [String: String] = try query.firstExplain(isUsingMongoDB: true)
+            XCTAssertEqual(queryResult, json.results)
         } catch {
             XCTFail("Error: \(error)")
         }
@@ -3185,6 +3233,30 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         do {
             let queryResult: [[String: String]] = try query.countExplain()
             XCTAssertEqual(queryResult, json.results)
+        } catch {
+            XCTFail("Error: \(error)")
+        }
+    }
+
+    func testExplainMongoCountSynchronous() {
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query()
+        do {
+            let queryResult: [[String: String]] = try query.countExplain(isUsingMongoDB: true)
+            XCTAssertEqual(queryResult, [json.results])
         } catch {
             XCTFail("Error: \(error)")
         }
@@ -3567,6 +3639,35 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
+    func testAggregateExplainMongoWithWhere() {
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query("points" > 9)
+        do {
+            let pipeline = [[String: String]]()
+            guard let score: [String: String] = try query.aggregateExplain(pipeline,
+                                                                           isUsingMongoDB: true).first else {
+                XCTFail("Should unwrap first object found")
+                return
+            }
+            XCTAssertEqual(score, json.results)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
     func testAggregateExplainWithWhereLimit() {
 
         let query = GameScore.query("points" > 9)
@@ -3799,6 +3900,34 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 return
             }
             XCTAssertEqual(score, json.results.first)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testDistinctExplainMongo() {
+        let json = AnyResultsMongoResponse(results: ["yolo": "yarr"])
+
+        let encoded: Data!
+        do {
+            encoded = try JSONEncoder().encode(json)
+        } catch {
+            XCTFail("Should encode. Error \(error)")
+            return
+        }
+
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+
+        let query = GameScore.query("points" > 9)
+        do {
+            guard let score: [String: String] = try query.distinctExplain("hello",
+                                                                          isUsingMongoDB: true).first else {
+                XCTFail("Should unwrap first object found")
+                return
+            }
+            XCTAssertEqual(score, json.results)
         } catch {
             XCTFail(error.localizedDescription)
         }

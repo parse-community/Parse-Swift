@@ -28,16 +28,22 @@ public extension Query {
 
     /**
      Query plan information for finding objects *asynchronously* and publishes when complete.
+     - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - note: An explain query will have many different underlying types. Since Swift is a strongly
      typed language, a developer should specify the type expected to be decoded which will be
      different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
+     `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+     [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    func findExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<[U], ParseError> {
+    func findExplainPublisher<U: Decodable>(isUsingMongoDB: Bool = false,
+                                            options: API.Options = []) -> Future<[U], ParseError> {
         Future { promise in
-            self.findExplain(options: options,
+            self.findExplain(isUsingMongoDB: isUsingMongoDB,
+                             options: options,
                              completion: promise)
         }
     }
@@ -78,12 +84,18 @@ public extension Query {
      typed language, a developer should specify the type expected to be decoded which will be
      different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
+     - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
+     `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+     [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    func firstExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<U, ParseError> {
+    func firstExplainPublisher<U: Decodable>(isUsingMongoDB: Bool = false,
+                                             options: API.Options = []) -> Future<U, ParseError> {
         Future { promise in
-            self.firstExplain(options: options,
+            self.firstExplain(isUsingMongoDB: isUsingMongoDB,
+                              options: options,
                               completion: promise)
         }
     }
@@ -106,13 +118,18 @@ public extension Query {
      typed language, a developer should specify the type expected to be decoded which will be
      different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-     - parameter explain: Used to toggle the information on the query plan.
+     - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
+     `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+     [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    func countExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<[U], ParseError> {
+    func countExplainPublisher<U: Decodable>(isUsingMongoDB: Bool = false,
+                                             options: API.Options = []) -> Future<[U], ParseError> {
         Future { promise in
-            self.countExplain(options: options,
+            self.countExplain(isUsingMongoDB: isUsingMongoDB,
+                              options: options,
                               completion: promise)
         }
     }
@@ -137,13 +154,18 @@ public extension Query {
      typed language, a developer should specify the type expected to be decoded which will be
      different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-     - parameter explain: Used to toggle the information on the query plan.
+     - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
+     `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+     [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    func withCountExplainPublisher<U: Decodable>(options: API.Options = []) -> Future<[U], ParseError> {
+    func withCountExplainPublisher<U: Decodable>(isUsingMongoDB: Bool = false,
+                                                 options: API.Options = []) -> Future<[U], ParseError> {
         Future { promise in
-            self.withCountExplain(options: options,
+            self.withCountExplain(isUsingMongoDB: isUsingMongoDB,
+                                  options: options,
                                   completion: promise)
         }
     }
@@ -172,15 +194,21 @@ public extension Query {
      different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter pipeline: A pipeline of stages to process query.
+     - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
+     `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+     [here](https://github.com/parse-community/parse-server/pull/7440).
     */
     func aggregateExplainPublisher<U: Decodable>(_ pipeline: [[String: Encodable]],
+                                                 isUsingMongoDB: Bool = false,
                                                  options: API.Options = []) -> Future<[U], ParseError> {
         Future { promise in
             self.aggregateExplain(pipeline,
-                           options: options,
-                           completion: promise)
+                                  isUsingMongoDB: isUsingMongoDB,
+                                  options: options,
+                                  completion: promise)
         }
     }
 
@@ -208,13 +236,19 @@ public extension Query {
      different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
      - parameter key: A field to find distinct values.
+     - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
+     - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
+     `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+     [here](https://github.com/parse-community/parse-server/pull/7440).
     */
     func distinctExplainPublisher<U: Decodable>(_ key: String,
+                                                isUsingMongoDB: Bool = false,
                                                 options: API.Options = []) -> Future<[U], ParseError> {
         Future { promise in
             self.distinctExplain(key,
+                                 isUsingMongoDB: isUsingMongoDB,
                                  options: options,
                                  completion: promise)
         }

@@ -159,6 +159,10 @@ internal struct AnyResultsResponse<U: Decodable>: Decodable {
     let results: [U]
 }
 
+internal struct AnyResultsMongoResponse<U: Decodable>: Decodable {
+    let results: U
+}
+
 // MARK: ConfigResponse
 internal struct ConfigFetchResponse<T>: Codable where T: ParseConfig {
     let params: T
