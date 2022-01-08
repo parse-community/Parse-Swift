@@ -478,32 +478,6 @@ extension Query: Queryable {
     }
 
     /**
-     Mongo query plan information for finding objects *asynchronously* and returns a completion block with the results.
-      - note: An explain query will have many different underlying types. Since Swift is a strongly
-      typed language, a developer should specify the type expected to be decoded which will be
-      different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
-      such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-      - parameter options: A set of header options sent to the server. Defaults to an empty set.
-      - parameter callbackQueue: The queue to return to after completion. Default value of .main.
-      - parameter completion: The block to execute.
-      It should have the following argument signature: `(Result<[Decodable], ParseError>)`.
-    */
-    public func findExplainMongo<U: Decodable>(options: API.Options = [],
-                                               callbackQueue: DispatchQueue = .main,
-                                               completion: @escaping (Result<[U], ParseError>) -> Void) {
-        if limit == 0 {
-            callbackQueue.async {
-                completion(.success([U]()))
-            }
-            return
-        }
-        findExplainMongoCommand().executeAsync(options: options,
-                                               callbackQueue: callbackQueue) { result in
-            completion(result)
-        }
-    }
-
-    /**
      Retrieves *asynchronously* a complete list of `ParseObject`'s  that satisfy this query.
         
       - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
