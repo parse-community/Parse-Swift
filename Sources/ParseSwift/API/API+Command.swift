@@ -391,7 +391,7 @@ internal extension API.Command {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if object.isSaved {
-            return try replace(object) // Should be switched to "update" when server supports PATCH.
+            return try replace(object) // MARK: Should be switched to "update" when server supports PATCH.
         }
         return create(object)
     }

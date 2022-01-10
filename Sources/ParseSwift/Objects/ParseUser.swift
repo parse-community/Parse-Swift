@@ -35,33 +35,49 @@ public protocol ParseUser: ParseObject {
      or any authentication type that conforms to `ParseAuthentication`.
     */
     var authData: [String: [String: String]?]? { get set }
-}
 
-// MARK: SignupLoginBody
-struct SignupLoginBody: ParseType {
-    var username: String?
-    var password: String?
-    var authData: [String: [String: String]?]?
-
-    init(username: String, password: String) {
-        self.username = username
-        self.password = password
-    }
-
-    init(authData: [String: [String: String]?]) {
-        self.authData = authData
-    }
-}
-
-// MARK: EmailBody
-struct EmailBody: ParseType {
-    let email: String
+    /**
+     Updates a `ParseUser` with all keys that have been modified.
+     - parameter user: The original user.
+     - returns: The updated user.
+     - throws: An error of type `ParseError`.
+    */
+    func applyDefaultUpdate(_ user: Self) throws -> Self
 }
 
 // MARK: Default Implementations
 public extension ParseUser {
     static var className: String {
         "_User"
+    }
+
+    func applyDefaultUpdate(_ user: Self) throws -> Self {
+        guard hasSameObjectId(as: user) == true else {
+            throw ParseError(code: .unknownError,
+                             message: "objectId's of objects do not match")
+        }
+        var updatedUser = self
+        if isRestoreOriginalKey(\.username,
+                                 original: user) {
+            updatedUser.username = user.username
+        }
+        if isRestoreOriginalKey(\.email,
+                                 original: user) {
+            updatedUser.email = user.email
+        }
+        if isRestoreOriginalKey(\.authData,
+                                 original: user) {
+            updatedUser.authData = user.authData
+        }
+        return updatedUser
+    }
+
+    func applyUpdate(_ object: Self) throws -> Self {
+        guard hasSameObjectId(as: object) == true else {
+            throw ParseError(code: .unknownError,
+                             message: "objectId's of objects don't match")
+        }
+        return try applyDefaultUpdate(object)
     }
 }
 
@@ -151,6 +167,27 @@ public extension ParseUser {
     var sessionToken: String? {
         Self.currentContainer?.sessionToken
     }
+}
+
+// MARK: SignupLoginBody
+struct SignupLoginBody: ParseType {
+    var username: String?
+    var password: String?
+    var authData: [String: [String: String]?]?
+
+    init(username: String, password: String) {
+        self.username = username
+        self.password = password
+    }
+
+    init(authData: [String: [String: String]?]) {
+        self.authData = authData
+    }
+}
+
+// MARK: EmailBody
+struct EmailBody: ParseType {
+    let email: String
 }
 
 // MARK: Logging In
@@ -1046,7 +1083,7 @@ extension ParseUser {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved {
-            return try replaceCommand() // Should be switched to "updateCommand" when server supports PATCH.
+            return try replaceCommand() // MARK: Should be switched to "updateCommand" when server supports PATCH.
         }
         return createCommand()
     }
@@ -1087,8 +1124,14 @@ extension ParseUser {
             }
             #endif
         }
-        let mapper = { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: self)
+        let mapper = { (data: Data) -> Self in
+            let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: self)
+            // MARK: The lines below should be removed when server supports PATCH.
+            guard let current = Self.current,
+                  current.hasSameObjectId(as: object) == true else {
+                return object
+            }
+            return try object.applyUpdate(current)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
@@ -1116,8 +1159,13 @@ extension ParseUser {
             }
             #endif
         }
-        let mapper = { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
+        let mapper = { (data: Data) -> Self in
+            let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
+            guard let current = Self.current,
+                  current.hasSameObjectId(as: object) == true else {
+                return object
+            }
+            return try object.applyUpdate(current)
         }
         return API.Command<Self, Self>(method: .PATCH,
                                  path: endpoint,

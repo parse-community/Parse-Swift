@@ -51,6 +51,23 @@ public protocol ParseObject: Objectable,
     The weight/rank of a `QueryConstraint.matchesText()`.
     */
     var score: Double? { get }
+
+    /**
+     Determines if a `KeyPath` of the current `ParseObject` should be restored
+     by comparing it to another `ParseObject`.
+     - parameter original: The original `ParseObject`.
+     - returns: Returns a `true` if the keyPath should be restored  or `false` otherwise.
+    */
+    func isRestoreOriginalKey<W>(_ key: KeyPath<Self, W?>,
+                                 original: Self) -> Bool where W: Equatable
+
+    /**
+     Updates a `ParseObject` with all keys that have been modified.
+     - parameter object: The original object.
+     - returns: The updated object.
+     - throws: An error of type `ParseError`.
+    */
+    func applyUpdate(_ object: Self) throws -> Self
 }
 
 // MARK: Default Implementations
@@ -83,6 +100,21 @@ public extension ParseObject {
     */
     func toPointer() throws -> Pointer<Self> {
         return try Pointer(self)
+    }
+/*
+    func isRestoreOriginalKey<W>(_ key: KeyPath<Self, W?>,
+                                 original: Self,
+                                 updated: Self) -> Bool where W: Equatable {
+        updated[keyPath: key] == nil && original[keyPath: key] != updated[keyPath: key]
+    }*/
+
+    func isRestoreOriginalKey<W>(_ key: KeyPath<Self, W?>,
+                                 original: Self) -> Bool where W: Equatable {
+        self[keyPath: key] == nil && original[keyPath: key] != self[keyPath: key]
+    }
+
+    func applyUpdate(_ object: Self) throws -> Self {
+        return self
     }
 }
 

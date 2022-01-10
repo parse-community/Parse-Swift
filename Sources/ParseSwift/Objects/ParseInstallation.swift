@@ -35,50 +35,134 @@ import Foundation
 public protocol ParseInstallation: ParseObject {
 
     /**
-    The device type for the `ParseInstallation`.
+     The device type for the `ParseInstallation`.
     */
     var deviceType: String? { get set }
 
     /**
-    The installationId for the `ParseInstallation`.
+     The installationId for the `ParseInstallation`.
     */
     var installationId: String? { get set }
 
     /**
-    The device token for the `ParseInstallation`.
+     The device token for the `ParseInstallation`.
     */
     var deviceToken: String? { get set }
 
     /**
-    The badge for the `ParseInstallation`.
+     The badge for the `ParseInstallation`.
     */
     var badge: Int? { get set }
 
     /**
-    The name of the time zone for the `ParseInstallation`.
+     The name of the time zone for the `ParseInstallation`.
     */
     var timeZone: String? { get set }
 
     /**
-    The channels for the `ParseInstallation`.
+     The channels for the `ParseInstallation`.
     */
     var channels: [String]? { get set }
 
+    /**
+     The application name  for the `ParseInstallation`.
+     */
     var appName: String? { get set }
 
+    /**
+     The application identifier for the `ParseInstallation`.
+     */
     var appIdentifier: String? { get set }
 
+    /**
+     The application version for the `ParseInstallation`.
+     */
     var appVersion: String? { get set }
 
+    /**
+     The sdk version for the `ParseInstallation`.
+     */
     var parseVersion: String? { get set }
 
+    /**
+     The locale identifier for the `ParseInstallation`.
+     */
     var localeIdentifier: String? { get set }
+
+    /**
+     Updates a `ParseInstallation` with all keys that have been modified.
+     - parameter installation: The original installation.
+     - returns: The updated installation.
+     - throws: An error of type `ParseError`.
+    */
+    func applyDefaultUpdate(_ installation: Self) throws -> Self
 }
 
 // MARK: Default Implementations
 public extension ParseInstallation {
     static var className: String {
         "_Installation"
+    }
+
+    func applyDefaultUpdate(_ installation: Self) throws -> Self {
+        guard hasSameObjectId(as: installation) == true else {
+            throw ParseError(code: .unknownError,
+                             message: "objectId's of objects don't match")
+        }
+        var updatedInstallation = self
+        if isRestoreOriginalKey(\.deviceType,
+                                 original: installation) {
+            updatedInstallation.deviceType = installation.deviceType
+        }
+        if isRestoreOriginalKey(\.deviceType,
+                                 original: installation) {
+            updatedInstallation.installationId = installation.installationId
+        }
+        if isRestoreOriginalKey(\.deviceType,
+                                 original: installation) {
+            updatedInstallation.deviceToken = installation.deviceToken
+        }
+        if isRestoreOriginalKey(\.badge,
+                                 original: installation) {
+            updatedInstallation.badge = installation.badge
+        }
+        if isRestoreOriginalKey(\.timeZone,
+                                 original: installation) {
+            updatedInstallation.timeZone = installation.timeZone
+        }
+        if isRestoreOriginalKey(\.channels,
+                                 original: installation) {
+            updatedInstallation.channels = installation.channels
+        }
+        if isRestoreOriginalKey(\.appName,
+                                 original: installation) {
+            updatedInstallation.appName = installation.appName
+        }
+        if isRestoreOriginalKey(\.appIdentifier,
+                                 original: installation) {
+            updatedInstallation.appIdentifier = installation.appIdentifier
+        }
+        if isRestoreOriginalKey(\.appVersion,
+                                 original: installation) {
+            updatedInstallation.appVersion = installation.appVersion
+        }
+        if isRestoreOriginalKey(\.parseVersion,
+                                 original: installation) {
+            updatedInstallation.parseVersion = installation.parseVersion
+        }
+        if isRestoreOriginalKey(\.localeIdentifier,
+                                 original: installation) {
+            updatedInstallation.localeIdentifier = installation.localeIdentifier
+        }
+        return updatedInstallation
+    }
+
+    func applyUpdate(_ object: Self) throws -> Self {
+        guard hasSameObjectId(as: object) == true else {
+            throw ParseError(code: .unknownError,
+                             message: "objectId's of objects don't match")
+        }
+        return try applyDefaultUpdate(object)
     }
 }
 
@@ -664,7 +748,7 @@ extension ParseInstallation {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved {
-            return try replaceCommand() // Should be switched to "updateCommand" when server supports PATCH.
+            return try replaceCommand() // MARK: Should be switched to "updateCommand" when server supports PATCH.
         }
         return createCommand()
     }
@@ -690,8 +774,14 @@ extension ParseInstallation {
             throw ParseError(code: .missingObjectId,
                              message: "objectId must not be nil")
         }
-        let mapper = { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: self)
+        let mapper = { (data: Data) -> Self in
+            let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: self)
+            // MARK: The lines below should be removed when server supports PATCH.
+            guard let current = Self.current,
+                  current.hasSameObjectId(as: object) == true else {
+                return object
+            }
+            return try object.applyUpdate(current)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
@@ -704,8 +794,13 @@ extension ParseInstallation {
             throw ParseError(code: .missingObjectId,
                              message: "objectId must not be nil")
         }
-        let mapper = { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
+        let mapper = { (data: Data) -> Self in
+            let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
+            guard let current = Self.current,
+                  current.hasSameObjectId(as: object) == true else {
+                return object
+            }
+            return try object.applyUpdate(current)
         }
         return API.Command<Self, Self>(method: .PATCH,
                                  path: endpoint,

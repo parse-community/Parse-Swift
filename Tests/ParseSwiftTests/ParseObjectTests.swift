@@ -44,7 +44,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var levels: [Level]?
         var nextLevel: Level?
 
-        //custom initializers
+        //: custom initializers
         init() {}
 
         init(objectId: String?) {
@@ -57,6 +57,32 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         init(points: Int, name: String) {
             self.points = points
             self.player = name
+        }
+
+        //: Implement your own version of applyUpdate
+        func applyUpdate(_ object: Self) throws -> Self {
+            guard hasSameObjectId(as: object) == true else {
+                throw ParseError(code: .unknownError,
+                                 message: "objectId's of objects don't match")
+            }
+            var updated = self
+            if isRestoreOriginalKey(\.points,
+                                     original: object) {
+                updated.points = object.points
+            }
+            if isRestoreOriginalKey(\.level,
+                                     original: object) {
+                updated.level = object.level
+            }
+            if isRestoreOriginalKey(\.levels,
+                                     original: object) {
+                updated.levels = object.levels
+            }
+            if isRestoreOriginalKey(\.nextLevel,
+                                     original: object) {
+                updated.nextLevel = object.nextLevel
+            }
+            return updated
         }
     }
 
@@ -97,7 +123,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var profilePicture: ParseFile?
     }
 
-    class GameScoreClass: ParseObject {
+    final class GameScoreClass: ParseObject {
 
         //: These are required by ParseObject
         var objectId: String?
@@ -156,7 +182,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    class GameClass: ParseObject {
+    final class GameClass: ParseObject {
 
         //: These are required by ParseObject
         var objectId: String?
@@ -328,6 +354,18 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNotEqual(score.id, objectId)
         score.objectId = "yolo"
         XCTAssertEqual(score.id, objectId)
+    }
+
+    func testIsRestoreOriginalKey() throws {
+        let score1 = GameScore(points: 5)
+        var score2 = GameScore(points: 5, name: "world")
+        score2.levels = [Level()]
+        score2.nextLevel = Level()
+        XCTAssertFalse(score1.isRestoreOriginalKey(\.player, original: score2))
+        XCTAssertTrue(score1.isRestoreOriginalKey(\.levels, original: score2))
+        XCTAssertFalse(score1.isRestoreOriginalKey(\.points, original: score2))
+        XCTAssertFalse(score1.isRestoreOriginalKey(\.level, original: score2))
+        XCTAssertTrue(score1.isRestoreOriginalKey(\.nextLevel, original: score2))
     }
 
     func testParseObjectMutable() throws {
