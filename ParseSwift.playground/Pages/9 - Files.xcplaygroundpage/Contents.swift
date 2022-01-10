@@ -26,6 +26,24 @@ struct GameScore: ParseObject {
     var points: Int = 0
     var profilePicture: ParseFile?
     var myData: ParseFile?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.points,
+                                         original: object) {
+            updated.points = object.points
+        }
+        if updated.isRestoreOriginalKey(\.profilePicture,
+                                         original: object) {
+            updated.profilePicture = object.profilePicture
+        }
+        if updated.isRestoreOriginalKey(\.myData,
+                                         original: object) {
+            updated.myData = object.myData
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension

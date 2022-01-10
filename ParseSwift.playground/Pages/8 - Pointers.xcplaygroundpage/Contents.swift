@@ -25,6 +25,16 @@ struct Book: ParseObject {
 
     //: Your own properties.
     var title: String?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.title,
+                                         original: object) {
+            updated.title = object.title
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -45,13 +55,26 @@ struct Author: ParseObject {
     var score: Double?
 
     //: Your own properties.
-    var name: String
-    var book: Book
+    var name: String?
+    var book: Book?
     var otherBooks: [Book]?
 
-    init() {
-        self.name = "hello"
-        self.book = Book()
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.name,
+                                         original: object) {
+            updated.name = object.name
+        }
+        if updated.isRestoreOriginalKey(\.book,
+                                         original: object) {
+            updated.book = object.book
+        }
+        if updated.isRestoreOriginalKey(\.otherBooks,
+                                         original: object) {
+            updated.otherBooks = object.otherBooks
+        }
+        return updated
     }
 }
 

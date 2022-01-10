@@ -13,7 +13,7 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-struct Installation: ParseInstallation {
+struct Installation: ParseInstallation, ParseObjectMutable {
     //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
@@ -36,6 +36,16 @@ struct Installation: ParseInstallation {
 
     //: Your custom keys
     var customKey: String?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.customKey,
+                                         original: object) {
+            updated.customKey = object.customKey
+        }
+        return updated
+    }
 }
 
 /*: Save your first `customKey` value to your `ParseInstallation`.
@@ -60,7 +70,8 @@ currentInstallation?.save { results in
     designated callbackQueue. If no callbackQueue is specified it
     returns to main queue.
  */
-var installationToUpdate = Installation.current
+let originalInstallation = Installation.current
+var installationToUpdate = originalInstallation?.mutable
 installationToUpdate?.customKey = "myCustomInstallationKey2"
 installationToUpdate?.save { results in
 

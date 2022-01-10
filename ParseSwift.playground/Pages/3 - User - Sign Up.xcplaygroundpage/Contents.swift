@@ -13,7 +13,7 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 import ParseSwift
 initializeParse()
 
-struct User: ParseUser {
+struct User: ParseUser, ParseObjectMutable {
     //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
@@ -30,6 +30,16 @@ struct User: ParseUser {
 
     //: Your custom keys.
     var customKey: String?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.customKey,
+                                         original: object) {
+            updated.customKey = object.customKey
+        }
+        return updated
+    }
 }
 
 /*: Sign up user asynchronously - Performs work on background

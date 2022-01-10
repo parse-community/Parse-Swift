@@ -59,27 +59,23 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             self.player = name
         }
 
-        //: Implement your own version of applyUpdate
-        func applyUpdate(_ object: Self) throws -> Self {
-            guard hasSameObjectId(as: object) == true else {
-                throw ParseError(code: .unknownError,
-                                 message: "objectId's of objects don't match")
-            }
-            var updated = self
-            if isRestoreOriginalKey(\.points,
-                                     original: object) {
+        //: Implement your own version of merge
+        func merge(_ object: Self) throws -> Self {
+            var updated = try mergeParse(object)
+            if updated.isRestoreOriginalKey(\.points,
+                                             original: object) {
                 updated.points = object.points
             }
-            if isRestoreOriginalKey(\.level,
-                                     original: object) {
+            if updated.isRestoreOriginalKey(\.level,
+                                             original: object) {
                 updated.level = object.level
             }
-            if isRestoreOriginalKey(\.levels,
-                                     original: object) {
+            if updated.isRestoreOriginalKey(\.levels,
+                                             original: object) {
                 updated.levels = object.levels
             }
-            if isRestoreOriginalKey(\.nextLevel,
-                                     original: object) {
+            if updated.isRestoreOriginalKey(\.nextLevel,
+                                             original: object) {
                 updated.nextLevel = object.nextLevel
             }
             return updated
@@ -375,6 +371,41 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let empty = score.mutable
         XCTAssertTrue(score.hasSameObjectId(as: empty))
         XCTAssertEqual(score.createdAt, empty.createdAt)
+    }
+
+    func testMerge() throws {
+        var score = GameScore(points: 19, name: "fire")
+        score.objectId = "yolo"
+        score.createdAt = Date()
+        score.updatedAt = Date()
+        var level = Level()
+        level.objectId = "hello"
+        var level2 = Level()
+        level2.objectId = "world"
+        score.level = level
+        score.levels = [level]
+        score.nextLevel = level2
+        var updated = score.mutable
+        updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+        updated.points = 30
+        updated.player = "moreFire"
+        updated.levels = [level, level2]
+        let merged = try updated.merge(score)
+        XCTAssertEqual(merged.points, updated.points)
+        XCTAssertEqual(merged.player, updated.player)
+        XCTAssertEqual(merged.level, score.level)
+        XCTAssertEqual(merged.levels, updated.levels)
+        XCTAssertEqual(merged.nextLevel, score.nextLevel)
+        XCTAssertEqual(merged.createdAt, score.createdAt)
+        XCTAssertEqual(merged.updatedAt, updated.updatedAt)
+    }
+
+    func testMergeDifferentObjectId() throws {
+        var score = GameScore(points: 19, name: "fire")
+        score.objectId = "yolo"
+        var score2 = score
+        score2.objectId = "nolo"
+        XCTAssertThrowsError(try score2.merge(score))
     }
 
     func testFetchCommand() {

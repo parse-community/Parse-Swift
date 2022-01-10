@@ -63,11 +63,19 @@ public protocol ParseObject: Objectable,
 
     /**
      Updates a `ParseObject` with all keys that have been modified.
+     - parameter object: The original installation.
+     - returns: The updated installation.
+     - throws: An error of type `ParseError`.
+    */
+    func mergeParse(_ object: Self) throws -> Self
+
+    /**
+     Updates a `ParseObject` with all keys that have been modified.
      - parameter object: The original object.
      - returns: The updated object.
      - throws: An error of type `ParseError`.
     */
-    func applyUpdate(_ object: Self) throws -> Self
+    func merge(_ object: Self) throws -> Self
 }
 
 // MARK: Default Implementations
@@ -101,20 +109,22 @@ public extension ParseObject {
     func toPointer() throws -> Pointer<Self> {
         return try Pointer(self)
     }
-/*
-    func isRestoreOriginalKey<W>(_ key: KeyPath<Self, W?>,
-                                 original: Self,
-                                 updated: Self) -> Bool where W: Equatable {
-        updated[keyPath: key] == nil && original[keyPath: key] != updated[keyPath: key]
-    }*/
 
     func isRestoreOriginalKey<W>(_ key: KeyPath<Self, W?>,
                                  original: Self) -> Bool where W: Equatable {
         self[keyPath: key] == nil && original[keyPath: key] != self[keyPath: key]
     }
 
-    func applyUpdate(_ object: Self) throws -> Self {
+    func mergeParse(_ object: Self) throws -> Self {
+        guard hasSameObjectId(as: object) == true else {
+            throw ParseError(code: .unknownError,
+                             message: "objectId's of objects don't match")
+        }
         return self
+    }
+
+    func merge(_ object: Self) throws -> Self {
+        return try mergeParse(object)
     }
 }
 

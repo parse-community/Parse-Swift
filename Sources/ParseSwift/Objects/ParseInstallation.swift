@@ -88,14 +88,6 @@ public protocol ParseInstallation: ParseObject {
      The locale identifier for the `ParseInstallation`.
      */
     var localeIdentifier: String? { get set }
-
-    /**
-     Updates a `ParseInstallation` with all keys that have been modified.
-     - parameter installation: The original installation.
-     - returns: The updated installation.
-     - throws: An error of type `ParseError`.
-    */
-    func applyDefaultUpdate(_ installation: Self) throws -> Self
 }
 
 // MARK: Default Implementations
@@ -104,65 +96,61 @@ public extension ParseInstallation {
         "_Installation"
     }
 
-    func applyDefaultUpdate(_ installation: Self) throws -> Self {
-        guard hasSameObjectId(as: installation) == true else {
+    func mergeParse(_ object: Self) throws -> Self {
+        guard hasSameObjectId(as: object) == true else {
             throw ParseError(code: .unknownError,
                              message: "objectId's of objects don't match")
         }
         var updatedInstallation = self
         if isRestoreOriginalKey(\.deviceType,
-                                 original: installation) {
-            updatedInstallation.deviceType = installation.deviceType
+                                 original: object) {
+            updatedInstallation.deviceType = object.deviceType
         }
-        if isRestoreOriginalKey(\.deviceType,
-                                 original: installation) {
-            updatedInstallation.installationId = installation.installationId
+        if isRestoreOriginalKey(\.installationId,
+                                 original: object) {
+            updatedInstallation.installationId = object.installationId
         }
-        if isRestoreOriginalKey(\.deviceType,
-                                 original: installation) {
-            updatedInstallation.deviceToken = installation.deviceToken
+        if isRestoreOriginalKey(\.deviceToken,
+                                 original: object) {
+            updatedInstallation.deviceToken = object.deviceToken
         }
         if isRestoreOriginalKey(\.badge,
-                                 original: installation) {
-            updatedInstallation.badge = installation.badge
+                                 original: object) {
+            updatedInstallation.badge = object.badge
         }
         if isRestoreOriginalKey(\.timeZone,
-                                 original: installation) {
-            updatedInstallation.timeZone = installation.timeZone
+                                 original: object) {
+            updatedInstallation.timeZone = object.timeZone
         }
         if isRestoreOriginalKey(\.channels,
-                                 original: installation) {
-            updatedInstallation.channels = installation.channels
+                                 original: object) {
+            updatedInstallation.channels = object.channels
         }
         if isRestoreOriginalKey(\.appName,
-                                 original: installation) {
-            updatedInstallation.appName = installation.appName
+                                 original: object) {
+            updatedInstallation.appName = object.appName
         }
         if isRestoreOriginalKey(\.appIdentifier,
-                                 original: installation) {
-            updatedInstallation.appIdentifier = installation.appIdentifier
+                                 original: object) {
+            updatedInstallation.appIdentifier = object.appIdentifier
         }
         if isRestoreOriginalKey(\.appVersion,
-                                 original: installation) {
-            updatedInstallation.appVersion = installation.appVersion
+                                 original: object) {
+            updatedInstallation.appVersion = object.appVersion
         }
         if isRestoreOriginalKey(\.parseVersion,
-                                 original: installation) {
-            updatedInstallation.parseVersion = installation.parseVersion
+                                 original: object) {
+            updatedInstallation.parseVersion = object.parseVersion
         }
         if isRestoreOriginalKey(\.localeIdentifier,
-                                 original: installation) {
-            updatedInstallation.localeIdentifier = installation.localeIdentifier
+                                 original: object) {
+            updatedInstallation.localeIdentifier = object.localeIdentifier
         }
         return updatedInstallation
     }
 
-    func applyUpdate(_ object: Self) throws -> Self {
-        guard hasSameObjectId(as: object) == true else {
-            throw ParseError(code: .unknownError,
-                             message: "objectId's of objects don't match")
-        }
-        return try applyDefaultUpdate(object)
+    func merge(_ object: Self) throws -> Self {
+        try mergeParse(object)
     }
 }
 
@@ -781,7 +769,7 @@ extension ParseInstallation {
                   current.hasSameObjectId(as: object) == true else {
                 return object
             }
-            return try object.applyUpdate(current)
+            return try object.merge(current)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
@@ -800,7 +788,7 @@ extension ParseInstallation {
                   current.hasSameObjectId(as: object) == true else {
                 return object
             }
-            return try object.applyUpdate(current)
+            return try object.merge(current)
         }
         return API.Command<Self, Self>(method: .PATCH,
                                  path: endpoint,

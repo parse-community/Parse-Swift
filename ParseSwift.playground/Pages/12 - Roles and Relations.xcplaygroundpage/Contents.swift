@@ -30,6 +30,16 @@ struct User: ParseUser {
 
     //: Your custom keys.
     var customKey: String?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.customKey,
+                                         original: object) {
+            updated.customKey = object.customKey
+        }
+        return updated
+    }
 }
 
 struct Role<RoleUser: ParseUser>: ParseRole {
@@ -43,6 +53,16 @@ struct Role<RoleUser: ParseUser>: ParseRole {
 
     //: Provided by Role.
     var name: String
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.points,
+                                         original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
 
     init() {
         self.name = ""
@@ -59,7 +79,17 @@ struct GameScore: ParseObject, ParseObjectMutable {
     var score: Double?
 
     //: Your own properties.
-    var points: Int = 0
+    var points: Int?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.points,
+                                         original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension

@@ -35,14 +35,6 @@ public protocol ParseUser: ParseObject {
      or any authentication type that conforms to `ParseAuthentication`.
     */
     var authData: [String: [String: String]?]? { get set }
-
-    /**
-     Updates a `ParseUser` with all keys that have been modified.
-     - parameter user: The original user.
-     - returns: The updated user.
-     - throws: An error of type `ParseError`.
-    */
-    func applyDefaultUpdate(_ user: Self) throws -> Self
 }
 
 // MARK: Default Implementations
@@ -51,33 +43,29 @@ public extension ParseUser {
         "_User"
     }
 
-    func applyDefaultUpdate(_ user: Self) throws -> Self {
-        guard hasSameObjectId(as: user) == true else {
+    func mergeParse(_ object: Self) throws -> Self {
+        guard hasSameObjectId(as: object) == true else {
             throw ParseError(code: .unknownError,
                              message: "objectId's of objects do not match")
         }
         var updatedUser = self
         if isRestoreOriginalKey(\.username,
-                                 original: user) {
-            updatedUser.username = user.username
+                                 original: object) {
+            updatedUser.username = object.username
         }
         if isRestoreOriginalKey(\.email,
-                                 original: user) {
-            updatedUser.email = user.email
+                                 original: object) {
+            updatedUser.email = object.email
         }
         if isRestoreOriginalKey(\.authData,
-                                 original: user) {
-            updatedUser.authData = user.authData
+                                 original: object) {
+            updatedUser.authData = object.authData
         }
         return updatedUser
     }
 
-    func applyUpdate(_ object: Self) throws -> Self {
-        guard hasSameObjectId(as: object) == true else {
-            throw ParseError(code: .unknownError,
-                             message: "objectId's of objects don't match")
-        }
-        return try applyDefaultUpdate(object)
+    func merge(_ object: Self) throws -> Self {
+        try mergeParse(object)
     }
 }
 
@@ -1131,7 +1119,7 @@ extension ParseUser {
                   current.hasSameObjectId(as: object) == true else {
                 return object
             }
-            return try object.applyUpdate(current)
+            return try object.merge(current)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
@@ -1165,7 +1153,7 @@ extension ParseUser {
                   current.hasSameObjectId(as: object) == true else {
                 return object
             }
-            return try object.applyUpdate(current)
+            return try object.merge(current)
         }
         return API.Command<Self, Self>(method: .PATCH,
                                  path: endpoint,

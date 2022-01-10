@@ -25,6 +25,28 @@ struct GameScore: ParseObject {
     var timeStamp: Date? = Date()
     var oldScore: Int?
     var isHighest: Bool?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.points,
+                                         original: object) {
+            updated.points = object.points
+        }
+        if updated.isRestoreOriginalKey(\.timeStamp,
+                                         original: object) {
+            updated.timeStamp = object.timeStamp
+        }
+        if updated.isRestoreOriginalKey(\.oldScore,
+                                         original: object) {
+            updated.oldScore = object.oldScore
+        }
+        if updated.isRestoreOriginalKey(\.isHighest,
+                                         original: object) {
+            updated.isHighest = object.isHighest
+        }
+        return updated
+    }
 }
 
 var score = GameScore()

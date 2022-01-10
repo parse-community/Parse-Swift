@@ -33,6 +33,28 @@ struct User: ParseUser, ParseObjectMutable {
     var gameScore: GameScore?
     var targetScore: GameScore?
     var allScores: [GameScore]?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.customKey,
+                                         original: object) {
+            updated.customKey = object.customKey
+        }
+        if updated.isRestoreOriginalKey(\.gameScore,
+                                         original: object) {
+            updated.gameScore = object.gameScore
+        }
+        if updated.isRestoreOriginalKey(\.targetScore,
+                                         original: object) {
+            updated.targetScore = object.targetScore
+        }
+        if updated.isRestoreOriginalKey(\.allScores,
+                                         original: object) {
+            updated.allScores = object.allScores
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -57,6 +79,16 @@ struct GameScore: ParseObject {
 
     //: Your own properties.
     var points: Int? = 0
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.points,
+                                         original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension

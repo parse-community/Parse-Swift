@@ -40,6 +40,16 @@ struct GameScore: ParseObject, ParseObjectMutable {
 
     //: Your own properties.
     var points: Int = 0
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.isRestoreOriginalKey(\.points,
+                                         original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -68,6 +78,20 @@ struct GameData: ParseObject {
     //: `ParseBytes` needs to be a part of the original schema
     //: or else you will need your masterKey to force an upgrade.
     var bytes: ParseBytes?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if isRestoreOriginalKey(\.polygon,
+                                 original: object) {
+            updated.polygon = object.polygon
+        }
+        if isRestoreOriginalKey(\.points,
+                                 original: object) {
+            updated.bytes = object.bytes
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension

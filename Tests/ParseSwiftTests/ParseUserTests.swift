@@ -12,7 +12,7 @@ import XCTest
 
 class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct User: ParseUser {
+    struct User: ParseUser, ParseObjectMutable {
 
         //: These are required by ParseObject
         var objectId: String?
@@ -30,6 +30,16 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         // Your custom keys
         var customKey: String?
+
+        //: Implement your own version of merge
+        func merge(_ object: Self) throws -> Self {
+            var updated = try mergeParse(object)
+            if updated.isRestoreOriginalKey(\.customKey,
+                                             original: object) {
+                updated.customKey = object.customKey
+            }
+            return updated
+        }
     }
 
     struct LoginSignupResponse: ParseUser {
@@ -98,6 +108,35 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         try KeychainStore.shared.deleteAll()
         #endif
         try ParseStorage.shared.deleteAll()
+    }
+
+    func testMerge() throws {
+        // Signup current User
+        XCTAssertNil(User.current?.objectId)
+        try userSignUp()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard var original = User.current else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        original.objectId = "yolo"
+        original.createdAt = Date()
+        original.updatedAt = Date()
+
+        var updated = original.mutable
+        updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+        updated.email = "swift@parse.com"
+        updated.username = "12345"
+        updated.customKey = "newKey"
+        let merged = try updated.merge(original)
+        XCTAssertEqual(merged.customKey, updated.customKey)
+        XCTAssertEqual(merged.email, updated.email)
+        XCTAssertEqual(merged.emailVerified, original.emailVerified)
+        XCTAssertEqual(merged.username, updated.username)
+        XCTAssertEqual(merged.authData, original.authData)
+        XCTAssertEqual(merged.createdAt, original.createdAt)
+        XCTAssertEqual(merged.updatedAt, updated.updatedAt)
     }
 
     func testFetchCommand() {
@@ -740,6 +779,71 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTAssertEqual(keychainUser.currentUser?.email, user.email)
             #endif
 
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testSaveMutableMergeCurrentUser() throws {
+        // Signup current User
+        XCTAssertNil(User.current?.objectId)
+        try userSignUp()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let original = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+        var response = original.mutable
+        response.createdAt = nil
+        response.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+
+        let encoded: Data!
+        do {
+            encoded = try response.getEncoder().encode(response, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            response = try response.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        var updated = original.mutable
+        updated.customKey = "beast"
+        updated.username = "mode"
+
+        do {
+            let saved = try updated.save()
+            let expectation1 = XCTestExpectation(description: "Update installation1")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                guard let newCurrentUser = User.current else {
+                    XCTFail("Should have a new current installation")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertTrue(saved.hasSameObjectId(as: newCurrentUser))
+                XCTAssertTrue(saved.hasSameObjectId(as: response))
+                XCTAssertEqual(saved.customKey, updated.customKey)
+                XCTAssertEqual(saved.email, original.email)
+                XCTAssertEqual(saved.username, updated.username)
+                XCTAssertEqual(saved.emailVerified, original.emailVerified)
+                XCTAssertEqual(saved.password, original.password)
+                XCTAssertEqual(saved.authData, original.authData)
+                XCTAssertEqual(saved.createdAt, original.createdAt)
+                XCTAssertEqual(saved.updatedAt, response.updatedAt)
+                XCTAssertEqual(saved.customKey, newCurrentUser.customKey)
+                XCTAssertEqual(saved.email, newCurrentUser.email)
+                XCTAssertEqual(saved.username, newCurrentUser.username)
+                XCTAssertEqual(saved.emailVerified, newCurrentUser.emailVerified)
+                XCTAssertEqual(saved.password, newCurrentUser.password)
+                XCTAssertEqual(saved.authData, newCurrentUser.authData)
+                XCTAssertEqual(saved.createdAt, newCurrentUser.createdAt)
+                XCTAssertEqual(saved.updatedAt, newCurrentUser.updatedAt)
+                expectation1.fulfill()
+            }
+            wait(for: [expectation1], timeout: 20.0)
         } catch {
             XCTFail(error.localizedDescription)
         }
