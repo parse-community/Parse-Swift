@@ -70,8 +70,7 @@ currentInstallation?.save { results in
     designated callbackQueue. If no callbackQueue is specified it
     returns to main queue.
  */
-let originalInstallation = Installation.current
-var installationToUpdate = originalInstallation?.mutable
+var installationToUpdate = Installation.current?.mutable
 installationToUpdate?.customKey = "myCustomInstallationKey2"
 installationToUpdate?.save { results in
 
