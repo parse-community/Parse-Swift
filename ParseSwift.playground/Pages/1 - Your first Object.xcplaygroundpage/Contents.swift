@@ -39,7 +39,7 @@ struct GameScore: ParseObject, ParseObjectMutable {
     var score: Double?
 
     //: Your own properties.
-    var points: Int = 0
+    var points: Int?
 
     //: Implement your own version of merge
     func merge(_ object: Self) throws -> Self {

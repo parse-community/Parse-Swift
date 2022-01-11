@@ -62,18 +62,53 @@ public protocol ParseObject: Objectable,
                                  original: Self) -> Bool where W: Equatable
 
     /**
-     Updates a `ParseObject` with all keys that have been modified.
+     Merges two `ParseObject`'s resulting in modified and unchanged Parse keys.
      - parameter object: The original installation.
      - returns: The updated installation.
      - throws: An error of type `ParseError`.
+     - note: Use this in combination with `ParseMutable` to only send updated
+     keys to the server and then merge those changes with the original object.
+     - warning: You should only call this method and shouldn't implement it directly
+     as it's already implemented for developers to use.
     */
     func mergeParse(_ object: Self) throws -> Self
 
     /**
-     Updates a `ParseObject` with all keys that have been modified.
+     Merges two `ParseObject`'s resulting in modified and unchanged keys.
+
+         //: Create your own value typed `ParseObject`.
+         struct GameScore: ParseObject, ParseObjectMutable {
+             //: These are required by ParseObject
+             var objectId: String?
+             var createdAt: Date?
+             var updatedAt: Date?
+             var ACL: ParseACL?
+             var score: Double?
+
+             //: Your own properties.
+             var points: Int?
+
+             //: Implement your own version of merge
+             func merge(_ object: Self) throws -> Self {
+                 var updated = try mergeParse(object)
+                 if updated.isRestoreOriginalKey(\.points,
+                                                  original: object) {
+                     updated.points = object.points
+                 }
+                 return updated
+             }
+         }
+
      - parameter object: The original object.
-     - returns: The updated object.
+     - returns: The merged object.
      - throws: An error of type `ParseError`.
+     - note: Use this in combination with `ParseMutable` to only send updated
+     keys to the server and then merge those changes with the original object.
+     - important: It is recommend you provide an implementation of this method
+     for all of your `ParseObject`'s as the developer has access to all keys of a
+     `ParseObject`. You should always call `mergeParse`
+     in the beginning of your implementation to handle all default Parse keys. In addition,
+     use `isRestoreOriginalKey` to compare key modifications between objects.
     */
     func merge(_ object: Self) throws -> Self
 }
