@@ -82,7 +82,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    struct Game: ParseObject {
+    struct Game: ParseObject, ParseObjectMutable {
         //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
@@ -378,6 +378,9 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         score.objectId = "yolo"
         score.createdAt = Date()
         score.updatedAt = Date()
+        var acl = ParseACL()
+        acl.publicRead = true
+        score.ACL = acl
         var level = Level()
         level.objectId = "hello"
         var level2 = Level()
@@ -396,8 +399,24 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(merged.level, score.level)
         XCTAssertEqual(merged.levels, updated.levels)
         XCTAssertEqual(merged.nextLevel, score.nextLevel)
+        XCTAssertEqual(merged.ACL, score.ACL)
         XCTAssertEqual(merged.createdAt, score.createdAt)
         XCTAssertEqual(merged.updatedAt, updated.updatedAt)
+    }
+
+    func testMergeDefaultImplementation() throws {
+        var score = Game()
+        score.objectId = "yolo"
+        score.createdAt = Date()
+        score.updatedAt = Date()
+        var updated = score.mutable
+        updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+        updated.name = "moreFire"
+        let merged = try updated.merge(score)
+        XCTAssertEqual(merged.name, updated.name)
+        XCTAssertEqual(merged.gameScore, score.gameScore)
+        XCTAssertEqual(merged.gameScores, score.gameScores)
+        XCTAssertEqual(merged.profilePicture, updated.profilePicture)
     }
 
     func testMergeDifferentObjectId() throws {

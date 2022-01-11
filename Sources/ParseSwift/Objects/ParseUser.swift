@@ -49,6 +49,10 @@ public extension ParseUser {
                              message: "objectId's of objects do not match")
         }
         var updatedUser = self
+        if isRestoreOriginalKey(\.ACL,
+                                 original: object) {
+            updatedUser.ACL = object.ACL
+        }
         if isRestoreOriginalKey(\.username,
                                  original: object) {
             updatedUser.username = object.username

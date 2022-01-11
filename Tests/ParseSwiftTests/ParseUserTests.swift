@@ -123,6 +123,10 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         original.objectId = "yolo"
         original.createdAt = Date()
         original.updatedAt = Date()
+        original.authData = ["hello": ["world": "yolo"]]
+        var acl = ParseACL()
+        acl.publicRead = true
+        original.ACL = acl
 
         var updated = original.mutable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
@@ -135,8 +139,48 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(merged.emailVerified, original.emailVerified)
         XCTAssertEqual(merged.username, updated.username)
         XCTAssertEqual(merged.authData, original.authData)
+        XCTAssertEqual(merged.ACL, original.ACL)
         XCTAssertEqual(merged.createdAt, original.createdAt)
         XCTAssertEqual(merged.updatedAt, updated.updatedAt)
+    }
+
+    func testMerge2() throws {
+        // Signup current User
+        XCTAssertNil(User.current?.objectId)
+        try userSignUp()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard var original = User.current else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        original.objectId = "yolo"
+        original.createdAt = Date()
+        original.updatedAt = Date()
+        var acl = ParseACL()
+        acl.publicRead = true
+        original.ACL = acl
+
+        var updated = original.mutable
+        updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+        updated.customKey = "newKey"
+        let merged = try updated.merge(original)
+        XCTAssertEqual(merged.customKey, updated.customKey)
+        XCTAssertEqual(merged.email, original.email)
+        XCTAssertEqual(merged.emailVerified, original.emailVerified)
+        XCTAssertEqual(merged.username, original.username)
+        XCTAssertEqual(merged.authData, original.authData)
+        XCTAssertEqual(merged.ACL, original.ACL)
+        XCTAssertEqual(merged.createdAt, original.createdAt)
+        XCTAssertEqual(merged.updatedAt, updated.updatedAt)
+    }
+
+    func testMergeDifferentObjectId() throws {
+        var user = User()
+        user.objectId = "yolo"
+        var user2 = user
+        user2.objectId = "nolo"
+        XCTAssertThrowsError(try user2.merge(user))
     }
 
     func testFetchCommand() {

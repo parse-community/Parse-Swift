@@ -120,7 +120,12 @@ public extension ParseObject {
             throw ParseError(code: .unknownError,
                              message: "objectId's of objects don't match")
         }
-        return self
+        var updated = self
+        if isRestoreOriginalKey(\.ACL,
+                                 original: object) {
+            updated.ACL = object.ACL
+        }
+        return updated
     }
 
     func merge(_ object: Self) throws -> Self {

@@ -102,6 +102,10 @@ public extension ParseInstallation {
                              message: "objectId's of objects don't match")
         }
         var updatedInstallation = self
+        if isRestoreOriginalKey(\.ACL,
+                                 original: object) {
+            updatedInstallation.ACL = object.ACL
+        }
         if isRestoreOriginalKey(\.deviceType,
                                  original: object) {
             updatedInstallation.deviceType = object.deviceType

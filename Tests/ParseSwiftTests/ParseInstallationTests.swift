@@ -274,6 +274,9 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         original.createdAt = Date()
         original.updatedAt = Date()
         original.badge = 10
+        var acl = ParseACL()
+        acl.publicRead = true
+        original.ACL = acl
 
         var updated = original.mutable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
@@ -293,8 +296,53 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         XCTAssertEqual(merged.appIdentifier, original.appIdentifier)
         XCTAssertEqual(merged.parseVersion, original.parseVersion)
         XCTAssertEqual(merged.localeIdentifier, original.localeIdentifier)
+        XCTAssertEqual(merged.ACL, original.ACL)
         XCTAssertEqual(merged.createdAt, original.createdAt)
         XCTAssertEqual(merged.updatedAt, updated.updatedAt)
+    }
+
+    func testMerge2() throws {
+        guard var original = Installation.current else {
+            XCTFail("Should have unwrapped")
+            return
+        }
+        original.objectId = "yolo"
+        original.createdAt = Date()
+        original.updatedAt = Date()
+        original.badge = 10
+        original.deviceToken = "bruh"
+        original.channels = ["halo"]
+        var acl = ParseACL()
+        acl.publicRead = true
+        original.ACL = acl
+
+        var updated = original.mutable
+        updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+        updated.customKey = "newKey"
+        let merged = try updated.merge(original)
+        XCTAssertEqual(merged.customKey, updated.customKey)
+        XCTAssertEqual(merged.badge, original.badge)
+        XCTAssertEqual(merged.deviceType, original.deviceType)
+        XCTAssertEqual(merged.deviceToken, original.deviceToken)
+        XCTAssertEqual(merged.channels, original.channels)
+        XCTAssertEqual(merged.installationId, original.installationId)
+        XCTAssertEqual(merged.timeZone, original.timeZone)
+        XCTAssertEqual(merged.appName, original.appName)
+        XCTAssertEqual(merged.appVersion, original.appVersion)
+        XCTAssertEqual(merged.appIdentifier, original.appIdentifier)
+        XCTAssertEqual(merged.parseVersion, original.parseVersion)
+        XCTAssertEqual(merged.localeIdentifier, original.localeIdentifier)
+        XCTAssertEqual(merged.ACL, original.ACL)
+        XCTAssertEqual(merged.createdAt, original.createdAt)
+        XCTAssertEqual(merged.updatedAt, updated.updatedAt)
+    }
+
+    func testMergeDifferentObjectId() throws {
+        var installation = Installation()
+        installation.objectId = "yolo"
+        var installation2 = installation
+        installation2.objectId = "nolo"
+        XCTAssertThrowsError(try installation2.merge(installation))
     }
 
     func testUpdate() {
