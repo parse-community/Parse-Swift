@@ -13,7 +13,7 @@ import XCTest
 
 class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct User: ParseUser {
+    struct User: ParseUser, ParseObjectMutable {
 
         //: These are required by ParseObject
         var objectId: String?
@@ -31,6 +31,16 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
         // Your custom keys
         var customKey: String?
+
+        //: Implement your own version of merge
+        func merge(_ object: Self) throws -> Self {
+            var updated = try mergeParse(object)
+            if updated.isRestoreOriginalKey(\.customKey,
+                                             original: object) {
+                updated.customKey = object.customKey
+            }
+            return updated
+        }
     }
 
     struct LoginSignupResponse: ParseUser {
@@ -703,6 +713,73 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 return
             }
             XCTAssertEqual(parseError.code, .missingObjectId)
+        }
+    }
+
+    func testUpdateMutableMergeCurrentUser() async throws {
+        // Signup current User
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(User.current?.objectId)
+
+        guard let original = User.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+        var originalResponse = original.mutable
+        originalResponse.createdAt = nil
+        originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+
+        let encoded: Data!
+        do {
+            encoded = try originalResponse.getEncoder().encode(originalResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            originalResponse = try originalResponse.getDecoder().decode(User.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let response = originalResponse
+        var originalUpdated = original.mutable
+        originalUpdated.customKey = "beast"
+        originalUpdated.username = "mode"
+        let updated = originalUpdated
+
+        do {
+            let saved = try await updated.update()
+            let expectation1 = XCTestExpectation(description: "Update installation1")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                guard let newCurrentUser = User.current else {
+                    XCTFail("Should have a new current installation")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertTrue(saved.hasSameObjectId(as: newCurrentUser))
+                XCTAssertTrue(saved.hasSameObjectId(as: response))
+                XCTAssertEqual(saved.customKey, updated.customKey)
+                XCTAssertEqual(saved.email, original.email)
+                XCTAssertEqual(saved.username, updated.username)
+                XCTAssertEqual(saved.emailVerified, original.emailVerified)
+                XCTAssertEqual(saved.password, original.password)
+                XCTAssertEqual(saved.authData, original.authData)
+                XCTAssertEqual(saved.createdAt, original.createdAt)
+                XCTAssertEqual(saved.updatedAt, response.updatedAt)
+                XCTAssertEqual(saved.customKey, newCurrentUser.customKey)
+                XCTAssertEqual(saved.email, newCurrentUser.email)
+                XCTAssertEqual(saved.username, newCurrentUser.username)
+                XCTAssertEqual(saved.emailVerified, newCurrentUser.emailVerified)
+                XCTAssertEqual(saved.password, newCurrentUser.password)
+                XCTAssertEqual(saved.authData, newCurrentUser.authData)
+                XCTAssertEqual(saved.createdAt, newCurrentUser.createdAt)
+                XCTAssertEqual(saved.updatedAt, newCurrentUser.updatedAt)
+                expectation1.fulfill()
+            }
+            wait(for: [expectation1], timeout: 20.0)
+        } catch {
+            XCTFail(error.localizedDescription)
         }
     }
 
