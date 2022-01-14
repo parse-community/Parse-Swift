@@ -1119,7 +1119,7 @@ extension ParseUser {
         let mapper = { (data: Data) -> Self in
             let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: self)
             // MARK: The lines below should be removed when server supports PATCH.
-            guard let originalData = originalData,
+            guard let originalData = self.originalData,
                   let original = try? ParseCoding.jsonDecoder().decode(Self.self,
                                                                        from: originalData),
                   original.hasSameObjectId(as: object) else {
@@ -1155,7 +1155,7 @@ extension ParseUser {
         }
         let mapper = { (data: Data) -> Self in
             let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
-            guard let originalData = originalData,
+            guard let originalData = self.originalData,
                   let original = try? ParseCoding.jsonDecoder().decode(Self.self,
                                                                        from: originalData),
                   original.hasSameObjectId(as: object) else {
