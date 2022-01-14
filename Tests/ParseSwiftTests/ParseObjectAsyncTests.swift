@@ -13,7 +13,7 @@ import XCTest
 
 class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct GameScore: ParseObject {
+    struct GameScore: ParseObject, ParseObjectMutable {
 
         //: These are required by ParseObject
         var objectId: String?
@@ -26,6 +26,20 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         //: Your own properties
         var points: Int?
         var player: String?
+
+        //: Implement your own version of merge
+        func merge(_ object: Self) throws -> Self {
+            var updated = try mergeParse(object)
+            if updated.shouldRestoreKey(\.points,
+                                         original: object) {
+                updated.points = object.points
+            }
+            if updated.shouldRestoreKey(\.player,
+                                         original: object) {
+                updated.player = object.player
+            }
+            return updated
+        }
 
         init() { }
 
@@ -141,6 +155,45 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         XCTAssertEqual(savedCreatedAt, scoreOnServer.createdAt)
         XCTAssertEqual(savedUpdatedAt, scoreOnServer.createdAt)
         XCTAssertEqual(saved.ACL, scoreOnServer.ACL)
+    }
+
+    @MainActor
+    func testSaveMutable() async throws {
+        var original = GameScore(points: 10)
+        original.objectId = "yarr"
+        original.player = "beast"
+
+        var originalResponse = original.mutable
+        originalResponse.createdAt = nil
+        originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+
+        let encoded: Data!
+        do {
+            encoded = try originalResponse.getEncoder().encode(originalResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            originalResponse = try originalResponse.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let response = originalResponse
+        var originalUpdated = original.mutable
+        originalUpdated.points = 50
+        let updated = originalUpdated
+
+        do {
+            let saved = try await updated.save()
+            XCTAssertTrue(saved.hasSameObjectId(as: response))
+            XCTAssertEqual(saved.points, 50)
+            XCTAssertEqual(saved.player, original.player)
+            XCTAssertEqual(saved.createdAt, response.createdAt)
+            XCTAssertEqual(saved.updatedAt, response.updatedAt)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
     }
 
     @MainActor
@@ -317,6 +370,45 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
                 return
             }
             XCTAssertEqual(parseError.code, .missingObjectId)
+        }
+    }
+
+    @MainActor
+    func testUpdateMutable() async throws {
+        var original = GameScore(points: 10)
+        original.objectId = "yarr"
+        original.player = "beast"
+
+        var originalResponse = original.mutable
+        originalResponse.createdAt = nil
+        originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+
+        let encoded: Data!
+        do {
+            encoded = try originalResponse.getEncoder().encode(originalResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            originalResponse = try originalResponse.getDecoder().decode(GameScore.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let response = originalResponse
+        var originalUpdated = original.mutable
+        originalUpdated.points = 50
+        let updated = originalUpdated
+
+        do {
+            let saved = try await updated.update()
+            XCTAssertTrue(saved.hasSameObjectId(as: response))
+            XCTAssertEqual(saved.points, 50)
+            XCTAssertEqual(saved.player, original.player)
+            XCTAssertEqual(saved.createdAt, response.createdAt)
+            XCTAssertEqual(saved.updatedAt, response.updatedAt)
+        } catch {
+            XCTFail(error.localizedDescription)
         }
     }
 

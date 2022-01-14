@@ -124,8 +124,9 @@ public extension ParseUser {
     }
 
     internal static func saveCurrentContainerToKeychain() {
+        Self.currentContainer?.currentUser?.originalData = nil
         #if !os(Linux) && !os(Android) && !os(Windows)
-        try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentUser)
+        try? KeychainStore.shared.set(currentContainer, for: ParseStorage.Keys.currentUser)
         #endif
     }
 

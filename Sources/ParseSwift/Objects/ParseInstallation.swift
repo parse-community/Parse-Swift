@@ -267,8 +267,9 @@ public extension ParseInstallation {
     }
 
     internal static func saveCurrentContainerToKeychain() {
+        Self.currentContainer.currentInstallation?.originalData = nil
         #if !os(Linux) && !os(Android) && !os(Windows)
-        try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentInstallation)
+        try? KeychainStore.shared.set(currentContainer, for: ParseStorage.Keys.currentInstallation)
         #endif
     }
 

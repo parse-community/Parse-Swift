@@ -184,6 +184,46 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         }
     }
 
+    func testOriginalDataNeverSavesToKeychain() async throws {
+        // Save current Installation
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        Installation.current?.originalData = Data()
+        let original = Installation.current
+        Installation.saveCurrentContainerToKeychain()
+
+        let expectation1 = XCTestExpectation(description: "Original installation1")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            guard let original = original,
+                let saved = Installation.current else {
+                XCTFail("Should have a new current installation")
+                expectation1.fulfill()
+                return
+            }
+            XCTAssertTrue(saved.hasSameInstallationId(as: original))
+            XCTAssertTrue(saved.hasSameObjectId(as: original))
+            XCTAssertNotNil(original.originalData)
+            XCTAssertNil(saved.originalData)
+            XCTAssertEqual(saved.customKey, original.customKey)
+            XCTAssertEqual(saved.badge, original.badge)
+            XCTAssertEqual(saved.deviceType, original.deviceType)
+            XCTAssertEqual(saved.deviceToken, original.deviceToken)
+            XCTAssertEqual(saved.channels, original.channels)
+            XCTAssertEqual(saved.installationId, original.installationId)
+            XCTAssertEqual(saved.timeZone, original.timeZone)
+            XCTAssertEqual(saved.appName, original.appName)
+            XCTAssertEqual(saved.appVersion, original.appVersion)
+            XCTAssertEqual(saved.appIdentifier, original.appIdentifier)
+            XCTAssertEqual(saved.parseVersion, original.parseVersion)
+            XCTAssertEqual(saved.localeIdentifier, original.localeIdentifier)
+            XCTAssertEqual(saved.createdAt, original.createdAt)
+            XCTAssertEqual(saved.updatedAt, original.updatedAt)
+            expectation1.fulfill()
+        }
+        wait(for: [expectation1], timeout: 20.0)
+    }
+
     @MainActor
     func testFetch() async throws {
         try saveCurrentInstallation()
