@@ -41,6 +41,7 @@ class ParseACLTests: XCTestCase {
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -61,6 +62,7 @@ class ParseACLTests: XCTestCase {
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -93,6 +95,7 @@ class ParseACLTests: XCTestCase {
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // provided by Role
         var name: String

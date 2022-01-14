@@ -22,6 +22,7 @@ class ParsePointerCombineTests: XCTestCase {
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         //: Your own properties
         var points: Int

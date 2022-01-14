@@ -29,8 +29,8 @@ struct Book: ParseObject {
     //: Implement your own version of merge
     func merge(_ object: Self) throws -> Self {
         var updated = try mergeParse(object)
-        if updated.isRestoreOriginalKey(\.title,
-                                         original: object) {
+        if updated.shouldRestoreKey(\.title,
+                                     original: object) {
             updated.title = object.title
         }
         return updated
@@ -62,16 +62,16 @@ struct Author: ParseObject {
     //: Implement your own version of merge
     func merge(_ object: Self) throws -> Self {
         var updated = try mergeParse(object)
-        if updated.isRestoreOriginalKey(\.name,
-                                         original: object) {
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
             updated.name = object.name
         }
-        if updated.isRestoreOriginalKey(\.book,
-                                         original: object) {
+        if updated.shouldRestoreKey(\.book,
+                                     original: object) {
             updated.book = object.book
         }
-        if updated.isRestoreOriginalKey(\.otherBooks,
-                                         original: object) {
+        if updated.shouldRestoreKey(\.otherBooks,
+                                     original: object) {
             updated.otherBooks = object.otherBooks
         }
         return updated

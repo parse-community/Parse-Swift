@@ -24,6 +24,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var score: Double?
 
+        var originalData: Data?
+
         init() {
             name = "First"
         }
@@ -36,6 +38,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         //: Your own properties
         var points: Int?
@@ -62,20 +65,20 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         //: Implement your own version of merge
         func merge(_ object: Self) throws -> Self {
             var updated = try mergeParse(object)
-            if updated.isRestoreOriginalKey(\.points,
-                                             original: object) {
+            if updated.shouldRestoreKey(\.points,
+                                         original: object) {
                 updated.points = object.points
             }
-            if updated.isRestoreOriginalKey(\.level,
-                                             original: object) {
+            if updated.shouldRestoreKey(\.level,
+                                         original: object) {
                 updated.level = object.level
             }
-            if updated.isRestoreOriginalKey(\.levels,
-                                             original: object) {
+            if updated.shouldRestoreKey(\.levels,
+                                         original: object) {
                 updated.levels = object.levels
             }
-            if updated.isRestoreOriginalKey(\.nextLevel,
-                                             original: object) {
+            if updated.shouldRestoreKey(\.nextLevel,
+                                         original: object) {
                 updated.nextLevel = object.nextLevel
             }
             return updated
@@ -89,6 +92,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         //: Your own properties
         var gameScore: GameScore
@@ -113,6 +117,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         //: Your own properties
         var name = "Hello"
@@ -127,6 +132,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         //: Your own properties
         var points: Int
@@ -186,6 +192,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         //: Your own properties
         var gameScore: GameScoreClass
@@ -242,6 +249,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -262,6 +270,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -357,11 +366,11 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var score2 = GameScore(points: 5, name: "world")
         score2.levels = [Level()]
         score2.nextLevel = Level()
-        XCTAssertFalse(score1.isRestoreOriginalKey(\.player, original: score2))
-        XCTAssertTrue(score1.isRestoreOriginalKey(\.levels, original: score2))
-        XCTAssertFalse(score1.isRestoreOriginalKey(\.points, original: score2))
-        XCTAssertFalse(score1.isRestoreOriginalKey(\.level, original: score2))
-        XCTAssertTrue(score1.isRestoreOriginalKey(\.nextLevel, original: score2))
+        XCTAssertFalse(score1.shouldRestoreKey(\.player, original: score2))
+        XCTAssertTrue(score1.shouldRestoreKey(\.levels, original: score2))
+        XCTAssertFalse(score1.shouldRestoreKey(\.points, original: score2))
+        XCTAssertFalse(score1.shouldRestoreKey(\.level, original: score2))
+        XCTAssertTrue(score1.shouldRestoreKey(\.nextLevel, original: score2))
     }
 
     func testParseObjectMutable() throws {

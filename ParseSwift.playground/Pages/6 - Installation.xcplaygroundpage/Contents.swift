@@ -40,8 +40,8 @@ struct Installation: ParseInstallation, ParseObjectMutable {
     //: Implement your own version of merge
     func merge(_ object: Self) throws -> Self {
         var updated = try mergeParse(object)
-        if updated.isRestoreOriginalKey(\.customKey,
-                                         original: object) {
+        if updated.shouldRestoreKey(\.customKey,
+                                     original: object) {
             updated.customKey = object.customKey
         }
         return updated

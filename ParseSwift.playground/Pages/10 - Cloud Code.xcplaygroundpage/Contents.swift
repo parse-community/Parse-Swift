@@ -114,8 +114,8 @@ struct GameScore: ParseObject {
     //: Implement your own version of merge
     func merge(_ object: Self) throws -> Self {
         var updated = try mergeParse(object)
-        if updated.isRestoreOriginalKey(\.points,
-                                         original: object) {
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
             updated.points = object.points
         }
         return updated

@@ -24,6 +24,8 @@ class APICommandTests: XCTestCase {
         var name = "First"
 
         var score: Double?
+
+        var originalData: Data?
     }
 
     override func setUpWithError() throws {
@@ -55,6 +57,8 @@ class APICommandTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -65,7 +69,6 @@ class APICommandTests: XCTestCase {
 
         // Your custom keys
         var customKey: String?
-        var score: Double?
     }
 
     struct LoginSignupResponse: ParseUser {
@@ -76,6 +79,7 @@ class APICommandTests: XCTestCase {
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?

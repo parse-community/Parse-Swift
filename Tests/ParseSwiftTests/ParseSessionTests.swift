@@ -21,6 +21,7 @@ class ParseSessionTests: XCTestCase {
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -38,6 +39,7 @@ class ParseSessionTests: XCTestCase {
         var createdWith: [String: String]
         var installationId: String
         var expiresAt: Date
+        var originalData: Data?
 
         var objectId: String?
         var createdAt: Date?

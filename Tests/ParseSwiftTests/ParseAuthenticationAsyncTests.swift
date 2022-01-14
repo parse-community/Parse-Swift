@@ -21,6 +21,7 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -38,6 +39,7 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?

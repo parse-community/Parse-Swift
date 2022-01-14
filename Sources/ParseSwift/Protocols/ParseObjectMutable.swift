@@ -25,6 +25,7 @@ import Foundation
      var updatedAt: Date?
      var ACL: ParseACL?
      var score: Double?
+     var originalData: Data?
 
      //: These are required by `ParseUser`.
      var username: String?
@@ -59,6 +60,7 @@ import Foundation
      var updatedAt: Date?
      var ACL: ParseACL?
      var score: Double?
+     var originalData: Data?
 
      //: Your own properties.
      var points: Int = 0
@@ -109,6 +111,7 @@ public extension ParseObjectMutable {
         var object = Self()
         object.objectId = objectId
         object.createdAt = createdAt
+        object.originalData = try? ParseCoding.jsonEncoder().encode(self)
         return object
     }
 }

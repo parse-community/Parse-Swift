@@ -53,13 +53,19 @@ public protocol ParseObject: Objectable,
     var score: Double? { get }
 
     /**
+    This `ParseObject` before `ParseObject.mutable` was called.
+     - warning: This property should not be set or modified by the developer.
+    */
+    var originalData: Data? { get set }
+
+    /**
      Determines if a `KeyPath` of the current `ParseObject` should be restored
      by comparing it to another `ParseObject`.
      - parameter original: The original `ParseObject`.
      - returns: Returns a `true` if the keyPath should be restored  or `false` otherwise.
     */
-    func isRestoreOriginalKey<W>(_ key: KeyPath<Self, W?>,
-                                 original: Self) -> Bool where W: Equatable
+    func shouldRestoreKey<W>(_ key: KeyPath<Self, W?>,
+                             original: Self) -> Bool where W: Equatable
 
     /**
      Merges two `ParseObject`'s resulting in modified and unchanged Parse keys.
@@ -91,7 +97,7 @@ public protocol ParseObject: Objectable,
              //: Implement your own version of merge
              func merge(_ object: Self) throws -> Self {
                  var updated = try mergeParse(object)
-                 if updated.isRestoreOriginalKey(\.points,
+                 if updated.shouldRestoreKey(\.points,
                                                   original: object) {
                      updated.points = object.points
                  }
@@ -108,7 +114,7 @@ public protocol ParseObject: Objectable,
      for all of your `ParseObject`'s as the developer has access to all keys of a
      `ParseObject`. You should always call `mergeParse`
      in the beginning of your implementation to handle all default Parse keys. In addition,
-     use `isRestoreOriginalKey` to compare key modifications between objects.
+     use `shouldRestoreKey` to compare key modifications between objects.
     */
     func merge(_ object: Self) throws -> Self
 }
@@ -145,8 +151,8 @@ public extension ParseObject {
         return try Pointer(self)
     }
 
-    func isRestoreOriginalKey<W>(_ key: KeyPath<Self, W?>,
-                                 original: Self) -> Bool where W: Equatable {
+    func shouldRestoreKey<W>(_ key: KeyPath<Self, W?>,
+                             original: Self) -> Bool where W: Equatable {
         self[keyPath: key] == nil && original[keyPath: key] != self[keyPath: key]
     }
 
@@ -156,7 +162,7 @@ public extension ParseObject {
                              message: "objectId's of objects don't match")
         }
         var updated = self
-        if isRestoreOriginalKey(\.ACL,
+        if shouldRestoreKey(\.ACL,
                                  original: object) {
             updated.ACL = object.ACL
         }
@@ -1037,7 +1043,9 @@ extension ParseObject {
     }
 
     internal func saveCommand(isIgnoreCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
-        try API.Command<Self, Self>.save(self, isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+        try API.Command<Self, Self>.save(self,
+                                         original: originalData,
+                                         isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
     }
 
     internal func createCommand() -> API.Command<Self, Self> {
@@ -1045,11 +1053,13 @@ extension ParseObject {
     }
 
     internal func replaceCommand() throws -> API.Command<Self, Self> {
-        try API.Command<Self, Self>.replace(self)
+        try API.Command<Self, Self>.replace(self,
+                                            original: originalData)
     }
 
     internal func updateCommand() throws -> API.Command<Self, Self> {
-        try API.Command<Self, Self>.update(self)
+        try API.Command<Self, Self>.update(self,
+                                           original: originalData)
     }
 
     // swiftlint:disable:next function_body_length

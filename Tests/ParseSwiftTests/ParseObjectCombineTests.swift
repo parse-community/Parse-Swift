@@ -22,6 +22,7 @@ class ParseObjectCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         //: Your own properties
         var points: Int?

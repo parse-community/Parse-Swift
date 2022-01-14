@@ -28,6 +28,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -48,6 +49,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?

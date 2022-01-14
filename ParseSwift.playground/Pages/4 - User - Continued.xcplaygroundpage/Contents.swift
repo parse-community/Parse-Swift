@@ -37,20 +37,20 @@ struct User: ParseUser, ParseObjectMutable {
     //: Implement your own version of merge
     func merge(_ object: Self) throws -> Self {
         var updated = try mergeParse(object)
-        if updated.isRestoreOriginalKey(\.customKey,
-                                         original: object) {
+        if updated.shouldRestoreKey(\.customKey,
+                                     original: object) {
             updated.customKey = object.customKey
         }
-        if updated.isRestoreOriginalKey(\.gameScore,
-                                         original: object) {
+        if updated.shouldRestoreKey(\.gameScore,
+                                     original: object) {
             updated.gameScore = object.gameScore
         }
-        if updated.isRestoreOriginalKey(\.targetScore,
-                                         original: object) {
+        if updated.shouldRestoreKey(\.targetScore,
+                                     original: object) {
             updated.targetScore = object.targetScore
         }
-        if updated.isRestoreOriginalKey(\.allScores,
-                                         original: object) {
+        if updated.shouldRestoreKey(\.allScores,
+                                     original: object) {
             updated.allScores = object.allScores
         }
         return updated
@@ -83,7 +83,7 @@ struct GameScore: ParseObject {
     //: Implement your own version of merge
     func merge(_ object: Self) throws -> Self {
         var updated = try mergeParse(object)
-        if updated.isRestoreOriginalKey(\.points,
+        if updated.shouldRestoreKey(\.points,
                                          original: object) {
             updated.points = object.points
         }

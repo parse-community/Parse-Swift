@@ -102,52 +102,52 @@ public extension ParseInstallation {
                              message: "objectId's of objects don't match")
         }
         var updatedInstallation = self
-        if isRestoreOriginalKey(\.ACL,
-                                 original: object) {
+        if shouldRestoreKey(\.ACL,
+                             original: object) {
             updatedInstallation.ACL = object.ACL
         }
-        if isRestoreOriginalKey(\.deviceType,
-                                 original: object) {
+        if shouldRestoreKey(\.deviceType,
+                             original: object) {
             updatedInstallation.deviceType = object.deviceType
         }
-        if isRestoreOriginalKey(\.installationId,
-                                 original: object) {
+        if shouldRestoreKey(\.installationId,
+                             original: object) {
             updatedInstallation.installationId = object.installationId
         }
-        if isRestoreOriginalKey(\.deviceToken,
+        if shouldRestoreKey(\.deviceToken,
                                  original: object) {
             updatedInstallation.deviceToken = object.deviceToken
         }
-        if isRestoreOriginalKey(\.badge,
-                                 original: object) {
+        if shouldRestoreKey(\.badge,
+                             original: object) {
             updatedInstallation.badge = object.badge
         }
-        if isRestoreOriginalKey(\.timeZone,
-                                 original: object) {
+        if shouldRestoreKey(\.timeZone,
+                             original: object) {
             updatedInstallation.timeZone = object.timeZone
         }
-        if isRestoreOriginalKey(\.channels,
-                                 original: object) {
+        if shouldRestoreKey(\.channels,
+                             original: object) {
             updatedInstallation.channels = object.channels
         }
-        if isRestoreOriginalKey(\.appName,
-                                 original: object) {
+        if shouldRestoreKey(\.appName,
+                             original: object) {
             updatedInstallation.appName = object.appName
         }
-        if isRestoreOriginalKey(\.appIdentifier,
-                                 original: object) {
+        if shouldRestoreKey(\.appIdentifier,
+                             original: object) {
             updatedInstallation.appIdentifier = object.appIdentifier
         }
-        if isRestoreOriginalKey(\.appVersion,
-                                 original: object) {
+        if shouldRestoreKey(\.appVersion,
+                             original: object) {
             updatedInstallation.appVersion = object.appVersion
         }
-        if isRestoreOriginalKey(\.parseVersion,
-                                 original: object) {
+        if shouldRestoreKey(\.parseVersion,
+                             original: object) {
             updatedInstallation.parseVersion = object.parseVersion
         }
-        if isRestoreOriginalKey(\.localeIdentifier,
-                                 original: object) {
+        if shouldRestoreKey(\.localeIdentifier,
+                             original: object) {
             updatedInstallation.localeIdentifier = object.localeIdentifier
         }
         return updatedInstallation
@@ -769,11 +769,13 @@ extension ParseInstallation {
         let mapper = { (data: Data) -> Self in
             let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: self)
             // MARK: The lines below should be removed when server supports PATCH.
-            guard let current = Self.current,
-                  current.hasSameObjectId(as: object) == true else {
-                return object
-            }
-            return try object.merge(current)
+            guard let originalData = originalData,
+                  let original = try? ParseCoding.jsonDecoder().decode(Self.self,
+                                                                       from: originalData),
+                  original.hasSameObjectId(as: object) else {
+                      return object
+                  }
+            return try object.merge(original)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
@@ -788,11 +790,13 @@ extension ParseInstallation {
         }
         let mapper = { (data: Data) -> Self in
             let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
-            guard let current = Self.current,
-                  current.hasSameObjectId(as: object) == true else {
-                return object
-            }
-            return try object.merge(current)
+            guard let originalData = originalData,
+                  let original = try? ParseCoding.jsonDecoder().decode(Self.self,
+                                                                       from: originalData),
+                  original.hasSameObjectId(as: object) else {
+                      return object
+                  }
+            return try object.merge(original)
         }
         return API.Command<Self, Self>(method: .PATCH,
                                  path: endpoint,

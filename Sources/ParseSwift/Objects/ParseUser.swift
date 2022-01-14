@@ -49,20 +49,20 @@ public extension ParseUser {
                              message: "objectId's of objects do not match")
         }
         var updatedUser = self
-        if isRestoreOriginalKey(\.ACL,
-                                 original: object) {
+        if shouldRestoreKey(\.ACL,
+                             original: object) {
             updatedUser.ACL = object.ACL
         }
-        if isRestoreOriginalKey(\.username,
-                                 original: object) {
+        if shouldRestoreKey(\.username,
+                             original: object) {
             updatedUser.username = object.username
         }
-        if isRestoreOriginalKey(\.email,
-                                 original: object) {
+        if shouldRestoreKey(\.email,
+                             original: object) {
             updatedUser.email = object.email
         }
-        if isRestoreOriginalKey(\.authData,
-                                 original: object) {
+        if shouldRestoreKey(\.authData,
+                             original: object) {
             updatedUser.authData = object.authData
         }
         return updatedUser
@@ -1119,11 +1119,13 @@ extension ParseUser {
         let mapper = { (data: Data) -> Self in
             let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: self)
             // MARK: The lines below should be removed when server supports PATCH.
-            guard let current = Self.current,
-                  current.hasSameObjectId(as: object) == true else {
-                return object
-            }
-            return try object.merge(current)
+            guard let originalData = originalData,
+                  let original = try? ParseCoding.jsonDecoder().decode(Self.self,
+                                                                       from: originalData),
+                  original.hasSameObjectId(as: object) else {
+                      return object
+                  }
+            return try object.merge(original)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
@@ -1153,11 +1155,13 @@ extension ParseUser {
         }
         let mapper = { (data: Data) -> Self in
             let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
-            guard let current = Self.current,
-                  current.hasSameObjectId(as: object) == true else {
-                return object
-            }
-            return try object.merge(current)
+            guard let originalData = originalData,
+                  let original = try? ParseCoding.jsonDecoder().decode(Self.self,
+                                                                       from: originalData),
+                  original.hasSameObjectId(as: object) else {
+                      return object
+                  }
+            return try object.merge(original)
         }
         return API.Command<Self, Self>(method: .PATCH,
                                  path: endpoint,

@@ -21,6 +21,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -35,8 +36,8 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         //: Implement your own version of merge
         func merge(_ object: Self) throws -> Self {
             var updated = try mergeParse(object)
-            if updated.isRestoreOriginalKey(\.customKey,
-                                             original: object) {
+            if updated.shouldRestoreKey(\.customKey,
+                                         original: object) {
                 updated.customKey = object.customKey
             }
             return updated
@@ -51,6 +52,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?

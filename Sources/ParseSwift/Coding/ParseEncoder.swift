@@ -69,12 +69,22 @@ public struct ParseEncoder {
         case custom(Set<String>)
 
         func keys() -> Set<String> {
+            let defaultObjectKeys = Set(["createdAt",
+                                         "updatedAt",
+                                         "objectId",
+                                         "className",
+                                         "emailVerified",
+                                         "id",
+                                         "score",
+                                         "originalData"])
             switch self {
 
             case .object:
-                return Set(["createdAt", "updatedAt", "objectId", "className", "emailVerified", "id", "score"])
+                return defaultObjectKeys
             case .customObjectId:
-                return Set(["createdAt", "updatedAt", "className", "emailVerified", "id", "score"])
+                var mutableKeys = defaultObjectKeys
+                _ = mutableKeys.remove("objectId")
+                return mutableKeys
             case .cloud:
                 return Set(["functionJobName"])
             case .none:

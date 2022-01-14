@@ -25,6 +25,7 @@ internal struct BaseParseInstallation: ParseInstallation {
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     static func createNewInstallationIfNeeded() {
         guard let installationId = Self.currentContainer.installationId,
