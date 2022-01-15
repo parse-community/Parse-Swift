@@ -419,7 +419,12 @@ internal extension API.Command {
                              message: "objectId must not be nil")
         }
         let mapper = { (mapperData: Data) -> T in
-            let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: mapperData).apply(to: object)
+            var updatedObject = object
+            updatedObject.originalData = nil
+            let object = try ParseCoding
+                .jsonDecoder()
+                .decode(ReplaceResponse.self, from: mapperData)
+                .apply(to: updatedObject)
             guard let originalData = data,
                   let original = try? ParseCoding.jsonDecoder().decode(T.self,
                                                                        from: originalData),
@@ -440,7 +445,12 @@ internal extension API.Command {
                              message: "objectId must not be nil")
         }
         let mapper = { (mapperData: Data) -> T in
-            let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: mapperData).apply(to: object)
+            var updatedObject = object
+            updatedObject.originalData = nil
+            let object = try ParseCoding
+                .jsonDecoder()
+                .decode(UpdateResponse.self, from: mapperData)
+                .apply(to: updatedObject)
             guard let originalData = data,
                   let original = try? ParseCoding.jsonDecoder().decode(T.self,
                                                                        from: originalData),

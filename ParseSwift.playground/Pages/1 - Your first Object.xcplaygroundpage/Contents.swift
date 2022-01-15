@@ -225,6 +225,7 @@ changedScore.points = 200
 let savedChangedScore: GameScore?
 do {
     savedChangedScore = try changedScore.save()
+    print("Updated score: \(String(describing: savedChangedScore))")
 } catch {
     savedChangedScore = nil
     fatalError("Error saving: \(error)")

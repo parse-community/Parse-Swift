@@ -57,6 +57,17 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
+    struct GameScoreDefault: ParseObject {
+
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var score: Double?
+        var originalData: Data?
+    }
+
     override func setUpWithError() throws {
         try super.setUpWithError()
         guard let url = URL(string: "http://localhost:1337/1") else {
@@ -191,6 +202,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(saved.player, original.player)
             XCTAssertEqual(saved.createdAt, response.createdAt)
             XCTAssertEqual(saved.updatedAt, response.updatedAt)
+            XCTAssertNil(saved.originalData)
         } catch {
             XCTFail(error.localizedDescription)
         }
@@ -407,6 +419,43 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             XCTAssertEqual(saved.player, original.player)
             XCTAssertEqual(saved.createdAt, response.createdAt)
             XCTAssertEqual(saved.updatedAt, response.updatedAt)
+            XCTAssertNil(saved.originalData)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    @MainActor
+    func testUpdateMutableDefault() async throws {
+        var original = GameScoreDefault()
+        original.objectId = "yarr"
+
+        var originalResponse = original.mutable
+        originalResponse.createdAt = nil
+        originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+
+        let encoded: Data!
+        do {
+            encoded = try originalResponse.getEncoder().encode(originalResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            originalResponse = try originalResponse.getDecoder().decode(GameScoreDefault.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let response = originalResponse
+        let originalUpdated = original.mutable
+        let updated = originalUpdated
+
+        do {
+            let saved = try await updated.update()
+            XCTAssertTrue(saved.hasSameObjectId(as: response))
+            XCTAssertEqual(saved.createdAt, response.createdAt)
+            XCTAssertEqual(saved.updatedAt, response.updatedAt)
+            XCTAssertNil(saved.originalData)
         } catch {
             XCTFail(error.localizedDescription)
         }

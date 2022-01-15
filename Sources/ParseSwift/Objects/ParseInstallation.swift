@@ -768,7 +768,9 @@ extension ParseInstallation {
                              message: "objectId must not be nil")
         }
         let mapper = { (data: Data) -> Self in
-            let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: self)
+            var updatedObject = self
+            updatedObject.originalData = nil
+            let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: updatedObject)
             // MARK: The lines below should be removed when server supports PATCH.
             guard let originalData = self.originalData,
                   let original = try? ParseCoding.jsonDecoder().decode(Self.self,
@@ -790,7 +792,9 @@ extension ParseInstallation {
                              message: "objectId must not be nil")
         }
         let mapper = { (data: Data) -> Self in
-            let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
+            var updatedObject = self
+            updatedObject.originalData = nil
+            let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: updatedObject)
             guard let originalData = self.originalData,
                   let original = try? ParseCoding.jsonDecoder().decode(Self.self,
                                                                        from: originalData),

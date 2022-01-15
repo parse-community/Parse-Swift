@@ -879,6 +879,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTAssertEqual(saved.authData, original.authData)
                 XCTAssertEqual(saved.createdAt, original.createdAt)
                 XCTAssertEqual(saved.updatedAt, response.updatedAt)
+                XCTAssertNil(saved.originalData)
                 XCTAssertEqual(saved.customKey, newCurrentUser.customKey)
                 XCTAssertEqual(saved.email, newCurrentUser.email)
                 XCTAssertEqual(saved.username, newCurrentUser.username)

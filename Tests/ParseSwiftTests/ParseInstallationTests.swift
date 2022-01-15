@@ -535,6 +535,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
                 XCTAssertEqual(saved.localeIdentifier, original.localeIdentifier)
                 XCTAssertEqual(saved.createdAt, original.createdAt)
                 XCTAssertEqual(saved.updatedAt, response.updatedAt)
+                XCTAssertNil(saved.originalData)
                 XCTAssertEqual(saved.customKey, newCurrentInstallation.customKey)
                 XCTAssertEqual(saved.badge, newCurrentInstallation.badge)
                 XCTAssertEqual(saved.deviceType, newCurrentInstallation.deviceType)
