@@ -44,6 +44,24 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         }
     }
 
+    struct UserDefault: ParseUser {
+
+        //: These are required by ParseObject
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var score: Double?
+        var originalData: Data?
+
+        // These are required by ParseUser
+        var username: String?
+        var email: String?
+        var emailVerified: Bool?
+        var password: String?
+        var authData: [String: [String: String]?]?
+    }
+
     struct LoginSignupResponse: ParseUser {
 
         var objectId: String?
@@ -804,6 +822,70 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
                 XCTAssertEqual(saved.createdAt, original.createdAt)
                 XCTAssertEqual(saved.updatedAt, response.updatedAt)
                 XCTAssertEqual(saved.customKey, newCurrentUser.customKey)
+                XCTAssertEqual(saved.email, newCurrentUser.email)
+                XCTAssertEqual(saved.username, newCurrentUser.username)
+                XCTAssertEqual(saved.emailVerified, newCurrentUser.emailVerified)
+                XCTAssertEqual(saved.password, newCurrentUser.password)
+                XCTAssertEqual(saved.authData, newCurrentUser.authData)
+                XCTAssertEqual(saved.createdAt, newCurrentUser.createdAt)
+                XCTAssertEqual(saved.updatedAt, newCurrentUser.updatedAt)
+                expectation1.fulfill()
+            }
+            wait(for: [expectation1], timeout: 20.0)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testUpdateMutableMergeCurrentUserDefault() async throws {
+        // Signup current User
+        login()
+        MockURLProtocol.removeAll()
+        XCTAssertNotNil(UserDefault.current?.objectId)
+
+        guard let original = UserDefault.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+        var originalResponse = original.mutable
+        originalResponse.createdAt = nil
+        originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+
+        let encoded: Data!
+        do {
+            encoded = try originalResponse.getEncoder().encode(originalResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            originalResponse = try originalResponse.getDecoder().decode(UserDefault.self, from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let response = originalResponse
+        var originalUpdated = original.mutable
+        originalUpdated.username = "mode"
+        let updated = originalUpdated
+
+        do {
+            let saved = try await updated.update()
+            let expectation1 = XCTestExpectation(description: "Update installation1")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                guard let newCurrentUser = User.current else {
+                    XCTFail("Should have a new current installation")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertTrue(saved.hasSameObjectId(as: newCurrentUser))
+                XCTAssertTrue(saved.hasSameObjectId(as: response))
+                XCTAssertEqual(saved.email, original.email)
+                XCTAssertEqual(saved.username, updated.username)
+                XCTAssertEqual(saved.emailVerified, original.emailVerified)
+                XCTAssertEqual(saved.password, original.password)
+                XCTAssertEqual(saved.authData, original.authData)
+                XCTAssertEqual(saved.createdAt, original.createdAt)
+                XCTAssertEqual(saved.updatedAt, response.updatedAt)
                 XCTAssertEqual(saved.email, newCurrentUser.email)
                 XCTAssertEqual(saved.username, newCurrentUser.username)
                 XCTAssertEqual(saved.emailVerified, newCurrentUser.emailVerified)

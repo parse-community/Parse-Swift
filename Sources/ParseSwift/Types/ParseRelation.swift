@@ -344,12 +344,3 @@ extension ParseRelation: CustomStringConvertible {
         debugDescription
     }
 }
-
-struct StoredParseRelation: Decodable {
-    var className: String
-    var key: String
-
-    func createParseRelation<T: ParseObject>(_ parent: T) -> ParseRelation<T> {
-        ParseRelation(parent: parent, key: key, className: className)
-    }
-}

@@ -168,7 +168,10 @@ do {
     try savedRole!.users.query(templateUser).find { result in
         switch result {
         case .success(let relatedUsers):
-            print("The following users are part of the \"\(savedRole!.name) role: \(relatedUsers)")
+            print("""
+                The following users are part of the
+                \"\(String(describing: savedRole!.name)) role: \(relatedUsers)
+            """)
 
         case .failure(let error):
             print("Error saving role: \(error)")

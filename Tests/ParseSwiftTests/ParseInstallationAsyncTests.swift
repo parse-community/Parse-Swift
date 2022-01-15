@@ -98,6 +98,26 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         }
     }
 
+    struct InstallationDefault: ParseInstallation {
+        var installationId: String?
+        var deviceType: String?
+        var deviceToken: String?
+        var badge: Int?
+        var timeZone: String?
+        var channels: [String]?
+        var appName: String?
+        var appIdentifier: String?
+        var appVersion: String?
+        var parseVersion: String?
+        var localeIdentifier: String?
+        var objectId: String?
+        var createdAt: Date?
+        var updatedAt: Date?
+        var ACL: ParseACL?
+        var score: Double?
+        var originalData: Data?
+    }
+
     let testInstallationObjectId = "yarr"
 
     let loginUserName = "hello10"
@@ -497,6 +517,83 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
                 XCTAssertEqual(saved.createdAt, original.createdAt)
                 XCTAssertEqual(saved.updatedAt, response.updatedAt)
                 XCTAssertEqual(saved.customKey, newCurrentInstallation.customKey)
+                XCTAssertEqual(saved.badge, newCurrentInstallation.badge)
+                XCTAssertEqual(saved.deviceType, newCurrentInstallation.deviceType)
+                XCTAssertEqual(saved.deviceToken, newCurrentInstallation.deviceToken)
+                XCTAssertEqual(saved.channels, newCurrentInstallation.channels)
+                XCTAssertEqual(saved.installationId, newCurrentInstallation.installationId)
+                XCTAssertEqual(saved.timeZone, newCurrentInstallation.timeZone)
+                XCTAssertEqual(saved.appName, newCurrentInstallation.appName)
+                XCTAssertEqual(saved.appVersion, newCurrentInstallation.appVersion)
+                XCTAssertEqual(saved.appIdentifier, newCurrentInstallation.appIdentifier)
+                XCTAssertEqual(saved.parseVersion, newCurrentInstallation.parseVersion)
+                XCTAssertEqual(saved.localeIdentifier, newCurrentInstallation.localeIdentifier)
+                XCTAssertEqual(saved.createdAt, newCurrentInstallation.createdAt)
+                XCTAssertEqual(saved.updatedAt, newCurrentInstallation.updatedAt)
+                expectation1.fulfill()
+            }
+            wait(for: [expectation1], timeout: 20.0)
+        } catch {
+            XCTFail(error.localizedDescription)
+        }
+    }
+
+    func testUpdateMutableMergeCurrentInstallationDefault() async throws {
+        // Save current Installation
+        try saveCurrentInstallation()
+        MockURLProtocol.removeAll()
+
+        guard let original = InstallationDefault.current else {
+            XCTFail("Should unwrap")
+            return
+        }
+        var originalResponse = original.mutable
+        originalResponse.createdAt = nil
+        originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+
+        let encoded: Data!
+        do {
+            encoded = try originalResponse.getEncoder().encode(originalResponse, skipKeys: .none)
+            //Get dates in correct format from ParseDecoding strategy
+            originalResponse = try originalResponse.getDecoder().decode(InstallationDefault.self,
+                                                                        from: encoded)
+        } catch {
+            XCTFail("Should encode/decode. Error \(error)")
+            return
+        }
+        MockURLProtocol.mockRequests { _ in
+            return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
+        }
+        let response = originalResponse
+        var originalUpdate = original.mutable
+        originalUpdate.deviceToken = "1234"
+        let updated = originalUpdate
+
+        do {
+            let saved = try await updated.update()
+            let expectation1 = XCTestExpectation(description: "Update installation1")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                guard let newCurrentInstallation = Installation.current else {
+                    XCTFail("Should have a new current installation")
+                    expectation1.fulfill()
+                    return
+                }
+                XCTAssertTrue(saved.hasSameInstallationId(as: newCurrentInstallation))
+                XCTAssertTrue(saved.hasSameObjectId(as: newCurrentInstallation))
+                XCTAssertTrue(saved.hasSameObjectId(as: response))
+                XCTAssertEqual(saved.badge, original.badge)
+                XCTAssertEqual(saved.deviceType, original.deviceType)
+                XCTAssertEqual(saved.deviceToken, updated.deviceToken)
+                XCTAssertEqual(saved.channels, original.channels)
+                XCTAssertEqual(saved.installationId, original.installationId)
+                XCTAssertEqual(saved.timeZone, original.timeZone)
+                XCTAssertEqual(saved.appName, original.appName)
+                XCTAssertEqual(saved.appVersion, original.appVersion)
+                XCTAssertEqual(saved.appIdentifier, original.appIdentifier)
+                XCTAssertEqual(saved.parseVersion, original.parseVersion)
+                XCTAssertEqual(saved.localeIdentifier, original.localeIdentifier)
+                XCTAssertEqual(saved.createdAt, original.createdAt)
+                XCTAssertEqual(saved.updatedAt, response.updatedAt)
                 XCTAssertEqual(saved.badge, newCurrentInstallation.badge)
                 XCTAssertEqual(saved.deviceType, newCurrentInstallation.deviceType)
                 XCTAssertEqual(saved.deviceToken, newCurrentInstallation.deviceToken)
