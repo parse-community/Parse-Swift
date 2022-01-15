@@ -50,13 +50,14 @@ public protocol ParseObject: Objectable,
                              CustomDebugStringConvertible,
                              CustomStringConvertible {
     /**
-    The weight/rank of a `QueryConstraint.matchesText()`.
+     The weight/rank of a `QueryConstraint.matchesText()`.
     */
     var score: Double? { get }
 
     /**
-    This `ParseObject` before `ParseObject.mutable` was called.
-     - warning: This property should not be set or modified by the developer.
+     A JSON encoded version of this `ParseObject` before `mutable` was called and
+     properties were changed.
+     - warning: This property is not intended to be set or modified by the developer.
     */
     var originalData: Data? { get set }
 
@@ -65,7 +66,8 @@ public protocol ParseObject: Objectable,
      a subset of the fields (PATCH) of an object as oppose to replacing an object (PUT).
      - note: It is recommended to use this to create a mutable copy of your `ParseObject`.
      - warning: `mutable` should only be used on `ParseObject`'s that have already
-     been saved at least once to a Parse Server and have a valid `objectId`.
+     been saved at least once to a Parse Server and have a valid `objectId`. In addition,
+     the developer should have implemented added all of their properties to `merge`.
     */
     var mutable: Self { get }
 
@@ -79,19 +81,21 @@ public protocol ParseObject: Objectable,
                              original: Self) -> Bool where W: Equatable
 
     /**
-     Merges two `ParseObject`'s resulting in modified and unchanged Parse keys.
+     Merges two `ParseObject`'s with the resulting object consisting of all modified
+     and unchanged Parse properties.
      - parameter object: The original installation.
      - returns: The updated installation.
      - throws: An error of type `ParseError`.
-     - note: Use this in combination with `ParseMutable` to only send updated
-     keys to the server and then merge those changes with the original object.
+     - note: This is used in combination with `merge` to only send updated
+     properties to the server and then merge those changes with the original object.
      - warning: You should only call this method and shouldn't implement it directly
      as it's already implemented for developers to use.
     */
     func mergeParse(_ object: Self) throws -> Self
 
     /**
-     Merges two `ParseObject`'s resulting in modified and unchanged keys.
+     Merges two `ParseObject`'s with the resulting object consisting of all modified
+     and unchanged properties.
 
          //: Create your own value typed `ParseObject`.
          struct GameScore: ParseObject {
@@ -120,11 +124,11 @@ public protocol ParseObject: Objectable,
      - returns: The merged object.
      - throws: An error of type `ParseError`.
      - note: Use this in combination with `ParseMutable` to only send updated
-     keys to the server and then merge those changes with the original object.
+     properties to the server and then merge those changes with the original object.
      - important: It is recommend you provide an implementation of this method
-     for all of your `ParseObject`'s as the developer has access to all keys of a
+     for all of your `ParseObject`'s as the developer has access to all properties of a
      `ParseObject`. You should always call `mergeParse`
-     in the beginning of your implementation to handle all default Parse keys. In addition,
+     in the beginning of your implementation to handle all default Parse properties. In addition,
      use `shouldRestoreKey` to compare key modifications between objects.
     */
     func merge(_ object: Self) throws -> Self
