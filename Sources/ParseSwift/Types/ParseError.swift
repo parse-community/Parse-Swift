@@ -473,7 +473,7 @@ public extension Error {
      */
     func containedIn(_ errorCodes: [ParseError.Code]) -> ParseError? {
         guard let error = self as? ParseError,
-              errorCodes.contains(error.code) == true else {
+              errorCodes.contains(error.code) else {
             return nil
         }
         return error

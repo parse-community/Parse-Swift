@@ -54,7 +54,7 @@ public final class ParseLiveQuery: NSObject {
     //Task
     var task: URLSessionWebSocketTask! {
         willSet {
-            if newValue == nil && isSocketEstablished == true {
+            if newValue == nil && isSocketEstablished {
                 isSocketEstablished = false
             }
         }
@@ -79,7 +79,7 @@ Not attempting to open ParseLiveQuery socket anymore
     }
     var isDisconnectedByUser = false {
         willSet {
-            if newValue == true {
+            if newValue {
                 isConnected = false
             }
         }
@@ -110,7 +110,7 @@ Not attempting to open ParseLiveQuery socket anymore
     /// True if the connection to the url is up and available. False otherwise.
     public internal(set) var isSocketEstablished = false { //URLSession has an established socket
         willSet {
-            if newValue == false {
+            if !newValue {
                 isConnected = newValue
             }
         }
