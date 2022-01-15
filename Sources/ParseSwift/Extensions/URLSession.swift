@@ -66,7 +66,7 @@ internal extension URLSession {
                     return .failure(error)
                 }
                 guard let parseError = error as? ParseError else {
-                    guard JSONSerialization.isValidJSONObject(responseData) == true,
+                    guard JSONSerialization.isValidJSONObject(responseData),
                           let json = try? JSONSerialization
                             .data(withJSONObject: responseData,
                               options: .prettyPrinted) else {

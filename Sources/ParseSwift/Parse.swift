@@ -354,7 +354,7 @@ public struct ParseSwift {
         #if !os(Linux) && !os(Android) && !os(Windows)
         // Clear items out of the Keychain on app first run.
         if UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) == nil {
-            if Self.configuration.isDeletingKeychainIfNeeded == true {
+            if Self.configuration.isDeletingKeychainIfNeeded {
                 try? KeychainStore.old.deleteAll()
                 try? KeychainStore.shared.deleteAll()
             }

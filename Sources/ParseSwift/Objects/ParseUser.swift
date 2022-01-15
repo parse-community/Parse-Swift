@@ -1074,7 +1074,7 @@ extension ParseUser {
         }
         var mutableSelf = self
         if let currentUser = Self.current,
-           currentUser.hasSameObjectId(as: mutableSelf) == true {
+           currentUser.hasSameObjectId(as: mutableSelf) {
             #if !os(Linux) && !os(Android) && !os(Windows)
             // swiftlint:disable:next line_length
             if let currentUserContainerInKeychain: CurrentUserContainer<BaseParseUser> = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
@@ -1103,7 +1103,7 @@ extension ParseUser {
         }
         var mutableSelf = self
         if let currentUser = Self.current,
-           currentUser.hasSameObjectId(as: mutableSelf) == true {
+           currentUser.hasSameObjectId(as: mutableSelf) {
             #if !os(Linux) && !os(Android) && !os(Windows)
             // swiftlint:disable:next line_length
             if let currentUserContainerInKeychain: CurrentUserContainer<BaseParseUser> = try? KeychainStore.shared.get(valueFor: ParseStorage.Keys.currentUser),
