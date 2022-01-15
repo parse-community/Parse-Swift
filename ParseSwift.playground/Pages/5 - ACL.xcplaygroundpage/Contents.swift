@@ -30,9 +30,10 @@ struct GameScore: ParseObject {
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     //: Your own properties
-    var points: Int
+    var points: Int?
 
     //: Implement your own version of merge
     func merge(_ object: Self) throws -> Self {

@@ -13,7 +13,7 @@ import XCTest
 
 class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct GameScore: ParseObject, ParseObjectMutable {
+    struct GameScore: ParseObject {
 
         //: These are required by ParseObject
         var objectId: String?

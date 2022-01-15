@@ -20,6 +20,7 @@ struct User: ParseUser {
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     //: These are required by `ParseUser`.
     var username: String?
@@ -50,33 +51,31 @@ struct Role<RoleUser: ParseUser>: ParseRole {
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     //: Provided by Role.
-    var name: String
+    var name: String?
 
     //: Implement your own version of merge
     func merge(_ object: Self) throws -> Self {
         var updated = try mergeParse(object)
-        if updated.shouldRestoreKey(\.points,
+        if updated.shouldRestoreKey(\.name,
                                      original: object) {
-            updated.points = object.points
+            updated.name = object.name
         }
         return updated
-    }
-
-    init() {
-        self.name = ""
     }
 }
 
 //: Create your own value typed `ParseObject`.
-struct GameScore: ParseObject, ParseObjectMutable {
+struct GameScore: ParseObject {
     //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     //: Your own properties.
     var points: Int?
@@ -253,7 +252,10 @@ do {
 savedRole!.queryRoles?.find { result in
     switch result {
     case .success(let relatedRoles):
-        print("The following roles are part of the \"\(savedRole!.name) role: \(relatedRoles)")
+        print("""
+            The following roles are part of the
+            \"\(String(describing: savedRole!.name)) role: \(relatedRoles)
+        """)
 
     case .failure(let error):
         print("Error saving role: \(error)")

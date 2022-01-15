@@ -66,7 +66,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         }
     }
 
-    struct Installation: ParseInstallation, ParseObjectMutable {
+    struct Installation: ParseInstallation {
         var installationId: String?
         var deviceType: String?
         var deviceToken: String?

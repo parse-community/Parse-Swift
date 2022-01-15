@@ -98,11 +98,7 @@ class ParseACLTests: XCTestCase {
         var originalData: Data?
 
         // provided by Role
-        var name: String
-
-        init() {
-            self.name = "roleMe"
-        }
+        var name: String?
     }
 
     func testCantSetDefaultACLWhenNotLoggedIn() throws {

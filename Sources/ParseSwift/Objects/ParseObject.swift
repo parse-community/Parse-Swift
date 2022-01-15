@@ -16,17 +16,19 @@ import Foundation
  If you are using value types the the compiler will assist you with conforming to `ParseObject` protocol. If you
  are thinking of using reference types, see the warning.
 
- It's recommended the developer conforms to the `ParseObjectMutable` protocol.
- Gets an empty version of the respective object. This can be used when you only need to update a
- a subset of the fields of an object as oppose to updating every field of an object. Using an empty object and updating
- a subset of the fields reduces the amount of data sent between client and server when using `save` and `saveAll`
- to update objects.
+ After a `ParseObject`is saved/created to a Parse Server. Updates to the `ParseObject` should occur on
+ a copy of the `mutable` property. This allows a subset of the fields to be updated (PATCH) of an object
+ as oppose to replacing all of the fields of an object (PUT). This reduces the amount of data
+ sent between client and server when using `save`, `saveAll`, `update`,
+ `updateAll`, `replace`, `replaceAll`, to update objects.
  
- - important: It is recommended that all added properties be optional properties so they can eventually be used as
+ - important: It is required that all added properties be optional properties so they can eventually be used as
  Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
  create methods to check the respective properties on the client-side before saving objects. See
  [here](https://github.com/parse-community/Parse-Swift/issues/157#issuecomment-858671025)
  for more information.
+ - important: To take advantage of `mutable`, the developer should implement the `merge` method in every
+ `ParseObject`.
  - important: The property, "score," is a Parse Server designated keyword and you should avoid naming any of
  your `ParseObject` properties "score". Doing so may result in decoding issues.
  - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
@@ -59,6 +61,15 @@ public protocol ParseObject: Objectable,
     var originalData: Data? { get set }
 
     /**
+     An empty copy of the respective object that allows you to update a
+     a subset of the fields (PATCH) of an object as oppose to replacing an object (PUT).
+     - note: It is recommended to use this to create a mutable copy of your `ParseObject`.
+     - warning: `mutable` should only be used on `ParseObject`'s that have already
+     been saved at least once to a Parse Server and have a valid `objectId`.
+    */
+    var mutable: Self { get }
+
+    /**
      Determines if a `KeyPath` of the current `ParseObject` should be restored
      by comparing it to another `ParseObject`.
      - parameter original: The original `ParseObject`.
@@ -83,7 +94,7 @@ public protocol ParseObject: Objectable,
      Merges two `ParseObject`'s resulting in modified and unchanged keys.
 
          //: Create your own value typed `ParseObject`.
-         struct GameScore: ParseObject, ParseObjectMutable {
+         struct GameScore: ParseObject {
              //: These are required by ParseObject
              var objectId: String?
              var createdAt: Date?
@@ -117,6 +128,8 @@ public protocol ParseObject: Objectable,
      use `shouldRestoreKey` to compare key modifications between objects.
     */
     func merge(_ object: Self) throws -> Self
+
+    init()
 }
 
 // MARK: Default Implementations
@@ -132,6 +145,14 @@ public extension ParseObject {
             return UUID().uuidString
         }
         return objectId
+    }
+
+    var mutable: Self {
+        var object = Self()
+        object.objectId = objectId
+        object.createdAt = createdAt
+        object.originalData = try? ParseCoding.jsonEncoder().encode(self)
+        return object
     }
 
     /**

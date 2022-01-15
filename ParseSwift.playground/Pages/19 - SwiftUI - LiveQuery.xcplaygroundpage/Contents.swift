@@ -25,9 +25,10 @@ struct GameScore: ParseObject {
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     //: Your own properties.
-    var points: Int = 0
+    var points: Int? = 0
     var location: ParseGeoPoint?
     var name: String?
 
@@ -84,15 +85,15 @@ struct ContentView: View {
                 switch event.event {
 
                 case .entered(let object):
-                    Text("Entered with points: \(object.points)")
+                    Text("Entered with points: \(String(describing: object.points))")
                 case .left(let object):
-                    Text("Left with points: \(object.points)")
+                    Text("Left with points: \(String(describing: object.points))")
                 case .created(let object):
-                    Text("Created with points: \(object.points)")
+                    Text("Created with points: \(String(describing: object.points))")
                 case .updated(let object):
-                    Text("Updated with points: \(object.points)")
+                    Text("Updated with points: \(String(describing: object.points))")
                 case .deleted(let object):
-                    Text("Deleted with points: \(object.points)")
+                    Text("Deleted with points: \(String(describing: object.points))")
                 }
             } else {
                 Text("Not subscribed to a query")

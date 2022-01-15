@@ -13,13 +13,14 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-struct Installation: ParseInstallation, ParseObjectMutable {
+struct Installation: ParseInstallation {
     //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     //: These are required by `ParseInstallation`.
     var installationId: String?

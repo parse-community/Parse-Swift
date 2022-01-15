@@ -30,13 +30,14 @@ do {
 }
 
 //: Create your own value typed `ParseObject`.
-struct GameScore: ParseObject, ParseObjectMutable {
+struct GameScore: ParseObject {
     //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     //: Your own properties.
     var points: Int?
@@ -72,6 +73,7 @@ struct GameData: ParseObject {
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     //: Your own properties.
     var polygon: ParsePolygon?
@@ -86,7 +88,7 @@ struct GameData: ParseObject {
                              original: object) {
             updated.polygon = object.polygon
         }
-        if shouldRestoreKey(\.points,
+        if shouldRestoreKey(\.bytes,
                              original: object) {
             updated.bytes = object.bytes
         }
@@ -129,14 +131,9 @@ score.save { result in
         changedScore.points = 200
         changedScore.save { result in
             switch result {
-            case .success(var savedChangedScore):
+            case .success(let savedChangedScore):
                 assert(savedChangedScore.points == 200)
                 assert(savedScore.objectId == savedChangedScore.objectId)
-
-                /*: Note that savedChangedScore is mutable since it's
-                    a var after success.
-                */
-                savedChangedScore.points = 500
 
             case .failure(let error):
                 assertionFailure("Error saving: \(error)")
@@ -158,7 +155,10 @@ var score2ForFetchedLater: GameScore?
         otherResults.forEach { otherResult in
             switch otherResult {
             case .success(let savedScore):
-                print("Saved \"\(savedScore.className)\" with points \(savedScore.points) successfully")
+                print("""
+                    Saved \"\(savedScore.className)\" with
+                    points \(String(describing: savedScore.points)) successfully
+                """)
                 if index == 1 {
                     score2ForFetchedLater = savedScore
                 }
@@ -218,7 +218,7 @@ assert(savedScore?.points == 10)
     parse server as opposed to the whole object.
 */
 guard var changedScore = savedScore?.mutable else {
-    fatalError()
+    fatalError("Should have produced mutable changedScore")
 }
 changedScore.points = 200
 
@@ -246,7 +246,7 @@ assert(otherResults != nil)
 otherResults!.forEach { result in
     switch result {
     case .success(let savedScore):
-        print("Saved \"\(savedScore.className)\" with points \(savedScore.points) successfully")
+        print("Saved \"\(savedScore.className)\" with points \(String(describing: savedScore.points)) successfully")
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
     }

@@ -22,6 +22,7 @@ struct GameScore: ParseObject {
     var ACL: ParseACL?
     var score: Double?
     var location: ParseGeoPoint?
+    var originalData: Data?
 
     //: Your own properties
     var points: Int?

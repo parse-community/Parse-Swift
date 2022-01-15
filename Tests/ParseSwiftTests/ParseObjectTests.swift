@@ -31,7 +31,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    struct GameScore: ParseObject, ParseObjectMutable {
+    struct GameScore: ParseObject {
         //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
@@ -85,7 +85,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    struct Game: ParseObject, ParseObjectMutable {
+    struct Game: ParseObject {
         //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?

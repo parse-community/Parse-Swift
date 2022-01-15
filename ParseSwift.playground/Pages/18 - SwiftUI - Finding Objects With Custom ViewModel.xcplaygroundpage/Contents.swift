@@ -27,6 +27,7 @@ struct GameScore: ParseObject {
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     //: Your own properties.
     var points: Int?
@@ -112,7 +113,7 @@ struct ContentView: View {
                 //: Warning - List seems to only work in Playgrounds Xcode 13+.
                 List(viewModel.objects, id: \.id) { object in
                     VStack(alignment: .leading) {
-                        Text("Points: \(object.points)")
+                        Text("Points: \(String(describing: object.points))")
                             .font(.headline)
                         if let createdAt = object.createdAt {
                             Text("\(createdAt.description)")
