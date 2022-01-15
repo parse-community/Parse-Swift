@@ -112,39 +112,6 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         try ParseStorage.shared.deleteAll()
     }
 
-    func testOriginalDataNeverSavesToKeychain() async throws {
-        // Signup current User
-        XCTAssertNil(User.current?.objectId)
-        try userSignUp()
-        XCTAssertNotNil(User.current?.objectId)
-
-        User.current?.originalData = Data()
-        let original = User.current
-        User.saveCurrentContainerToKeychain()
-
-        let expectation1 = XCTestExpectation(description: "Original installation1")
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-            guard let original = original,
-                let saved = User.current else {
-                XCTFail("Should have a new current installation")
-                expectation1.fulfill()
-                return
-            }
-            XCTAssertTrue(saved.hasSameObjectId(as: original))
-            XCTAssertNotNil(original.originalData)
-            XCTAssertNil(saved.originalData)
-            XCTAssertEqual(saved.customKey, original.customKey)
-            XCTAssertEqual(saved.email, original.email)
-            XCTAssertEqual(saved.username, original.username)
-            XCTAssertEqual(saved.emailVerified, original.emailVerified)
-            XCTAssertEqual(saved.password, original.password)
-            XCTAssertEqual(saved.authData, original.authData)
-            XCTAssertEqual(saved.createdAt, original.createdAt)
-            XCTAssertEqual(saved.updatedAt, original.updatedAt)
-            expectation1.fulfill()
-        }
-        wait(for: [expectation1], timeout: 20.0)
-    }
     func testMerge() throws {
         // Signup current User
         XCTAssertNil(User.current?.objectId)
