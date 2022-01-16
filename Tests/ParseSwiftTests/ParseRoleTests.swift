@@ -161,7 +161,6 @@ class ParseRoleTests: XCTestCase {
         XCTAssertThrowsError(try userRoles.add("level", objects: [user]))
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testUserAddOperation() throws {
         var acl = ParseACL()
         acl.publicWrite = false
@@ -210,7 +209,6 @@ class ParseRoleTests: XCTestCase {
         let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
     }
-    #endif
 
     func testUserRemoveIncorrectClassKeyError() throws {
         var acl = ParseACL()
@@ -238,7 +236,6 @@ class ParseRoleTests: XCTestCase {
         XCTAssertThrowsError(try userRoles.remove("level", objects: [user]))
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testUserRemoveOperation() throws {
         var acl = ParseACL()
         acl.publicWrite = false
@@ -287,7 +284,6 @@ class ParseRoleTests: XCTestCase {
         let decoded2 = try XCTUnwrap(try XCTUnwrap(String(data: encoded2, encoding: .utf8)))
         XCTAssertEqual(decoded2, expected2)
     }
-    #endif
 
     func testRoleAddIncorrectClassKeyError() throws {
         var acl = ParseACL()
@@ -302,7 +298,6 @@ class ParseRoleTests: XCTestCase {
         XCTAssertThrowsError(try roles.add("roles", objects: [level]))
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testRoleAddIncorrectKeyError() throws {
         var acl = ParseACL()
         acl.publicWrite = false
@@ -364,7 +359,6 @@ class ParseRoleTests: XCTestCase {
         let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
     }
-    #endif
 
     func testRoleRemoveIncorrectClassKeyError() throws {
         var acl = ParseACL()
@@ -392,7 +386,6 @@ class ParseRoleTests: XCTestCase {
         XCTAssertThrowsError(try roles.remove("level", objects: [user]))
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testRoleRemoveOperation() throws {
         var acl = ParseACL()
         acl.publicWrite = false
@@ -482,5 +475,4 @@ class ParseRoleTests: XCTestCase {
         let decoded2 = try XCTUnwrap(String(data: encoded2, encoding: .utf8))
         XCTAssertEqual(decoded2, expected2)
     }
-    #endif
 }

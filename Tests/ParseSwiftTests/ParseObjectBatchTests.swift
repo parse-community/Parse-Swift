@@ -72,8 +72,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         try ParseStorage.shared.deleteAll()
     }
 
-    //COREY: Linux decodes this differently for some reason
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testSaveAllCommand() throws {
         let score = GameScore(points: 10)
         let score2 = GameScore(points: 20)
@@ -100,7 +98,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 
     func testSaveAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity
         let score = GameScore(points: 10)
@@ -371,7 +368,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testUpdateAllCommand() throws {
         var score = GameScore(points: 10)
         var score2 = GameScore(points: 20)
@@ -404,7 +400,6 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 
     func testUpdateAll() { // swiftlint:disable:this function_body_length cyclomatic_complexity
         var score = GameScore(points: 10)

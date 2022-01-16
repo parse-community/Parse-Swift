@@ -88,7 +88,6 @@ class ParseGeoPointTests: XCTestCase {
         }
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testDebugString() throws {
         let point = try ParseGeoPoint(latitude: 10, longitude: 20)
         let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"latitude\":10,\"longitude\":20})"
@@ -100,7 +99,6 @@ class ParseGeoPointTests: XCTestCase {
         let expected = "ParseGeoPoint ({\"__type\":\"GeoPoint\",\"latitude\":10,\"longitude\":20})"
         XCTAssertEqual(point.description, expected)
     }
-    #endif
 
     // swiftlint:disable:next function_body_length
     func testGeoUtilityDistance() throws {

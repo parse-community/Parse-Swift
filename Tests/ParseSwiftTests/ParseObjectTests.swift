@@ -614,7 +614,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.fetchAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testSaveCommand() throws {
         let score = GameScore(points: 10)
         let className = score.className
@@ -742,7 +741,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
     }
-    #endif
 
     func testSave() { // swiftlint:disable:this function_body_length
         let score = GameScore(points: 10)

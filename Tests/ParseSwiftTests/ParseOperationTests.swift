@@ -81,7 +81,6 @@ class ParseOperationTests: XCTestCase {
         try ParseStorage.shared.deleteAll()
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testSaveCommand() throws {
         var score = GameScore(points: 10)
         let objectId = "hello"
@@ -106,7 +105,6 @@ class ParseOperationTests: XCTestCase {
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 
     func testSave() { // swiftlint:disable:this function_body_length
         var score = GameScore(points: 10)
@@ -342,8 +340,6 @@ class ParseOperationTests: XCTestCase {
         wait(for: [expectation1], timeout: 20.0)
     }
 
-    //Linux decodes in different order
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testIncrement() throws {
         let score = GameScore(points: 10)
         let operations = score.operation
@@ -589,7 +585,6 @@ class ParseOperationTests: XCTestCase {
         XCTAssertEqual(decoded2, expected2)
         XCTAssertEqual(operations2.target.previous, [level])
     }
-    #endif
 
     func testUnchangedSet() throws {
         let score = GameScore(points: 10)

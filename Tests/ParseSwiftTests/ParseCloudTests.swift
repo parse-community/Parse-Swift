@@ -99,7 +99,6 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(decoded, expected, "\"functionJobName\" key should be skipped by ParseEncoder")
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testDebugString() {
         let cloud = Cloud2(functionJobName: "test", customKey: "parse")
         let expected = "{\"customKey\":\"parse\",\"functionJobName\":\"test\"}"
@@ -111,7 +110,6 @@ class ParseCloudTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected = "{\"customKey\":\"parse\",\"functionJobName\":\"test\"}"
         XCTAssertEqual(cloud.description, expected)
     }
-    #endif
 
     func testCallFunctionCommand() throws {
         let cloud = Cloud(functionJobName: "test")
