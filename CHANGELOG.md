@@ -5,7 +5,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
-### 3.1.0
+### 3.1.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.0...3.1.1)
 
 __Fixes__

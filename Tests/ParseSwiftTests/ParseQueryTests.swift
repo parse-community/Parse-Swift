@@ -367,7 +367,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(query.`where`.constraints.values.count, 2)
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testFindCommand() throws {
         let query = GameScore.query()
         let command = query.findCommand()
@@ -397,7 +396,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 
     // MARK: Querying Parse Server
     func testFind() {
