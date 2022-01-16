@@ -715,7 +715,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testFirstCommand() throws {
         let query = GameScore.query()
         let command = query.firstCommand()
@@ -738,7 +737,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 
     func testFirst() {
         var scoreOnServer = GameScore(points: 10)
@@ -792,11 +790,9 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                 XCTFail("Should have casted as ParseError")
                 return
             }
-            #if !os(Linux) && !os(Android) && !os(Windows)
             // swiftlint:disable:next line_length
             XCTAssertEqual(error.message, "Invalid struct: No value associated with key CodingKeys(stringValue: \"points\", intValue: nil) (\"points\").")
             XCTAssertEqual(error.code, .unknownError)
-            #endif
         }
         XCTAssertThrowsError(try query.first(options: []))
     }
@@ -963,7 +959,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testCountCommand() throws {
         let query = GameScore.query()
         let command = query.countCommand()
@@ -986,7 +981,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 
     func testCount() {
         var scoreOnServer = GameScore(points: 10)
@@ -1177,7 +1171,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertThrowsError(try GameScore.query("yolo" == compareObject))
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testWhereKeyEqualToBool() throws {
         let query = GameScore.query("isCounts" == true)
         let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"isCounts\":true}})"
@@ -1295,7 +1288,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$gte\":5,\"$lte\":10}}})"
         XCTAssertEqual(query.debugDescription, expected)
     }
-    #endif
 
     func testWhereKeyNotEqualTo() {
         let expected: [String: AnyCodable] = [
@@ -2026,7 +2018,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testWhereContainedInParseObject() throws {
         var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
@@ -2118,7 +2109,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
     }
-    #endif
 
     func testWhereContainedBy() {
         let expected: [String: AnyCodable] = [
@@ -2524,7 +2514,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testWhereKeyNearGeoPointWithinMiles() throws {
         let expected: [String: AnyCodable] = [
             "yolo": ["$nearSphere": ["latitude": 10, "longitude": 20, "__type": "GeoPoint"],
@@ -2806,7 +2795,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
     }
-    #endif
 
     // swiftlint:disable:next function_body_length
     func testWhereKeyNearGeoBox() throws {
@@ -3488,7 +3476,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testAggregateCommand() throws {
         var query = GameScore.query()
         let value = AnyEncodable("world")
@@ -3534,7 +3521,6 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 
     func testAggregate() {
         var scoreOnServer = GameScore(points: 10)
