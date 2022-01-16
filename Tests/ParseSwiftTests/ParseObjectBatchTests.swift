@@ -92,7 +92,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         let commands = try objects.map { try $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
-        let expected = "{\"requests\":[{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"points\":10}},{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"points\":20}}],\"transaction\":false}"
+        let expected = "{\"requests\":[{\"body\":{\"points\":10},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"},{\"body\":{\"points\":20},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}],\"transaction\":false}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -395,7 +395,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
-        let expected = "{\"requests\":[{\"path\":\"\\/1\\/classes\\/GameScore\\/yarr\",\"method\":\"PUT\",\"body\":{\"points\":10}},{\"path\":\"\\/1\\/classes\\/GameScore\\/yolo\",\"method\":\"PUT\",\"body\":{\"points\":20}}],\"transaction\":false}"
+        let expected = "{\"requests\":[{\"body\":{\"points\":10},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yarr\"},{\"body\":{\"points\":20},\"method\":\"PUT\",\"path\":\"\\/1\\/classes\\/GameScore\\/yolo\"}],\"transaction\":false}"
 
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,

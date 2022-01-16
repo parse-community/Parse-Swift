@@ -65,7 +65,7 @@ class TestParseEncoder: XCTestCase {
     #if !os(Linux) && !os(Android) && !os(Windows)
   func testEncodingTopLevelStructuredClass() {
     // Person is a class with multiple fields.
-    let expectedJSON = "{\"name\":\"Johnny Appleseed\",\"email\":\"appleseed@apple.com\"}".data(using: .utf8)!
+    let expectedJSON = "{\"email\":\"appleseed@apple.com\",\"name\":\"Johnny Appleseed\"}".data(using: .utf8)!
     let person = Person.testValue
     _testRoundTrip(of: person, expectedJSON: expectedJSON)
   }
@@ -204,7 +204,7 @@ class TestParseEncoder: XCTestCase {
   // MARK: - Output Formatting Tests
     #if !os(Linux) && !os(Android) && !os(Windows)
   func testEncodingOutputFormattingDefault() {
-    let expectedJSON = "{\"name\":\"Johnny Appleseed\",\"email\":\"appleseed@apple.com\"}".data(using: .utf8)!
+    let expectedJSON = "{\"email\":\"appleseed@apple.com\",\"name\":\"Johnny Appleseed\"}".data(using: .utf8)!
     let person = Person.testValue
     _testRoundTrip(of: person, expectedJSON: expectedJSON)
   }

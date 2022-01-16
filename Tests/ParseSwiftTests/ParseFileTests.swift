@@ -203,9 +203,9 @@ class ParseFileTests: XCTestCase { // swiftlint:disable:this type_body_length
                                   metadata: ["Testing": "123"],
                                   tags: ["Hey": "now"])
         XCTAssertEqual(parseFile.debugDescription,
-                       "ParseFile ({\"name\":\"sampleData.txt\",\"__type\":\"File\"})")
+                       "ParseFile ({\"__type\":\"File\",\"name\":\"sampleData.txt\"})")
         XCTAssertEqual(parseFile.description,
-                       "ParseFile ({\"name\":\"sampleData.txt\",\"__type\":\"File\"})")
+                       "ParseFile ({\"__type\":\"File\",\"name\":\"sampleData.txt\"})")
     }
     #endif
 

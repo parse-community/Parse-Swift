@@ -290,7 +290,7 @@ class ParsePointerTests: XCTestCase {
         let decoded = String(data: encoded.encoded, encoding: .utf8)
         XCTAssertEqual(decoded,
                        // swiftlint:disable:next line_length
-                       "{\"points\":50,\"other\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"}}")
+                       "{\"other\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"},\"points\":50}")
         XCTAssertNil(encoded.unique)
         XCTAssertEqual(encoded.unsavedChildren.count, 0)
     }

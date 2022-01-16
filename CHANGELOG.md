@@ -2,8 +2,14 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.1...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 3.1.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.0...3.1.1)
+
+__Fixes__
+- Always sort keys when using ParseEncoder it can cause issues with Hashable ([#318](https://github.com/parse-community/Parse-Swift/pull/318)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 3.1.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.0.0...3.1.0)
