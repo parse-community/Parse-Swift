@@ -196,7 +196,7 @@ class ParseLiveQueryTests: XCTestCase {
             return
         }
         // swiftlint:disable:next line_length
-        let expected = "{\"op\":\"connect\",\"applicationId\":\"applicationId\",\"clientKey\":\"clientKey\",\"masterKey\":\"masterKey\",\"installationId\":\"\(installationId)\"}"
+        let expected = "{\"applicationId\":\"applicationId\",\"clientKey\":\"clientKey\",\"installationId\":\"\(installationId)\",\"masterKey\":\"masterKey\",\"op\":\"connect\"}"
         let message = StandardMessage(operation: .connect, additionalProperties: true)
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
@@ -206,7 +206,7 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testSubscribeMessageEncoding() throws {
         // swiftlint:disable:next line_length
-        let expected = "{\"op\":\"subscribe\",\"requestId\":1,\"query\":{\"className\":\"GameScore\",\"where\":{\"points\":{\"$gt\":9}},\"fields\":[\"points\"]}}"
+        let expected = "{\"op\":\"subscribe\",\"query\":{\"className\":\"GameScore\",\"fields\":[\"points\"],\"where\":{\"points\":{\"$gt\":9}}},\"requestId\":1}"
         let query = GameScore.query("points" > 9)
             .fields(["points"])
         let message = SubscribeMessage(operation: .subscribe,
@@ -259,7 +259,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testConnectionResponseDecoding() throws {
-        let expected = "{\"op\":\"connected\",\"clientId\":\"yolo\",\"installationId\":\"naw\"}"
+        let expected = "{\"clientId\":\"yolo\",\"installationId\":\"naw\",\"op\":\"connected\"}"
         let message = ConnectionResponse(op: .connected, clientId: "yolo", installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
@@ -268,7 +268,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testUnsubscribeResponseDecoding() throws {
-        let expected = "{\"op\":\"connected\",\"clientId\":\"yolo\",\"requestId\":1,\"installationId\":\"naw\"}"
+        let expected = "{\"clientId\":\"yolo\",\"installationId\":\"naw\",\"op\":\"connected\",\"requestId\":1}"
         let message = UnsubscribedResponse(op: .connected, requestId: 1, clientId: "yolo", installationId: "naw")
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
@@ -278,7 +278,7 @@ class ParseLiveQueryTests: XCTestCase {
 
     func testEventResponseDecoding() throws {
         // swiftlint:disable:next line_length
-        let expected = "{\"op\":\"connected\",\"object\":{\"points\":10},\"requestId\":1,\"clientId\":\"yolo\",\"installationId\":\"naw\"}"
+        let expected = "{\"clientId\":\"yolo\",\"installationId\":\"naw\",\"object\":{\"points\":10},\"op\":\"connected\",\"requestId\":1}"
         let score = GameScore(points: 10)
         let message = EventResponse(op: .connected,
                                     requestId: 1,
@@ -292,7 +292,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testErrorResponseDecoding() throws {
-        let expected = "{\"code\":1,\"op\":\"error\",\"error\":\"message\",\"reconnect\":true}"
+        let expected = "{\"code\":1,\"error\":\"message\",\"op\":\"error\",\"reconnect\":true}"
         let message = ErrorResponse(op: .error, code: 1, message: "message", reconnect: true)
         let encoded = try ParseCoding.jsonEncoder()
             .encode(message)
@@ -301,7 +301,7 @@ class ParseLiveQueryTests: XCTestCase {
     }
 
     func testPreliminaryResponseDecoding() throws {
-        let expected = "{\"op\":\"subscribed\",\"clientId\":\"message\",\"requestId\":1,\"installationId\":\"naw\"}"
+        let expected = "{\"clientId\":\"message\",\"installationId\":\"naw\",\"op\":\"subscribed\",\"requestId\":1}"
         let message = PreliminaryMessageResponse(op: .subscribed,
                                                  requestId: 1,
                                                  clientId: "message",

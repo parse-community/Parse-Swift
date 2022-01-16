@@ -153,7 +153,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         wait(for: [expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testSaveCommand() throws {
         let objectId = "yarr"
         var score = GameScore(points: 10)
@@ -171,7 +170,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             return
         }
 
-        let expected = "{\"points\":10,\"player\":\"Jen\",\"objectId\":\"yarr\"}"
+        let expected = "{\"objectId\":\"yarr\",\"player\":\"Jen\",\"points\":10}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -199,7 +198,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
             return
         }
 
-        let expected = "{\"points\":10,\"player\":\"Jen\",\"objectId\":\"yarr\"}"
+        let expected = "{\"objectId\":\"yarr\",\"player\":\"Jen\",\"points\":10}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -218,7 +217,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         let commands = try objects.map { try $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
-        let expected = "{\"requests\":[{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"points\":10,\"player\":\"Jen\",\"objectId\":\"yarr\"}},{\"path\":\"\\/classes\\/GameScore\",\"method\":\"POST\",\"body\":{\"points\":20,\"player\":\"Jen\",\"objectId\":\"yolo\"}}],\"transaction\":false}"
+        let expected = "{\"requests\":[{\"body\":{\"objectId\":\"yarr\",\"player\":\"Jen\",\"points\":10},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"},{\"body\":{\"objectId\":\"yolo\",\"player\":\"Jen\",\"points\":20},\"method\":\"POST\",\"path\":\"\\/classes\\/GameScore\"}],\"transaction\":false}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -239,7 +238,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         let commands = try objects.map { try $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
-        let expected = "{\"requests\":[{\"path\":\"\\/classes\\/GameScore\\/yarr\",\"method\":\"PUT\",\"body\":{\"points\":10,\"player\":\"Jen\",\"objectId\":\"yarr\"}},{\"path\":\"\\/classes\\/GameScore\\/yolo\",\"method\":\"PUT\",\"body\":{\"points\":20,\"player\":\"Jen\",\"objectId\":\"yolo\"}}],\"transaction\":false}"
+        let expected = "{\"requests\":[{\"body\":{\"objectId\":\"yarr\",\"player\":\"Jen\",\"points\":10},\"method\":\"PUT\",\"path\":\"\\/classes\\/GameScore\\/yarr\"},{\"body\":{\"objectId\":\"yolo\",\"player\":\"Jen\",\"points\":20},\"method\":\"PUT\",\"path\":\"\\/classes\\/GameScore\\/yolo\"}],\"transaction\":false}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -309,7 +308,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         let commands = try objects.map { try $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
-        let expected = "{\"requests\":[{\"path\":\"\\/users\",\"method\":\"POST\",\"body\":{\"objectId\":\"yarr\"}},{\"path\":\"\\/users\",\"method\":\"POST\",\"body\":{\"objectId\":\"yolo\"}}],\"transaction\":false}"
+        let expected = "{\"requests\":[{\"body\":{\"objectId\":\"yarr\"},\"method\":\"POST\",\"path\":\"\\/users\"},{\"body\":{\"objectId\":\"yolo\"},\"method\":\"POST\",\"path\":\"\\/users\"}],\"transaction\":false}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -330,7 +329,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         let commands = try objects.map { try $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
-        let expected = "{\"requests\":[{\"path\":\"\\/users\\/yarr\",\"method\":\"PUT\",\"body\":{\"objectId\":\"yarr\"}},{\"path\":\"\\/users\\/yolo\",\"method\":\"PUT\",\"body\":{\"objectId\":\"yolo\"}}],\"transaction\":false}"
+        let expected = "{\"requests\":[{\"body\":{\"objectId\":\"yarr\"},\"method\":\"PUT\",\"path\":\"\\/users\\/yarr\"},{\"body\":{\"objectId\":\"yolo\"},\"method\":\"PUT\",\"path\":\"\\/users\\/yolo\"}],\"transaction\":false}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -400,7 +399,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         let commands = try objects.map { try $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
-        let expected = "{\"requests\":[{\"path\":\"\\/installations\",\"method\":\"POST\",\"body\":{\"objectId\":\"yarr\"}},{\"path\":\"\\/installations\",\"method\":\"POST\",\"body\":{\"objectId\":\"yolo\"}}],\"transaction\":false}"
+        let expected = "{\"requests\":[{\"body\":{\"objectId\":\"yarr\"},\"method\":\"POST\",\"path\":\"\\/installations\"},{\"body\":{\"objectId\":\"yolo\"},\"method\":\"POST\",\"path\":\"\\/installations\"}],\"transaction\":false}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -421,7 +420,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         let commands = try objects.map { try $0.saveCommand() }
         let body = BatchCommand(requests: commands, transaction: false)
         // swiftlint:disable:next line_length
-        let expected = "{\"requests\":[{\"path\":\"\\/installations\\/yarr\",\"method\":\"PUT\",\"body\":{\"objectId\":\"yarr\"}},{\"path\":\"\\/installations\\/yolo\",\"method\":\"PUT\",\"body\":{\"objectId\":\"yolo\"}}],\"transaction\":false}"
+        let expected = "{\"requests\":[{\"body\":{\"objectId\":\"yarr\"},\"method\":\"PUT\",\"path\":\"\\/installations\\/yarr\"},{\"body\":{\"objectId\":\"yolo\"},\"method\":\"PUT\",\"path\":\"\\/installations\\/yolo\"}],\"transaction\":false}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -429,7 +428,6 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 
     func testSaveCommandNoObjectId() throws {
         let score = GameScore(points: 10)

@@ -67,7 +67,6 @@ class ParsePointerTests: XCTestCase {
         XCTAssertEqual(pointer.objectId, initializedPointer.objectId)
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testDebugString() throws {
         var score = GameScore(points: 10)
         score.objectId = "yarr"
@@ -77,7 +76,6 @@ class ParsePointerTests: XCTestCase {
         XCTAssertEqual(pointer.description,
                        "PointerType ({\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"})")
     }
-    #endif
 
     func testPointerNoObjectId() throws {
         let score = GameScore(points: 10)
@@ -273,7 +271,6 @@ class ParsePointerTests: XCTestCase {
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testEncodeEmbeddedPointer() throws {
         var score = GameScore(points: 10)
         let objectId = "yarr"
@@ -290,7 +287,7 @@ class ParsePointerTests: XCTestCase {
         let decoded = String(data: encoded.encoded, encoding: .utf8)
         XCTAssertEqual(decoded,
                        // swiftlint:disable:next line_length
-                       "{\"points\":50,\"other\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"}}")
+                       "{\"other\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"},\"points\":50}")
         XCTAssertNil(encoded.unique)
         XCTAssertEqual(encoded.unsavedChildren.count, 0)
     }
@@ -337,7 +334,6 @@ class ParsePointerTests: XCTestCase {
             self.fetchAsync(score: pointer, scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
-    #endif
 
     func testFetchAsyncMainQueue() throws {
         var score = GameScore(points: 10)

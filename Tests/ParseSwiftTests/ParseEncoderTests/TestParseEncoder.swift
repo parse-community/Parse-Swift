@@ -62,14 +62,12 @@ class TestParseEncoder: XCTestCase {
     _testRoundTrip(of: address)
   }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
   func testEncodingTopLevelStructuredClass() {
     // Person is a class with multiple fields.
-    let expectedJSON = "{\"name\":\"Johnny Appleseed\",\"email\":\"appleseed@apple.com\"}".data(using: .utf8)!
+    let expectedJSON = "{\"email\":\"appleseed@apple.com\",\"name\":\"Johnny Appleseed\"}".data(using: .utf8)!
     let person = Person.testValue
     _testRoundTrip(of: person, expectedJSON: expectedJSON)
   }
-    #endif
 
   func testEncodingTopLevelStructuredSingleStruct() {
     // Numbers is a struct which encodes as an array through a single value container.
@@ -102,7 +100,7 @@ class TestParseEncoder: XCTestCase {
     _testRoundTrip(of: EnhancedBool.fileNotFound, expectedJSON: "null".data(using: .utf8)!)
   }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
+#if !os(Linux) && !os(Android) && !os(Windows)
   func testEncodingMultipleNestedContainersWithTheSameTopLevelKey() {
     struct Model: Codable, Equatable {
       let first: String
@@ -159,7 +157,6 @@ class TestParseEncoder: XCTestCase {
     }
   }
     #endif
-
     /*
   func testEncodingConflictedTypeNestedContainersWithTheSameTopLevelKey() throws {
     struct Model: Encodable, Equatable {
@@ -202,13 +199,11 @@ class TestParseEncoder: XCTestCase {
   }*/
 
   // MARK: - Output Formatting Tests
-    #if !os(Linux) && !os(Android) && !os(Windows)
   func testEncodingOutputFormattingDefault() {
-    let expectedJSON = "{\"name\":\"Johnny Appleseed\",\"email\":\"appleseed@apple.com\"}".data(using: .utf8)!
+    let expectedJSON = "{\"email\":\"appleseed@apple.com\",\"name\":\"Johnny Appleseed\"}".data(using: .utf8)!
     let person = Person.testValue
     _testRoundTrip(of: person, expectedJSON: expectedJSON)
   }
-    #endif
 /*
   func testEncodingOutputFormattingPrettyPrinted() {
     let expectedJSON = "{\n  \"name\" : \"Johnny Appleseed\",\n  \"email\" : \"appleseed@apple.com\"\n}".data(using: .utf8)!

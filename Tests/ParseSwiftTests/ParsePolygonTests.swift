@@ -115,7 +115,6 @@ class ParsePolygonTests: XCTestCase {
         }
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testDebugString() throws {
         let polygon = try ParsePolygon(points)
         let expected = "ParsePolygon ({\"__type\":\"Polygon\",\"coordinates\":[[0,0],[0,1],[1,1],[1,0],[0,0]]})"
@@ -127,5 +126,4 @@ class ParsePolygonTests: XCTestCase {
         let expected = "ParsePolygon ({\"__type\":\"Polygon\",\"coordinates\":[[0,0],[0,1],[1,1],[1,0],[0,0]]})"
         XCTAssertEqual(polygon.description, expected)
     }
-    #endif
 }
