@@ -6,7 +6,7 @@
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 ### 4.0.0
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.0...4.0.0)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.1...4.0.0)
 
 __New features__
 - (Breaking Change) Add the ability to merge updated ParseObject's with original objects when using the 
@@ -17,6 +17,12 @@ __New features__
     needs to have a default initilizer of init(). See the Playgrounds for recommendations on how to 
     define a ParseObject. Look at the PR for 
     details on why this is important when using the SDK ([#315](https://github.com/parse-community/Parse-Swift/pull/315)), thanks to [Corey Baker](https://github.com/cbaker6).
+
+### 3.1.1
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.0...3.1.1)
+
+__Fixes__
+- Always sort keys when using the ParseEncoder as it can cause issues when trying to save ParseObject's that have children ([#318](https://github.com/parse-community/Parse-Swift/pull/318)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 3.1.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.0.0...3.1.0)

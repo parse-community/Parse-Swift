@@ -711,7 +711,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         self.fetchAsync(score: score, scoreOnServer: scoreOnServer, callbackQueue: .main)
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testSaveCommand() throws {
         let score = GameScore(points: 10)
         let className = score.className
@@ -722,10 +721,10 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
 
-        let expected = "GameScore ({\"points\":10,\"player\":\"Jen\"})"
+        let expected = "GameScore ({\"player\":\"Jen\",\"points\":10})"
         let decoded = score.debugDescription
         XCTAssertEqual(decoded, expected)
-        let expected2 = "GameScore ({\"points\":10,\"player\":\"Jen\"})"
+        let expected2 = "GameScore ({\"player\":\"Jen\",\"points\":10})"
         let decoded2 = score.description
         XCTAssertEqual(decoded2, expected2)
     }
@@ -749,7 +748,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
 
-        let expected = "{\"points\":10,\"player\":\"Jen\"}"
+        let expected = "{\"player\":\"Jen\",\"points\":10}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -839,7 +838,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertNil(command.params)
         XCTAssertNotNil(command.body)
     }
-    #endif
 
     func testSave() { // swiftlint:disable:this function_body_length
         let score = GameScore(points: 10)

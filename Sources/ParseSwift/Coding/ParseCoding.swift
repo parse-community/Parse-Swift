@@ -20,6 +20,7 @@ extension ParseCoding {
     static func jsonEncoder() -> JSONEncoder {
         let encoder = JSONEncoder()
         encoder.dateEncodingStrategy = parseDateEncodingStrategy
+        encoder.outputFormatting = .sortedKeys
         return encoder
     }
 

@@ -93,7 +93,6 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         wait(for: [expectation2], timeout: 20.0)
     }
 
-    #if !os(Linux) && !os(Android) && !os(Windows)
     func testSaveCommand() throws {
         let score = GameScore(points: 10)
         let className = score.className
@@ -104,7 +103,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(command.method, API.Method.POST)
         XCTAssertNil(command.params)
 
-        let expected = "GameScore ({\"points\":10,\"player\":\"Jen\"})"
+        let expected = "GameScore ({\"player\":\"Jen\",\"points\":10})"
         let decoded = score.debugDescription
         XCTAssertEqual(decoded, expected)
     }
@@ -128,7 +127,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
             return
         }
 
-        let expected = "{\"points\":10,\"player\":\"Jen\"}"
+        let expected = "{\"player\":\"Jen\",\"points\":10}"
         let encoded = try ParseCoding.parseEncoder()
             .encode(body, collectChildren: false,
                     objectsSavedBeforeThisOne: nil,
@@ -136,5 +135,4 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
     }
-    #endif
 }

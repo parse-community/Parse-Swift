@@ -105,6 +105,7 @@ public struct ParseEncoder {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkipKeys.none.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
+            encoder.outputFormatting = .sortedKeys
         }
         return try encoder.encodeObject(value,
                                         collectChildren: false,
@@ -124,6 +125,7 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
+        encoder.outputFormatting = .sortedKeys
         return try encoder.encodeObject(value,
                                         collectChildren: false,
                                         uniquePointer: nil,
@@ -145,6 +147,7 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
+        encoder.outputFormatting = .sortedKeys
         return try encoder.encodeObject(value,
                                         collectChildren: true,
                                         uniquePointer: try? value.toPointer(),
@@ -167,6 +170,7 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
+        encoder.outputFormatting = .sortedKeys
         return try encoder.encodeObject(value,
                                         collectChildren: collectChildren,
                                         uniquePointer: nil,
