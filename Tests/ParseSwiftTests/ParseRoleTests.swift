@@ -17,7 +17,6 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         //: Your own properties
         var points: Int
@@ -41,7 +40,6 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         // These are required by ParseUser
         var username: String?
@@ -61,7 +59,6 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         // provided by Role
         var name: String
@@ -77,7 +74,6 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         //: Your own properties
         var level: Int

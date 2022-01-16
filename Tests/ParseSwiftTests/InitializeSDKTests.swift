@@ -27,7 +27,6 @@ class InitializeSDKTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
         var customKey: String?
     }
 

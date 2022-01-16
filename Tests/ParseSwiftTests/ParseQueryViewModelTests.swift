@@ -18,7 +18,6 @@ class ParseQueryViewModelTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         //: Your own properties
         var points: Int = 0

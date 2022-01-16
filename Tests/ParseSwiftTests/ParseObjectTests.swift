@@ -22,8 +22,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var name: String?
 
-        var score: Double?
-
         init() {
             name = "First"
         }
@@ -35,7 +33,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         //: Your own properties
         var points: Int?
@@ -66,7 +63,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         //: Your own properties
         var gameScore: GameScore
@@ -90,7 +86,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         //: Your own properties
         var name = "Hello"
@@ -104,7 +99,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         //: Your own properties
         var points: Int
@@ -163,7 +157,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         //: Your own properties
         var gameScore: GameScoreClass
@@ -219,7 +212,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         // These are required by ParseUser
         var username: String?
@@ -239,7 +231,6 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         // These are required by ParseUser
         var username: String?

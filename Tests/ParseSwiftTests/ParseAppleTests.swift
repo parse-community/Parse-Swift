@@ -18,7 +18,6 @@ class ParseAppleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         // These are required by ParseUser
         var username: String?
@@ -35,7 +34,6 @@ class ParseAppleTests: XCTestCase {
         var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         // These are required by ParseUser
         var username: String?
