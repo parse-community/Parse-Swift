@@ -9,7 +9,7 @@
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.0...3.1.1)
 
 __Fixes__
-- Always sort keys when using ParseEncoder it can cause issues with Hashable ([#318](https://github.com/parse-community/Parse-Swift/pull/318)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Always sort keys when using the ParseEncoder as it can cause issues when trying to save ParseObject's that have children ([#318](https://github.com/parse-community/Parse-Swift/pull/318)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 3.1.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.0.0...3.1.0)
