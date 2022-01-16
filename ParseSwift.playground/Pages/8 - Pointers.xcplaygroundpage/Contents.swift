@@ -228,7 +228,6 @@ do {
                     assert(updatedBook.objectId != nil)
                     assert(updatedBook.createdAt != nil)
                     assert(updatedBook.updatedAt != nil)
-                    assert(updatedBook.ACL == nil)
                     assert(updatedBook.relatedBook != nil)
 
                     print("Saved \(updatedBook)")

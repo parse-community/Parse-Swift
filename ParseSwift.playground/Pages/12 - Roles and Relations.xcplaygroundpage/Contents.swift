@@ -301,7 +301,7 @@ let score2 = GameScore(points: 57)
                 switch result {
                 case .success(let saved):
                     print("The relation saved successfully: \(saved)")
-                    print("Check \"pointss\" field in your \"_User\" class in Parse Dashboard.")
+                    print("Check \"points\" field in your \"_User\" class in Parse Dashboard.")
 
                 case .failure(let error):
                     print("Error saving role: \(error)")

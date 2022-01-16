@@ -136,7 +136,7 @@ query.withCount { results in
 }
 
 //: Query based on relative time.
-let queryRelative = GameScore.query(relative("createdAt" < "10 minutes ago"))
+let queryRelative = GameScore.query(relative("createdAt" < "in 10 minutes"))
 queryRelative.find { results in
     switch results {
     case .success(let scores):

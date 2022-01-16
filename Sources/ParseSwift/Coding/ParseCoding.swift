@@ -37,7 +37,8 @@ extension ParseCoding {
     /// types in a way meaninful for a Parse Server to consume.
     static func parseEncoder() -> ParseEncoder {
         ParseEncoder(
-            dateEncodingStrategy: parseDateEncodingStrategy
+            dateEncodingStrategy: parseDateEncodingStrategy,
+            outputFormatting: .sortedKeys
         )
     }
 }
