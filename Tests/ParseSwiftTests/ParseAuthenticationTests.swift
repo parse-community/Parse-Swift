@@ -7,6 +7,9 @@
 //
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import XCTest
 @testable import ParseSwift
 #if canImport(Combine)
@@ -102,7 +105,7 @@ class ParseAuthenticationTests: XCTestCase {
         }
         #endif
 
-        #if swift(>=5.5) && canImport(_Concurrency)
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
         func login(authData: [String: String],
                    options: API.Options) async throws -> AuthenticatedUser {
             throw ParseError(code: .unknownError, message: "Not implemented")
