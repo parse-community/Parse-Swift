@@ -19,11 +19,7 @@ struct User: ParseUser {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-<<<<<<< HEAD
-    var score: Double?
     var originalData: Data?
-=======
->>>>>>> main
 
     //: These are required by `ParseUser`.
     var username: String?
@@ -79,11 +75,7 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-<<<<<<< HEAD
-    var score: Double?
     var originalData: Data?
-=======
->>>>>>> main
 
     //: Your own properties.
     var points: Int? = 0

@@ -23,11 +23,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -57,7 +53,6 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
         var originalData: Data?
 
         // These are required by ParseUser
@@ -75,11 +70,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // These are required by ParseUser
         var username: String?

@@ -27,13 +27,8 @@ import Foundation
  create methods to check the respective properties on the client-side before saving objects. See
  [here](https://github.com/parse-community/Parse-Swift/issues/157#issuecomment-858671025)
  for more information.
-<<<<<<< HEAD
  - important: To take advantage of `mutable`, the developer should implement the `merge` method in every
  `ParseObject`.
- - important: The property, "score," is a Parse Server designated keyword and you should avoid naming any of
- your `ParseObject` properties "score". Doing so may result in decoding issues.
-=======
->>>>>>> main
  - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
  for reference types and may have unexpected behavior when it comes to threading. You will also need to implement
  your own `==` method to conform to `Equatable` along with with the `hash` method to conform to `Hashable`.
@@ -51,12 +46,7 @@ public protocol ParseObject: Objectable,
                              Identifiable,
                              Hashable,
                              CustomDebugStringConvertible,
-<<<<<<< HEAD
                              CustomStringConvertible {
-    /**
-     The weight/rank of a `QueryConstraint.matchesText()`.
-    */
-    var score: Double? { get }
 
     /**
      A JSON encoded version of this `ParseObject` before `mutable` was called and
@@ -108,7 +98,6 @@ public protocol ParseObject: Objectable,
              var createdAt: Date?
              var updatedAt: Date?
              var ACL: ParseACL?
-             var score: Double?
 
              //: Your own properties.
              var points: Int?
@@ -139,9 +128,6 @@ public protocol ParseObject: Objectable,
 
     init()
 }
-=======
-                             CustomStringConvertible { }
->>>>>>> main
 
 // MARK: Default Implementations
 public extension ParseObject {

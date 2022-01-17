@@ -22,11 +22,7 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -46,11 +42,7 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -91,11 +83,7 @@ class ParseInstallationCombineTests: XCTestCase { // swiftlint:disable:this type
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
         var customKey: String?
     }
 

@@ -22,13 +22,8 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var name: String?
 
-<<<<<<< HEAD
-        var score: Double?
-
         var originalData: Data?
 
-=======
->>>>>>> main
         init() {
             name = "First"
         }
@@ -40,11 +35,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         //: Your own properties
         var points: Int?
@@ -97,11 +88,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         //: Your own properties
         var gameScore: GameScore
@@ -125,11 +112,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         //: Your own properties
         var name = "Hello"
@@ -143,11 +126,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         //: Your own properties
         var points: Int
@@ -206,11 +185,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         //: Your own properties
         var gameScore: GameScoreClass
@@ -266,11 +241,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -290,11 +261,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // These are required by ParseUser
         var username: String?

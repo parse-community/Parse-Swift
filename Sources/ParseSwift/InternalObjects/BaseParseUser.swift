@@ -18,9 +18,5 @@ internal struct BaseParseUser: ParseUser {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-<<<<<<< HEAD
-    var score: Double?
     var originalData: Data?
-=======
->>>>>>> main
 }

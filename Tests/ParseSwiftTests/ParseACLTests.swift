@@ -40,11 +40,7 @@ class ParseACLTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -64,11 +60,7 @@ class ParseACLTests: XCTestCase {
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -100,11 +92,7 @@ class ParseACLTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // provided by Role
         var name: String?

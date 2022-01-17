@@ -23,11 +23,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         //: Your own properties
         var points: Int?
@@ -70,7 +66,6 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
         var originalData: Data?
     }
 

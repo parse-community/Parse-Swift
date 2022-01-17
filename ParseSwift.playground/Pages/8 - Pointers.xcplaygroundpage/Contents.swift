@@ -21,15 +21,11 @@ struct Book: ParseObject, ParseQueryScorable {
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
-<<<<<<< HEAD
     var originalData: Data?
-=======
->>>>>>> main
 
     //: Your own properties.
     var title: String?
     var relatedBook: Pointer<Book>?
-<<<<<<< HEAD
 
     //: Implement your own version of merge
     func merge(_ object: Self) throws -> Self {
@@ -44,8 +40,6 @@ struct Book: ParseObject, ParseQueryScorable {
         }
         return updated
     }
-=======
->>>>>>> main
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -63,11 +57,7 @@ struct Author: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-<<<<<<< HEAD
-    var score: Double?
     var originalData: Data?
-=======
->>>>>>> main
 
     //: Your own properties.
     var name: String?

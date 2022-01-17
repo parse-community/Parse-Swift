@@ -20,13 +20,8 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var ACL: ParseACL?
 
-<<<<<<< HEAD
-        var score: Double?
-
         var originalData: Data?
 
-=======
->>>>>>> main
         var name = "First"
     }
 
@@ -37,11 +32,7 @@ class IOS13Tests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         //: Your own properties
         var points: Int?

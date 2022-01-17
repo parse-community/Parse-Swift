@@ -27,11 +27,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -51,11 +47,7 @@ class ParseConfigCombineTests: XCTestCase { // swiftlint:disable:this type_body_
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
-<<<<<<< HEAD
-        var score: Double?
         var originalData: Data?
-=======
->>>>>>> main
 
         // These are required by ParseUser
         var username: String?
