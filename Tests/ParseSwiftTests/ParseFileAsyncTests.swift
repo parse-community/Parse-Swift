@@ -6,8 +6,11 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
+#if compiler(>=5.5.2) && canImport(_Concurrency)
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import XCTest
 @testable import ParseSwift
 
@@ -67,6 +70,8 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         wait(for: [expectation1, expectation2], timeout: 20.0)
     }
 
+    #if !os(Linux) && !os(Android) && !os(Windows)
+    //URL Mocker is not able to mock this in linux and tests fail, so don't run.
     @MainActor
     func testFetch() async throws {
 
@@ -129,6 +134,7 @@ class ParseFileAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
         XCTAssertEqual(fetched.url, response.url)
         XCTAssertNotNil(fetched.localURL)
     }
+    #endif
 
     @MainActor
     func testSave() async throws {
