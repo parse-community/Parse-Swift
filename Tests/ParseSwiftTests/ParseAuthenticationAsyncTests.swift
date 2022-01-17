@@ -10,7 +10,9 @@
 import Foundation
 import XCTest
 @testable import ParseSwift
+#if canImport(Combine)
 import Combine
+#endif
 
 class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct User: ParseUser {
@@ -82,6 +84,7 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
             completion(.failure(error))
         }
 
+        #if canImport(Combine)
         func loginPublisher(authData: [String: String],
                             options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")
@@ -97,6 +100,7 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
                 promise(.failure(error))
             }
         }
+        #endif
 
         #if compiler(>=5.5.2) && canImport(_Concurrency)
         func login(authData: [String: String],
