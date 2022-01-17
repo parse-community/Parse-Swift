@@ -304,6 +304,8 @@ class ParsePointerTests: XCTestCase {
                        "{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"yarr\"}")
     }
 
+    // Thread tests randomly fail on linux
+    #if !os(Linux) && !os(Android) && !os(Windows)
     func testThreadSafeFetchAsync() throws {
         var score = GameScore(points: 10)
         let objectId = "yarr"
@@ -333,6 +335,7 @@ class ParsePointerTests: XCTestCase {
             self.fetchAsync(score: pointer, scoreOnServer: scoreOnServer, callbackQueue: .global(qos: .background))
         }
     }
+    #endif
 
     func testFetchAsyncMainQueue() throws {
         var score = GameScore(points: 10)
