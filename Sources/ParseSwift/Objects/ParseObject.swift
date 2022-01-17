@@ -16,8 +16,8 @@ import Foundation
  If you are using value types the the compiler will assist you with conforming to `ParseObject` protocol. If you
  are thinking of using reference types, see the warning.
 
- After a `ParseObject`is saved/created to a Parse Server. Updates to the `ParseObject` should occur on
- a copy of the `mutable` property. This allows a subset of the fields to be updated (PATCH) of an object
+ After a `ParseObject`is saved/created to a Parse Server. It is recommended to conduct the rest of your updates on a
+ `mergeable` copy of your `ParseObject`. This allows a subset of the fields to be updated (PATCH) of an object
  as oppose to replacing all of the fields of an object (PUT). This reduces the amount of data
  sent between client and server when using `save`, `saveAll`, `update`,
  `updateAll`, `replace`, `replaceAll`, to update objects.
@@ -27,7 +27,7 @@ import Foundation
  create methods to check the respective properties on the client-side before saving objects. See
  [here](https://github.com/parse-community/Parse-Swift/issues/157#issuecomment-858671025)
  for more information.
- - important: To take advantage of `mutable`, the developer should implement the `merge` method in every
+ - important: To take advantage of `mergeable`, the developer should implement the `merge` method in every
  `ParseObject`.
  - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
  for reference types and may have unexpected behavior when it comes to threading. You will also need to implement
@@ -49,7 +49,7 @@ public protocol ParseObject: Objectable,
                              CustomStringConvertible {
 
     /**
-     A JSON encoded version of this `ParseObject` before `mutable` was called and
+     A JSON encoded version of this `ParseObject` before `mergeable` was called and
      properties were changed.
      - warning: This property is not intended to be set or modified by the developer.
     */
@@ -58,12 +58,12 @@ public protocol ParseObject: Objectable,
     /**
      An empty copy of the respective object that allows you to update a
      a subset of the fields (PATCH) of an object as oppose to replacing an object (PUT).
-     - note: It is recommended to use this to create a mutable copy of your `ParseObject`.
-     - warning: `mutable` should only be used on `ParseObject`'s that have already
+     - note: It is recommended to use this to create a mergeable copy of your `ParseObject`.
+     - warning: `mergeable` should only be used on `ParseObject`'s that have already
      been saved at least once to a Parse Server and have a valid `objectId`. In addition,
      the developer should have implemented added all of their properties to `merge`.
     */
-    var mutable: Self { get }
+    var mergeable: Self { get }
 
     /**
      Determines if a `KeyPath` of the current `ParseObject` should be restored
@@ -144,7 +144,7 @@ public extension ParseObject {
         return objectId
     }
 
-    var mutable: Self {
+    var mergeable: Self {
         var object = Self()
         object.objectId = objectId
         object.createdAt = createdAt

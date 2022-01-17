@@ -175,7 +175,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         original.objectId = "yarr"
         original.player = "beast"
 
-        var originalResponse = original.mutable
+        var originalResponse = original.mergeable
         originalResponse.createdAt = nil
         originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
 
@@ -192,7 +192,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         let response = originalResponse
-        var originalUpdated = original.mutable
+        var originalUpdated = original.mergeable
         originalUpdated.points = 50
         let updated = originalUpdated
 
@@ -392,7 +392,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         original.objectId = "yarr"
         original.player = "beast"
 
-        var originalResponse = original.mutable
+        var originalResponse = original.mergeable
         originalResponse.createdAt = nil
         originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
 
@@ -409,7 +409,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         let response = originalResponse
-        var originalUpdated = original.mutable
+        var originalUpdated = original.mergeable
         originalUpdated.points = 50
         let updated = originalUpdated
 
@@ -431,7 +431,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
         var original = GameScoreDefault()
         original.objectId = "yarr"
 
-        var originalResponse = original.mutable
+        var originalResponse = original.mergeable
         originalResponse.createdAt = nil
         originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
 
@@ -448,7 +448,7 @@ class ParseObjectAsyncTests: XCTestCase { // swiftlint:disable:this type_body_le
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         let response = originalResponse
-        let originalUpdated = original.mutable
+        let originalUpdated = original.mergeable
         let updated = originalUpdated
 
         do {

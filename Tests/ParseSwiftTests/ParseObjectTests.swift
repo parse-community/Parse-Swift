@@ -368,7 +368,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var score = GameScore(points: 19, name: "fire")
         score.objectId = "yolo"
         score.createdAt = Date()
-        let empty = score.mutable
+        let empty = score.mergeable
         XCTAssertTrue(score.hasSameObjectId(as: empty))
         XCTAssertEqual(score.createdAt, empty.createdAt)
     }
@@ -388,7 +388,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         score.level = level
         score.levels = [level]
         score.nextLevel = level2
-        var updated = score.mutable
+        var updated = score.mergeable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
         updated.points = 30
         updated.player = "moreFire"
@@ -409,7 +409,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         score.objectId = "yolo"
         score.createdAt = Date()
         score.updatedAt = Date()
-        var updated = score.mutable
+        var updated = score.mergeable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
         updated.name = "moreFire"
         let merged = try updated.merge(score)
@@ -756,7 +756,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         score.createdAt = Date()
         score.updatedAt = score.createdAt
 
-        let command = try score.mutable.saveCommand()
+        let command = try score.mergeable.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
@@ -775,7 +775,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
 
-        var empty = score.mutable
+        var empty = score.mergeable
         empty.player = "Jennifer"
         let command2 = try empty.saveCommand()
         guard let body2 = command2.body else {

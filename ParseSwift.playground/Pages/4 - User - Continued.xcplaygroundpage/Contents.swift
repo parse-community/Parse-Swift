@@ -137,10 +137,10 @@ User.login(username: "hello", password: "world") { result in
     Asynchrounously - Performs work on background
     queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
-    Using `mutable` allows you to only send the updated keys to the
+    Using `.mergeable` allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
-var currentUser = User.current?.mutable
+var currentUser = User.current?.mergeable
 currentUser?.customKey = "myCustom"
 currentUser?.gameScore = GameScore(points: 12)
 currentUser?.targetScore = GameScore(points: 100)
@@ -244,7 +244,7 @@ User.anonymous.login { result in
 }
 
 //: Convert the anonymous user to a real new user.
-var currentUser2 = User.current?.mutable
+var currentUser2 = User.current?.mergeable
 currentUser2?.username = "bye"
 currentUser2?.password = "world"
 currentUser2?.signup { result in

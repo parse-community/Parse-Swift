@@ -128,7 +128,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         acl.publicRead = true
         original.ACL = acl
 
-        var updated = original.mutable
+        var updated = original.mergeable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
         updated.email = "swift@parse.com"
         updated.username = "12345"
@@ -161,7 +161,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         acl.publicRead = true
         original.ACL = acl
 
-        var updated = original.mutable
+        var updated = original.mergeable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
         updated.customKey = "newKey"
         let merged = try updated.merge(original)
@@ -838,7 +838,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
             XCTFail("Should unwrap")
             return
         }
-        var response = original.mutable
+        var response = original.mergeable
         response.createdAt = nil
         response.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
 
@@ -854,7 +854,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-        var updated = original.mutable
+        var updated = original.mergeable
         updated.customKey = "beast"
         updated.username = "mode"
 

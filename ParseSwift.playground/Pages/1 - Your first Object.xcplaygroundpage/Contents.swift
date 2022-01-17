@@ -125,7 +125,7 @@ score.save { result in
             allows you to only send the updated keys to the
             parse server as opposed to the whole object.
         */
-        var changedScore = savedScore.mutable
+        var changedScore = savedScore.mergeable
         changedScore.points = 200
         changedScore.save { result in
             switch result {
@@ -215,7 +215,7 @@ assert(savedScore?.points == 10)
     allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
-guard var changedScore = savedScore?.mutable else {
+guard var changedScore = savedScore?.mergeable else {
     fatalError("Should have produced mutable changedScore")
 }
 changedScore.points = 200

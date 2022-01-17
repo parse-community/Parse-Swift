@@ -278,7 +278,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         acl.publicRead = true
         original.ACL = acl
 
-        var updated = original.mutable
+        var updated = original.mergeable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
         updated.badge = 1
         updated.deviceToken = "12345"
@@ -316,7 +316,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         acl.publicRead = true
         original.ACL = acl
 
-        var updated = original.mutable
+        var updated = original.mergeable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
         updated.customKey = "newKey"
         let merged = try updated.merge(original)
@@ -486,7 +486,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
             XCTFail("Should unwrap")
             return
         }
-        var response = original.mutable
+        var response = original.mergeable
         response.createdAt = nil
         response.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
 
@@ -502,7 +502,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         MockURLProtocol.mockRequests { _ in
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
-        var updated = original.mutable
+        var updated = original.mergeable
         updated.customKey = "hello"
         updated.deviceToken = "1234"
 

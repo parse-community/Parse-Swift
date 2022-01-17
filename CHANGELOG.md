@@ -10,7 +10,7 @@
 
 __New features__
 - (Breaking Change) Add the ability to merge updated ParseObject's with original objects when using the 
-    .mutable property. To do this, developers need to add an implementation of merge() to 
+    .mergeable property. To do this, developers need to add an implementation of merge() to 
     respective ParseObject's. The compiler will recommend the new originalData property be added to
     every ParseObject. If you used ParseObjectMutable in the past, you should remove it as it is now 
     part of ParseObject. In addition, all ParseObject properties should be optional and every object 

@@ -78,11 +78,11 @@ score.save { result in
         print("Saved score: \(savedScore)")
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable. Using `mutable`
+            was initialized as immutable. Using `.mergeable`
             allows you to only send the updated keys to the
             parse server as opposed to the whole object.
         */
-        var changedScore = savedScore.mutable
+        var changedScore = savedScore.mergeable
         changedScore.points = 200
         changedScore.save { result in
             switch result {

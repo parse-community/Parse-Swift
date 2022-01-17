@@ -467,7 +467,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
             XCTFail("Should unwrap")
             return
         }
-        var originalResponse = original.mutable
+        var originalResponse = original.mergeable
         originalResponse.createdAt = nil
         originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
 
@@ -484,7 +484,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         let response = originalResponse
-        var originalUpdate = original.mutable
+        var originalUpdate = original.mergeable
         originalUpdate.customKey = "hello"
         originalUpdate.deviceToken = "1234"
         let updated = originalUpdate
@@ -547,7 +547,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
             XCTFail("Should unwrap")
             return
         }
-        var originalResponse = original.mutable
+        var originalResponse = original.mergeable
         originalResponse.createdAt = nil
         originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
 
@@ -565,7 +565,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         let response = originalResponse
-        var originalUpdate = original.mutable
+        var originalUpdate = original.mergeable
         originalUpdate.deviceToken = "1234"
         let updated = originalUpdate
 

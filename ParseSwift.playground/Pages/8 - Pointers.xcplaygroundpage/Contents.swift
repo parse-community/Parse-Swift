@@ -218,7 +218,7 @@ do {
         case .success(let author):
             print("Found author and included \"book\": \(author)")
             //: Setup related books.
-            var modifiedNewBook = newBook.mutable
+            var modifiedNewBook = newBook.mergeable
             modifiedNewBook.relatedBook = try? author.otherBooks?.first?.toPointer()
 
             modifiedNewBook.save { result in

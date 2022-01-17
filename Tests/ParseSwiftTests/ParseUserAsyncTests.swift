@@ -780,7 +780,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTFail("Should unwrap")
             return
         }
-        var originalResponse = original.mutable
+        var originalResponse = original.mergeable
         originalResponse.createdAt = nil
         originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
 
@@ -797,7 +797,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         let response = originalResponse
-        var originalUpdated = original.mutable
+        var originalUpdated = original.mergeable
         originalUpdated.customKey = "beast"
         originalUpdated.username = "mode"
         let updated = originalUpdated
@@ -848,7 +848,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             XCTFail("Should unwrap")
             return
         }
-        var originalResponse = original.mutable
+        var originalResponse = original.mergeable
         originalResponse.createdAt = nil
         originalResponse.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
 
@@ -865,7 +865,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
             return MockURLResponse(data: encoded, statusCode: 200, delay: 0.0)
         }
         let response = originalResponse
-        var originalUpdated = original.mutable
+        var originalUpdated = original.mergeable
         originalUpdated.username = "mode"
         let updated = originalUpdated
 
