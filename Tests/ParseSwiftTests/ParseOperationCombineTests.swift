@@ -21,8 +21,11 @@ class ParseOperationCombineTests: XCTestCase { // swiftlint:disable:this type_bo
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
 
         //: Your own properties
         var points: Int?

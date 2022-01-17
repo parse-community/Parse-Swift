@@ -6,11 +6,16 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
+#if compiler(>=5.5.2) && canImport(_Concurrency)
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import XCTest
 @testable import ParseSwift
+#if canImport(Combine)
 import Combine
+#endif
 
 class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type_body_length
     struct User: ParseUser {
@@ -20,8 +25,11 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -38,8 +46,11 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -84,6 +95,7 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
             completion(.failure(error))
         }
 
+        #if canImport(Combine)
         func loginPublisher(authData: [String: String],
                             options: API.Options) -> Future<AuthenticatedUser, ParseError> {
             let error = ParseError(code: .unknownError, message: "Not implemented")
@@ -99,8 +111,9 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
                 promise(.failure(error))
             }
         }
+        #endif
 
-        #if swift(>=5.5) && canImport(_Concurrency)
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
         func login(authData: [String: String],
                    options: API.Options) async throws -> AuthenticatedUser {
             throw ParseError(code: .unknownError, message: "Not implemented")

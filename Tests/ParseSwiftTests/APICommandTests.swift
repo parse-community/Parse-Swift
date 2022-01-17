@@ -22,10 +22,13 @@ class APICommandTests: XCTestCase {
         var ACL: ParseACL?
 
         var name = "First"
+<<<<<<< HEAD
 
         var score: Double?
 
         var originalData: Data?
+=======
+>>>>>>> main
     }
 
     override func setUpWithError() throws {
@@ -78,8 +81,11 @@ class APICommandTests: XCTestCase {
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
 
         // These are required by ParseUser
         var username: String?

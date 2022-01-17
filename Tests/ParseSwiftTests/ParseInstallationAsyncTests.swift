@@ -6,8 +6,11 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if swift(>=5.5) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
+#if compiler(>=5.5.2) && canImport(_Concurrency)
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import XCTest
 @testable import ParseSwift
 
@@ -20,8 +23,11 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -41,8 +47,11 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -83,8 +92,11 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
         var customKey: String?
 
         //: Implement your own version of merge

@@ -2,6 +2,7 @@
 
 ### main
 
+<<<<<<< HEAD
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
@@ -17,6 +18,17 @@ __New features__
     needs to have a default initilizer of init(). See the Playgrounds for recommendations on how to 
     define a ParseObject. Look at the PR for 
     details on why this is important when using the SDK ([#315](https://github.com/parse-community/Parse-Swift/pull/315)), thanks to [Corey Baker](https://github.com/cbaker6).
+=======
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.2...main)
+* _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 3.1.2
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.1...3.1.2)
+
+__Fixes__
+- Allowing building of the Swift SDK for Swift 5.5.0 and 5.5.1 re-enabling builds for Xcode 13.0 and 13.1. Note that async/await functionality is only available for Swift 5.5.2+ and Xcode 13.2+ ([#320](https://github.com/parse-community/Parse-Swift/pull/320)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Move the var score: Double? to a protocol named ParseQueryScorable. When developers want to sort by score using a matchesText QueryConstraint, they just conform their ParseObject's to ParseQueryScorable ([#319](https://github.com/parse-community/Parse-Swift/pull/319)), thanks to [Corey Baker](https://github.com/cbaker6).
+>>>>>>> main
 
 ### 3.1.1
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.0...3.1.1)

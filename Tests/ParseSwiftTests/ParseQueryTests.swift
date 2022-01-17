@@ -12,7 +12,7 @@ import XCTest
 
 class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
-    struct GameScore: ParseObject {
+    struct GameScore: ParseObject, ParseQueryScorable {
         //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
@@ -40,8 +40,11 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
 
         var points: Int?
     }

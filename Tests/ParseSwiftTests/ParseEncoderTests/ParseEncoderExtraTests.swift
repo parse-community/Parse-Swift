@@ -10,7 +10,7 @@ import XCTest
 @testable import ParseSwift
 
 class ParseEncoderTests: XCTestCase {
-    struct GameScore: ParseObject {
+    struct GameScore: ParseObject, ParseQueryScorable {
         //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?

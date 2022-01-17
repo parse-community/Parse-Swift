@@ -609,7 +609,8 @@ public func polygonContains(key: String, point: ParseGeoPoint) -> QueryConstrain
   - parameter text: The substring that the value must contain.
   - returns: The resulting `QueryConstraint`.
   - note: In order to sort you must use `Query.sortByTextScore()`.
-    To retrieve the weight/rank, access the "score" property of your `ParseObject`.
+  Your `ParseObject` should conform to `ParseQueryScorable` to retrieve
+  the weight/rank via  the "score" property of your `ParseObject`.
   - warning: This may be slow for large datasets. Requires Parse Server > 2.5.0.
  */
 public func matchesText(key: String, text: String) -> QueryConstraint {
@@ -661,7 +662,8 @@ public enum ParseTextOption: String {
      The key is of type `TextOption` and must have a respective value.
   - returns: The resulting `QueryConstraint`.
   - note: In order to sort you must use `Query.sortByTextScore()`.
-    To retrieve the weight/rank, access the "score" property of your `ParseObject`.
+  Your `ParseObject` should conform to `ParseQueryScorable` to retrieve
+  the weight/rank via  the "score" property of your `ParseObject`.
   - warning: This may be slow for large datasets. Requires Parse Server > 2.5.0.
  */
 public func matchesText(key: String,

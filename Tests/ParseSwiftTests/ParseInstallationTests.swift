@@ -19,8 +19,11 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -40,8 +43,11 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
 
         // These are required by ParseUser
         var username: String?
@@ -82,8 +88,11 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+<<<<<<< HEAD
         var score: Double?
         var originalData: Data?
+=======
+>>>>>>> main
         var customKey: String?
 
         //: Implement your own version of merge
