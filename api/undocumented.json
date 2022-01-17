@@ -205,7 +205,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Protocols/ParseObjectMutable.swift",
-      "line": 97,
+      "line": 95,
       "symbol": "ParseObjectMutable.init()",
       "symbol_kind": "source.lang.swift.decl.function.method.instance",
       "warning": "undocumented"
@@ -296,7 +296,7 @@
     },
     {
       "file": "/Users/runner/work/Parse-Swift/Parse-Swift/Sources/ParseSwift/Types/Query.swift",
-      "line": 375,
+      "line": 377,
       "symbol": "Query.ResultType",
       "symbol_kind": "source.lang.swift.decl.typealias",
       "warning": "undocumented"
