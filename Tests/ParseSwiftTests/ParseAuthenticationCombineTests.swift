@@ -9,6 +9,9 @@
 #if canImport(Combine)
 
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import XCTest
 import Combine
 @testable import ParseSwift

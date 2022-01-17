@@ -8,6 +8,9 @@
 
 #if compiler(>=5.5.2) && canImport(_Concurrency)
 import Foundation
+#if canImport(FoundationNetworking)
+import FoundationNetworking
+#endif
 import XCTest
 @testable import ParseSwift
 #if canImport(Combine)
