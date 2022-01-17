@@ -364,6 +364,10 @@
 		70A2D86B25B3ADB6001BEB7D /* ParseAnonymousTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A2D86A25B3ADB6001BEB7D /* ParseAnonymousTests.swift */; };
 		70A2D86C25B3ADB6001BEB7D /* ParseAnonymousTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A2D86A25B3ADB6001BEB7D /* ParseAnonymousTests.swift */; };
 		70A2D86D25B3ADB6001BEB7D /* ParseAnonymousTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A2D86A25B3ADB6001BEB7D /* ParseAnonymousTests.swift */; };
+		70A98D822794AB3C009B58F2 /* ParseQueryScorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A98D812794AB3C009B58F2 /* ParseQueryScorable.swift */; };
+		70A98D832794AB3C009B58F2 /* ParseQueryScorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A98D812794AB3C009B58F2 /* ParseQueryScorable.swift */; };
+		70A98D842794AB3C009B58F2 /* ParseQueryScorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A98D812794AB3C009B58F2 /* ParseQueryScorable.swift */; };
+		70A98D852794AB3C009B58F2 /* ParseQueryScorable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70A98D812794AB3C009B58F2 /* ParseQueryScorable.swift */; };
 		70B4E0BC2762F1D5004C9757 /* QueryConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B4E0BB2762F1D5004C9757 /* QueryConstraint.swift */; };
 		70B4E0BD2762F1D5004C9757 /* QueryConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B4E0BB2762F1D5004C9757 /* QueryConstraint.swift */; };
 		70B4E0BE2762F1D5004C9757 /* QueryConstraint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70B4E0BB2762F1D5004C9757 /* QueryConstraint.swift */; };
@@ -968,6 +972,7 @@
 		709B98342556EC7400507778 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		70A2D81E25B36A7D001BEB7D /* ParseAuthenticationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAuthenticationTests.swift; sourceTree = "<group>"; };
 		70A2D86A25B3ADB6001BEB7D /* ParseAnonymousTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseAnonymousTests.swift; sourceTree = "<group>"; };
+		70A98D812794AB3C009B58F2 /* ParseQueryScorable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseQueryScorable.swift; sourceTree = "<group>"; };
 		70B4E0BB2762F1D5004C9757 /* QueryConstraint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryConstraint.swift; sourceTree = "<group>"; };
 		70B4E0C02762F313004C9757 /* QueryWhere.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QueryWhere.swift; sourceTree = "<group>"; };
 		70BC0B32251903D1001556DB /* ParseGeoPointTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParseGeoPointTests.swift; sourceTree = "<group>"; };
@@ -1382,6 +1387,7 @@
 				700396E925A3892D0052CB31 /* LiveQuerySocketDelegate.swift */,
 				700396F725A394AE0052CB31 /* ParseLiveQueryDelegate.swift */,
 				700395D025A147BE0052CB31 /* QuerySubscribable.swift */,
+				70A98D812794AB3C009B58F2 /* ParseQueryScorable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -2226,6 +2232,7 @@
 				70510AAC259EE25E00FEA700 /* LiveQuerySocket.swift in Sources */,
 				70C167AF27304EE4009F4E30 /* Pointer+combine.swift in Sources */,
 				7044C19125C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
+				70A98D822794AB3C009B58F2 /* ParseQueryScorable.swift in Sources */,
 				70F79A192639CE6F00731C46 /* ParseHealth.swift in Sources */,
 				7044C19F25C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */,
 				F97B461E24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
@@ -2459,6 +2466,7 @@
 				7044C19225C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
 				70F79A1A2639CE6F00731C46 /* ParseHealth.swift in Sources */,
 				7044C1A025C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */,
+				70A98D832794AB3C009B58F2 /* ParseQueryScorable.swift in Sources */,
 				F97B461F24D9C6F200F4A88B /* ParseStorage.swift in Sources */,
 				7044C1AE25C4FC080011F6E7 /* Query+combine.swift in Sources */,
 				F97B45D324D9C6F200F4A88B /* AnyDecodable.swift in Sources */,
@@ -2795,6 +2803,7 @@
 				70C167B227304EE4009F4E30 /* Pointer+combine.swift in Sources */,
 				7044C19425C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
 				70F79A1C2639CE6F00731C46 /* ParseHealth.swift in Sources */,
+				70A98D852794AB3C009B58F2 /* ParseQueryScorable.swift in Sources */,
 				7044C1A225C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */,
 				F97B465124D9C78C00F4A88B /* Add.swift in Sources */,
 				7044C1B025C4FC080011F6E7 /* Query+combine.swift in Sources */,
@@ -2934,6 +2943,7 @@
 				70C167B127304EE4009F4E30 /* Pointer+combine.swift in Sources */,
 				7044C19325C4F5B60011F6E7 /* ParseFile+combine.swift in Sources */,
 				70F79A1B2639CE6F00731C46 /* ParseHealth.swift in Sources */,
+				70A98D842794AB3C009B58F2 /* ParseQueryScorable.swift in Sources */,
 				7044C1A125C4FA870011F6E7 /* ParseOperation+combine.swift in Sources */,
 				F97B465024D9C78B00F4A88B /* Add.swift in Sources */,
 				7044C1AF25C4FC080011F6E7 /* Query+combine.swift in Sources */,

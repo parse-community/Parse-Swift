@@ -20,7 +20,6 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-    var score: Double?
     var location: ParseGeoPoint?
 
     //: Your own properties

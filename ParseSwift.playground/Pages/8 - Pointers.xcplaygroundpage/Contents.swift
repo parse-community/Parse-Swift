@@ -14,17 +14,17 @@ PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
 //: Create your own value typed `ParseObject`.
-struct Book: ParseObject {
+struct Book: ParseObject, ParseQueryScorable {
     //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
-    var relatedBook: Pointer<Book>?
 
     //: Your own properties.
     var title: String?
+    var relatedBook: Pointer<Book>?
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -42,7 +42,6 @@ struct Author: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-    var score: Double?
 
     //: Your own properties.
     var name: String

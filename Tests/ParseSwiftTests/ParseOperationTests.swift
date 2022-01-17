@@ -17,7 +17,6 @@ class ParseOperationTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         //: Your own properties
         var points: Int?
@@ -44,7 +43,6 @@ class ParseOperationTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
-        var score: Double?
 
         //: Your own properties
         var level: Int
