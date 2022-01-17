@@ -6,7 +6,7 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if compiler(>=5.5.2) && canImport(_Concurrency) && !os(Linux) && !os(Android) && !os(Windows)
+#if compiler(>=5.5.2) && canImport(_Concurrency)
 import Foundation
 import XCTest
 @testable import ParseSwift
