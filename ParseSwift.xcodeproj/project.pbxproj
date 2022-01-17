@@ -1382,7 +1382,6 @@
 				700396E925A3892D0052CB31 /* LiveQuerySocketDelegate.swift */,
 				700396F725A394AE0052CB31 /* ParseLiveQueryDelegate.swift */,
 				700395D025A147BE0052CB31 /* QuerySubscribable.swift */,
-				70A98D812794AB3C009B58F2 /* ParseQueryScorable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1406,6 +1405,7 @@
 				F97B45C524D9C6F200F4A88B /* Fetchable.swift */,
 				705A9A2E25991C1400B3547F /* Fileable.swift */,
 				70BC988F252A5B5C00FF3074 /* Objectable.swift */,
+				70A98D812794AB3C009B58F2 /* ParseQueryScorable.swift */,
 				70647E9B259E3A9A004C1004 /* ParseType.swift */,
 				F97B45C824D9C6F200F4A88B /* Queryable.swift */,
 				91BB8FCE2690BA70005A6BA5 /* QueryObservable.swift */,

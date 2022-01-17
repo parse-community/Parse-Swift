@@ -173,23 +173,6 @@ public struct Query<T>: Encodable, Equatable where T: ParseObject {
     }
 
     /**
-      Method to sort the full text search by text score.
-      - parameter value: String or Object of index that should be used when executing query.
-      - note: Your `ParseObject` should conform to `ParseQueryScorable` to retrieve
-      the weight/rank via  the "score" property of your `ParseObject`.
-    */
-    public func sortByTextScore() -> Query<T> {
-        var mutableQuery = self
-        let ascendingScore = Order.ascending(QueryConstraint.Comparator.score.rawValue)
-        if mutableQuery.order != nil {
-            mutableQuery.order!.append(ascendingScore)
-        } else {
-            mutableQuery.order = [ascendingScore]
-        }
-        return mutableQuery.select(QueryConstraint.Comparator.score.rawValue)
-    }
-
-    /**
       Changes the read preference that the backend will use when performing the query to the database.
       - parameter readPreference: The read preference for the main query.
       - parameter includeReadPreference: The read preference for the queries to include pointers.
