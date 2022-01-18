@@ -198,11 +198,20 @@ jobs:
   windows:
     runs-on: windows-2019
     steps:
-      - uses: actions/checkout@v2
-      - uses: MaxDesiatov/swift-windows-action@v1
+      - uses: compnerd/gha-setup-swift@main
         with:
-          swift-version: "5.5.1"
-          shell-action: swift test --enable-test-discovery --enable-code-coverage -v
+          branch: swift-5.5.2-release
+          tag: 5.5.2-RELEASE
+
+      - uses: actions/checkout@v2
+      - run: swift build
+      - run: swift test --enable-test-discovery --enable-code-coverage -v
+    #steps:
+    #  - uses: actions/checkout@v2
+    #  - uses: MaxDesiatov/swift-windows-action@v1
+    #    with:
+    #      swift-version: "5.5.1"
+    #      shell-action: swift test --enable-test-discovery --enable-code-coverage -v
       - name: Upload coverage to Codecov
         uses: codecov/codecov-action@v2
         with:
