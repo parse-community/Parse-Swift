@@ -18,6 +18,9 @@ __New features__
     define a ParseObject. Look at the PR for 
     details on why this is important when using the SDK ([#315](https://github.com/parse-community/Parse-Swift/pull/315)), thanks to [Corey Baker](https://github.com/cbaker6).
 
+__Improvements__
+- (Breaking Change) Change the following method parameter names: isUsingMongoDB -> usingMongoDB, isIgnoreCustomObjectIdConfig -> ignoringCustomObjectIdConfig, isUsingEQ -> usingEqComparator ([#321](https://github.com/parse-community/Parse-Swift/pull/321)), thanks to [Corey Baker](https://github.com/cbaker6).
+
 ### 3.1.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.1...3.1.2)
 
