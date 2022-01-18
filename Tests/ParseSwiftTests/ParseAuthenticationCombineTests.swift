@@ -105,7 +105,7 @@ class ParseAuthenticationCombineTests: XCTestCase {
         }
         #endif
 
-        #if compiler(>=5.6.2) && canImport(_Concurrency)
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
         func login(authData: [String: String],
                    options: API.Options) async throws -> AuthenticatedUser {
             throw ParseError(code: .unknownError, message: "Not implemented")

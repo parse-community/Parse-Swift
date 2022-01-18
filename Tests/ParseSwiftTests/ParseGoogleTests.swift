@@ -162,7 +162,7 @@ class ParseGoogleTests: XCTestCase { // swiftlint:disable:this type_body_length
                         .AuthenticationKeys.id.verifyMandatoryKeys(authData: authDataWrong))
     }
 
-#if compiler(>=5.6.2) && canImport(_Concurrency)
+#if compiler(>=5.5.2) && canImport(_Concurrency)
     @MainActor
     func testLogin() async throws {
 

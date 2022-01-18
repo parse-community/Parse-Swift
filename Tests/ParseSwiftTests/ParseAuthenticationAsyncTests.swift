@@ -6,7 +6,7 @@
 //  Copyright © 2021 Parse Community. All rights reserved.
 //
 
-#if compiler(>=5.6.2) && canImport(_Concurrency)
+#if compiler(>=5.5.2) && canImport(_Concurrency)
 import Foundation
 #if canImport(FoundationNetworking)
 import FoundationNetworking
@@ -105,7 +105,7 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
         }
         #endif
 
-        #if compiler(>=5.6.2) && canImport(_Concurrency)
+        #if compiler(>=5.5.2) && canImport(_Concurrency)
         func login(authData: [String: String],
                    options: API.Options) async throws -> AuthenticatedUser {
             throw ParseError(code: .unknownError, message: "Not implemented")
