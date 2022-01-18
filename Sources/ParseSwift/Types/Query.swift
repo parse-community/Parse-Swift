@@ -381,20 +381,20 @@ extension Query: Queryable {
       typed language, a developer should specify the type expected to be decoded which will be
       different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
       such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-      - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+      - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
       - returns: Returns a response of `Decodable` type.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-      `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+      `usingMongoDB` flag needs to be set for MongoDB users. See more
       [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    public func findExplain<U: Decodable>(isUsingMongoDB: Bool = false,
+    public func findExplain<U: Decodable>(usingMongoDB: Bool = false,
                                           options: API.Options = []) throws -> [U] {
         if limit == 0 {
             return [U]()
         }
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             return try findExplainCommand().execute(options: options)
         } else {
             return try findExplainMongoCommand().execute(options: options)
@@ -430,16 +430,16 @@ extension Query: Queryable {
       typed language, a developer should specify the type expected to be decoded which will be
       different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
       such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-      - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+      - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of .main.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[Decodable], ParseError>)`.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-      `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+      `usingMongoDB` flag needs to be set for MongoDB users. See more
       [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    public func findExplain<U: Decodable>(isUsingMongoDB: Bool = false,
+    public func findExplain<U: Decodable>(usingMongoDB: Bool = false,
                                           options: API.Options = [],
                                           callbackQueue: DispatchQueue = .main,
                                           completion: @escaping (Result<[U], ParseError>) -> Void) {
@@ -449,7 +449,7 @@ extension Query: Queryable {
             }
             return
         }
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             findExplainCommand().executeAsync(options: options,
                                               callbackQueue: callbackQueue) { result in
                 completion(result)
@@ -562,21 +562,21 @@ extension Query: Queryable {
       typed language, a developer should specify the type expected to be decoded which will be
       different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
       such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-      - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+      - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
       - returns: Returns a response of `Decodable` type.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-      `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+      `usingMongoDB` flag needs to be set for MongoDB users. See more
       [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    public func firstExplain<U: Decodable>(isUsingMongoDB: Bool = false,
+    public func firstExplain<U: Decodable>(usingMongoDB: Bool = false,
                                            options: API.Options = []) throws -> U {
         if limit == 0 {
             throw ParseError(code: .objectNotFound,
                              message: "Object not found on the server.")
         }
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             return try firstExplainCommand().execute(options: options)
         } else {
             return try firstExplainMongoCommand().execute(options: options)
@@ -617,16 +617,16 @@ extension Query: Queryable {
       typed language, a developer should specify the type expected to be decoded which will be
       different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
       such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-      - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+      - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Decodable, ParseError>)`.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-      `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+      `usingMongoDB` flag needs to be set for MongoDB users. See more
       [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    public func firstExplain<U: Decodable>(isUsingMongoDB: Bool = false,
+    public func firstExplain<U: Decodable>(usingMongoDB: Bool = false,
                                            options: API.Options = [],
                                            callbackQueue: DispatchQueue = .main,
                                            completion: @escaping (Result<U, ParseError>) -> Void) {
@@ -638,7 +638,7 @@ extension Query: Queryable {
             }
             return
         }
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             firstExplainCommand().executeAsync(options: options,
                                                callbackQueue: callbackQueue) { result in
                 completion(result)
@@ -672,20 +672,20 @@ extension Query: Queryable {
       typed language, a developer should specify the type expected to be decoded which will be
       different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
       such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-      - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+      - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
       - returns: Returns a response of `Decodable` type.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-      `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+      `usingMongoDB` flag needs to be set for MongoDB users. See more
       [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    public func countExplain<U: Decodable>(isUsingMongoDB: Bool = false,
+    public func countExplain<U: Decodable>(usingMongoDB: Bool = false,
                                            options: API.Options = []) throws -> [U] {
         if limit == 0 {
             return [U]()
         }
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             return try countExplainCommand().execute(options: options)
         } else {
             return try countExplainMongoCommand().execute(options: options)
@@ -721,16 +721,16 @@ extension Query: Queryable {
       typed language, a developer should specify the type expected to be decoded which will be
       different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
       such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-      - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+      - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Decodable, ParseError>)`.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-      `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+      `usingMongoDB` flag needs to be set for MongoDB users. See more
       [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    public func countExplain<U: Decodable>(isUsingMongoDB: Bool = false,
+    public func countExplain<U: Decodable>(usingMongoDB: Bool = false,
                                            options: API.Options = [],
                                            callbackQueue: DispatchQueue = .main,
                                            completion: @escaping (Result<[U], ParseError>) -> Void) {
@@ -740,7 +740,7 @@ extension Query: Queryable {
             }
             return
         }
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             countExplainCommand().executeAsync(options: options,
                                                callbackQueue: callbackQueue) { result in
                 completion(result)
@@ -783,16 +783,16 @@ extension Query: Queryable {
       typed language, a developer should specify the type expected to be decoded which will be
       different for mongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
       such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
-      - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+      - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
       - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<Decodable, ParseError>)`.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-      `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+      `usingMongoDB` flag needs to be set for MongoDB users. See more
       [here](https://github.com/parse-community/parse-server/pull/7440).
     */
-    public func withCountExplain<U: Decodable>(isUsingMongoDB: Bool = false,
+    public func withCountExplain<U: Decodable>(usingMongoDB: Bool = false,
                                                options: API.Options = [],
                                                callbackQueue: DispatchQueue = .main,
                                                completion: @escaping (Result<[U], ParseError>) -> Void) {
@@ -802,7 +802,7 @@ extension Query: Queryable {
             }
             return
         }
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             withCountExplainCommand().executeAsync(options: options,
                                                    callbackQueue: callbackQueue) { result in
                 completion(result)
@@ -917,16 +917,16 @@ extension Query: Queryable {
       different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
       such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
       - parameter pipeline: A pipeline of stages to process query.
-      - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+      - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
       - returns: Returns the `ParseObject`s that match the query.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-      `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+      `usingMongoDB` flag needs to be set for MongoDB users. See more
       [here](https://github.com/parse-community/parse-server/pull/7440).
     */
     public func aggregateExplain<U: Decodable>(_ pipeline: [[String: Encodable]],
-                                               isUsingMongoDB: Bool = false,
+                                               usingMongoDB: Bool = false,
                                                options: API.Options = []) throws -> [U] {
         if limit == 0 {
             return [U]()
@@ -952,7 +952,7 @@ extension Query: Queryable {
         } else {
             query.pipeline = updatedPipeline
         }
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             return try query.aggregateExplainCommand()
                 .execute(options: options)
         } else {
@@ -969,17 +969,17 @@ extension Query: Queryable {
         different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
         such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
         - parameter pipeline: A pipeline of stages to process query.
-        - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+        - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
         - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[ParseObject], ParseError>)`.
         - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-        `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+        `usingMongoDB` flag needs to be set for MongoDB users. See more
         [here](https://github.com/parse-community/parse-server/pull/7440).
     */
     public func aggregateExplain<U: Decodable>(_ pipeline: [[String: Encodable]],
-                                               isUsingMongoDB: Bool = false,
+                                               usingMongoDB: Bool = false,
                                                options: API.Options = [],
                                                callbackQueue: DispatchQueue = .main,
                                                completion: @escaping (Result<[U], ParseError>) -> Void) {
@@ -1015,7 +1015,7 @@ extension Query: Queryable {
         } else {
             query.pipeline = updatedPipeline
         }
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             query.aggregateExplainCommand()
                 .executeAsync(options: options, callbackQueue: callbackQueue) { result in
                     completion(result)
@@ -1085,24 +1085,24 @@ extension Query: Queryable {
       different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
       such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
       - parameter key: A field to find distinct values.
-      - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+      - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
       - parameter options: A set of header options sent to the server. Defaults to an empty set.
       - throws: An error of type `ParseError`.
       - warning: This hasn't been tested thoroughly.
       - returns: Returns the `ParseObject`s that match the query.
       - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-      `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+      `usingMongoDB` flag needs to be set for MongoDB users. See more
        [here](https://github.com/parse-community/parse-server/pull/7440).
     */
     public func distinctExplain<U: Decodable>(_ key: String,
-                                              isUsingMongoDB: Bool = false,
+                                              usingMongoDB: Bool = false,
                                               options: API.Options = []) throws -> [U] {
         if limit == 0 {
             return [U]()
         }
         var options = options
         options.insert(.useMasterKey)
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             return try distinctExplainCommand(key: key)
                 .execute(options: options)
         } else {
@@ -1119,17 +1119,17 @@ extension Query: Queryable {
         different for MongoDB and PostgreSQL. One way around this is to use a type-erased wrapper
         such as the [AnyCodable](https://github.com/Flight-School/AnyCodable) package.
         - parameter key: A field to find distinct values.
-        - parameter isUsingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
+        - parameter usingMongoDB: Set to **true** if your Parse Server uses MongoDB. Defaults to **false**.
         - parameter options: A set of header options sent to the server. Defaults to an empty set.
         - parameter callbackQueue: The queue to return to after completion. Default value of `.main`.
         - parameter completion: The block to execute.
       It should have the following argument signature: `(Result<[Decodable], ParseError>)`.
         - warning: MongoDB's **explain** does not conform to the traditional Parse Server response, so the
-        `isUsingMongoDB` flag needs to be set for MongoDB users. See more
+        `usingMongoDB` flag needs to be set for MongoDB users. See more
         [here](https://github.com/parse-community/parse-server/pull/7440).
     */
     public func distinctExplain<U: Decodable>(_ key: String,
-                                              isUsingMongoDB: Bool = false,
+                                              usingMongoDB: Bool = false,
                                               options: API.Options = [],
                                               callbackQueue: DispatchQueue = .main,
                                               completion: @escaping (Result<[U], ParseError>) -> Void) {
@@ -1141,7 +1141,7 @@ extension Query: Queryable {
         }
         var options = options
         options.insert(.useMasterKey)
-        if !isUsingMongoDB {
+        if !usingMongoDB {
             distinctExplainCommand(key: key)
                 .executeAsync(options: options,
                               callbackQueue: callbackQueue) { result in

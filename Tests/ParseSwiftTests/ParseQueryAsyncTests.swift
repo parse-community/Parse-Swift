@@ -240,7 +240,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         let query = GameScore.query()
-        let queryResult: [[String: String]] = try await query.findExplain(isUsingMongoDB: true)
+        let queryResult: [[String: String]] = try await query.findExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
     }
 
@@ -284,7 +284,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         let query = GameScore.query()
-        let queryResult: [[String: String]] = try await query.withCountExplain(isUsingMongoDB: true)
+        let queryResult: [[String: String]] = try await query.withCountExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
     }
 
@@ -364,7 +364,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
 
         let query = GameScore.query()
 
-        let queryResult: [String: String] = try await query.firstExplain(isUsingMongoDB: true)
+        let queryResult: [String: String] = try await query.firstExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, json.results)
     }
 
@@ -434,7 +434,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         }
 
         let query = GameScore.query()
-        let queryResult: [[String: String]] = try await query.countExplain(isUsingMongoDB: true)
+        let queryResult: [[String: String]] = try await query.countExplain(usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
     }
 
@@ -510,7 +510,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
         let query = GameScore.query()
         let pipeline = [[String: String]]()
         let queryResult: [[String: String]] = try await query.aggregateExplain(pipeline,
-                                                                               isUsingMongoDB: true)
+                                                                               usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
     }
 
@@ -583,7 +583,7 @@ class ParseQueryAsyncTests: XCTestCase { // swiftlint:disable:this type_body_len
 
         let query = GameScore.query()
         let queryResult: [[String: String]] = try await query.distinctExplain("hello",
-                                                                              isUsingMongoDB: true)
+                                                                              usingMongoDB: true)
         XCTAssertEqual(queryResult, [json.results])
     }
 }

@@ -2,7 +2,7 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.0...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.2...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
 
 ### 4.0.0
@@ -35,7 +35,7 @@ __Fixes__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.0.0...3.1.0)
 
 __New features__
-- Add the ability to explain MongoDB queries by setting isUsingMongoDB = true for the respective explain query ([#314](https://github.com/parse-community/Parse-Swift/pull/314)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Add the ability to explain MongoDB queries by setting usingMongoDB = true for the respective explain query ([#314](https://github.com/parse-community/Parse-Swift/pull/314)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 3.0.0
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/2.5.1...3.0.0)
@@ -244,7 +244,7 @@ __Fixes__
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.6...1.9.7)
 
 __Improvements__
-- Properly allow a mixed custom objectId environment without compromising safety checks using .save(). If a developer wants to ignore the objectId checks, they need to specify isIgnoreCustomObjectIdConfig = true each time ([#222](https://github.com/parse-community/Parse-Swift/pull/222)), thanks to [Corey Baker](https://github.com/cbaker6).
+- Properly allow a mixed custom objectId environment without compromising safety checks using .save(). If a developer wants to ignore the objectId checks, they need to specify ignoreCustomObjectIdConfig = true each time ([#222](https://github.com/parse-community/Parse-Swift/pull/222)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 1.9.6
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/1.9.5...1.9.6)

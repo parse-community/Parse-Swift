@@ -35,16 +35,16 @@ public extension ParseObject {
 
     /**
      Saves the `ParseObject` *asynchronously* and publishes when complete.
-     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     - parameter ignoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: A publisher that eventually produces a single value and then finishes or fails.
      - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
-     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ignoreCustomObjectIdConfig = false`. Setting
      `ParseConfiguration.isAllowingCustomObjectIds = true` and
-     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     `ignoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
@@ -52,10 +52,10 @@ public extension ParseObject {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    func savePublisher(isIgnoreCustomObjectIdConfig: Bool = false,
+    func savePublisher(ignoreCustomObjectIdConfig: Bool = false,
                        options: API.Options = []) -> Future<Self, ParseError> {
         Future { promise in
-            self.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+            self.save(ignoreCustomObjectIdConfig: ignoreCustomObjectIdConfig,
                       options: options,
                       completion: promise)
         }
@@ -140,7 +140,7 @@ public extension Sequence where Element: ParseObject {
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
-     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     - parameter ignoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -151,9 +151,9 @@ public extension Sequence where Element: ParseObject {
      the transactions can fail.
      - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
-     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ignoreCustomObjectIdConfig = false`. Setting
      `ParseConfiguration.isAllowingCustomObjectIds = true` and
-     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     `ignoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
@@ -161,12 +161,12 @@ public extension Sequence where Element: ParseObject {
     */
     func saveAllPublisher(batchLimit limit: Int? = nil,
                           transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                          isIgnoreCustomObjectIdConfig: Bool = false,
+                          ignoreCustomObjectIdConfig: Bool = false,
                           options: API.Options = []) -> Future<[(Result<Self.Element, ParseError>)], ParseError> {
         Future { promise in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
-                         isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                         ignoreCustomObjectIdConfig: ignoreCustomObjectIdConfig,
                          options: options,
                          completion: promise)
         }

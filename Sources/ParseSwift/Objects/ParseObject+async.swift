@@ -34,17 +34,17 @@ public extension ParseObject {
 
     /**
      Saves the `ParseObject` *asynchronously*.
-     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     - parameter ignoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
      - returns: Returns the saved `ParseObject`.
      - throws: An error of type `ParseError`.
     */
-    func save(isIgnoreCustomObjectIdConfig: Bool = false,
+    func save(ignoreCustomObjectIdConfig: Bool = false,
               options: API.Options = []) async throws -> Self {
         try await withCheckedThrowingContinuation { continuation in
-            self.save(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+            self.save(ignoreCustomObjectIdConfig: ignoreCustomObjectIdConfig,
                       options: options,
                       completion: continuation.resume)
         }
@@ -131,7 +131,7 @@ public extension Sequence where Element: ParseObject {
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
-     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     - parameter ignoreCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -143,9 +143,9 @@ public extension Sequence where Element: ParseObject {
      the transactions can fail.
      - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
-     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ignoreCustomObjectIdConfig = false`. Setting
      `ParseConfiguration.isAllowingCustomObjectIds = true` and
-     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     `ignoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliiding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
@@ -155,12 +155,12 @@ public extension Sequence where Element: ParseObject {
     */
     func saveAll(batchLimit limit: Int? = nil,
                  transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                 isIgnoreCustomObjectIdConfig: Bool = false,
+                 ignoreCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) async throws -> [(Result<Self.Element, ParseError>)] {
         try await withCheckedThrowingContinuation { continuation in
             self.saveAll(batchLimit: limit,
                          transaction: transaction,
-                         isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                         ignoreCustomObjectIdConfig: ignoreCustomObjectIdConfig,
                          options: options,
                          completion: continuation.resume)
         }
