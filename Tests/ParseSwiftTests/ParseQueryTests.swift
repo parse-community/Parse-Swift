@@ -1182,7 +1182,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereKeyEqualToBoolEQ() throws {
-        let query = GameScore.query(equalTo(key: "isCounts", value: true, usingEQ: true))
+        let query = GameScore.query(equalTo(key: "isCounts", value: true, usingEqComparator: true))
         // swiftlint:disable:next line_length
         let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"isCounts\":{\"$eq\":true}}})"
         XCTAssertEqual(query.debugDescription, expected)
@@ -1201,7 +1201,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testWhereKeyEqualToParseObjectEQ() throws {
         var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
-        let query = try GameScore.query(equalTo(key: "yolo", value: compareObject, usingEQ: true))
+        let query = try GameScore.query(equalTo(key: "yolo", value: compareObject, usingEqComparator: true))
         // swiftlint:disable:next line_length
         let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$eq\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}})"
         XCTAssertEqual(query.debugDescription, expected)
