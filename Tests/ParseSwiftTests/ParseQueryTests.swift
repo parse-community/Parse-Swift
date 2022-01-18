@@ -1182,7 +1182,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
 
     func testWhereKeyEqualToBoolEQ() throws {
-        let query = GameScore.query(equalTo(key: "isCounts", value: true, isUsingEQ: true))
+        let query = GameScore.query(equalTo(key: "isCounts", value: true, usingEqComparator: true))
         // swiftlint:disable:next line_length
         let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"isCounts\":{\"$eq\":true}}})"
         XCTAssertEqual(query.debugDescription, expected)
@@ -1201,7 +1201,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
     func testWhereKeyEqualToParseObjectEQ() throws {
         var compareObject = GameScore(points: 11)
         compareObject.objectId = "hello"
-        let query = try GameScore.query(equalTo(key: "yolo", value: compareObject, isUsingEQ: true))
+        let query = try GameScore.query(equalTo(key: "yolo", value: compareObject, usingEqComparator: true))
         // swiftlint:disable:next line_length
         let expected = "GameScore ({\"_method\":\"GET\",\"limit\":100,\"skip\":0,\"where\":{\"yolo\":{\"$eq\":{\"__type\":\"Pointer\",\"className\":\"GameScore\",\"objectId\":\"hello\"}}}})"
         XCTAssertEqual(query.debugDescription, expected)
@@ -3026,7 +3026,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let query = GameScore.query()
         do {
-            let queryResult: [[String: String]] = try query.findExplain(isUsingMongoDB: true)
+            let queryResult: [[String: String]] = try query.findExplain(usingMongoDB: true)
             XCTAssertEqual(queryResult, [json.results])
         } catch {
             XCTFail("Error: \(error)")
@@ -3133,7 +3133,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let query = GameScore.query()
         do {
-            let queryResult: [String: String] = try query.firstExplain(isUsingMongoDB: true)
+            let queryResult: [String: String] = try query.firstExplain(usingMongoDB: true)
             XCTAssertEqual(queryResult, json.results)
         } catch {
             XCTFail("Error: \(error)")
@@ -3244,7 +3244,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         let query = GameScore.query()
         do {
-            let queryResult: [[String: String]] = try query.countExplain(isUsingMongoDB: true)
+            let queryResult: [[String: String]] = try query.countExplain(usingMongoDB: true)
             XCTAssertEqual(queryResult, [json.results])
         } catch {
             XCTFail("Error: \(error)")
@@ -3645,7 +3645,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         do {
             let pipeline = [[String: String]]()
             guard let score: [String: String] = try query.aggregateExplain(pipeline,
-                                                                           isUsingMongoDB: true).first else {
+                                                                           usingMongoDB: true).first else {
                 XCTFail("Should unwrap first object found")
                 return
             }
@@ -3910,7 +3910,7 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
         let query = GameScore.query("points" > 9)
         do {
             guard let score: [String: String] = try query.distinctExplain("hello",
-                                                                          isUsingMongoDB: true).first else {
+                                                                          usingMongoDB: true).first else {
                 XCTFail("Should unwrap first object found")
                 return
             }

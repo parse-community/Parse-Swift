@@ -530,14 +530,14 @@ extension ParseInstallation {
      - important: If an object saved has the same objectId as current, it will automatically update the current.
     */
     public func save(options: API.Options = []) throws -> Self {
-        try save(isIgnoreCustomObjectIdConfig: false,
+        try save(ignoringCustomObjectIdConfig: false,
                  options: options)
     }
 
     /**
      Saves the `ParseInstallation` *synchronously* and throws an error if there's an issue.
 
-     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -546,9 +546,9 @@ extension ParseInstallation {
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
-     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ignoringCustomObjectIdConfig = false`. Setting
      `ParseConfiguration.isAllowingCustomObjectIds = true` and
-     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
@@ -556,7 +556,7 @@ extension ParseInstallation {
      - note: The default cache policy for this method is `.reloadIgnoringLocalCacheData`. If a developer
      desires a different policy, it should be inserted in `options`.
     */
-    public func save(isIgnoreCustomObjectIdConfig: Bool,
+    public func save(ignoringCustomObjectIdConfig: Bool,
                      options: API.Options = []) throws -> Self {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -577,7 +577,7 @@ extension ParseInstallation {
             throw error
         }
 
-        let result: Self = try saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+        let result: Self = try saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
             .execute(options: options,
                      childObjects: childObjects,
                      childFiles: childFiles)
@@ -588,7 +588,7 @@ extension ParseInstallation {
     /**
      Saves the `ParseInstallation` *asynchronously* and executes the given callback block.
 
-     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -598,9 +598,9 @@ extension ParseInstallation {
      - important: If an object saved has the same objectId as current, it will automatically update the current.
      - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
-     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ignoringCustomObjectIdConfig = false`. Setting
      `ParseConfiguration.isAllowingCustomObjectIds = true` and
-     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
@@ -609,13 +609,13 @@ extension ParseInstallation {
      desires a different policy, it should be inserted in `options`.
     */
     public func save(
-        isIgnoreCustomObjectIdConfig: Bool = false,
+        ignoringCustomObjectIdConfig: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<Self, ParseError>) -> Void
     ) {
         command(method: .save,
-                isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                 options: options,
                 callbackQueue: callbackQueue,
                 completion: completion)
@@ -688,7 +688,7 @@ extension ParseInstallation {
 
     func command(
         method: Method,
-        isIgnoreCustomObjectIdConfig: Bool = false,
+        ignoringCustomObjectIdConfig: Bool = false,
         options: API.Options,
         callbackQueue: DispatchQueue,
         completion: @escaping (Result<Self, ParseError>) -> Void
@@ -701,7 +701,7 @@ extension ParseInstallation {
                     let command: API.Command<Self, Self>!
                     switch method {
                     case .save:
-                        command = try self.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+                        command = try self.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
                     case .create:
                         command = self.createCommand()
                     case .replace:
@@ -736,8 +736,8 @@ extension ParseInstallation {
         }
     }
 
-    func saveCommand(isIgnoreCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
-        if ParseSwift.configuration.isAllowingCustomObjectIds && objectId == nil && !isIgnoreCustomObjectIdConfig {
+    func saveCommand(ignoringCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
+        if ParseSwift.configuration.isAllowingCustomObjectIds && objectId == nil && !ignoringCustomObjectIdConfig {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved {
@@ -909,7 +909,7 @@ public extension Sequence where Element: ParseInstallation {
      - parameter batchLimit: The maximum number of objects to send in each batch. If the items to be batched.
      is greater than the `batchLimit`, the objects will be sent to the server in waves up to the `batchLimit`.
      Defaults to 50.
-     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -924,9 +924,9 @@ public extension Sequence where Element: ParseInstallation {
      the transactions can fail.
      - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
-     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ignoringCustomObjectIdConfig = false`. Setting
      `ParseConfiguration.isAllowingCustomObjectIds = true` and
-     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
@@ -936,7 +936,7 @@ public extension Sequence where Element: ParseInstallation {
     */
     func saveAll(batchLimit limit: Int? = nil, // swiftlint:disable:this function_body_length
                  transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-                 isIgnoreCustomObjectIdConfig: Bool = false,
+                 ignoringCustomObjectIdConfig: Bool = false,
                  options: API.Options = []) throws -> [(Result<Self.Element, ParseError>)] {
         var options = options
         options.insert(.cachePolicy(.reloadIgnoringLocalCacheData))
@@ -985,7 +985,7 @@ public extension Sequence where Element: ParseInstallation {
 
         var returnBatch = [(Result<Self.Element, ParseError>)]()
         let commands = try map {
-            try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+            try $0.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
         }
         let batchLimit = limit != nil ? limit! : ParseConstants.batchLimit
         try canSendTransactions(transaction, objectCount: commands.count, batchLimit: batchLimit)
@@ -1009,7 +1009,7 @@ public extension Sequence where Element: ParseInstallation {
      Defaults to 50.
      - parameter transaction: Treat as an all-or-nothing operation. If some operation failure occurs that
      prevents the transaction from completing, then none of the objects are committed to the Parse Server database.
-     - parameter isIgnoreCustomObjectIdConfig: Ignore checking for `objectId`
+     - parameter ignoringCustomObjectIdConfig: Ignore checking for `objectId`
      when `ParseConfiguration.isAllowingCustomObjectIds = true` to allow for mixed
      `objectId` environments. Defaults to false.
      - parameter options: A set of header options sent to the server. Defaults to an empty set.
@@ -1022,9 +1022,9 @@ public extension Sequence where Element: ParseInstallation {
      the transactions can fail.
      - warning: If you are using `ParseConfiguration.isAllowingCustomObjectIds = true`
      and plan to generate all of your `objectId`'s on the client-side then you should leave
-     `isIgnoreCustomObjectIdConfig = false`. Setting
+     `ignoringCustomObjectIdConfig = false`. Setting
      `ParseConfiguration.isAllowingCustomObjectIds = true` and
-     `isIgnoreCustomObjectIdConfig = true` means the client will generate `objectId`'s
+     `ignoringCustomObjectIdConfig = true` means the client will generate `objectId`'s
      and the server will generate an `objectId` only when the client does not provide one. This can
      increase the probability of colliding `objectId`'s as the client and server `objectId`'s may be generated using
      different algorithms. This can also lead to overwriting of `ParseObject`'s by accident as the
@@ -1035,7 +1035,7 @@ public extension Sequence where Element: ParseInstallation {
     func saveAll( // swiftlint:disable:this function_body_length cyclomatic_complexity
         batchLimit limit: Int? = nil,
         transaction: Bool = ParseSwift.configuration.isUsingTransactions,
-        isIgnoreCustomObjectIdConfig: Bool = false,
+        ignoringCustomObjectIdConfig: Bool = false,
         options: API.Options = [],
         callbackQueue: DispatchQueue = .main,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1043,7 +1043,7 @@ public extension Sequence where Element: ParseInstallation {
         batchCommand(method: .save,
                      batchLimit: limit,
                      transaction: transaction,
-                     isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig,
+                     ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig,
                      options: options,
                      callbackQueue: callbackQueue,
                      completion: completion)
@@ -1151,7 +1151,7 @@ public extension Sequence where Element: ParseInstallation {
         method: Method,
         batchLimit limit: Int?,
         transaction: Bool,
-        isIgnoreCustomObjectIdConfig: Bool = false,
+        ignoringCustomObjectIdConfig: Bool = false,
         options: API.Options,
         callbackQueue: DispatchQueue,
         completion: @escaping (Result<[(Result<Element, ParseError>)], ParseError>) -> Void
@@ -1220,7 +1220,7 @@ public extension Sequence where Element: ParseInstallation {
                 switch method {
                 case .save:
                     commands = try map {
-                        try $0.saveCommand(isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+                        try $0.saveCommand(ignoringCustomObjectIdConfig: ignoringCustomObjectIdConfig)
                     }
                 case .create:
                     commands = map { $0.createCommand() }
