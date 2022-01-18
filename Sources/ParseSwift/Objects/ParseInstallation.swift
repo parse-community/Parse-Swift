@@ -35,43 +35,58 @@ import Foundation
 public protocol ParseInstallation: ParseObject {
 
     /**
-    The device type for the `ParseInstallation`.
+     The device type for the `ParseInstallation`.
     */
     var deviceType: String? { get set }
 
     /**
-    The installationId for the `ParseInstallation`.
+     The installationId for the `ParseInstallation`.
     */
     var installationId: String? { get set }
 
     /**
-    The device token for the `ParseInstallation`.
+     The device token for the `ParseInstallation`.
     */
     var deviceToken: String? { get set }
 
     /**
-    The badge for the `ParseInstallation`.
+     The badge for the `ParseInstallation`.
     */
     var badge: Int? { get set }
 
     /**
-    The name of the time zone for the `ParseInstallation`.
+     The name of the time zone for the `ParseInstallation`.
     */
     var timeZone: String? { get set }
 
     /**
-    The channels for the `ParseInstallation`.
+     The channels for the `ParseInstallation`.
     */
     var channels: [String]? { get set }
 
+    /**
+     The application name  for the `ParseInstallation`.
+     */
     var appName: String? { get set }
 
+    /**
+     The application identifier for the `ParseInstallation`.
+     */
     var appIdentifier: String? { get set }
 
+    /**
+     The application version for the `ParseInstallation`.
+     */
     var appVersion: String? { get set }
 
+    /**
+     The sdk version for the `ParseInstallation`.
+     */
     var parseVersion: String? { get set }
 
+    /**
+     The locale identifier for the `ParseInstallation`.
+     */
     var localeIdentifier: String? { get set }
 }
 
@@ -79,6 +94,67 @@ public protocol ParseInstallation: ParseObject {
 public extension ParseInstallation {
     static var className: String {
         "_Installation"
+    }
+
+    func mergeParse(_ object: Self) throws -> Self {
+        guard hasSameObjectId(as: object) == true else {
+            throw ParseError(code: .unknownError,
+                             message: "objectId's of objects don't match")
+        }
+        var updatedInstallation = self
+        if shouldRestoreKey(\.ACL,
+                             original: object) {
+            updatedInstallation.ACL = object.ACL
+        }
+        if shouldRestoreKey(\.deviceType,
+                             original: object) {
+            updatedInstallation.deviceType = object.deviceType
+        }
+        if shouldRestoreKey(\.installationId,
+                             original: object) {
+            updatedInstallation.installationId = object.installationId
+        }
+        if shouldRestoreKey(\.deviceToken,
+                                 original: object) {
+            updatedInstallation.deviceToken = object.deviceToken
+        }
+        if shouldRestoreKey(\.badge,
+                             original: object) {
+            updatedInstallation.badge = object.badge
+        }
+        if shouldRestoreKey(\.timeZone,
+                             original: object) {
+            updatedInstallation.timeZone = object.timeZone
+        }
+        if shouldRestoreKey(\.channels,
+                             original: object) {
+            updatedInstallation.channels = object.channels
+        }
+        if shouldRestoreKey(\.appName,
+                             original: object) {
+            updatedInstallation.appName = object.appName
+        }
+        if shouldRestoreKey(\.appIdentifier,
+                             original: object) {
+            updatedInstallation.appIdentifier = object.appIdentifier
+        }
+        if shouldRestoreKey(\.appVersion,
+                             original: object) {
+            updatedInstallation.appVersion = object.appVersion
+        }
+        if shouldRestoreKey(\.parseVersion,
+                             original: object) {
+            updatedInstallation.parseVersion = object.parseVersion
+        }
+        if shouldRestoreKey(\.localeIdentifier,
+                             original: object) {
+            updatedInstallation.localeIdentifier = object.localeIdentifier
+        }
+        return updatedInstallation
+    }
+
+    func merge(_ object: Self) throws -> Self {
+        try mergeParse(object)
     }
 }
 
@@ -191,8 +267,9 @@ public extension ParseInstallation {
     }
 
     internal static func saveCurrentContainerToKeychain() {
+        Self.currentContainer.currentInstallation?.originalData = nil
         #if !os(Linux) && !os(Android) && !os(Windows)
-        try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentInstallation)
+        try? KeychainStore.shared.set(currentContainer, for: ParseStorage.Keys.currentInstallation)
         #endif
     }
 
@@ -664,7 +741,7 @@ extension ParseInstallation {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved {
-            return try replaceCommand() // Should be switched to "updateCommand" when server supports PATCH.
+            return try replaceCommand() // MARK: Should be switched to "updateCommand" when server supports PATCH.
         }
         return createCommand()
     }
@@ -690,8 +767,18 @@ extension ParseInstallation {
             throw ParseError(code: .missingObjectId,
                              message: "objectId must not be nil")
         }
-        let mapper = { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: self)
+        let mapper = { (data: Data) -> Self in
+            var updatedObject = self
+            updatedObject.originalData = nil
+            let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: updatedObject)
+            // MARK: The lines below should be removed when server supports PATCH.
+            guard let originalData = self.originalData,
+                  let original = try? ParseCoding.jsonDecoder().decode(Self.self,
+                                                                       from: originalData),
+                  original.hasSameObjectId(as: object) else {
+                      return object
+                  }
+            return try object.merge(original)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
@@ -704,8 +791,17 @@ extension ParseInstallation {
             throw ParseError(code: .missingObjectId,
                              message: "objectId must not be nil")
         }
-        let mapper = { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
+        let mapper = { (data: Data) -> Self in
+            var updatedObject = self
+            updatedObject.originalData = nil
+            let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: updatedObject)
+            guard let originalData = self.originalData,
+                  let original = try? ParseCoding.jsonDecoder().decode(Self.self,
+                                                                       from: originalData),
+                  original.hasSameObjectId(as: object) else {
+                      return object
+                  }
+            return try object.merge(original)
         }
         return API.Command<Self, Self>(method: .PATCH,
                                  path: endpoint,

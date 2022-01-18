@@ -21,15 +21,26 @@ npm start -- --appId applicationId --clientKey clientKey --masterKey masterKey -
 initializeParseCustomObjectId()
 
 //: Create your own value typed `ParseObject`.
-struct GameScore: ParseObject, ParseObjectMutable {
+struct GameScore: ParseObject {
     //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var points: Int = 0
+    var points: Int?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -67,11 +78,11 @@ score.save { result in
         print("Saved score: \(savedScore)")
 
         /*: To modify, need to make it a var as the value type
-            was initialized as immutable. Using `mutable`
+            was initialized as immutable. Using `.mergeable`
             allows you to only send the updated keys to the
             parse server as opposed to the whole object.
         */
-        var changedScore = savedScore.mutable
+        var changedScore = savedScore.mergeable
         changedScore.points = 200
         changedScore.save { result in
             switch result {

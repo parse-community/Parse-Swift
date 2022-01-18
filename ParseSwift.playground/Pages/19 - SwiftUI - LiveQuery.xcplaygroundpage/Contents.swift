@@ -24,11 +24,30 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var points: Int = 0
+    var points: Int? = 0
     var location: ParseGeoPoint?
     var name: String?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        if updated.shouldRestoreKey(\.location,
+                                     original: object) {
+            updated.location = object.location
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -65,15 +84,15 @@ struct ContentView: View {
                 switch event.event {
 
                 case .entered(let object):
-                    Text("Entered with points: \(object.points)")
+                    Text("Entered with points: \(String(describing: object.points))")
                 case .left(let object):
-                    Text("Left with points: \(object.points)")
+                    Text("Left with points: \(String(describing: object.points))")
                 case .created(let object):
-                    Text("Created with points: \(object.points)")
+                    Text("Created with points: \(String(describing: object.points))")
                 case .updated(let object):
-                    Text("Updated with points: \(object.points)")
+                    Text("Updated with points: \(String(describing: object.points))")
                 case .deleted(let object):
-                    Text("Deleted with points: \(object.points)")
+                    Text("Deleted with points: \(String(describing: object.points))")
                 }
             } else {
                 Text("Not subscribed to a query")

@@ -18,12 +18,35 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
     var points: Int?
     var timeStamp: Date? = Date()
     var oldScore: Int?
     var isHighest: Bool?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        if updated.shouldRestoreKey(\.timeStamp,
+                                     original: object) {
+            updated.timeStamp = object.timeStamp
+        }
+        if updated.shouldRestoreKey(\.oldScore,
+                                     original: object) {
+            updated.oldScore = object.oldScore
+        }
+        if updated.shouldRestoreKey(\.isHighest,
+                                     original: object) {
+            updated.isHighest = object.isHighest
+        }
+        return updated
+    }
 }
 
 var score = GameScore()
@@ -112,7 +135,7 @@ query.withCount { results in
 }
 
 //: Query based on relative time.
-let queryRelative = GameScore.query(relative("createdAt" < "10 minutes ago"))
+let queryRelative = GameScore.query(relative("createdAt" < "in 10 minutes"))
 queryRelative.find { results in
     switch results {
     case .success(let scores):

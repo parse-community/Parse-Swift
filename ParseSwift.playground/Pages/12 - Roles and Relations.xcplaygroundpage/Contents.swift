@@ -19,6 +19,7 @@ struct User: ParseUser {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: These are required by `ParseUser`.
     var username: String?
@@ -29,6 +30,16 @@ struct User: ParseUser {
 
     //: Your custom keys.
     var customKey: String?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.customKey,
+                                     original: object) {
+            updated.customKey = object.customKey
+        }
+        return updated
+    }
 }
 
 struct Role<RoleUser: ParseUser>: ParseRole {
@@ -38,25 +49,43 @@ struct Role<RoleUser: ParseUser>: ParseRole {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Provided by Role.
-    var name: String
+    var name: String?
 
-    init() {
-        self.name = ""
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        return updated
     }
 }
 
 //: Create your own value typed `ParseObject`.
-struct GameScore: ParseObject, ParseObjectMutable {
+struct GameScore: ParseObject {
     //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var points: Int = 0
+    var points: Int?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -136,7 +165,10 @@ do {
     try savedRole!.users.query(templateUser).find { result in
         switch result {
         case .success(let relatedUsers):
-            print("The following users are part of the \"\(savedRole!.name) role: \(relatedUsers)")
+            print("""
+                The following users are part of the
+                \"\(String(describing: savedRole!.name)) role: \(relatedUsers)
+            """)
 
         case .failure(let error):
             print("Error saving role: \(error)")
@@ -220,7 +252,10 @@ do {
 savedRole!.queryRoles?.find { result in
     switch result {
     case .success(let relatedRoles):
-        print("The following roles are part of the \"\(savedRole!.name) role: \(relatedRoles)")
+        print("""
+            The following roles are part of the
+            \"\(String(describing: savedRole!.name)) role: \(relatedRoles)
+        """)
 
     case .failure(let error):
         print("Error saving role: \(error)")
@@ -263,7 +298,7 @@ let score2 = GameScore(points: 57)
                 switch result {
                 case .success(let saved):
                     print("The relation saved successfully: \(saved)")
-                    print("Check \"pointss\" field in your \"_User\" class in Parse Dashboard.")
+                    print("Check \"points\" field in your \"_User\" class in Parse Dashboard.")
 
                 case .failure(let error):
                     print("Error saving role: \(error)")

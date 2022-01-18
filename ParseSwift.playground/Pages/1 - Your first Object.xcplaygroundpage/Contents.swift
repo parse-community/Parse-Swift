@@ -30,15 +30,26 @@ do {
 }
 
 //: Create your own value typed `ParseObject`.
-struct GameScore: ParseObject, ParseObjectMutable {
+struct GameScore: ParseObject {
     //: These are required by ParseObject
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var points: Int = 0
+    var points: Int?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -60,12 +71,27 @@ struct GameData: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
     var polygon: ParsePolygon?
     //: `ParseBytes` needs to be a part of the original schema
     //: or else you will need your masterKey to force an upgrade.
     var bytes: ParseBytes?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if shouldRestoreKey(\.polygon,
+                             original: object) {
+            updated.polygon = object.polygon
+        }
+        if shouldRestoreKey(\.bytes,
+                             original: object) {
+            updated.bytes = object.bytes
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -99,18 +125,13 @@ score.save { result in
             allows you to only send the updated keys to the
             parse server as opposed to the whole object.
         */
-        var changedScore = savedScore.mutable
+        var changedScore = savedScore.mergeable
         changedScore.points = 200
         changedScore.save { result in
             switch result {
-            case .success(var savedChangedScore):
+            case .success(let savedChangedScore):
                 assert(savedChangedScore.points == 200)
                 assert(savedScore.objectId == savedChangedScore.objectId)
-
-                /*: Note that savedChangedScore is mutable since it's
-                    a var after success.
-                */
-                savedChangedScore.points = 500
 
             case .failure(let error):
                 assertionFailure("Error saving: \(error)")
@@ -132,7 +153,10 @@ var score2ForFetchedLater: GameScore?
         otherResults.forEach { otherResult in
             switch otherResult {
             case .success(let savedScore):
-                print("Saved \"\(savedScore.className)\" with points \(savedScore.points) successfully")
+                print("""
+                    Saved \"\(savedScore.className)\" with
+                    points \(String(describing: savedScore.points)) successfully
+                """)
                 if index == 1 {
                     score2ForFetchedLater = savedScore
                 }
@@ -191,14 +215,15 @@ assert(savedScore?.points == 10)
     allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
-guard var changedScore = savedScore?.mutable else {
-    fatalError()
+guard var changedScore = savedScore?.mergeable else {
+    fatalError("Should have produced mutable changedScore")
 }
 changedScore.points = 200
 
 let savedChangedScore: GameScore?
 do {
     savedChangedScore = try changedScore.save()
+    print("Updated score: \(String(describing: savedChangedScore))")
 } catch {
     savedChangedScore = nil
     fatalError("Error saving: \(error)")
@@ -220,7 +245,7 @@ assert(otherResults != nil)
 otherResults!.forEach { result in
     switch result {
     case .success(let savedScore):
-        print("Saved \"\(savedScore.className)\" with points \(savedScore.points) successfully")
+        print("Saved \"\(savedScore.className)\" with points \(String(describing: savedScore.points)) successfully")
     case .failure(let error):
         assertionFailure("Error saving: \(error)")
     }

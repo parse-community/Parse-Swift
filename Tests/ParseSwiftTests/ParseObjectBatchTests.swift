@@ -18,6 +18,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         // Custom properties
         var points: Int = 0
@@ -42,6 +43,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var name = "Hello"

@@ -17,6 +17,7 @@ class ParseEncoderTests: XCTestCase {
         var updatedAt: Date?
         var ACL: ParseACL?
         var score: Double?
+        var originalData: Data?
 
         //: ParseUser property
         var emailVerified: Bool?

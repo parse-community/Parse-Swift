@@ -19,7 +19,7 @@ struct User: ParseUser {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
-    var score: Double?
+    var originalData: Data?
 
     //: These are required by `ParseUser`.
     var username: String?
@@ -30,6 +30,16 @@ struct User: ParseUser {
 
     //: Your custom keys.
     var customKey: String?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.customKey,
+                                     original: object) {
+            updated.customKey = object.customKey
+        }
+        return updated
+    }
 }
 
 /*: Sign up user asynchronously - Performs work on background

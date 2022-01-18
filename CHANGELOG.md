@@ -2,8 +2,21 @@
 
 ### main
 
-[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.2...main)
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/4.0.0...main)
 * _Contributing to this repo? Add info about your change here to be included in the next release_
+
+### 4.0.0
+[Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.2...4.0.0)
+
+__New features__
+- (Breaking Change) Add the ability to merge updated ParseObject's with original objects when using the 
+    .mergeable property. To do this, developers need to add an implementation of merge() to 
+    respective ParseObject's. The compiler will recommend the new originalData property be added to
+    every ParseObject. If you used ParseObjectMutable in the past, you should remove it as it is now 
+    part of ParseObject. In addition, all ParseObject properties should be optional and every object 
+    needs to have a default initilizer of init(). See the Playgrounds for recommendations on how to 
+    define a ParseObject. Look at the PR for 
+    details on why this is important when using the SDK ([#315](https://github.com/parse-community/Parse-Swift/pull/315)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 ### 3.1.2
 [Full Changelog](https://github.com/parse-community/Parse-Swift/compare/3.1.1...3.1.2)
@@ -31,7 +44,7 @@ __New features__
 - Adds equalTo QueryConstraint along with ability to change the SDK default behavior of using $eq QueryConstraint parameter or not ([#310](https://github.com/parse-community/Parse-Swift/pull/310)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Adds isNull and isNotNull QueryConstraint along with the ability set/forceSet null using ParseOperation ([#308](https://github.com/parse-community/Parse-Swift/pull/308)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Adds auth support for GitHub, Google, and LinkedIn ([#307](https://github.com/parse-community/Parse-Swift/pull/307)), thanks to [Corey Baker](https://github.com/cbaker6).
-- (Breaking Change) Adds options to matchesText QueryConstraint along with the ability to see matching score. The compiler should recommend the new score property to all ParseObjects ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
+- (Breaking Change) Adds options to matchesText QueryConstraint along with the ability to see matching score. The compiler will recommend the new score property be added to all ParseObjects ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
 - Adds withCount query ([#306](https://github.com/parse-community/Parse-Swift/pull/306)), thanks to [Corey Baker](https://github.com/cbaker6).
 
 __Improvements__

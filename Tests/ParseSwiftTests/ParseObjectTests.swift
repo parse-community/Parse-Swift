@@ -22,17 +22,20 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         var name: String?
 
+        var originalData: Data?
+
         init() {
             name = "First"
         }
     }
 
-    struct GameScore: ParseObject, ParseObjectMutable {
+    struct GameScore: ParseObject {
         //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var points: Int?
@@ -41,7 +44,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var levels: [Level]?
         var nextLevel: Level?
 
-        //custom initializers
+        //: custom initializers
         init() {}
 
         init(objectId: String?) {
@@ -55,6 +58,28 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
             self.points = points
             self.player = name
         }
+
+        //: Implement your own version of merge
+        func merge(_ object: Self) throws -> Self {
+            var updated = try mergeParse(object)
+            if updated.shouldRestoreKey(\.points,
+                                         original: object) {
+                updated.points = object.points
+            }
+            if updated.shouldRestoreKey(\.level,
+                                         original: object) {
+                updated.level = object.level
+            }
+            if updated.shouldRestoreKey(\.levels,
+                                         original: object) {
+                updated.levels = object.levels
+            }
+            if updated.shouldRestoreKey(\.nextLevel,
+                                         original: object) {
+                updated.nextLevel = object.nextLevel
+            }
+            return updated
+        }
     }
 
     struct Game: ParseObject {
@@ -63,6 +88,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var gameScore: GameScore
@@ -86,19 +112,21 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var name = "Hello"
         var profilePicture: ParseFile?
     }
 
-    class GameScoreClass: ParseObject {
+    final class GameScoreClass: ParseObject {
 
         //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var points: Int
@@ -150,13 +178,14 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
     }
 
-    class GameClass: ParseObject {
+    final class GameClass: ParseObject {
 
         //: These are required by ParseObject
         var objectId: String?
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var gameScore: GameScoreClass
@@ -212,6 +241,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -231,6 +261,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var sessionToken: String?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -321,13 +352,79 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         XCTAssertEqual(score.id, objectId)
     }
 
+    func testIsRestoreOriginalKey() throws {
+        let score1 = GameScore(points: 5)
+        var score2 = GameScore(points: 5, name: "world")
+        score2.levels = [Level()]
+        score2.nextLevel = Level()
+        XCTAssertFalse(score1.shouldRestoreKey(\.player, original: score2))
+        XCTAssertTrue(score1.shouldRestoreKey(\.levels, original: score2))
+        XCTAssertFalse(score1.shouldRestoreKey(\.points, original: score2))
+        XCTAssertFalse(score1.shouldRestoreKey(\.level, original: score2))
+        XCTAssertTrue(score1.shouldRestoreKey(\.nextLevel, original: score2))
+    }
+
     func testParseObjectMutable() throws {
         var score = GameScore(points: 19, name: "fire")
         score.objectId = "yolo"
         score.createdAt = Date()
-        let empty = score.mutable
+        let empty = score.mergeable
         XCTAssertTrue(score.hasSameObjectId(as: empty))
         XCTAssertEqual(score.createdAt, empty.createdAt)
+    }
+
+    func testMerge() throws {
+        var score = GameScore(points: 19, name: "fire")
+        score.objectId = "yolo"
+        score.createdAt = Date()
+        score.updatedAt = Date()
+        var acl = ParseACL()
+        acl.publicRead = true
+        score.ACL = acl
+        var level = Level()
+        level.objectId = "hello"
+        var level2 = Level()
+        level2.objectId = "world"
+        score.level = level
+        score.levels = [level]
+        score.nextLevel = level2
+        var updated = score.mergeable
+        updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+        updated.points = 30
+        updated.player = "moreFire"
+        updated.levels = [level, level2]
+        let merged = try updated.merge(score)
+        XCTAssertEqual(merged.points, updated.points)
+        XCTAssertEqual(merged.player, updated.player)
+        XCTAssertEqual(merged.level, score.level)
+        XCTAssertEqual(merged.levels, updated.levels)
+        XCTAssertEqual(merged.nextLevel, score.nextLevel)
+        XCTAssertEqual(merged.ACL, score.ACL)
+        XCTAssertEqual(merged.createdAt, score.createdAt)
+        XCTAssertEqual(merged.updatedAt, updated.updatedAt)
+    }
+
+    func testMergeDefaultImplementation() throws {
+        var score = Game()
+        score.objectId = "yolo"
+        score.createdAt = Date()
+        score.updatedAt = Date()
+        var updated = score.mergeable
+        updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
+        updated.name = "moreFire"
+        let merged = try updated.merge(score)
+        XCTAssertEqual(merged.name, updated.name)
+        XCTAssertEqual(merged.gameScore, score.gameScore)
+        XCTAssertEqual(merged.gameScores, score.gameScores)
+        XCTAssertEqual(merged.profilePicture, updated.profilePicture)
+    }
+
+    func testMergeDifferentObjectId() throws {
+        var score = GameScore(points: 19, name: "fire")
+        score.objectId = "yolo"
+        var score2 = score
+        score2.objectId = "nolo"
+        XCTAssertThrowsError(try score2.merge(score))
     }
 
     func testFetchCommand() {
@@ -659,7 +756,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         score.createdAt = Date()
         score.updatedAt = score.createdAt
 
-        let command = try score.mutable.saveCommand()
+        let command = try score.mergeable.saveCommand()
         XCTAssertNotNil(command)
         XCTAssertEqual(command.path.urlComponent, "/classes/\(className)/\(objectId)")
         XCTAssertEqual(command.method, API.Method.PUT)
@@ -678,7 +775,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         let decoded = try XCTUnwrap(String(data: encoded, encoding: .utf8))
         XCTAssertEqual(decoded, expected)
 
-        var empty = score.mutable
+        var empty = score.mergeable
         empty.player = "Jennifer"
         let command2 = try empty.saveCommand()
         guard let body2 = command2.body else {

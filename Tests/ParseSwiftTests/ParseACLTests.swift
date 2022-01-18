@@ -40,6 +40,7 @@ class ParseACLTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -59,6 +60,7 @@ class ParseACLTests: XCTestCase {
         var sessionToken: String
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -90,13 +92,10 @@ class ParseACLTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         // provided by Role
-        var name: String
-
-        init() {
-            self.name = "roleMe"
-        }
+        var name: String?
     }
 
     func testCantSetDefaultACLWhenNotLoggedIn() throws {

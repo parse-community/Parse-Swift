@@ -119,7 +119,7 @@ Currently, we are not making use of the commit _scope_, which would be written a
 
 ## Evolution
 
-It's not intended as a port of the Parse Objective-c SDK and has many new philosophies. Please see [this thread](https://github.com/parse-community/Parse-Swift/issues/3) for a detailed discussion about the intended evolution of this SDK.
+The ParseSwift SDK is not a port of the [Parse-SDK-iOS-OSX SDK](https://github.com/parse-community/Parse-SDK-iOS-OSX) and though some of it may feel familiar, it is not backwards compatible and is designed using [protocol oriented programming (POP) and value types](https://www.pluralsight.com/guides/protocol-oriented-programming-in-swift) instead of OOP and reference types. You can learn more about POP by watching [this](https://developer.apple.com/videos/play/wwdc2015/408/) or [that](https://developer.apple.com/videos/play/wwdc2016/419/) videos from previous WWDC's. Please see [this thread](https://github.com/parse-community/Parse-Swift/issues/3) for a detailed discussion about the intended evolution of this SDK.
 
 ## Code of Conduct
 

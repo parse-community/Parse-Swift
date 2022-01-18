@@ -16,11 +16,30 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var points: Int = 0
+    var points: Int?
     var location: ParseGeoPoint?
     var name: String?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.points,
+                                     original: object) {
+            updated.points = object.points
+        }
+        if updated.shouldRestoreKey(\.location,
+                                     original: object) {
+            updated.location = object.location
+        }
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension

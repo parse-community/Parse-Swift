@@ -16,17 +16,19 @@ import Foundation
  If you are using value types the the compiler will assist you with conforming to `ParseObject` protocol. If you
  are thinking of using reference types, see the warning.
 
- It's recommended the developer conforms to the `ParseObjectMutable` protocol.
- Gets an empty version of the respective object. This can be used when you only need to update a
- a subset of the fields of an object as oppose to updating every field of an object. Using an empty object and updating
- a subset of the fields reduces the amount of data sent between client and server when using `save` and `saveAll`
- to update objects.
+ After a `ParseObject`is saved/created to a Parse Server. It is recommended to conduct the rest of your updates on a
+ `mergeable` copy of your `ParseObject`. This allows a subset of the fields to be updated (PATCH) of an object
+ as oppose to replacing all of the fields of an object (PUT). This reduces the amount of data
+ sent between client and server when using `save`, `saveAll`, `update`,
+ `updateAll`, `replace`, `replaceAll`, to update objects.
  
- - important: It is recommended that all added properties be optional properties so they can eventually be used as
+ - important: It is required that all added properties be optional properties so they can eventually be used as
  Parse `Pointer`'s. If a developer really wants to have a required key, they should require it on the server-side or
  create methods to check the respective properties on the client-side before saving objects. See
  [here](https://github.com/parse-community/Parse-Swift/issues/157#issuecomment-858671025)
  for more information.
+ - important: To take advantage of `mergeable`, the developer should implement the `merge` method in every
+ `ParseObject`.
  - warning: If you plan to use "reference types" (classes), you are using at your risk as this SDK is not designed
  for reference types and may have unexpected behavior when it comes to threading. You will also need to implement
  your own `==` method to conform to `Equatable` along with with the `hash` method to conform to `Hashable`.
@@ -44,7 +46,88 @@ public protocol ParseObject: Objectable,
                              Identifiable,
                              Hashable,
                              CustomDebugStringConvertible,
-                             CustomStringConvertible { }
+                             CustomStringConvertible {
+
+    /**
+     A JSON encoded version of this `ParseObject` before `mergeable` was called and
+     properties were changed.
+     - warning: This property is not intended to be set or modified by the developer.
+    */
+    var originalData: Data? { get set }
+
+    /**
+     An empty copy of the respective object that allows you to update a
+     a subset of the fields (PATCH) of an object as oppose to replacing an object (PUT).
+     - note: It is recommended to use this to create a mergeable copy of your `ParseObject`.
+     - warning: `mergeable` should only be used on `ParseObject`'s that have already
+     been saved at least once to a Parse Server and have a valid `objectId`. In addition,
+     the developer should have implemented added all of their properties to `merge`.
+    */
+    var mergeable: Self { get }
+
+    /**
+     Determines if a `KeyPath` of the current `ParseObject` should be restored
+     by comparing it to another `ParseObject`.
+     - parameter original: The original `ParseObject`.
+     - returns: Returns a `true` if the keyPath should be restored  or `false` otherwise.
+    */
+    func shouldRestoreKey<W>(_ key: KeyPath<Self, W?>,
+                             original: Self) -> Bool where W: Equatable
+
+    /**
+     Merges two `ParseObject`'s with the resulting object consisting of all modified
+     and unchanged Parse properties.
+     - parameter object: The original installation.
+     - returns: The updated installation.
+     - throws: An error of type `ParseError`.
+     - note: This is used in combination with `merge` to only send updated
+     properties to the server and then merge those changes with the original object.
+     - warning: You should only call this method and shouldn't implement it directly
+     as it's already implemented for developers to use.
+    */
+    func mergeParse(_ object: Self) throws -> Self
+
+    /**
+     Merges two `ParseObject`'s with the resulting object consisting of all modified
+     and unchanged properties.
+
+         //: Create your own value typed `ParseObject`.
+         struct GameScore: ParseObject {
+             //: These are required by ParseObject
+             var objectId: String?
+             var createdAt: Date?
+             var updatedAt: Date?
+             var ACL: ParseACL?
+
+             //: Your own properties.
+             var points: Int?
+
+             //: Implement your own version of merge
+             func merge(_ object: Self) throws -> Self {
+                 var updated = try mergeParse(object)
+                 if updated.shouldRestoreKey(\.points,
+                                                  original: object) {
+                     updated.points = object.points
+                 }
+                 return updated
+             }
+         }
+
+     - parameter object: The original object.
+     - returns: The merged object.
+     - throws: An error of type `ParseError`.
+     - note: Use this in combination with `ParseMutable` to only send updated
+     properties to the server and then merge those changes with the original object.
+     - important: It is recommend you provide an implementation of this method
+     for all of your `ParseObject`'s as the developer has access to all properties of a
+     `ParseObject`. You should always call `mergeParse`
+     in the beginning of your implementation to handle all default Parse properties. In addition,
+     use `shouldRestoreKey` to compare key modifications between objects.
+    */
+    func merge(_ object: Self) throws -> Self
+
+    init()
+}
 
 // MARK: Default Implementations
 public extension ParseObject {
@@ -59,6 +142,14 @@ public extension ParseObject {
             return UUID().uuidString
         }
         return objectId
+    }
+
+    var mergeable: Self {
+        var object = Self()
+        object.objectId = objectId
+        object.createdAt = createdAt
+        object.originalData = try? ParseCoding.jsonEncoder().encode(self)
+        return object
     }
 
     /**
@@ -76,6 +167,28 @@ public extension ParseObject {
     */
     func toPointer() throws -> Pointer<Self> {
         return try Pointer(self)
+    }
+
+    func shouldRestoreKey<W>(_ key: KeyPath<Self, W?>,
+                             original: Self) -> Bool where W: Equatable {
+        self[keyPath: key] == nil && original[keyPath: key] != self[keyPath: key]
+    }
+
+    func mergeParse(_ object: Self) throws -> Self {
+        guard hasSameObjectId(as: object) == true else {
+            throw ParseError(code: .unknownError,
+                             message: "objectId's of objects don't match")
+        }
+        var updated = self
+        if shouldRestoreKey(\.ACL,
+                                 original: object) {
+            updated.ACL = object.ACL
+        }
+        return updated
+    }
+
+    func merge(_ object: Self) throws -> Self {
+        return try mergeParse(object)
     }
 }
 
@@ -948,7 +1061,9 @@ extension ParseObject {
     }
 
     internal func saveCommand(isIgnoreCustomObjectIdConfig: Bool = false) throws -> API.Command<Self, Self> {
-        try API.Command<Self, Self>.save(self, isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
+        try API.Command<Self, Self>.save(self,
+                                         original: originalData,
+                                         isIgnoreCustomObjectIdConfig: isIgnoreCustomObjectIdConfig)
     }
 
     internal func createCommand() -> API.Command<Self, Self> {
@@ -956,11 +1071,13 @@ extension ParseObject {
     }
 
     internal func replaceCommand() throws -> API.Command<Self, Self> {
-        try API.Command<Self, Self>.replace(self)
+        try API.Command<Self, Self>.replace(self,
+                                            original: originalData)
     }
 
     internal func updateCommand() throws -> API.Command<Self, Self> {
-        try API.Command<Self, Self>.update(self)
+        try API.Command<Self, Self>.update(self,
+                                           original: originalData)
     }
 
     // swiftlint:disable:next function_body_length

@@ -20,6 +20,8 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
 
         var ACL: ParseACL?
 
+        var originalData: Data?
+
         var name = "First"
     }
 
@@ -29,6 +31,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var points: Int?
@@ -57,6 +60,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var gameScore: GameScore
@@ -80,6 +84,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -108,6 +113,7 @@ class ParseObjectCustomObjectIdTests: XCTestCase { // swiftlint:disable:this typ
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
         var customKey: String?
     }
 

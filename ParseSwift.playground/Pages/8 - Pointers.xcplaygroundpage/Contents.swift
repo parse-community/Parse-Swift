@@ -21,10 +21,25 @@ struct Book: ParseObject, ParseQueryScorable {
     var updatedAt: Date?
     var ACL: ParseACL?
     var score: Double?
+    var originalData: Data?
 
     //: Your own properties.
     var title: String?
     var relatedBook: Pointer<Book>?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.title,
+                                     original: object) {
+            updated.title = object.title
+        }
+        if updated.shouldRestoreKey(\.relatedBook,
+                                     original: object) {
+            updated.relatedBook = object.relatedBook
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -42,15 +57,29 @@ struct Author: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
-    var name: String
-    var book: Book
+    var name: String?
+    var book: Book?
     var otherBooks: [Book]?
 
-    init() {
-        self.name = "hello"
-        self.book = Book()
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.name,
+                                     original: object) {
+            updated.name = object.name
+        }
+        if updated.shouldRestoreKey(\.book,
+                                     original: object) {
+            updated.book = object.book
+        }
+        if updated.shouldRestoreKey(\.otherBooks,
+                                     original: object) {
+            updated.otherBooks = object.otherBooks
+        }
+        return updated
     }
 }
 
@@ -131,7 +160,9 @@ query2.first { results in
     switch results {
     case .success(let author):
         //: Save the book to use later
-        newBook = author.book
+        if let book = author.book {
+            newBook = book
+        }
 
         print("Found author and included \"book\": \(author)")
 
@@ -187,15 +218,15 @@ do {
         case .success(let author):
             print("Found author and included \"book\": \(author)")
             //: Setup related books.
-            newBook.relatedBook = try? author.otherBooks?.first?.toPointer()
+            var modifiedNewBook = newBook.mergeable
+            modifiedNewBook.relatedBook = try? author.otherBooks?.first?.toPointer()
 
-            newBook.save { result in
+            modifiedNewBook.save { result in
                 switch result {
                 case .success(let updatedBook):
                     assert(updatedBook.objectId != nil)
                     assert(updatedBook.createdAt != nil)
                     assert(updatedBook.updatedAt != nil)
-                    assert(updatedBook.ACL == nil)
                     assert(updatedBook.relatedBook != nil)
 
                     print("Saved \(updatedBook)")

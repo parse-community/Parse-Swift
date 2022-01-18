@@ -21,6 +21,7 @@ class ParsePointerCombineTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var points: Int

@@ -17,6 +17,7 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var points: Int
@@ -40,6 +41,7 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         // These are required by ParseUser
         var username: String?
@@ -59,13 +61,10 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         // provided by Role
-        var name: String
-
-        init() {
-            self.name = "roleMe"
-        }
+        var name: String?
     }
 
     struct Level: ParseObject {
@@ -74,6 +73,7 @@ class ParseRoleTests: XCTestCase {
         var createdAt: Date?
         var updatedAt: Date?
         var ACL: ParseACL?
+        var originalData: Data?
 
         //: Your own properties
         var level: Int
@@ -113,7 +113,7 @@ class ParseRoleTests: XCTestCase {
 
     func testName() throws {
         let role1 = try Role<User>(name: "Hello9_- ")
-        let role2 = try Role<User>(name: "Hello9_- ", acl: ParseACL())
+        let role2 = try Role<User>(name: "Hello10_- ", acl: ParseACL())
         let roles = [role1: "hello",
                      role2: "world"]
         XCTAssertEqual(role1, role1)
@@ -121,7 +121,7 @@ class ParseRoleTests: XCTestCase {
         XCTAssertEqual(roles[role1], "hello")
         XCTAssertEqual(roles[role2], "world")
         XCTAssertThrowsError(try Role<User>(name: "Hello9!"))
-        XCTAssertThrowsError(try Role<User>(name: "Hello9!", acl: ParseACL()))
+        XCTAssertThrowsError(try Role<User>(name: "Hello10!", acl: ParseACL()))
     }
 
     func testEndPoint() throws {

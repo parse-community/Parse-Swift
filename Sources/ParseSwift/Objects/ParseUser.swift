@@ -37,31 +37,39 @@ public protocol ParseUser: ParseObject {
     var authData: [String: [String: String]?]? { get set }
 }
 
-// MARK: SignupLoginBody
-struct SignupLoginBody: ParseType {
-    var username: String?
-    var password: String?
-    var authData: [String: [String: String]?]?
-
-    init(username: String, password: String) {
-        self.username = username
-        self.password = password
-    }
-
-    init(authData: [String: [String: String]?]) {
-        self.authData = authData
-    }
-}
-
-// MARK: EmailBody
-struct EmailBody: ParseType {
-    let email: String
-}
-
 // MARK: Default Implementations
 public extension ParseUser {
     static var className: String {
         "_User"
+    }
+
+    func mergeParse(_ object: Self) throws -> Self {
+        guard hasSameObjectId(as: object) == true else {
+            throw ParseError(code: .unknownError,
+                             message: "objectId's of objects do not match")
+        }
+        var updatedUser = self
+        if shouldRestoreKey(\.ACL,
+                             original: object) {
+            updatedUser.ACL = object.ACL
+        }
+        if shouldRestoreKey(\.username,
+                             original: object) {
+            updatedUser.username = object.username
+        }
+        if shouldRestoreKey(\.email,
+                             original: object) {
+            updatedUser.email = object.email
+        }
+        if shouldRestoreKey(\.authData,
+                             original: object) {
+            updatedUser.authData = object.authData
+        }
+        return updatedUser
+    }
+
+    func merge(_ object: Self) throws -> Self {
+        try mergeParse(object)
     }
 }
 
@@ -116,8 +124,9 @@ public extension ParseUser {
     }
 
     internal static func saveCurrentContainerToKeychain() {
+        Self.currentContainer?.currentUser?.originalData = nil
         #if !os(Linux) && !os(Android) && !os(Windows)
-        try? KeychainStore.shared.set(Self.currentContainer, for: ParseStorage.Keys.currentUser)
+        try? KeychainStore.shared.set(currentContainer, for: ParseStorage.Keys.currentUser)
         #endif
     }
 
@@ -151,6 +160,27 @@ public extension ParseUser {
     var sessionToken: String? {
         Self.currentContainer?.sessionToken
     }
+}
+
+// MARK: SignupLoginBody
+struct SignupLoginBody: ParseType {
+    var username: String?
+    var password: String?
+    var authData: [String: [String: String]?]?
+
+    init(username: String, password: String) {
+        self.username = username
+        self.password = password
+    }
+
+    init(authData: [String: [String: String]?]) {
+        self.authData = authData
+    }
+}
+
+// MARK: EmailBody
+struct EmailBody: ParseType {
+    let email: String
 }
 
 // MARK: Logging In
@@ -1046,7 +1076,7 @@ extension ParseUser {
             throw ParseError(code: .missingObjectId, message: "objectId must not be nil")
         }
         if isSaved {
-            return try replaceCommand() // Should be switched to "updateCommand" when server supports PATCH.
+            return try replaceCommand() // MARK: Should be switched to "updateCommand" when server supports PATCH.
         }
         return createCommand()
     }
@@ -1087,8 +1117,18 @@ extension ParseUser {
             }
             #endif
         }
-        let mapper = { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: self)
+        let mapper = { (data: Data) -> Self in
+            var updatedObject = self
+            updatedObject.originalData = nil
+            let object = try ParseCoding.jsonDecoder().decode(ReplaceResponse.self, from: data).apply(to: updatedObject)
+            // MARK: The lines below should be removed when server supports PATCH.
+            guard let originalData = self.originalData,
+                  let original = try? ParseCoding.jsonDecoder().decode(Self.self,
+                                                                       from: originalData),
+                  original.hasSameObjectId(as: object) else {
+                      return object
+                  }
+            return try object.merge(original)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
@@ -1116,8 +1156,17 @@ extension ParseUser {
             }
             #endif
         }
-        let mapper = { (data) -> Self in
-            try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: self)
+        let mapper = { (data: Data) -> Self in
+            var updatedObject = self
+            updatedObject.originalData = nil
+            let object = try ParseCoding.jsonDecoder().decode(UpdateResponse.self, from: data).apply(to: updatedObject)
+            guard let originalData = self.originalData,
+                  let original = try? ParseCoding.jsonDecoder().decode(Self.self,
+                                                                       from: originalData),
+                  original.hasSameObjectId(as: object) else {
+                      return object
+                  }
+            return try object.merge(original)
         }
         return API.Command<Self, Self>(method: .PATCH,
                                  path: endpoint,

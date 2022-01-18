@@ -54,6 +54,7 @@ extension Dictionary: _JSONStringDictionaryEncodableMarker where Key == String, 
  */
 public struct ParseEncoder {
     let dateEncodingStrategy: JSONEncoder.DateEncodingStrategy?
+    let outputFormatting: JSONEncoder.OutputFormatting?
 
     /// Keys to skip during encoding.
     public enum SkipKeys {
@@ -69,12 +70,22 @@ public struct ParseEncoder {
         case custom(Set<String>)
 
         func keys() -> Set<String> {
+            let defaultObjectKeys = Set(["createdAt",
+                                         "updatedAt",
+                                         "objectId",
+                                         "className",
+                                         "emailVerified",
+                                         "id",
+                                         "score",
+                                         "originalData"])
             switch self {
 
             case .object:
-                return Set(["createdAt", "updatedAt", "objectId", "className", "emailVerified", "id", "score"])
+                return defaultObjectKeys
             case .customObjectId:
-                return Set(["createdAt", "updatedAt", "className", "emailVerified", "id", "score"])
+                var mutableKeys = defaultObjectKeys
+                _ = mutableKeys.remove("objectId")
+                return mutableKeys
             case .cloud:
                 return Set(["functionJobName"])
             case .none:
@@ -86,16 +97,20 @@ public struct ParseEncoder {
     }
 
     init(
-        dateEncodingStrategy: JSONEncoder.DateEncodingStrategy? = nil
+        dateEncodingStrategy: JSONEncoder.DateEncodingStrategy? = nil,
+        outputFormatting: JSONEncoder.OutputFormatting? = .sortedKeys
     ) {
         self.dateEncodingStrategy = dateEncodingStrategy
+        self.outputFormatting = outputFormatting
     }
 
     func encode(_ value: Encodable) throws -> Data {
         let encoder = _ParseEncoder(codingPath: [], dictionary: NSMutableDictionary(), skippingKeys: SkipKeys.none.keys())
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
-            encoder.outputFormatting = .sortedKeys
+        }
+        if let outputFormatting = outputFormatting {
+            encoder.outputFormatting = outputFormatting
         }
         return try encoder.encodeObject(value,
                                         collectChildren: false,
@@ -115,7 +130,9 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
-        encoder.outputFormatting = .sortedKeys
+        if let outputFormatting = outputFormatting {
+            encoder.outputFormatting = outputFormatting
+        }
         return try encoder.encodeObject(value,
                                         collectChildren: false,
                                         uniquePointer: nil,
@@ -137,7 +154,9 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
-        encoder.outputFormatting = .sortedKeys
+        if let outputFormatting = outputFormatting {
+            encoder.outputFormatting = outputFormatting
+        }
         return try encoder.encodeObject(value,
                                         collectChildren: true,
                                         uniquePointer: try? value.toPointer(),
@@ -160,7 +179,9 @@ public struct ParseEncoder {
         if let dateEncodingStrategy = dateEncodingStrategy {
             encoder.dateEncodingStrategy = dateEncodingStrategy
         }
-        encoder.outputFormatting = .sortedKeys
+        if let outputFormatting = outputFormatting {
+            encoder.outputFormatting = outputFormatting
+        }
         return try encoder.encodeObject(value,
                                         collectChildren: collectChildren,
                                         uniquePointer: nil,

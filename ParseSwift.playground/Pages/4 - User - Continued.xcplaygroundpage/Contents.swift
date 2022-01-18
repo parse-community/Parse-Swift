@@ -13,12 +13,13 @@ import ParseSwift
 PlaygroundPage.current.needsIndefiniteExecution = true
 initializeParse()
 
-struct User: ParseUser, ParseObjectMutable {
+struct User: ParseUser {
     //: These are required by `ParseObject`.
     var objectId: String?
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: These are required by `ParseUser`.
     var username: String?
@@ -32,6 +33,28 @@ struct User: ParseUser, ParseObjectMutable {
     var gameScore: GameScore?
     var targetScore: GameScore?
     var allScores: [GameScore]?
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.customKey,
+                                     original: object) {
+            updated.customKey = object.customKey
+        }
+        if updated.shouldRestoreKey(\.gameScore,
+                                     original: object) {
+            updated.gameScore = object.gameScore
+        }
+        if updated.shouldRestoreKey(\.targetScore,
+                                     original: object) {
+            updated.targetScore = object.targetScore
+        }
+        if updated.shouldRestoreKey(\.allScores,
+                                     original: object) {
+            updated.allScores = object.allScores
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -52,9 +75,20 @@ struct GameScore: ParseObject {
     var createdAt: Date?
     var updatedAt: Date?
     var ACL: ParseACL?
+    var originalData: Data?
 
     //: Your own properties.
     var points: Int? = 0
+
+    //: Implement your own version of merge
+    func merge(_ object: Self) throws -> Self {
+        var updated = try mergeParse(object)
+        if updated.shouldRestoreKey(\.points,
+                                         original: object) {
+            updated.points = object.points
+        }
+        return updated
+    }
 }
 
 //: It's recommended to place custom initializers in an extension
@@ -103,10 +137,10 @@ User.login(username: "hello", password: "world") { result in
     Asynchrounously - Performs work on background
     queue and returns to specified callbackQueue.
     If no callbackQueue is specified it returns to main queue.
-    Using `mutable` allows you to only send the updated keys to the
+    Using `.mergeable` allows you to only send the updated keys to the
     parse server as opposed to the whole object.
 */
-var currentUser = User.current?.mutable
+var currentUser = User.current?.mergeable
 currentUser?.customKey = "myCustom"
 currentUser?.gameScore = GameScore(points: 12)
 currentUser?.targetScore = GameScore(points: 100)
@@ -210,7 +244,7 @@ User.anonymous.login { result in
 }
 
 //: Convert the anonymous user to a real new user.
-var currentUser2 = User.current
+var currentUser2 = User.current?.mergeable
 currentUser2?.username = "bye"
 currentUser2?.password = "world"
 currentUser2?.signup { result in
