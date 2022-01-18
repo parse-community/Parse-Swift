@@ -138,7 +138,7 @@ public protocol ParseAuthentication: Codable {
     func unlinkPublisher(options: API.Options) -> Future<AuthenticatedUser, ParseError>
     #endif
 
-    #if compiler(>=5.5.2) && canImport(_Concurrency)
+    #if compiler(>=5.6.2) && canImport(_Concurrency)
     // MARK: Async/Await
 
     /**
