@@ -196,7 +196,7 @@ jobs:
           fail_ci_if_error: true
           
   windows:
-    runs-on: windows-2019
+    runs-on: windows-latest
     steps:
       - uses: compnerd/gha-setup-swift@main
         with:
