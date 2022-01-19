@@ -33,7 +33,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         //: Implement your own version of merge
         func merge(with object: Self) throws -> Self {
-            var updated = try mergeParse(object)
+            var updated = try mergeParse(with: object)
             if updated.shouldRestoreKey(\.customKey,
                                          original: object) {
                 updated.customKey = object.customKey
@@ -133,7 +133,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         updated.email = "swift@parse.com"
         updated.username = "12345"
         updated.customKey = "newKey"
-        let merged = try updated.merge(original)
+        let merged = try updated.merge(with: original)
         XCTAssertEqual(merged.customKey, updated.customKey)
         XCTAssertEqual(merged.email, updated.email)
         XCTAssertEqual(merged.emailVerified, original.emailVerified)
@@ -164,7 +164,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         var updated = original.mergeable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
         updated.customKey = "newKey"
-        let merged = try updated.merge(original)
+        let merged = try updated.merge(with: original)
         XCTAssertEqual(merged.customKey, updated.customKey)
         XCTAssertEqual(merged.email, original.email)
         XCTAssertEqual(merged.emailVerified, original.emailVerified)
@@ -180,7 +180,7 @@ class ParseUserTests: XCTestCase { // swiftlint:disable:this type_body_length
         user.objectId = "yolo"
         var user2 = user
         user2.objectId = "nolo"
-        XCTAssertThrowsError(try user2.merge(user))
+        XCTAssertThrowsError(try user2.merge(with: user))
     }
 
     func testFetchCommand() {

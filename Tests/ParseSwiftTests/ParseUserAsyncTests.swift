@@ -37,7 +37,7 @@ class ParseUserAsyncTests: XCTestCase { // swiftlint:disable:this type_body_leng
 
         //: Implement your own version of merge
         func merge(with object: Self) throws -> Self {
-            var updated = try mergeParse(object)
+            var updated = try mergeParse(with: object)
             if updated.shouldRestoreKey(\.customKey,
                                          original: object) {
                 updated.customKey = object.customKey

@@ -61,7 +61,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
 
         //: Implement your own version of merge
         func merge(with object: Self) throws -> Self {
-            var updated = try mergeParse(object)
+            var updated = try mergeParse(with: object)
             if updated.shouldRestoreKey(\.points,
                                          original: object) {
                 updated.points = object.points
@@ -393,7 +393,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         updated.points = 30
         updated.player = "moreFire"
         updated.levels = [level, level2]
-        let merged = try updated.merge(score)
+        let merged = try updated.merge(with: score)
         XCTAssertEqual(merged.points, updated.points)
         XCTAssertEqual(merged.player, updated.player)
         XCTAssertEqual(merged.level, score.level)
@@ -412,7 +412,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         var updated = score.mergeable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
         updated.name = "moreFire"
-        let merged = try updated.merge(score)
+        let merged = try updated.merge(with: score)
         XCTAssertEqual(merged.name, updated.name)
         XCTAssertEqual(merged.gameScore, score.gameScore)
         XCTAssertEqual(merged.gameScores, score.gameScores)
@@ -424,7 +424,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         score.objectId = "yolo"
         var score2 = score
         score2.objectId = "nolo"
-        XCTAssertThrowsError(try score2.merge(score))
+        XCTAssertThrowsError(try score2.merge(with: score))
     }
 
     func testFetchCommand() {

@@ -85,7 +85,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
 
         //: Implement your own version of merge
         func merge(with object: Self) throws -> Self {
-            var updated = try mergeParse(object)
+            var updated = try mergeParse(with: object)
             if updated.shouldRestoreKey(\.customKey,
                                          original: object) {
                 updated.customKey = object.customKey
@@ -283,7 +283,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         updated.badge = 1
         updated.deviceToken = "12345"
         updated.customKey = "newKey"
-        let merged = try updated.merge(original)
+        let merged = try updated.merge(with: original)
         XCTAssertEqual(merged.customKey, updated.customKey)
         XCTAssertEqual(merged.badge, updated.badge)
         XCTAssertEqual(merged.deviceType, original.deviceType)
@@ -319,7 +319,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         var updated = original.mergeable
         updated.updatedAt = Calendar.current.date(byAdding: .init(day: 1), to: Date())
         updated.customKey = "newKey"
-        let merged = try updated.merge(original)
+        let merged = try updated.merge(with: original)
         XCTAssertEqual(merged.customKey, updated.customKey)
         XCTAssertEqual(merged.badge, original.badge)
         XCTAssertEqual(merged.deviceType, original.deviceType)
@@ -342,7 +342,7 @@ class ParseInstallationTests: XCTestCase { // swiftlint:disable:this type_body_l
         installation.objectId = "yolo"
         var installation2 = installation
         installation2.objectId = "nolo"
-        XCTAssertThrowsError(try installation2.merge(installation))
+        XCTAssertThrowsError(try installation2.merge(with: installation))
     }
 
     func testUpdate() {
