@@ -88,7 +88,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
         var customKey: String?
 
         //: Implement your own version of merge
-        func merge(_ object: Self) throws -> Self {
+        func merge(with object: Self) throws -> Self {
             var updated = try mergeParse(object)
             if updated.shouldRestoreKey(\.customKey,
                                          original: object) {

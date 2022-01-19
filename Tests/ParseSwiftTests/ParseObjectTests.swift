@@ -60,7 +60,7 @@ class ParseObjectTests: XCTestCase { // swiftlint:disable:this type_body_length
         }
 
         //: Implement your own version of merge
-        func merge(_ object: Self) throws -> Self {
+        func merge(with object: Self) throws -> Self {
             var updated = try mergeParse(object)
             if updated.shouldRestoreKey(\.points,
                                          original: object) {

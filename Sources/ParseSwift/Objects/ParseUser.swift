@@ -43,7 +43,7 @@ public extension ParseUser {
         "_User"
     }
 
-    func mergeParse(_ object: Self) throws -> Self {
+    func mergeParse(with object: Self) throws -> Self {
         guard hasSameObjectId(as: object) == true else {
             throw ParseError(code: .unknownError,
                              message: "objectId's of objects do not match")
@@ -68,8 +68,8 @@ public extension ParseUser {
         return updatedUser
     }
 
-    func merge(_ object: Self) throws -> Self {
-        try mergeParse(object)
+    func merge(with object: Self) throws -> Self {
+        try mergeParse(with: object)
     }
 }
 
@@ -1128,7 +1128,7 @@ extension ParseUser {
                   original.hasSameObjectId(as: object) else {
                       return object
                   }
-            return try object.merge(original)
+            return try object.merge(with: original)
         }
         return API.Command<Self, Self>(method: .PUT,
                                  path: endpoint,
@@ -1166,7 +1166,7 @@ extension ParseUser {
                   original.hasSameObjectId(as: object) else {
                       return object
                   }
-            return try object.merge(original)
+            return try object.merge(with: original)
         }
         return API.Command<Self, Self>(method: .PATCH,
                                  path: endpoint,

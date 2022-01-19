@@ -28,7 +28,7 @@ struct Book: ParseObject, ParseQueryScorable {
     var relatedBook: Pointer<Book>?
 
     //: Implement your own version of merge
-    func merge(_ object: Self) throws -> Self {
+    func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(object)
         if updated.shouldRestoreKey(\.title,
                                      original: object) {
@@ -65,7 +65,7 @@ struct Author: ParseObject {
     var otherBooks: [Book]?
 
     //: Implement your own version of merge
-    func merge(_ object: Self) throws -> Self {
+    func merge(with object: Self) throws -> Self {
         var updated = try mergeParse(object)
         if updated.shouldRestoreKey(\.name,
                                      original: object) {
