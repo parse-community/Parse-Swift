@@ -35,8 +35,8 @@ struct User: ParseUser {
     var allScores: [GameScore]?
 
     //: Implement your own version of merge
-    func merge(_ object: Self) throws -> Self {
-        var updated = try mergeParse(object)
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.customKey,
                                      original: object) {
             updated.customKey = object.customKey
@@ -81,8 +81,8 @@ struct GameScore: ParseObject {
     var points: Int? = 0
 
     //: Implement your own version of merge
-    func merge(_ object: Self) throws -> Self {
-        var updated = try mergeParse(object)
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.points,
                                          original: object) {
             updated.points = object.points
@@ -244,7 +244,7 @@ User.anonymous.login { result in
 }
 
 //: Convert the anonymous user to a real new user.
-var currentUser2 = User.current?.mergeable
+var currentUser2 = User.current
 currentUser2?.username = "bye"
 currentUser2?.password = "world"
 currentUser2?.signup { result in

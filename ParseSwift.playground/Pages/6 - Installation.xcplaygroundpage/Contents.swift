@@ -38,8 +38,8 @@ struct Installation: ParseInstallation {
     var customKey: String?
 
     //: Implement your own version of merge
-    func merge(_ object: Self) throws -> Self {
-        var updated = try mergeParse(object)
+    func merge(with object: Self) throws -> Self {
+        var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.customKey,
                                      original: object) {
             updated.customKey = object.customKey

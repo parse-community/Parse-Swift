@@ -220,7 +220,7 @@ class ParseAuthenticationAsyncTests: XCTestCase { // swiftlint:disable:this type
         let user = try await User.link(type, authData: ["id": "yolo"])
         XCTAssertEqual(user, User.current)
         XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-        XCTAssertEqual(user.username, "parse")
+        XCTAssertEqual(user.username, "hello10")
         XCTAssertNil(user.password)
     }
 }

@@ -422,7 +422,7 @@ class ParseAppleTests: XCTestCase {
             case .success(let user):
                 XCTAssertEqual(user, User.current)
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-                XCTAssertEqual(user.username, "parse")
+                XCTAssertEqual(user.username, "hello10")
                 XCTAssertNil(user.password)
                 XCTAssertTrue(user.apple.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
@@ -475,7 +475,7 @@ class ParseAppleTests: XCTestCase {
             case .success(let user):
                 XCTAssertEqual(user, User.current)
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-                XCTAssertEqual(user.username, "parse")
+                XCTAssertEqual(user.username, "hello10")
                 XCTAssertNil(user.password)
                 XCTAssertTrue(user.apple.isLinked)
                 XCTAssertFalse(user.anonymous.isLinked)
@@ -546,7 +546,7 @@ class ParseAppleTests: XCTestCase {
             case .success(let user):
                 XCTAssertEqual(user, User.current)
                 XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-                XCTAssertEqual(user.username, "parse")
+                XCTAssertEqual(user.username, "hello10")
                 XCTAssertNil(user.password)
                 XCTAssertFalse(user.apple.isLinked)
             case .failure(let error):

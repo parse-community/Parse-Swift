@@ -431,7 +431,7 @@ internal extension API.Command {
                   original.hasSameObjectId(as: object) else {
                       return object
                   }
-            return try object.merge(original)
+            return try object.merge(with: original)
         }
         return API.Command<T, T>(method: .PUT,
                                  path: object.endpoint,
@@ -457,7 +457,7 @@ internal extension API.Command {
                   original.hasSameObjectId(as: object) else {
                       return object
                   }
-            return try object.merge(original)
+            return try object.merge(with: original)
         }
         return API.Command<T, T>(method: .PATCH,
                                  path: object.endpoint,

@@ -243,7 +243,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
 
             XCTAssertEqual(user, User.current)
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-            XCTAssertEqual(user.username, "parse")
+            XCTAssertEqual(user.username, "hello10")
             XCTAssertNil(user.password)
             XCTAssertTrue(user.linkedin.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
@@ -294,7 +294,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
 
             XCTAssertEqual(user, User.current)
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-            XCTAssertEqual(user.username, "parse")
+            XCTAssertEqual(user.username, "hello10")
             XCTAssertNil(user.password)
             XCTAssertTrue(user.linkedin.isLinked)
             XCTAssertFalse(user.anonymous.isLinked)
@@ -348,7 +348,7 @@ class ParseLinkedInCombineTests: XCTestCase { // swiftlint:disable:this type_bod
 
             XCTAssertEqual(user, User.current)
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-            XCTAssertEqual(user.username, "parse")
+            XCTAssertEqual(user.username, "hello10")
             XCTAssertNil(user.password)
             XCTAssertFalse(user.linkedin.isLinked)
         })

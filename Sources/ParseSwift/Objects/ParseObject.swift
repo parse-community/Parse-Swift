@@ -77,7 +77,7 @@ public protocol ParseObject: Objectable,
     /**
      Merges two `ParseObject`'s with the resulting object consisting of all modified
      and unchanged Parse properties.
-     - parameter object: The original installation.
+     - parameter with: The original object.
      - returns: The updated installation.
      - throws: An error of type `ParseError`.
      - note: This is used in combination with `merge` to only send updated
@@ -85,7 +85,7 @@ public protocol ParseObject: Objectable,
      - warning: You should only call this method and shouldn't implement it directly
      as it's already implemented for developers to use.
     */
-    func mergeParse(_ object: Self) throws -> Self
+    func mergeParse(with object: Self) throws -> Self
 
     /**
      Merges two `ParseObject`'s with the resulting object consisting of all modified
@@ -103,8 +103,8 @@ public protocol ParseObject: Objectable,
              var points: Int?
 
              //: Implement your own version of merge
-             func merge(_ object: Self) throws -> Self {
-                 var updated = try mergeParse(object)
+             func merge(with object: Self) throws -> Self {
+                 var updated = try mergeParse(with: object)
                  if updated.shouldRestoreKey(\.points,
                                                   original: object) {
                      updated.points = object.points
@@ -113,7 +113,7 @@ public protocol ParseObject: Objectable,
              }
          }
 
-     - parameter object: The original object.
+     - parameter with: The original object.
      - returns: The merged object.
      - throws: An error of type `ParseError`.
      - note: Use this in combination with `ParseMutable` to only send updated
@@ -124,7 +124,7 @@ public protocol ParseObject: Objectable,
      in the beginning of your implementation to handle all default Parse properties. In addition,
      use `shouldRestoreKey` to compare key modifications between objects.
     */
-    func merge(_ object: Self) throws -> Self
+    func merge(with object: Self) throws -> Self
 
     init()
 }
@@ -174,7 +174,7 @@ public extension ParseObject {
         self[keyPath: key] == nil && original[keyPath: key] != self[keyPath: key]
     }
 
-    func mergeParse(_ object: Self) throws -> Self {
+    func mergeParse(with object: Self) throws -> Self {
         guard hasSameObjectId(as: object) == true else {
             throw ParseError(code: .unknownError,
                              message: "objectId's of objects don't match")
@@ -187,8 +187,8 @@ public extension ParseObject {
         return updated
     }
 
-    func merge(_ object: Self) throws -> Self {
-        return try mergeParse(object)
+    func merge(with object: Self) throws -> Self {
+        return try mergeParse(with: object)
     }
 }
 
