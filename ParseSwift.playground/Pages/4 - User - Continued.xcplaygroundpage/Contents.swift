@@ -244,7 +244,7 @@ User.anonymous.login { result in
 }
 
 //: Convert the anonymous user to a real new user.
-var currentUser2 = User.current?.mergeable
+var currentUser2 = User.current
 currentUser2?.username = "bye"
 currentUser2?.password = "world"
 currentUser2?.signup { result in

@@ -244,7 +244,7 @@ class ParseAuthenticationCombineTests: XCTestCase {
 
             XCTAssertEqual(user, User.current)
             XCTAssertEqual(user.updatedAt, userOnServer.updatedAt)
-            XCTAssertEqual(user.username, "parse")
+            XCTAssertEqual(user.username, "hello10")
             XCTAssertNil(user.password)
         })
         publisher.store(in: &subscriptions)
