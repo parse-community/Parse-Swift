@@ -246,8 +246,7 @@ extension ParseUser {
                                                   path: .login,
                                                   body: body) { (data) -> Self in
             let sessionToken = try ParseCoding.jsonDecoder().decode(LoginSignupResponse.self, from: data).sessionToken
-            var user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
-            user.username = username
+            let user = try ParseCoding.jsonDecoder().decode(Self.self, from: data)
 
             Self.currentContainer = .init(
                 currentUser: user,

@@ -33,7 +33,7 @@ struct User: ParseUser {
 
     //: Implement your own version of merge
     func merge(with object: Self) throws -> Self {
-        var updated = try mergeParse(object)
+        var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.customKey,
                                      original: object) {
             updated.customKey = object.customKey
@@ -56,7 +56,7 @@ struct Role<RoleUser: ParseUser>: ParseRole {
 
     //: Implement your own version of merge
     func merge(with object: Self) throws -> Self {
-        var updated = try mergeParse(object)
+        var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.name,
                                      original: object) {
             updated.name = object.name
@@ -79,7 +79,7 @@ struct GameScore: ParseObject {
 
     //: Implement your own version of merge
     func merge(with object: Self) throws -> Self {
-        var updated = try mergeParse(object)
+        var updated = try mergeParse(with: object)
         if updated.shouldRestoreKey(\.points,
                                      original: object) {
             updated.points = object.points
