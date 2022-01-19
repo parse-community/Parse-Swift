@@ -77,10 +77,10 @@ public struct ParseConfiguration {
      - parameter masterKey: The master key of your Parse application.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
-     - parameter isAllowingCustomObjectIds: Allows objectIds to be created on the client.
+     - parameter allowingCustomObjectIds: Allows objectIds to be created on the client.
      side for each object. Must be enabled on the server to work.
-     - parameter isUsingTransactions: Use transactions when saving/updating multiple objects.
-     - parameter isUsingEqualQueryConstraint: Use the **$eq** query constraint when querying.
+     - parameter usingTransactions: Use transactions when saving/updating multiple objects.
+     - parameter usingEqualQueryConstraint: Use the **$eq** query constraint when querying.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
@@ -90,9 +90,9 @@ public struct ParseConfiguration {
      for more info.
      - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
      - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
-     - parameter isMigratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
+     - parameter migratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
      to `true` will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to `false`.
-     - parameter isDeletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
+     - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
      Defaults to `false`.
      - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
      [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
@@ -104,7 +104,7 @@ public struct ParseConfiguration {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     - warning: `isUsingTransactions` is experimental.
+     - warning: `usingTransactions` is experimental.
      */
     public init(applicationId: String,
                 clientKey: String? = nil,
@@ -112,15 +112,15 @@ public struct ParseConfiguration {
                 serverURL: URL,
                 liveQueryServerURL: URL? = nil,
                 allowCustomObjectId: Bool = false,
-                isAllowingCustomObjectIds: Bool = false,
-                isUsingTransactions: Bool = false,
-                isUsingEqualQueryConstraint: Bool = false,
+                allowingCustomObjectIds: Bool = false,
+                usingTransactions: Bool = false,
+                usingEqualQueryConstraint: Bool = false,
                 keyValueStore: ParseKeyValueStore? = nil,
                 requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                 cacheMemoryCapacity: Int = 512_000,
                 cacheDiskCapacity: Int = 10_000_000,
-                isMigratingFromObjcSDK: Bool = false,
-                isDeletingKeychainIfNeeded: Bool = false,
+                migratingFromObjcSDK: Bool = false,
+                deletingKeychainIfNeeded: Bool = false,
                 httpAdditionalHeaders: [AnyHashable: Any]? = nil,
                 maxConnectionAttempts: Int = 5,
                 authentication: ((URLAuthenticationChallenge,
@@ -131,9 +131,9 @@ public struct ParseConfiguration {
         self.masterKey = masterKey
         self.serverURL = serverURL
         self.liveQuerysServerURL = liveQueryServerURL
-        self.isAllowingCustomObjectIds = isAllowingCustomObjectIds
-        self.isUsingTransactions = isUsingTransactions
-        self.isUsingEqualQueryConstraint = isUsingEqualQueryConstraint
+        self.isAllowingCustomObjectIds = allowingCustomObjectIds
+        self.isUsingTransactions = usingTransactions
+        self.isUsingEqualQueryConstraint = usingEqualQueryConstraint
         self.mountPath = "/" + serverURL.pathComponents
             .filter { $0 != "/" }
             .joined(separator: "/")
@@ -141,8 +141,8 @@ public struct ParseConfiguration {
         self.requestCachePolicy = requestCachePolicy
         self.cacheMemoryCapacity = cacheMemoryCapacity
         self.cacheDiskCapacity = cacheDiskCapacity
-        self.isMigratingFromObjcSDK = isMigratingFromObjcSDK
-        self.isDeletingKeychainIfNeeded = isDeletingKeychainIfNeeded
+        self.isMigratingFromObjcSDK = migratingFromObjcSDK
+        self.isDeletingKeychainIfNeeded = deletingKeychainIfNeeded
         self.httpAdditionalHeaders = httpAdditionalHeaders
         self.maxConnectionAttempts = maxConnectionAttempts
         ParseStorage.shared.use(keyValueStore ?? InMemoryKeyValueStore())
@@ -166,7 +166,7 @@ public struct ParseSwift {
         Self.configuration = configuration
         Self.sessionDelegate = ParseURLSessionDelegate(callbackQueue: .main,
                                                        authentication: configuration.authentication)
-        isDeletingKeychainIfNeeded()
+        deleteKeychainIfNeeded()
 
         do {
             let previousSDKVersion = try ParseVersion(ParseVersion.current)
@@ -242,10 +242,10 @@ public struct ParseSwift {
      - parameter masterKey: The master key of your Parse application.
      - parameter serverURL: The server URL to connect to Parse Server.
      - parameter liveQueryServerURL: The live query server URL to connect to Parse Server.
-     - parameter isAllowingCustomObjectIds: Allows objectIds to be created on the client.
+     - parameter allowingCustomObjectIds: Allows objectIds to be created on the client.
      side for each object. Must be enabled on the server to work.
-     - parameter isUsingTransactions: Use transactions when saving/updating multiple objects.
-     - parameter isUsingEqualQueryConstraint: Use the **$eq** query constraint when querying.
+     - parameter usingTransactions: Use transactions when saving/updating multiple objects.
+     - parameter usingEqualQueryConstraint: Use the **$eq** query constraint when querying.
      - parameter keyValueStore: A key/value store that conforms to the `ParseKeyValueStore`
      protocol. Defaults to `nil` in which one will be created an memory, but never persisted. For Linux, this
      this is the only store available since there is no Keychain. Linux users should replace this store with an
@@ -255,9 +255,9 @@ public struct ParseSwift {
      for more info.
      - parameter cacheMemoryCapacity: The memory capacity of the cache, in bytes. Defaults to 512KB.
      - parameter cacheDiskCapacity: The disk capacity of the cache, in bytes. Defaults to 10MB.
-     - parameter isMigratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
+     - parameter migratingFromObjcSDK: If your app previously used the iOS Objective-C SDK, setting this value
      to `true` will attempt to migrate relevant data stored in the Keychain to ParseSwift. Defaults to `false`.
-     - parameter isDeletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
+     - parameter deletingKeychainIfNeeded: Deletes the Parse Keychain when the app is running for the first time.
      Defaults to `false`.
      - parameter httpAdditionalHeaders: A dictionary of additional headers to send with requests. See Apple's
      [documentation](https://developer.apple.com/documentation/foundation/urlsessionconfiguration/1411532-httpadditionalheaders)
@@ -267,7 +267,7 @@ public struct ParseSwift {
      It should have the following argument signature: `(challenge: URLAuthenticationChallenge,
      completionHandler: (URLSession.AuthChallengeDisposition, URLCredential?) -> Void) -> Void`.
      See Apple's [documentation](https://developer.apple.com/documentation/foundation/urlsessiontaskdelegate/1411595-urlsession) for more for details.
-     - warning: `isUsingTransactions` is experimental.
+     - warning: `usingTransactions` is experimental.
      */
     static public func initialize(
         applicationId: String,
@@ -275,15 +275,15 @@ public struct ParseSwift {
         masterKey: String? = nil,
         serverURL: URL,
         liveQueryServerURL: URL? = nil,
-        isAllowingCustomObjectIds: Bool = false,
-        isUsingTransactions: Bool = false,
-        isUsingEqualQueryConstraint: Bool = false,
+        allowingCustomObjectIds: Bool = false,
+        usingTransactions: Bool = false,
+        usingEqualQueryConstraint: Bool = false,
         keyValueStore: ParseKeyValueStore? = nil,
         requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
         cacheMemoryCapacity: Int = 512_000,
         cacheDiskCapacity: Int = 10_000_000,
-        isMigratingFromObjcSDK: Bool = false,
-        isDeletingKeychainIfNeeded: Bool = false,
+        migratingFromObjcSDK: Bool = false,
+        deletingKeychainIfNeeded: Bool = false,
         httpAdditionalHeaders: [AnyHashable: Any]? = nil,
         maxConnectionAttempts: Int = 5,
         authentication: ((URLAuthenticationChallenge,
@@ -295,15 +295,15 @@ public struct ParseSwift {
                                         masterKey: masterKey,
                                         serverURL: serverURL,
                                         liveQueryServerURL: liveQueryServerURL,
-                                        isAllowingCustomObjectIds: isAllowingCustomObjectIds,
-                                        isUsingTransactions: isUsingTransactions,
-                                        isUsingEqualQueryConstraint: isUsingEqualQueryConstraint,
+                                        allowingCustomObjectIds: allowingCustomObjectIds,
+                                        usingTransactions: usingTransactions,
+                                        usingEqualQueryConstraint: usingEqualQueryConstraint,
                                         keyValueStore: keyValueStore,
                                         requestCachePolicy: requestCachePolicy,
                                         cacheMemoryCapacity: cacheMemoryCapacity,
                                         cacheDiskCapacity: cacheDiskCapacity,
-                                        isMigratingFromObjcSDK: isMigratingFromObjcSDK,
-                                        isDeletingKeychainIfNeeded: isDeletingKeychainIfNeeded,
+                                        migratingFromObjcSDK: migratingFromObjcSDK,
+                                        deletingKeychainIfNeeded: deletingKeychainIfNeeded,
                                         httpAdditionalHeaders: httpAdditionalHeaders,
                                         maxConnectionAttempts: maxConnectionAttempts,
                                         authentication: authentication))
@@ -314,18 +314,18 @@ public struct ParseSwift {
                                     masterKey: String? = nil,
                                     serverURL: URL,
                                     liveQueryServerURL: URL? = nil,
-                                    isAllowingCustomObjectIds: Bool = false,
-                                    isUsingTransactions: Bool = false,
-                                    isUsingEqualQueryConstraint: Bool = false,
+                                    allowingCustomObjectIds: Bool = false,
+                                    usingTransactions: Bool = false,
+                                    usingEqualQueryConstraint: Bool = false,
                                     keyValueStore: ParseKeyValueStore? = nil,
                                     requestCachePolicy: URLRequest.CachePolicy = .useProtocolCachePolicy,
                                     cacheMemoryCapacity: Int = 512_000,
                                     cacheDiskCapacity: Int = 10_000_000,
-                                    isMigratingFromObjcSDK: Bool = false,
-                                    isDeletingKeychainIfNeeded: Bool = false,
+                                    migratingFromObjcSDK: Bool = false,
+                                    deletingKeychainIfNeeded: Bool = false,
                                     httpAdditionalHeaders: [AnyHashable: Any]? = nil,
                                     maxConnectionAttempts: Int = 5,
-                                    isTesting: Bool = false,
+                                    testing: Bool = false,
                                     authentication: ((URLAuthenticationChallenge,
                                                       (URLSession.AuthChallengeDisposition,
                                                        URLCredential?) -> Void) -> Void)? = nil) {
@@ -334,23 +334,23 @@ public struct ParseSwift {
                                                masterKey: masterKey,
                                                serverURL: serverURL,
                                                liveQueryServerURL: liveQueryServerURL,
-                                               isAllowingCustomObjectIds: isAllowingCustomObjectIds,
-                                               isUsingTransactions: isUsingTransactions,
-                                               isUsingEqualQueryConstraint: isUsingEqualQueryConstraint,
+                                               allowingCustomObjectIds: allowingCustomObjectIds,
+                                               usingTransactions: usingTransactions,
+                                               usingEqualQueryConstraint: usingEqualQueryConstraint,
                                                keyValueStore: keyValueStore,
                                                requestCachePolicy: requestCachePolicy,
                                                cacheMemoryCapacity: cacheMemoryCapacity,
                                                cacheDiskCapacity: cacheDiskCapacity,
-                                               isMigratingFromObjcSDK: isMigratingFromObjcSDK,
-                                               isDeletingKeychainIfNeeded: isDeletingKeychainIfNeeded,
+                                               migratingFromObjcSDK: migratingFromObjcSDK,
+                                               deletingKeychainIfNeeded: deletingKeychainIfNeeded,
                                                httpAdditionalHeaders: httpAdditionalHeaders,
                                                maxConnectionAttempts: maxConnectionAttempts,
                                                authentication: authentication)
-        configuration.isTestingSDK = isTesting
+        configuration.isTestingSDK = testing
         initialize(configuration: configuration)
     }
 
-    static internal func isDeletingKeychainIfNeeded() {
+    static internal func deleteKeychainIfNeeded() {
         #if !os(Linux) && !os(Android) && !os(Windows)
         // Clear items out of the Keychain on app first run.
         if UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) == nil {

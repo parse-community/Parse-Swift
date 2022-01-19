@@ -26,7 +26,7 @@ class ParseLiveQueryCombineTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isTesting: true)
+                              testing: true)
         ParseLiveQuery.setDefault(try ParseLiveQuery(isDefault: true))
     }
 

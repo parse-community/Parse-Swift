@@ -21,7 +21,7 @@ class ExtensionsTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isTesting: false)
+                              testing: false)
     }
 
     override func tearDownWithError() throws {

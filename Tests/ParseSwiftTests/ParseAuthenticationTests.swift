@@ -128,7 +128,7 @@ class ParseAuthenticationTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isTesting: true)
+                              testing: true)
 
     }
 

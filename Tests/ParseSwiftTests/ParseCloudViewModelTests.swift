@@ -33,7 +33,7 @@ class ParseCloudViewModelTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isTesting: true)
+                              testing: true)
     }
 
     override func tearDownWithError() throws {
