@@ -26,7 +26,7 @@ class ParsePolygonTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isTesting: true)
+                              testing: true)
         points = [
             try ParseGeoPoint(latitude: 0, longitude: 0),
             try ParseGeoPoint(latitude: 0, longitude: 1),

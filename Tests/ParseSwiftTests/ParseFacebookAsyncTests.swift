@@ -74,7 +74,7 @@ class ParseFacebookAsyncTests: XCTestCase { // swiftlint:disable:this type_body_
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isTesting: true)
+                              testing: true)
     }
 
     override func tearDownWithError() throws {

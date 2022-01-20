@@ -63,8 +63,8 @@ class ParseQueryTests: XCTestCase { // swiftlint:disable:this type_body_length
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isUsingEqualQueryConstraint: false,
-                              isTesting: true)
+                              usingEqualQueryConstraint: false,
+                              testing: true)
     }
 
     override func tearDownWithError() throws {

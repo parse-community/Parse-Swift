@@ -65,7 +65,7 @@ class ParseSessionTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isTesting: false) // Set to false for codecov
+                              testing: false) // Set to false for codecov
 
     }
 

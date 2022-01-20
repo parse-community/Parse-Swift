@@ -132,7 +132,7 @@ class ParseInstallationAsyncTests: XCTestCase { // swiftlint:disable:this type_b
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isTesting: true)
+                              testing: true)
         login()
     }
 

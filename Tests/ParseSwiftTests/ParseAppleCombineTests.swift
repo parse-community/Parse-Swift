@@ -74,7 +74,7 @@ class ParseAppleCombineTests: XCTestCase { // swiftlint:disable:this type_body_l
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isTesting: true)
+                              testing: true)
     }
 
     override func tearDownWithError() throws {

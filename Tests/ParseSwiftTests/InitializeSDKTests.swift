@@ -93,7 +93,7 @@ class InitializeSDKTests: XCTestCase {
         addCachedResponse()
 
         // Keychain should contain value on first run
-        ParseSwift.isDeletingKeychainIfNeeded()
+        ParseSwift.deleteKeychainIfNeeded()
 
         do {
             let storedValue: String? = try KeychainStore.shared.get(valueFor: key)
@@ -106,7 +106,7 @@ class InitializeSDKTests: XCTestCase {
 
             // Keychain should remain unchanged on 2+ runs
             ParseSwift.configuration.isDeletingKeychainIfNeeded = true
-            ParseSwift.isDeletingKeychainIfNeeded()
+            ParseSwift.deleteKeychainIfNeeded()
             let storedValue2: String? = try KeychainStore.shared.get(valueFor: key)
             XCTAssertEqual(storedValue2, value)
             guard let firstRun2 = UserDefaults.standard
@@ -122,7 +122,7 @@ class InitializeSDKTests: XCTestCase {
             let firstRun3 = UserDefaults.standard.object(forKey: ParseConstants.bundlePrefix) as? String
             XCTAssertNil(firstRun3)
             addCachedResponse()
-            ParseSwift.isDeletingKeychainIfNeeded()
+            ParseSwift.deleteKeychainIfNeeded()
             let storedValue3: String? = try KeychainStore.shared.get(valueFor: key)
             XCTAssertNil(storedValue3)
             guard let firstRun4 = UserDefaults.standard
@@ -220,7 +220,7 @@ class InitializeSDKTests: XCTestCase {
                                   masterKey: "masterKey",
                                   serverURL: url,
                                   keyValueStore: memory,
-                                  isTesting: true)
+                                  testing: true)
 
             guard let currentInstallation = Installation.current else {
                 XCTFail("Should unwrap current Installation")
@@ -449,7 +449,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isMigratingFromObjcSDK: true)
+                              migratingFromObjcSDK: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -530,7 +530,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isMigratingFromObjcSDK: true)
+                              migratingFromObjcSDK: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return
@@ -589,7 +589,7 @@ class InitializeSDKTests: XCTestCase {
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isMigratingFromObjcSDK: true)
+                              migratingFromObjcSDK: true)
         guard let installation = Installation.current else {
             XCTFail("Should have installation")
             return

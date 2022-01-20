@@ -60,7 +60,7 @@ class ParseObjectBatchTests: XCTestCase { // swiftlint:disable:this type_body_le
                               clientKey: "clientKey",
                               masterKey: "masterKey",
                               serverURL: url,
-                              isTesting: true)
+                              testing: true)
     }
 
     override func tearDownWithError() throws {
